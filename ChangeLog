@@ -1,0 +1,11 @@
+2007-01-18  Matteo Vescovi  <matt@slate.local.lan>
+
+	* svn: moved soothsayer codebase to subversion
+
+	* plugins: plugins subsystem was temporarily disabled, now
+	smoothed uni/bi/trigram plugin is linked into soothsayer library
+
+	* birthday: born on this day a few years ago
+	
+	* promise: I will start updating the changelog frequently
+

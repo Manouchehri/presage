@@ -1,0 +1,75 @@
+
+/******************************************************************************\
+ *                                                                            *
+ * Soothsayer, an extensible predictive text entry system                     *
+ * ------------------------------------------------------                     *
+ *                                                                            *
+ * Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@tiscali.it>             *
+ *                                                                            *
+ * This program is free software; you can redistribute it and/or              *
+ * modify it under the terms of the GNU General Public License                *
+ * as published by the Free Software Foundation; either version 2             *
+ * of the License, or (at your option) any later version.                     *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful,            *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * GNU General Public License for more details.                               *
+ *                                                                            *
+ * You should have received a copy of the GNU General Public License          *
+ * along with this program; if not, write to the Free Software                *
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.*
+ *                                                                            *
+\******************************************************************************/        
+
+
+#ifndef SOOTH_SQLITEDATABASECONNECTORTEST
+#define SOOTH_SQLITEDATABASECONNECTORTEST
+
+#include <cppunit/extensions/HelperMacros.h>
+
+#include "tools/sqliteDatabaseConnector.h"
+
+#include <iostream>
+#include <sstream>
+
+static const char DEFAULT_DATABASE_FILENAME[] = "database.db";
+static const char DATABASE_DUMP[] = "database.dump";
+
+class SqliteDatabaseConnectorTest : public CppUnit::TestFixture { 
+public:
+    void setUp();
+    void tearDown();
+
+    void testConstructor();
+    void testInsertNgram();
+    void testUpdateNgram();
+    void testRemoveNgram();
+    void testGetNgramCount();
+    void testIncrementNgramCount();
+
+private:
+    void assertExistsAndRemoveFile(const char* filename) const;
+    void assertDatabaseDumpEqualsBenchmark(std::stringstream& benchmark) const;
+
+    DatabaseConnector* sqliteDatabaseConnector;
+
+    Ngram* unigram;
+    Ngram* bigram;
+    Ngram* trigram;
+
+    static const int MAGIC_NUMBER;
+
+    CPPUNIT_TEST_SUITE( SqliteDatabaseConnectorTest );
+    CPPUNIT_TEST( testConstructor                   );
+    CPPUNIT_TEST( testInsertNgram                   );
+    CPPUNIT_TEST( testUpdateNgram                   );
+    CPPUNIT_TEST( testRemoveNgram                   );
+    CPPUNIT_TEST( testGetNgramCount                 );
+    CPPUNIT_TEST( testIncrementNgramCount           );
+    CPPUNIT_TEST_SUITE_END();
+};
+
+const int SqliteDatabaseConnectorTest::MAGIC_NUMBER = 1337;
+
+#endif // SOOTH_SQLITEDATABASECONNECTORTEST

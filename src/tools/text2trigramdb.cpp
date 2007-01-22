@@ -1,0 +1,211 @@
+
+/*****************************************************************************\
+ *                                                                           *
+ * Soothsayer, an extensible predictive text entry system                    *
+ * ------------------------------------------------------                    *
+ *                                                                           *
+ * Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@tiscali.it>            *
+ *                                                                           *
+ * This program is free software; you can redistribute it and/or             *
+ * modify it under the terms of the GNU General Public License               *
+ * as published by the Free Software Foundation; either version 2            *
+ * of the License, or (at your option) any later version.                    *
+ *                                                                           *
+ * This program is distributed in the hope that it will be useful,           *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             *
+ * GNU General Public License for more details.                              *
+ *                                                                           *
+ * You should have received a copy of the GNU General Public License         *
+ * along with this program; if not, write to the Free Software               *
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.*
+ *                                                                           *
+\*****************************************************************************/        
+
+#include <iostream>
+#include <unistd.h>
+#include <getopt.h>
+#include <string>
+#include <assert.h>
+#include <map>
+
+#include "tokenizer.h"
+#include "progress.h"
+#include "trigram.h"
+#include "database.h"
+
+
+std::string program_name;
+
+void printUsage();
+void printVersion();
+
+
+
+int main( int argc, char* argv[] ) {
+	
+    program_name = argv[0];
+    int next_option;
+
+	
+    // getopt structures
+    const char* const short_options = "hv";
+
+    const struct option long_options[] = {
+	{ "help",   0, NULL, 'h' },
+	{ "version",0, NULL, 'v' },
+	{ NULL,     0, NULL,   0 }
+    };
+
+    do {
+	next_option = getopt_long( argc, argv, 
+				   short_options, long_options, NULL );
+		
+	switch( next_option ) {
+	case 'h': // --help or -h option
+	    printUsage();
+	    exit( 0 );
+	    break;
+	case 'v': // --version or -v option
+	    printVersion();
+	    exit( 0 );
+	    break;
+	case '?': // unknown option
+	    printUsage();
+	    exit( 0 );
+	    break;
+	case -1:
+	    break;
+	default:
+	    abort();
+	}
+
+    } while( next_option != -1 );
+
+
+    // check we have enough arguments
+    if( argc - optind < 2 ) {
+	printUsage();
+	exit(0);
+    }
+	
+
+    // open outfile for output
+//	std::ofstream outfile( argv[ optind ], std::ios::out );
+//	assert( outfile );
+	
+    // open database
+    sqlite* db = openDatabase( argv[ optind ] );
+    assert( db );
+
+
+    // do the actual processing file by file
+    std::string token;
+    Trigram trigram;
+    bool done;
+
+    // trigramMap stores <token,count> pairs
+    std::map< Trigram, int > trigramMap;
+	
+    Tokenizer* tokenizerPtr;
+    for( int i = optind + 1; i < argc; i++ ) { // optind + 1 because optind
+	// points to output file
+	// print out file information
+	std::cout << std::endl
+		  << "Parsing file " << argv[i]
+		  << std::endl << std::endl;
+
+	printProgressHeading();
+
+	// initialize escape variable done
+	done = false;
+	// create tokenizer object and open input file stream
+	tokenizerPtr = new Tokenizer( argv[i] );
+
+	// extract token from input stream
+	tokenizerPtr->tokenize( &token, &done );
+	// assign first token to w_2
+	trigram.w_2 = token;
+	// assign second token to w_1
+	trigram.w_1 = token;
+
+	while( !done ) {
+			
+	    // extract token from input stream
+	    tokenizerPtr->tokenize( &token, &done );
+	    trigram.w = token;
+			
+	    // update map with new token occurrence
+	    trigramMap[ trigram ] = trigramMap[ trigram ] + 1;
+
+	    // update progress bar
+	    progressBar( tokenizerPtr->getProgress() );
+
+	    // prepare for next iteration
+	    trigram.w_2 = trigram.w_1;
+	    trigram.w_1 = trigram.w;
+	}
+
+	delete tokenizerPtr;
+    }
+
+
+    // get map size
+    int size = trigramMap.size();
+
+    std::cout << std::endl << std::endl
+	      << "Writing results to database..."
+	      << std::endl << std::endl;
+    printProgressHeading();
+
+    // store results into trigram table
+    createTrigramTable( db );
+    std::map< Trigram, int >::const_iterator it;
+    int i = 0;
+    for( it = trigramMap.begin();
+	 it != trigramMap.end();
+	 it++ ) {
+		
+	insertTrigram( db,
+		       (it->first).w_2.c_str(),
+		       (it->first).w_1.c_str(),
+		       (it->first).w.c_str(),
+		       it->second );
+		
+	i++;
+	progressBar( ( static_cast<float>( i ) / size ) * 100.0 );
+
+    }
+
+    // close database
+    closeDatabase( db );
+
+
+    std::cout << std::endl << std::endl;
+
+    return 0;
+}
+
+
+
+
+
+
+void printVersion()
+{
+    std::cout << "Version 0.1" << std::endl;
+}
+
+
+void printUsage()
+{
+    std::cout << "Usage: " << program_name
+	      << " [OPTIONS] [OUTFILE] [INFILES]..."
+	      << std::endl << std::endl
+	      << program_name 
+	      << " is free software distributed under the GPL."
+	      << std::endl
+	      << "Copyright by Matteo Vescovi" << std::endl;
+}
+
+

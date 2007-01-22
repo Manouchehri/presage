@@ -1,0 +1,109 @@
+______________________
+The Soothsayer project
+~~~~~~~~~~~~~~~~~~~~~~
+
+Welcome to Soothsayer, the intelligent extensible pluggable
+predictive text entry system.
+
+
+This document will guide you through the steps required to configure
+and build the Soothsayer system and libraries. You should be ready to
+run Soothsayer in a few minutes.
+
+This README does not contain the answers to all the questions you
+might have. If you run into troubles, if you have problems, or if you
+would like a pressing question answered, please direct your attention
+to the doc/ directory, where you will find all the available
+documentation.
+
+
+Requirements:
+- A working development enviroment.
+  On Linux/Unix systems, this means having GCC, the GNU Compiler
+  Collection packages, as well as libraries for these languages
+  (libstdc++, libgcj, glibc, etc).
+  On Windows systems, please install the Cygwin development
+  environment. Cygwin can be obtained from http://www.cygwin.com
+  Instructions on how to setup Cygwin and the required packages can be
+  found in the INSTALL_cygwin_dev_env.txt
+
+- SQLite package. SQLite is a small C library that implements a
+  self-contained, embeddable, zero-configuration SQL database engine.
+  SQLite can be obtained from http://www.sqlite.org
+
+__________________________
+STEP 0: Getting Soothsayer
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Official releases and development snapshots are available from the
+download section of the official website hosted by SourceForge
+
+  http://soothsayer.sourceforge.net
+
+Alternatively, get the latest and greatest sources from SVN.
+
+
+____________________________
+STEP 1: Unpacking Soothsayer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On Linux/Unix, uncompress and untar the distribution with 
+
+  tar jxvf soothsayer-*.tar.bz2
+
+or
+
+  tar zxvf soothsayer-*.tar.gz
+
+depending on whether you downloaded the tarball or the bzipped archive.
+
+
+______________________________
+STEP 2: Configuring Soothsayer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Configuring Soothsayer to different platforms, environments and
+operating systems is simply a matter of running
+
+  ./configure
+
+in the top-level directory of the distribution. This will configure
+Soothsayer for your system. Should you require additional options, try
+
+  ./configure --help
+
+to see the available options.
+
+
+____________________________
+STEP 3: Compiling Soothsayer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kick off the compilation with
+
+  make
+
+This will build the Soothsayer system, libraries and available
+plugins.
+
+
+_____________________________
+STEP 4: Installing Soothsayer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Install Soothsayer and its support libraries and plugins by typing
+
+  make install
+
+
+_____________________________________
+STEP 5: Let Soothsayer read your mind
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Soothsayer includes a little demonstration program that will read the
+user input and guess what the user intends to type using its
+predictive technology. To start it, type
+
+  soothsayerDemo
+
+

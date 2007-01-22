@@ -1,0 +1,113 @@
+______________________
+The Soothsayer project
+~~~~~~~~~~~~~~~~~~~~~~
+
+How to install Cygwin development environment on Windows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following steps will turn your puny Windows platform into a fully
+featured Unix-like development environment.
+
+You should follow these steps if you intend to build Soothsayer for
+Windows from source.
+
+
+_________________________________
+STEP 0: Download Cygwin installer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Point your trusted browser to 
+
+  http://www.cygwin.com
+
+and click on the `Install or Update now' to download the installer.
+
+When the download completes, run the setup.exe executable. This will
+guide you through the Cygwin installation process.
+
+Click next to accept the default selections until you get to the
+package selection dialog.
+
+Beware that some Cygwin mirrors do not work reliably. If you
+experience problems retrieving packages from the Internet, be sure to
+try a different mirror. Your mileage may vary.
+
+
+________________________________________
+STEP 1: Select which packages to install
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You want to make sure that the following packages are selected:
+
+  Devel
+    binutils
+    cppunit
+    gcc-core
+    gcc-g++
+    gcc-mingw-core
+    gcc-mingw-g++
+    make
+    mingw-runtime
+
+    autoconf
+    autoconf-devel
+    automake
+    automake-devel
+    libtool
+    libtool-devel
+    libtool-stable
+
+then go ahead and click next. The packages will download and install
+in your system.
+
+Ensure that `Create icon on Desktop' is ticked before you click
+finish.
+
+
+_______________________________________________________________
+STEP 2: Copy the Soothsayer distribution to your home directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Double-click on the Cygwin icon that was created by the Cygwin
+installation program. This opens a bash shell and puts you in your
+unix home directory.
+
+Copy the Soothsayer distribution to your home directory by following
+these simple steps:
+
+  - type `cp' followed by a space
+  - drag and drop the Soothsayer distribution file in the shell
+  - type a space followed by a dot `.'
+  - press ENTER
+
+
+_____________________________________
+STEP 3: Install the required packages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Download SQLite version 2.8.*, getting the complete tarball of
+the source tree.
+
+Build and install SQLite by following the excellent instructions
+provided with the package.
+
+It is just a matter of running: 
+
+  ./configure
+  make
+  make install
+
+in most cases.
+
+
+_____________________________________
+STEP 4: And you are ready to start...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The development environment is installed and ready for action.
+
+Now follow the steps detailed in the README file to build and install
+Soothsayer.
+
+Have fun!
+Matteo
