@@ -101,16 +101,6 @@ Longer term:
 
 
 
-STEP to autoconfiscate
-~~~~~~~~~~~~~~~~~~~~~~
-
-aclocal
-libtoolize --force --ltdl
-autoheader
-autoconf
-automake -a --copy
-
-
 
 Plugins and Profiles and Managers
 ---------------------------------
@@ -219,3 +209,16 @@ Points to ponder:
 (o) in light of all this, it is probably worth designing a versioning
    system for plugin classes to be implemented as exported symbols in
    the plugin module.
+
+
+
+
+STEP to autoconfiscate
+~~~~~~~~~~~~~~~~~~~~~~
+
+aclocal
+libtoolize --force --ltdl
+autoheader
+autoconf
+automake -a --copy
+
