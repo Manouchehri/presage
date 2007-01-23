@@ -23,8 +23,7 @@ TESTS =		coreTestRunner
 
 check_PROGRAMS = $(TESTS)                 \
 		profileManagerDriver      \
-		selectorDriverInteractive \
-		suggestionDriver 
+		selectorDriverInteractive 
 
 coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				suggestionTest.h suggestionTest.cpp         \
