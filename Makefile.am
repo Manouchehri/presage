@@ -19,4 +19,19 @@
 
 SUBDIRS =	src test resources
 
+BUILT_SOURCES =	sysconfdir.h datadir.h pkgdatadir.h localstatedir.h
+CLEANFILES =	sysconfdir.h datadir.h pkgdatadir.h localstatedir.h
+
+sysconfdir.h:	Makefile
+	echo '#define sysconfdir "$(sysconfdir)"' > $@
+
+datadir.h:	Makefile
+	echo '#define datadir "$(datadir)"' > $@
+
+pkgdatadir.h:	Makefile
+	echo '#define pkgdatadir "$(pkgdatadir)"' > $@
+
+localstatedir.h:	Makefile
+	echo '#define localstatedir "$(localstatedir)"' > $@
+
 EXTRA_DIST =	INSTALL_cygwin_dev_env.txt
