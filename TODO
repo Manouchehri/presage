@@ -84,6 +84,8 @@ Short term:
 - add simulator tests - i.e. given a carefully crafted input text and
   a purpose developed plugin and related resources, test that it
   returns the correct simulation and keystroke reduction rates
+- add custom profile loading support and add more tests to
+   profileManager, use config file in user directory
 
 Medium term:
 * overhaul of soothsayer architecture and integration of the plump framework

@@ -30,8 +30,6 @@
 #include "config.h"
 #endif
 
-#include "core/suggestion.h"
-#include "core/prediction.h"
 #include "core/historyTracker.h"
 #include "core/predictor.h"
 #include "core/selector.h"

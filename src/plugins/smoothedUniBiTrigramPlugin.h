@@ -37,8 +37,11 @@
 //#include <ltdl.h>
 #include <math.h>      // log()
 
+#include "dirs.h"
 
-static const char DEFAULT_DATABASE_LOCATION[] = "./var/database_en.db";
+//static const char DEFAULT_DATABASE_LOCATION[] = "./var/database_en.db";
+static const char DEFAULT_DATABASE_LOCATION[] = localstatedir;
+static const char DEFAULT_DATABASE_FILENAME[] = "database_en.db";
 
 /** Smoothed unigram/bigram/trigram statistical plugin.
  *
@@ -56,6 +59,7 @@ public:
 
 private:
     sqlite* db;
+    std::string database;
 
     // sqlite API is an external library. Plugins are compiled into
     // position independent code, so references to external symbols are not

@@ -37,84 +37,45 @@
 #include <sstream> // for std::ostringstream
 #include <stdio.h> // for int remove( const char* ) to remove files/dirs
 
-const char DEFAULT_SYSTEM_PASSWD_FILE[]  = "/etc/defaultpasswd.xml";
-const char DEFAULT_SYSTEM_PROFILE_FILE[] = "/etc/soothsayer.xml";
-const char DEFAULT_USER_PASSWD_FILE[]    = "./etc/defaultpasswd.xml";
-const char DEFAULT_USER_PROFILE_FILE[]   = "./etc/soothsayer.xml";
+
+const char DEFAULT_PROFILE_FILENAME[] = "soothsayer.xml";
 
 /** Juggles configuration files and soothsayer system initialization.
  *
- * The idea is that ProfileManager loads up an xml file containing configuration data and initializes system components according to the config file.
+ * The idea is that ProfileManager loads up an xml file containing
+ * configuration data and initializes system components according to
+ * the config file.
  * 
  * Configuration files:
- * /etc/soothsayer/config.xml
- * ~/.soothsayer/config.xml
- *
+ *   sysconfdir/soothsayer.xml
+ *   ~/.soothsayer/soothsayer.xml
+ *   /etc/soothsayer/soothsayer.xml
  *
  */
 class ProfileManager {
- public:
-    //PLUMP	ProfileManager(HistoryTracker&, Predictor&, Selector&, PluginManager&);
-	ProfileManager(HistoryTracker&, Predictor&, Selector&);
-	~ProfileManager();
+public:
+    //PLUMP ProfileManager(HistoryTracker&, Predictor&, Selector&, PluginManager&);
+    ProfileManager(HistoryTracker&, Predictor&, Selector&);
+    ~ProfileManager();
 
-	void interface(); /**< Display user interface on screen, get user
-			     action, act accordingly by invoking appropriate
-			     method to execute user command. */
+    void initHistoryTracker();
+    void initPredictor();
+    void initSelector();
+    // Init predictive plugins
+    //PLUMP void initPluginManager();
 
-	void loadPasswd();
-	bool savePasswd();
+    bool loadProfile(const std::string = DEFAULT_PROFILE_FILENAME);
+    void buildProfile(const std::string = DEFAULT_PROFILE_FILENAME);
+    bool saveProfile() const;
 
-	void initSoothsayer();
-	void initHistoryTracker();
-	void initPredictor();
-	void initSelector();
-    //PLUMP	void initPluginManager();
+private:
+    HistoryTracker& historyTracker;
+    Predictor&      predictor;
+    Selector&       selector;
+    //PLUMP PluginManager&  pluginManager;
 
-	bool authenticateUser( const std::string, const std::string );
-	TiXmlNode* createUser( const std::string, const std::string );
-	bool removeUser( const std::string, const std::string );
-	TiXmlNode* findUser( const std::string ) const;
-
-	//void selectProfile();
-	void loadProfile();
-	bool buildProfile( const std::string );
-	bool createProfile( const std::string );
-	bool saveProfile() const;
-	void removeProfile( const std::string, const std::string );
-	TiXmlNode* findProfile( TiXmlNode*, const std::string ) const;
-
- private:
-	HistoryTracker& historyTracker;
-	Predictor&      predictor;
-	Selector&       selector;
-    //PLUMP	PluginManager&  pluginManager;
-
-	TiXmlDocument*  passwdDoc;
-	TiXmlDocument*  profileDoc;
-	
-	std::string username; // active username
-	std::string profile;  // active profile
-
-	TiXmlNode* userNodePtr;
-	TiXmlNode* userProfilePtr;
-
-	std::string passwdFile;
-        std::string profileFile;
-
-	void printUsers() const;
-	void printPasswd() const;
-	void printProfiles() const;
-
-	void loginInterface();
-	void profileInterface();
-	void pluginInterface();
-
-	void userI();
-	bool profileI(); // returns true if profile has been selected and 
-	                 // Soothsayer should start
-	void pluginI();
-	void doPlugin();
+    TiXmlDocument*  profileDoc;
+    std::string     profileFile;
 
 };
 

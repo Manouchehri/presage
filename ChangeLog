@@ -1,3 +1,19 @@
+2007-02-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* profileManager: when no profile is found, use default value for
+	configuration parameters
+
+2007-02-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* headers: changed generation of multiple headers containing
+	directory value to single header
+
+	* profileManager: default profile is loaded from system-wide and
+	installation specific paths
+
+	* smoothedUniBiTrigramPlugin: database is found based on
+	installation location
+
 2007-02-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* headers: added generation of headers with defines for

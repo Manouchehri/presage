@@ -52,7 +52,8 @@ SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin( HistoryTracker &ht )
                                "TRIGRAM_WEIGHT",
                                "Weight given to trigram frequency" )
     );
-    options.push_back( Option( DEFAULT_DATABASE_LOCATION,
+    database = static_cast<std::string>(DEFAULT_DATABASE_LOCATION) + "/" + DEFAULT_DATABASE_FILENAME;
+    options.push_back( Option( database,
                                STRING,
                                "DBFILENAME",
                                "Database filename" )
@@ -110,8 +111,8 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     //std::cerr << "Entering SmoothedUniBiTrigramPlugin::predict()" << std::endl;
 
     // get w_2, w_1, and prefix from HistoryTracker object
-    std::string prefix = strtolower( historyTracker.getPrefix() );
-    //std::cout << "Prefix: " << prefix << std::endl;
+    std::string word_prefix = strtolower( historyTracker.getPrefix() );
+    //std::cout << "Prefix: " << word_prefix << std::endl;
     std::string word_1 = strtolower( historyTracker.getToken(1) );
     //std::cout << "Word_1: " << word_1 << std::endl;
     std::string word_2 = strtolower( historyTracker.getToken(2) );
@@ -154,7 +155,7 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     // get most likely unigrams whose w contains prefix
     query =	"SELECT word, count "
         "FROM unigram "
-        "WHERE word LIKE \"" + prefix + "%\" "
+        "WHERE word LIKE \"" + word_prefix + "%\" "
         "ORDER BY count DESC;";
 //    result = (*sqlite_exec_handle)( db,
     result = sqlite_exec( db,
@@ -287,7 +288,7 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
         //			gamma * f_w;
 
         //		std::cout << "Word  : " << w << std::endl
-        //			  << "Prefix: " << prefix << std::endl
+        //			  << "Prefix: " << word_prefix << std::endl
         //			  << "Word_1: " << word_1 << std::endl
         //			  << "Word_2: " << word_2 << std::endl		
         //			  << "c( " << word_2 << ", " << word_1 << ", " << w << " ) = " << c_w2_w1_w << std::endl
