@@ -112,7 +112,7 @@ int main( int argc, char* argv[] ) {
 		  << "Parsing file " << argv[i]
 		  << std::endl << std::endl;
 
-	printProgressHeading();
+	ProgressBar progressBar;
 
 	// initialize escape variable done
 	done = false;
@@ -128,7 +128,7 @@ int main( int argc, char* argv[] ) {
 	    unigramMap[ token ] = unigramMap[ token ] + 1;
 
 	    // update progress bar
-	    progressBar( tokenizerPtr->getProgress() );
+	    progressBar.update(tokenizerPtr->getProgress());
 
 	}
 

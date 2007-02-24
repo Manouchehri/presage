@@ -110,7 +110,7 @@ int main( int argc, char* argv[] ) {
 		  << "Parsing file " << argv[i]
 		  << std::endl << std::endl;
 
-	printProgressHeading();
+	ProgressBar progressBar;
 
 	// initialize escape variable done
 	done = false;
@@ -134,7 +134,7 @@ int main( int argc, char* argv[] ) {
 	    trigramMap[ trigram ] = trigramMap[ trigram ] + 1;
 
 	    // update progress bar
-	    progressBar( tokenizerPtr->getProgress() );
+	    progressBar.update(tokenizerPtr->getProgress());
 
 	    // prepare for next iteration
 	    trigram.w_2 = trigram.w_1;

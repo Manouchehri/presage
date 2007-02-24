@@ -43,7 +43,6 @@
 #include "progress.h"
 
 typedef std::list<std::string> Ngram;
-//typedef std::string Ngram;
 
 std::string program_name;
 
@@ -55,13 +54,16 @@ int main(int argc, char* argv[]) {
     program_name = argv[0];
     int next_option;
     int ngrams = 1;
+    std::string output;
     bool lowercase = false;
 	
     // getopt structures
-    const char * const  short_options  = "n:lhv";
+    const char * const  short_options  = "n:o:alhv";
     const struct option long_options[] =
 	{
 	    { "ngrams",    required_argument, 0, 'n' },
+	    { "output",    required_argument, 0, 'o' },
+	    { "append",    no_argument,       0, 'a' },
 	    { "lowercase", no_argument,       0, 'l' },
 	    { "help",      no_argument,       0, 'h' },
 	    { "version",   no_argument,       0, 'v' },
@@ -76,15 +78,21 @@ int main(int argc, char* argv[]) {
 				  NULL);
 		
 	switch (next_option) {
-	case 'n':
-	    std::cout << "optarg " << optarg << std::endl;
+	case 'n': // --ngrams or -n option
 	    if (atoi(optarg) > 0) {
 		ngrams = atoi(optarg);
 	    } else {
 		usage();
 	    }
 	    break;
-	case 'l':
+	case 'o': // --output or -o option
+	    output = optarg;
+	    break;
+	case 'a': // --append or -a option
+	    // append mode
+	    // TODO
+	    break;
+	case 'l': // --lowercase or -l option
 	    lowercase = true;
 	    break;
 	case 'h': // --help or -h option
@@ -107,20 +115,21 @@ int main(int argc, char* argv[]) {
 	}
 
     } while (next_option != -1);
+	
 
-
-    // check we have enough arguments
-    if( argc - optind < 2 ) {
+    // validate args
+    if (output.empty() 
+	|| (argc - optind < 1)) {
 	usage();
-	exit(0);
+	return -1;
     }
-	
 
-    // open outfile for output
-    std::ofstream outfile(argv[optind], std::ios::out);
-    assert(outfile);
+    // open outstream for output
+    std::ofstream outstream(output.c_str(), std::ios::out);
+    assert(outstream);
+
 	
-    for (int i = optind + 1; i < argc; i++) { // optind + 1 because optind
+    for (int i = optind; i < argc; i++) {
 	// do the actual processing file by file
 	std::string token;
 	Ngram ngram;
@@ -130,10 +139,10 @@ int main(int argc, char* argv[]) {
 	
 	// points to output file
 	// print out file information
-	std::cout << "Parsing file " << argv[i]
-		  << std::endl << std::endl;
+	std::cout << "Parsing " << argv[i] << "..."
+		  << std::endl;
 
-	printProgressHeading();
+	ProgressBar progressBar;
 
 	// create tokenizer object and open input file stream
 	std::ifstream infile(argv[i]);
@@ -158,7 +167,8 @@ int main(int argc, char* argv[]) {
 	    ngramMap[ngram] = ngramMap[ngram] + 1;
 		    
 	    // update progress bar
-	    progressBar(tokenizer.progress());
+	    //progressBar(tokenizer.progress());
+	    progressBar.update(tokenizer.progress());
 
 	    // remove front token from ngram
 	    ngram.pop_front();
@@ -172,9 +182,9 @@ int main(int argc, char* argv[]) {
 	    for (Ngram::const_iterator ngram_it = it->first.begin();
 		 ngram_it != it->first.end();
 		 ngram_it++) {
-		outfile << *ngram_it << '\t';
+		outstream << *ngram_it << '\t';
 	    }
-	    outfile << it->second << std::endl;
+	    outstream << it->second << std::endl;
 	}
     }
 
@@ -199,10 +209,12 @@ void usage()
 {
     std::cout 
 	<< program_name << ' ' << VERSION << std::endl
-	<< "Usage: " << program_name << " [options] outfile infile..." << std::endl
+	<< "Usage: " << program_name << " [-n ngrams] [-l] [-a] -o outfile infiles..." << std::endl
 	<< "Options:" << std::endl
+        << "--output, -o    " << "Output file name" << std::endl
 	<< "--ngrams, -n N  " << "Specify ngram cardinality" << std::endl
 	<< "--lowercase, -l " << "Enable lowercase conversion mode" << std::endl
+	<< "--append, -a    " << "Open output file in append mode" << std::endl
 	<< "--help, -h      " << "Display this information" << std::endl
 	<< "--version, -v   " << "Show version information" << std::endl
 	<< std::endl

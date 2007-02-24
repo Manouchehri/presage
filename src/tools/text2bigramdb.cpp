@@ -114,7 +114,7 @@ int main( int argc, char* argv[] ) {
 		  << "Parsing file " << argv[i]
 		  << std::endl << std::endl;
 
-	printProgressHeading();
+	ProgressBar progressBar;
 
 	// initialize escape variable done
 	done = false;
@@ -136,7 +136,7 @@ int main( int argc, char* argv[] ) {
 	    bigramMap[ bigram ] = bigramMap[ bigram ] + 1;
 
 	    // update progress bar
-	    progressBar( tokenizerPtr->getProgress() );
+	    progressBar.update(tokenizerPtr->getProgress());
 
 	    // prepare for next iteration
 	    bigram.w_1 = bigram.w;
@@ -153,7 +153,7 @@ int main( int argc, char* argv[] ) {
     std::cout << std::endl << std::endl
 	      << "Writing results to database..."
 	      << std::endl << std::endl;
-    printProgressHeading();
+    ProgressBar progressBar;
 
     // store results into bigram table
     createBigramTable( db );
@@ -169,7 +169,7 @@ int main( int argc, char* argv[] ) {
 		      it->second );
 		
 	i++;
-	progressBar( ( static_cast<float>( i ) / size ) * 100.0 );
+	progressBar.update((static_cast<float>(i) / size) * 100.0);
 
     }
 

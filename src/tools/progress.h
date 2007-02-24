@@ -25,9 +25,18 @@
 #ifndef PROGRESS_H
 #define PROGRESS_H
 
-void printProgressHeading();
-void progressBar(double percentage);
+class ProgressBar {
+public:
+    ProgressBar();
+    ~ProgressBar();
+    void update(const double percentage);
 
+private:
+    void printProgressHeading() const;
+    int progress;
+    int quantum;
+
+};
 
 #endif
 

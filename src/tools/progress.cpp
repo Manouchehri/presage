@@ -22,13 +22,28 @@
  *                                                                           *
 \*****************************************************************************/        
 
-#include <iostream>
-
 #include "progress.h"
 
+#include <iostream>
+
+ProgressBar::ProgressBar()
+{
+    progress = 0;
+    quantum = 2;
+    printProgressHeading();
+}
+
+ProgressBar::~ProgressBar()
+{
+    // complete progress bar if not 100% yet
+    for (int i = progress; i <= 100; i += quantum) {
+	std::cout << '#';
+    }
+    std::cout << std::endl;
+}
 
 // print out progress bar percentage indicator
-void printProgressHeading()
+void ProgressBar::printProgressHeading() const
 {
     std::cout << "0---10---20---30---40---50---60---70---80---90--100"
 	// << "|----|----|----|----|----|----|----|----|----|----|"
@@ -37,11 +52,8 @@ void printProgressHeading()
 
 
 // progress bar display
-void progressBar(double percentage)
+void ProgressBar::update(const double percentage)
 {
-    static int progress = 0;
-    int quantum = 2;
-
     if ((percentage*100) >= progress) {
 	progress += quantum;
 	std::cout << '#' << std::flush;
