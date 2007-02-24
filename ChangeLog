@@ -1,6 +1,7 @@
 2007-02-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
-	* text2ngram: added -o option
+	* text2ngram: added -o option (set output file) and option -f (set
+	file format), text2ngram can output in text file or sqlite format
 
 	* progress.h: turned progress bar implementation into a class,
 	added progress bar completion on object destruction

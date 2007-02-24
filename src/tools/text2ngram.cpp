@@ -42,7 +42,9 @@
 #include "iso8859_1.h"
 #include "progress.h"
 
-typedef std::list<std::string> Ngram;
+#include "sqliteDatabaseConnector.h"
+
+typedef std::list<std::string> NgramList;
 
 std::string program_name;
 
@@ -53,16 +55,25 @@ int main(int argc, char* argv[]) {
 	
     program_name = argv[0];
     int next_option;
+
     int ngrams = 1;
+
     std::string output;
+
+    const std::string FILE = "file";
+    const std::string SQLITE = "sqlite";
+    std::string format = FILE;
+
     bool lowercase = false;
+
 	
     // getopt structures
-    const char * const  short_options  = "n:o:alhv";
+    const char * const  short_options  = "n:o:f:alhv";
     const struct option long_options[] =
 	{
 	    { "ngrams",    required_argument, 0, 'n' },
 	    { "output",    required_argument, 0, 'o' },
+	    { "format",    required_argument, 0, 'f' },
 	    { "append",    no_argument,       0, 'a' },
 	    { "lowercase", no_argument,       0, 'l' },
 	    { "help",      no_argument,       0, 'h' },
@@ -87,6 +98,16 @@ int main(int argc, char* argv[]) {
 	    break;
 	case 'o': // --output or -o option
 	    output = optarg;
+	    break;
+	case 'f': // --format or -f option
+	    if (optarg == SQLITE
+		|| optarg == FILE) {
+		format = optarg;
+	    } else {
+		std::cerr << "Unknown format " << optarg << std::endl << std::endl;
+		usage();
+		return -1;
+	    }
 	    break;
 	case 'a': // --append or -a option
 	    // append mode
@@ -124,19 +145,15 @@ int main(int argc, char* argv[]) {
 	return -1;
     }
 
-    // open outstream for output
-    std::ofstream outstream(output.c_str(), std::ios::out);
-    assert(outstream);
 
-	
+    // ngramMap stores <token,count> pairs
+    std::map<NgramList, int> ngramMap;
+
     for (int i = optind; i < argc; i++) {
 	// do the actual processing file by file
 	std::string token;
-	Ngram ngram;
+	NgramList ngram;
 
-	// ngramMap stores <token,count> pairs
-	std::map<Ngram, int> ngramMap;
-	
 	// points to output file
 	// print out file information
 	std::cout << "Parsing " << argv[i] << "..."
@@ -175,18 +192,54 @@ int main(int argc, char* argv[]) {
 	}
 	
 	infile.close();
+    }
+
+    if (format == FILE) {
+	// output to FILE
+	//
+
+	// open outstream for output
+	std::ofstream outstream(output.c_str(), std::ios::out);
+	assert(outstream);
 
 	// write results to output stream
-	std::map<Ngram, int>::const_iterator it;
+	std::map<NgramList, int>::const_iterator it;
 	for (it = ngramMap.begin(); it != ngramMap.end(); it++) {
-	    for (Ngram::const_iterator ngram_it = it->first.begin();
+	    for (NgramList::const_iterator ngram_it = it->first.begin();
 		 ngram_it != it->first.end();
 		 ngram_it++) {
 		outstream << *ngram_it << '\t';
 	    }
 	    outstream << it->second << std::endl;
 	}
+
+	outstream.close();
+    } else if (format == SQLITE) {
+	// output to SQLITE
+	// 
+
+	SqliteDatabaseConnector sqliteDbCntr(output);
+	sqliteDbCntr.createNgramTable(ngrams);
+
+	// write results to output stream
+	std::map<NgramList, int>::const_iterator it;
+	for (it = ngramMap.begin(); it != ngramMap.end(); it++) {
+
+	    // convert from NgramList to Ngram
+	    Ngram ngram;
+	    for (NgramList::const_iterator jt = it->first.begin();
+		 jt != it->first.end();
+		 jt++) {
+		ngram.push_back(*jt);
+	    }
+
+	    // insert Ngram
+	    sqliteDbCntr.insertNgram(ngram, it->second);
+	}
+    } else {
+	abort();
     }
+
 
     std::cout << std::endl;
 
@@ -209,10 +262,11 @@ void usage()
 {
     std::cout 
 	<< program_name << ' ' << VERSION << std::endl
-	<< "Usage: " << program_name << " [-n ngrams] [-l] [-a] -o outfile infiles..." << std::endl
+	<< "Usage: " << program_name << " [-n ngrams] [-l] [-a] [-f format] -o outfile infiles..." << std::endl
 	<< "Options:" << std::endl
-        << "--output, -o    " << "Output file name" << std::endl
-	<< "--ngrams, -n N  " << "Specify ngram cardinality" << std::endl
+        << "--output, -o O  " << "Output file name O" << std::endl
+	<< "--ngrams, -n N  " << "Specify ngram cardinality N" << std::endl
+	<< "--format, -f F  " << "Output file format F" << std::endl
 	<< "--lowercase, -l " << "Enable lowercase conversion mode" << std::endl
 	<< "--append, -a    " << "Open output file in append mode" << std::endl
 	<< "--help, -h      " << "Display this information" << std::endl
