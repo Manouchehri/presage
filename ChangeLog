@@ -1,3 +1,10 @@
+2007-02-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* text2ngram: added -o option
+
+	* progress.h: turned progress bar implementation into a class,
+	added progress bar completion on object destruction
+
 2007-02-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* profileManager: when no profile is found, use default value for
