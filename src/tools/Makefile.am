@@ -43,17 +43,17 @@ text2trigramdb_LDFLAGS =	-lsqlite
 
 noinst_LTLIBRARIES =	libtools.la
 
-libtools_la_SOURCES =	tokenizer.cpp tokenizer.h    \
-			../core/iso8859_1.h          \
-			database.cpp database.h      \
-			progress.cpp progress.h      \
-			trigram.cpp trigram.h        \
-			bigram.cpp bigram.h          \
-			ngram.cpp ngram.h            \
-			databaseConnector.cpp        \
-			databaseConnector.h          \
-			sqliteDatabaseConnector.cpp  \
-			sqliteDatabaseConnector.h    
+libtools_la_SOURCES =	fileTokenizer.cpp fileTokenizer.h \
+			../core/iso8859_1.h               \
+			database.cpp database.h           \
+			progress.cpp progress.h           \
+			trigram.cpp trigram.h             \
+			bigram.cpp bigram.h               \
+			ngram.cpp ngram.h                 \
+			databaseConnector.cpp             \
+			databaseConnector.h               \
+			sqliteDatabaseConnector.cpp       \
+			sqliteDatabaseConnector.h         
 
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/core

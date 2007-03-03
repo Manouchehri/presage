@@ -22,7 +22,7 @@
  *                                                                           *
 \*****************************************************************************/        
 
-#include "tokenizer.h"
+#include "fileTokenizer.h"
 
 
 FileTokenizer::FileTokenizer( char* filename )

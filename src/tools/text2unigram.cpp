@@ -29,7 +29,7 @@
 #include <assert.h>
 #include <map>
 
-#include "tokenizer.h"
+#include "fileTokenizer.h"
 #include "progress.h"
 
 

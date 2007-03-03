@@ -31,7 +31,7 @@
 #include "tools/trigram.h"
 #include "tools/database.h"
 #include "tools/progress.h"
-#include "tools/tokenizer.h"
+#include "tools/fileTokenizer.h"
 
 
 #endif
