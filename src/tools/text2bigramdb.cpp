@@ -106,7 +106,7 @@ int main( int argc, char* argv[] ) {
     // bigramMap stores <token,count> pairs
     std::map< Bigram, int > bigramMap;
 	
-    Tokenizer* tokenizerPtr;
+    FileTokenizer* tokenizerPtr;
     for( int i = optind + 1; i < argc; i++ ) { // optind + 1 because optind
 	// points to output file
 	// print out file information
@@ -119,7 +119,7 @@ int main( int argc, char* argv[] ) {
 	// initialize escape variable done
 	done = false;
 	// create tokenizer object and open input file stream
-	tokenizerPtr = new Tokenizer( argv[i] );
+	tokenizerPtr = new FileTokenizer( argv[i] );
 
 	// extract token from input stream
 	tokenizerPtr->tokenize( &token, &done );

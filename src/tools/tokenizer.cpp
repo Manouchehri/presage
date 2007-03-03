@@ -25,7 +25,7 @@
 #include "tokenizer.h"
 
 
-Tokenizer::Tokenizer( char* filename )
+FileTokenizer::FileTokenizer( char* filename )
 {
     infile.open( filename, std::ios::in );
     if( !infile ) {
@@ -39,23 +39,23 @@ Tokenizer::Tokenizer( char* filename )
     streamLength = getStreamLength();
 }
 
-Tokenizer::~Tokenizer()
+FileTokenizer::~FileTokenizer()
 {
     if( infile )
 	infile.close();
 }
 
-bool Tokenizer::getLowercase() const
+bool FileTokenizer::getLowercase() const
 {
     return lowercase;
 }
 
-void Tokenizer::setLowercase( bool b )
+void FileTokenizer::setLowercase( bool b )
 {
     lowercase = b;
 }
 
-bool Tokenizer::isValid( const int c ) const
+bool FileTokenizer::isValid( const int c ) const
 {
     if( 
 //	    c == digit0 ||
@@ -201,7 +201,7 @@ bool Tokenizer::isValid( const int c ) const
 
 
 
-bool Tokenizer::isSeparator( const int c ) const
+bool FileTokenizer::isSeparator( const int c ) const
 {
 
     if( 
@@ -365,7 +365,7 @@ bool Tokenizer::isSeparator( const int c ) const
 /** tokenizer main function
  *  see flow chart in doc/ directory
  */
-void Tokenizer::tokenize(std::string* s, bool* done)
+void FileTokenizer::tokenize(std::string* s, bool* done)
 {
     int current;
 
@@ -401,7 +401,7 @@ void Tokenizer::tokenize(std::string* s, bool* done)
 
 
 
-float Tokenizer::getProgress()
+float FileTokenizer::getProgress()
 {
     if( !infile.eof() ) {
 	// calculate percentage done and return it
@@ -414,7 +414,7 @@ float Tokenizer::getProgress()
     }
 }
 
-unsigned long int Tokenizer::getStreamLength()
+unsigned long int FileTokenizer::getStreamLength()
 {
     // store current seek pointer position
     unsigned long int prevPos = infile.tellg();
@@ -431,7 +431,7 @@ unsigned long int Tokenizer::getStreamLength()
     return endPos;
 }
 
-unsigned long int Tokenizer::getStreamPosition()
+unsigned long int FileTokenizer::getStreamPosition()
 {
     return infile.tellg();
 }

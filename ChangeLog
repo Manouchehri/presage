@@ -1,3 +1,14 @@
+2007-03-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/tokenizer: renamed Tokenizer class to FileTokenizer,
+	taking us one step closer to fully removing code duplication with
+	src/core/tokenizer classes... :-)
+
+	* src/tools/utility: removed duplicate code from strtolower
+	functions family
+	
+	* src/Makefile.am: linking libtools.la with libsoothsayer.la
+
 2007-02-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* text2ngram: added -o option (set output file) and option -f (set

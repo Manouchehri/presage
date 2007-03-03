@@ -29,8 +29,8 @@
 
 #include "iso8859_1.h"
 
-#ifndef TOKENIZER_H
-#define TOKENIZER_H
+#ifndef FILETOKENIZER_H
+#define FILETOKENIZER_H
 
 /** Tokenizer returns a token each time method tokenize is invoke.
  * 
@@ -52,10 +52,10 @@
  * is converted to lowercase before being returned.
  * 
  */
-class Tokenizer {
+class FileTokenizer {
 public:
-    Tokenizer( char* );
-    ~Tokenizer();
+    FileTokenizer( char* );
+    ~FileTokenizer();
     void tokenize(std::string*, bool*);
     float getProgress();
     bool getLowercase() const;
@@ -78,5 +78,4 @@ private:
 
 
 
-#endif
-
+#endif // FILETOKENIZER_H

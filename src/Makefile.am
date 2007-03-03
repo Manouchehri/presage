@@ -24,6 +24,7 @@ libsoothsayer_la_SOURCES = 	soothsayer.cpp soothsayer.h
 libsoothsayer_la_LIBADD =	core/libcore.la       \
 				plugins/libplugin.la  \
 				tinyxml/libtinyxml.la \
+				tools/libtools.la     \
 				plugins/libSmoothedUniBiTrigramPlugin.la
 #				REVISIT remove libSmoothetUniBiTrigram.la 
 #				when reintegrating dynamically loaded plugins

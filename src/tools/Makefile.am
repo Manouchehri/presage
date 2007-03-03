@@ -50,7 +50,6 @@ libtools_la_SOURCES =	tokenizer.cpp tokenizer.h    \
 			trigram.cpp trigram.h        \
 			bigram.cpp bigram.h          \
 			ngram.cpp ngram.h            \
-			utility.cpp utility.h        \
 			databaseConnector.cpp        \
 			databaseConnector.h          \
 			sqliteDatabaseConnector.cpp  \
