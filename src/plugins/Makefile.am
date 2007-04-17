@@ -29,7 +29,11 @@ lib_LTLIBRARIES =	libSmoothedUniBiTrigramPlugin.la \
 			libDummyPlugin.la                   
 
 libSmoothedUniBiTrigramPlugin_la_SOURCES =	smoothedUniBiTrigramPlugin.cpp \
-						smoothedUniBiTrigramPlugin.h
+						smoothedUniBiTrigramPlugin.h   \
+						../tools/databaseConnector.h   \
+						../tools/databaseConnector.cpp \
+						../tools/sqliteDatabaseConnector.h   \
+						../tools/sqliteDatabaseConnector.cpp 
 libSmoothedUniBiTrigramPlugin_la_LIBADD =	libplugin.la
 
 ###

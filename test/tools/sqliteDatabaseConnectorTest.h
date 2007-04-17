@@ -47,16 +47,22 @@ public:
     void testRemoveNgram();
     void testGetNgramCount();
     void testIncrementNgramCount();
+    void testGetNgramLikeTable();
 
 private:
     void assertExistsAndRemoveFile(const char* filename) const;
     void assertDatabaseDumpEqualsBenchmark(std::stringstream& benchmark) const;
+    void assertEqualNgramTable(const NgramTable* const, const NgramTable&);
 
     DatabaseConnector* sqliteDatabaseConnector;
 
     Ngram* unigram;
     Ngram* bigram;
     Ngram* trigram;
+
+    Ngram* unigram1;
+    Ngram* bigram1;
+    Ngram* trigram1;
 
     static const int MAGIC_NUMBER;
 
@@ -67,6 +73,7 @@ private:
     CPPUNIT_TEST( testRemoveNgram                   );
     CPPUNIT_TEST( testGetNgramCount                 );
     CPPUNIT_TEST( testIncrementNgramCount           );
+    CPPUNIT_TEST( testGetNgramLikeTable             );
     CPPUNIT_TEST_SUITE_END();
 };
 

@@ -25,7 +25,6 @@
 
 #include "plugins/smoothedUniBiTrigramPlugin.h"
 
-
 SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin( HistoryTracker &ht )
     : Plugin( ht,
               "SmoothedUniBiTrigramPlugin",
@@ -66,26 +65,8 @@ SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin( HistoryTracker &ht )
     );
 
 	
-    // open sqlite library
-//    libsqlite = lt_dlopen( "libsqlite.so" );
-//    if( libsqlite == NULL )
-//        std::cerr << lt_dlerror() << std::endl;
-//    assert( libsqlite != NULL );
-//
-//    // 
-//    sqlite_open_handle = (sqlite_open_t*)lt_dlsym( libsqlite, "sqlite_open" );
-//    sqlite_exec_handle = (sqlite_exec_t*)lt_dlsym( libsqlite, "sqlite_exec" );
-//    sqlite_close_handle = (sqlite_close_t*)lt_dlsym( libsqlite, "sqlite_close" );
-//
-//    assert( sqlite_open_handle != NULL );
-//    assert( sqlite_exec_handle != NULL );
-//    assert( sqlite_close_handle != NULL );
-
-
-    // open database
-//    db = (*sqlite_open_handle)( getOptionValue( "DBFILENAME" ).c_str(), 0777, NULL );
-    db = sqlite_open( getOptionValue( "DBFILENAME" ).c_str(), 0777, NULL );
-    assert( db != NULL );
+    // open database connector
+    db = new SqliteDatabaseConnector(getOptionValue("DBFILENAME"));
     
     //DEBUG
     //std::cerr << "Exiting SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin()" << std::endl;
@@ -95,12 +76,7 @@ SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin( HistoryTracker &ht )
 
 SmoothedUniBiTrigramPlugin::~SmoothedUniBiTrigramPlugin()
 {
-    // close database cleanly
-//    (*sqlite_close_handle)( db );
-    sqlite_close( db );
-
-    // close sqlite library
-//    lt_dlclose( libsqlite );
+    delete db;
 }
 
 
@@ -110,26 +86,27 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     //DEBUG
     //std::cerr << "Entering SmoothedUniBiTrigramPlugin::predict()" << std::endl;
 
-    // get w_2, w_1, and prefix from HistoryTracker object
-    std::string word_prefix = strtolower( historyTracker.getPrefix() );
-    //std::cout << "Prefix: " << word_prefix << std::endl;
-    std::string word_1 = strtolower( historyTracker.getToken(1) );
-    //std::cout << "Word_1: " << word_1 << std::endl;
-    std::string word_2 = strtolower( historyTracker.getToken(2) );
-    //std::cout << "Word_2: " << word_2 << std::endl;
-
-    std::string query; // string used to build sql query
-    int result;        // database interrogation diagnostic
-
-    Prediction p;     // combined result of uni/bi/tri gram predictions
+    // combined result of uni/bi/tri-gram predictions
+    Prediction prediction;
 	
+    // get w_2, w_1, and prefix from HistoryTracker object
+    std::string word_prefix = strtolower(historyTracker.getPrefix());
+    std::string word_1      = strtolower(historyTracker.getToken(1));
+    std::string word_2      = strtolower(historyTracker.getToken(2));
+
+    // DEBUG
+    std::cout << "[SmoothedUniBiTrigramPlugin] Prefix: " << word_prefix << std::endl;
+    std::cout << "[SmoothedUniBiTrigramPlugin] Word_1: " << word_1      << std::endl;
+    std::cout << "[SmoothedUniBiTrigramPlugin] Word_2: " << word_2      << std::endl;
+
     // get smoothing parameters
     double alpha = atof( getOptionValue( "TRIGRAM_WEIGHT" ).c_str() );
     double beta = atof( getOptionValue( "BIGRAM_WEIGHT" ).c_str() );
     double gamma = atof( getOptionValue( "UNIGRAM_WEIGHT" ).c_str() );
 
+    int max_partial_predictions_size = atoi( getOptionValue( "MAX_PARTIAL_PREDICTION_SIZE" ).c_str() );
 	
-    // To estimate  P( w | w_2, w_1 ) we need the following:
+    // To estimate  P( w | w_2, w_1 ) we need the following counts
     int c_w2_w1_w = 0;  // c( w_2, w_1, w )  
     int c_w2_w1 = 0;    // c( w_2, w_1 )     
     int c_w1_w = 0;     // c( w_1, w )	     
@@ -137,108 +114,63 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     int c_w = 0;        // c( w )	     
     int c = 0;          // c                 
 
-    std::string w;      // w
-
-    std::vector< WordCount > wordCount;
+    std::string word;   // w
 
     // get c
-    query = "SELECT SUM( count ) "
-        "FROM unigram;";
-//    result = (*sqlite_exec_handle)( db,
-    result = sqlite_exec( db,
-			  query.c_str(),
-			  getCount,
-			  &c,
-			  NULL );
-    assert( result == SQLITE_OK );
-	
-    // get most likely unigrams whose w contains prefix
-    query =	"SELECT word, count "
-        "FROM unigram "
-        "WHERE word LIKE \"" + word_prefix + "%\" "
-        "ORDER BY count DESC;";
-//    result = (*sqlite_exec_handle)( db,
-    result = sqlite_exec( db,
-			  query.c_str(),
-			  getWordCount,
-			  &wordCount,
-			  NULL );
-    assert( result == SQLITE_OK || result == SQLITE_ABORT );
-    // now I've got w and c( w )
+    std::string query = "SELECT SUM( count ) FROM _1_gram;";
+    NgramTable result = db->executeSql(query);
+    //std::cout << "[SmoothedUniBiTrigramPlugin] c: " << result[0][0].c_str() << std::endl;
+    c = atoi(result[0][0].c_str());
+
+    // get table of possible prefix completitions
+    Ngram prefix_gram;
+    prefix_gram.push_back(word_prefix);
+    NgramTable prefixCompletionTable = db->getNgramLikeTable(prefix_gram);
+
 
     // let's retrieve all the other counts I need
-    for( unsigned int i = 0; i < wordCount.size(); i++ ) {
-		
+    for (int i = 0; (i < prefixCompletionTable.size() && i < max_partial_predictions_size); i++) {
         // get w
-        w = wordCount[ i ].word;
+	word = prefixCompletionTable[i][0];
 
-        // get c( w )
-        if( !isnan(c_w) )
-            c_w = wordCount[ i ].count;
-		
+	//std::cout << "[SmoothedUniBiTriGramPlugin] word is: " << word << std::endl;
+	//std::cin.get();
+
+	// get c_w
+	c_w = atoi(prefixCompletionTable[i][1].c_str());
+
         // get c( w_1 )
-        query = "SELECT count "
-            "FROM unigram "
-            "WHERE word = \"" + word_1 + "\" "
-            "ORDER BY count DESC;";
-//        result = (*sqlite_exec_handle)( db,
-        result = sqlite_exec( db,
-                                        query.c_str(),
-                                        getCount,
-                                        &c_w1,
-                                        NULL );
-        assert( result == SQLITE_OK );
-        if( isnan(c_w1) )
-            c_w1 = 0;
+	{
+	    Ngram ngram;
+	    ngram.push_back(word_1);
+	    c_w1 = db->getNgramCount(ngram);
+	}
 
         // get c( w_1, w )
-        query = "SELECT count "
-            "FROM bigram "
-            "WHERE word_1 = \"" + word_1 + "\" "
-            "AND word = \"" + w + "\" "
-            "ORDER BY count DESC;";
-//        result = (*sqlite_exec_handle)( db,
-        result = sqlite_exec( db,
-                                        query.c_str(),
-                                        getCount,
-                                        &c_w1_w,
-                                        NULL );
-        assert( result == SQLITE_OK );
-        if( isnan(c_w1_w) )
-            c_w1_w = 0;
+	{
+	    Ngram ngram;
+	    ngram.push_back(word_1);
+	    ngram.push_back(word);
+	    c_w1_w = db->getNgramCount(ngram);
+	}
 
         // get c( w_2, w_1 )
-        query = "SELECT count "
-            "FROM bigram "
-            "WHERE word_1 = \"" + word_2 + "\" "
-            "AND word = \"" + word_1 + "\" "
-            "ORDER BY count DESC;";
-//        result = (*sqlite_exec_handle)( db,
-        result = sqlite_exec( db,
-                                        query.c_str(),
-                                        getCount,
-                                        &c_w2_w1,
-                                        NULL );
-        assert( result == SQLITE_OK );
-        if( isnan(c_w2_w1) )
-            c_w2_w1 = 0;
+	{
+	    Ngram ngram;
+	    ngram.push_back(word_2);
+	    ngram.push_back(word_1);
+	    c_w2_w1 = db->getNgramCount(ngram);
+	}
 
         // get c( w_2, w_1, w )
-        query = "SELECT count "
-            "FROM trigram "
-            "WHERE word_2 = \"" + word_2 + "\" "
-            "AND word_1 = \"" + word_1 + "\" "
-            "AND word = \"" + w + "\" "
-            "ORDER BY count DESC;";
-//        result = (*sqlite_exec_handle)( db,
-        result = sqlite_exec( db,
-                                        query.c_str(),
-                                        getCount,
-                                        &c_w2_w1_w,
-                                        NULL );
-        assert( result == SQLITE_OK );
-        if( isnan(c_w2_w1_w) )
-            c_w2_w1_w = 0;
+	{
+	    Ngram ngram;
+	    ngram.push_back(word_2);
+	    ngram.push_back(word_1);
+	    ngram.push_back(word);
+	    c_w2_w1_w = db->getNgramCount(ngram);
+	}
+	    
 
         // compute smoothed probability
         double f_w2_w1_w = ( c_w2_w1 > 0 ? ( static_cast< double >( c_w2_w1_w ) / c_w2_w1 ) : 0 );
@@ -287,33 +219,32 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
         //			beta * f_w1_w +
         //			gamma * f_w;
 
-        //		std::cout << "Word  : " << w << std::endl
-        //			  << "Prefix: " << word_prefix << std::endl
-        //			  << "Word_1: " << word_1 << std::endl
-        //			  << "Word_2: " << word_2 << std::endl		
-        //			  << "c( " << word_2 << ", " << word_1 << ", " << w << " ) = " << c_w2_w1_w << std::endl
-        //			  << "c( " << word_2 << ", " << word_1 << " ) = " << c_w2_w1 << std::endl
-        //			  << "c( " << word_1 << ", " << w << " ) = " << c_w1_w << std::endl
-        //			  << "c( " << word_1 << " ) = " << c_w1 << std::endl
-        //			  << "c( " << w << " ) = " << c_w << std::endl
-        //			  << "c = " << c << std::endl
-        //			  << "f( " << w << " | " << word_1 << ", " << word_2 << " ) = " << f_w2_w1_w << std::endl
-        //			  << "f( " << w << " | " << word_1 << " ) = " << f_w1_w << std::endl
-        //			  << "f( " << w << " ) = " << f_w << std::endl;
-        //		std::cout << "Smoothed probability = " << probability << std::endl;
-
-		
-		
+	std::cout << "[SmoothedUniBiTrigramPlugin] Word  : " << word << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] Prefix: " << word_prefix << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] Word_1: " << word_1 << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] Word_2: " << word_2 << std::endl		
+		  << "[SmoothedUniBiTrigramPlugin] c( " << word_2 << ", " << word_1 << ", " << word << " ) = " << c_w2_w1_w << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] c( " << word_2 << ", " << word_1 << " ) = " << c_w2_w1 << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] c( " << word_1 << ", " << word << " ) = " << c_w1_w << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] c( " << word_1 << " ) = " << c_w1 << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] c( " << word << " ) = " << c_w << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] c = " << c << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] f( " << word << " | " << word_1 << ", " << word_2 << " ) = " << f_w2_w1_w << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] f( " << word << " | " << word_1 << " ) = " << f_w1_w << std::endl
+		  << "[SmoothedUniBiTrigramPlugin] f( " << word << " ) = " << f_w << std::endl;
+	std::cout << "[SmoothedUniBiTrigramPlugin] Smoothed probability = " << probability << std::endl;
+	
+	
         // add computed suggestion to prediction
-        p.addSuggestion( Suggestion( w, probability ) );
+        prediction.addSuggestion( Suggestion( word, probability ) );
     }
 
-    //	std::cout << std::endl 
-    //		  << "Prediction:" << std::endl
-    //		  << "===========" << std::endl
-    //		  << p << std::endl;
+    std::cout << "[SmoothedUniBiTrigramPlugin] " << std::endl 
+	      << "[SmoothedUniBiTrigramPlugin] Prediction:" << std::endl
+	      << "[SmoothedUniBiTrigramPlugin] ===========" << std::endl
+	      << prediction << std::endl;
 	
-    return p; // Return combined prediction
+    return prediction; // Return combined prediction
 }
 
 
@@ -344,54 +275,6 @@ void SmoothedUniBiTrigramPlugin::train()
     std::cout << "SmoothedUniBiTrigramPlugin::train() method exited"
               << std::endl;
 }
-
-
-/** SQLite callback function
-    Builds prediction from query results.
-
-*/
-int getWordCount( void* wcPtr,
-		  int argc,
-		  char** argv,
-		  char** column )
-{
-    // make sure this was invoked by the right query
-    assert( argc = 2 );
-    assert( strcmp( column[0], "word" ) == 0 );
-    assert( strcmp( column[1], "count" ) == 0 );
-
-    // cast pointer to void back to pointer to trigrams object
-    std::vector< WordCount >* wordCountPtr = static_cast< std::vector< WordCount >* >( wcPtr );
-	
-    WordCount wc;
-    wc.word = argv[ 0 ];
-    wc.count = atoi( argv[ 1 ] );
-    wordCountPtr->push_back( wc );
-
-    if( wordCountPtr->size() < 100 )
-        return 0;
-    else
-        return 1;
-}
-
-
-int getCount( void* cPtr,
-	      int argc,
-	      char** argv,
-	      char** column )
-{
-    // make sure this was invoked by the right query
-    assert( argc == 1 );
-    //	assert( strcmp( column[ 0 ], "count" ) );
-	
-    // cast pointer to void back to pointer to integer
-    int* countPtr = static_cast< int* >( cPtr );
-	
-    *countPtr = atoi( argv[ 0 ] );
-
-    return 0;
-}
-
 
 
 

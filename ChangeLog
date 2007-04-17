@@ -1,3 +1,47 @@
+2007-04-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/plugins/smoothedUniBiTriGramPlugin: modified plugin to use new
+	databaseConnector classes
+
+	* src/tools/sqliteDatabaseConnector: added ORDER BY clause to
+	getNgramLikeTable() method
+
+2007-04-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* resources: switched database creation to new text2ngram tool,
+	which uses the new table names in _N_gram form.
+	
+2007-04-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/sqliteDatabaseConnector: fixed callback() method by
+	return 0 to signal normal execution. Oddly, even the the method
+	signature specifies an integer return type, the gcc C++ compiler
+	does not generate any error or warning that no value is returned.
+
+2007-03-30  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* test/tools/databaseConnectorTest: added tests for
+	...NgramLikeTable() methods family, fixed tests to account for
+	buildXClause changes
+
+	* test/tools/sqliteDatabaseConnectorTest: fixed tests to account
+	for buildXClause changes
+	
+2007-03-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/databaseConnector: fixed bugs affecting the
+	buildXClause family of functions
+
+2007-03-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/databaseConnector: added getNgramLikeTable() method,
+	which returns a set of ngrams that are possible completions of the
+	supplied ngram
+
+	* src/tools/databaseConnector: changed executeSql() to return an
+	NgramTable instead of a string to ease subsequent manipulation and
+	information extraction
+	
 2007-03-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/tokenizer: renamed Tokenizer class to FileTokenizer,

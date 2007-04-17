@@ -24,6 +24,8 @@
 
 #include "sqliteDatabaseConnector.h"
 
+#include <iostream>
+
 SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name)
 {
     db_name = database_name;
@@ -47,12 +49,13 @@ void SqliteDatabaseConnector::closeDatabase()
     }
 }
 
-std::string SqliteDatabaseConnector::executeSql(const std::string query) const
+NgramTable SqliteDatabaseConnector::executeSql(const std::string query) const
 {
-    std::string answer;
+    NgramTable answer;
     
     char* sql_error_message = 0;
 
+    std::cout << "[SqliteDatabaseConnector] executing query: " << query << std::endl;
     int result = sqlite_exec(db,
 			     query.c_str(),
 			     callback,
@@ -70,14 +73,17 @@ int SqliteDatabaseConnector::callback(
     char **argv,
     char **columnNames)
 {
-    std::string& query_result = *static_cast<std::string*>(pArg);
+    NgramTable& query_result = *static_cast<NgramTable*>(pArg);
 
+    std::cout << "[SqliteDatabaseConnector] building ngram: ";
+    Ngram ngram;
     for (int i = 0; i < argc; i++) {
-	query_result += argv[i];
-	if (i < argc - 1) {
-	    query_result += '\t';
-	} else {
-	    query_result += '\n';
-	}
+	ngram.push_back(argv[i]);
+	std::cout << "(" << columnNames[i] << ":" << argv[i] << ")" << '\t';
     }
+    std::cout << std::endl;
+
+    query_result.push_back(ngram);
+
+    return SQLITE_OK;
 }

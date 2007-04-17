@@ -44,17 +44,28 @@ public:
 //    void testSanitizeString();
     void testCreateNgramTable();
     void testGetNgramCount();
+    void testGetNgramLikeCount();
     void testInsertNgram();
     void testUpdateNgram();
     void testRemoveNgram();
 
+    /** Mock DatabaseConnector implementation object.
+     * 
+     * The virtual executeSql() method stores the SQL query string
+     * into a pointer to a string that is accessible to
+     * DatabaseConnectorTest class. This string is compared against a
+     * benchmarked SQL string.
+     *
+     * The same magic number is also always returned as a count.
+     *
+     */
     class DatabaseConnectorImpl : public DatabaseConnector {
     public:
 	DatabaseConnectorImpl(std::string* query)
 	    : m_query(query),
 	      MAGIC_NUMBER(GLOBAL_MAGIC_NUMBER)
 	    {}
-	~DatabaseConnectorImpl() {}
+	virtual ~DatabaseConnectorImpl() {}
 	
 	virtual void openDatabase() {}
 	virtual void closeDatabase() {}
@@ -63,12 +74,16 @@ public:
 	 * This fakes an SQL query execution. Useful to test that the
 	 * correct SQL query are generated.
 	 */
-	virtual std::string executeSql(const std::string query) const {
+	virtual NgramTable executeSql(const std::string query) const {
 	    std::cout << "[query] " << query << std::endl;
 	    *m_query = query;
 	    std::stringstream ss;
 	    ss << MAGIC_NUMBER;
-	    return ss.str();
+	    Ngram ngram;
+	    ngram.push_back(ss.str());
+	    NgramTable ngramTable;
+	    ngramTable.push_back(ngram);
+	    return ngramTable;
 	}
 	
     private:
@@ -76,7 +91,68 @@ public:
 	std::string* const m_query;
     };
 
+    /** Mock DatabaseConnector implementation object for getNgramCountLike().
+     * 
+     * The virtual executeSql() method stores the SQL query string
+     * into a pointer to a string that is accessible to
+     * DatabaseConnectorTest class. This string is compared against a
+     * benchmarked SQL string.
+     *
+     * An mock ngram is returned.
+     *
+     */
+    class DatabaseConnectorLikeImpl : public DatabaseConnectorImpl {
+    public:
+	DatabaseConnectorLikeImpl(std::string* query)
+	    : DatabaseConnectorImpl(query)
+	    {}
+	~DatabaseConnectorLikeImpl() {}
+	
+	virtual void openDatabase() {}
+	virtual void closeDatabase() {}
+	/** Stores SQL query in m_query data member.
+	 *
+	 * This fakes an SQL query execution. Useful to test that the
+	 * correct SQL query are generated.
+	 */
+	virtual NgramTable executeSql(const std::string query) const {
+	    DatabaseConnectorImpl::executeSql(query);
+	    NgramTable ngramTable;
+
+	    Ngram* ngram = new Ngram();
+	    ngram->push_back("foo");
+	    ngram->push_back("bar");
+	    ngram->push_back("foobar");
+	    ngram->push_back("3");
+	    ngramTable.push_back(*ngram);
+	    delete ngram;
+	    
+	    ngram = new Ngram();
+	    ngram->push_back("bar");
+	    ngram->push_back("foo");
+	    ngram->push_back("foobar");
+	    ngram->push_back("33");
+	    ngramTable.push_back(*ngram);
+	    delete ngram;
+
+	    ngram = new Ngram();
+	    ngram->push_back("foobar");
+	    ngram->push_back("bar");
+	    ngram->push_back("foo");
+	    ngram->push_back("333");
+	    ngramTable.push_back(*ngram);
+	    delete ngram;
+
+	    return ngramTable;
+	}
+	
+    private:
+
+    };
+
 private:
+    void assertCorrectMockNgramTable(NgramTable ngramcount);
+
     DatabaseConnector* databaseConnector;
     std::string* lastQuery;
 
@@ -88,6 +164,7 @@ private:
 //    CPPUNIT_TEST( testSanitizeString          );
     CPPUNIT_TEST( testCreateNgramTable        );
     CPPUNIT_TEST( testGetNgramCount           );
+    CPPUNIT_TEST( testGetNgramLikeCount       );
     CPPUNIT_TEST( testInsertNgram             );
     CPPUNIT_TEST( testUpdateNgram             );
     CPPUNIT_TEST( testRemoveNgram             );

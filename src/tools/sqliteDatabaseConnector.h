@@ -44,7 +44,7 @@ class SqliteDatabaseConnector : public DatabaseConnector {
 
     virtual void openDatabase();
     virtual void closeDatabase();
-    virtual std::string executeSql(const std::string query) const;
+    virtual NgramTable executeSql(const std::string query) const;
 
   protected:
 

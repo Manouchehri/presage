@@ -29,10 +29,12 @@
 #include "config.h"
 #endif
 
+#include <map>
 #include <vector>
 #include <string>
 
 typedef std::vector<std::string> Ngram;
+typedef std::vector<Ngram> NgramTable;
 
 /** Provides the interface to database creation, updating and querying operations.
  *
@@ -52,6 +54,10 @@ public:
     /** Returns an integer equal to the specified ngram count.
      */
     int getNgramCount(const Ngram ngram) const;
+
+    /** Returns a table of ngrams matching the specified ngram-like query.
+     */
+    NgramTable getNgramLikeTable(const Ngram ngram) const;
 
     /** Increments the specified ngram count and returns the updated count.
      *
@@ -76,12 +82,22 @@ protected:
     // Following functions to be overridden by derived classes.
     virtual void openDatabase()                                   = 0;
     virtual void closeDatabase()                                  = 0;
-    virtual std::string executeSql(const std::string query) const = 0;
+    virtual NgramTable executeSql(const std::string query) const = 0;
 
 private:
+    /** Returns a string containing the column specifiers for the SQL
+     *  SELECT clause built for an ngram of specified cardinality.
+     */
+    std::string buildSelectLikeClause(const int cardinality) const;
+
     /** Returns a string containing an SQL WHERE clause built for the ngram.
      */
     std::string buildWhereClause(const Ngram ngram) const;
+
+    /** Returns a string containing an SQL WHERE clause built for the ngram,
+     *  where the last comparison is a LIKE clauses instead of = clause.
+     */
+    std::string buildWhereLikeClause(const Ngram ngram) const;
 
     /** Returns a string containing an SQL VALUES clause built for the ngram.
      */

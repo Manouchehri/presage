@@ -57,6 +57,18 @@ void SqliteDatabaseConnectorTest::setUp()
     trigram->push_back("foo");
     trigram->push_back("bar");
     trigram->push_back("foobar");
+
+    unigram1 = new Ngram;
+    unigram1->push_back("foo1");
+
+    bigram1 = new Ngram;
+    bigram1->push_back("foo");
+    bigram1->push_back("bar1");
+
+    trigram1 = new Ngram;
+    trigram1->push_back("foo");
+    trigram1->push_back("bar");
+    trigram1->push_back("foobar1");
 }
 
 void SqliteDatabaseConnectorTest::tearDown()
@@ -66,6 +78,10 @@ void SqliteDatabaseConnectorTest::tearDown()
     delete unigram;
     delete bigram;
     delete trigram;
+
+    delete unigram1;
+    delete bigram1;
+    delete trigram1;
 
     assertExistsAndRemoveFile(DEFAULT_DATABASE_FILENAME);
 }
@@ -107,9 +123,9 @@ void SqliteDatabaseConnectorTest::testInsertNgram()
 	<< "CREATE TABLE _1_gram (word TEXT, count INTEGER, UNIQUE(word) );"                                           << std::endl
 	<< "INSERT INTO _1_gram VALUES('foo',1337);"								       << std::endl
 	<< "CREATE TABLE _2_gram (word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_1, word) );"		       << std::endl
-	<< "INSERT INTO _2_gram VALUES('bar','foo',1337);"							       << std::endl
+	<< "INSERT INTO _2_gram VALUES('foo','bar',1337);"							       << std::endl
 	<< "CREATE TABLE _3_gram (word_2 TEXT, word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_2, word_1, word) );" << std::endl
-	<< "INSERT INTO _3_gram VALUES('foobar','bar','foo',1337);"						       << std::endl
+	<< "INSERT INTO _3_gram VALUES('foo','bar','foobar',1337);"						       << std::endl
 	<< "COMMIT;"                                                                                                   << std::endl;
 
     assertDatabaseDumpEqualsBenchmark(benchmark);
@@ -145,9 +161,9 @@ void SqliteDatabaseConnectorTest::testUpdateNgram()
         << "CREATE TABLE _1_gram (word TEXT, count INTEGER, UNIQUE(word) );"                                           << std::endl
         << "INSERT INTO _1_gram VALUES('foo',2674);"                                                                   << std::endl
         << "CREATE TABLE _2_gram (word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_1, word) );"                      << std::endl
-        << "INSERT INTO _2_gram VALUES('bar','foo',2674);"                                                             << std::endl
+        << "INSERT INTO _2_gram VALUES('foo','bar',2674);"                                                             << std::endl
         << "CREATE TABLE _3_gram (word_2 TEXT, word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_2, word_1, word) );" << std::endl
-        << "INSERT INTO _3_gram VALUES('foobar','bar','foo',2674);"                                                    << std::endl
+        << "INSERT INTO _3_gram VALUES('foo','bar','foobar',2674);"                                                    << std::endl
         << "COMMIT;"                                                                                                   << std::endl;
     
     assertDatabaseDumpEqualsBenchmark(benchmark);
@@ -213,12 +229,112 @@ void SqliteDatabaseConnectorTest::testIncrementNgramCount()
 	<< "CREATE TABLE _1_gram (word TEXT, count INTEGER, UNIQUE(word) );"                                           << std::endl
 	<< "INSERT INTO _1_gram VALUES('foo',3);"                                                                      << std::endl
 	<< "CREATE TABLE _2_gram (word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_1, word) );"                      << std::endl
-	<< "INSERT INTO _2_gram VALUES('bar','foo',3);"                                                                << std::endl
+	<< "INSERT INTO _2_gram VALUES('foo','bar',3);"                                                                << std::endl
 	<< "CREATE TABLE _3_gram (word_2 TEXT, word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_2, word_1, word) );" << std::endl
-	<< "INSERT INTO _3_gram VALUES('foobar','bar','foo',3);"                                                       << std::endl
+	<< "INSERT INTO _3_gram VALUES('foo','bar','foobar',3);"                                                       << std::endl
 	<< "COMMIT;"                                                                                                   << std::endl;
 
     assertDatabaseDumpEqualsBenchmark(benchmark);
+}
+
+void SqliteDatabaseConnectorTest::testGetNgramLikeTable()
+{
+    std::cout << "SqliteDatabaseConnectorTest::testGetNgramLikeTable()" << std::endl;
+
+    // populate database
+    sqliteDatabaseConnector->createNgramTable(1);
+    sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER);
+
+    sqliteDatabaseConnector->createNgramTable(2);
+    sqliteDatabaseConnector->insertNgram(*bigram, MAGIC_NUMBER);
+
+    sqliteDatabaseConnector->createNgramTable(3);
+    sqliteDatabaseConnector->insertNgram(*trigram, MAGIC_NUMBER);
+
+    NgramTable* expected_uni;
+    NgramTable* expected_bi;
+    NgramTable* expected_tri;
+    NgramTable actual;
+
+    Ngram* ngram;
+
+    expected_uni = new NgramTable();
+    ngram = new Ngram();
+    ngram->push_back("foo");
+    ngram->push_back("1337");
+    expected_uni->push_back(*ngram);
+    actual = sqliteDatabaseConnector->getNgramLikeTable(*unigram);
+    assertEqualNgramTable(expected_uni, actual);
+    delete ngram;
+
+    expected_bi = new NgramTable();
+    ngram = new Ngram();
+    ngram->push_back("foo");
+    ngram->push_back("bar");
+    ngram->push_back("1337");
+    expected_bi->push_back(*ngram);
+    actual = sqliteDatabaseConnector->getNgramLikeTable(*bigram);
+    assertEqualNgramTable(expected_bi, actual);
+    delete ngram;
+
+    expected_tri = new NgramTable();
+    ngram = new Ngram();
+    ngram->push_back("foo");
+    ngram->push_back("bar");
+    ngram->push_back("foobar");
+    ngram->push_back("1337");
+    expected_tri->push_back(*ngram);
+    actual = sqliteDatabaseConnector->getNgramLikeTable(*trigram);
+    assertEqualNgramTable(expected_tri, actual);
+    delete ngram;
+
+    // add similar ngrams to database
+    sqliteDatabaseConnector->insertNgram(*unigram1, MAGIC_NUMBER - 1);
+    sqliteDatabaseConnector->insertNgram(*bigram1, MAGIC_NUMBER - 1);
+    sqliteDatabaseConnector->insertNgram(*trigram1, MAGIC_NUMBER - 1);
+
+    ngram = new Ngram();
+    ngram->push_back("foo1");
+    ngram->push_back("1336");
+    expected_uni->push_back(*ngram);
+    actual = sqliteDatabaseConnector->getNgramLikeTable(*unigram);
+    assertEqualNgramTable(expected_uni, actual);
+    delete ngram;
+
+    ngram = new Ngram();
+    ngram->push_back("foo");
+    ngram->push_back("bar1");
+    ngram->push_back("1336");
+    expected_bi->push_back(*ngram);
+    actual = sqliteDatabaseConnector->getNgramLikeTable(*bigram);
+    assertEqualNgramTable(expected_bi, actual);
+    delete ngram;
+
+    ngram = new Ngram();
+    ngram->push_back("foo");
+    ngram->push_back("bar");
+    ngram->push_back("foobar1");
+    ngram->push_back("1336");
+    expected_tri->push_back(*ngram);
+    actual = sqliteDatabaseConnector->getNgramLikeTable(*trigram);
+    assertEqualNgramTable(expected_tri, actual);
+    delete ngram;
+
+    delete expected_uni;
+    delete expected_bi;
+    delete expected_tri;
+}
+
+void SqliteDatabaseConnectorTest::assertEqualNgramTable(const NgramTable* const expected, const NgramTable& actual)
+{
+    CPPUNIT_ASSERT_EQUAL(expected->size(), actual.size());
+    for (int i = 0; i < expected->size(); i++) {
+	CPPUNIT_ASSERT_EQUAL((*expected)[i].size(), actual[i].size());
+	for (int j = 0; j < (*expected)[i].size(); j++) {
+	    std::cout << "[assertEqualNgramTable] (" << (*expected)[i][j] << ", " << actual[i][j] << ")" << std::endl;
+	    CPPUNIT_ASSERT((*expected)[i][j] == actual[i][j]);
+	}
+    }
 }
 
 void SqliteDatabaseConnectorTest::assertExistsAndRemoveFile(const char* filename) const

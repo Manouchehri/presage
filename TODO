@@ -5,8 +5,13 @@ The Soothsayer project
 TODO list
 ---------
 
+clean up debug printouts from SmoothedUniBiTrigramPlugin and
+   databaseConnector code
+add SmoothedUniBiTrigramPlugin unit tests
+
 Absolute first
  - change email to current email address
+ - re-enable simulator build
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plugin loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.

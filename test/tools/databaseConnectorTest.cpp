@@ -75,14 +75,57 @@ void DatabaseConnectorTest::testGetNgramCount()
 
     CPPUNIT_ASSERT_EQUAL( GLOBAL_MAGIC_NUMBER,
 			  databaseConnector->getNgramCount(*bigram) );
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _2_gram WHERE word_1 = \"bar\" AND word = \"foo\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _2_gram WHERE word_1 = \"foo\" AND word = \"bar\";"),
 			  *lastQuery );
-
 
     CPPUNIT_ASSERT_EQUAL( GLOBAL_MAGIC_NUMBER,
 			  databaseConnector->getNgramCount(*trigram) );
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _3_gram WHERE word_2 = \"foobar\" AND word_1 = \"bar\" AND word = \"foo\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _3_gram WHERE word_2 = \"foo\" AND word_1 = \"bar\" AND word = \"foobar\";"),
 			  *lastQuery );
+}
+
+void DatabaseConnectorTest::assertCorrectMockNgramTable(NgramTable ngramTable)
+{
+    CPPUNIT_ASSERT_EQUAL(size_t(3), ngramTable.size());
+
+    CPPUNIT_ASSERT(ngramTable[0][0] == "foo");
+    CPPUNIT_ASSERT(ngramTable[0][1] == "bar");
+    CPPUNIT_ASSERT(ngramTable[0][2] == "foobar");
+    CPPUNIT_ASSERT(ngramTable[0][3] == "3");
+    
+    CPPUNIT_ASSERT(ngramTable[1][0] == "bar");
+    CPPUNIT_ASSERT(ngramTable[1][1] == "foo");
+    CPPUNIT_ASSERT(ngramTable[1][2] == "foobar");
+    CPPUNIT_ASSERT(ngramTable[1][3] == "33");
+    
+    CPPUNIT_ASSERT(ngramTable[2][0] == "foobar");
+    CPPUNIT_ASSERT(ngramTable[2][1] == "bar");
+    CPPUNIT_ASSERT(ngramTable[2][2] == "foo");
+    CPPUNIT_ASSERT(ngramTable[2][3] == "333"); 
+
+}
+
+void DatabaseConnectorTest::testGetNgramLikeCount()
+{
+    std::cout << "DatabaseConnectorTest::testGetNgramLikeCount()" << std::endl;
+
+    std::string* lastLikeQuery = new std::string();
+    DatabaseConnectorLikeImpl* databaseConnectorLike = new DatabaseConnectorLikeImpl(lastLikeQuery);
+
+    assertCorrectMockNgramTable(databaseConnectorLike->getNgramLikeTable(*unigram));
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT word, count FROM _1_gram WHERE word LIKE \"foo%\" ORDER BY count DESC;"),
+			  *lastLikeQuery );
+
+    databaseConnectorLike->getNgramLikeTable(*bigram);
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT word_1, word, count FROM _2_gram WHERE word_1 = \"foo\" AND word LIKE \"bar%\" ORDER BY count DESC;"),
+			  *lastLikeQuery );
+
+    databaseConnectorLike->getNgramLikeTable(*trigram);
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT word_2, word_1, word, count FROM _3_gram WHERE word_2 = \"foo\" AND word_1 = \"bar\" AND word LIKE \"foobar%\" ORDER BY count DESC;"),
+			  *lastLikeQuery );
+
+    delete lastLikeQuery;
+    delete databaseConnectorLike;
 }
 
 void DatabaseConnectorTest::testInsertNgram()
@@ -94,11 +137,11 @@ void DatabaseConnectorTest::testInsertNgram()
 			  *lastQuery );
     
     databaseConnector->insertNgram(*bigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _2_gram VALUES(\"bar\", \"foo\", 1337);"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _2_gram VALUES(\"foo\", \"bar\", 1337);"),
 			  *lastQuery );
 
     databaseConnector->insertNgram(*trigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _3_gram VALUES(\"foobar\", \"bar\", \"foo\", 1337);"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _3_gram VALUES(\"foo\", \"bar\", \"foobar\", 1337);"),
 			  *lastQuery );
 }
 
@@ -111,11 +154,11 @@ void DatabaseConnectorTest::testUpdateNgram()
 			  *lastQuery );
 
     databaseConnector->updateNgram(*bigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _2_gram SET count = 1337 WHERE word_1 = \"bar\" AND word = \"foo\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _2_gram SET count = 1337 WHERE word_1 = \"foo\" AND word = \"bar\";"),
 			  *lastQuery );
 			  
     databaseConnector->updateNgram(*trigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _3_gram SET count = 1337 WHERE word_2 = \"foobar\" AND word_1 = \"bar\" AND word = \"foo\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _3_gram SET count = 1337 WHERE word_2 = \"foo\" AND word_1 = \"bar\" AND word = \"foobar\";"),
 			  *lastQuery );
 }
 

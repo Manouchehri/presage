@@ -39,6 +39,9 @@
 
 #include "dirs.h"
 
+#include "tools/sqliteDatabaseConnector.h"
+
+
 //static const char DEFAULT_DATABASE_LOCATION[] = "./var/database_en.db";
 static const char DEFAULT_DATABASE_LOCATION[] = localstatedir;
 static const char DEFAULT_DATABASE_FILENAME[] = "database_en.db";
@@ -58,7 +61,7 @@ public:
     virtual void train();
 
 private:
-    sqlite* db;
+    SqliteDatabaseConnector* db;
     std::string database;
 
     // sqlite API is an external library. Plugins are compiled into
@@ -90,49 +93,6 @@ private:
 // Class factory functions
 extern "C" Plugin* create( HistoryTracker& );
 extern "C" void destroy( Plugin* );
-
-
-
-//struct Trigram {
-//	std::string word_2;
-//	std::string word_1;
-//	std::string word;
-//	int count;
-//};
-//
-//struct Bigram {
-//	std::string word_1;
-//	std::string word;
-//	int count;
-//};
-//
-//struct Unigram {
-//	std::string word;
-//	int count;
-//};
-
-//struct Row {
-//	std::string word_2;
-//	std::string word_1;
-//	std::string word;
-//	int trigramCount;
-//	int bigramCount;
-//	int unigramCount;
-//};
-//
-//typedef std::vector< Row > Table;
-
-struct WordCount {
-    std::string word;
-    int count;
-};
-
-
-/** Sqlite callback function that builds a prediction objects from the results returned by sqlite_exec call.
- *
- */
-int getWordCount( void*, int, char**, char** );
-int getCount( void*, int, char**, char** );
 
 
 #endif // SOOTH_SMOOTHEDUNIBITRIGRAMPLUGIN
