@@ -25,6 +25,12 @@
 
 #include "plugins/smoothedUniBiTrigramPlugin.h"
 
+#ifdef DEBUG
+# define LOG(x) std::cout << x << std::endl
+#else
+# define LOG(x) /* x */
+#endif
+
 SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin( HistoryTracker &ht )
     : Plugin( ht,
               "SmoothedUniBiTrigramPlugin",
@@ -32,7 +38,7 @@ SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin( HistoryTracker &ht )
               "SmoothedUniBiTrigramPlugin, long description." )
 {
     //DEBUG
-    //std::cerr << "Entering SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin()" << std::endl;
+    LOG("[SmoothedUniBiTriGram] Entering SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin()");
 
     // build options and default values
     options.push_back( Option( ".4",
@@ -69,7 +75,7 @@ SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin( HistoryTracker &ht )
     db = new SqliteDatabaseConnector(getOptionValue("DBFILENAME"));
     
     //DEBUG
-    //std::cerr << "Exiting SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin()" << std::endl;
+    LOG("[SmoothedUniBiTriGramPlugin] Exiting SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin()");
 }
 
 
@@ -84,7 +90,7 @@ SmoothedUniBiTrigramPlugin::~SmoothedUniBiTrigramPlugin()
 Prediction SmoothedUniBiTrigramPlugin::predict() const
 {
     //DEBUG
-    //std::cerr << "Entering SmoothedUniBiTrigramPlugin::predict()" << std::endl;
+    LOG("[SmoothedUniBiTriGramPlugin] Entering SmoothedUniBiTrigramPlugin::predict()");
 
     // combined result of uni/bi/tri-gram predictions
     Prediction prediction;
@@ -95,9 +101,9 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     std::string word_2      = strtolower(historyTracker.getToken(2));
 
     // DEBUG
-    std::cout << "[SmoothedUniBiTrigramPlugin] Prefix: " << word_prefix << std::endl;
-    std::cout << "[SmoothedUniBiTrigramPlugin] Word_1: " << word_1      << std::endl;
-    std::cout << "[SmoothedUniBiTrigramPlugin] Word_2: " << word_2      << std::endl;
+    LOG("[SmoothedUniBiTrigramPlugin] Prefix: " << word_prefix);
+    LOG("[SmoothedUniBiTrigramPlugin] Word_1: " << word_1     );
+    LOG("[SmoothedUniBiTrigramPlugin] Word_2: " << word_2     );
 
     // get smoothing parameters
     double alpha = atof( getOptionValue( "TRIGRAM_WEIGHT" ).c_str() );
@@ -119,7 +125,7 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     // get c
     std::string query = "SELECT SUM( count ) FROM _1_gram;";
     NgramTable result = db->executeSql(query);
-    //std::cout << "[SmoothedUniBiTrigramPlugin] c: " << result[0][0].c_str() << std::endl;
+    LOG("[SmoothedUniBiTrigramPlugin] c: " << result[0][0].c_str());
     c = atoi(result[0][0].c_str());
 
     // get table of possible prefix completitions
@@ -133,7 +139,7 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
         // get w
 	word = prefixCompletionTable[i][0];
 
-	//std::cout << "[SmoothedUniBiTriGramPlugin] word is: " << word << std::endl;
+	LOG("[SmoothedUniBiTriGramPlugin] word is: " << word);
 	//std::cin.get();
 
 	// get c_w
@@ -219,30 +225,30 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
         //			beta * f_w1_w +
         //			gamma * f_w;
 
-	std::cout << "[SmoothedUniBiTrigramPlugin] Word  : " << word << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] Prefix: " << word_prefix << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] Word_1: " << word_1 << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] Word_2: " << word_2 << std::endl		
-		  << "[SmoothedUniBiTrigramPlugin] c( " << word_2 << ", " << word_1 << ", " << word << " ) = " << c_w2_w1_w << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] c( " << word_2 << ", " << word_1 << " ) = " << c_w2_w1 << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] c( " << word_1 << ", " << word << " ) = " << c_w1_w << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] c( " << word_1 << " ) = " << c_w1 << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] c( " << word << " ) = " << c_w << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] c = " << c << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] f( " << word << " | " << word_1 << ", " << word_2 << " ) = " << f_w2_w1_w << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] f( " << word << " | " << word_1 << " ) = " << f_w1_w << std::endl
-		  << "[SmoothedUniBiTrigramPlugin] f( " << word << " ) = " << f_w << std::endl;
-	std::cout << "[SmoothedUniBiTrigramPlugin] Smoothed probability = " << probability << std::endl;
+	LOG("[SmoothedUniBiTrigramPlugin] Word  : " << word                                                        );
+	LOG("[SmoothedUniBiTrigramPlugin] Prefix: " << word_prefix                                                 );
+	LOG("[SmoothedUniBiTrigramPlugin] Word_1: " << word_1                                                      );
+	LOG("[SmoothedUniBiTrigramPlugin] Word_2: " << word_2                                                      );
+	LOG("[SmoothedUniBiTrigramPlugin] c( " << word_2 << ", " << word_1 << ", " << word << " ) = " << c_w2_w1_w );
+	LOG("[SmoothedUniBiTrigramPlugin] c( " << word_2 << ", " << word_1 << " ) = " << c_w2_w1                   );
+	LOG("[SmoothedUniBiTrigramPlugin] c( " << word_1 << ", " << word << " ) = " << c_w1_w                      );
+	LOG("[SmoothedUniBiTrigramPlugin] c( " << word_1 << " ) = " << c_w1                                        );
+	LOG("[SmoothedUniBiTrigramPlugin] c( " << word << " ) = " << c_w                                           );
+	LOG("[SmoothedUniBiTrigramPlugin] c = " << c                                                               );
+	LOG("[SmoothedUniBiTrigramPlugin] f( " << word << " | " << word_1 << ", " << word_2 << " ) = " << f_w2_w1_w);
+	LOG("[SmoothedUniBiTrigramPlugin] f( " << word << " | " << word_1 << " ) = " << f_w1_w                     );
+	LOG("[SmoothedUniBiTrigramPlugin] f( " << word << " ) = " << f_w                                           );
+	LOG("[SmoothedUniBiTrigramPlugin] Smoothed probability = " << probability                                  );
 	
 	
         // add computed suggestion to prediction
         prediction.addSuggestion( Suggestion( word, probability ) );
     }
 
-    std::cout << "[SmoothedUniBiTrigramPlugin] " << std::endl 
-	      << "[SmoothedUniBiTrigramPlugin] Prediction:" << std::endl
-	      << "[SmoothedUniBiTrigramPlugin] ===========" << std::endl
-	      << prediction << std::endl;
+    LOG("[SmoothedUniBiTrigramPlugin] "           );
+    LOG("[SmoothedUniBiTrigramPlugin] Prediction:");
+    LOG("[SmoothedUniBiTrigramPlugin] ===========");
+    LOG(prediction                                );
 	
     return prediction; // Return combined prediction
 }
@@ -250,30 +256,24 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
 
 void SmoothedUniBiTrigramPlugin::learn()
 {
-    std::cout << "SmoothedUniBiTrigramPlugin::learn() method called"
-              << std::endl;
-    std::cout << "SmoothedUniBiTrigramPlugin::learn() method exited"
-              << std::endl;
+    LOG("[SmoothedUniBiTrigramPlugin] learn() method called");
+    LOG("[SmoothedUniBiTrigramPlugin::learn() method exited");
 }
 
 
 
 void SmoothedUniBiTrigramPlugin::extract()
 {
-    std::cout << "SmoothedUniBiTrigramPlugin::extract() method called"
-              << std::endl;
-    std::cout << "SmoothedUniBiTrigramPlugin::extract() method exited"
-              << std::endl;
+    LOG("SmoothedUniBiTrigramPlugin::extract() method called");
+    LOG("SmoothedUniBiTrigramPlugin::extract() method exited");
 }
 
 
 
 void SmoothedUniBiTrigramPlugin::train()
 {
-    std::cout << "SmoothedUniBiTrigramPlugin::train() method called"
-              << std::endl;
-    std::cout << "SmoothedUniBiTrigramPlugin::train() method exited"
-              << std::endl;
+    LOG("SmoothedUniBiTrigramPlugin::train() method called");
+    LOG("SmoothedUniBiTrigramPlugin::train() method exited");
 }
 
 

@@ -1,3 +1,10 @@
+2007-04-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* logging: added LOG() macro to turn log messages on/off in
+	tools/dbConnectors. This is a temporary solution using
+	preprocessor macros, which should be replaced by an appropriate
+	logger implementation.
+
 2007-04-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/plugins/smoothedUniBiTriGramPlugin: modified plugin to use new

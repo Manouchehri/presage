@@ -24,7 +24,12 @@
 
 #include "sqliteDatabaseConnector.h"
 
-#include <iostream>
+#ifdef DEBUG
+# include <iostream>
+# define LOG(x) std::cout << x << std::endl
+#else
+# define LOG(x) /* x */
+#endif
 
 SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name)
 {
@@ -55,7 +60,7 @@ NgramTable SqliteDatabaseConnector::executeSql(const std::string query) const
     
     char* sql_error_message = 0;
 
-    std::cout << "[SqliteDatabaseConnector] executing query: " << query << std::endl;
+    LOG("[SqliteDatabaseConnector] executing query: " << query);
     int result = sqlite_exec(db,
 			     query.c_str(),
 			     callback,
@@ -75,13 +80,13 @@ int SqliteDatabaseConnector::callback(
 {
     NgramTable& query_result = *static_cast<NgramTable*>(pArg);
 
-    std::cout << "[SqliteDatabaseConnector] building ngram: ";
+    LOG("[SqliteDatabaseConnector] building ngram: ");
     Ngram ngram;
     for (int i = 0; i < argc; i++) {
 	ngram.push_back(argv[i]);
-	std::cout << "(" << columnNames[i] << ":" << argv[i] << ")" << '\t';
+	LOG("(" << columnNames[i] << ":" << argv[i] << ")" << '\t');
     }
-    std::cout << std::endl;
+    LOG("");
 
     query_result.push_back(ngram);
 

@@ -24,10 +24,16 @@
 
 #include "databaseConnector.h"
 
-#include <iostream>
 #include <sstream>
 #include <stdlib.h>
 #include <assert.h>
+
+#ifdef DEBUG
+# include <iostream>
+# define LOG(x) std::cout << x << std::endl
+#else
+# define LOG(x) /* x */
+#endif
 
 DatabaseConnector::DatabaseConnector()
 {}
@@ -67,12 +73,12 @@ int DatabaseConnector::getNgramCount(const Ngram ngram) const
 
     NgramTable result = executeSql(query.str());
 
-    std::cout << "[DatabaseConnector] NgramTable:" << std::endl;
+    LOG("[DatabaseConnector] NgramTable:");
     for (int i = 0; i < result.size(); i++) {
 	for (int j = 0; j < result[i].size(); j++) {
-	    std::cout << result[i][j] << '\t';
+	    LOG(result[i][j] << '\t');
 	}
-	std::cout << std::endl;
+	LOG("");
     }
 
     // Initialize count to zero and then check that we have at least
@@ -89,12 +95,12 @@ int DatabaseConnector::getNgramCount(const Ngram ngram) const
 	}
     }
 
-    std::cout << "[DatabaseConnector] result: " << std::endl;
+    LOG("[DatabaseConnector] result: ");
     for (int i = 0; i < result.size(); i++) {
 	for (int j = 0; j < result[i].size(); j++) {
-	    std::cout << result[i][j] << '\t';
+	    LOG(result[i][j] << '\t');
 	}
-	std::cout << std::endl;
+	LOG("");
     }
 	
     return (count > 0 ? count : 0);
@@ -119,13 +125,13 @@ int DatabaseConnector::incrementNgramCount(const Ngram ngram) const
 	// the ngram was found in the database
 	updateNgram(ngram, count + 1);
 	
-	std::cout << "Updated ngram to " << count + 1 << std::endl;
+	LOG("[DatabaseConnector] Updated ngram to " << count + 1);
 
     } else {
 	// the ngram was not found in the database
 	insertNgram(ngram, 1);
 
-	std::cout << "Inserted ngram" << std::endl;
+	LOG("[DatabaseConnector] Inserted ngram");
 
     }
 }
