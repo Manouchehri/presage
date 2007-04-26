@@ -5,6 +5,7 @@ The Soothsayer project
 TODO list
 ---------
 
+change text2ngram format option for tabbed separated values
 add SmoothedUniBiTrigramPlugin unit tests
 
 Absolute first

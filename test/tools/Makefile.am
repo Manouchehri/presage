@@ -17,11 +17,9 @@
 
 ## Process this file with automake to produce Makefile.in
 
-TESTS =	databaseDriver toolsTestRunner
+TESTS =	toolsTestRunner
 
 check_PROGRAMS = $(TESTS)
-
-databaseDriver_SOURCES =	databaseDriver.cpp tools.h
 
 toolsTestRunner_SOURCES =	toolsTestRunner.cpp             \
 				nGramTest.h nGramTest.cpp       \

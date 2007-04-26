@@ -1,3 +1,9 @@
+2007-04-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* tools: retired old text2unigram, text2bigram, text2trigram,
+	text2unigramdb, text2bigramdb, text2trigramdb tools, which are
+	superseded by text2ngram tool.
+
 2007-04-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* logging: added LOG() macro to turn log messages on/off in
