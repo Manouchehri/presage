@@ -1,5 +1,5 @@
 dnl configure.ac for Soothsayer
-dnl Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@tiscali.it>
+dnl Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 dnl
 dnl This program is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ dnl  Process this file with autoconf to produce a configure script.
 
 AC_INIT([soothsayer],
 	[0.1],
-	[matteo.vescovi@tiscali.it])
+	[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE
 
 AC_CONFIG_SRCDIR([src/soothsayer.cpp])

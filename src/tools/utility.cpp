@@ -4,7 +4,7 @@
  * Soothsayer, an extensible predictive text entry system                    *
  * ------------------------------------------------------                    *
  *                                                                           *
- * Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@tiscali.it>            *
+ * Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>            *
  *                                                                           *
  * This program is free software; you can redistribute it and/or             *
  * modify it under the terms of the GNU General Public License               *
