@@ -26,9 +26,7 @@ LDADD =				libtools.la        \
 
 noinst_LTLIBRARIES =	libtools.la
 
-libtools_la_SOURCES =	fileTokenizer.cpp fileTokenizer.h \
-			../core/iso8859_1.h               \
-			progress.cpp progress.h           \
+libtools_la_SOURCES =	progress.cpp progress.h           \
 			ngram.cpp ngram.h                 \
 			databaseConnector.cpp             \
 			databaseConnector.h               \

@@ -9,8 +9,6 @@ change text2ngram format option for tabbed separated values
 add SmoothedUniBiTrigramPlugin unit tests
 
 Absolute first
- - change email to current email address
- - re-enable simulator build
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plugin loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.
@@ -19,10 +17,6 @@ Absolute first
       src/core/pluginManager.cpp
       test/core/pluginManagerDriver.cpp
    should be taken care of as part of plump integration
- - fix progress heading in text2*gram tools
- - database and tools restructure 
-   . database.cpp should no longer be needed
-   . sqlite.cpp should no longer be needed
  - remove multiple copies of tokenizer classes in tools and simulator
    and only use tokenizer class from src/core/tokenizer
  - configure.ac : fix cppunit checks
@@ -39,7 +33,7 @@ Architectural restructure:
   should be a class similar to current Predictor i.e. a class that
   invokes other classes' method to perfom work.
   Current Selector's functionality should be broken up in Filter
-  objects i.e. an abstract Filter class and impletantion of variuos
+  objects i.e. an abstract Filter class and implementation of variuos
   filters (repetion filter, greedy filter, etc)
 
 

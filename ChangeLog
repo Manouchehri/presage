@@ -1,24 +1,29 @@
-2007-04-27  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-04-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools: removed unneeded database.h, database.cpp,
+	sqlite.cpp, fileTokenizer.h, fileTokenizer.cpp
+
+2007-04-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* updated_email_address: in all .h and .cpp files, courtesy of the
 	all powerful find and sed utils - i.e. `find . -name "*.h" -type f
 	-exec sed -i -e
-	's/matteo.vescovi@tiscali.it/matteo.vescovi@yahoo.co.uk/' {} \;'
+	's/matteo.vescovi@yahoo.co.uk/matteo.vescovi@yahoo.co.uk/' {} \;'
 	
-2007-04-26  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-04-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* tools: retired old text2unigram, text2bigram, text2trigram,
 	text2unigramdb, text2bigramdb, text2trigramdb tools, which are
 	superseded by text2ngram tool.
 
-2007-04-23  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-04-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* logging: added LOG() macro to turn log messages on/off in
 	tools/dbConnectors. This is a temporary solution using
 	preprocessor macros, which should be replaced by an appropriate
 	logger implementation.
 
-2007-04-16  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-04-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/plugins/smoothedUniBiTriGramPlugin: modified plugin to use new
 	databaseConnector classes
@@ -26,19 +31,19 @@
 	* src/tools/sqliteDatabaseConnector: added ORDER BY clause to
 	getNgramLikeTable() method
 
-2007-04-15  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-04-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* resources: switched database creation to new text2ngram tool,
 	which uses the new table names in _N_gram form.
 	
-2007-04-12  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-04-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/sqliteDatabaseConnector: fixed callback() method by
 	return 0 to signal normal execution. Oddly, even the the method
 	signature specifies an integer return type, the gcc C++ compiler
 	does not generate any error or warning that no value is returned.
 
-2007-03-30  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-03-30  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* test/tools/databaseConnectorTest: added tests for
 	...NgramLikeTable() methods family, fixed tests to account for
@@ -47,12 +52,12 @@
 	* test/tools/sqliteDatabaseConnectorTest: fixed tests to account
 	for buildXClause changes
 	
-2007-03-25  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-03-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/databaseConnector: fixed bugs affecting the
 	buildXClause family of functions
 
-2007-03-23  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-03-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/databaseConnector: added getNgramLikeTable() method,
 	which returns a set of ngrams that are possible completions of the
@@ -62,7 +67,7 @@
 	NgramTable instead of a string to ease subsequent manipulation and
 	information extraction
 	
-2007-03-03  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-03-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/tokenizer: renamed Tokenizer class to FileTokenizer,
 	taking us one step closer to fully removing code duplication with
@@ -73,7 +78,7 @@
 	
 	* src/Makefile.am: linking libtools.la with libsoothsayer.la
 
-2007-02-24  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-02-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* text2ngram: added -o option (set output file) and option -f (set
 	file format), text2ngram can output in text file or sqlite format
@@ -81,12 +86,12 @@
 	* progress.h: turned progress bar implementation into a class,
 	added progress bar completion on object destruction
 
-2007-02-19  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-02-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* profileManager: when no profile is found, use default value for
 	configuration parameters
 
-2007-02-16  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-02-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* headers: changed generation of multiple headers containing
 	directory value to single header
@@ -97,13 +102,13 @@
 	* smoothedUniBiTrigramPlugin: database is found based on
 	installation location
 
-2007-02-02  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-02-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* headers: added generation of headers with defines for
 	sysconfdir, datadir, pkgdatadir, and localstatedir using built
 	sources
 
-2007-01-18  Matteo Vescovi  <matteo.vescovi@tiscali.it>
+2007-01-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* svn: moved soothsayer codebase to subversion
 
