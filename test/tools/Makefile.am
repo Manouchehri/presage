@@ -17,6 +17,8 @@
 
 ## Process this file with automake to produce Makefile.in
 
+if HAVE_CPPUNIT
+
 TESTS =	toolsTestRunner
 
 check_PROGRAMS = $(TESTS)
@@ -43,3 +45,5 @@ DEPENDENCIES =	libsoothsayer.la
 # Clean out files created during tests.
 # Required to make distcheck happy.
 DISTCLEANFILES =	test.db
+
+endif

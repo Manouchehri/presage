@@ -26,10 +26,6 @@ AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([src/soothsayer.cpp])
 AC_CONFIG_HEADERS([config.h:config.hin])
 
-dnl Checks for CppUnit
-AM_PATH_CPPUNIT(1.9.6)
-
-
 dnl Checks for programs.
 AC_PROG_INSTALL
 AC_PROG_CC
@@ -37,8 +33,9 @@ AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_CXXCPP
 
-
+dnl ==================
 dnl Checks for libtool
+dnl ==================
 ############################
 # Temporarily disabling this
 #AC_LIB_LTDL
@@ -57,38 +54,33 @@ dnl ====================
 dnl Checks for libraries
 dnl ====================
 
-dnl Check for SQLite library
-AC_CHECK_LIB([sqlite],
-             [sqlite_open],
-             [],
-	     [AC_MSG_ERROR([SQLite library not found. SQLite can be obtained from http://sqlite.org.])])
-     
-dnl Check for CPPUnit library
-AC_CHECK_LIB([cppunit],
-             [TestRunner],
-             [],
-	     [AC_MSG_WARN([CPPUnit library not found. CPPUnit can be obtained from http://cppunit.sourceforge.net.])])
-
 dnl =======================
 dnl Checks for header files
 dnl =======================
 AC_STDC_HEADERS
+AC_HEADER_DIRENT
 
-dnl Check for SQLite header
+dnl =================
+dnl Checks for SQLite
+dnl =================
+AC_CHECK_LIB([sqlite],
+             [sqlite_open],
+             [],
+	     [AC_MSG_ERROR([SQLite library not found. SQLite can be obtained from http://sqlite.org.])])
+
 AC_CHECK_HEADERS([sqlite.h],
                  [],
                  [AC_MSG_ERROR([SQLite header file not found. SQLite can be obtained from http://sqlite.org.])],
                  [])
 
-AC_CHECK_HEADERS([cppunit/TestRunner.h],
-                 [],
-                 [AC_MSG_WARN([CPPUnit header file not found. CPPUnit can be obtained from http://cppunit.sourceforge.net.])],
-                 [])
+dnl ==================
+dnl Checks for CppUnit
+dnl ==================
+AM_PATH_CPPUNIT([1.9.6],
+                [],
+                [AC_MSG_WARN([CppUnit not found. Unit tests will not be built. CppUnit can be obtained from http://cppunit.sourceforge.net.])])
+AM_CONDITIONAL(HAVE_CPPUNIT, test "$CPPUNIT_LIBS")
 
-AC_CHECK_HEADERS([dirent.h],
-                 [],
-                 [],
-                 [])
 
 ############################
 # Temporarily disabling this

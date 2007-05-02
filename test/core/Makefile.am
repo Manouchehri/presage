@@ -19,6 +19,8 @@
 
 SUBDIRS =	tokenizer
 
+if HAVE_CPPUNIT
+
 TESTS =		coreTestRunner
 
 check_PROGRAMS = $(TESTS)                 \
@@ -54,3 +56,5 @@ LDADD =	$(top_builddir)/src/libsoothsayer.la
 AM_CPPFLAGS =	-I$(top_srcdir)/src 
 
 DEPENDENCIES =	libsoothsayer.la
+
+endif

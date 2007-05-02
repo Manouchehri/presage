@@ -25,12 +25,27 @@
 
 #include "sqliteDatabaseConnectorTest.h"
 
+// for unlink(), getcwd()
 #ifdef HAVE_UNISTD_H
-# include <unistd.h> // for unlink(), getcwd()
+# include <unistd.h>
 #endif
 
-#ifdef HAVE_DIRENT_H
-# include <dirent.h> // for opendir(), readdir(), closedir(), DIR, dirent
+// for opendir(), readdir(), closedir(), DIR, dirent
+#if HAVE_DIRENT_H
+# include <dirent.h>
+# define NAMLEN(dirent) strlen((dirent)->d_name)
+#else
+# define dirent direct
+# define NAMLEN(dirent) (dirent)->d_namlen
+# if HAVE_SYS_NDIR_H
+#  include <sys/ndir.h>
+# endif
+# if HAVE_SYS_DIR_H
+#  include <sys/dir.h>
+# endif
+# if HAVE_NDIR_H
+#  include <ndir.h>
+# endif
 #endif
 
 #include <stdio.h>

@@ -1,3 +1,13 @@
+2007-05-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* configure.ac: fixed check for CppUnit library.
+
+	* configure.ac: changed check for dirent.h header and changed
+	dirent.h inclusion directives
+
+	* Makefile.am: made building and running unit tests conditional on
+	whether CppUnit is found.
+
 2007-04-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools: removed unneeded database.h, database.cpp,

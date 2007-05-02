@@ -17,6 +17,8 @@
 
 ## Process this file with automake to produce Makefile.in
 
+if HAVE_CPPUNIT
+
 TESTS =			tokenizerTestRunner
 
 check_PROGRAMS =	$(TESTS)
@@ -38,3 +40,5 @@ tokenizerTestRunner_LIBS =	-ldl
 tokenizerTestRunner_LDADD =	$(top_builddir)/src/core/tokenizer/libtokenizer.la
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src
+
+endif

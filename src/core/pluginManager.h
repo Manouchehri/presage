@@ -34,7 +34,23 @@
 
 #include <stdio.h>           // needed for directory and files manipulation
 #include <sys/types.h>       // 
-#include <dirent.h>          // 
+
+#if HAVE_DIRENT_H
+# include <dirent.h>
+# define NAMLEN(dirent) strlen((dirent)->d_name)
+#else
+# define dirent direct
+# define NAMLEN(dirent) (dirent)->d_namlen
+# if HAVE_SYS_NDIR_H
+#  include <sys/ndir.h>
+# endif
+# if HAVE_SYS_DIR_H
+#  include <sys/dir.h>
+# endif
+# if HAVE_NDIR_H
+#  include <ndir.h>
+# endif
+#endif
 
 //#include <dlfcn.h>           // needed for dynamic loading of shared libraries
 #include <ltdl.h>
