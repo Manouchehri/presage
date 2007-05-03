@@ -1,3 +1,18 @@
+2007-05-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/utility.{h|cpp}: not needed, removed
+
+	* src/tools/bigram.{h|cpp}: not needed, removed
+
+	* src/tools/trigram.{h|cpp}: not needed, removed
+
+	* FAQ: added frequenly asked questions file
+
+	* src/core/iso8895_1.h: added required file to libcore sources
+	list.
+
+	* Doxyfile: added Doxygen configuration file to distribution.
+	
 2007-05-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: fixed check for CppUnit library.

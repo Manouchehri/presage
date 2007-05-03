@@ -9,6 +9,7 @@ change text2ngram format option for tabbed separated values
 add SmoothedUniBiTrigramPlugin unit tests
 
 Absolute first
+ - add ability to specify what database to use by configuration
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plugin loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.
@@ -17,9 +18,6 @@ Absolute first
       src/core/pluginManager.cpp
       test/core/pluginManagerDriver.cpp
    should be taken care of as part of plump integration
- - remove multiple copies of tokenizer classes in tools and simulator
-   and only use tokenizer class from src/core/tokenizer
- - configure.ac : fix cppunit checks
  - migrate to sqlite3
 
 Architectural restructure: 
