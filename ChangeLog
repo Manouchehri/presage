@@ -1,10 +1,16 @@
+2007-05-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/soothsayerDemo: added disclaimer and copyright information
+
+	* src/soothsayerDriver: added disclaimer and copyright information
+
 2007-05-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
-	* src/tools/utility.{h|cpp}: not needed, removed
+	* src/tools/utility: not needed, removed
 
-	* src/tools/bigram.{h|cpp}: not needed, removed
+	* src/tools/bigram: not needed, removed
 
-	* src/tools/trigram.{h|cpp}: not needed, removed
+	* src/tools/trigram: not needed, removed
 
 	* FAQ: added frequenly asked questions file
 

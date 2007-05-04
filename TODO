@@ -9,7 +9,14 @@ change text2ngram format option for tabbed separated values
 add SmoothedUniBiTrigramPlugin unit tests
 
 Absolute first
+ - fix minor typo in license headers (right * not correctly aligned)
+ - rename soothsayerDemo* executables
  - add ability to specify what database to use by configuration
+   - instead of having ProfileManager push the configuration values to
+   the individual plugins, the plugins should query the ProfileManager
+   to get the values of the configuration variables they are
+   interested in. See architectural restructure for more info.
+   + profileManager: add ~/.soothsayer/soothsayer.xml searching
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plugin loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.
@@ -21,6 +28,21 @@ Absolute first
  - migrate to sqlite3
 
 Architectural restructure: 
+- configuration pulling instead of pushing
+  instead of having a smart ProfileManager actively initializing each
+  component (including plugins), the individual components should
+  pull the config variable they require from ProfileManager.  This
+  means that the plugins must have a handle to the ProfileManager and
+  call a query method passing what config variable they want and
+  returning a string with the value. The plugin will then convert the
+  string to the appropriate type and use it internally. The advantage
+  of this approach is that the plugin will know what variables it
+  wants and their type (can throw an exception if unable to convert
+  value to appropriate type); ProfileManager does not need to be
+  smart, and there is no need of a PluginManager to keep track of
+  active plugins, since plugins will pull the config variables they
+  need.
+
 - predictive plugins
   could inherit from a Predictor class
   Plugin class should just define the interface, PluginBase should
@@ -220,3 +242,4 @@ autoheader
 autoconf
 automake -a --copy
 
+or source the bootstrap script provided (in svn repo).

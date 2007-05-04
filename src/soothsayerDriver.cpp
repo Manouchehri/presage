@@ -27,31 +27,59 @@
 #include <string>
 #include <vector>
 
-void print( std::vector<std::string> );
+void print_prediction(std::vector<std::string>);
+void disclaimer();
+void version();
 
 int main()
 {
+    disclaimer();
+    version();
+
     Soothsayer soothsayer;
 
     const int BUFFER_SIZE = 80;
     char buffer[ BUFFER_SIZE ];
 
     while(1) {
-		
 	std::cout << "> ";
 	std::cin.getline( buffer, BUFFER_SIZE );
 
-	print( soothsayer.predict(static_cast<std::string>(buffer)) );
-		
+	print_prediction(soothsayer.predict(static_cast<std::string>(buffer)));
     }
     return 0;
 }
 
 
-void print( std::vector<std::string> words )
+void print_prediction(std::vector<std::string> words)
 {
     for( std::vector<std::string>::const_iterator i = words.begin();
 	 i != words.end();
 	 i++ )
 	std::cout << *i << std::endl;
+}
+
+void disclaimer()
+{
+    std::cout <<
+	"Soothsayer demo program\n"
+	"-----------------------\n"
+	"\n"
+	"This program is intended as a demonstration of Soothsayer ONLY.\n"
+	"\n"
+	"The Soothsayer project aims to provide an intelligent predictive text entry platform.\n"
+	"\n"
+	"Its intent is NOT to provide a predictive text entry user interface.\n"
+	"Think of Soothsayer as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.\n"
+	"\n" << std::endl;
+}
+
+void version()
+{
+    std::cout
+	<< "Soothsayer demo " << PACKAGE_VERSION << std::endl
+	<< "Copyright (C) Matteo Vescovi" << std::endl
+	<< "This is free software; see the source for copying conditions.  There is NO" << std::endl
+	<< "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE." << std::endl
+	<< std::endl;
 }
