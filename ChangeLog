@@ -1,9 +1,14 @@
 2007-05-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
-	* src/soothsayerDemo: added disclaimer and copyright information
+	* src/soothsayerDemo: added disclaimer and copyright information,
+	added helpful comments, fixed bug in display refreshing, minor
+	embellishments.
 
 	* src/soothsayerDriver: added disclaimer and copyright information
+	and changed name to soothsayerDemoText
 
+	* src/soothsayerDriverNcurses: changed name to soothsayerDemoSimple
+	
 2007-05-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/utility: not needed, removed

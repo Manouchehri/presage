@@ -40,9 +40,10 @@ void draw_previous_suggestions(std::vector<std::string>, const int);
 
 int main()
 {
+    // magic starts here
     Soothsayer soothsayer;
 
-    // init ncurses
+    // ncurses 
     initscr();
     noecho();
     cbreak();
@@ -52,6 +53,7 @@ int main()
 
     disclaimer();
 
+    // ncurses title window
     const int TITLE_WIN_HEIGHT  = 6;
     const int TITLE_WIN_WIDTH   = COLS;
     const int TITLE_WIN_BEGIN_Y = 0;
@@ -59,6 +61,7 @@ int main()
     WINDOW* title_win = newwin(TITLE_WIN_HEIGHT, TITLE_WIN_WIDTH, TITLE_WIN_BEGIN_Y, TITLE_WIN_BEGIN_X);
     draw_title_win(title_win);
 
+    // ncurses history window
     const int HISTORY_WIN_HEIGHT  = 5;
     const int HISTORY_WIN_WIDTH   = COLS;
     const int HISTORY_WIN_BEGIN_Y = TITLE_WIN_BEGIN_Y + TITLE_WIN_HEIGHT + 1;
@@ -76,15 +79,26 @@ int main()
     do {
 	c = getch();
 	if ((KEY_F0 < c) && (c <= KEY_F(words.size())) && (c - KEY_F0 <= words.size())) {
-	    std::string message = "Selecting word " + words[c - KEY_F0 - 1];
+	    // prediction was successful. user pressed the function
+	    // key corresponding to desired token. selecting
+	    // suggestion.
+	    std::string message = "Selecting word: " + words[c - KEY_F0 - 1];
 	    mvprintw(LINES - 3, 0, message.c_str());
 	    move(LINES, COLS);
-	    refresh();
+
+	    // inform soothsayer that the prediction was successful.
 	    soothsayer.complete(words[c - KEY_F0 - 1]);
+	    // ask soothsayer to predict next token
 	    words = soothsayer.predict(' ');
+
 	} else {
+	    // prediction unsuccessful. get next character from user
+	    // and elaborate a new prediction.
 	    str[0] = static_cast<char>( c );
 	    words = soothsayer.predict(std::string(str));
+
+	    // refresh ncurses screen
+	    refresh();
 	}
 	draw_history_win(history_win, soothsayer.history());
 	draw_previous_suggestions(words, HISTORY_WIN_BEGIN_Y + HISTORY_WIN_HEIGHT + 1);

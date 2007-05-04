@@ -33,21 +33,21 @@ libsoothsayer_la_LIBADD =	core/libcore.la       \
 #				plump/src/libplump.la 
 
 
-bin_PROGRAMS =			soothsayerDriver        \
-				soothsayerDriverNcurses \
-				soothsayerDemo          \
-				soothsayerSimulator     
-
-soothsayerDriver_SOURCES = 	soothsayerDriver.cpp soothsayer.h
-soothsayerDriver_LDADD = 	libsoothsayer.la 
-
-soothsayerDriverNcurses_SOURCES =	soothsayerDriverNcurses.cpp
-soothsayerDriverNcurses_LDADD =		libsoothsayer.la
-soothsayerDriverNcurses_LDFLAGS =	-lncurses
+bin_PROGRAMS =			soothsayerDemo       \
+				soothsayerDemoSimple \
+				soothsayerDemoText   \
+				soothsayerSimulator  
 
 soothsayerDemo_SOURCES =	soothsayerDemo.cpp
 soothsayerDemo_LDADD =		libsoothsayer.la
 soothsayerDemo_LDFLAGS =	-lncurses
+
+soothsayerDemoText_SOURCES = 	soothsayerDemoText.cpp
+soothsayerDemoText_LDADD = 	libsoothsayer.la 
+
+soothsayerDemoSimple_SOURCES =	soothsayerDemoSimple.cpp
+soothsayerDemoSimple_LDADD =	libsoothsayer.la
+soothsayerDemoSimple_LDFLAGS =	-lncurses
 
 soothsayerSimulator_SOURCES =	soothsayerSimulator.cpp
 soothsayerSimulator_LDADD =	simulator/libsimulator.la \

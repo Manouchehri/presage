@@ -10,7 +10,6 @@ add SmoothedUniBiTrigramPlugin unit tests
 
 Absolute first
  - fix minor typo in license headers (right * not correctly aligned)
- - rename soothsayerDemo* executables
  - add ability to specify what database to use by configuration
    - instead of having ProfileManager push the configuration values to
    the individual plugins, the plugins should query the ProfileManager
