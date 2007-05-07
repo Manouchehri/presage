@@ -1,5 +1,7 @@
 2007-05-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* license_headers: fixed typo in maintainer's email address line.
+	
 	* resources/profiles/soothsayer.xml: templatized soothsayer.xml to
 	account for different installation targets.
 	

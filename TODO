@@ -9,7 +9,6 @@ change text2ngram format option for tabbed separated values
 add SmoothedUniBiTrigramPlugin unit tests
 
 Absolute first
- - fix minor typo in license headers (right * not correctly aligned)
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plugin loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.
