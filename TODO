@@ -7,6 +7,8 @@ TODO list
 
 
 Absolute first
+ - make soothsayerSimulator accept normal text files, as opposed to
+   files containing one token per line
  - write unit tests for plugins (test/plugins/*)
    + add SmoothedUniBiTrigramPlugin unit tests
  - pluginManagerDriver, pluginManager are currently not necessary, as

@@ -22,11 +22,14 @@
  *                                                                           *
 \*****************************************************************************/
 
-#include <getopt.h>
 #include <iostream>
 #include <fstream>
 #include <string.h>
 
+#include <getopt.h>
+
+#include "core/charsets.h"
+#include "core/tokenizer/forwardTokenizer.h"
 #include "simulator/simulator.h"
 
 
@@ -91,9 +94,12 @@ int main( int argc, char* argv[] ) {
 
     Simulator simulator;
 
-    std::string token;
-    while( infile >> token )
-	simulator.simulate( token );
+    ForwardTokenizer tokenizer(infile,
+			       DEFAULT_BLANKSPACE_CHARS,
+			       DEFAULT_SEPARATOR_CHARS);
+    while(tokenizer.hasMoreTokens()) {
+	simulator.simulate(tokenizer.nextToken());
+    }
 		
     simulator.results();
 

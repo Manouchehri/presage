@@ -25,6 +25,7 @@ libcore_la_SOURCES =	prediction.cpp prediction.h         \
 			suggestion.cpp suggestion.h         \
 			utility.cpp utility.h               \
 			iso8859_1.h                         \
+			charsets.h                          \
 			historyTracker.cpp historyTracker.h \
 			predictor.cpp predictor.h           \
 			combiner.h                          \
