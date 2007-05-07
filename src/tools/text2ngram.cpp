@@ -60,9 +60,9 @@ int main(int argc, char* argv[]) {
 
     std::string output;
 
-    const std::string FILE = "file";
+    const std::string TABBED_SEPARATED_VALUES = "tsv";
     const std::string SQLITE = "sqlite";
-    std::string format = FILE;
+    std::string format = TABBED_SEPARATED_VALUES;
 
     bool lowercase = false;
 
@@ -101,7 +101,7 @@ int main(int argc, char* argv[]) {
 	    break;
 	case 'f': // --format or -f option
 	    if (optarg == SQLITE
-		|| optarg == FILE) {
+		|| optarg == TABBED_SEPARATED_VALUES) {
 		format = optarg;
 	    } else {
 		std::cerr << "Unknown format " << optarg << std::endl << std::endl;
@@ -194,8 +194,8 @@ int main(int argc, char* argv[]) {
 	infile.close();
     }
 
-    if (format == FILE) {
-	// output to FILE
+    if (format == TABBED_SEPARATED_VALUES) {
+	// output to tabbed separated values text file
 	//
 
 	// open outstream for output
@@ -266,7 +266,7 @@ void usage()
 	<< "Options:" << std::endl
         << "--output, -o O  " << "Output file name O" << std::endl
 	<< "--ngrams, -n N  " << "Specify ngram cardinality N" << std::endl
-	<< "--format, -f F  " << "Output file format F" << std::endl
+	<< "--format, -f F  " << "Output file format F: sqlite, tsv (tabbed separated values)" << std::endl
 	<< "--lowercase, -l " << "Enable lowercase conversion mode" << std::endl
 	<< "--append, -a    " << "Open output file in append mode" << std::endl
 	<< "--help, -h      " << "Display this information" << std::endl

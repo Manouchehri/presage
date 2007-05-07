@@ -1,5 +1,8 @@
 2007-05-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/tools/text2ngram: corrected -f option flag to generate
+	tabbed separated values to 'tsv' instead of generic 'file'.
+
 	* license_headers: fixed typo in maintainer's email address line.
 	
 	* resources/profiles/soothsayer.xml: templatized soothsayer.xml to

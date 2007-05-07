@@ -5,10 +5,10 @@ The Soothsayer project
 TODO list
 ---------
 
-change text2ngram format option for tabbed separated values
-add SmoothedUniBiTrigramPlugin unit tests
 
 Absolute first
+ - write unit tests for plugins (test/plugins/*)
+   + add SmoothedUniBiTrigramPlugin unit tests
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plugin loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.
@@ -17,7 +17,6 @@ Absolute first
       src/core/pluginManager.cpp
       test/core/pluginManagerDriver.cpp
    should be taken care of as part of plump integration
- - write unit tests for plugins (test/plugins/*)
  - migrate to sqlite3
 
 Architectural restructure: 
