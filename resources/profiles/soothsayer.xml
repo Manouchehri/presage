@@ -21,7 +21,7 @@
             <UNIGRAM_WEIGHT>.1</UNIGRAM_WEIGHT>
             <BIGRAM_WEIGHT>.3</BIGRAM_WEIGHT>
             <TRIGRAM_WEIGHT>.6</TRIGRAM_WEIGHT>
-            <DBFILENAME>../var/database_en.db</DBFILENAME>
+            <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
             <MAX_PARTIAL_PREDICTION_SIZE>40</MAX_PARTIAL_PREDICTION_SIZE>
         </SmoothedUniBiTrigramPlugin>
         <DummyPlugin>

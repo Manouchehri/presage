@@ -10,14 +10,6 @@ add SmoothedUniBiTrigramPlugin unit tests
 
 Absolute first
  - fix minor typo in license headers (right * not correctly aligned)
- - add ability to specify what database to use by configuration
-   - instead of having ProfileManager push the configuration values to
-   the individual plugins, the plugins should query the ProfileManager
-   to get the values of the configuration variables they are
-   interested in. See architectural restructure for more info.
-   + profileManager: add ~/.soothsayer/soothsayer.xml searching
- - soothsayer.xml needs to be processed when doing make install to
-   point to base installation directory
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plugin loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.
@@ -44,6 +36,7 @@ Architectural restructure:
   smart, and there is no need of a PluginManager to keep track of
   active plugins, since plugins will pull the config variables they
   need.
+   + profileManager: add ~/.soothsayer/soothsayer.xml searching
 
 - predictive plugins
   could inherit from a Predictor class

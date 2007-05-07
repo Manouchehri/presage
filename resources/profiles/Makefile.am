@@ -17,24 +17,22 @@
 
 ## Process this file with automake to produce Makefile.in
 
+# ${prefix}/etc directory
+dist_sysconf_DATA =	soothsayer.xml
+
+install-data-hook:
+	sed -i -e 's|::LOCALSTATEDIR::|${localstatedir}|' ${sysconfdir}/soothsayer.xml
+
+#
 # ${prefix}/share directory
-# dist_data_DATA =	defaultprofile.xml \
-# 			defaultpasswd.xml         
+# dist_data_DATA =	soothsayer.xml
 #
 # ${prefix}/share/${package-name} directory
-# dist_pkgdata_DATA =	defaultprofile.xml \
-# 			defaultpasswd.xml         
+# dist_pkgdata_DATA =	soothsayer.xml
 # 
-
-# ${prefix}/etc directory
-dist_sysconf_DATA =	soothsayer.xml    \
-			defaultpasswd.xml         
-
 # ${prefix}/var directory
-# dist_localstate_DATA =	defaultprofile.xml \
-# 			defaultpasswd.xml         
+# dist_localstate_DATA =	soothsayer.xml
 # 
 # ${prefix}/com directory
-# dist_sharedstate_DATA =	defaultprofile.xml \
-# 			defaultpasswd.xml         
+# dist_sharedstate_DATA =	soothsayer.xml
 # 

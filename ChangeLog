@@ -1,3 +1,13 @@
+2007-05-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* resources/profiles/soothsayer.xml: templatized soothsayer.xml to
+	account for different installation targets.
+	
+	* resources/profiles/Makefile.am: added install data hook to
+	replace tokens in templatized soothsayer.xml.
+
+	* resources/profile/defaultpassword.xml: no longer needed.
+	
 2007-05-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/profile: added Profile class to easy configuration
