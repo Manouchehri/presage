@@ -32,6 +32,7 @@ libcore_la_SOURCES =	prediction.cpp prediction.h         \
 			backoffCombiner.h                   \
 			maxEntropyCombiner.h                \
 			selector.cpp selector.h             \
+			profile.cpp profile.h               \
 			profileManager.cpp profileManager.h 
 
 # Temporarily disabled

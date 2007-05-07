@@ -25,20 +25,22 @@
 
 #include "core/predictor.h"
 
-// REVISIT remove following include when moving back to dynamically
+// REVISIT: including SmoothedUniBiTrigramPlugin here because
+// PluginManager and Plump are temporarily disabled. Plugin lifetime
+// management is currently disabled. Only one plugin is used:
+// SmoothedUniBiTrigramPlugin.
+//
+// IMPORTANT: remove following include when moving back to dynamically
 // loaded plugins
+//
 #include "plugins/smoothedUniBiTrigramPlugin.h"
 
-/** Builds a predictor
- *
- *  @param ht is a reference to HistoryTracker
- *
- *  Predictor needs a reference to the HistoryTracker object to forward to the predictive plugins for context retrieval and analysis.
- *
- */
+
 Predictor::Predictor(HistoryTracker &ht)
     : historyTracker( ht )
 {
+    profile = 0;
+
     // set Predictor options to their defaults
     PREDICT_TIME = DEFAULT_PREDICT_TIME;
     COMBINATION_METHOD = DEFAULT_COMBINATION_METHOD;
@@ -47,20 +49,15 @@ Predictor::Predictor(HistoryTracker &ht)
 }
 
 
-/** 
-
-*/
 Predictor::~Predictor()
 {
     // Clear out existing plugins vector (not strictly necessary)
     plugins.clear();
+
+    delete profile;
 }
 
 
-/** Initializes the Combiner object.
- *
- *  @param combinationMethod is an enum that identifies what Combiner object to use
- */
 bool Predictor::initCombiner()
 {
     //	std::cout << "Initializing combiner..." << std::endl;
@@ -90,10 +87,6 @@ bool Predictor::initCombiner()
 }
 
 
-/** Adds a Plugin object to the active runtime plugins list.
- *
- * @param pPtr is a pointer to a Plugin
- */
 void Predictor::addPlugin( Plugin* pPtr )
 {
     assert( pPtr != NULL );
@@ -102,11 +95,6 @@ void Predictor::addPlugin( Plugin* pPtr )
 }
 
 
-/** Removes a Plugin object from the active runtime plugins list.
- *
- * @param pPtr is a pointer to the Plugin to be removed
- * @return true if successful, false otherwise
- */
 bool Predictor::removePlugin( const Plugin* pPtr )
 {
     assert( pPtr != NULL );
@@ -135,14 +123,6 @@ bool Predictor::removePlugin( const Plugin* pPtr )
 //}
 
 
-/** Runs the predictive plugins, combine their predictions and return the resulting prediction.
- *
- * This is the heart of Soothsayer.
- * 
- * Plump will eventually provide the implementation of sequential or parallel execution of plugins.
- *
- * @return prediction produced by the active predictive plugins and combined by the active combiner
- */
 Prediction Predictor::predict() const
 {
     //	std::cout << "Predicting..." << std::endl;
@@ -179,7 +159,7 @@ Prediction Predictor::predict() const
     //plump.registerCallback(callback_predict, &p);
     //plump.run();
                 
-    SmoothedUniBiTrigramPlugin plugin(historyTracker);
+    SmoothedUniBiTrigramPlugin plugin(historyTracker, profile);
     p = plugin.predict();
     
 
@@ -188,11 +168,6 @@ Prediction Predictor::predict() const
 }
 
 
-/** Sets PREDICT_TIME option.
- *
- * @param predictTime is the maximum time allowed for a predictive plugin to return its prediction.
- * @return true if the supplied value is valid, false otherwise
- */
 bool Predictor::setPredictTime( const int predictTime )
 {
     // handle exception where predictTime is less than zero
@@ -210,13 +185,6 @@ bool Predictor::setPredictTime( const int predictTime )
 }
 
 
-/** Sets COMBINATION_METHOD option.
- *
- * @param cm metodo usato per effettuare la combinazione degli oggetti Prediction ritornati dagli oggetti Plugin
- * @return true if the supplied value is valid, false otherwise
- *
- * Combinator is reinitialized each time this option is set.
- */
 bool Predictor::setCombinationMethod( const CombinationMethod cm )
 {
     std::cout << "[Predictor] Setting COMBINATION_METHOD to " << cm << std::endl;
@@ -234,21 +202,20 @@ bool Predictor::setCombinationMethod( const CombinationMethod cm )
 }
 
 
-/** Gets PREDICT_TIME option value.
- *
- * @return value of PREDICT_TIME
- */
 int Predictor::getPredictTime() const
 {
     return PREDICT_TIME;
 }
 
 
-/** Gets COMBINATION_METHOD option value.
- *
- * @return value of COMBINATION_METHOD
- */
 CombinationMethod Predictor::getCombinationMethod() const
 {
     return COMBINATION_METHOD;
+}
+
+
+void Predictor::setProfile(Profile* prof)
+{
+    delete profile;
+    profile = prof;
 }

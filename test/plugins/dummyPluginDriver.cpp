@@ -32,7 +32,8 @@
 int main()
 {
 	HistoryTracker historyTracker;
-	DummyPlugin dummyPlugin( historyTracker );
+	Profile mockProfile(0);
+	DummyPlugin dummyPlugin(historyTracker, &mockProfile);
 	Plugin* pluginPtr = &dummyPlugin;
 	
 
@@ -60,27 +61,6 @@ int main()
 		  << "Long description: " << pluginPtr->getLongDescription()
 		  << std::endl;
 
-	std::cout << "Testing Option handling..." << std::endl
-		  << "Retrieving optionTemplate..." << std::endl;
-
-	std::vector<std::string> optTemplate;
-	optTemplate = pluginPtr->getOptionTemplate();
-	
-	std::cout << "Option template retrieved." << std::endl
-		  << "Now accessing individual option data..." << std::endl;
-
-	std::vector<std::string>::const_iterator i;
-	for( i=optTemplate.begin(); i!=optTemplate.end(); i++ ) {
-		std::cout << "Option name       : " << *i << std::endl
-			  << "Option value      : " 
-			  << pluginPtr->getOptionValue( *i ) << std::endl
-			  << "Option default    : "
-			  << pluginPtr->getOptionDefault(*i) << std::endl
-			  << "Option description: "
-			  << pluginPtr->getOptionDescription(*i) << std::endl;
-	}
-
 	return 0;
-
 }
 

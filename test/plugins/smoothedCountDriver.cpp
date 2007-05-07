@@ -29,7 +29,8 @@
 int main()
 {
 	HistoryTracker historyTracker;
-	SmoothedCountPlugin plugin( historyTracker );
+	Profile mockProfile(0);
+	SmoothedCountPlugin plugin(historyTracker, &mockProfile);
 
 	const int SIZE = 80;
 	char historyBuffer[SIZE];

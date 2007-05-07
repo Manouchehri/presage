@@ -30,6 +30,7 @@
 #include "core/utility.h"    // strtolower
 
 #include <string>
+
 #include <sqlite.h>
 #include <assert.h>
 #include <stdlib.h>    // double atof( const char* )
@@ -42,7 +43,6 @@
 #include "tools/sqliteDatabaseConnector.h"
 
 
-//static const char DEFAULT_DATABASE_LOCATION[] = "./var/database_en.db";
 static const char DEFAULT_DATABASE_LOCATION[] = localstatedir;
 static const char DEFAULT_DATABASE_FILENAME[] = "database_en.db";
 
@@ -51,7 +51,7 @@ static const char DEFAULT_DATABASE_FILENAME[] = "database_en.db";
  */
 class SmoothedUniBiTrigramPlugin : public Plugin {
 public:
-    SmoothedUniBiTrigramPlugin( HistoryTracker& );
+    SmoothedUniBiTrigramPlugin(HistoryTracker&, Profile*);
     ~SmoothedUniBiTrigramPlugin();
 
     virtual Prediction predict() const;
@@ -63,6 +63,12 @@ public:
 private:
     SqliteDatabaseConnector* db;
     std::string database;
+
+    double      UNIGRAM_WEIGHT;
+    double      BIGRAM_WEIGHT;
+    double      TRIGRAM_WEIGHT;
+    std::string DBFILENAME;
+    int         MAX_PARTIAL_PREDICTION_SIZE;
 
     // sqlite API is an external library. Plugins are compiled into
     // position independent code, so references to external symbols are not
@@ -91,8 +97,8 @@ private:
 
 
 // Class factory functions
-extern "C" Plugin* create( HistoryTracker& );
-extern "C" void destroy( Plugin* );
+extern "C" SmoothedUniBiTrigramPlugin* create (HistoryTracker&, Profile*);
+extern "C" void                        destroy(SmoothedUniBiTrigramPlugin*);
 
 
 #endif // SOOTH_SMOOTHEDUNIBITRIGRAMPLUGIN

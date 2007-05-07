@@ -16,6 +16,8 @@ Absolute first
    to get the values of the configuration variables they are
    interested in. See architectural restructure for more info.
    + profileManager: add ~/.soothsayer/soothsayer.xml searching
+ - soothsayer.xml needs to be processed when doing make install to
+   point to base installation directory
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plugin loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.
@@ -24,6 +26,7 @@ Absolute first
       src/core/pluginManager.cpp
       test/core/pluginManagerDriver.cpp
    should be taken care of as part of plump integration
+ - write unit tests for plugins (test/plugins/*)
  - migrate to sqlite3
 
 Architectural restructure: 

@@ -34,7 +34,7 @@
  */
 class DummyPlugin : public Plugin {
 public:
-    DummyPlugin( HistoryTracker& );
+    DummyPlugin(HistoryTracker&, Profile*);
     ~DummyPlugin();
 
     virtual Prediction predict() const;
@@ -49,8 +49,8 @@ private:
 
 
 // Class factory functions
-extern "C" Plugin* create( HistoryTracker& );
-extern "C" void destroy( Plugin* );
+extern "C" DummyPlugin* create (HistoryTracker&, Profile*);
+extern "C" void         destroy(DummyPlugin*);
 
 
 #endif // SOOTH_DUMMYPLUGIN

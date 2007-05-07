@@ -28,7 +28,9 @@
 #include "core/historyTracker.h"
 #include "core/predictor.h"
 #include "core/selector.h"
+#include "core/profile.h"
 //PLUMP #include "core/pluginManager.h"
+
 #include "plugins/plugin.h"
 
 #include "tinyxml/tinyxml.h"
@@ -67,6 +69,7 @@ public:
     bool loadProfile(const std::string = DEFAULT_PROFILE_FILENAME);
     void buildProfile(const std::string = DEFAULT_PROFILE_FILENAME);
     bool saveProfile() const;
+    Profile* getProfile() const;
 
 private:
     HistoryTracker& historyTracker;

@@ -30,26 +30,29 @@
 
 #include "core/prediction.h"
 #include "core/historyTracker.h"
-#include "option.h"
+#include "core/profile.h"
 
 #include <string>
 #include <vector>
 
 /** Plugin is an abstract class that defines the interface implemented by concrete predictive plugins.
  * 
- * The prediction implemented by predictive plugins is at the heart of soothsayer.
- * The plugin-based architecture allows new prediction methods to be easily and transparently added to the system.
+ * The prediction implemented by predictive plugins is at the heart of
+ * soothsayer.  The plugin-based architecture allows new prediction
+ * methods to be easily and transparently added to the system.
  * 
- * Predictive plugins have access to and rely on the services provided by core components of the soothsayer system.
+ * Predictive plugins have access to and rely on the services provided
+ * by core components of the soothsayer system.
  *
  */
 class Plugin {
 //PLUMP    : public plump::PluginInterface {
 public:
     Plugin(HistoryTracker& historyTracker,
-           const char* pluginName = "Plugin",
-           const char* shortDescription = "",
-           const char* longDescription = "");
+	   Profile*        profile,
+           const char*     pluginName       = "Plugin",
+           const char*     shortDescription = "",
+           const char*     longDescription  = "");
     virtual ~Plugin();
 
     virtual Prediction predict() const = 0;
@@ -69,14 +72,6 @@ public:
       lt_dlhandle getLibHandle() const;
     */
 
-    // get option methods
-    std::vector<std::string> getOptionTemplate() const;
-    std::string getOptionValue(const std::string) const;
-    std::string getOptionDefault(const std::string) const;
-    std::string getOptionDescription(const std::string) const;
-    // set option method
-    bool setOptionValue(const std::string, const std::string);
-
 protected:
     const std::string name;
     const std::string shortDescription; // plugin's descriptive name
@@ -84,9 +79,13 @@ protected:
 
     HistoryTracker &historyTracker;
 
-    std::vector< Option > options;      // plugin's options
-	
+    Profile* profile;
+    
+    double toDouble(const std::string) const;
+    int    toInt   (const std::string) const;
+
 private:
+
     /*
       std::string libFilename;          // stores plugin's library's filename
       //	void* libHandle;
@@ -126,8 +125,8 @@ private:
 // create and destroy as many instances as we wish.
 
 // Class factory function types
-// typedef Plugin* create_t( HistoryTracker& );
-// typedef void destroy_t( Plugin* );
+// typedef Plugin* create_t (HistoryTracker&, Profile*);
+// typedef void    destroy_t(Plugin*);
 
 
 #endif // SOOTH_PLUGIN

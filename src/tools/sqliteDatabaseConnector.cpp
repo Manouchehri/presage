@@ -44,7 +44,15 @@ SqliteDatabaseConnector::~SqliteDatabaseConnector()
 
 void SqliteDatabaseConnector::openDatabase()
 {
-    db = sqlite_open(db_name.c_str(), 0, 0);
+    char** errormsg = 0;
+    db = sqlite_open(db_name.c_str(), 0, errormsg);
+    if (db == 0) {
+	std::string error;
+	if (errormsg != 0) {
+	    error = *errormsg;
+	}
+	throw SqliteDatabaseConnectorException(error);
+    }
 }
 
 void SqliteDatabaseConnector::closeDatabase()

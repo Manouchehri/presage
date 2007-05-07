@@ -28,17 +28,22 @@
 #include <fstream>
 #include <assert.h>
 
-DictionaryPlugin::DictionaryPlugin( HistoryTracker &ht )
-    : Plugin( ht,
-	      "DictionaryPlugin",
-	      "DictionaryPlugin, dictionary lookup",
-	      "DictionaryPlugin is a dictionary based plugin.\nIt searches a list of words and returns those that contain the current prefix as a prefix." )
+DictionaryPlugin::DictionaryPlugin(HistoryTracker &ht, Profile* profile)
+    : Plugin(ht,
+	     profile,
+	     "DictionaryPlugin",
+	     "DictionaryPlugin, dictionary lookup",
+	     "DictionaryPlugin is a dictionary based plugin.\n"
+	     "It searches a list of words and returns those that contain the current prefix as a prefix." )
 {
-    options.push_back(Option("/usr/share/dict/italian",
-			     STRING,
-			     "DICTIONARY_PATH",
-			     "Dictionary file path" )
-	);
+    Variable variable;
+    variable.push_back("Soothsayer");
+    variable.push_back("Plugins");
+    variable.push_back("DictionaryPlugin");
+    variable.push_back("DICTIONARY_PATH");
+    Value value = profile->getConfig(variable);
+    
+    DICTIONARY_PATH = value;
 }
 
 DictionaryPlugin::~DictionaryPlugin()
@@ -53,7 +58,7 @@ Prediction DictionaryPlugin::predict() const
     // open dictionary file for input
     std::ifstream dictFile;
 
-    dictFile.open(getOptionValue("DICTIONARY_PATH").data());
+    dictFile.open(DICTIONARY_PATH.c_str());
 
     if(!dictFile)
 	std::cerr << "Dictionary file could not be opened\a"
@@ -93,12 +98,12 @@ void DictionaryPlugin::train()
 }
 
 
-extern "C" Plugin* create( HistoryTracker& ht )
+extern "C" DictionaryPlugin* create(HistoryTracker& ht, Profile* profile)
 {
-    return new DictionaryPlugin( ht );
+    return new DictionaryPlugin(ht, profile);
 }
 
-extern "C" void destroy( Plugin *p )
+extern "C" void destroy(DictionaryPlugin *p)
 {
     delete p;
 }

@@ -29,7 +29,7 @@
 #include "plugins/plugin.h"
 
 
-/** Italian dictionary plugin
+/** Dictionary plugin.
  *
  * Uses a list of italian words. Returns those words that contain the
  * current prefix as a prefix.
@@ -37,9 +37,8 @@
  */
 class DictionaryPlugin : public Plugin {
 public:
-    DictionaryPlugin( HistoryTracker& );
+    DictionaryPlugin(HistoryTracker&, Profile*);
     ~DictionaryPlugin();
-
 
     virtual Prediction predict() const;
 
@@ -48,14 +47,14 @@ public:
     virtual void train();
 
 private:
-	
+    std::string DICTIONARY_PATH;
 	
 };
 
 
 // Class factory functions
-extern "C" Plugin* create( HistoryTracker& );
-extern "C" void destroy( Plugin* );
+extern "C" DictionaryPlugin* create (HistoryTracker&, Profile*);
+extern "C" void              destroy(DictionaryPlugin*);
 
 
 #endif // SOOTH_DICTIONARYPLUGIN

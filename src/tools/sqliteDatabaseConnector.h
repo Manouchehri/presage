@@ -46,6 +46,15 @@ class SqliteDatabaseConnector : public DatabaseConnector {
     virtual void closeDatabase();
     virtual NgramTable executeSql(const std::string query) const;
 
+    class SqliteDatabaseConnectorException {
+    public:
+	SqliteDatabaseConnectorException(std::string errormsg) { details = errormsg; }
+	std::string what() const { return details; }
+    private:
+	SqliteDatabaseConnectorException();
+	std::string details;
+    };
+
   protected:
 
   private:

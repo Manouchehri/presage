@@ -42,7 +42,7 @@ ProfileManager::ProfileManager( HistoryTracker& ht,
       selector( s ) //PLUMP,
     //PLUMP	  pluginManager( pm )
 {
-    profileDoc = NULL;
+    profileDoc = 0;
 
     loadProfile();
 
@@ -105,7 +105,12 @@ void ProfileManager::initHistoryTracker()
  */
 void ProfileManager::initPredictor()
 {
-	
+    // new profile pulling approach
+    //
+    predictor.setProfile(getProfile());
+
+    // old profile pushing approach
+    //
     // Get handle to profile document root
     TiXmlHandle doc( profileDoc );
 
@@ -442,4 +447,12 @@ void ProfileManager::buildProfile(const std::string p)
     // print out doc for debug purposes
     // profileDoc.Print();
 
+}
+
+Profile* ProfileManager::getProfile() const
+{
+    //Profile profile(profileDoc);
+    //return profile;
+
+    return new Profile(profileDoc);
 }

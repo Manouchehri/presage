@@ -23,9 +23,10 @@ lib_LTLIBRARIES = 		libsoothsayer.la
 libsoothsayer_la_SOURCES = 	soothsayer.cpp soothsayer.h
 libsoothsayer_la_LIBADD =	core/libcore.la       \
 				plugins/libplugin.la  \
+				plugins/libSmoothedUniBiTrigramPlugin.la \
 				tinyxml/libtinyxml.la \
-				tools/libtools.la     \
-				plugins/libSmoothedUniBiTrigramPlugin.la
+				tools/libtools.la     
+
 #				REVISIT remove libSmoothetUniBiTrigram.la 
 #				when reintegrating dynamically loaded plugins
 
@@ -43,7 +44,7 @@ soothsayerDemo_LDADD =		libsoothsayer.la
 soothsayerDemo_LDFLAGS =	-lncurses
 
 soothsayerDemoText_SOURCES = 	soothsayerDemoText.cpp
-soothsayerDemoText_LDADD = 	libsoothsayer.la 
+soothsayerDemoText_LDADD = 	libsoothsayer.la
 
 soothsayerDemoSimple_SOURCES =	soothsayerDemoSimple.cpp
 soothsayerDemoSimple_LDADD =	libsoothsayer.la

@@ -19,9 +19,7 @@
 
 noinst_LTLIBRARIES =	libplugin.la
 
-libplugin_la_SOURCES =	plugin.cpp plugin.h \
-			option.cpp option.h 
-
+libplugin_la_SOURCES =	plugin.cpp plugin.h
 
 lib_LTLIBRARIES =	libSmoothedUniBiTrigramPlugin.la \
 			libDictionaryPlugin.la           \

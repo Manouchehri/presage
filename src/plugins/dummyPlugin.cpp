@@ -26,26 +26,15 @@
 #include "plugins/dummyPlugin.h"
 
 
-DummyPlugin::DummyPlugin( HistoryTracker &ht )
+DummyPlugin::DummyPlugin(HistoryTracker &ht, Profile* profile)
     : Plugin(ht,
+	     profile,
 	     "DummyPlugin",
 	     "DummyPlugin, a fake plugin",
 	     "DummyPlugin is a fake plugin.\n"
 	     "It does not perform any actual computation nor implement any prediction mechanism.\n"
 	     "It always returns the same sample prediction.\n")
-{
-    options.push_back( Option( "10",
-			       INT,
-			       "OPTION1",
-			       "OPTION1 is of type integer" )
-	);
-			   
-    options.push_back( Option( "yes",
-			       BOOL,
-			       "OPTION2",
-			       "OPTION2 is of type boolean" )
-	);
-}
+{}
 
 DummyPlugin::~DummyPlugin()
 {}
@@ -109,12 +98,12 @@ void DummyPlugin::train()
 }
 
 
-extern "C" Plugin* create( HistoryTracker& ht )
+extern "C" DummyPlugin* create(HistoryTracker& ht, Profile* profile)
 {
-    return new DummyPlugin( ht );
+    return new DummyPlugin(ht, profile);
 }
 
-extern "C" void destroy( Plugin *p )
+extern "C" void destroy(DummyPlugin *p)
 {
     delete p;
 }

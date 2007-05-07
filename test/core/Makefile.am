@@ -19,12 +19,13 @@
 
 SUBDIRS =	tokenizer
 
+EXTRA_DIST =	profileTest.xml
+
 if HAVE_CPPUNIT
 
 TESTS =		coreTestRunner
 
-check_PROGRAMS = $(TESTS)                 \
-		selectorDriverInteractive 
+check_PROGRAMS = $(TESTS)
 
 coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				suggestionTest.h suggestionTest.cpp         \
@@ -33,6 +34,7 @@ coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				tokenizer/testStringSuite.cpp               \
 				historyTrackerTest.h historyTrackerTest.cpp \
 				selectorTest.h selectorTest.cpp             \
+				profileTest.h profileTest.cpp               \
 				profileManagerTest.h profileManagerTest.cpp 
 
 coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src                 \
@@ -44,11 +46,6 @@ coreTestRunner_LIBS =		-ldl
 # Temporarily disabled
 #pluginManagerDriver_SOURCES =	pluginManagerDriver.cpp
 ##pluginManagerDriver_LDFLAGS =	-ldl
-
-selectorDriverInteractive_SOURCES =	selectorDriverInteractive.cpp
-selectorDriverInteractive_LDADD =	$(top_builddir)/src/libsoothsayer.la \
-					$(top_builddir)/src/plugins/dictionaryPlugin.lo
-selectorDriverInteractive_LDFLAGS =	-lncurses
 
 
 LDADD =	$(top_builddir)/src/libsoothsayer.la

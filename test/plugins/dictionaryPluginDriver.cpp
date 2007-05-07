@@ -29,7 +29,8 @@
 int main()
 {
 	HistoryTracker historyTracker;
-	DictionaryPlugin plugin( historyTracker );
+	Profile mockProfile(0);
+	DictionaryPlugin plugin(historyTracker, &mockProfile);
 
 	std::string prefix;
 

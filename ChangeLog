@@ -1,3 +1,23 @@
+2007-05-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/profile: added Profile class to easy configuration
+	variable querying by plugins and other components.
+
+	* test/core/profileTest: added unit tests for new Profile class.
+	
+	* test/core/selectorDriverInteractive: removed as no longer
+	needed, due to Selector unit tests in selectorTest.
+
+	* src/plugins/*Plugin: modified plugins to use new Profile
+	interface, discarded old Option classes.
+
+	* src/plugin/option: removed as superseded by Profile.
+
+	* src/core/predictor: cleaned up comments, modified instantiation
+	of plugins to pass profile object
+
+	* src/core/profileManager: added support for Profile class.
+	
 2007-05-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/soothsayerDemo: added disclaimer and copyright information,

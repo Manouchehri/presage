@@ -26,64 +26,49 @@
 #include "plugins/smoothedCountPlugin.h"
 
 
-SmoothedCountPlugin::SmoothedCountPlugin( HistoryTracker &ht )
-	: Plugin( ht,
-		  "SmoothedCountPlugin",
-		  "SmoothedCountPlugin, a linear interpolating unigram bigram trigram plugin",
-		  "SmoothedCountPlugin, long description." )
+SmoothedCountPlugin::SmoothedCountPlugin(HistoryTracker &ht, Profile* profile)
+	: Plugin(ht,
+		 profile,
+		 "SmoothedCountPlugin",
+		 "SmoothedCountPlugin, a linear interpolating unigram bigram trigram plugin",
+		 "SmoothedCountPlugin, long description." )
 {
 
-	// build options and default values
-	options.push_back( Option( ".05",
-				   DOUBLE,
-				   "UNIGRAM_WEIGHT",
-				   "Weight given to unigram frequency" )
-		);
-			   
-	options.push_back( Option( ".1",
-				   DOUBLE,
-				   "BIGRAM_WEIGHT",
-				   "Weight given to bigram frequency" )
-		);
-	options.push_back( Option( ".5",
-				   DOUBLE,
-				   "TRIGRAM_WEIGHT",
-				   "Weight given to trigram frequency" )
-		);
-	options.push_back( Option( "/home/matt/word_predictor/corpus/database_en.db",
-				   STRING,
-				   "DBFILENAME",
-				   "Database filename" )
-		);
-	options.push_back( Option( "40",
-				   INT,
-				   "MAX_PARTIAL_PREDICTION_SIZE",
-				   "Maximum number of suggestions a partial prediction can contain."
-				   )
-		);
+    Variable variable;
+    variable.push_back("Soothsayer");
+    variable.push_back("Plugins");
+    variable.push_back("SmoothedCountPlugin");
 
-	
-	// open sqlite library
-//	libsqlite = lt_dlopen( "libsqlite.so" );
-//	if( libsqlite == NULL )
-//		std::cerr << lt_dlerror() << std::endl;
-//	assert( libsqlite != NULL );
-//
-//	// 
-//	sqlite_open_handle = (sqlite_open_t*)lt_dlsym( libsqlite, "sqlite_open" );
-//	sqlite_exec_handle = (sqlite_exec_t*)lt_dlsym( libsqlite, "sqlite_exec" );
-//	sqlite_close_handle = (sqlite_close_t*)lt_dlsym( libsqlite, "sqlite_close" );
-//
-//	assert( sqlite_open_handle != NULL );
-//	assert( sqlite_exec_handle != NULL );
-//	assert( sqlite_close_handle != NULL );
+    Value value;
 
+    variable.push_back("UNIGRAM_WEIGHT");
+    value = profile->getConfig(variable);
+    UNIGRAM_WEIGHT = toDouble(value);
+    variable.pop_back();
 
-	// open database
-        //	db = (*sqlite_open_handle)( getOptionValue( "DBFILENAME" ).c_str(), 0777, NULL );
-	db = sqlite_open( getOptionValue( "DBFILENAME" ).c_str(), 0777, NULL );
-	assert( db != NULL );
+    variable.push_back("BIGRAM_WEIGHT");
+    value = profile->getConfig(variable);
+    BIGRAM_WEIGHT = toDouble(value);
+    variable.pop_back();
 
+    variable.push_back("TRIGRAM_WEIGHT");
+    value = profile->getConfig(variable);
+    TRIGRAM_WEIGHT = toDouble(value);
+    variable.pop_back();
+
+    variable.push_back("");
+    value = profile->getConfig(variable);
+    MAX_PARTIAL_PREDICTION_SIZE = toInt(value);
+    variable.pop_back();
+
+    variable.push_back("DBFILENAME");
+    value = profile->getConfig(variable);
+    DBFILENAME = value;
+    variable.pop_back();
+
+    // open database
+    db = sqlite_open(DBFILENAME.c_str(), 0777, NULL);
+    assert( db != NULL );
 }
 
 
@@ -117,9 +102,7 @@ Prediction SmoothedCountPlugin::predict() const
 	Prediction predUnigrams;
 	
 	data.predPtr = &predUnigrams;
-	data.predSize = atoi(
-		getOptionValue( "MAX_PARTIAL_PREDICTION_SIZE" ).c_str()
-		);
+	data.predSize = MAX_PARTIAL_PREDICTION_SIZE;
 
 	query =	"SELECT word, count "
 		"FROM unigram "
@@ -198,7 +181,7 @@ Prediction SmoothedCountPlugin::predict() const
 	for( int i = 0; i < predUnigrams.getSize(); i++ ) {
 
 	    word   = predUnigrams.getSuggestion( i ).getWord();
-	    ccount = atof( getOptionValue( "UNIGRAM_WEIGHT" ).c_str() ) *
+	    ccount = UNIGRAM_WEIGHT *
 		     predUnigrams.getSuggestion( i ).getProbability();
 
 	    for( int j = 0; j < predBigrams.getSize(); j++ ) {
@@ -209,14 +192,13 @@ Prediction SmoothedCountPlugin::predict() const
 
 		        if( predTrigrams.getSuggestion(k).getWord() == word ) {
 
-			    ccount += atof( 
-		                getOptionValue( "TRIGRAM_WEIGHT" ).c_str() ) *
+			    ccount += TRIGRAM_WEIGHT *
 				predTrigrams.getSuggestion(k).getProbability();
 				
 			}
 		    }
 		    
-		    ccount += atof( getOptionValue("BIGRAM_WEIGHT").c_str() ) *
+		    ccount += BIGRAM_WEIGHT *
 			    predBigrams.getSuggestion(j).getProbability();
 
 		}
@@ -334,14 +316,12 @@ int buildPrediction( void* callbackDataPtr,
 
 
 
-extern "C" Plugin* create( HistoryTracker& ht )
+extern "C" SmoothedCountPlugin* create(HistoryTracker& ht, Profile* prof)
 {
-	return new SmoothedCountPlugin( ht );
+    return new SmoothedCountPlugin(ht, prof);
 }
 
-extern "C" void destroy( Plugin *p )
+extern "C" void destroy(SmoothedCountPlugin *p)
 {
-	delete p;
+    delete p;
 }
-
-

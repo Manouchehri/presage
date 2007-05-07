@@ -39,7 +39,7 @@
  */
 class SmoothedCountPlugin : public Plugin {
 public:
-    SmoothedCountPlugin( HistoryTracker& );
+    SmoothedCountPlugin(HistoryTracker&, Profile*);
     ~SmoothedCountPlugin();
 
     virtual Prediction predict() const;
@@ -53,35 +53,18 @@ private:
 
     sqlite* db;
 
-    // sqlite API is an external library. Plugins are compiled into
-    // position independent code, so references to external symbols are not
-    // resolved at compilation time. Symbols need to be dinamically loaded
-    // at execution time. In other words, a cascaded dynamic loading takes
-    // place.
-    // These declarations provide data members necessary to cascaded dl.
-//	lt_dlhandle libsqlite;
-//
-//	typedef sqlite* sqlite_open_t( const char*,
-//				       int,
-//				       char** );
-//	typedef int sqlite_exec_t( sqlite*,
-//				   const char*,
-//				   sqlite_callback, 
-//				   void*,
-//				   char** );
-//	typedef void sqlite_close_t( sqlite* );
-//
-//	sqlite_open_t* sqlite_open_handle;
-//	sqlite_exec_t* sqlite_exec_handle;
-//	sqlite_close_t* sqlite_close_handle;
-    // end cascaded dynamic loading data members.
+    double      UNIGRAM_WEIGHT;
+    double      BIGRAM_WEIGHT;
+    double      TRIGRAM_WEIGHT;
+    std::string DBFILENAME;
+    int         MAX_PARTIAL_PREDICTION_SIZE;
 
 };
 
 
 // Class factory functions
-extern "C" Plugin* create( HistoryTracker& );
-extern "C" void destroy( Plugin* );
+extern "C" SmoothedCountPlugin* create (HistoryTracker&, Profile*);
+extern "C" void                 destroy(SmoothedCountPlugin* );
 
 
 

@@ -29,7 +29,8 @@
 int main()
 {
 	HistoryTracker historyTracker;
-	SmoothedUniBiTrigramPlugin plugin( historyTracker );
+	Profile mockProfile(0);
+	SmoothedUniBiTrigramPlugin plugin(historyTracker, &mockProfile);
 
 	const int SIZE = 80;
 	char historyBuffer[SIZE];

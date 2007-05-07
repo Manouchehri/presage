@@ -25,56 +25,67 @@
 
 #include "plugins/smoothedUniBiTrigramPlugin.h"
 
+#define DEBUG
+
 #ifdef DEBUG
 # define LOG(x) std::cout << x << std::endl
 #else
 # define LOG(x) /* x */
 #endif
 
-SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin( HistoryTracker &ht )
-    : Plugin( ht,
-              "SmoothedUniBiTrigramPlugin",
-              "SmoothedUniBiTrigramPlugin, a linear interpolating unigram bigram trigram plugin",
-              "SmoothedUniBiTrigramPlugin, long description." )
+SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin(HistoryTracker &ht, Profile* profile)
+    : Plugin(ht,
+	     profile,
+             "SmoothedUniBiTrigramPlugin",
+             "SmoothedUniBiTrigramPlugin, a linear interpolating unigram bigram trigram plugin",
+             "SmoothedUniBiTrigramPlugin, long description." )
 {
-    //DEBUG
-    LOG("[SmoothedUniBiTriGram] Entering SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin()");
+    LOG("[SmoothedUniBiTriGramPlugin] Entering SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin()");
 
-    // build options and default values
-    options.push_back( Option( ".4",
-                               DOUBLE,
-                               "UNIGRAM_WEIGHT",
-                               "Weight given to unigram frequency" )
-    );
-			   
-    options.push_back( Option( ".3",
-                               DOUBLE,
-                               "BIGRAM_WEIGHT",
-                               "Weight given to bigram frequency" )
-    );
-    options.push_back( Option( ".3",
-                               DOUBLE,
-                               "TRIGRAM_WEIGHT",
-                               "Weight given to trigram frequency" )
-    );
-    database = static_cast<std::string>(DEFAULT_DATABASE_LOCATION) + "/" + DEFAULT_DATABASE_FILENAME;
-    options.push_back( Option( database,
-                               STRING,
-                               "DBFILENAME",
-                               "Database filename" )
-    );
-    options.push_back( Option( "40",
-                               INT,
-                               "MAX_PARTIAL_PREDICTION_SIZE",
-                               "Maximum number of suggestions a partial prediction can contain."
-                       )
-    );
+    Variable variable;
+    variable.push_back("Soothsayer");
+    variable.push_back("Plugins");
+    variable.push_back("SmoothedUniBiTrigramPlugin");
 
-	
+    Value value;
+
+    try {
+	variable.push_back("UNIGRAM_WEIGHT");
+	value = profile->getConfig(variable);
+	LOG("[SmoothedUniBiTriGramPlugin] UNIGRAM_WEIGHT: " + value);
+	UNIGRAM_WEIGHT = toDouble(value);
+	variable.pop_back();
+
+	variable.push_back("BIGRAM_WEIGHT");
+	value = profile->getConfig(variable);
+	LOG("[SmoothedUniBiTriGramPlugin] BIGRAM_WEIGHT: " + value);
+	BIGRAM_WEIGHT = toDouble(value);
+	variable.pop_back();
+
+	variable.push_back("TRIGRAM_WEIGHT");
+	value = profile->getConfig(variable);
+	LOG("[SmoothedUniBiTriGramPlugin] TRIGRAM_WEIGHT: " + value);
+	TRIGRAM_WEIGHT = toDouble(value);
+	variable.pop_back();
+
+	variable.push_back("MAX_PARTIAL_PREDICTION_SIZE");
+	value = profile->getConfig(variable);
+	LOG("[SmoothedUniBiTriGramPlugin] MAX_PARTIAL_PREDICTION_SIZE: " + value);
+	MAX_PARTIAL_PREDICTION_SIZE = toInt(value);
+	variable.pop_back();
+
+	variable.push_back("DBFILENAME");
+	value = profile->getConfig(variable);
+	LOG("[SmoothedUniBiTriGramPlugin] DBFILENAME: " + value);
+	DBFILENAME = value;
+	variable.pop_back();
+    } catch (Profile::ProfileException ex) {
+	std::cerr << "[SmoothedUniBiTrigramPlugin] Caught ProfileException: " << ex.what() << std::endl;
+    }
+
     // open database connector
-    db = new SqliteDatabaseConnector(getOptionValue("DBFILENAME"));
+    db = new SqliteDatabaseConnector(DBFILENAME);
     
-    //DEBUG
     LOG("[SmoothedUniBiTriGramPlugin] Exiting SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin()");
 }
 
@@ -106,11 +117,11 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     LOG("[SmoothedUniBiTrigramPlugin] Word_2: " << word_2     );
 
     // get smoothing parameters
-    double alpha = atof( getOptionValue( "TRIGRAM_WEIGHT" ).c_str() );
-    double beta = atof( getOptionValue( "BIGRAM_WEIGHT" ).c_str() );
-    double gamma = atof( getOptionValue( "UNIGRAM_WEIGHT" ).c_str() );
+    double alpha = TRIGRAM_WEIGHT;
+    double beta = BIGRAM_WEIGHT;
+    double gamma = UNIGRAM_WEIGHT;
 
-    int max_partial_predictions_size = atoi( getOptionValue( "MAX_PARTIAL_PREDICTION_SIZE" ).c_str() );
+    int max_partial_predictions_size = MAX_PARTIAL_PREDICTION_SIZE;
 	
     // To estimate  P( w | w_2, w_1 ) we need the following counts
     int c_w2_w1_w = 0;  // c( w_2, w_1, w )  
@@ -278,14 +289,14 @@ void SmoothedUniBiTrigramPlugin::train()
 
 
 
-extern "C" Plugin* create( HistoryTracker& ht )
+extern "C" SmoothedUniBiTrigramPlugin* create(HistoryTracker& ht, Profile* profile)
 {
-    return new SmoothedUniBiTrigramPlugin( ht );
+    return new SmoothedUniBiTrigramPlugin(ht, profile);
 }
 
-extern "C" void destroy( Plugin *p )
+extern "C" void destroy(SmoothedUniBiTrigramPlugin* plugin)
 {
-    delete p;
+    delete plugin;
 }
 
 

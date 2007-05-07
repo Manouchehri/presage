@@ -26,7 +26,7 @@
 #define SOOTH_PREDICTOR
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+# include "config.h"
 #endif
 
 // PLUMP
@@ -36,10 +36,15 @@
 
 #include "core/historyTracker.h"
 #include "core/prediction.h"
+#include "core/profile.h"
 #include "core/combiner.h"
+
 #include "plugins/plugin.h"
 
-#include <stdlib.h>  // needed for abort function
+#ifdef STDC_HEADERS
+# include <stdlib.h>  // needed for abort function
+#endif
+
 //#include <dlfcn.h>   // needed for shared library dynamic loading
 
 
@@ -64,77 +69,124 @@ class Predictor {
   public:
 //PLUMP    Predictor(HistoryTracker&,
 //PLUMP              plump::Plump&);
+
+    /** Construct a predictor object.
+     *
+     *  Predictor needs a reference to the HistoryTracker object to
+     *  forward to the predictive plugins for context retrieval and
+     *  analysis.
+     *
+     *  @param ht is a reference to HistoryTracker
+     */
     Predictor(HistoryTracker&);
+
+    /** Destroy predictor.
+     *
+     */
     ~Predictor();
 
-    /**
-     * Returns the prediction created by all active predictive plugins.
+    /** Runs the predictive plugins, combine their predictions and return the resulting prediction.
+     *
+     * This is the heart of Soothsayer.
+     * 
+     * Plump will eventually provide the implementation of sequential or parallel execution of plugins.
+     *
+     * @return prediction produced by the active predictive plugins and combined by the active combiner
      */
     Prediction predict() const;
 
 
-    /**
-     * Adds @param plugin to the list of active plugins.
+    /** Adds a Plugin object to the active runtime plugins list.
+     *
+     * @param pPtr is a pointer to a Plugin
      */
     void addPlugin(Plugin* plugin);
-    /**
-     * Removes @param plugin from the list of active plugins.
+
+    /** Removes a Plugin object from the active runtime plugins list.
+     *
+     * @param pPtr is a pointer to the Plugin to be removed
+     * @return true if successful, false otherwise
      */
     bool removePlugin(const Plugin* plugin);
 
-    /**
+    /** Gets PREDICT_TIME option value.
+     *
      * Returns the maximum time plugins are allowed to execute before
      * returning a prediction.
+     *
+     * @return value of PREDICT_TIME
      */
     int getPredictTime() const;
-    /**
-     * Sets the maximum time plugins are allowed to execute before
-     * returning a prediction.
+    
+    /** Sets PREDICT_TIME option, the maximum time allowed for a predictive plugin to return its prediction.
+     *
+     * @param predictTime expressed in milliseconds
+     * @return true if the supplied value is valid, false otherwise
      *
      * @param milliseconds time in milliseconds
      */
-    bool setPredictTime(const int milliseconds);
-    /** 
-     * Returns the active combination method used by predictor to
-     * combine predictions returned by the active predictive plugins
-     * into one prediction.
-     */
+    bool setPredictTime(const int predictTime);
+
+     /** Gets COMBINATION_METHOD option value.
+      *
+      * Returns the active combination method used by predictor to
+      * combine predictions returned by the active predictive plugins
+      * into one prediction.
+      *
+      * @return value of COMBINATION_METHOD
+      */
     CombinationMethod getCombinationMethod() const;
-    /** 
+
+    /** Sets COMBINATION_METHOD option.
+     *
      * Sets the combination method used by predictor to combine
      * predictions returned by the active predictive plugins into one
      * prediction.
+     *
+     * @param cm method used to combine predictions computed by each multiple predictive plugins into a single prediction
+     * @return true if the supplied value is valid, false otherwise
      */
-    bool setCombinationMethod( const CombinationMethod );
+    bool setCombinationMethod(const CombinationMethod);
+
+    /** Set Profile interface to currently active profile.
+     * 
+     * Profile provides an interface to the active profile. Each
+     * component can pull the values of the configuration variables it
+     * is interested in from the Profile object, rather than having
+     * the configuration variable values pushed down from
+     * ProfileManager.
+     *
+     * Eventually, all components should start pulling their config
+     * instead of having the config pushed down their throat.
+     *
+     * @param profile Profile to use.
+     */
+    void setProfile(Profile*);
 
   private:
-    
     // PLUMP
     //plump::Plump& plump;
 
-    // init methods
+    /** Initializes the Combiner object.
+     *
+     *  @param combinationMethod is an enum that identifies what Combiner object to use
+     */
     bool initCombiner();
 
     // execute plugin function (invoked in thread)
     void *execute(void *);
 
-    HistoryTracker &historyTracker;
 
-    Combiner *combiner;
+    HistoryTracker &historyTracker;
+    Profile* profile;
+
+    Combiner* combiner;
     std::vector<Plugin*> plugins;        // active Plugins
     std::vector<Prediction> predictions; // predictions computed by each plugin are returned here
 
     int PREDICT_TIME;
     CombinationMethod COMBINATION_METHOD;
 
-    /* Prediction contains a list(or vector) of Suggestion. When a
-       Predition object is passed by value, it is passed by default
-       memberwise copy. That (could) creates a problem because there's
-       only one list of Suggestion pointed at by different object and
-       its lifetime can be inadequate.  A solution could be to
-       overload the operator= or make sure it gets a proper lifetime
-       (it is instantiated in the right scope).
-    */
 };
 
 #endif // SOOTH_PREDICTOR

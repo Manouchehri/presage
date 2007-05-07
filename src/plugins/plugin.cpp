@@ -33,28 +33,28 @@
  * @param longDesc is a long description of the plugin's functionality
  */
 Plugin::Plugin( HistoryTracker& ht,
+		Profile* prof,
                 const char* pluginName,
 		const char* shortDesc,
                 const char* longDesc )
-	: name( pluginName ),
-	  shortDescription( shortDesc ),
-	  longDescription( longDesc ),
-	  historyTracker( ht )
+	: name            (pluginName ),
+	  shortDescription(shortDesc  ),
+	  longDescription (longDesc   ),
+	  historyTracker  (ht         ),
+	  profile         (prof       )
 {
-	options.push_back( Option( "yes",
-				   BOOL,
-				   "ACTIVE",
-				   "Determines whether the plugin is active." ) );
-
+    // NOTE: plugin implementations deriving from this class should
+    // use profile to query the value of needed configuration
+    // variables.
 }
 
-/* Virtual plugin destructor.
+/** Virtual plugin destructor.
  *
  */
 Plugin::~Plugin()
 {}
 
-/* Get plugin name.
+/** Get plugin name.
  *
  */
 const std::string Plugin::getName() const
@@ -62,7 +62,7 @@ const std::string Plugin::getName() const
 	return name;
 }
 
-/* Get plugin short description.
+/** Get plugin short description.
  *
  */
 const std::string Plugin::getShortDescription() const
@@ -70,7 +70,7 @@ const std::string Plugin::getShortDescription() const
 	return shortDescription;
 }
 
-/* Get plugin long description.
+/** Get plugin long description.
  *
  */
 const std::string Plugin::getLongDescription() const
@@ -100,105 +100,19 @@ lt_dlhandle Plugin::getLibHandle() const
 }
 */
 
-/** Get option template.
- *
- * An option template is a structure that describes the available
- * option. An option template is a vector of strings. Each string in
- * the vector is an option name.
+
+/** Convert string to double.
  *
  */
-std::vector<std::string> Plugin::getOptionTemplate() const
+double Plugin::toDouble(const std::string str) const
 {
-	// create optionTemplate object (vector of strings)
-	std::vector<std::string> optionTemplate;
-
-	std::vector<Option>::const_iterator i;
-
-	// build optionTemplate by walking the options
-	for( i=options.begin(); i!=options.end(); i++ ) {
-		optionTemplate.push_back( i->getName() );
-	}
-
-	return optionTemplate;
+    return atof(str.c_str());
 }
 
-
-/** Get option value.
- *
- * Returns the value of the option having name passed as parameter.
+/** Convert string to int.
  *
  */
-std::string Plugin::getOptionValue( const std::string n ) const
+int Plugin::toInt(const std::string str) const
 {
-	std::vector<Option>::const_iterator i;
-	i = options.begin();
-
-	while( i!=options.end() && i->getName() != n ) {
-//		std::cout << "Option to find: " << n
-//			  << " Current option: " << i->getName() << std::endl;
-		i++;
-	}
-
-	return i->getValue();
-}
-
-
-/** Set option value.
- * 
- * @param n option name
- * @param v value to assign to option
- * @return true if option is set correctly, false otherwise
- *
- */
-bool Plugin::setOptionValue( const std::string n, const std::string v )
-{
-	std::vector<Option>::iterator i;
-	i = options.begin();
-
-	while( i!=options.end() && i->getName() != n ) {
-		i++;
-	}
-
-	if( i != options.end() ) {
-		return i->setValue( v );
-	} else
-		return false;
-}
-
-
-/** Get default option value.
- *
- * @param n option name
- * @return option's default value
- *
- */
-std::string Plugin::getOptionDefault( const std::string n ) const
-{
-	std::vector<Option>::const_iterator i;
-	i = options.begin();
-
-	while( i!=options.end() && i->getName() != n ) {
-		i++;
-	}
-
-	return i->getDefault();
-}
-	
-
-/** Get option description.
- * 
- * @param n option name
- * @return description of an option
- *
- */
-std::string Plugin::getOptionDescription( const std::string n ) const
-{
-	std::vector<Option>::const_iterator i;
-	i = options.begin();
-
-	while( i!=options.end() && i->getName() != n ) {
-		i++;
-	}
-
-	return i->getDescription();
+    return atoi(str.c_str());
 }
