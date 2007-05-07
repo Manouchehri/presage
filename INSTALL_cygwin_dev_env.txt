@@ -57,6 +57,11 @@ You want to make sure that the following packages are selected:
     libtool-devel
     libtool-stable
 
+    cvs
+    subversion
+
+    libncurses-devel
+
 then go ahead and click next. The packages will download and install
 in your system.
 
@@ -85,8 +90,16 @@ _____________________________________
 STEP 3: Install the required packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Download SQLite version 2.8.*, getting the complete tarball of
-the source tree.
+Download SQLite version 2.8.*.
+You will need to get the source from the cvs repository.
+Instructions are available on sqlite.org download page. 
+
+In short, you will have to run:
+cvs -d :pserver:anonymous@www.sqlite.org:/sqlite login
+cvs -d :pserver:anonymous@www.sqlite.org:/sqlite checkout sqlite
+cd sqlite
+cvs update -r version_2
+(password is "anonymous")
 
 Build and install SQLite by following the excellent instructions
 provided with the package.
