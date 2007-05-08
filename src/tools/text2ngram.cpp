@@ -194,6 +194,9 @@ int main(int argc, char* argv[]) {
 	infile.close();
     }
 
+
+    std::cout << "Writing out to " << format << " format file "
+	      << output << "..." << std::endl;
     if (format == TABBED_SEPARATED_VALUES) {
 	// output to tabbed separated values text file
 	//
@@ -203,6 +206,9 @@ int main(int argc, char* argv[]) {
 	assert(outstream);
 
 	// write results to output stream
+	ProgressBar progressBar;
+	long total = ngramMap.size();
+	long count = 0;
 	std::map<NgramList, int>::const_iterator it;
 	for (it = ngramMap.begin(); it != ngramMap.end(); it++) {
 	    for (NgramList::const_iterator ngram_it = it->first.begin();
@@ -211,6 +217,7 @@ int main(int argc, char* argv[]) {
 		outstream << *ngram_it << '\t';
 	    }
 	    outstream << it->second << std::endl;
+	    progressBar.update(static_cast<double>(count++)/total);
 	}
 
 	outstream.close();
@@ -222,6 +229,9 @@ int main(int argc, char* argv[]) {
 	sqliteDbCntr.createNgramTable(ngrams);
 
 	// write results to output stream
+	ProgressBar progressBar;
+	long total = ngramMap.size();
+	long count = 0;
 	std::map<NgramList, int>::const_iterator it;
 	for (it = ngramMap.begin(); it != ngramMap.end(); it++) {
 
@@ -235,6 +245,7 @@ int main(int argc, char* argv[]) {
 
 	    // insert Ngram
 	    sqliteDbCntr.insertNgram(ngram, it->second);
+	    progressBar.update(static_cast<double>(count++)/total);
 	}
     } else {
 	abort();

@@ -91,10 +91,6 @@ Short term:
 - Class HistoryTracker could initialize Tokenizer's members separator
    and blankspace on a member initializer list. Also, Tokenizer could
    take references to string instead of pointers.
-- sort out files:
-  src/tools/sqlite.cpp
-  src/core/loadXML.cpp
-  src/core/createXML.cpp
 - add simulator tests - i.e. given a carefully crafted input text and
   a purpose developed plugin and related resources, test that it
   returns the correct simulation and keystroke reduction rates
