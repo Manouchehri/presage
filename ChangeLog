@@ -1,3 +1,11 @@
+2007-05-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/soothsayerDemoSimple: removed, obsoleted by soothsayerDemo.
+
+	* src/core/loadXml: removed as not needed.
+
+	* src/core/createXML: removed as not needed.
+	
 2007-05-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/text2ngram: corrected -f option flag to generate

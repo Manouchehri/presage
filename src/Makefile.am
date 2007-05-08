@@ -35,7 +35,6 @@ libsoothsayer_la_LIBADD =	core/libcore.la       \
 
 
 bin_PROGRAMS =			soothsayerDemo       \
-				soothsayerDemoSimple \
 				soothsayerDemoText   \
 				soothsayerSimulator  
 
@@ -45,10 +44,6 @@ soothsayerDemo_LDFLAGS =	-lncurses
 
 soothsayerDemoText_SOURCES = 	soothsayerDemoText.cpp
 soothsayerDemoText_LDADD = 	libsoothsayer.la
-
-soothsayerDemoSimple_SOURCES =	soothsayerDemoSimple.cpp
-soothsayerDemoSimple_LDADD =	libsoothsayer.la
-soothsayerDemoSimple_LDFLAGS =	-lncurses
 
 soothsayerSimulator_SOURCES =	soothsayerSimulator.cpp
 soothsayerSimulator_LDADD =	simulator/libsimulator.la \
