@@ -112,6 +112,15 @@ It is just a matter of running:
 
 in most cases.
 
+OPTIONAL:
+If you would like to run the unit tests (by running `make check'),
+then you need to install cppunit. CppUnit can be installed using
+cygwin installer. However, due to a bug in CppUnit on Windows, you
+should install the source package and build only static libraries.
+
+This is achieved by configuring the cppunit package with:
+`./configure --disable-shared --prefix=/usr'
+
 
 _____________________________________
 STEP 4: And you are ready to start...
@@ -122,5 +131,5 @@ The development environment is installed and ready for action.
 Now follow the steps detailed in the README file to build and install
 Soothsayer.
 
-Have fun!
+Enjoy,
 Matteo
