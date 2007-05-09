@@ -78,10 +78,20 @@ public:
      */
     void removeNgram(const Ngram ngram) const;
 
+    /** Marks the beginning of an SQL transaction.
+     *
+     */
+    virtual void beginTransaction() const;
+
+    /** Marks the end of an SQL transaction.
+     *
+     */
+    virtual void endTransaction() const;
+
 protected:
     // Following functions to be overridden by derived classes.
-    virtual void openDatabase()                                   = 0;
-    virtual void closeDatabase()                                  = 0;
+    virtual void openDatabase()                                  = 0;
+    virtual void closeDatabase()                                 = 0;
     virtual NgramTable executeSql(const std::string query) const = 0;
 
 private:

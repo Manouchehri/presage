@@ -232,3 +232,13 @@ std::string DatabaseConnector::sanitizeString(const std::string str) const
     // TBD
     return str;
 }
+
+void DatabaseConnector::beginTransaction() const
+{
+    executeSql("BEGIN TRANSACTION;");
+}
+
+void DatabaseConnector::endTransaction() const
+{
+    executeSql("END TRANSACTION;");
+}

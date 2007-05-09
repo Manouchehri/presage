@@ -226,6 +226,7 @@ int main(int argc, char* argv[]) {
 	// 
 
 	SqliteDatabaseConnector sqliteDbCntr(output);
+        sqliteDbCntr.beginTransaction();
 	sqliteDbCntr.createNgramTable(ngrams);
 
 	// write results to output stream
@@ -247,6 +248,7 @@ int main(int argc, char* argv[]) {
 	    sqliteDbCntr.insertNgram(ngram, it->second);
 	    progressBar.update(static_cast<double>(count++)/total);
 	}
+        sqliteDbCntr.endTransaction();
     } else {
 	abort();
     }
