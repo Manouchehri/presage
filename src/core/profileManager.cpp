@@ -27,6 +27,14 @@
 #include "core/utility.h"        // isYes isNo isTrue isFalse utility function
 #include "dirs.h"                // sysconfdir macro define
 
+
+#ifdef DEBUG
+# define LOG(x) std::cout << x << std::endl
+#else
+# define LOG(x) /* x */
+#endif
+
+
 /** Constructor.
  *
  * Initialises other modules.
@@ -92,7 +100,7 @@ void ProfileManager::initHistoryTracker()
             text = option->FirstChild()->ToText();
             assert( text );
             if( NULL != text ) {
-                std::cout << "[ProfileManager] Option MAX_BUFFER_SIZE: " << text->Value() << std::endl;
+                LOG("[ProfileManager] Option MAX_BUFFER_SIZE: " << text->Value());
                 historyTracker.setMaxBufferSize( atoi( text->Value() ) );
 
             }
@@ -131,7 +139,7 @@ void ProfileManager::initPredictor()
             text = option->FirstChild()->ToText();
             assert( text );
             if( NULL != text ) {
-                std::cout << "[ProfileManager] Option PREDICT_TIME: " << text->Value() << std::endl;
+                LOG("[ProfileManager] Option PREDICT_TIME: " << text->Value());
                 predictor.setPredictTime( atoi( text->Value() ) );
             }
         }
@@ -143,7 +151,7 @@ void ProfileManager::initPredictor()
             text = option->FirstChild()->ToText();
             assert( text );
             if( NULL != text ) {
-                std::cout << "[ProfileManager] Option COMBINATION_METHOD: " << text->Value() << std::endl;
+                LOG("[ProfileManager] Option COMBINATION_METHOD: " << text->Value());
                 predictor.setCombinationMethod( static_cast<CombinationMethod>( atoi( text->Value() ) ) );
             }
         }
@@ -178,7 +186,7 @@ void ProfileManager::initSelector()
             text = option->FirstChild()->ToText();
             assert( text );
             if( NULL != text ) {
-                std::cout << "[ProfileManager] Option SUGGESTIONS: " << text->Value() << std::endl;
+                LOG("[ProfileManager] Option SUGGESTIONS: " << text->Value());
                 selector.setSuggestions( atoi( text->Value() ) );
             }
         }
@@ -190,7 +198,7 @@ void ProfileManager::initSelector()
             text = option->FirstChild()->ToText();
             assert( text );
             if( NULL != text ) {
-                std::cout << "[ProfileManager] Option REPEAT_SUGGESTIONS: " << text->Value() << std::endl;
+                LOG("[ProfileManager] Option REPEAT_SUGGESTIONS: " << text->Value());
 
                 if( isYes( text->Value() ) || isTrue( text->Value() ) )
                     selector.setRepeatSuggestion( true );
@@ -206,7 +214,7 @@ void ProfileManager::initSelector()
             text = option->FirstChild()->ToText();
             assert( text );
             if( NULL != text ) {
-                std::cout << "[ProfileManager] Option GREEDY_SUGGESTION_THRESHOLD: " << text->Value() << std::endl;
+                LOG("[ProfileManager] Option GREEDY_SUGGESTION_THRESHOLD: " << text->Value());
                 selector.setGreedySuggestionThreshold( atoi( text->Value() ) );
             }
         }
@@ -272,20 +280,17 @@ bool ProfileManager::loadProfile(const std::string profilename)
 	readOk = profileDoc->LoadFile (profileFile.c_str());
 
         if (!readOk) {
-            std::cerr << "[ProfileManager] Opening profile: '"
-                      << profileFile << "' attempt failed." << std::endl;
+            LOG("[ProfileManager] Opening profile: '" << profileFile << "' attempt failed.");
         }
 
 	i++;
     }
 
     if (readOk) {
-	std::cout << "[ProfileManager] Using profile '" << profileFile
-		  << "'" << std::endl;
+	LOG("[ProfileManager] Using profile '" << profileFile);
     } else {
 	// Handle failure to load profile
-	std::cerr << "[ProfileManager] No profiles were found. Using default parameters."
-		  << std::endl;
+	LOG("[ProfileManager] No profiles were found. Using default parameters.");
 	buildProfile();
     }
 

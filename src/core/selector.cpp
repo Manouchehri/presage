@@ -25,6 +25,14 @@
 
 #include "selector.h"
 
+
+#ifdef DEBUG
+# define LOG(x) std::cout << x << std::endl
+#else
+# define LOG(x) /* x */
+#endif
+
+
 Selector::Selector( HistoryTracker& ht )
     : historyTracker( ht )
 {
@@ -218,7 +226,7 @@ std::string Selector::getPrefix() const
 void Selector::setSuggestions( const int value )
 {
     if( value > 0 ) {
-	std::cout << "[Selector] Setting SUGGESTIONS to " << value << std::endl;
+	LOG("[Selector] Setting SUGGESTIONS to " << value);
 	SUGGESTIONS = value;
     } else {
 	std::cerr << "[Selector] SUGGESTIONS option not set. Value " << value << " out of range!/a" << std::endl;
@@ -240,7 +248,7 @@ int Selector::getSuggestions() const
  */
 void Selector::setRepeatSuggestion( const bool value )
 {
-    std::cout << "[Selector] Setting REPEAT_SUGGESTION: " << value << std::endl;
+    LOG("[Selector] Setting REPEAT_SUGGESTION: " << value);
     REPEAT_SUGGESTION = value;
 }
 
@@ -260,7 +268,7 @@ bool Selector::getRepeatSuggestion() const
 void Selector::setGreedySuggestionThreshold( const unsigned int value )
 {
     if( value >= 0 ) {
-	std::cout << "[Selector] Setting GREEDY_SUGGESTION_THRESHOLD: " << value << std::endl;
+	LOG("[Selector] Setting GREEDY_SUGGESTION_THRESHOLD: " << value);
 	GREEDY_SUGGESTION_THRESHOLD = value;
     }
 }

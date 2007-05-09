@@ -36,6 +36,13 @@
 #include "plugins/smoothedUniBiTrigramPlugin.h"
 
 
+#ifdef DEBUG
+# define LOG(x) std::cout << x << std::endl
+#else
+# define LOG(x) /* x */
+#endif
+
+
 Predictor::Predictor(HistoryTracker &ht)
     : historyTracker( ht )
 {
@@ -178,7 +185,7 @@ bool Predictor::setPredictTime( const int predictTime )
                   << "than or equal to zero.\a" << std::endl;
         return false;
     } else {
-        std::cout << "[Predictor] Setting PREDICT_TIME to " << predictTime << std::endl;
+        LOG("[Predictor] Setting PREDICT_TIME to " << predictTime);
         PREDICT_TIME = predictTime;
         return true;
     }
@@ -187,7 +194,7 @@ bool Predictor::setPredictTime( const int predictTime )
 
 bool Predictor::setCombinationMethod( const CombinationMethod cm )
 {
-    std::cout << "[Predictor] Setting COMBINATION_METHOD to " << cm << std::endl;
+    LOG("[Predictor] Setting COMBINATION_METHOD to " << cm);
     if( COMBINATION_METHOD != cm ) {
 
         COMBINATION_METHOD = cm;

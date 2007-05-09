@@ -25,8 +25,6 @@
 
 #include "plugins/smoothedUniBiTrigramPlugin.h"
 
-#define DEBUG
-
 #ifdef DEBUG
 # define LOG(x) std::cout << x << std::endl
 #else
@@ -142,10 +140,12 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     // get table of possible prefix completitions
     Ngram prefix_gram;
     prefix_gram.push_back(word_prefix);
+    db->beginTransaction();
     NgramTable prefixCompletionTable = db->getNgramLikeTable(prefix_gram);
-
+    db->endTransaction();
 
     // let's retrieve all the other counts I need
+    db->beginTransaction();
     for (int i = 0; (i < prefixCompletionTable.size() && i < max_partial_predictions_size); i++) {
         // get w
 	word = prefixCompletionTable[i][0];
@@ -187,7 +187,6 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
 	    ngram.push_back(word);
 	    c_w2_w1_w = db->getNgramCount(ngram);
 	}
-	    
 
         // compute smoothed probability
         double f_w2_w1_w = ( c_w2_w1 > 0 ? ( static_cast< double >( c_w2_w1_w ) / c_w2_w1 ) : 0 );
@@ -255,6 +254,7 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
         // add computed suggestion to prediction
         prediction.addSuggestion( Suggestion( word, probability ) );
     }
+    db->endTransaction();
 
     LOG("[SmoothedUniBiTrigramPlugin] "           );
     LOG("[SmoothedUniBiTrigramPlugin] Prediction:");
