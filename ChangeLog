@@ -1,3 +1,11 @@
+2007-05-09  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/databaseConnector: added interface to begin and end
+	SQL transactions.
+	
+	* src/plugins/Makefile.am: minor change to
+	SmoothedUniBiTrigramPlugin sources.
+
 2007-05-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/text2ngram: added progress bar to result writing

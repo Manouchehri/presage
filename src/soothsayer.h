@@ -37,7 +37,6 @@
 #include "core/profileManager.h"
 
 #include "plugins/plugin.h"
-#include "plugins/option.h"
 
 // REVISIT uncomment this line when reenabling plump
 //PLUMP #include "plump/src/plump.h"
