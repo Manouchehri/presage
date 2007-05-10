@@ -1,3 +1,7 @@
+2007-05-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/soothsayerDemo: added function key sidebar.
+
 2007-05-09  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/text2ngram: improved performance of sqlite database

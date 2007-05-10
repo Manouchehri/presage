@@ -36,7 +36,10 @@ void disclaimer();
 
 void draw_title_win(WINDOW*);
 void draw_history_win(WINDOW*, std::string);
-void draw_previous_suggestions(std::vector<std::string>, const int);
+void draw_function_keys(WINDOW*);
+void draw_previous_suggestions(std::vector<std::string>, const int, int);
+
+const int SUGGESTIONS = 6;
 
 int main()
 {
@@ -69,8 +72,17 @@ int main()
     WINDOW* history_win = newwin(HISTORY_WIN_HEIGHT, HISTORY_WIN_WIDTH, HISTORY_WIN_BEGIN_Y, HISTORY_WIN_BEGIN_X);
     draw_history_win(history_win, std::string(""));
 
+    // ncurses function keys window
+    const int FUNCTION_WIN_HEIGHT  = 6 + 2;
+    const int FUNCTION_WIN_WIDTH   = 4;
+    const int FUNCTION_WIN_BEGIN_Y = HISTORY_WIN_BEGIN_Y + HISTORY_WIN_HEIGHT + 1;
+    const int FUNCTION_WIN_BEGIN_X = 0;
+    WINDOW* function_win = newwin(FUNCTION_WIN_HEIGHT, FUNCTION_WIN_WIDTH, FUNCTION_WIN_BEGIN_Y, FUNCTION_WIN_BEGIN_X);
+    draw_function_keys(function_win);
+
     mvprintw(LINES - 1, 0, "Press F12 to quit.");
     refresh();
+
 
     std::vector<std::string> words;
     int c;
@@ -82,8 +94,9 @@ int main()
 	    // prediction was successful. user pressed the function
 	    // key corresponding to desired token. selecting
 	    // suggestion.
-	    std::string message = "Selecting word: " + words[c - KEY_F0 - 1];
+	    std::string message = "Last selected word: " + words[c - KEY_F0 - 1];
 	    mvprintw(LINES - 3, 0, message.c_str());
+            clrtoeol();
 	    move(LINES, COLS);
 
 	    // inform soothsayer that the prediction was successful.
@@ -101,12 +114,15 @@ int main()
 	    refresh();
 	}
 	draw_history_win(history_win, soothsayer.history());
-	draw_previous_suggestions(words, HISTORY_WIN_BEGIN_Y + HISTORY_WIN_HEIGHT + 1);
+	draw_previous_suggestions(words,
+                                  HISTORY_WIN_BEGIN_Y + HISTORY_WIN_HEIGHT + 1,
+                                  FUNCTION_WIN_BEGIN_X + FUNCTION_WIN_WIDTH + 1 );
     } while( c != KEY_F(12) );
 
 
     delwin(title_win);
     delwin(history_win);
+    delwin(function_win);
     endwin();
 
     return 0;
@@ -138,7 +154,19 @@ void drawMsgWin( WINDOW* win, std::vector<std::string> words )
     wrefresh( win );
 }
 
-void draw_previous_suggestions(std::vector<std::string> words, const int starty)
+void draw_function_keys(WINDOW* win)
+{
+    wclear(win);
+    box(win, 0, 0);
+    for (int i = 1; i <= SUGGESTIONS; i++) {
+        std::stringstream ss;
+        ss << 'F' << i;
+        mvwprintw(win, i, 1, ss.str().c_str());
+    }
+    wrefresh(win);
+}
+
+void draw_previous_suggestions(std::vector<std::string> words, const int starty, int startx)
 {
     static std::list< std::vector<std::string> > previousSuggestions;
     static std::vector< WINDOW* > windows;
@@ -154,8 +182,6 @@ void draw_previous_suggestions(std::vector<std::string> words, const int starty)
     windows.clear();
 
     previousSuggestions.insert(previousSuggestions.begin(), words);
-
-    int startx = 0;
 
     for (std::list< std::vector<std::string> >::const_iterator listit = previousSuggestions.begin();
 	 listit != previousSuggestions.end();
