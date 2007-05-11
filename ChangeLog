@@ -1,3 +1,14 @@
+2007-05-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/databaseConnector: fixed bug in the query generation
+	code. A keyword in single quotes is interpreted as a literal
+	string if it occurs in a context where a string literal is
+	allowed, otherwise it is understood as an identifier, whereas a
+	keyword in double-quotes is interpreted as an identifier if it
+	matches a known identifier - otherwise it is interpreted as a
+	string literal. The following WHERE word = "word" is a no-op, the
+	correct clause is WHERE word = 'word'.
+
 2007-05-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/soothsayerDemo: added function key sidebar.

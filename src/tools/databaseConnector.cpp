@@ -167,10 +167,10 @@ std::string DatabaseConnector::buildWhereClause(const Ngram ngram) const
     where_clause << " WHERE";
     for (int i = 0; i < ngram.size(); i++) {
 	if (i < ngram.size() - 1) {
-	    where_clause << " word_" << ngram.size() - i - 1 << " = \""
-			 << sanitizeString(ngram[i]) << "\" AND";
+	    where_clause << " word_" << ngram.size() - i - 1 << " = '"
+			 << sanitizeString(ngram[i]) << "' AND";
 	} else {
-	    where_clause << " word = \"" << sanitizeString(ngram[ngram.size() - 1]) << "\"";
+	    where_clause << " word = '" << sanitizeString(ngram[ngram.size() - 1]) << "'";
 	}
     }
     return where_clause.str();
@@ -184,10 +184,10 @@ std::string DatabaseConnector::buildWhereLikeClause(const Ngram ngram) const
     where_clause << " WHERE";
     for (int i = 0; i < ngram.size(); i++) {
 	if (i < ngram.size() - 1) {
-	    where_clause << " word_" << ngram.size() - i - 1 << " = \""
-			 << sanitizeString(ngram[i]) << "\" AND";
+	    where_clause << " word_" << ngram.size() - i - 1 << " = '"
+			 << sanitizeString(ngram[i]) << "' AND";
 	} else {
-	    where_clause << " word LIKE \"" << sanitizeString(ngram[ngram.size() - 1]) << "%\"";
+	    where_clause << " word LIKE '" << sanitizeString(ngram[ngram.size() - 1]) << "%'";
 	}
     }
     return where_clause.str();
@@ -215,9 +215,9 @@ std::string DatabaseConnector::buildValuesClause(const Ngram ngram, const int co
     values_clause << "VALUES(";
     for (int i = 0; i < ngram.size(); i++) {
 	if (i < ngram.size() - 1) {
-	    values_clause << "\"" << sanitizeString(ngram[i]) << "\", ";
+	    values_clause << "'" << sanitizeString(ngram[i]) << "', ";
 	} else {
-	    values_clause << "\"" << sanitizeString(ngram[i]) << "\", " << count << ")";
+	    values_clause << "'" << sanitizeString(ngram[i]) << "', " << count << ")";
 	}
     }
     return values_clause.str();

@@ -7,7 +7,6 @@ TODO list
 
 
 Absolute first
- - add function keys to the left of suggestions in soothsayerDemo
  - make soothsayerSimulator accept normal text files, as opposed to
    files containing one token per line
  - write unit tests for plugins (test/plugins/*)

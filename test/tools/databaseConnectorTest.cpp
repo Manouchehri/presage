@@ -70,17 +70,17 @@ void DatabaseConnectorTest::testGetNgramCount()
 
     CPPUNIT_ASSERT_EQUAL( GLOBAL_MAGIC_NUMBER,
 			  databaseConnector->getNgramCount(*unigram) );
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _1_gram WHERE word = \"foo\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _1_gram WHERE word = 'foo';"),
 			  *lastQuery );
 
     CPPUNIT_ASSERT_EQUAL( GLOBAL_MAGIC_NUMBER,
 			  databaseConnector->getNgramCount(*bigram) );
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _2_gram WHERE word_1 = \"foo\" AND word = \"bar\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _2_gram WHERE word_1 = 'foo' AND word = 'bar';"),
 			  *lastQuery );
 
     CPPUNIT_ASSERT_EQUAL( GLOBAL_MAGIC_NUMBER,
 			  databaseConnector->getNgramCount(*trigram) );
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _3_gram WHERE word_2 = \"foo\" AND word_1 = \"bar\" AND word = \"foobar\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _3_gram WHERE word_2 = 'foo' AND word_1 = 'bar' AND word = 'foobar';"),
 			  *lastQuery );
 }
 
@@ -113,15 +113,15 @@ void DatabaseConnectorTest::testGetNgramLikeCount()
     DatabaseConnectorLikeImpl* databaseConnectorLike = new DatabaseConnectorLikeImpl(lastLikeQuery);
 
     assertCorrectMockNgramTable(databaseConnectorLike->getNgramLikeTable(*unigram));
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT word, count FROM _1_gram WHERE word LIKE \"foo%\" ORDER BY count DESC;"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT word, count FROM _1_gram WHERE word LIKE 'foo%' ORDER BY count DESC;"),
 			  *lastLikeQuery );
 
     databaseConnectorLike->getNgramLikeTable(*bigram);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT word_1, word, count FROM _2_gram WHERE word_1 = \"foo\" AND word LIKE \"bar%\" ORDER BY count DESC;"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT word_1, word, count FROM _2_gram WHERE word_1 = 'foo' AND word LIKE 'bar%' ORDER BY count DESC;"),
 			  *lastLikeQuery );
 
     databaseConnectorLike->getNgramLikeTable(*trigram);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT word_2, word_1, word, count FROM _3_gram WHERE word_2 = \"foo\" AND word_1 = \"bar\" AND word LIKE \"foobar%\" ORDER BY count DESC;"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT word_2, word_1, word, count FROM _3_gram WHERE word_2 = 'foo' AND word_1 = 'bar' AND word LIKE 'foobar%' ORDER BY count DESC;"),
 			  *lastLikeQuery );
 
     delete lastLikeQuery;
@@ -133,15 +133,15 @@ void DatabaseConnectorTest::testInsertNgram()
     std::cout << "DatabaseConnectorTest::testInsertNgram()" << std::endl;
 
     databaseConnector->insertNgram(*unigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _1_gram VALUES(\"foo\", 1337);"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _1_gram VALUES('foo', 1337);"),
 			  *lastQuery );
     
     databaseConnector->insertNgram(*bigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _2_gram VALUES(\"foo\", \"bar\", 1337);"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _2_gram VALUES('foo', 'bar', 1337);"),
 			  *lastQuery );
 
     databaseConnector->insertNgram(*trigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _3_gram VALUES(\"foo\", \"bar\", \"foobar\", 1337);"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _3_gram VALUES('foo', 'bar', 'foobar', 1337);"),
 			  *lastQuery );
 }
 
@@ -150,15 +150,15 @@ void DatabaseConnectorTest::testUpdateNgram()
     std::cout << "DatabaseConnectorTest::testUpdateNgram()" << std::endl;
 
     databaseConnector->updateNgram(*unigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _1_gram SET count = 1337 WHERE word = \"foo\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _1_gram SET count = 1337 WHERE word = 'foo';"),
 			  *lastQuery );
 
     databaseConnector->updateNgram(*bigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _2_gram SET count = 1337 WHERE word_1 = \"foo\" AND word = \"bar\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _2_gram SET count = 1337 WHERE word_1 = 'foo' AND word = 'bar';"),
 			  *lastQuery );
 			  
     databaseConnector->updateNgram(*trigram, GLOBAL_MAGIC_NUMBER);
-    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _3_gram SET count = 1337 WHERE word_2 = \"foo\" AND word_1 = \"bar\" AND word = \"foobar\";"),
+    CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _3_gram SET count = 1337 WHERE word_2 = 'foo' AND word_1 = 'bar' AND word = 'foobar';"),
 			  *lastQuery );
 }
 

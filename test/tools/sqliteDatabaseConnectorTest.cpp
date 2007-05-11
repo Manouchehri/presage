@@ -209,6 +209,23 @@ void SqliteDatabaseConnectorTest::testGetNgramCount()
 			  sqliteDatabaseConnector->getNgramCount(*bigram) );
     CPPUNIT_ASSERT_EQUAL( MAGIC_NUMBER, 
 			  sqliteDatabaseConnector->getNgramCount(*trigram) );
+
+    // Add crafted unigram to database to test that WHERE word =
+    // "word" bug has been fixed. Fix is using WHERE word = 'word'
+    // clause.
+    // A keyword in single quotes is interpreted as a literal string
+    // if it occurs in a context where a string literal is allowed,
+    // otherwise it is understood as an identifier, whereas a
+    // keyword in double-quotes is interpreted as an identifier if
+    // it matches a known identifier - otherwise it is interpreted
+    // as a string literal. The following WHERE word = "word" is a
+    // no-op, the correct clause is WHERE word = 'word'.
+    Ngram* ngram = new Ngram();
+    ngram->push_back("word");
+    sqliteDatabaseConnector->insertNgram(*ngram, MAGIC_NUMBER + 1);
+    CPPUNIT_ASSERT_EQUAL( MAGIC_NUMBER + 1,
+                          sqliteDatabaseConnector->getNgramCount(*ngram) );
+    delete ngram;
 }
 
 void SqliteDatabaseConnectorTest::testIncrementNgramCount()

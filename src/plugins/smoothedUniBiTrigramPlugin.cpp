@@ -25,8 +25,6 @@
 
 #include "plugins/smoothedUniBiTrigramPlugin.h"
 
-#define DEBUG
-
 #ifdef DEBUG
 # define LOG(x) std::cout << x << std::endl
 #else
