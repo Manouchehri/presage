@@ -1,5 +1,9 @@
 2007-05-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/core/historyTracker: fixed bug in getToken(index), incorrect
+	token was returned when index pointed too far back into the
+	history.
+
 	* src/tools/databaseConnector: fixed bug in the query generation
 	code. A keyword in single quotes is interpreted as a literal
 	string if it occurs in a context where a string literal is

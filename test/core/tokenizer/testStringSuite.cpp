@@ -100,6 +100,12 @@ TestStringSuite::TestStringSuite()
     tokens.push_back("");
     testStrings.push_back(new TestString(str, tokens));
 
+    tokens.clear();
+    str = "frobnik ";
+    tokens.push_back("frobnik");
+    tokens.push_back("");
+    testStrings.push_back(new TestString(str, tokens));
+
 //// REVISIT:
 // These two following strings will cause tests to fail due to the
 // blankspace at the beginning whitespace.

@@ -231,6 +231,10 @@ std::string HistoryTracker::getToken(const int index)
         token = tokenizer.nextToken();
         i++;
     }
+    if (i <= index) {
+	// in case the index points too far back
+	token = "";
+    }
     return token;
 
 //// Using ForwardTokenizer

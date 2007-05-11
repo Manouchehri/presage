@@ -56,7 +56,6 @@ Tests in general should be cleaned up (e.g. we don't need the xDriver
    anymore, those tests should be moved to CPPUnit tests)
 
 Release critical issues:
-- demo program
 - configuration mechanism
 - tools
 
@@ -233,4 +232,5 @@ autoheader
 autoconf
 automake -a --copy
 
-or source the bootstrap script provided (in svn repo).
+or source the bootstrap script provided (in svn repo):
+. bootstrap

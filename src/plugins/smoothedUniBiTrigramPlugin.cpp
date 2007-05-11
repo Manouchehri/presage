@@ -25,6 +25,8 @@
 
 #include "plugins/smoothedUniBiTrigramPlugin.h"
 
+#define DEBUG
+
 #ifdef DEBUG
 # define LOG(x) std::cout << x << std::endl
 #else
@@ -243,12 +245,12 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
         if( c > 0 )
             assert( ( c_w / c ) <= 1 );
 
-        if( c_w2_w1 > 0 && c_w2_w1 > 0 )		
-            assert( log( c_w2_w1_w / c_w2_w1 ) <= 0 );
-        if( c_w1_w > 0 && c_w1 > 0 )
-            assert( log( c_w1_w / c_w1 ) <= 0 );
-        if( c_w > 0 && c > 0 )
-            assert( log( c_w / c ) <= 0 );
+	//        if( c_w2_w1 > 0 && c_w2_w1 > 0 )		
+	//            assert( log( c_w2_w1_w / c_w2_w1 ) <= 0 );
+	//        if( c_w1_w > 0 && c_w1 > 0 )
+	//            assert( log( c_w1_w / c_w1 ) <= 0 );
+	//        if( c_w > 0 && c > 0 )
+	//            assert( log( c_w / c ) <= 0 );
 
 	
         // add computed suggestion to prediction
