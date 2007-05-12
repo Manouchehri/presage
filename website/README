@@ -1,0 +1,40 @@
+______________________
+The Soothsayer project
+~~~~~~~~~~~~~~~~~~~~~~
+
+Project website deployment HOWTO
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The soothsayer database username, password, and host can be obtained
+from sourceforge.net project page by any user with administrator's
+rights.
+
+
+ o download drupal, the open source content management platform.
+   drupal can be obtained from http://drupal.org.
+   At the time of this writing, soothsayer website uses 5.1.
+
+
+ o install drupal by following the instructions found in file
+   INSTALL.txt in drupal's directory.
+
+
+ o populate drupal's database. If you followed the steps described in
+   drupal's INSTALL.txt, you will have created a database and
+   populated it with a set of tables that drupal needs.
+
+   - unzip drupal database
+
+     gunzip soothsayer_website_backup.sql.gz
+
+   - restore database from drupal's database backup
+
+     mysql -u user -p database < soothsayer_website_backup.sql
+
+
+
+To generate a database backup dump:
+  mysqldump -u user -p database > soothsayer_database_dump.sql
+  gzip soothsayer_database_dump.sql
+
+
