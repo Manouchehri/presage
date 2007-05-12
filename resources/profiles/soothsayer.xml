@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Soothsayer>
     <HistoryTracker>
+        <!-- MAX_BUFFER_SIZE
+          * currently not used
+          * likely to be removed
+        -->
         <MAX_BUFFER_SIZE>1024</MAX_BUFFER_SIZE>
     </HistoryTracker>
     <Selector>
+        <!-- SUGGESTIONS
+          Controls how many suggestions are returned in each prediction.
+        -->
         <SUGGESTIONS>6</SUGGESTIONS>
+        <!-- REPEAT_SUGGESTIONS
+          Allow the same suggestion to be offered in subsequent
+	  predictions, even if no context change has been detected.
+        -->
         <REPEAT_SUGGESTIONS>no</REPEAT_SUGGESTIONS>
+	<!-- GREEDY_SUGGESTION_THRESHOLD
+	  Select only tokens whose completion is longer than the specified
+	  number of characters.
+	-->
         <GREEDY_SUGGESTION_THRESHOLD>0</GREEDY_SUGGESTION_THRESHOLD>
     </Selector>
     <Predictor>
+        <!-- PREDICT_TIME
+          Maximum time allowed for predictive plugins to return their prediction.
+	-->
         <PREDICT_TIME>1000</PREDICT_TIME>
+	<!-- COMBINATION_METHOD
+	  * currently not used
+	  combination method used by predictor to combine predictions returned
+	  by the active predictive plugins into one prediction.
+        -->
         <COMBINATION_METHOD>0</COMBINATION_METHOD>
     </Predictor>
     <ProfileManager>
-        <DUMMY_OPTION>very dummy</DUMMY_OPTION>
+        <!-- no options -->
     </ProfileManager>
     <Plugins>
         <SmoothedUniBiTrigramPlugin>
-            <ACTIVE>yes</ACTIVE>
             <UNIGRAM_WEIGHT>.1</UNIGRAM_WEIGHT>
             <BIGRAM_WEIGHT>.3</BIGRAM_WEIGHT>
             <TRIGRAM_WEIGHT>.6</TRIGRAM_WEIGHT>
             <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
-            <MAX_PARTIAL_PREDICTION_SIZE>40</MAX_PARTIAL_PREDICTION_SIZE>
+            <MAX_PARTIAL_PREDICTION_SIZE>60</MAX_PARTIAL_PREDICTION_SIZE>
         </SmoothedUniBiTrigramPlugin>
-        <DummyPlugin>
-            <ACTIVE>no</ACTIVE>
-            <OPZIONE1>10</OPZIONE1>
-            <OPZIONE2>yes</OPZIONE2>
-        </DummyPlugin>
-        <DictionaryPlugin>
-            <ACTIVE>no</ACTIVE>
-            <DICTIONARY_PATH>/usr/share/dict/american-english</DICTIONARY_PATH>
-        </DictionaryPlugin>
     </Plugins>
 </Soothsayer>

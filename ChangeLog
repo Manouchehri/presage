@@ -1,3 +1,8 @@
+2007-05-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* resources/profiles/soothsayer.xml: removed superflous bits and
+	added element descriptions.
+
 2007-05-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/historyTracker: fixed bug in getToken(index), incorrect
