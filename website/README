@@ -19,6 +19,11 @@ rights.
    INSTALL.txt in drupal's directory.
 
 
+ o install soothie theme in themes/ directory
+
+     gunzip -C themes/ soothie_theme.tar.gz
+
+
  o populate drupal's database. If you followed the steps described in
    drupal's INSTALL.txt, you will have created a database and
    populated it with a set of tables that drupal needs.
