@@ -60,6 +60,19 @@ dnl =======================
 AC_STDC_HEADERS
 AC_HEADER_DIRENT
 
+dnl ==================
+dnl Checks for ncurses
+dnl ==================
+AC_CHECK_LIB([ncurses],
+             [initscr],
+             [],
+	     [AC_MSG_ERROR([ncurses library not found. Please install ncurses package.])])
+
+AC_CHECK_HEADERS([curses.h],
+                 [],
+                 [AC_MSG_ERROR([ncurses header file not found. Please install ncurses development package.])],
+                 [])
+
 dnl =================
 dnl Checks for SQLite
 dnl =================
