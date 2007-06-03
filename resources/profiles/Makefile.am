@@ -17,11 +17,17 @@
 
 ## Process this file with automake to produce Makefile.in
 
+EXTRA_DIST =	soothsayer.xml.template
+
+BUILT_SOURCES =	soothsayer.xml
+CLEANFILES =	soothsayer.xml
+
+soothsayer.xml:	soothsayer.xml.template
+	sed -e 's|::LOCALSTATEDIR::|${localstatedir}|' ${srcdir}/soothsayer.xml.template > soothsayer.xml
+
 # ${prefix}/etc directory
 dist_sysconf_DATA =	soothsayer.xml
 
-install-data-hook:
-	sed -i -e 's|::LOCALSTATEDIR::|${localstatedir}|' ${sysconfdir}/soothsayer.xml
 
 #
 # ${prefix}/share directory
