@@ -1,6 +1,11 @@
+2007-06-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/Makefile.am, src/plugins/Makefile.am: cleaned up
+	dependencies of convenience libraries.
+
 2007-06-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
-	* configure.ac: added checks for ncurses
+	* configure.ac: added checks for ncurses.
 
 2007-05-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 

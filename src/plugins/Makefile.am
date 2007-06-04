@@ -17,14 +17,14 @@
 
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES =	libplugin.la
-
-libplugin_la_SOURCES =	plugin.cpp plugin.h
-
-lib_LTLIBRARIES =	libSmoothedUniBiTrigramPlugin.la \
+noinst_LTLIBRARIES =	libplugin.la                     \
+			libSmoothedUniBiTrigramPlugin.la \
 			libDictionaryPlugin.la           \
 			libSmoothedCountPlugin.la        \
 			libDummyPlugin.la                   
+
+
+libplugin_la_SOURCES =	plugin.cpp plugin.h
 
 libSmoothedUniBiTrigramPlugin_la_SOURCES =	smoothedUniBiTrigramPlugin.cpp \
 						smoothedUniBiTrigramPlugin.h   
