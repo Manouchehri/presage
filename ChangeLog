@@ -1,3 +1,10 @@
+2007-06-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/resources/profiles: added script to generate soothsayer.xml
+	config file from template and determine cygwin root directory,
+	when on cygwin, to work around sqlite problem with absolute
+	database paths on Windows+Cygwin
+
 2007-06-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/Makefile.am, src/plugins/Makefile.am: cleaned up
