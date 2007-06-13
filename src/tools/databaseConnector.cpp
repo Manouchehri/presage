@@ -64,6 +64,23 @@ void DatabaseConnector::createNgramTable(const int n) const
     }
 }
 
+int DatabaseConnector::getUnigramCountsSum() const
+{
+    std::string query = "SELECT SUM(count) FROM _1_gram;";
+
+    NgramTable result = executeSql(query);
+
+    LOG("[DatabaseConnector] NgramTable:");
+    for (int i = 0; i < result.size(); i++) {
+	for (int j = 0; j < result[i].size(); j++) {
+	    LOG(result[i][j] << '\t');
+	}
+	LOG("");
+    }
+
+    return extractFirstInteger(result);
+}
+
 int DatabaseConnector::getNgramCount(const Ngram ngram) const
 {
     std::stringstream query;
@@ -81,29 +98,7 @@ int DatabaseConnector::getNgramCount(const Ngram ngram) const
 	LOG("");
     }
 
-    // Initialize count to zero and then check that we have at least
-    // an entry in the table of ngram counts returned by the
-    // executeSql() method. If so, convert it into an integer and
-    // return it.
-    //
-    // REVISIT: make conversion to integer more robust (strtol ??)
-    //
-    int count = 0;
-    if (result.size() > 0) {
-	if (result[0].size() > 0) {
-	    count = atoi(result[0][0].c_str());
-	}
-    }
-
-    LOG("[DatabaseConnector] result: ");
-    for (int i = 0; i < result.size(); i++) {
-	for (int j = 0; j < result[i].size(); j++) {
-	    LOG(result[i][j] << '\t');
-	}
-	LOG("");
-    }
-	
-    return (count > 0 ? count : 0);
+    return extractFirstInteger(result);
 }
 
 NgramTable DatabaseConnector::getNgramLikeTable(const Ngram ngram) const
@@ -231,6 +226,33 @@ std::string DatabaseConnector::sanitizeString(const std::string str) const
     // TO BE DONE
     // TBD
     return str;
+}
+
+int DatabaseConnector::extractFirstInteger(const NgramTable& table) const
+{
+    // Initialize count to zero and then check that we have at least
+    // an entry in the table of ngram counts returned by the
+    // executeSql() method. If so, convert it into an integer and
+    // return it.
+    //
+    // REVISIT: make conversion to integer more robust (strtol ??)
+    //
+    int count = 0;
+    if (table.size() > 0) {
+	if (table[0].size() > 0) {
+	    count = atoi(table[0][0].c_str());
+	}
+    }
+
+    LOG("[DatabaseConnector] table: ");
+    for (int i = 0; i < table.size(); i++) {
+	for (int j = 0; j < table[i].size(); j++) {
+	    LOG(table[i][j] << '\t');
+	}
+	LOG("");
+    }
+	
+    return (count > 0 ? count : 0);
 }
 
 void DatabaseConnector::beginTransaction() const

@@ -1,3 +1,11 @@
+2007-06-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/databaseConnector: added method to compute the sum of
+	all unigrams counts.
+
+	* src/tools/smoothedUniBiTrigramPlugin: using DatabaseConnector
+	interface instead of derived SqliteDatabaseConnector interface.
+	
 2007-06-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/resources/profiles: added script to generate soothsayer.xml

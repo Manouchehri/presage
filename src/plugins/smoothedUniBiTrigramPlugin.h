@@ -61,7 +61,8 @@ public:
     virtual void train();
 
 private:
-    SqliteDatabaseConnector* db;
+    DatabaseConnector* db;
+    //SqliteDatabaseConnector* db;
     std::string database;
 
     double      UNIGRAM_WEIGHT;

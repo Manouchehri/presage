@@ -72,8 +72,6 @@ Context switches are marked in some way (either a vertical bar or a
 Configuration mechanism, from XML DOM to config classes that are
    visited by a ConfiguratorVisitor
 
-Tools, progress bar, database connectors
-
 
 Short term:
 * restructure directories regarding config files and plugins etc.

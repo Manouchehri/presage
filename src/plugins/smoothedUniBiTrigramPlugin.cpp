@@ -132,10 +132,8 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     std::string word;   // w
 
     // get c
-    std::string query = "SELECT SUM( count ) FROM _1_gram;";
-    NgramTable result = db->executeSql(query);
-    LOG("[SmoothedUniBiTrigramPlugin] c: " << result[0][0].c_str());
-    c = atoi(result[0][0].c_str());
+    c = db->getUnigramCountsSum();
+    LOG("[SmoothedUniBiTrigramPlugin] c: " << c);
 
     // get table of possible prefix completitions
     Ngram prefix_gram;

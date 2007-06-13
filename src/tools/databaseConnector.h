@@ -51,6 +51,10 @@ public:
     void createBigramTable()  const { createNgramTable(2); }
     void createTrigramTable() const { createNgramTable(3); }
 
+    /** Returns an integer equal to the sum of the counts of all unigrams.
+     */
+    int getUnigramCountsSum() const;
+
     /** Returns an integer equal to the specified ngram count.
      */
     int getNgramCount(const Ngram ngram) const;
@@ -116,6 +120,10 @@ private:
     /** Sanitizes ngram, guards against SQL code injection.
      */
     std::string sanitizeString(const std::string) const;
+
+    /** Returns the first element of the ngramtable as an integer.
+     */
+    int extractFirstInteger(const NgramTable&) const;
 };
 
 #endif // DATABASECONNECTOR_H
