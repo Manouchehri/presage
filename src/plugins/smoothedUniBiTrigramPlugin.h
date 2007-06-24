@@ -43,9 +43,6 @@
 #include "tools/sqliteDatabaseConnector.h"
 
 
-static const char DEFAULT_DATABASE_LOCATION[] = localstatedir;
-static const char DEFAULT_DATABASE_FILENAME[] = "database_en.db";
-
 /** Smoothed unigram/bigram/trigram statistical plugin.
  *
  */

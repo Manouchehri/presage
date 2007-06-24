@@ -42,7 +42,7 @@ const Prediction &Prediction::operator=( const Prediction &right )
     return *this;
 }
 
-int Prediction::getSize() const
+int Prediction::size() const
 {
     return suggestions.size();
 }

@@ -23,59 +23,17 @@
 \******************************************************************************/        
 
 
-#ifndef SOOTH_PREDICTION
-#define SOOTH_PREDICTION
+#include <cppunit/extensions/TestFactoryRegistry.h>
+#include <cppunit/ui/text/TestRunner.h>
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+int main()
+{
 
-#include <vector>
+	CppUnit::TextUi::TestRunner runner;
+	CppUnit::TestFactoryRegistry& registry = CppUnit::TestFactoryRegistry::getRegistry();
+	runner.addTest( registry.makeTest() );
+	bool success = runner.run();
+	
+	return success ? 0 : 1;
+}
 
-#include "suggestion.h"
-
-
-/** Prediction
- *
- * A prediction contains a set of Suggestion objects.  More precisely,
- * a Prediction is a list of Suggestion object, ordered by decreasing
- * probability.
- *
- * A Prediction object is returned by the predictive plugins and by a
- * combiner object.
- * 
- */
-class Prediction {
-    friend std::ostream &operator<<( std::ostream &, const Prediction & );
-
-public:
-    Prediction();
-    ~Prediction();
-
-    const Prediction &operator=( const Prediction & );
-
-    int size() const;                   // returns number of suggestions
-    Suggestion getSuggestion(int=0) const; // returns nth most
-    // probable suggestion
-
-    /** Inserts a new suggestion, preserves the ordering.
-     * 
-     * The suggestion object to be inserted is compared against the
-     * suggestions already contained in the prediction and inserted in an
-     * ordered fashion.
-     *
-     * Comparison between suggestion objects uses the overloaded operator<
-     *
-     */
-    void addSuggestion( Suggestion );
-    
-    /** Returns a string representation of the prediction.
-     */
-    std::string toString() const;
-private:
-    std::vector<Suggestion> suggestions;
-
-};
-
-
-#endif // SOOTH_PREDICTION

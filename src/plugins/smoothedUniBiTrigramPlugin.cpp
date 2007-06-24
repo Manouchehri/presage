@@ -250,13 +250,15 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
 
 	
         // add computed suggestion to prediction
-        prediction.addSuggestion( Suggestion( word, probability ) );
+	if (probability > 0) {
+	    prediction.addSuggestion(Suggestion(word, probability));
+	}
     }
     db->endTransaction();
 
     LOG("[SmoothedUniBiTrigramPlugin] "           );
     LOG("[SmoothedUniBiTrigramPlugin] Prediction:");
-    LOG("[SmoothedUniBiTrigramPlugin] ===========");
+    LOG("[SmoothedUniBiTrigramPlugin] -----------");
     LOG(prediction                                );
 	
     return prediction; // Return combined prediction

@@ -178,17 +178,17 @@ Prediction SmoothedCountPlugin::predict() const
 
 	// TODO : after correct word has been found in inner loops, execution
 	// TODO : can break out of it.
-	for( int i = 0; i < predUnigrams.getSize(); i++ ) {
+	for( int i = 0; i < predUnigrams.size(); i++ ) {
 
 	    word   = predUnigrams.getSuggestion( i ).getWord();
 	    ccount = UNIGRAM_WEIGHT *
 		     predUnigrams.getSuggestion( i ).getProbability();
 
-	    for( int j = 0; j < predBigrams.getSize(); j++ ) {
+	    for( int j = 0; j < predBigrams.size(); j++ ) {
 
 		if( predBigrams.getSuggestion(j).getWord() == word ) {
 
-		    for( int k = 0; k < predTrigrams.getSize(); k++ ) {
+		    for( int k = 0; k < predTrigrams.size(); k++ ) {
 
 		        if( predTrigrams.getSuggestion(k).getWord() == word ) {
 
@@ -287,7 +287,7 @@ int buildPrediction( void* callbackDataPtr,
 	Prediction* predictionPtr = dataPtr->predPtr;
 	int maxPredictionSize = dataPtr->predSize;
 
-	if( predictionPtr->getSize() > maxPredictionSize ) {
+	if( predictionPtr->size() > maxPredictionSize ) {
 		return 1;
 	} else {
 

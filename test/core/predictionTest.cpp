@@ -106,21 +106,21 @@ void PredictionTest::testAssignmentOperator()
 
 void PredictionTest::testGetSize()
 {
-    CPPUNIT_ASSERT( empty_prediction->getSize() == 0 );
-    CPPUNIT_ASSERT( prediction1->getSize() == 1 );
-    CPPUNIT_ASSERT( prediction2->getSize() == 1 );
-    CPPUNIT_ASSERT( prediction3->getSize() == 1 );
-    CPPUNIT_ASSERT( prediction23->getSize() == 2 );
-    CPPUNIT_ASSERT( prediction13->getSize() == 2 );
-    CPPUNIT_ASSERT( prediction12->getSize() == 2 );
-    CPPUNIT_ASSERT( prediction123->getSize() == 3 );
+    CPPUNIT_ASSERT( empty_prediction->size() == 0 );
+    CPPUNIT_ASSERT( prediction1->size() == 1 );
+    CPPUNIT_ASSERT( prediction2->size() == 1 );
+    CPPUNIT_ASSERT( prediction3->size() == 1 );
+    CPPUNIT_ASSERT( prediction23->size() == 2 );
+    CPPUNIT_ASSERT( prediction13->size() == 2 );
+    CPPUNIT_ASSERT( prediction12->size() == 2 );
+    CPPUNIT_ASSERT( prediction123->size() == 3 );
 
     Prediction* pred = new Prediction();
     const int total = 100;
     for (int i = 0; i < total; i++) {
         pred->addSuggestion(*sugg3Ptr);
     }
-    CPPUNIT_ASSERT( pred->getSize() == total );
+    CPPUNIT_ASSERT( pred->size() == total );
     delete pred;
 }
 
@@ -150,7 +150,7 @@ void PredictionTest::testAddSuggestion()
     pred->addSuggestion(*sugg2Ptr);
     pred->addSuggestion(*sugg1Ptr);
 
-    CPPUNIT_ASSERT( pred->getSize() == 3 );
+    CPPUNIT_ASSERT( pred->size() == 3 );
     CPPUNIT_ASSERT( pred->getSuggestion(0) == *sugg3Ptr );
     CPPUNIT_ASSERT( pred->getSuggestion(1) == *sugg2Ptr );
     CPPUNIT_ASSERT( pred->getSuggestion(2) == *sugg1Ptr );

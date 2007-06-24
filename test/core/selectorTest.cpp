@@ -402,7 +402,7 @@ void SelectorTest::testSelect(TestDataSuite* tds)
 	selectedTokens = selector->select(tds->getInputPrediction());
 
 	Prediction expected = tds->getOutputPrediction();
-	CPPUNIT_ASSERT_EQUAL( (size_t)expected.getSize(), selectedTokens.size() );
+	CPPUNIT_ASSERT_EQUAL( (size_t)expected.size(), selectedTokens.size() );
 
 	std::vector<std::string>::const_iterator actual_it = selectedTokens.begin();
 	int index = 0;

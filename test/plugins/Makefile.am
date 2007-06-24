@@ -17,7 +17,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-TESTS =	
+TESTS =	pluginsTestRunner
 
 check_PROGRAMS = $(TESTS) \
 		dictionaryPluginDriver \
@@ -25,28 +25,42 @@ check_PROGRAMS = $(TESTS) \
 		smoothedCountDriver \
 		smoothedUniBiTrigramDriver
 
+pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                                    \
+				smoothedUniBiTrigramPluginTest.h                         \
+				smoothedUniBiTrigramPluginTest.cpp                       \
+				$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.cpp \
+				$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.h   \
+				$(top_srcdir)/src/core/prediction.h                      \
+				$(top_srcdir)/src/core/prediction.cpp                    \
+				$(top_srcdir)/src/core/suggestion.h                      \
+				$(top_srcdir)/src/core/suggestion.cpp                    \
+				$(top_srcdir)/src/core/utility.h                         \
+				$(top_srcdir)/src/core/utility.cpp                       
+
+pluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
+pluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
+pluginsTestRunner_LDADD =	$(top_builddir)/src/plugins/libplugin.la \
+				$(top_builddir)/src/tools/libtools.la    
+
 dictionaryPluginDriver_SOURCES =	dictionaryPluginDriver.cpp \
 					$(top_srcdir)/src/plugins/dictionaryPlugin.cpp \
 					$(top_srcdir)/src/plugins/dictionaryPlugin.h
-dictionaryPluginDriver_LDFLAGS = 	-lsqlite
+dictionaryPluginDriver_LDADD =		$(top_builddir)/src/libsoothsayer.la 
 
 dummyPluginDriver_SOURCES = 	dummyPluginDriver.cpp \
 				$(top_srcdir)/src/plugins/dummyPlugin.cpp \
 				$(top_srcdir)/src/plugins/dummyPlugin.h
-dummyPluginDriver_LDFLAGS = 	-lsqlite
+dummyPluginDriver_LDADD =	$(top_builddir)/src/libsoothsayer.la 
 
 smoothedCountDriver_SOURCES = 	smoothedCountDriver.cpp \
 				$(top_srcdir)/src/plugins/smoothedCountPlugin.cpp \
 				$(top_srcdir)/src/plugins/smoothedCountPlugin.h
-smoothedCountDriver_LDFLAGS = 	-lsqlite
+smoothedCountDriver_LDADD =	$(top_builddir)/src/libsoothsayer.la 
 
 smoothedUniBiTrigramDriver_SOURCES = 	smoothedUniBiTrigramDriver.cpp \
 					$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.cpp \
 					$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.h
 smoothedUniBiTrigramDriver_LDFLAGS =	-lsqlite
-
-LDADD =	$(top_builddir)/src/libsoothsayer.la 
+smoothedUniBiTrigramDriver_LDADD =	$(top_builddir)/src/libsoothsayer.la 
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src
-
-DEPENDENCIES =	libsoothsayer.la

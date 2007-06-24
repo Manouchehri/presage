@@ -32,15 +32,10 @@ toolsTestRunner_SOURCES =	toolsTestRunner.cpp             \
 toolsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 toolsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 toolsTestRunner_LIBS =		-ldl
-
-
-LDADD =	$(top_builddir)/src/libsoothsayer.la  \
-	$(top_builddir)/src/tools/libtools.la 
+toolsTestRunner_LDADD =		$(top_builddir)/src/libsoothsayer.la
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src      \
 		-I$(top_srcdir)/src/core
-
-DEPENDENCIES =	libsoothsayer.la
 
 # Clean out files created during tests.
 # Required to make distcheck happy.

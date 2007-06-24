@@ -1,3 +1,20 @@
+2007-06-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* test/plugins/smoothedUniBiTrigramPluginTest: added plugin unit
+	tests. Need to add more.
+
+	* src/plugins/smoothedUniBiTrigramPluginTest: fixed bug exposed by
+	new plugin unit tests.
+
+2007-06-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/suggestion, src/core/prediction: minor change to
+	interface. Adapted unit tests accordingly.
+
+2007-06-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* Makefile.am: minor changes and cleanups.
+
 2007-06-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/databaseConnector: added method to compute the sum of

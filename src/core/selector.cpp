@@ -54,7 +54,7 @@ std::vector<std::string> Selector::select( Prediction p )
 {
     // copy words from Prediction.Suggestion.word in result vector
     std::vector<std::string> result;
-    for( int i=0 ; i<p.getSize() ; i++ ) {
+    for( int i=0 ; i<p.size() ; i++ ) {
 	result.push_back( p.getSuggestion( i ).getWord() );
     }
 	
