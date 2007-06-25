@@ -24,6 +24,10 @@
 
 #include "sqliteDatabaseConnector.h"
 
+#ifdef HAVE_STDLIB_H
+# include <stdlib.h> // for free()
+#endif
+
 #ifdef DEBUG
 # include <iostream>
 # define LOG(x) std::cout << x << std::endl
@@ -44,13 +48,16 @@ SqliteDatabaseConnector::~SqliteDatabaseConnector()
 
 void SqliteDatabaseConnector::openDatabase()
 {
-    char** errormsg = 0;
-    db = sqlite_open(db_name.c_str(), 0, errormsg);
+    char* errormsg = 0;
+    db = sqlite_open(db_name.c_str(), 0, &errormsg);
     if (db == 0) {
 	std::string error;
 	if (errormsg != 0) {
-	    error = *errormsg;
+	    error = errormsg;
 	}
+#ifdef HAVE_STDLIB_H
+        free(errormsg);
+#endif
 	throw SqliteDatabaseConnectorException(error);
     }
 }
@@ -66,16 +73,25 @@ NgramTable SqliteDatabaseConnector::executeSql(const std::string query) const
 {
     NgramTable answer;
     
-    char* sql_error_message = 0;
+    char* sqlite_error_msg = 0;
 
     LOG("[SqliteDatabaseConnector] executing query: " << query);
     int result = sqlite_exec(db,
 			     query.c_str(),
 			     callback,
 			     &answer,
-			     &sql_error_message);
+			     &sqlite_error_msg);
 
-    delete sql_error_message;
+    if (result != SQLITE_OK) {
+	std::string error;
+	if (sqlite_error_msg != 0) {
+	    error = sqlite_error_msg;
+	}
+#ifdef HAVE_STDLIB_H
+        free(sqlite_error_msg);
+#endif
+	throw SqliteDatabaseConnectorException(error);
+    }
 
     return answer;
 }

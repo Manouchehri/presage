@@ -116,10 +116,13 @@ void SqliteDatabaseConnectorTest::testInsertNgram()
     std::cout << "SqliteDatabaseConnectorTest::testInsertNgram()" << std::endl;
 
     // test that no insertion occurs since tables have not been
-    // yet created
-    sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER);
-    sqliteDatabaseConnector->insertNgram(*bigram, MAGIC_NUMBER);
-    sqliteDatabaseConnector->insertNgram(*trigram, MAGIC_NUMBER);
+    // yet created and an exception is thrown
+    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER),
+                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
+    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->insertNgram(*bigram, MAGIC_NUMBER),
+                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
+    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->insertNgram(*trigram, MAGIC_NUMBER),
+                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
 
     // populate database
     sqliteDatabaseConnector->createNgramTable(1);
@@ -151,10 +154,13 @@ void SqliteDatabaseConnectorTest::testUpdateNgram()
     std::cout << "SqliteDatabaseConnectorTest::testUpdateNgram()" << std::endl;
 
     // test that no insertion occurs since tables have not been
-    // yet created
-    sqliteDatabaseConnector->updateNgram(*unigram, MAGIC_NUMBER);
-    sqliteDatabaseConnector->updateNgram(*bigram, MAGIC_NUMBER);
-    sqliteDatabaseConnector->updateNgram(*trigram, MAGIC_NUMBER);
+    // yet created and an exception is thrown
+    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->updateNgram(*unigram, MAGIC_NUMBER),
+                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
+    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->updateNgram(*bigram, MAGIC_NUMBER),
+                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
+    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->updateNgram(*trigram, MAGIC_NUMBER),
+                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
 
     // populate database
     sqliteDatabaseConnector->createNgramTable(1);
@@ -234,9 +240,12 @@ void SqliteDatabaseConnectorTest::testIncrementNgramCount()
 
     // test that no insertion occurs since tables have not been
     // yet created
-    sqliteDatabaseConnector->incrementNgramCount(*unigram);
-    sqliteDatabaseConnector->incrementNgramCount(*bigram);
-    sqliteDatabaseConnector->incrementNgramCount(*trigram);
+    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->incrementNgramCount(*unigram),
+                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
+    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->incrementNgramCount(*bigram),
+                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
+    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->incrementNgramCount(*trigram),
+                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
 
     // populate database
     sqliteDatabaseConnector->createNgramTable(1);

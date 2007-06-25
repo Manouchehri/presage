@@ -1,3 +1,11 @@
+2007-06-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/sqliteDatabaseConnector: fixed exceptions raised when
+	sqlite returns error conditions.
+
+	* test/tools/sqliteDatabaseConnector: added assertions to check
+	expected exceptions are thrown.
+	
 2007-06-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* test/plugins/smoothedUniBiTrigramPluginTest: added plugin unit
