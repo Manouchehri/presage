@@ -19,11 +19,10 @@
 
 TESTS =	pluginsTestRunner
 
-check_PROGRAMS = $(TESTS) \
+check_PROGRAMS = $(TESTS)              \
 		dictionaryPluginDriver \
-		dummyPluginDriver \
-		smoothedCountDriver \
-		smoothedUniBiTrigramDriver
+		dummyPluginDriver      \
+		smoothedCountDriver    
 
 pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                                    \
 				smoothedUniBiTrigramPluginTest.h                         \
@@ -56,11 +55,5 @@ smoothedCountDriver_SOURCES = 	smoothedCountDriver.cpp \
 				$(top_srcdir)/src/plugins/smoothedCountPlugin.cpp \
 				$(top_srcdir)/src/plugins/smoothedCountPlugin.h
 smoothedCountDriver_LDADD =	$(top_builddir)/src/libsoothsayer.la 
-
-smoothedUniBiTrigramDriver_SOURCES = 	smoothedUniBiTrigramDriver.cpp \
-					$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.cpp \
-					$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.h
-smoothedUniBiTrigramDriver_LDFLAGS =	-lsqlite
-smoothedUniBiTrigramDriver_LDADD =	$(top_builddir)/src/libsoothsayer.la 
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src

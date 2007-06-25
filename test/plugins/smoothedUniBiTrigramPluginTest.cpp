@@ -321,6 +321,126 @@ void SmoothedUniBiTrigramPluginTest::testTrigramWeight()
     }
 }
 
+void SmoothedUniBiTrigramPluginTest::testUnigramBigramWeight()
+{
+    const char* config[] = { "0.0001", "0.9999", "0.0", "6", DATABASE.c_str() };
+
+    // unigram weight is much lower han bigram weight in order to
+    // ensure that results are not masked by unigram results.
+
+    {
+	const char* history[] = { "foo", "bar", "" };
+	const std::string expected_prediction_words[] = { FOOBAR, FOO, BAR };
+	unsigned int expected_prediction_size = 3;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+    {
+	const char* history[] = { "foo", "bar", "fo" };
+	const std::string expected_prediction_words[] = { FOOBAR, FOO };
+	unsigned int expected_prediction_size = 2;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+    {
+	const char* history[] = { "foo", "bar", "foob" };
+	const std::string expected_prediction_words[] = { FOOBAR };
+	unsigned int expected_prediction_size = 1;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+}
+
+void SmoothedUniBiTrigramPluginTest::testUnigramTrigramWeight()
+{
+    const char* config[] = { "0.0001", "0.0", "0.9999", "6", DATABASE.c_str() };
+
+    // unigram weight is much lower han trigram weight in order to
+    // ensure that results are not masked by unigram results.
+
+    {
+	const char* history[] = { "foo", "bar", "" };
+	const std::string expected_prediction_words[] = { FOOBAR, FOO, BAR };
+	unsigned int expected_prediction_size = 3;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+    {
+	const char* history[] = { "foo", "bar", "fo" };
+	const std::string expected_prediction_words[] = { FOOBAR, FOO };
+	unsigned int expected_prediction_size = 2;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+    {
+	const char* history[] = { "foo", "bar", "foob" };
+	const std::string expected_prediction_words[] = { FOOBAR };
+	unsigned int expected_prediction_size = 1;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+}
+
+void SmoothedUniBiTrigramPluginTest::testBigramTrigramWeight()
+{
+    const char* config[] = { "0.0", "0.0001", "0.9999", "6", DATABASE.c_str() };
+
+    // unigram weight is much lower han trigram weight in order to
+    // ensure that results are not masked by unigram results.
+
+    {
+	const char* history[] = { "foo", "bar", "" };
+	const std::string expected_prediction_words[] = { FOOBAR };
+	unsigned int expected_prediction_size = 1;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+    {
+	const char* history[] = { "foo", "bar", "fo" };
+	const std::string expected_prediction_words[] = { FOOBAR };
+	unsigned int expected_prediction_size = 1;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+    {
+	const char* history[] = { "foo", "bar", "foob" };
+	const std::string expected_prediction_words[] = { FOOBAR };
+	unsigned int expected_prediction_size = 1;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+}
+
+void SmoothedUniBiTrigramPluginTest::testUnigramBigramTrigramWeight()
+{
+    const char* config[] = { "0.000001", "0.001", "0.998999", "6", DATABASE.c_str() };
+
+    // unigram weight is much lower han trigram weight in order to
+    // ensure that results are not masked by unigram results.
+
+    {
+	const char* history[] = { "foo", "bar", "" };
+	const std::string expected_prediction_words[] = { FOOBAR, FOO, BAR };
+	unsigned int expected_prediction_size = 3;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+    {
+	const char* history[] = { "foo", "bar", "fo" };
+	const std::string expected_prediction_words[] = { FOOBAR, FOO };
+	unsigned int expected_prediction_size = 2;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+    {
+	const char* history[] = { "foo", "bar", "foob" };
+	const std::string expected_prediction_words[] = { FOOBAR };
+	unsigned int expected_prediction_size = 1;
+
+	assertCorrectPrediction(config, history, expected_prediction_size, expected_prediction_words);
+    }
+}
+
 void SmoothedUniBiTrigramPluginTest::testMaxPartialPredictionSize()
 {
     // test that maximum partial prediction size config value is

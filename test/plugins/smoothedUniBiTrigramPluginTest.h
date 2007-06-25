@@ -51,6 +51,10 @@ public:
     void testUnigramWeight();
     void testBigramWeight();
     void testTrigramWeight();
+    void testUnigramBigramWeight();
+    void testUnigramTrigramWeight();
+    void testBigramTrigramWeight();
+    void testUnigramBigramTrigramWeight();
 
     void testMaxPartialPredictionSize();
 
@@ -80,6 +84,10 @@ private:
     CPPUNIT_TEST( testUnigramWeight                    );
     CPPUNIT_TEST( testBigramWeight                     );
     CPPUNIT_TEST( testTrigramWeight                    );
+    CPPUNIT_TEST( testUnigramBigramWeight              );
+    CPPUNIT_TEST( testUnigramTrigramWeight             );
+    CPPUNIT_TEST( testBigramTrigramWeight              );
+    CPPUNIT_TEST( testUnigramBigramTrigramWeight       );
     CPPUNIT_TEST( testMaxPartialPredictionSize         );
     CPPUNIT_TEST_SUITE_END();
 };

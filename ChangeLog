@@ -9,7 +9,7 @@
 2007-06-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* test/plugins/smoothedUniBiTrigramPluginTest: added plugin unit
-	tests. Need to add more.
+	tests.
 
 	* src/plugins/smoothedUniBiTrigramPluginTest: fixed bug exposed by
 	new plugin unit tests.
