@@ -19,6 +19,9 @@
 
 EXTRA_DIST =	soothsayer.xml.template generate_soothsayer_config.sh
 
+BUILT_SOURCES =	soothsayer.xml
+CLEANFILES =	soothsayer.xml
+
 # added dependency on Makefile to regenerate configuration file in the
 # event it had previously been built and then the package reconfigured
 # to install to a different location.
@@ -26,7 +29,7 @@ soothsayer.xml:	Makefile soothsayer.xml.template generate_soothsayer_config.sh
 	${srcdir}/generate_soothsayer_config.sh ${srcdir} ${localstatedir}
 
 # ${prefix}/etc directory
-dist_sysconf_DATA =	soothsayer.xml
+nodist_sysconf_DATA =	soothsayer.xml
 
 
 #
