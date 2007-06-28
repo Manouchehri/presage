@@ -1,3 +1,9 @@
+2007-06-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* resources/profiles/Makefile.am: fixed problem regenerating
+	configuration file from template. Configuration file was not
+	rebuilt after package reconfiguration.
+
 2007-06-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/sqliteDatabaseConnector: fixed exceptions raised when

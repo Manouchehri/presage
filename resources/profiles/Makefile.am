@@ -19,7 +19,10 @@
 
 EXTRA_DIST =	soothsayer.xml.template generate_soothsayer_config.sh
 
-soothsayer.xml:	soothsayer.xml.template generate_soothsayer_config.sh
+# added dependency on Makefile to regenerate configuration file in the
+# event it had previously been built and then the package reconfigured
+# to install to a different location.
+soothsayer.xml:	Makefile soothsayer.xml.template generate_soothsayer_config.sh
 	${srcdir}/generate_soothsayer_config.sh ${srcdir} ${localstatedir}
 
 # ${prefix}/etc directory

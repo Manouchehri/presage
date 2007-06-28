@@ -21,7 +21,7 @@ dnl  Process this file with autoconf to produce a configure script.
 AC_INIT([soothsayer],
 	[0.1.1],
 	[matteo.vescovi@yahoo.co.uk])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wall -Werror])
 
 AC_CONFIG_SRCDIR([src/soothsayer.cpp])
 AC_CONFIG_HEADERS([config.h:config.hin])
