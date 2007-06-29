@@ -28,7 +28,12 @@
 
 #include "plugins/plugin.h"
 
-#include <sqlite.h>
+#if defined(HAVE_SQLITE_H)
+# include <sqlite.h>
+#elif defined(HAVE_SQLITE3_H)
+# include <sqlite3.h>
+#endif
+
 #include <assert.h>
 #include <stdlib.h>    // double atof( const char* )
 #include <string>
@@ -51,7 +56,11 @@ public:
 private:
     std::string strtolower( const std::string& ) const;
 
+#if defined(HAVE_SQLITE_H)
     sqlite* db;
+#elif defined(HAVE_SQLITE3_H)
+    sqlite3* db;
+#endif
 
     double      UNIGRAM_WEIGHT;
     double      BIGRAM_WEIGHT;

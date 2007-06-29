@@ -67,158 +67,172 @@ SmoothedCountPlugin::SmoothedCountPlugin(HistoryTracker &ht, Profile* profile)
     variable.pop_back();
 
     // open database
+#if defined(HAVE_SQLITE_H)
     db = sqlite_open(DBFILENAME.c_str(), 0777, NULL);
-    assert( db != NULL );
+    assert(db != NULL);
+#elif (HAVE_SQLITE3_H)
+    int result = sqlite3_open(DBFILENAME.c_str(), &db);
+    assert(result != SQLITE_OK);
+#endif
 }
 
 
 
 SmoothedCountPlugin::~SmoothedCountPlugin()
 {
-	// close database cleanly
-//	(*sqlite_close_handle)( db );
-	sqlite_close( db );
-
-	// close sqlite library
-//	lt_dlclose( libsqlite );
+#if defined(HAVE_SQLITE_H)
+    sqlite_close(db);
+#elif defined(HAVE_SQLITE3_H)
+    sqlite3_close(db);
+#endif
 }
 
 
 
 Prediction SmoothedCountPlugin::predict() const
 {
-
-	// get w_2, w_1, and prefix from HistoryTracker object
-	std::string prefix = strtolower( historyTracker.getPrefix() );
-	std::string word_1 = strtolower( historyTracker.getToken(1) );
-	std::string word_2 = strtolower( historyTracker.getToken(2) );
-
-	std::string query; // string used to build sql query
-	int result;        // database interrogation diagnostic
-	CallbackData data; // data to pass through to callback function
+    // get w_2, w_1, and prefix from HistoryTracker object
+    std::string prefix = strtolower( historyTracker.getPrefix() );
+    std::string word_1 = strtolower( historyTracker.getToken(1) );
+    std::string word_2 = strtolower( historyTracker.getToken(2) );
+    
+    std::string query; // string used to build sql query
+    int result;        // database interrogation diagnostic
+    CallbackData data; // data to pass through to callback function
 	
 
-	// get most likely unigrams whose w contains prefix
-	Prediction predUnigrams;
+    // get most likely unigrams whose w contains prefix
+    Prediction predUnigrams;
+    
+    data.predPtr = &predUnigrams;
+    data.predSize = MAX_PARTIAL_PREDICTION_SIZE;
+    
+    query = 
+	"SELECT word, count "
+	"FROM unigram "
+	"WHERE word LIKE \"" + prefix + "%\" "
+	"ORDER BY count DESC;";
+    
+#if defined(HAVE_SQLITE_H)
+    result = sqlite_exec(
+#elif defined(HAVE_SQLITE3_H)
+    result = sqlite3_exec(
+#endif
+	db,
+	query.c_str(),
+	buildPrediction,
+	&data,
+	NULL
+    );
+    assert(result == SQLITE_OK);
+
+
+    // get most likely bigrams having matching w_1 whose w contains prefix
+    Prediction predBigrams;
+    
+    data.predPtr = &predBigrams;
+    
+    query = 
+    "SELECT word, count "
+    "FROM bigram "
+    "WHERE word_1 = \"" + word_1 + "\" "
+    "AND word LIKE \"" + prefix + "\" "
+    "ORDER BY count DESC;";
+    
+#if defined(HAVE_SQLITE_H)
+    result = sqlite_exec(
+#elif defined(HAVE_SQLITE3_H)
+    result = sqlite3_exec(
+#endif
+	db,
+	query.c_str(),
+	buildPrediction,
+	&data,
+	NULL
+    );
+    assert(result == SQLITE_OK);
+
+
+    // get most likely trigrams having matching w_2, w_1 whose w contains prefix
+    Prediction predTrigrams;
+    
+    data.predPtr = &predTrigrams;
+    
+    query = 
+    "SELECT word, count "
+    "FROM trigram "
+    "WHERE word_2 = \"" + word_2 + "\" "
+    "AND word_1 = \"" + word_1 + "\" "
+    "AND word LIKE \"" + prefix + "\" "
+    "ORDER BY count DESC;";
+    
+#if defined(HAVE_SQLITE_H)
+    result = sqlite_exec(
+#elif defined(HAVE_SQLITE3_H)
+    result = sqlite3_exec(
+#endif
+	db,
+	query.c_str(),
+	buildPrediction,
+	&data,
+	NULL
+    );
+    assert(result == SQLITE_OK);
 	
-	data.predPtr = &predUnigrams;
-	data.predSize = MAX_PARTIAL_PREDICTION_SIZE;
+    
+    Prediction p;     // combined result of uni/bi/tri gram predictions
+    std::string word; // pivot unigram word (used in next for loop)
+    double ccount;    // combined count
+    
+    // compute smoothed probability estimation
+    
+    // TODO !!!!!!!! Everything should be scaled down to probabilities!!!
+    // TODO That means that counts should be scaled down to values between
+    // TODO 0 and 1. We need total word count to do that.
+    
+    // TODO : after correct word has been found in inner loops, execution
+    // TODO : can break out of it.
+    for( int i = 0; i < predUnigrams.size(); i++ ) {
 
-	query =	"SELECT word, count "
-		"FROM unigram "
-		"WHERE word LIKE \"" + prefix + "%\" "
-		"ORDER BY count DESC;";
+	word   = predUnigrams.getSuggestion( i ).getWord();
+	ccount = UNIGRAM_WEIGHT *
+	    predUnigrams.getSuggestion( i ).getProbability();
 	
-        //	result = (*sqlite_exec_handle)( db,
-	result = sqlite_exec( db,
-					query.c_str(),
-					buildPrediction,
-					&data,
-					NULL );
+	for( int j = 0; j < predBigrams.size(); j++ ) {
 
-	assert( result == SQLITE_OK || result == SQLITE_ABORT );
-
-
-	// get most likely bigrams having matching w_1 whose w contains prefix
-	Prediction predBigrams;
-
-	data.predPtr = &predBigrams;
-//	data.predSize = atoi(
-//		getOptionValue( "MAX_PARTIAL_PREDICTION_SIZE" ).c_str()
-//		);
-
-	query = "SELECT word, count "
-		"FROM bigram "
-		"WHERE word_1 = \"" + word_1 + "\" "
-		"AND word LIKE \"" + prefix + "\" "
-		"ORDER BY count DESC;";
+	    if( predBigrams.getSuggestion(j).getWord() == word ) {
 		
-        //	result = (*sqlite_exec_handle)( db,
-	result = sqlite_exec( db,
-					query.c_str(),
-					buildPrediction,
-					&data,
-					NULL );
-
-	assert( result == SQLITE_OK );
-
-
-	// get most likely trigrams having matching w_2, w_1 whose w contains prefix
-	Prediction predTrigrams;
-
-	data.predPtr = &predTrigrams;
-//	data.predSize = atoi(
-//		getOptionValue( "MAX_PARTIAL_PREDICTION_SIZE" ).c_str()
-//		);
-	
-	query = "SELECT word, count "
-		"FROM trigram "
-		"WHERE word_2 = \"" + word_2 + "\" "
-		"AND word_1 = \"" + word_1 + "\" "
-		"AND word LIKE \"" + prefix + "\" "
-		"ORDER BY count DESC;";
-        //	result = (*sqlite_exec_handle)( db,
-	result = sqlite_exec( db,
-					query.c_str(),
-					buildPrediction,
-					&data,
-					NULL );
-	assert( result == SQLITE_OK );
-	
-
-	Prediction p;     // combined result of uni/bi/tri gram predictions
-	std::string word; // pivot unigram word (used in next for loop)
-	double ccount;    // combined count
-
-	// compute smoothed probability estimation
-
-	// TODO !!!!!!!! Everything should be scaled down to probabilities!!!
-	// TODO That means that counts should be scaled down to values between
-	// TODO 0 and 1. We need total word count to do that.
-
-	// TODO : after correct word has been found in inner loops, execution
-	// TODO : can break out of it.
-	for( int i = 0; i < predUnigrams.size(); i++ ) {
-
-	    word   = predUnigrams.getSuggestion( i ).getWord();
-	    ccount = UNIGRAM_WEIGHT *
-		     predUnigrams.getSuggestion( i ).getProbability();
-
-	    for( int j = 0; j < predBigrams.size(); j++ ) {
-
-		if( predBigrams.getSuggestion(j).getWord() == word ) {
-
-		    for( int k = 0; k < predTrigrams.size(); k++ ) {
-
-		        if( predTrigrams.getSuggestion(k).getWord() == word ) {
-
-			    ccount += TRIGRAM_WEIGHT *
-				predTrigrams.getSuggestion(k).getProbability();
-				
-			}
-		    }
+		for( int k = 0; k < predTrigrams.size(); k++ ) {
 		    
-		    ccount += BIGRAM_WEIGHT *
-			    predBigrams.getSuggestion(j).getProbability();
-
+		    if( predTrigrams.getSuggestion(k).getWord() == word ) {
+			
+			ccount += TRIGRAM_WEIGHT *
+			    predTrigrams.getSuggestion(k).getProbability();
+			
+		    }
 		}
+		
+		ccount += BIGRAM_WEIGHT *
+		    predBigrams.getSuggestion(j).getProbability();
 		
 	    }
 	    
-	    p.addSuggestion( Suggestion( word, ccount ) );
-
 	}
+	
+	p.addSuggestion( Suggestion( word, ccount ) );
+	
+    }
 
-	return p; // Return combined prediction
+    return p; // Return combined prediction
 }
 
 
 void SmoothedCountPlugin::learn()
 {
-	std::cout << "SmoothedCountPlugin::learn() method called"
-		  << std::endl;
-	std::cout << "SmoothedCountPlugin::learn() method exited"
-		  << std::endl;
+    std::cout << "SmoothedCountPlugin::learn() method called"
+    << std::endl;
+    std::cout << "SmoothedCountPlugin::learn() method exited"
+    << std::endl;
 }
 
 

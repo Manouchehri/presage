@@ -29,7 +29,9 @@
 # include "config.h"
 #endif
 
-#ifdef HAVE_SQLITE_H
+#if defined(HAVE_SQLITE3_H) 
+# include <sqlite3.h>
+#elif defined(HAVE_SQLITE_H)
 # include <sqlite.h>
 #else
 # error "SQLite is required. Please install SQLite."
@@ -61,7 +63,11 @@ class SqliteDatabaseConnector : public DatabaseConnector {
     static int callback(void *pArg, int argc, char **argv, char **columnNames);
 
     std::string db_name;
+#if defined(HAVE_SQLITE3_H)
+    sqlite3* db;
+#elif defined(HAVE_SQLITE3_H)
     sqlite* db;
+#endif
 
 };
 

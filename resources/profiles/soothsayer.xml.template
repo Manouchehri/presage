@@ -46,5 +46,8 @@
             <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
             <MAX_PARTIAL_PREDICTION_SIZE>60</MAX_PARTIAL_PREDICTION_SIZE>
         </SmoothedUniBiTrigramPlugin>
+	<DictionaryPlugin>
+	    <DICTIONARY_PATH>/usr/share/dict/american-english</DICTIONARY_PATH>
+	</DictionaryPlugin>
     </Plugins>
 </Soothsayer>

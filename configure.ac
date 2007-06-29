@@ -76,15 +76,26 @@ AC_CHECK_HEADERS([curses.h],
 dnl =================
 dnl Checks for SQLite
 dnl =================
-AC_CHECK_LIB([sqlite],
-             [sqlite_open],
+dnl 
+dnl Sqlite 3
+AC_CHECK_LIB([sqlite3],
+             [sqlite3_open],
              [],
-	     [AC_MSG_ERROR([SQLite library not found. SQLite can be obtained from http://sqlite.org.])])
+	     [AC_CHECK_LIB([sqlite],
+                           [sqlite_open],
+                           [],
+	                   [AC_MSG_ERROR([SQLite library not found. SQLite can be obtained from http://sqlite.org.])])])
 
-AC_CHECK_HEADERS([sqlite.h],
+
+AC_CHECK_HEADERS([sqlite3.h],
                  [],
-                 [AC_MSG_ERROR([SQLite header file not found. SQLite can be obtained from http://sqlite.org.])],
+                 [AC_CHECK_HEADERS([sqlite.h],
+                                   [],
+                                   [AC_MSG_ERROR([SQLite header file not found. SQLite can be obtained from http://sqlite.org.])],
+                                   [])],
+
                  [])
+
 
 dnl ==================
 dnl Checks for CppUnit

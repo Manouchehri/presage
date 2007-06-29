@@ -137,6 +137,16 @@ void SqliteDatabaseConnectorTest::testInsertNgram()
     // compare database dump with benchmark string
     std::stringstream benchmark;
     benchmark
+#if defined(HAVE_SQLITE3_H)
+        << "BEGIN TRANSACTION;"                                                                                        << std::endl
+        << "CREATE TABLE _1_gram (word TEXT, count INTEGER, UNIQUE(word) );"                                           << std::endl
+        << "INSERT INTO \"_1_gram\" VALUES('foo', 1337);"                                                              << std::endl
+        << "CREATE TABLE _2_gram (word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_1, word) );"                      << std::endl
+        << "INSERT INTO \"_2_gram\" VALUES('foo', 'bar', 1337);"                                                       << std::endl
+        << "CREATE TABLE _3_gram (word_2 TEXT, word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_2, word_1, word) );" << std::endl
+        << "INSERT INTO \"_3_gram\" VALUES('foo', 'bar', 'foobar', 1337);"                                             << std::endl
+        << "COMMIT;"                                                                                                   << std::endl;
+#elif defined(HAVE_SQLITE_H)
 	<< "BEGIN TRANSACTION;"                                                                                        << std::endl
 	<< "CREATE TABLE _1_gram (word TEXT, count INTEGER, UNIQUE(word) );"                                           << std::endl
 	<< "INSERT INTO _1_gram VALUES('foo',1337);"								       << std::endl
@@ -145,6 +155,7 @@ void SqliteDatabaseConnectorTest::testInsertNgram()
 	<< "CREATE TABLE _3_gram (word_2 TEXT, word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_2, word_1, word) );" << std::endl
 	<< "INSERT INTO _3_gram VALUES('foo','bar','foobar',1337);"						       << std::endl
 	<< "COMMIT;"                                                                                                   << std::endl;
+#endif
 
     assertDatabaseDumpEqualsBenchmark(benchmark);
 }
@@ -180,11 +191,23 @@ void SqliteDatabaseConnectorTest::testUpdateNgram()
     benchmark
         << "BEGIN TRANSACTION;"                                                                                        << std::endl
         << "CREATE TABLE _1_gram (word TEXT, count INTEGER, UNIQUE(word) );"                                           << std::endl
+#if defined(HAVE_SQLITE3_H)
+        << "INSERT INTO \"_1_gram\" VALUES('foo', 2674);"                                                              << std::endl
+#elif defined(HAVE_SQLITE_H)
         << "INSERT INTO _1_gram VALUES('foo',2674);"                                                                   << std::endl
+#endif
         << "CREATE TABLE _2_gram (word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_1, word) );"                      << std::endl
+#if defined(HAVE_SQLITE3_H)
+        << "INSERT INTO \"_2_gram\" VALUES('foo', 'bar', 2674);"                                                       << std::endl
+#elif defined(HAVE_SQLITE_H)
         << "INSERT INTO _2_gram VALUES('foo','bar',2674);"                                                             << std::endl
+#endif
         << "CREATE TABLE _3_gram (word_2 TEXT, word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_2, word_1, word) );" << std::endl
+#if defined(HAVE_SQLITE3_H)
+        << "INSERT INTO \"_3_gram\" VALUES('foo', 'bar', 'foobar', 2674);"                                             << std::endl
+#elif defined(HAVE_SQLITE_H)
         << "INSERT INTO _3_gram VALUES('foo','bar','foobar',2674);"                                                    << std::endl
+#endif
         << "COMMIT;"                                                                                                   << std::endl;
     
     assertDatabaseDumpEqualsBenchmark(benchmark);
@@ -268,11 +291,23 @@ void SqliteDatabaseConnectorTest::testIncrementNgramCount()
     benchmark
 	<< "BEGIN TRANSACTION;"                                                                                        << std::endl
 	<< "CREATE TABLE _1_gram (word TEXT, count INTEGER, UNIQUE(word) );"                                           << std::endl
+#if defined(HAVE_SQLITE3_H)
+	<< "INSERT INTO \"_1_gram\" VALUES('foo', 3);"                                                                 << std::endl
+#elif defined(HAVE_SQLITE_H)
 	<< "INSERT INTO _1_gram VALUES('foo',3);"                                                                      << std::endl
+#endif
 	<< "CREATE TABLE _2_gram (word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_1, word) );"                      << std::endl
+#if defined(HAVE_SQLITE3_H)
+	<< "INSERT INTO \"_2_gram\" VALUES('foo', 'bar', 3);"                                                          << std::endl
+#elif defined(HAVE_SQLITE_H)
 	<< "INSERT INTO _2_gram VALUES('foo','bar',3);"                                                                << std::endl
+#endif
 	<< "CREATE TABLE _3_gram (word_2 TEXT, word_1 TEXT, word TEXT, count INTEGER, UNIQUE(word_2, word_1, word) );" << std::endl
+#if defined(HAVE_SQLITE3_H)
+	<< "INSERT INTO \"_3_gram\" VALUES('foo', 'bar', 'foobar', 3);"                                                << std::endl
+#elif defined(HAVE_SQLITE_H)
 	<< "INSERT INTO _3_gram VALUES('foo','bar','foobar',3);"                                                       << std::endl
+#endif
 	<< "COMMIT;"                                                                                                   << std::endl;
 
     assertDatabaseDumpEqualsBenchmark(benchmark);
@@ -423,11 +458,16 @@ void SqliteDatabaseConnectorTest::assertExistsAndRemoveFile(const char* filename
 void SqliteDatabaseConnectorTest::assertDatabaseDumpEqualsBenchmark(std::stringstream& benchmark) const
 {
     // dump database content using `sqlite' client
-    std::string command = static_cast<std::string>("sqlite ")
+    std::string command = 
+#if defined(HAVE_SQLITE3_H)
+	static_cast<std::string>("sqlite3 ")
+#elif defined(HAVE_SQLITE_H)
+	static_cast<std::string>("sqlite ")
+#endif
         + DEFAULT_DATABASE_FILENAME + " '.dump' > " + DATABASE_DUMP;
 
     int result = system(command.c_str());
-    CPPUNIT_ASSERT( result == 0 );
+    CPPUNIT_ASSERT(result == 0);
 
     std::ifstream database_dump_stream(DATABASE_DUMP);
 

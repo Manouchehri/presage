@@ -49,6 +49,13 @@ SqliteDatabaseConnector::~SqliteDatabaseConnector()
 void SqliteDatabaseConnector::openDatabase()
 {
     char* errormsg = 0;
+#if defined(HAVE_SQLITE3_H)
+    int result = sqlite3_open(db_name.c_str(), &db);
+    if (result != SQLITE_OK) {
+	std::string error = sqlite3_errmsg(db);
+	throw SqliteDatabaseConnectorException(error);
+    }
+#elif defined(HAVE_SQLITE_H)
     db = sqlite_open(db_name.c_str(), 0, &errormsg);
     if (db == 0) {
 	std::string error;
@@ -60,12 +67,19 @@ void SqliteDatabaseConnector::openDatabase()
 #endif
 	throw SqliteDatabaseConnectorException(error);
     }
+#endif
+
+
 }
 
 void SqliteDatabaseConnector::closeDatabase()
 {
     if (db) {
+#if defined(HAVE_SQLITE3_H)
+	sqlite3_close(db);
+#elif defined(HAVE_SQLITE_H)
 	sqlite_close(db);
+#endif
     }
 }
 
@@ -76,11 +90,17 @@ NgramTable SqliteDatabaseConnector::executeSql(const std::string query) const
     char* sqlite_error_msg = 0;
 
     LOG("[SqliteDatabaseConnector] executing query: " << query);
-    int result = sqlite_exec(db,
-			     query.c_str(),
-			     callback,
-			     &answer,
-			     &sqlite_error_msg);
+#if defined(HAVE_SQLITE3_H)
+    int result = sqlite3_exec(
+#elif defined(HAVE_SQLITE_H)
+    int result = sqlite_exec(
+#endif
+	db,
+	query.c_str(),
+	callback,
+	&answer,
+	&sqlite_error_msg
+    );
 
     if (result != SQLITE_OK) {
 	std::string error;
