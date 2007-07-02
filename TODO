@@ -17,7 +17,6 @@ Absolute first
       src/core/pluginManager.cpp
       test/core/pluginManagerDriver.cpp
    should be taken care of as part of plump integration
- - migrate to sqlite3
 
 Architectural restructure: 
 - configuration pulling instead of pushing

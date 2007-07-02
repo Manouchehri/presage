@@ -30,7 +30,13 @@
 #include <list>
 #include <ncurses.h>
 #include <sstream>
+#include <getopt.h>
 
+const char PROGRAM_NAME[] = "soothsayerDemo";
+
+void parseCommandLineArgs(int argc, char** argv);
+void printUsage();
+void printVersion();
 
 void disclaimer();
 
@@ -41,8 +47,10 @@ void draw_previous_suggestions(std::vector<std::string>, const int, int);
 
 const int SUGGESTIONS = 6;
 
-int main()
+int main(int argc, char** argv)
 {
+    parseCommandLineArgs(argc, argv);
+
     // magic starts here
     Soothsayer soothsayer;
 
@@ -220,7 +228,7 @@ void disclaimer()
     box(borderWin, 0, 0);
     wrefresh(borderWin);
     wprintw(disclaimerWin,
-	    "Soothsayer demo\n"
+	    "Soothsayer Demo\n"
 	    "---------------\n"
 	    "This program is intended as a demonstration of Soothsayer ONLY.\n"
 	    "\n"
@@ -247,9 +255,72 @@ void draw_title_win(WINDOW* title_win)
 {
     wclear(title_win);
     box(title_win, 0, 0);
-    mvwprintw(title_win, 1, 1, "Soothsayer demo ", PACKAGE_VERSION);
+    mvwprintw(title_win, 1, 1, "Soothsayer Demo ", VERSION);
     mvwprintw(title_win, 2, 1, "Copyright (C) Matteo Vescovi");
     mvwprintw(title_win, 3, 1, "This is free software; see the source for copying conditions.  There is NO");
     mvwprintw(title_win, 4, 1, "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.");
     wrefresh(title_win);
+}
+
+void parseCommandLineArgs(int argc, char* argv[])
+{
+    int next_option;
+	
+    // getopt structures
+    const char* const short_options = "hv";
+
+    const struct option long_options[] = {
+	{ "help",   0, NULL, 'h' },
+	{ "version",0, NULL, 'v' },
+	{ NULL,     0, NULL,   0 }
+    };
+
+    do {
+	next_option = getopt_long( argc, argv, 
+				   short_options, long_options, NULL );
+		
+	switch( next_option ) {
+	case 'h': // --help or -h option
+	    printUsage();
+	    exit (0);
+	    break;
+	case 'v': // --version or -v option
+	    printVersion();
+	    exit (0);
+	    break;
+	case '?': // unknown option
+	    printUsage();
+	    exit (0);
+	    break;
+	case -1:
+	    break;
+	default:
+	    abort();
+	}
+
+    } while( next_option != -1 );
+}
+
+void printVersion()
+{
+    std::cout << PACKAGE << " version " << VERSION << std::endl
+	      << "Copyright (C) 2004 Matteo Vescovi." << std::endl
+	      << "This is free software; see the source for copying conditions.  There is NO" << std::endl
+	      << "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE," << std::endl
+	      << "to the extent permitted by law." << std::endl;
+}
+
+void printUsage()
+{
+    std::cout << "Usage: " << PROGRAM_NAME << std::endl
+	      << std::endl
+	      << "Begin typing. soothsayer will attempt to predict the desired word." << std::endl
+	      << "After each keystroke, soothsayer will return a number of predictions." << std::endl
+	      << "If the desired word appears in the prediction list, select it by pressing the" << std::endl
+	      << "corresponding function key." << std::endl
+	      << std::endl
+	      << "  -h, --help     display this help and exit" << std::endl
+	      << "  -v, --version  output version information and exit" << std::endl
+	      << std::endl
+	      << "Direct your bug reports to: " << PACKAGE_BUGREPORT << std::endl;
 }

@@ -148,9 +148,20 @@ void Simulator::reset()
 
 void Simulator::results() const
 {
-    std::cout << "ki : " << ki << std::endl
+    std::cout << std::endl
+	      << "Keystroke Savings Rate (KSR)" << std::endl
+	      << "           ki + ks        "   << std::endl
+	      << "KSR = (1 - ------- ) * 100"   << std::endl
+	      << "             kn           "   << std::endl
+	      << "where: "                      << std::endl
+	      << "       ki = actual keystrokes" << std::endl
+	      << "       ks = keystrokes required to select suggestion" << std::endl
+	      << "       kn = keystrokes required with no prediction enabled" << std::endl
+	      << std::endl
+	      << "ki : " << ki << std::endl
 	      << "ks : " << ks << std::endl
 	      << "kn : " << kn << std::endl
+	      << std::endl
 	      << "KSR: " << getKSR() << std::endl;
 }
 

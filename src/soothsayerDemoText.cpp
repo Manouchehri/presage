@@ -26,15 +26,22 @@
 
 #include <string>
 #include <vector>
+#include <getopt.h>
+
+const char PROGRAM_NAME[] = "soothsayerDemoText";
+
+void parseCommandLineArgs(int argc, char** argv);
+void printVersion();
+void printUsage();
 
 void print_prediction(std::vector<std::string>);
 void disclaimer();
-void version();
 
-int main()
+int main(int argc, char** argv)
 {
+    parseCommandLineArgs(argc, argv);
+
     disclaimer();
-    version();
 
     Soothsayer soothsayer;
 
@@ -62,7 +69,7 @@ void print_prediction(std::vector<std::string> words)
 void disclaimer()
 {
     std::cout <<
-	"Soothsayer demo program\n"
+	"Soothsayer Textual Demo\n"
 	"-----------------------\n"
 	"\n"
 	"This program is intended as a demonstration of Soothsayer ONLY.\n"
@@ -74,12 +81,60 @@ void disclaimer()
 	"\n" << std::endl;
 }
 
-void version()
+void parseCommandLineArgs(int argc, char* argv[])
 {
-    std::cout
-	<< "Soothsayer demo " << PACKAGE_VERSION << std::endl
-	<< "Copyright (C) Matteo Vescovi" << std::endl
-	<< "This is free software; see the source for copying conditions.  There is NO" << std::endl
-	<< "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE." << std::endl
-	<< std::endl;
+    int next_option;
+	
+    // getopt structures
+    const char* const short_options = "hv";
+
+    const struct option long_options[] = {
+	{ "help",   0, NULL, 'h' },
+	{ "version",0, NULL, 'v' },
+	{ NULL,     0, NULL,   0 }
+    };
+
+    do {
+	next_option = getopt_long( argc, argv, 
+				   short_options, long_options, NULL );
+		
+	switch( next_option ) {
+	case 'h': // --help or -h option
+	    printUsage();
+	    exit (0);
+	    break;
+	case 'v': // --version or -v option
+	    printVersion();
+	    exit (0);
+	    break;
+	case '?': // unknown option
+	    printUsage();
+	    exit (0);
+	    break;
+	case -1:
+	    break;
+	default:
+	    abort();
+	}
+
+    } while( next_option != -1 );
+}
+
+void printVersion()
+{
+    std::cout << PACKAGE << " version " << VERSION << std::endl
+	      << "Copyright (C) 2004 Matteo Vescovi." << std::endl
+	      << "This is free software; see the source for copying conditions.  There is NO" << std::endl
+	      << "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE," << std::endl
+	      << "to the extent permitted by law." << std::endl;
+}
+
+void printUsage()
+{
+    std::cout << "Usage: " << PROGRAM_NAME << std::endl
+	      << std::endl
+	      << "  -h, --help     display this help and exit" << std::endl
+	      << "  -v, --version  output version information and exit" << std::endl
+	      << std::endl
+	      << "Direct your bug reports to: " << PACKAGE_BUGREPORT << std::endl;
 }

@@ -1,3 +1,15 @@
+2007-07-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/soothsayerSimulator: modified help and version option
+	handling.
+
+	* src/soothsayerDemo: modified help and version option handling.
+
+	* src/soothsayerDemoText: modified help and version option
+	handling.
+
+	* src/simulator/simulator: increase results verbosity.
+	
 2007-06-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* sqlite3: added support for sqlite3. sqlite3 will be used in
