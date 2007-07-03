@@ -65,7 +65,7 @@ class SqliteDatabaseConnector : public DatabaseConnector {
     std::string db_name;
 #if defined(HAVE_SQLITE3_H)
     sqlite3* db;
-#elif defined(HAVE_SQLITE3_H)
+#elif defined(HAVE_SQLITE_H)
     sqlite* db;
 #endif
 

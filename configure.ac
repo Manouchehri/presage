@@ -28,10 +28,9 @@ AC_CONFIG_HEADERS([config.h:config.hin])
 
 dnl Checks for programs.
 AC_PROG_INSTALL
-AC_PROG_CC
-AC_PROG_CPP
 AC_PROG_CXX
 AC_PROG_CXXCPP
+AC_PROG_RANLIB
 
 dnl ==================
 dnl Checks for libtool
@@ -77,24 +76,44 @@ dnl =================
 dnl Checks for SQLite
 dnl =================
 dnl 
-dnl Sqlite 3
+dnl check for libsqlite3
+dnl if (libsqlite3 found) {
+dnl     prepend -lsqlite3 to LIBS
+dnl     check for sqlite3.h
+dnl     if (sqlite3.h found) {
+dnl         using sqlite3
+dnl     } else {
+dnl         error
+dnl     }
+dnl } else {
+dnl     check for libsqlite2
+dnl     if (libsqlite2 found) {
+dnl         prepend -lsqlite to LIBS
+dnl         check for sqlite2.h
+dnl         if (sqlite2.h found) {
+dnl             using sqlite2
+dnl         } else
+dnl             error
+dnl         }
+dnl     } else {
+dnl         error
+dnl     }
+dnl }
 AC_CHECK_LIB([sqlite3],
              [sqlite3_open],
-             [],
+             [LIBS="-lsqlite3 $LIBS" && \
+              AC_CHECK_HEADERS([sqlite3.h],
+                               [AC_MSG_NOTICE([using sqlite 3])],
+                               [AC_MSG_ERROR([Found sqlite3 library, but cannot find matching sqlite3.h header.])],
+                               [])],
 	     [AC_CHECK_LIB([sqlite],
                            [sqlite_open],
-                           [],
-	                   [AC_MSG_ERROR([SQLite library not found. SQLite can be obtained from http://sqlite.org.])])])
-
-
-AC_CHECK_HEADERS([sqlite3.h],
-                 [],
-                 [AC_CHECK_HEADERS([sqlite.h],
-                                   [],
-                                   [AC_MSG_ERROR([SQLite header file not found. SQLite can be obtained from http://sqlite.org.])],
-                                   [])],
-
-                 [])
+                           [LIBS="-lsqlite $LIBS" && \
+                            AC_CHECK_HEADERS([sqlite.h],
+                                             [AC_MSG_NOTICE([using sqlite 2])],
+                                             [AC_MSG_ERROR([Found sqlite 2 library, but cannot find matching sqlite.h header.])],
+                                             [])],
+                           [AC_MSG_ERROR([SQLite library not found. SQLite can be obtained from http://sqlite.org.])])])
 
 
 dnl ==================
