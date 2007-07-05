@@ -7,6 +7,11 @@ TODO list
 
 
 Absolute first
+ - website
+   - add description of tools provided and how to use them
+   (i.e. text2ngram)
+   - add description of demo programs and disclaimers
+   - add link to project page
  - make soothsayerSimulator accept normal text files, as opposed to
    files containing one token per line
  - pluginManagerDriver, pluginManager are currently not necessary, as
@@ -51,10 +56,8 @@ Architectural restructure:
 
 Tests in general should be cleaned up (e.g. we don't need the xDriver
    anymore, those tests should be moved to CPPUnit tests)
-
-Release critical issues:
-- configuration mechanism
-- tools
+ - drivers in src/plugins
+ - pluginManagerDriver in test/core
 
 Create a demo program using ncurses (based on the existing
    soothsayerDriverNcurses) that display the text entered so far in a
@@ -71,6 +74,7 @@ Configuration mechanism, from XML DOM to config classes that are
 
 
 Short term:
+* rename HistoryTracker to ContextTracker
 * restructure directories regarding config files and plugins etc.
 * port existing tests to cppunit test cases
 * add more tests to increase coverage
@@ -79,6 +83,9 @@ Short term:
    string can cause security problems
 * fix character codes
 
+ - investigate the effectiveness of sourcing the initial prefix
+   completion list from a different table. One possible idea is to use
+   the table that has the strongest weight.
 - try to improve reverseTokenizer::progress() accuracy
    currently it uses a delta of 0.7, should try to get it down to 0.3
 - Class HistoryTracker could initialize Tokenizer's members separator

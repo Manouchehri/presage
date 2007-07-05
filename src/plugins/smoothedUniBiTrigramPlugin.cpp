@@ -135,7 +135,16 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     c = db->getUnigramCountsSum();
     LOG("[SmoothedUniBiTrigramPlugin] c: " << c);
 
-    // get table of possible prefix completitions
+    // Get table of possible prefix completitions. The possible prefix
+    // completions are obtained from the _1_gram table because in a
+    // well-constructed ngram database the _1_gram table will contain
+    // all tokens contained in any other table. The _1_gram counts,
+    // however, will take precedence over the higher-order counts.
+    //
+    // Perhaps it is worth investigating the effectiveness of sourcing
+    // the initial prefix completion list from a different table. One
+    // possible idea is to use the table that has the strongest
+    // weight.
     Ngram prefix_gram;
     prefix_gram.push_back(word_prefix);
     db->beginTransaction();
