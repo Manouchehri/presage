@@ -59,15 +59,10 @@ Tests in general should be cleaned up (e.g. we don't need the xDriver
  - drivers in src/plugins
  - pluginManagerDriver in test/core
 
-Create a demo program using ncurses (based on the existing
-   soothsayerDriverNcurses) that display the text entered so far in a
-   dynamically resizing box at the top of the screen and the
-   prediction in a box underneath it.
-Subsequent predictions are kept in those boxes and shifted to the
-   right, so that the current prediction is always on the left hand
-   side.
-Context switches are marked in some way (either a vertical bar or a
+SoothsayerDemo program:
+ - Context switches are marked in some way (either a vertical bar or a
    box enclosing the other prediction boxes).
+ - add command line option to set number of suggestions
 
 Configuration mechanism, from XML DOM to config classes that are
    visited by a ConfiguratorVisitor

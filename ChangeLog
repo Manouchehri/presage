@@ -1,3 +1,8 @@
+2007-07-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/soothsayerDemo: improved previous predictions drawing logic,
+	predictions windows are only drawn if they fit on screen.
+
 2007-07-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/soothsayerSimulator: modified help and version option

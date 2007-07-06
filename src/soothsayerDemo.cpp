@@ -44,9 +44,25 @@ void draw_title_win(WINDOW*);
 void draw_history_win(WINDOW*, std::string);
 void draw_function_keys(WINDOW*);
 void draw_previous_suggestions(std::vector<std::string>, const int, int);
+int  getGreatestSuggestionLength(std::vector< std::string > suggestions);
 
 const int SUGGESTIONS = 6;
 
+/** Demo program using ncurses.
+ *
+ * This demo displays the text entered in a top windows that stretches
+ * across the screen. The current prediction is displayed immediately
+ * underneath the text window, at the leftmost position.
+ *
+ * The previous predictions are displayed in cronological order to the
+ * right of the current prediction.
+ *
+ * Subsequent predictions shifted to the right, so that the current
+ * prediction is always on the left hand side.
+ * Context switches are marked in some way (either a vertical bar or a
+ * box enclosing the other prediction boxes).
+ *
+ */
 int main(int argc, char** argv)
 {
     parseCommandLineArgs(argc, argv);
@@ -192,11 +208,11 @@ void draw_previous_suggestions(std::vector<std::string> words, const int starty,
     previousSuggestions.insert(previousSuggestions.begin(), words);
 
     for (std::list< std::vector<std::string> >::const_iterator listit = previousSuggestions.begin();
-	 listit != previousSuggestions.end();
+	 (listit != previousSuggestions.end() && startx < COLS); // don't draw window off the screen
 	 listit++) {
 
 	int height = listit->size() + 2;
-	int width = 14;
+	int width = getGreatestSuggestionLength(*listit) + 2;
 
 	WINDOW* win = newwin(height, width, starty, startx);
 	wclear(win);
@@ -215,6 +231,19 @@ void draw_previous_suggestions(std::vector<std::string> words, const int starty,
         windows.push_back(win);
 	startx += width + 2;
     }
+}
+
+int getGreatestSuggestionLength(std::vector< std::string > suggestions)
+{
+    int result = 0;
+    for (std::vector< std::string >::const_iterator it = suggestions.begin();
+	 it != suggestions.end();
+	 it++) {
+	if (it->size() > result) {
+	    result = it->size();
+	}
+    }
+    return result;
 }
 
 void disclaimer()
