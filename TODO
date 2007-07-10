@@ -69,6 +69,7 @@ Configuration mechanism, from XML DOM to config classes that are
 
 
 Short term:
+* implement Combiner class (various combination strategies)
 * rename HistoryTracker to ContextTracker
 * restructure directories regarding config files and plugins etc.
 * port existing tests to cppunit test cases
@@ -78,7 +79,7 @@ Short term:
    string can cause security problems
 * fix character codes
 
- - investigate the effectiveness of sourcing the initial prefix
+- investigate the effectiveness of sourcing the initial prefix
    completion list from a different table. One possible idea is to use
    the table that has the strongest weight.
 - try to improve reverseTokenizer::progress() accuracy
@@ -94,7 +95,6 @@ Short term:
 
 Medium term:
 * overhaul of soothsayer architecture and integration of the plump framework
-* implement Combinator class
 * implement abbreviation expansion plugin
 * use timer alarm to implement threaded plugins controller
 

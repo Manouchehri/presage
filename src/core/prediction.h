@@ -54,9 +54,17 @@ public:
 
     const Prediction &operator=( const Prediction & );
 
-    int size() const;                   // returns number of suggestions
-    Suggestion getSuggestion(int=0) const; // returns nth most
-    // probable suggestion
+    /** Predictions are equal iff suggestions are equal and in same order.
+     */
+    bool operator== (const Prediction&) const;
+
+    /** Returns number of suggestions in prediction.
+     */
+    int size() const;                      
+
+    /** Returns nth most probable suggestion.
+     */
+    Suggestion getSuggestion(int=0) const;
 
     /** Inserts a new suggestion, preserves the ordering.
      * 

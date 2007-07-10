@@ -42,6 +42,29 @@ const Prediction &Prediction::operator=( const Prediction &right )
     return *this;
 }
 
+bool Prediction::operator== (const Prediction& right) const
+{
+    // same instance is obviously equal to itself
+    if (&right == this) {
+	return true;
+    } else {
+	if (size() != right.size()) {
+	    return false;
+	} else {
+	    // need to compare each suggestion
+	    bool result = true;
+	    int i = 0;
+	    while (i < size() && result) {
+		if (getSuggestion(i) != right.getSuggestion(i)) {
+		    result = false;
+		}
+		i++;
+	    }
+	    return result;
+	}
+    }
+}
+
 int Prediction::size() const
 {
     return suggestions.size();

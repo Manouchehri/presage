@@ -23,8 +23,14 @@
 \*****************************************************************************/
 
 
-#ifndef COMBINER
-#define COMBINER
+#ifndef SOOTH_COMBINER
+#define SOOTH_COMBINER
+
+#if HAVE_CONFIG_H
+# include "config.h"
+#endif
+
+#include "prediction.h"
 
 
 enum CombinationMethod { LINEAR = 0,
@@ -40,11 +46,9 @@ class Combiner {
 public:
     Combiner();
     virtual ~Combiner();
-    virtual void combine() = 0; // this should return a Prediction!!!
+    virtual Prediction combine(const std::vector< Prediction >&) = 0;
 private:
 
 };
 
-
-#endif
-
+#endif // SOOTH_COMBINER

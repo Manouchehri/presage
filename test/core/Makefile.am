@@ -35,7 +35,8 @@ coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				historyTrackerTest.h historyTrackerTest.cpp \
 				selectorTest.h selectorTest.cpp             \
 				profileTest.h profileTest.cpp               \
-				profileManagerTest.h profileManagerTest.cpp 
+				profileManagerTest.h profileManagerTest.cpp \
+				meritocracyCombinerTest.h meritocracyCombinerTest.cpp 
 
 coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src                 \
 				-I$(top_srcdir)/test/core/tokenizer

@@ -1,3 +1,24 @@
+2007-07-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/combiner: modified interface to take std::vector of
+	predictions to be combined.
+
+	* src/core/meritocracyCombiner: implemented meritocracy combiner.
+
+	* src/core/Makefile.am: added meritocracyCombiner object to
+	libcore convenience library.
+
+	* src/core/suggestion: added overloaded not equal to operator.
+
+	* src/core/prediction: added overloaded comparison operator.
+
+	* test/core/suggestion: added tests.
+
+	* test/core/meritocracyCombiner: created unit tests.
+
+	* test/core/Makefile.am: added meritocracyCombiner object to
+	test runner.
+	
 2007-07-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: bumped version up to 0.2, updated website.

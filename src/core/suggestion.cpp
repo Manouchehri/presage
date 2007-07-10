@@ -35,7 +35,7 @@ Suggestion::Suggestion(std::string s, double p)
 Suggestion::~Suggestion() {}
 
 
-bool Suggestion::operator==( const Suggestion& right ) const
+bool Suggestion::operator== (const Suggestion& right) const
 {
     if( word == right.word && probability == right.probability )
 	return true;
@@ -43,8 +43,12 @@ bool Suggestion::operator==( const Suggestion& right ) const
 	return false;
 }
 
+bool Suggestion::operator!= (const Suggestion& right) const
+{
+    return !(*this == right);
+}
 
-bool Suggestion::operator<( const Suggestion& right ) const
+bool Suggestion::operator< (const Suggestion& right) const
 {
     if( probability < right.probability ) {
 	return true;

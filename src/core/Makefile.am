@@ -28,7 +28,8 @@ libcore_la_SOURCES =	prediction.cpp prediction.h         \
 			charsets.h                          \
 			historyTracker.cpp historyTracker.h \
 			predictor.cpp predictor.h           \
-			combiner.h                          \
+			combiner.h combiner.cpp             \
+			meritocracyCombiner.h meritocracyCombiner.cpp \
 			linearCombiner.h                    \
 			backoffCombiner.h                   \
 			maxEntropyCombiner.h                \

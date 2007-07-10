@@ -32,29 +32,32 @@
 
 class SuggestionTest : public CppUnit::TestFixture { 
 public:
-	void setUp();
-	void tearDown();
+    void setUp();
+    void tearDown();
 
-	void testConstructor();
-	void testOperatorEqual();
-	void testOperatorMinus();
-	void testGetSetMethods();
+    void testConstructor();
+    void testOperatorEqual();
+    void testOperatorNotEqual();
+    void testOperatorMinus();
+    void testGetSetMethods();
 
 private:
-	Suggestion* sugg1Ptr;
-	Suggestion* sugg2Ptr;
-	Suggestion* sugg3Ptr;
-	Suggestion* sugg4Ptr;
-	Suggestion* sugg5Ptr;
-	Suggestion* sugg6Ptr;
-	Suggestion* sugg7Ptr;
+    Suggestion* sugg1Ptr;
+    Suggestion* sugg2Ptr;
+    Suggestion* sugg3Ptr;
+    Suggestion* sugg4Ptr;
+    Suggestion* sugg5Ptr;
+    Suggestion* sugg6Ptr;
+    Suggestion* sugg7Ptr;
+    Suggestion* sugg8Ptr;
 
-	CPPUNIT_TEST_SUITE( SuggestionTest );
-	CPPUNIT_TEST( testConstructor );
-	CPPUNIT_TEST( testOperatorEqual );
-	CPPUNIT_TEST( testOperatorMinus );
-	CPPUNIT_TEST( testGetSetMethods );
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE( SuggestionTest );
+    CPPUNIT_TEST( testConstructor      );
+    CPPUNIT_TEST( testOperatorEqual    );
+    CPPUNIT_TEST( testOperatorNotEqual );
+    CPPUNIT_TEST( testOperatorMinus    );
+    CPPUNIT_TEST( testGetSetMethods    );
+    CPPUNIT_TEST_SUITE_END();
 };
 
 #endif // SOOTH_SUGGESTIONTEST
