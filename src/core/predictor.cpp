@@ -188,12 +188,7 @@ int Predictor::getPredictTime() const
 bool Predictor::setCombinationMethod( const CombinationMethod cm )
 {
     LOG("[Predictor] Setting COMBINATION_METHOD to " << cm);
-    if( COMBINATION_METHOD != cm ) {
-
-        COMBINATION_METHOD = cm;
-	
-    }
-		
+    COMBINATION_METHOD = cm;
     return true;
 }
 

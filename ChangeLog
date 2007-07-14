@@ -1,5 +1,13 @@
 2007-07-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/core/profileManager.cpp: fixed memory leak in
+	ProfileManager, xml profile document was not being delete on
+	ProfileManager destructor.
+
+	* src/core/utility.cpp: fixed memory leaks in utility functions.
+
+2007-07-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
 	* test/plugins/smoothedUniBiTrigramPluginTest.cpp,
 	test/plugins/dictionaryPluginDriver.cpp,
 	test/plugins/smoothedUniBiTrigramPluginTest.h,

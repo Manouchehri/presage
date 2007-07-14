@@ -67,7 +67,7 @@ public:
     Profile* getProfile() const;
 
 private:
-    TiXmlDocument*  profileDoc;
+    TiXmlDocument*  xmlProfileDoc;
     std::string     profileFile;
 };
 

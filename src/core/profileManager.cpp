@@ -42,8 +42,7 @@
  */
 ProfileManager::ProfileManager()
 {
-    profileDoc = 0;
-
+    xmlProfileDoc = 0;
     loadProfile();
 }
 
@@ -52,7 +51,9 @@ ProfileManager::ProfileManager()
  *
  */
 ProfileManager::~ProfileManager()
-{}
+{
+    delete xmlProfileDoc;
+}
 
 
 /** Load and parse a profile.
@@ -74,8 +75,11 @@ ProfileManager::~ProfileManager()
  */
 bool ProfileManager::loadProfile(const std::string profilename)
 {
-    profileDoc = new TiXmlDocument;
-    assert( profileDoc );
+    // destroy xml profile document to prevent memory leaks.
+    delete xmlProfileDoc;
+
+    xmlProfileDoc = new TiXmlDocument;
+    assert( xmlProfileDoc );
     
     const int PROFILE_DIRS_SIZE = 2;
     std::string profile_dirs[PROFILE_DIRS_SIZE] = {
@@ -87,7 +91,7 @@ bool ProfileManager::loadProfile(const std::string profilename)
     int i = 0;
     while(!readOk && i < PROFILE_DIRS_SIZE) {
 	profileFile = profile_dirs[i] + '/' + profilename;
-	readOk = profileDoc->LoadFile (profileFile.c_str());
+	readOk = xmlProfileDoc->LoadFile (profileFile.c_str());
 
         if (!readOk) {
             LOG("[ProfileManager] Opening profile: '" << profileFile << "' attempt failed.");
@@ -115,8 +119,7 @@ bool ProfileManager::loadProfile(const std::string profilename)
  */
 bool ProfileManager::saveProfile() const
 {
-    bool saveOk = profileDoc->SaveFile();
-
+    bool saveOk = xmlProfileDoc->SaveFile();
     return saveOk;
 }
 
@@ -133,15 +136,15 @@ void ProfileManager::buildProfile(const std::string p)
 	
 
     // Create document
-    delete profileDoc;
-    profileDoc = new TiXmlDocument(p.c_str());
+    delete xmlProfileDoc;
+    xmlProfileDoc = new TiXmlDocument(p.c_str());
 
     // Insert initial mandatory declaration
-    node = profileDoc->InsertEndChild( TiXmlDeclaration( "1.0", "UTF-8", "no" ) );
+    node = xmlProfileDoc->InsertEndChild( TiXmlDeclaration( "1.0", "UTF-8", "no" ) );
     assert( node );
 
     // Insert root element
-    root = profileDoc->InsertEndChild( TiXmlElement( "Soothsayer" ) );
+    root = xmlProfileDoc->InsertEndChild( TiXmlElement( "Soothsayer" ) );
     assert( root );
 
     // HistoryTracker module
@@ -268,8 +271,5 @@ void ProfileManager::buildProfile(const std::string p)
 
 Profile* ProfileManager::getProfile() const
 {
-    //Profile profile(profileDoc);
-    //return profile;
-
-    return new Profile(profileDoc);
+    return new Profile(xmlProfileDoc);
 }

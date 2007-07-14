@@ -29,106 +29,111 @@
 /** Convert string to lower case
  *
  */
-char* strtolower( char* str )
+char* strtolower(char* str)
 {
-
-	for( int i = 0; str[i] != '\0'; i++ )
-		str[ i ] = tolower( str[ i ] );
-
-	return str;
+    for(int i = 0; str[i] != '\0'; i++)
+	str[i] = tolower (str[i]);
+    
+    return str;
 }
 
 
 /** Convert string to lower case
  *
  */
-std::string& strtolower( std::string& str )
+std::string& strtolower(std::string& str)
 {
-	
-	for( std::string::iterator i = str.begin();
-	     i != str.end();
-	     i++ )
-		*i = tolower( *i );
-
-	return str;
+    for(std::string::iterator i = str.begin();
+	i != str.end();
+	i++ )
+	*i = tolower( *i );
+    
+    return str;
 }
 
 
 /** Returns a lower case copy of a string
  *
  */
-std::string strtolower( const std::string& str )
+std::string strtolower(const std::string& str)
 {
-
-	std::string lowstr = str;
-	for( std::string::iterator i = lowstr.begin();
-	     i != lowstr.end();
-	     i++ )
-		*i = tolower( *i );
-
-	return lowstr;
+    std::string lowstr = str;
+    for(std::string::iterator i = lowstr.begin();
+	i != lowstr.end();
+	i++ )
+	*i = tolower( *i );
+    
+    return lowstr;
 }
 
 
 /** Is string either true or false
  *
  */
-bool isTrueFalse( const char* str )
+bool isTrueFalse(const char* str)
 {
-	// TODO: manage yes/no with gettext?
+    // TODO: manage yes/no with gettext?
 
-	return ( isTrue( str ) || isFalse( str ) );
+    return (isTrue (str) || isFalse (str));
 }
 
 /** Is string True
  *
  */
-bool isTrue( const char* str )
+bool isTrue(const char* str)
 {
-	char* workingStr = new char[ strlen( str ) + 1 ];
-	strcpy( workingStr, str );
+    bool result = false;
+    
+    char* workingStr = new char[strlen (str) + 1];
+    strcpy (workingStr, str);
+    
+    std::string lowstr = strtolower (workingStr);
+    if( lowstr == "true" ||
+	lowstr == "1" )
+	result = true;
 
-	std::string lowstr = strtolower( workingStr );
-	if( lowstr == "true" ||
-	    lowstr == "1" )
-		return true;
-	else
-		return false;
+    delete workingStr;
+
+    return result;
 }
 
 
 /** Is string False
  *
  */
-bool isFalse( const char* str )
+bool isFalse(const char* str)
 {
-	char* workingStr = new char[ strlen( str ) + 1 ];
-	strcpy( workingStr, str );
+    bool result = false;
 
-	std::string lowstr = strtolower( workingStr );
-	if( lowstr == "false" ||
-	    lowstr == "0" )
-		return true;
-	else
-		return false;
+    char* workingStr = new char[strlen(str) + 1];
+    strcpy (workingStr, str);
+
+    std::string lowstr = strtolower (workingStr);
+    if( lowstr == "false" ||
+	lowstr == "0" )
+	result = true;
+    
+    delete workingStr;
+
+    return result;
 }
 
 
 /** Is string True
  *
  */
-bool isTrue( const std::string& str )
+bool isTrue(const std::string& str)
 {
-	return isTrue( str.c_str() );
+    return isTrue( str.c_str() );
 }
 
 
 /** Is string False
  *
  */
-bool isFalse( const std::string& str )
+bool isFalse(const std::string& str)
 {
-	return isFalse( str.c_str() );
+    return isFalse( str.c_str() );
 }
 
 
@@ -137,16 +142,16 @@ bool isFalse( const std::string& str )
  */
 bool isTrueFalse( const std::string& str )
 {
-	return isTrueFalse( str.c_str() );
+    return isTrueFalse( str.c_str() );
 }
 
 
 /** Is string either yes or no
  *
  */
-bool isYesNo( const char* str )
+bool isYesNo(const char* str)
 {
-	return ( isYes( str ) || isNo( str ) );
+    return (isYes (str) || isNo (str));
 }
 
 
@@ -155,16 +160,20 @@ bool isYesNo( const char* str )
  */
 bool isYes( const char* str )
 {
-	char* workingStr = new char[ strlen( str ) + 1 ];
-	strcpy( workingStr, str );
+    bool result = false;
 
-	std::string lowstr = strtolower( workingStr );
-	if( lowstr == "yes" ||
-	    lowstr == "yeah" ||
-	    lowstr == "ye" )
-		return true;
-	else
-		return false;
+    char* workingStr = new char[strlen(str) + 1];
+    strcpy (workingStr, str);
+    
+    std::string lowstr = strtolower (workingStr);
+    if( lowstr == "yes" ||
+	lowstr == "yeah" ||
+	lowstr == "ye" )
+	result = true;
+    
+    delete workingStr;
+    
+    return result;
 }
 
 
@@ -173,26 +182,30 @@ bool isYes( const char* str )
  */
 bool isNo( const char* str )
 {
-	char* workingStr = new char[ strlen( str ) + 1 ];
-	strcpy( workingStr, str );
+    bool result = false;
 
-	std::string lowstr = strtolower( workingStr );
-	if( lowstr == "no" ||
-	    lowstr == "nope" ||
-	    lowstr == "nah" ||
-	    lowstr == "nay" )
-		return true;
-	else
-		return false;
+    char* workingStr = new char[strlen(str) + 1];
+    strcpy (workingStr, str);
+
+    std::string lowstr = strtolower (workingStr);
+    if( lowstr == "no" ||
+	lowstr == "nope" ||
+	lowstr == "nah" ||
+	lowstr == "nay" )
+	result = true;
+
+    delete workingStr;
+
+    return result;
 }
 
 
 /** Is string either yes or no
  *
  */
-bool isYesNo( const std::string& str )
+bool isYesNo(const std::string& str)
 {
-	return isYesNo( str.c_str() );
+    return isYesNo (str.c_str());
 }
 
 
@@ -201,16 +214,16 @@ bool isYesNo( const std::string& str )
  */
 bool isYes( const std::string& str )
 {
-	return isYes( str.c_str() );
+    return isYes (str.c_str());
 }
 
 
 /** Is string No
  *
  */
-bool isNo( const std::string& str )
+bool isNo(const std::string& str)
 {
-	return isNo( str.c_str() );
+    return isNo (str.c_str());
 }
 
 /** Convert string to double.
