@@ -1,5 +1,10 @@
 2007-07-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* website: revamped website design, created new drupal theme based
+	on Zen drupal theme, created new soothsayer logo.
+
+2007-07-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
 	* src/core/profileManager.cpp: fixed memory leak in
 	ProfileManager, xml profile document was not being delete on
 	ProfileManager destructor.
