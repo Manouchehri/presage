@@ -43,16 +43,34 @@
 #endif
 
 
-Predictor::Predictor(HistoryTracker &ht)
-    : historyTracker( ht )
+Predictor::Predictor(Profile* prof, HistoryTracker* ht)
+    : profile(prof), historyTracker(ht)
 {
-    profile = 0;
+    combiner = 0;
 
-    // set Predictor options to their defaults
-    PREDICT_TIME = DEFAULT_PREDICT_TIME;
-    COMBINATION_METHOD = DEFAULT_COMBINATION_METHOD;
-	
-    assert( initCombiner() );
+    // read config values
+    Variable variable;
+    variable.push_back("Soothsayer");
+    variable.push_back("Predictor");
+
+    Value value;
+
+    try {
+	variable.push_back("PREDICT_TIME");
+	value = profile->getConfig(variable);
+	LOG("[Predictor] PREDICT_TIME: " + value);
+	setPredictTime(toInt(value));
+	variable.pop_back();
+
+	variable.push_back("COMBINATION_METHOD");
+	value = profile->getConfig(variable);
+	LOG("[Predictor] COMBINATION_METHOD: " + value);
+	setCombinationMethod(static_cast<CombinationMethod>(toInt(value)));
+	variable.pop_back();
+	setCombinationMethod(LINEAR);
+    } catch (Profile::ProfileException ex) {
+	std::cerr << "[Predictor] Caught ProfileException: " << ex.what() << std::endl;
+    }
 }
 
 
@@ -60,37 +78,6 @@ Predictor::~Predictor()
 {
     // Clear out existing plugins vector (not strictly necessary)
     plugins.clear();
-
-    delete profile;
-}
-
-
-bool Predictor::initCombiner()
-{
-    //	std::cout << "Initializing combiner..." << std::endl;
-
-    // Temporarily commented out because Combiner objects are not yet implemented
-    //	switch( COMBINATION_METHOD ) {
-    //	case LINEAR:
-    //		combiner = new LinearCombiner;
-    //		break;
-    //	case BACKOFF:
-    //		combiner = new BackoffCombiner;
-    //		break;
-    //	case MAXENTROPY:
-    //		combiner = new MaxEntropyCombiner;
-    //		break;
-    //	default:
-    //		std::cerr << "Unknown combiner object specified!" << std::endl
-    //			  << "Aborting..." << std::endl;
-    //		abort();
-    //		break;
-    //	}
-    //
-    //	assert( combiner != NULL );
-
-    // Return true if everything's allright
-    return true;
 }
 
 
@@ -166,7 +153,7 @@ Prediction Predictor::predict() const
     //plump.registerCallback(callback_predict, &p);
     //plump.run();
                 
-    SmoothedUniBiTrigramPlugin plugin(historyTracker, profile);
+    SmoothedUniBiTrigramPlugin plugin(profile, historyTracker);
     p = plugin.predict();
     
 
@@ -192,6 +179,12 @@ bool Predictor::setPredictTime( const int predictTime )
 }
 
 
+int Predictor::getPredictTime() const
+{
+    return PREDICT_TIME;
+}
+
+
 bool Predictor::setCombinationMethod( const CombinationMethod cm )
 {
     LOG("[Predictor] Setting COMBINATION_METHOD to " << cm);
@@ -199,19 +192,9 @@ bool Predictor::setCombinationMethod( const CombinationMethod cm )
 
         COMBINATION_METHOD = cm;
 	
-        // destroy previous combiner object
-        delete combiner;
-        // init new combiner
-        return initCombiner();
     }
 		
     return true;
-}
-
-
-int Predictor::getPredictTime() const
-{
-    return PREDICT_TIME;
 }
 
 

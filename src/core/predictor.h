@@ -48,11 +48,6 @@
 //#include <dlfcn.h>   // needed for shared library dynamic loading
 
 
-// Default option values
-const int DEFAULT_PREDICT_TIME = 1000;
-const CombinationMethod DEFAULT_COMBINATION_METHOD = LINEAR;
-
-
 /** Predictor, the heart of Soothsayer system, coordinates the execution of predictive plugins and returns the combination of their predictions.
  *
  * Predictor starts the execution of the active predictive plugins,
@@ -78,7 +73,7 @@ class Predictor {
      *
      *  @param ht is a reference to HistoryTracker
      */
-    Predictor(HistoryTracker&);
+    Predictor(Profile*, HistoryTracker*);
 
     /** Destroy predictor.
      *
@@ -167,17 +162,12 @@ class Predictor {
     // PLUMP
     //plump::Plump& plump;
 
-    /** Initializes the Combiner object.
-     *
-     *  @param combinationMethod is an enum that identifies what Combiner object to use
-     */
-    bool initCombiner();
 
     // execute plugin function (invoked in thread)
     void *execute(void *);
 
 
-    HistoryTracker &historyTracker;
+    HistoryTracker* historyTracker;
     Profile* profile;
 
     Combiner* combiner;
@@ -186,7 +176,6 @@ class Predictor {
 
     int PREDICT_TIME;
     CombinationMethod COMBINATION_METHOD;
-
 };
 
 #endif // SOOTH_PREDICTOR

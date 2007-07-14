@@ -54,24 +54,25 @@ class Soothsayer {
     Soothsayer();
     ~Soothsayer();
 	
-    std::vector<std::string> predict( std::string );
-    std::vector<std::string> predict( char );
+    std::vector<std::string> predict(std::string);
+    std::vector<std::string> predict(char);
 
-    void update( std::string );
-    void update( char );
+    void update(std::string);
+    void update(char);
 
     void complete(std::string);
 
     std::string history() const;
 
   private:
-    HistoryTracker historyTracker;
-    Predictor predictor;
-    Selector selector;
+    ProfileManager* profileManager;
+    Profile*        profile;
+    HistoryTracker* historyTracker;
+    Predictor*      predictor;
+    Selector*       selector;
     //PLUMP plump::Plump plump;
     //
     //PLUMP PluginManager pluginManager;
-    ProfileManager profileManager;
 
 };
 

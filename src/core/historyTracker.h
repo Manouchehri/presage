@@ -38,9 +38,7 @@
 
 #include "core/tokenizer/reverseTokenizer.h"
 #include "core/charsets.h"
-
-// Default option values
-const int DEFAULT_MAX_BUFFER_SIZE = 1024;  // TODO: <==== not implemented yet
+#include "core/profile.h"
 
 
 /** HistoryTracker tracks user's interaction and context
@@ -150,7 +148,8 @@ const int DEFAULT_MAX_BUFFER_SIZE = 1024;  // TODO: <==== not implemented yet
  */
 class HistoryTracker {
 public:
-    HistoryTracker(const char[]=DEFAULT_WORD_CHARS,
+    HistoryTracker(Profile* profile,
+		   const char[]=DEFAULT_WORD_CHARS,
                    const char[]=DEFAULT_SEPARATOR_CHARS,
                    const char[]=DEFAULT_BLANKSPACE_CHARS,
                    const char[]=DEFAULT_CONTROL_CHARS );

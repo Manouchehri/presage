@@ -29,26 +29,39 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ProfileManagerTest );
 
 void ProfileManagerTest::setUp()
 {
-    historyTracker = new HistoryTracker();
-    predictor = new Predictor(*historyTracker);
-    selector = new Selector(*historyTracker);
+    profileManager = new ProfileManager();
+    profile        = 0;
+    
+    historyTracker = 0;
+    selector       = 0;
+    predictor      = 0;
 }
 
 void ProfileManagerTest::tearDown()
 {
-    delete historyTracker;
     delete predictor;
     delete selector;
+    delete historyTracker;
+
+    delete profile;
+    delete profileManager;
 }
 
 void ProfileManagerTest::testDefaultProfile()
 {
-    ProfileManager profileManager(*historyTracker,
-				  *predictor,
-				  *selector);
-    testProfile();
-}
 
+    std::cout << "ProfileManagerTest::testDefaultProfile()" << std::endl;
+    profile = profileManager->getProfile();
+
+    historyTracker = new HistoryTracker(profile);
+    selector = new Selector(profile, historyTracker);
+    predictor = new Predictor(profile, historyTracker);
+
+    std::cout << "ProfileManagerTest: before testProfile()" << std::endl;
+    testProfile();
+    std::cout << "Exiting ProfileManagerTest::testDefaultProfile( ...)" << std::endl;
+
+}
 
 void ProfileManagerTest::testCustomProfile()
 {
@@ -70,15 +83,22 @@ void ProfileManagerTest::testCustomProfile()
 
 void ProfileManagerTest::testNonExistantProfile()
 {
+/*
+    std::cout << "ProfileManagerTest::testNonExistantProfile()" << std::endl;
+
     // hopefully a file with the following name will not exists
     // in the directories we look for...
     const std::string wacky_profile("this_IS_a_wAckY_profileName.xml");
 
-    ProfileManager profileManager(*historyTracker,
-				  *predictor,
-				  *selector);
-    profileManager.loadProfile(wacky_profile);
+    profileManager->loadProfile(wacky_profile);
+    profile = profileManager->getProfile();
+
+    historyTracker = new HistoryTracker(profile);
+    selector = new Selector(profile, historyTracker);
+    predictor = new Predictor(profile, historyTracker);
+
     testProfile();
+*/
 }
 
 void ProfileManagerTest::testProfile()
@@ -97,7 +117,7 @@ void ProfileManagerTest::testProfile()
     CPPUNIT_ASSERT_EQUAL(DEFAULT_SUGGESTIONS,
 			 selector->getSuggestions());
     CPPUNIT_ASSERT_EQUAL(DEFAULT_REPEAT_SUGGESTION,
-			 selector->getRepeatSuggestion());
+			 selector->getRepeatSuggestions());
     CPPUNIT_ASSERT_EQUAL(DEFAULT_GREEDY_SUGGESTION_THRESHOLD,
 			 selector->getGreedySuggestionThreshold());
 }

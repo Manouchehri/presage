@@ -28,9 +28,12 @@
 
 int main()
 {
-	HistoryTracker historyTracker;
+    // This won't work. It is kept here so that when breaking changes
+    // are made, this will fail to build.
+    // TODO: transform this into a unit test.
 	Profile mockProfile(0);
-	DictionaryPlugin plugin(historyTracker, &mockProfile);
+	HistoryTracker historyTracker(&mockProfile);
+	DictionaryPlugin plugin(&mockProfile, &historyTracker);
 
 	std::string prefix;
 

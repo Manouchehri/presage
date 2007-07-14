@@ -39,10 +39,10 @@ Value Profile::getConfig(Variable variable)
     for (int i = 0; (i < variable.size() && node); i++) {
 	node = node->FirstChild(variable[i].c_str());
 	stringifiedVariable += variable[i] + SEPARATOR;
-	if (!node) {
-	    throw ProfileException("[ProfileException] Cannot find variable "
-				   + stringifiedVariable);
-	}
+    }
+    if (!node) {
+	throw ProfileException("[ProfileException] Cannot find variable "
+			       + stringifiedVariable);
     }
     TiXmlElement* element = node->ToElement();
     if (!element) {

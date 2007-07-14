@@ -28,9 +28,12 @@
 
 int main()
 {
-	HistoryTracker historyTracker;
+    // This won't work. It is kept here so that when breaking changes
+    // are made, this will fail to build.
+    // TODO: transform this into a unit test.
 	Profile mockProfile(0);
-	SmoothedCountPlugin plugin(historyTracker, &mockProfile);
+	HistoryTracker historyTracker(&mockProfile);
+	SmoothedCountPlugin plugin(&mockProfile, &historyTracker);
 
 	const int SIZE = 80;
 	char historyBuffer[SIZE];

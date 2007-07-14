@@ -37,6 +37,7 @@ enum CombinationMethod { LINEAR = 0,
 			 BACKOFF,
 			 MAXENTROPY };
 
+
 /** Combiner interface
  *
  * A combiner takes one or more predictions and combines them into a single prediction.

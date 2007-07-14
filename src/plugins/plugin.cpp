@@ -32,16 +32,16 @@
  * @param shortDesc is a short description of the plugin's functionality
  * @param longDesc is a long description of the plugin's functionality
  */
-Plugin::Plugin( HistoryTracker& ht,
-		Profile* prof,
-                const char* pluginName,
-		const char* shortDesc,
-                const char* longDesc )
-	: name            (pluginName ),
-	  shortDescription(shortDesc  ),
-	  longDescription (longDesc   ),
-	  historyTracker  (ht         ),
-	  profile         (prof       )
+Plugin::Plugin(Profile* prof,
+	       HistoryTracker* ht,
+	       const char* pluginName,
+	       const char* shortDesc,
+	       const char* longDesc)
+	: name            (pluginName),
+	  shortDescription(shortDesc ),
+	  longDescription (longDesc  ),
+	  historyTracker  (ht        ),
+	  profile         (prof      )
 {
     // NOTE: plugin implementations deriving from this class should
     // use profile to query the value of needed configuration

@@ -24,9 +24,20 @@
 
 
 #include "historyTracker.h"
+#include "utility.h"
 
-HistoryTracker::HistoryTracker(const char wChars[], const char tChars[],
-			       const char bChars[], const char cChars[])
+#ifdef DEBUG
+# define LOG(x) std::cout << x << std::endl
+#else
+# define LOG(x) /* x */
+#endif
+
+
+HistoryTracker::HistoryTracker(Profile* profile,
+			       const char wChars[],
+			       const char tChars[],
+			       const char bChars[],
+			       const char cChars[])
     : wordChars      (wChars),
       separatorChars (tChars),
       blankspaceChars(bChars),
@@ -38,7 +49,22 @@ HistoryTracker::HistoryTracker(const char wChars[], const char tChars[],
     //pastStream.seekp(0, std::ios::end);
     assert(pastStream.good());
 
-    setMaxBufferSize(DEFAULT_MAX_BUFFER_SIZE);
+    // read config values
+    Variable variable;
+    variable.push_back("Soothsayer");
+    variable.push_back("HistoryTracker");
+
+    Value value;
+
+    try {
+	variable.push_back("MAX_BUFFER_SIZE");
+	value = profile->getConfig(variable);
+	LOG("[HistoryTracker] MAX_BUFFER_SIZE: " + value);
+	setMaxBufferSize(toInt(value));
+	variable.pop_back();
+    } catch (Profile::ProfileException ex) {
+	std::cerr << "[HistoryTracker] Caught ProfileException: " << ex.what() << std::endl;
+    }
 }
 
 HistoryTracker::~HistoryTracker()

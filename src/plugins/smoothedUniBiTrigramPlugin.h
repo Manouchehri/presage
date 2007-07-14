@@ -48,7 +48,7 @@
  */
 class SmoothedUniBiTrigramPlugin : public Plugin {
 public:
-    SmoothedUniBiTrigramPlugin(HistoryTracker&, Profile*);
+    SmoothedUniBiTrigramPlugin(Profile*, HistoryTracker*);
     ~SmoothedUniBiTrigramPlugin();
 
     virtual Prediction predict() const;
@@ -95,7 +95,7 @@ private:
 
 
 // Class factory functions
-extern "C" SmoothedUniBiTrigramPlugin* create (HistoryTracker&, Profile*);
+extern "C" SmoothedUniBiTrigramPlugin* create (HistoryTracker*, Profile*);
 extern "C" void                        destroy(SmoothedUniBiTrigramPlugin*);
 
 

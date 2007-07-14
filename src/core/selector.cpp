@@ -24,6 +24,7 @@
 
 
 #include "selector.h"
+#include "utility.h"
 
 
 #ifdef DEBUG
@@ -33,16 +34,40 @@
 #endif
 
 
-Selector::Selector( HistoryTracker& ht )
+Selector::Selector(Profile* profile, HistoryTracker* ht)
     : historyTracker( ht )
 {
-    // set options to default values
-    SUGGESTIONS = DEFAULT_SUGGESTIONS;
-    REPEAT_SUGGESTION = DEFAULT_REPEAT_SUGGESTION;
-    GREEDY_SUGGESTION_THRESHOLD = DEFAULT_GREEDY_SUGGESTION_THRESHOLD;
+    // read config values
+    Variable variable;
+    variable.push_back("Soothsayer");
+    variable.push_back("Selector");
+
+    Value value;
+
+    try {
+	variable.push_back("SUGGESTIONS");
+	value = profile->getConfig(variable);
+	LOG("[Selector] SUGGESTIONS: " + value);
+	setSuggestions(toInt(value));
+	variable.pop_back();
+
+	variable.push_back("REPEAT_SUGGESTIONS");
+	value = profile->getConfig(variable);
+	LOG("[Selector] REPEAT_SUGGESTIONS: " + value);
+	setRepeatSuggestions(isYes(value));
+	variable.pop_back();
+
+	variable.push_back("GREEDY_SUGGESTION_THRESHOLD");
+	value = profile->getConfig(variable);
+	LOG("[Selector] GREEDY_SUGGESTION_THRESHOLD: " + value);
+	setGreedySuggestionThreshold(toInt(value));
+	variable.pop_back();
+    } catch (Profile::ProfileException ex) {
+	std::cerr << "[Selector] Caught ProfileException: " << ex.what() << std::endl;
+    }
 
     // set prefix
-    prefix = historyTracker.getPrefix();
+    prefix = historyTracker->getPrefix();
 }
 
 Selector::~Selector()
@@ -59,12 +84,12 @@ std::vector<std::string> Selector::select( Prediction p )
     }
 	
     // check whether user has not moved on to a new word
-    if( contextChange( prefix, historyTracker.getPrefix() ) ) {
+    if( contextChange( prefix, historyTracker->getPrefix() ) ) {
 	clearSuggestedWords();
     }
 
     // store new prefix into prefix
-    prefix = historyTracker.getPrefix();
+    prefix = historyTracker->getPrefix();
 
     // filter out suggestions that do not satisfy repetition constraint
     if( !REPEAT_SUGGESTION )
@@ -246,7 +271,7 @@ int Selector::getSuggestions() const
 /** Set REPEAT_SUGGESTION option.
  *
  */
-void Selector::setRepeatSuggestion( const bool value )
+void Selector::setRepeatSuggestions( const bool value )
 {
     LOG("[Selector] Setting REPEAT_SUGGESTION: " << value);
     REPEAT_SUGGESTION = value;
@@ -256,7 +281,7 @@ void Selector::setRepeatSuggestion( const bool value )
 /** Get REPEAT_SUGGESTION option.
  *
  */
-bool Selector::getRepeatSuggestion() const
+bool Selector::getRepeatSuggestions() const
 {
     return REPEAT_SUGGESTION;
 }

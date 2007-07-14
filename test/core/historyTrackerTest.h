@@ -28,8 +28,9 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <core/historyTracker.h>
-#include <tokenizer/testStringSuite.h>
+#include "core/profileManager.h"
+#include "core/historyTracker.h"
+#include "tokenizer/testStringSuite.h"
 
 class HistoryTrackerTest : public CppUnit::TestFixture { 
 public:
@@ -50,8 +51,11 @@ public:
     void testSetMaxBufferSize();
 
 private:
-    HistoryTracker*  historyTracker;
     TestStringSuite* testStringSuite;
+
+    HistoryTracker*  historyTracker;
+    ProfileManager*  profileManager;
+    Profile*         profile;
     
     CPPUNIT_TEST_SUITE( HistoryTrackerTest );
     CPPUNIT_TEST( testConstructor          );

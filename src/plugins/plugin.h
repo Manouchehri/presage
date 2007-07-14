@@ -48,9 +48,9 @@
 class Plugin {
 //PLUMP    : public plump::PluginInterface {
 public:
-    Plugin(HistoryTracker& historyTracker,
-	   Profile*        profile,
-           const char*     pluginName       = "Plugin",
+    Plugin(Profile*        profile,
+           HistoryTracker* historyTracker,
+	   const char*     pluginName       = "Plugin",
            const char*     shortDescription = "",
            const char*     longDescription  = "");
     virtual ~Plugin();
@@ -77,7 +77,7 @@ protected:
     const std::string shortDescription; // plugin's descriptive name
     const std::string longDescription;  // plugin's exhaustive description
 
-    HistoryTracker &historyTracker;
+    HistoryTracker* historyTracker;
 
     Profile* profile;
     

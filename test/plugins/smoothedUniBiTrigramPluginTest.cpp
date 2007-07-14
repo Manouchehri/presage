@@ -157,12 +157,13 @@ Prediction SmoothedUniBiTrigramPluginTest::runPredict(const char** config, const
     Profile profile((TiXmlDocument*) &configMap);
 
     // similarly, the mock HistoryTracker object's interface is
-    // unchanged, therefore casting argument.
-    HistoryTracker ht((const char*) history);
+    // unchanged, therefore casting Profile* argument and using it
+    // pass array of history tokens.
+    HistoryTracker ht((Profile*) history);
 
     // creating plugin object to test using the mock HistoryTracker
     // and Profile objects.
-    SmoothedUniBiTrigramPlugin plugin(ht, &profile);
+    SmoothedUniBiTrigramPlugin plugin(&profile, &ht);
 
     // return the prediction for comparison with expected results.
     return plugin.predict();

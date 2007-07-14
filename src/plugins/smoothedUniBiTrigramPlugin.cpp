@@ -31,9 +31,9 @@
 # define LOG(x) /* x */
 #endif
 
-SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin(HistoryTracker &ht, Profile* profile)
-    : Plugin(ht,
-	     profile,
+SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin(Profile* profile, HistoryTracker* ht)
+    : Plugin(profile,
+	     ht,
              "SmoothedUniBiTrigramPlugin",
              "SmoothedUniBiTrigramPlugin, a linear interpolating unigram bigram trigram plugin",
              "SmoothedUniBiTrigramPlugin, long description." )
@@ -105,9 +105,9 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     Prediction prediction;
 	
     // get w_2, w_1, and prefix from HistoryTracker object
-    std::string word_prefix = strtolower(historyTracker.getPrefix());
-    std::string word_1      = strtolower(historyTracker.getToken(1));
-    std::string word_2      = strtolower(historyTracker.getToken(2));
+    std::string word_prefix = strtolower(historyTracker->getPrefix());
+    std::string word_1      = strtolower(historyTracker->getToken(1));
+    std::string word_2      = strtolower(historyTracker->getToken(2));
 
     // DEBUG
     LOG("[SmoothedUniBiTrigramPlugin] Prefix: " << word_prefix);
@@ -298,9 +298,9 @@ void SmoothedUniBiTrigramPlugin::train()
 
 
 
-extern "C" SmoothedUniBiTrigramPlugin* create(HistoryTracker& ht, Profile* profile)
+extern "C" SmoothedUniBiTrigramPlugin* create(HistoryTracker* ht, Profile* profile)
 {
-    return new SmoothedUniBiTrigramPlugin(ht, profile);
+    return new SmoothedUniBiTrigramPlugin(profile, ht);
 }
 
 extern "C" void destroy(SmoothedUniBiTrigramPlugin* plugin)

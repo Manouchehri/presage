@@ -40,23 +40,11 @@
  * Initialises other modules.
  *
  */
-ProfileManager::ProfileManager( HistoryTracker& ht,
-				Predictor& p,
-				Selector& s //PLUMP,
-                                //PLUMP				PluginManager& pm )
-    )
-    : historyTracker( ht ),
-      predictor( p ),
-      selector( s ) //PLUMP,
-    //PLUMP	  pluginManager( pm )
+ProfileManager::ProfileManager()
 {
     profileDoc = 0;
 
     loadProfile();
-
-    initHistoryTracker();
-    initPredictor();
-    initSelector();
 }
 
 
@@ -65,184 +53,6 @@ ProfileManager::ProfileManager( HistoryTracker& ht,
  */
 ProfileManager::~ProfileManager()
 {}
-
-
-/** Initialises HistoryTracker.
- *
- */
-void ProfileManager::initHistoryTracker()
-{
-	
-    ///////////////////////////////////////////////////////
-    // Check this code: I wrote it very late at night after
-    // a long abstinence from coding!!! Be wary!!!
-    // TODO TODO TODO TODO
-    ///////////////////////////////////////////////////////
-
-
-    // Get handle to profile document root
-    TiXmlHandle doc( profileDoc );
-
-    // Get to HistoryTracker node
-    TiXmlElement* module = doc.FirstChild( "Soothsayer" ).FirstChild( "HistoryTracker" ).Element();
-    assert( module ); // TODO handle with exceptions
-    if( NULL != module ) {
-        // we found HistoryTracker option block,
-        // let's handle each option
-
-        TiXmlNode* option;
-        TiXmlText* text;
-
-        // option MAX_BUFFER_SIZE
-        option = module->FirstChild( "MAX_BUFFER_SIZE" );
-        assert( option );
-        if( NULL!= option ) {
-            text = option->FirstChild()->ToText();
-            assert( text );
-            if( NULL != text ) {
-                LOG("[ProfileManager] Option MAX_BUFFER_SIZE: " << text->Value());
-                historyTracker.setMaxBufferSize( atoi( text->Value() ) );
-
-            }
-        }
-    }
-}
-
-
-/** Initializes Predictor.
- */
-void ProfileManager::initPredictor()
-{
-    // new profile pulling approach
-    //
-    predictor.setProfile(getProfile());
-
-    // old profile pushing approach
-    //
-    // Get handle to profile document root
-    TiXmlHandle doc( profileDoc );
-
-    // Get to Predictor node
-    TiXmlElement* module = doc.FirstChild( "Soothsayer" ).FirstChild( "Predictor" ).Element();
-    assert( module ); // TODO handle with exceptions
-    if( NULL != module ) {
-        // we found Predictor option block,
-        // let's handle each option
-
-        TiXmlNode* option;
-        TiXmlText* text;
-
-        // Option PREDICT_TIME
-        option = module->FirstChild( "PREDICT_TIME" );
-        assert( option );
-        if( NULL!= option ) {
-            text = option->FirstChild()->ToText();
-            assert( text );
-            if( NULL != text ) {
-                LOG("[ProfileManager] Option PREDICT_TIME: " << text->Value());
-                predictor.setPredictTime( atoi( text->Value() ) );
-            }
-        }
-		
-        // Option COMBINATION_METHOD
-        option = module->FirstChild( "COMBINATION_METHOD" );
-        assert( option );
-        if( NULL!= option ) {
-            text = option->FirstChild()->ToText();
-            assert( text );
-            if( NULL != text ) {
-                LOG("[ProfileManager] Option COMBINATION_METHOD: " << text->Value());
-                predictor.setCombinationMethod( static_cast<CombinationMethod>( atoi( text->Value() ) ) );
-            }
-        }
-    }
-}
-
-
-/** Initializes Selector.
- */
-void ProfileManager::initSelector()
-{
-
-    // TODO: implement set methods in Selector object. Handle yes/no option value.
-
-    // Get handle to profile document root
-    TiXmlHandle doc( profileDoc );
-
-    // Get to Selector node
-    TiXmlElement* module = doc.FirstChild( "Soothsayer" ).FirstChild( "Selector" ).Element();
-    assert( module ); // TODO: handle with exceptions instead of assertions
-    if( NULL != module ) {
-        // we found Selector option block,
-        // let's handle each option
-
-        TiXmlNode* option;
-        TiXmlText* text;
-
-        // Option SUGGESTIONS
-        option = module->FirstChild( "SUGGESTIONS" );
-        assert( option );
-        if( NULL!= option ) {
-            text = option->FirstChild()->ToText();
-            assert( text );
-            if( NULL != text ) {
-                LOG("[ProfileManager] Option SUGGESTIONS: " << text->Value());
-                selector.setSuggestions( atoi( text->Value() ) );
-            }
-        }
-		
-        // Option REPEAT_SUGGESTIONS
-        option = module->FirstChild( "REPEAT_SUGGESTIONS" );
-        assert( option );
-        if( NULL!= option ) {
-            text = option->FirstChild()->ToText();
-            assert( text );
-            if( NULL != text ) {
-                LOG("[ProfileManager] Option REPEAT_SUGGESTIONS: " << text->Value());
-
-                if( isYes( text->Value() ) || isTrue( text->Value() ) )
-                    selector.setRepeatSuggestion( true );
-                else if( isNo( text->Value() ) || isFalse( text->Value() ) )
-                    selector.setRepeatSuggestion( false );
-            }
-        }
-
-        // Option GREEDY_SUGGESTION_THRESHOLD
-        option = module->FirstChild( "GREEDY_SUGGESTION_THRESHOLD" );
-        assert( option );
-        if( NULL!= option ) {
-            text = option->FirstChild()->ToText();
-            assert( text );
-            if( NULL != text ) {
-                LOG("[ProfileManager] Option GREEDY_SUGGESTION_THRESHOLD: " << text->Value());
-                selector.setGreedySuggestionThreshold( atoi( text->Value() ) );
-            }
-        }
-    }
-
-}
-
-
-/** Initializes PluginManager and managed Plugin objects.
- */
-//PLUMP void ProfileManager::initPluginManager()
-//PLUMP {
-//PLUMP 	
-//PLUMP }
-
-
-///** Allows user to select which profile to use.
-// *
-// * User can:
-// * - select a profile
-// * - load a profile
-// * - edit a profile
-// * - save a profile
-// * - remove a profile
-// * - create a new profile
-// */
-//void ProfileManager::selectProfile()
-//{}
 
 
 /** Load and parse a profile.
@@ -323,6 +133,7 @@ void ProfileManager::buildProfile(const std::string p)
 	
 
     // Create document
+    delete profileDoc;
     profileDoc = new TiXmlDocument(p.c_str());
 
     // Insert initial mandatory declaration
@@ -389,7 +200,7 @@ void ProfileManager::buildProfile(const std::string p)
             node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
             assert( node );
         }
-		
+
         element = module->InsertEndChild( TiXmlElement( "COMBINATION_METHOD" ) );
         assert( element );
         if( element ) {
@@ -450,9 +261,10 @@ void ProfileManager::buildProfile(const std::string p)
     }
 
     // print out doc for debug purposes
-    // profileDoc.Print();
+    // result.Print();
 
 }
+
 
 Profile* ProfileManager::getProfile() const
 {

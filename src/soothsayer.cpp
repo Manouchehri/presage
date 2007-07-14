@@ -26,12 +26,14 @@
 #include "soothsayer.h"
 
 Soothsayer::Soothsayer()
-    : predictor(historyTracker),
-      selector(historyTracker),
-      //PLUMP pluginManager( historyTracker, predictor ),
-      //PLUMP profileManager( historyTracker, predictor, selector, pluginManager )
-      profileManager(historyTracker, predictor, selector)
 {
+    profileManager = new ProfileManager();
+    profile = profileManager->getProfile();
+
+    historyTracker = new HistoryTracker(profile);
+    predictor = new Predictor(profile, historyTracker);
+    selector = new Selector(profile, historyTracker);
+
     //plump::Logger::getLogger()->setLevel(plump::Logger::DEBUG);
     //plump.appendPath("./plugins");
     //plump.registerCallback(callback_helloworld, 0);
@@ -40,13 +42,20 @@ Soothsayer::Soothsayer()
 
 
 Soothsayer::~Soothsayer()
-{}
+{
+    delete selector;
+    delete predictor;
+    delete historyTracker;
+
+    delete profile;
+    delete profileManager;
+}
 
 
 std::vector<std::string> Soothsayer::predict( std::string s )
 {
-    historyTracker.update( s );
-    return selector.select( predictor.predict() );
+    historyTracker->update (s);
+    return selector->select (predictor->predict());
 }
 
 std::vector<std::string> Soothsayer::predict( char c )
@@ -55,13 +64,13 @@ std::vector<std::string> Soothsayer::predict( char c )
     str[0] = c;
     str[1] = '\0';
 
-    return predict( str );
+    return predict (str);
 }
 
 
 void Soothsayer::update( std::string s )
 {
-    historyTracker.update( s );
+    historyTracker->update (s);
 }
 
 void Soothsayer::update( char c )
@@ -69,12 +78,12 @@ void Soothsayer::update( char c )
     char str[2];
     str[0] = c;
     str[1] = '\0';
-    historyTracker.update( str );
+    historyTracker->update (str);
 }
 
 void Soothsayer::complete(const std::string completion)
 {
-    std::string prefix = historyTracker.getPrefix();
+    std::string prefix = historyTracker->getPrefix();
  
     // ensure that current prefix is a substring of completion token
     int index = 0;
@@ -92,5 +101,5 @@ void Soothsayer::complete(const std::string completion)
 
 std::string Soothsayer::history() const
 {
-    return historyTracker.getPastStream();
+    return historyTracker->getPastStream();
 }

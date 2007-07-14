@@ -49,5 +49,7 @@ bool isYes( const std::string& );
 bool isNo( const char* );
 bool isNo( const std::string& );
 
+double toDouble(const std::string);
+int    toInt   (const std::string);
 
 #endif // SOOTH_UTILITY

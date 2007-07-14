@@ -28,9 +28,9 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <core/selector.h>
-//#include <core/historyTracker.h>
-#include <core/prediction.h>
+#include "core/profileManager.h"
+#include "core/selector.h"
+
 #include <tokenizer/testStringSuite.h>
 
 class SelectorTest : public CppUnit::TestFixture { 
@@ -104,6 +104,9 @@ private:
     TestDataSuite*   tds_S6_R_T0;
     TestDataSuite*   tds_S6_NR_T3;
     TestDataSuite*   tds_S6_R_T3;
+
+    ProfileManager*  profileManager;
+    Profile*         profile;
     HistoryTracker*  historyTracker;
     Selector*        selector;
 

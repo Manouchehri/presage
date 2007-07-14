@@ -213,4 +213,18 @@ bool isNo( const std::string& str )
 	return isNo( str.c_str() );
 }
 
+/** Convert string to double.
+ *
+ */
+double toDouble(const std::string str)
+{
+    return atof(str.c_str());
+}
 
+/** Convert string to int.
+ *
+ */
+int toInt(const std::string str)
+{
+    return atoi(str.c_str());
+}

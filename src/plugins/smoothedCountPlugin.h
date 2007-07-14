@@ -44,7 +44,7 @@
  */
 class SmoothedCountPlugin : public Plugin {
 public:
-    SmoothedCountPlugin(HistoryTracker&, Profile*);
+    SmoothedCountPlugin(Profile*, HistoryTracker*);
     ~SmoothedCountPlugin();
 
     virtual Prediction predict() const;
@@ -72,7 +72,7 @@ private:
 
 
 // Class factory functions
-extern "C" SmoothedCountPlugin* create (HistoryTracker&, Profile*);
+extern "C" SmoothedCountPlugin* create (Profile*, HistoryTracker*);
 extern "C" void                 destroy(SmoothedCountPlugin* );
 
 

@@ -25,6 +25,7 @@
 
 #include "historyTrackerTest.h"
 #include "core/historyTracker.h"
+#include "core/profileManager.h"
 
 #include <string>
 #include <assert.h>
@@ -34,11 +35,18 @@ CPPUNIT_TEST_SUITE_REGISTRATION( HistoryTrackerTest );
 void HistoryTrackerTest::setUp()
 {
     testStringSuite = new TestStringSuite();
+
+    profileManager = new ProfileManager();
+    profileManager->buildProfile();
+    profile = profileManager->getProfile();
 }
 
 void HistoryTrackerTest::tearDown()
 {
     delete testStringSuite;
+
+    delete profile;
+    delete profileManager;
 }
 
 
@@ -49,7 +57,7 @@ void HistoryTrackerTest::testUpdate()
 {
     std::cerr << "HistoryTrackerTest::testUpdate()" << std::endl;
 
-    HistoryTracker hT;
+    HistoryTracker hT(profile);
     hT.update("foo bar foobar");
     std::cerr << "prefix: " << hT.getPrefix() << std::endl;
     std::cerr << "token : " << hT.getToken(1) << std::endl;
@@ -60,7 +68,7 @@ void HistoryTrackerTest::testGetPrefix()
     std::cerr << "HistoryTrackerTest::testGetPrefix()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	HistoryTracker hT;
+	HistoryTracker hT(profile);
 	hT.update(testStringSuite->currentTestString()->getstr());
 
 	assert(testStringSuite->currentTestString() != 0);
@@ -87,7 +95,7 @@ void HistoryTrackerTest::testGetToken()
     std::cerr << "HistoryTrackerTest::testGetToken()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	HistoryTracker hT;
+	HistoryTracker hT(profile);
 	hT.update(testStringSuite->currentTestString()->getstr());
 
 	assert(testStringSuite->currentTestString() != 0);
@@ -118,7 +126,7 @@ void HistoryTrackerTest::testGetPastStream()
     std::cerr << "HistoryTrackerTest::testGetPastBuffer()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	HistoryTracker hT;
+	HistoryTracker hT(profile);
 	std::string str = testStringSuite->currentTestString()->getstr();
 	std::string partial_str;
         for (int i = 0; i < str.size(); i++) {

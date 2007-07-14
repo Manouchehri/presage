@@ -28,7 +28,11 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <core/profileManager.h>
+#include "core/profileManager.h"
+
+#include "core/historyTracker.h"
+#include "core/predictor.h"
+#include "core/selector.h"
 
 class ProfileManagerTest : public CppUnit::TestFixture { 
 public:
@@ -42,9 +46,12 @@ public:
 private:
     void testProfile();
 
+    ProfileManager* profileManager;
+    Profile*        profile;
+
     HistoryTracker* historyTracker;
-    Predictor* predictor;
-    Selector* selector;
+    Predictor*      predictor;
+    Selector*       selector;
     
     CPPUNIT_TEST_SUITE( ProfileManagerTest );
     CPPUNIT_TEST( testDefaultProfile );

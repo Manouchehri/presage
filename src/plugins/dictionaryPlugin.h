@@ -37,7 +37,7 @@
  */
 class DictionaryPlugin : public Plugin {
 public:
-    DictionaryPlugin(HistoryTracker&, Profile*);
+    DictionaryPlugin(Profile*, HistoryTracker*);
     ~DictionaryPlugin();
 
     virtual Prediction predict() const;
@@ -53,7 +53,7 @@ private:
 
 
 // Class factory functions
-extern "C" DictionaryPlugin* create (HistoryTracker&, Profile*);
+extern "C" DictionaryPlugin* create (HistoryTracker*, Profile*);
 extern "C" void              destroy(DictionaryPlugin*);
 
 

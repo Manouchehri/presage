@@ -381,16 +381,23 @@ void SelectorTest::setUp()
     tds_S6_R_T0 = new TestDataSuite_S6_R_T0();
     tds_S6_NR_T3 = new TestDataSuite_S6_NR_T3();
     tds_S6_R_T3 = new TestDataSuite_S6_R_T3();
-    historyTracker  = new HistoryTracker();
-    selector = new Selector(*historyTracker);
+
+    profileManager = new ProfileManager();
+    profileManager->buildProfile();
+    profile = profileManager->getProfile();
+    historyTracker  = new HistoryTracker(profile);
+    selector = new Selector(profile, historyTracker);
 }
 
 void SelectorTest::tearDown()
 {
     delete testStringSuite;
     delete tds_S6_NR_T0;
-    delete historyTracker;
+
     delete selector;
+    delete historyTracker;
+    delete profile;
+    delete profileManager;
 }
 
 void SelectorTest::testSelect(TestDataSuite* tds)
@@ -425,7 +432,7 @@ void SelectorTest::testSelect_S6_R_T0()
     std::cerr << "SelectorTest::testSelect_S6_R_T0()" << std::endl;
 
     selector->setSuggestions(6);
-    selector->setRepeatSuggestion(true);
+    selector->setRepeatSuggestions(true);
     selector->setGreedySuggestionThreshold(0);
 
     testSelect(tds_S6_R_T0);
@@ -436,7 +443,7 @@ void SelectorTest::testSelect_S6_NR_T0()
     std::cerr << "SelectorTest::testSelect_S6_NR_T0()" << std::endl;
 
     selector->setSuggestions(6);
-    selector->setRepeatSuggestion(false);
+    selector->setRepeatSuggestions(false);
     selector->setGreedySuggestionThreshold(0);
 
     testSelect(tds_S6_NR_T0);
@@ -447,7 +454,7 @@ void SelectorTest::testSelect_S6_R_T3()
     std::cerr << "SelectorTest::testSelect_S6_R_T3()" << std::endl;
 
     selector->setSuggestions(6);
-    selector->setRepeatSuggestion(true);
+    selector->setRepeatSuggestions(true);
     selector->setGreedySuggestionThreshold(3);
 
     testSelect(tds_S6_R_T3);
@@ -458,7 +465,7 @@ void SelectorTest::testSelect_S6_NR_T3()
     std::cerr << "SelectorTest::testSelect_S6_NR_T3()" << std::endl;
 
     selector->setSuggestions(6);
-    selector->setRepeatSuggestion(false);
+    selector->setRepeatSuggestions(false);
     selector->setGreedySuggestionThreshold(3);
 
     testSelect(tds_S6_NR_T3);

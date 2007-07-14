@@ -31,9 +31,9 @@
 
 int main()
 {
-	HistoryTracker historyTracker;
 	Profile mockProfile(0);
-	DummyPlugin dummyPlugin(historyTracker, &mockProfile);
+	HistoryTracker historyTracker(&mockProfile);
+	DummyPlugin dummyPlugin(&mockProfile, &historyTracker);
 	Plugin* pluginPtr = &dummyPlugin;
 	
 

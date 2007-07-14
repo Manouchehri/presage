@@ -1,3 +1,31 @@
+2007-07-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* test/plugins/smoothedUniBiTrigramPluginTest.cpp,
+	test/plugins/dictionaryPluginDriver.cpp,
+	test/plugins/smoothedUniBiTrigramPluginTest.h,
+	test/plugins/dummyPluginDriver.cpp,
+	test/plugins/smoothedCountDriver.cpp,
+	test/core/profileManagerTest.h, test/core/historyTrackerTest.cpp,
+	test/core/selectorTest.cpp, test/core/historyTrackerTest.h,
+	test/core/selectorTest.h, test/core/profileManagerTest.cpp,
+	ChangeLog, src/plugins/plugin.cpp,
+	src/plugins/smoothedUniBiTrigramPlugin.cpp,
+	src/plugins/dummyPlugin.h, src/plugins/smoothedCountPlugin.h,
+	src/plugins/plugin.h, src/plugins/smoothedUniBiTrigramPlugin.h,
+	src/plugins/dictionaryPlugin.cpp, src/plugins/dictionaryPlugin.h,
+	src/plugins/dummyPlugin.cpp, src/plugins/smoothedCountPlugin.cpp,
+	src/soothsayer.cpp, src/soothsayer.h src/core/profileManager.h,
+	src/core/predictor.h, src/core/profile.cpp src/core/utility.cpp,
+	src/core/combiner.h, src/core/utility.h
+	src/core/historyTracker.cpp, src/core/selector.cpp,
+	src/core/historyTracker.h, src/core/selector.h,
+	src/core/predictor.cpp, src/core/profileManager.cpp, TODO:
+	configuration pulling refactor. Plugins and components now query a
+	Profile object, created by ProfileManager, and pull the values of
+	the configuration variables they need from it, rather than having
+	ProfileManager push the configuration out towards plugins and
+	components.
+
 2007-07-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/combiner: modified interface to take std::vector of

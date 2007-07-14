@@ -26,9 +26,9 @@
 #include "plugins/smoothedCountPlugin.h"
 
 
-SmoothedCountPlugin::SmoothedCountPlugin(HistoryTracker &ht, Profile* profile)
-	: Plugin(ht,
-		 profile,
+SmoothedCountPlugin::SmoothedCountPlugin(Profile* profile, HistoryTracker* ht)
+	: Plugin(profile,
+		 ht,
 		 "SmoothedCountPlugin",
 		 "SmoothedCountPlugin, a linear interpolating unigram bigram trigram plugin",
 		 "SmoothedCountPlugin, long description." )
@@ -92,9 +92,9 @@ SmoothedCountPlugin::~SmoothedCountPlugin()
 Prediction SmoothedCountPlugin::predict() const
 {
     // get w_2, w_1, and prefix from HistoryTracker object
-    std::string prefix = strtolower( historyTracker.getPrefix() );
-    std::string word_1 = strtolower( historyTracker.getToken(1) );
-    std::string word_2 = strtolower( historyTracker.getToken(2) );
+    std::string prefix = strtolower( historyTracker->getPrefix() );
+    std::string word_1 = strtolower( historyTracker->getToken(1) );
+    std::string word_2 = strtolower( historyTracker->getToken(2) );
     
     std::string query; // string used to build sql query
     int result;        // database interrogation diagnostic
@@ -330,9 +330,9 @@ int buildPrediction( void* callbackDataPtr,
 
 
 
-extern "C" SmoothedCountPlugin* create(HistoryTracker& ht, Profile* prof)
+extern "C" SmoothedCountPlugin* create(Profile* prof, HistoryTracker* ht)
 {
-    return new SmoothedCountPlugin(ht, prof);
+    return new SmoothedCountPlugin(prof, ht);
 }
 
 extern "C" void destroy(SmoothedCountPlugin *p)

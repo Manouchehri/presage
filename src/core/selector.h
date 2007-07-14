@@ -41,12 +41,6 @@
 #include <stdlib.h> // needed for abort()
 
 
-// Default option values
-const int           DEFAULT_SUGGESTIONS                 = 6;
-const bool          DEFAULT_REPEAT_SUGGESTION           = false;
-const unsigned int  DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
-
-
 typedef	std::set< std::string, std::less<std::string> > StringSet;
 
 
@@ -85,7 +79,7 @@ typedef	std::set< std::string, std::less<std::string> > StringSet;
  */
 class Selector {
 public:
-    Selector(HistoryTracker&);
+    Selector(Profile*, HistoryTracker*);
     ~Selector();
 
     std::vector<std::string> select(Prediction);
@@ -96,8 +90,8 @@ public:
 	
     void setSuggestions( const int );
     int getSuggestions() const;
-    void setRepeatSuggestion( const bool );
-    bool getRepeatSuggestion() const;
+    void setRepeatSuggestions( const bool );
+    bool getRepeatSuggestions() const;
     void setGreedySuggestionThreshold( const unsigned int );
     unsigned int getGreedySuggestionThreshold() const;
 
@@ -119,7 +113,7 @@ private:
     bool REPEAT_SUGGESTION;
     unsigned int GREEDY_SUGGESTION_THRESHOLD;
 
-    HistoryTracker &historyTracker;
+    HistoryTracker* historyTracker;
 
 };
 

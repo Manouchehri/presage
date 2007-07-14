@@ -28,7 +28,6 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#define DEBUG
 #include <plugins/smoothedUniBiTrigramPlugin.h>
 
 typedef std::map< std::string, std::string > ConfigMap;
@@ -116,12 +115,13 @@ Value Profile::getConfig(Variable variable)
 
 /* Mock HistoryTracker class */
 
-HistoryTracker::HistoryTracker(const char wc[],
+HistoryTracker::HistoryTracker(Profile* profile,
+			       const char wc[],
 			       const char sc[],
 			       const char bc[],
 			       const char cc[])
 {
-    const char** history = (const char**) wc;
+    const char** history = (const char**) profile;
     wordChars       = history[2]; // getPrefix()
     separatorChars  = history[1]; // getToken(1)
     blankspaceChars = history[0]; // getToken(2)

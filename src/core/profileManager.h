@@ -25,15 +25,9 @@
 #ifndef SOOTH_PROFILEMANAGER
 #define SOOTH_PROFILEMANAGER
 
-#include "core/historyTracker.h"
-#include "core/predictor.h"
-#include "core/selector.h"
 #include "core/profile.h"
-//PLUMP #include "core/pluginManager.h"
-
-#include "plugins/plugin.h"
-
 #include "tinyxml/tinyxml.h"
+#include "core/combiner.h"
 
 #include <string>
 #include <sstream> // for std::ostringstream
@@ -41,6 +35,14 @@
 
 
 const char DEFAULT_PROFILE_FILENAME[] = "soothsayer.xml";
+
+const int               DEFAULT_PREDICT_TIME = 1000;
+const CombinationMethod DEFAULT_COMBINATION_METHOD = LINEAR;
+const int               DEFAULT_MAX_BUFFER_SIZE = 1024;  // TODO: <==== not implemented yet
+const int               DEFAULT_SUGGESTIONS                 = 6;
+const bool              DEFAULT_REPEAT_SUGGESTION           = false;
+const unsigned int      DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
+
 
 /** Juggles configuration files and soothsayer system initialization.
  *
@@ -56,15 +58,8 @@ const char DEFAULT_PROFILE_FILENAME[] = "soothsayer.xml";
  */
 class ProfileManager {
 public:
-    //PLUMP ProfileManager(HistoryTracker&, Predictor&, Selector&, PluginManager&);
-    ProfileManager(HistoryTracker&, Predictor&, Selector&);
+    ProfileManager();
     ~ProfileManager();
-
-    void initHistoryTracker();
-    void initPredictor();
-    void initSelector();
-    // Init predictive plugins
-    //PLUMP void initPluginManager();
 
     bool loadProfile(const std::string = DEFAULT_PROFILE_FILENAME);
     void buildProfile(const std::string = DEFAULT_PROFILE_FILENAME);
@@ -72,14 +67,8 @@ public:
     Profile* getProfile() const;
 
 private:
-    HistoryTracker& historyTracker;
-    Predictor&      predictor;
-    Selector&       selector;
-    //PLUMP PluginManager&  pluginManager;
-
     TiXmlDocument*  profileDoc;
     std::string     profileFile;
-
 };
 
 

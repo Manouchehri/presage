@@ -26,9 +26,9 @@
 #include "plugins/dummyPlugin.h"
 
 
-DummyPlugin::DummyPlugin(HistoryTracker &ht, Profile* profile)
-    : Plugin(ht,
-	     profile,
+DummyPlugin::DummyPlugin(Profile* profile, HistoryTracker* ht)
+    : Plugin(profile,
+	     ht,
 	     "DummyPlugin",
 	     "DummyPlugin, a fake plugin",
 	     "DummyPlugin is a fake plugin.\n"
@@ -98,9 +98,9 @@ void DummyPlugin::train()
 }
 
 
-extern "C" DummyPlugin* create(HistoryTracker& ht, Profile* profile)
+extern "C" DummyPlugin* create(Profile* profile, HistoryTracker* ht)
 {
-    return new DummyPlugin(ht, profile);
+    return new DummyPlugin(profile, ht);
 }
 
 extern "C" void destroy(DummyPlugin *p)

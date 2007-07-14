@@ -53,6 +53,22 @@ Architectural restructure:
   objects i.e. an abstract Filter class and implementation of variuos
   filters (repetion filter, greedy filter, etc)
 
+- combiner
+  clean up the mess that is our current Predictor implementation,
+   particularly with regards to the Combiner handling and
+   implementation. Considering making Combiner a concrete class that
+   uses different CombinationStrategy objects to do combine
+   predictions. Combiner object would know how to retrieve its config
+   values and which Strategy to create and use.
+
+- profile
+  lifetime of Profile object is tied to TiXmlDocument object in
+   ProfileManager, but relationship is not enforced by classes'
+   implementation, i.e. it might be that other objects are using a
+   Profile object that points to a no longer existing TiXmlDocument. A
+   possible solution would be to have Profile cache the configuration
+   into a map of < vector<string>, string > pairs.
+
 
 Tests in general should be cleaned up (e.g. we don't need the xDriver
    anymore, those tests should be moved to CPPUnit tests)
