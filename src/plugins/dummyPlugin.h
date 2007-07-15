@@ -47,10 +47,4 @@ private:
 	
 };
 
-
-// Class factory functions
-extern "C" DummyPlugin* create (Profile*, HistoryTracker*);
-extern "C" void         destroy(DummyPlugin*);
-
-
 #endif // SOOTH_DUMMYPLUGIN

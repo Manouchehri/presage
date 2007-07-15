@@ -56,23 +56,18 @@ SmoothedCountPlugin::SmoothedCountPlugin(Profile* profile, HistoryTracker* ht)
     TRIGRAM_WEIGHT = toDouble(value);
     variable.pop_back();
 
-    variable.push_back("");
-    value = profile->getConfig(variable);
-    MAX_PARTIAL_PREDICTION_SIZE = toInt(value);
-    variable.pop_back();
-
     variable.push_back("DBFILENAME");
     value = profile->getConfig(variable);
     DBFILENAME = value;
     variable.pop_back();
 
     // open database
-#if defined(HAVE_SQLITE_H)
+#if defined(HAVE_SQLITE3_H)
+    int result = sqlite3_open(DBFILENAME.c_str(), &db);
+    assert(result == SQLITE_OK);
+#elif defined(HAVE_SQLITE_H)
     db = sqlite_open(DBFILENAME.c_str(), 0777, NULL);
     assert(db != NULL);
-#elif (HAVE_SQLITE3_H)
-    int result = sqlite3_open(DBFILENAME.c_str(), &db);
-    assert(result != SQLITE_OK);
 #endif
 }
 
@@ -80,10 +75,10 @@ SmoothedCountPlugin::SmoothedCountPlugin(Profile* profile, HistoryTracker* ht)
 
 SmoothedCountPlugin::~SmoothedCountPlugin()
 {
-#if defined(HAVE_SQLITE_H)
-    sqlite_close(db);
-#elif defined(HAVE_SQLITE3_H)
+#if defined(HAVE_SQLITE3_H)
     sqlite3_close(db);
+#elif defined(HAVE_SQLITE_H)
+    sqlite_close(db);
 #endif
 }
 
@@ -109,14 +104,14 @@ Prediction SmoothedCountPlugin::predict() const
     
     query = 
 	"SELECT word, count "
-	"FROM unigram "
+	"FROM _1_gram "
 	"WHERE word LIKE \"" + prefix + "%\" "
 	"ORDER BY count DESC;";
     
-#if defined(HAVE_SQLITE_H)
-    result = sqlite_exec(
-#elif defined(HAVE_SQLITE3_H)
+#if defined(HAVE_SQLITE3_H)
     result = sqlite3_exec(
+#elif defined(HAVE_SQLITE_H)
+    result = sqlite_exec(
 #endif
 	db,
 	query.c_str(),
@@ -134,15 +129,15 @@ Prediction SmoothedCountPlugin::predict() const
     
     query = 
     "SELECT word, count "
-    "FROM bigram "
+    "FROM _2_gram "
     "WHERE word_1 = \"" + word_1 + "\" "
     "AND word LIKE \"" + prefix + "\" "
     "ORDER BY count DESC;";
     
-#if defined(HAVE_SQLITE_H)
-    result = sqlite_exec(
-#elif defined(HAVE_SQLITE3_H)
+#if defined(HAVE_SQLITE3_H)
     result = sqlite3_exec(
+#elif defined(HAVE_SQLITE_H)
+    result = sqlite_exec(
 #endif
 	db,
 	query.c_str(),
@@ -160,16 +155,16 @@ Prediction SmoothedCountPlugin::predict() const
     
     query = 
     "SELECT word, count "
-    "FROM trigram "
+    "FROM _3_gram "
     "WHERE word_2 = \"" + word_2 + "\" "
     "AND word_1 = \"" + word_1 + "\" "
     "AND word LIKE \"" + prefix + "\" "
     "ORDER BY count DESC;";
     
-#if defined(HAVE_SQLITE_H)
-    result = sqlite_exec(
-#elif defined(HAVE_SQLITE3_H)
+#if defined(HAVE_SQLITE3_H)
     result = sqlite3_exec(
+#elif defined(HAVE_SQLITE_H)
+    result = sqlite_exec(
 #endif
 	db,
 	query.c_str(),
@@ -322,20 +317,4 @@ int buildPrediction( void* callbackDataPtr,
 		}
 	}
 	return 0;
-}
-
-
-
-
-
-
-
-extern "C" SmoothedCountPlugin* create(Profile* prof, HistoryTracker* ht)
-{
-    return new SmoothedCountPlugin(prof, ht);
-}
-
-extern "C" void destroy(SmoothedCountPlugin *p)
-{
-    delete p;
 }

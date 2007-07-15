@@ -33,6 +33,10 @@
 	  by the active predictive plugins into one prediction.
         -->
         <COMBINATION_POLICY>Meritocracy</COMBINATION_POLICY>
+        <!-- PLUGINS
+          Space separated list of predictive plugins to use to generate predictions
+        -->
+        <PLUGINS>SmoothedUniBiTrigramPlugin</PLUGINS>
     </Predictor>
     <ProfileManager>
         <!-- no options -->
@@ -48,5 +52,11 @@
 	<DictionaryPlugin>
 	    <DICTIONARY_PATH>/usr/share/dict/american-english</DICTIONARY_PATH>
 	</DictionaryPlugin>
+        <SmoothedCountPlugin>
+            <UNIGRAM_WEIGHT>.01</UNIGRAM_WEIGHT>
+            <BIGRAM_WEIGHT>.1</BIGRAM_WEIGHT>
+            <TRIGRAM_WEIGHT>.89</TRIGRAM_WEIGHT>
+            <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
+        </SmoothedCountPlugin>
     </Plugins>
 </Soothsayer>

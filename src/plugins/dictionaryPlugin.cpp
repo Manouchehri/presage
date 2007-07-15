@@ -96,14 +96,3 @@ void DictionaryPlugin::train()
     std::cout << "DictionaryPlugin::train() method called" << std::endl;
     std::cout << "DictionaryPlugin::train() method exited" << std::endl;
 }
-
-
-extern "C" DictionaryPlugin* create(HistoryTracker* ht, Profile* profile)
-{
-    return new DictionaryPlugin(profile, ht);
-}
-
-extern "C" void destroy(DictionaryPlugin *p)
-{
-    delete p;
-}

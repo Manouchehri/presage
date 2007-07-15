@@ -41,42 +41,34 @@ DummyPlugin::~DummyPlugin()
 
 Prediction DummyPlugin::predict() const
 {
-//	std::cout << "DummyPlugin::predict() method called" << std::endl;
-	
     // A real plugin would query its resources to retrieve the most 
     // probable completion of the prefix based on the current history,
     // but this is just a dummy plugin that returns random suggestions.
+    //
+    Prediction result;
 
-    Prediction p;
-    Suggestion *sPtr;
-	
-    sPtr = new Suggestion( "foo", 0.5 );
-    p.addSuggestion( *sPtr );
-    delete sPtr;
+    result.addSuggestion (Suggestion("foo1", 0.99));
+    result.addSuggestion (Suggestion("foo2", 0.98));
+    result.addSuggestion (Suggestion("foo3", 0.97));
+    result.addSuggestion (Suggestion("foo4", 0.96));
+    result.addSuggestion (Suggestion("foo5", 0.95));
+    result.addSuggestion (Suggestion("foo6", 0.94));
 
-    sPtr = new Suggestion( "bar", 0.4 );
-    p.addSuggestion( *sPtr );
-    delete sPtr;
+    result.addSuggestion (Suggestion("bar1", 0.89));
+    result.addSuggestion (Suggestion("bar2", 0.88));
+    result.addSuggestion (Suggestion("bar3", 0.87));
+    result.addSuggestion (Suggestion("bar4", 0.86));
+    result.addSuggestion (Suggestion("bar5", 0.85));
+    result.addSuggestion (Suggestion("bar6", 0.84));
 
-    sPtr = new Suggestion( "foobar", 0.3 );
-    p.addSuggestion( *sPtr );
-    delete sPtr;
+    result.addSuggestion (Suggestion("foobar1", 0.79));
+    result.addSuggestion (Suggestion("foobar2", 0.78));
+    result.addSuggestion (Suggestion("foobar3", 0.77));
+    result.addSuggestion (Suggestion("foobar4", 0.76));
+    result.addSuggestion (Suggestion("foobar5", 0.75));
+    result.addSuggestion (Suggestion("foobar6", 0.74));
 
-    sPtr = new Suggestion( "FoO", 0.2 );
-    p.addSuggestion( *sPtr );
-    delete sPtr;
-
-    sPtr = new Suggestion( "bAr", 0.1 );
-    p.addSuggestion( *sPtr );
-    delete sPtr;
-
-    sPtr = new Suggestion( "FoObAr", 0.05 );
-    p.addSuggestion( *sPtr );
-    delete sPtr;
-	
-//	std::cout << "DummyPlugin::predict() method exited" << std::endl;
-
-    return p;
+    return result;
 }
 
 void DummyPlugin::learn()
@@ -95,15 +87,4 @@ void DummyPlugin::train()
 {
     std::cout << "DummyPlugin::train() method called" << std::endl;
     std::cout << "DummyPlugin::train() method exited" << std::endl;
-}
-
-
-extern "C" DummyPlugin* create(Profile* profile, HistoryTracker* ht)
-{
-    return new DummyPlugin(profile, ht);
-}
-
-extern "C" void destroy(DummyPlugin *p)
-{
-    delete p;
 }

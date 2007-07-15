@@ -1,5 +1,27 @@
 2007-07-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/plugins/smoothedUniBiTrigramPlugin.cpp,
+	src/plugins/smoothedUniBiTrigramPlugin.h,
+	src/plugins/dummyPlugin.h, src/plugins/dummyPlugin.cpp,
+	src/plugins/smoothedCountPlugin.h,
+	src/plugins/smoothedCountPlugin.cpp,
+	src/plugins/dictionaryPlugin.h, src/plugins/dictionaryPlugin.cpp:
+	removed create() and destroy() extern "C" functions.
+
+	* src/Makefile.am, src/plugins/Makefile.am: rearranged
+	libplugin.la usage.
+
+	* src/core/profileManager.h, src/core/profileManager.cpp: added
+	PLUGINS configuration variable to Predictor section.
+
+	* src/core/predictor.h, src/core/predictor.cpp: added support for
+	controlling active predictive plugins through configuration.
+
+	* resources/profiles/soothsayer.xml.template: added PLUGINS
+	configuration variable to Predictor section.
+
+2007-07-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
 	* src/core/profileManager, test/core/profileManagerTest: changed
 	COMBINER_METHOD to COMBINER_POLICY.
 

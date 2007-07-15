@@ -22,9 +22,13 @@ SUBDIRS = 			core plugins tools simulator tinyxml #plump
 lib_LTLIBRARIES = 		libsoothsayer.la
 libsoothsayer_la_SOURCES = 	soothsayer.cpp soothsayer.h
 libsoothsayer_la_LIBADD =	core/libcore.la       \
-				plugins/libSmoothedUniBiTrigramPlugin.la \
 				tinyxml/libtinyxml.la \
-				tools/libtools.la     
+				tools/libtools.la     \
+				plugins/libplugin.la  \
+				plugins/libSmoothedUniBiTrigramPlugin.la \
+				plugins/libDummyPlugin.la                \
+				plugins/libDictionaryPlugin.la           \
+				plugins/libSmoothedCountPlugin.la        
 
 #				REVISIT remove libSmoothetUniBiTrigram.la 
 #				when reintegrating dynamically loaded plugins

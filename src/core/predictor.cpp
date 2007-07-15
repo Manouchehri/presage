@@ -34,7 +34,9 @@
 // loaded plugins
 //
 #include "plugins/smoothedUniBiTrigramPlugin.h"
-
+#include "plugins/dummyPlugin.h"
+#include "plugins/dictionaryPlugin.h"
+#include "plugins/smoothedCountPlugin.h"
 
 #ifdef DEBUG
 # define LOG(x) std::cout << x << std::endl
@@ -67,6 +69,13 @@ Predictor::Predictor(Profile* prof, HistoryTracker* ht)
 	LOG("[Predictor] COMBINATION_POLICY: " + value);
 	setCombinationPolicy(value);
 	variable.pop_back();
+
+	variable.push_back("PLUGINS");
+	value = profile->getConfig(variable);
+	LOG("[Predictor] PLUGINS: " + value);
+	setPlugins(value);
+	variable.pop_back();
+
     } catch (Profile::ProfileException ex) {
 	std::cerr << "[Predictor] Caught ProfileException: " << ex.what() << std::endl;
     }
@@ -75,35 +84,54 @@ Predictor::Predictor(Profile* prof, HistoryTracker* ht)
 
 Predictor::~Predictor()
 {
-    // Clear out existing plugins vector (not strictly necessary)
-    plugins.clear();
+    removePlugins();
 }
 
-
-void Predictor::addPlugin( Plugin* pPtr )
+void Predictor::setPlugins(const std::string& pluginList)
 {
-    assert( pPtr != NULL );
-	
-    plugins.push_back( pPtr );
-}
-
-
-bool Predictor::removePlugin( const Plugin* pPtr )
-{
-    assert( pPtr != NULL );
-
-    std::vector< Plugin* >::iterator i = plugins.begin();
-    // scan plugins to see if pPtr can be found
-    while( i != plugins.end() && *i != pPtr ) {
-        i++;
+    std::stringstream ss(pluginList);
+    std::string pluginName;
+    while (ss >> pluginName) {
+	LOG("[Predictor] Initializing predictive plugin: " + pluginName);
+	addPlugin(pluginName);
     }
-    // if we find it, erase it and return true
-    if( i != plugins.end() && *i == pPtr ) {
-        plugins.erase( i );
-        return true;
+}
+
+void Predictor::addPlugin(const std::string& pluginName)
+{
+    // TODO: this will have to do for now, until a proper plugin
+    // framework (i.e. plump) is integrated into soothsayer. Until
+    // then, all known plugins have to be listed here and explicitly
+    // created based on their name.
+    //
+    Plugin* plugin = 0;
+    if (pluginName == "SmoothedUniBiTrigramPlugin") {
+	plugin = new SmoothedUniBiTrigramPlugin(profile, historyTracker);
+    } else if (pluginName == "DummyPlugin") {
+	plugin = new DummyPlugin(profile, historyTracker);
+    } else if (pluginName == "DictionaryPlugin" ) {
+	plugin = new DictionaryPlugin(profile, historyTracker);
+    } else if (pluginName == "SmoothedCountPlugin") {
+	plugin = new SmoothedCountPlugin(profile, historyTracker);
     } else {
-        return false;
+	// TODO: raise exception
+	std::cerr << "[Predictor] Error: unable to add plugin: " 
+		  << pluginName << std::endl;
+	abort();
     }
+    
+    if (plugin != 0) {
+	plugins.push_back (plugin);
+	LOG("[Predictor] Activated predictive plugin: " + pluginName);
+    }
+}
+
+void Predictor::removePlugins()
+{
+    for (int i = 0; i < plugins.size(); i++) {
+	delete plugins[i];
+    }
+    plugins.clear();
 }
 
 
@@ -116,46 +144,43 @@ bool Predictor::removePlugin( const Plugin* pPtr )
 //}
 
 
-Prediction Predictor::predict() const
+Prediction Predictor::predict()
 {
+    Prediction result;
+
     // Here goes code to instantiate a separate thread for each Plugin;
     // code can be taken from test file
     // /home/matt/word_predictor/programming_test/threads.cpp
-	
-
+    //
 
     // All threads need to be synched together. One thread makes sure that
     // we are not exceeding the maximum time allowed.
-
-
+    //
 
     // Now that the all threads have exited or have been cancelled,
     // the predictions returned by each of them are combined.
+    //
 
+    predictions.clear();
+    // for each active predictive plugin...
+    for(std::vector<Plugin*>::const_iterator i = plugins.begin();
+	i != plugins.end();
+	i++) {
+	// ...generate and store prediction...
+	predictions.push_back ((*i)->predict());
+    }
 
-    // PLUMP 	// TEMPORARY **** MODIFY THIS **** TODO
-    // PLUMP 	// For the time being, print out predictions returned by each plugin
-    // PLUMP 	// to standard output in sequential order
-    Prediction p;
-    // PLUMP 
-    // PLUMP 	std::vector<Plugin*>::const_iterator i = plugins.begin();
-    // PLUMP 	for( i=plugins.begin(); i!=plugins.end(); i++ ) {
-    // PLUMP 		p = (*i)->predict();
-    // PLUMP //		std::cout << p;
-    // PLUMP 	}
+    // ...then merge predictions into a single one...
+    result = combiner->combine(predictions);
+
+    // ...and return final prediction
+    return result;
 
     ////////
     // PLUMP
     //
     //plump.registerCallback(callback_predict, &p);
     //plump.run();
-                
-    SmoothedUniBiTrigramPlugin plugin(profile, historyTracker);
-    p = plugin.predict();
-    
-
-    // Return prediction given by last plugin
-    return p;
 }
 
 
@@ -202,7 +227,6 @@ std::string Predictor::getCombinationPolicy() const
 {
     return combinationPolicy;
 }
-
 
 void Predictor::setProfile(Profile* prof)
 {

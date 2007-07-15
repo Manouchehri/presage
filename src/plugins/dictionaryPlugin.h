@@ -51,10 +51,4 @@ private:
 	
 };
 
-
-// Class factory functions
-extern "C" DictionaryPlugin* create (HistoryTracker*, Profile*);
-extern "C" void              destroy(DictionaryPlugin*);
-
-
 #endif // SOOTH_DICTIONARYPLUGIN

@@ -28,7 +28,6 @@ libplugin_la_SOURCES =	plugin.cpp plugin.h
 
 libSmoothedUniBiTrigramPlugin_la_SOURCES =	smoothedUniBiTrigramPlugin.cpp \
 						smoothedUniBiTrigramPlugin.h   
-libSmoothedUniBiTrigramPlugin_la_LIBADD =	libplugin.la
 
 ###
 # Dynamically loadable plugin module
@@ -42,15 +41,12 @@ libSmoothedUniBiTrigramPlugin_la_LIBADD =	libplugin.la
 
 libDictionaryPlugin_la_SOURCES =	dictionaryPlugin.cpp    \
 					dictionaryPlugin.h      
-libDictionaryPlugin_la_LIBADD =		libplugin.la
 
 libSmoothedCountPlugin_la_SOURCES =	smoothedCountPlugin.cpp \
 					smoothedCountPlugin.h
-libSmoothedCountPlugin_la_LIBADD =	libplugin.la
 
 libDummyPlugin_la_SOURCES =		dummyPlugin.cpp         \
 					dummyPlugin.h           
-libDummyPlugin_la_LIBADD =		libplugin.la
 
 
 AM_CPPFLAGS = -I$(top_srcdir)/src

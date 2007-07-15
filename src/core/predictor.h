@@ -90,21 +90,24 @@ class Predictor {
      *
      * @return prediction produced by the active predictive plugins and combined by the active combiner
      */
-    Prediction predict() const;
+    Prediction predict();
 
-
-    /** Adds a Plugin object to the active runtime plugins list.
+    /** Set active predictive plugins.
      *
-     * @param pPtr is a pointer to a Plugin
+     * @param pluginList space separated list of predictive plugins
      */
-    void addPlugin(Plugin* plugin);
+    void setPlugins(const std::string& pluginList);
 
-    /** Removes a Plugin object from the active runtime plugins list.
+    /** Adds a predictive plugin to the active runtime plugins list.
      *
-     * @param pPtr is a pointer to the Plugin to be removed
-     * @return true if successful, false otherwise
+     * @param pluginName plugin name string
      */
-    bool removePlugin(const Plugin* plugin);
+    void addPlugin(const std::string& pluginName);
+
+    /** Removes all predictive plugins from the active plugins list.
+     *
+     */
+    void removePlugins();
 
     /** Gets PREDICT_TIME option value.
      *

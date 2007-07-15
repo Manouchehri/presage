@@ -295,17 +295,3 @@ void SmoothedUniBiTrigramPlugin::train()
     LOG("SmoothedUniBiTrigramPlugin::train() method called");
     LOG("SmoothedUniBiTrigramPlugin::train() method exited");
 }
-
-
-
-extern "C" SmoothedUniBiTrigramPlugin* create(HistoryTracker* ht, Profile* profile)
-{
-    return new SmoothedUniBiTrigramPlugin(profile, ht);
-}
-
-extern "C" void destroy(SmoothedUniBiTrigramPlugin* plugin)
-{
-    delete plugin;
-}
-
-

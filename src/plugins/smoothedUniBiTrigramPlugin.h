@@ -93,10 +93,4 @@ private:
 
 };
 
-
-// Class factory functions
-extern "C" SmoothedUniBiTrigramPlugin* create (HistoryTracker*, Profile*);
-extern "C" void                        destroy(SmoothedUniBiTrigramPlugin*);
-
-
 #endif // SOOTH_SMOOTHEDUNIBITRIGRAMPLUGIN

@@ -71,13 +71,6 @@ private:
 };
 
 
-// Class factory functions
-extern "C" SmoothedCountPlugin* create (Profile*, HistoryTracker*);
-extern "C" void                 destroy(SmoothedCountPlugin* );
-
-
-
-
 /** Structure used to passed all necessary data through to callback function buildPrediction.
  *
  * This structure is meant to be passed as fourth argument of function
