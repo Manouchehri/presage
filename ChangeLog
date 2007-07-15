@@ -1,3 +1,10 @@
+2007-07-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/profileManager, test/core/profileManagerTest: changed
+	COMBINER_METHOD to COMBINER_POLICY.
+
+	* src/core/predictor: combiner policy change.
+
 2007-07-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* website: revamped website design, created new drupal theme based

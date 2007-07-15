@@ -62,12 +62,11 @@ Predictor::Predictor(Profile* prof, HistoryTracker* ht)
 	setPredictTime(toInt(value));
 	variable.pop_back();
 
-	variable.push_back("COMBINATION_METHOD");
+	variable.push_back("COMBINATION_POLICY");
 	value = profile->getConfig(variable);
-	LOG("[Predictor] COMBINATION_METHOD: " + value);
-	setCombinationMethod(static_cast<CombinationMethod>(toInt(value)));
+	LOG("[Predictor] COMBINATION_POLICY: " + value);
+	setCombinationPolicy(value);
 	variable.pop_back();
-	setCombinationMethod(LINEAR);
     } catch (Profile::ProfileException ex) {
 	std::cerr << "[Predictor] Caught ProfileException: " << ex.what() << std::endl;
     }
@@ -119,8 +118,6 @@ bool Predictor::removePlugin( const Plugin* pPtr )
 
 Prediction Predictor::predict() const
 {
-    //	std::cout << "Predicting..." << std::endl;
-
     // Here goes code to instantiate a separate thread for each Plugin;
     // code can be taken from test file
     // /home/matt/word_predictor/programming_test/threads.cpp
@@ -185,17 +182,25 @@ int Predictor::getPredictTime() const
 }
 
 
-bool Predictor::setCombinationMethod( const CombinationMethod cm )
+bool Predictor::setCombinationPolicy(const std::string cp)
 {
-    LOG("[Predictor] Setting COMBINATION_METHOD to " << cm);
-    COMBINATION_METHOD = cm;
+    LOG("[Predictor] Setting COMBINATION_POLICY to " << cp);
+    combinationPolicy = cp;
+
+    std::string policy = strtolower (cp);
+    if (policy == "meritocracy") {
+	combiner = new MeritocracyCombiner();
+    } else {
+	return false;
+    }
+
     return true;
 }
 
 
-CombinationMethod Predictor::getCombinationMethod() const
+std::string Predictor::getCombinationPolicy() const
 {
-    return COMBINATION_METHOD;
+    return combinationPolicy;
 }
 
 

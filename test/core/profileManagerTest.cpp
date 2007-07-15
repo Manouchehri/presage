@@ -51,6 +51,7 @@ void ProfileManagerTest::testDefaultProfile()
 {
 
     std::cout << "ProfileManagerTest::testDefaultProfile()" << std::endl;
+    profileManager->buildProfile();
     profile = profileManager->getProfile();
 
     historyTracker = new HistoryTracker(profile);
@@ -63,27 +64,8 @@ void ProfileManagerTest::testDefaultProfile()
 
 }
 
-void ProfileManagerTest::testCustomProfile()
-{
-
-    // REVISIT: this test is disabled because it currently fails!
-    // TODO: implement support for loading separate profiles from 
-    //       different locations
-
-//      ProfileManager profileManager(*historyTracker,
-//  				  *predictor,
-//  				  *selector);
-//      std::string custom_profile("custom.xml");
-//      profileManager.buildProfile(custom_profile);
-//      profileManager.saveProfile();
-//      profileManager.loadProfile(custom_profile);
-
-//      testProfile();
-}
-
 void ProfileManagerTest::testNonExistantProfile()
 {
-/*
     std::cout << "ProfileManagerTest::testNonExistantProfile()" << std::endl;
 
     // hopefully a file with the following name will not exists
@@ -98,7 +80,6 @@ void ProfileManagerTest::testNonExistantProfile()
     predictor = new Predictor(profile, historyTracker);
 
     testProfile();
-*/
 }
 
 void ProfileManagerTest::testProfile()
@@ -110,8 +91,8 @@ void ProfileManagerTest::testProfile()
     // test init predictor
     CPPUNIT_ASSERT_EQUAL(DEFAULT_PREDICT_TIME,
 			 predictor->getPredictTime());
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_COMBINATION_METHOD,
-			 predictor->getCombinationMethod());
+    CPPUNIT_ASSERT_EQUAL(DEFAULT_COMBINATION_POLICY,
+			 predictor->getCombinationPolicy());
 
     // test init selector
     CPPUNIT_ASSERT_EQUAL(DEFAULT_SUGGESTIONS,

@@ -28,12 +28,11 @@
           Maximum time allowed for predictive plugins to return their prediction.
 	-->
         <PREDICT_TIME>1000</PREDICT_TIME>
-	<!-- COMBINATION_METHOD
-	  * currently not used
-	  combination method used by predictor to combine predictions returned
+	<!-- COMBINATION_POLICY
+	  policy used by predictor to combine predictions returned
 	  by the active predictive plugins into one prediction.
         -->
-        <COMBINATION_METHOD>0</COMBINATION_METHOD>
+        <COMBINATION_POLICY>Meritocracy</COMBINATION_POLICY>
     </Predictor>
     <ProfileManager>
         <!-- no options -->

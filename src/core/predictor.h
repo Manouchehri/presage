@@ -37,7 +37,9 @@
 #include "core/historyTracker.h"
 #include "core/prediction.h"
 #include "core/profile.h"
+
 #include "core/combiner.h"
+#include "core/meritocracyCombiner.h"
 
 #include "plugins/plugin.h"
 
@@ -130,7 +132,7 @@ class Predictor {
       *
       * @return value of COMBINATION_METHOD
       */
-    CombinationMethod getCombinationMethod() const;
+    std::string getCombinationPolicy() const;
 
     /** Sets COMBINATION_METHOD option.
      *
@@ -141,7 +143,7 @@ class Predictor {
      * @param cm method used to combine predictions computed by each multiple predictive plugins into a single prediction
      * @return true if the supplied value is valid, false otherwise
      */
-    bool setCombinationMethod(const CombinationMethod);
+    bool setCombinationPolicy(const std::string);
 
     /** Set Profile interface to currently active profile.
      * 
@@ -171,11 +173,12 @@ class Predictor {
     Profile* profile;
 
     Combiner* combiner;
+    std::string combinationPolicy;
+
     std::vector<Plugin*> plugins;        // active Plugins
     std::vector<Prediction> predictions; // predictions computed by each plugin are returned here
 
     int PREDICT_TIME;
-    CombinationMethod COMBINATION_METHOD;
 };
 
 #endif // SOOTH_PREDICTOR

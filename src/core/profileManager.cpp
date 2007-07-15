@@ -204,11 +204,11 @@ void ProfileManager::buildProfile(const std::string p)
             assert( node );
         }
 
-        element = module->InsertEndChild( TiXmlElement( "COMBINATION_METHOD" ) );
+        element = module->InsertEndChild( TiXmlElement( "COMBINATION_POLICY" ) );
         assert( element );
         if( element ) {
             std::stringstream ss;
-            ss << DEFAULT_COMBINATION_METHOD;
+            ss << DEFAULT_COMBINATION_POLICY;
             node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
             assert( node );
         }
