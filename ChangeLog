@@ -1,5 +1,11 @@
 2007-07-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/core/predictor.h, src/core/predictor.cpp: fixed memory leak.
+
+	* src/core/utility.cpp: fixed free memory mismatch.
+
+2007-07-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
 	* src/plugins/smoothedUniBiTrigramPlugin.cpp,
 	src/plugins/smoothedUniBiTrigramPlugin.h,
 	src/plugins/dummyPlugin.h, src/plugins/dummyPlugin.cpp,

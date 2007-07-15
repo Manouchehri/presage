@@ -137,16 +137,18 @@ class Predictor {
       */
     std::string getCombinationPolicy() const;
 
-    /** Sets COMBINATION_METHOD option.
+    /** Sets combination policy.
      *
-     * Sets the combination method used by predictor to combine
+     * Sets the combination policy used by predictor to combine
      * predictions returned by the active predictive plugins into one
      * prediction.
+     * 
+     * The existing combiner object is first destroyed, then a new
+     * combiner object created.
      *
-     * @param cm method used to combine predictions computed by each multiple predictive plugins into a single prediction
-     * @return true if the supplied value is valid, false otherwise
+     * @param cp combination policy
      */
-    bool setCombinationPolicy(const std::string);
+    void setCombinationPolicy(const std::string);
 
     /** Set Profile interface to currently active profile.
      * 

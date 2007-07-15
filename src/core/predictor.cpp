@@ -85,6 +85,7 @@ Predictor::Predictor(Profile* prof, HistoryTracker* ht)
 Predictor::~Predictor()
 {
     removePlugins();
+    delete combiner;
 }
 
 void Predictor::setPlugins(const std::string& pluginList)
@@ -207,19 +208,20 @@ int Predictor::getPredictTime() const
 }
 
 
-bool Predictor::setCombinationPolicy(const std::string cp)
+void Predictor::setCombinationPolicy(const std::string cp)
 {
     LOG("[Predictor] Setting COMBINATION_POLICY to " << cp);
+    delete combiner;
     combinationPolicy = cp;
 
     std::string policy = strtolower (cp);
     if (policy == "meritocracy") {
 	combiner = new MeritocracyCombiner();
     } else {
-	return false;
+	// TODO: throw exception
+	std::cerr << "[Predictor] Error - unknown combination policy: "
+		  << cp << std::endl;
     }
-
-    return true;
 }
 
 

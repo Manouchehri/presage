@@ -92,7 +92,7 @@ bool isTrue(const char* str)
 	lowstr == "1" )
 	result = true;
 
-    delete workingStr;
+    delete[] workingStr;
 
     return result;
 }
@@ -113,7 +113,7 @@ bool isFalse(const char* str)
 	lowstr == "0" )
 	result = true;
     
-    delete workingStr;
+    delete[] workingStr;
 
     return result;
 }
@@ -171,7 +171,7 @@ bool isYes( const char* str )
 	lowstr == "ye" )
 	result = true;
     
-    delete workingStr;
+    delete[] workingStr;
     
     return result;
 }
@@ -194,7 +194,7 @@ bool isNo( const char* str )
 	lowstr == "nay" )
 	result = true;
 
-    delete workingStr;
+    delete[] workingStr;
 
     return result;
 }
