@@ -24,8 +24,7 @@
 
 #include "soothsayer.h"
 
-#include <string>
-#include <vector>
+#include <iostream>
 #include <getopt.h>
 
 const char PROGRAM_NAME[] = "soothsayerDemoText";

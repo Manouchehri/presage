@@ -19,6 +19,8 @@
 
 SUBDIRS = 			core plugins tools simulator tinyxml #plump
 
+include_HEADERS =		soothsayer.h
+
 lib_LTLIBRARIES = 		libsoothsayer.la
 libsoothsayer_la_SOURCES = 	soothsayer.cpp soothsayer.h
 libsoothsayer_la_LIBADD =	core/libcore.la       \

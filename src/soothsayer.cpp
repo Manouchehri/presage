@@ -25,6 +25,11 @@
 
 #include "soothsayer.h"
 
+#include "core/profileManager.h"
+#include "core/historyTracker.h"
+#include "core/selector.h"
+#include "core/predictor.h"
+
 Soothsayer::Soothsayer()
 {
     profileManager = new ProfileManager();

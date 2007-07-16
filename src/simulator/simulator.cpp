@@ -25,6 +25,8 @@
 
 #include "simulator.h"
 
+#include <iostream>
+
 Simulator::Simulator()
 {
     soothsayerPtr = new Soothsayer;

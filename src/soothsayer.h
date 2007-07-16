@@ -30,21 +30,14 @@
 #include "config.h"
 #endif
 
-#include "core/historyTracker.h"
-#include "core/predictor.h"
-#include "core/selector.h"
-//PLUMP #include "core/pluginManager.h"
-#include "core/profileManager.h"
-
-#include "plugins/plugin.h"
-
-// REVISIT uncomment this line when reenabling plump
-//PLUMP #include "plump/src/plump.h"
-//PLUMP namespace plump { typedef int Plump; }
-
 #include <string>
 #include <vector>
 
+class ProfileManager;
+class Profile;
+class HistoryTracker;
+class Predictor;
+class Selector;
 
 /** Soothsayer, the intelligent predictive text entry platform.
  *
@@ -70,9 +63,6 @@ class Soothsayer {
     HistoryTracker* historyTracker;
     Predictor*      predictor;
     Selector*       selector;
-    //PLUMP plump::Plump plump;
-    //
-    //PLUMP PluginManager pluginManager;
 
 };
 

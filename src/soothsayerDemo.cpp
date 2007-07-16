@@ -25,12 +25,11 @@
 
 #include "soothsayer.h"
 
-#include <string>
-#include <vector>
-#include <list>
 #include <ncurses.h>
+#include <iostream>
 #include <sstream>
 #include <getopt.h>
+#include <list>
 
 const char PROGRAM_NAME[] = "soothsayerDemo";
 

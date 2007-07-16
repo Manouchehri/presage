@@ -1,3 +1,14 @@
+2007-07-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/Makefile.am: added HEADERS primary to install soothsayer.h
+	
+	* src/soothsayer.h: made soohsayer.h independent from other
+	internal headers
+	
+	* src/simulator/simulator.cpp, src/soothsayer.cpp,
+	src/soothsayerDemo.cpp, src/soothsayerDemoText.cpp:
+	added required headers to account for changes to soothsayer.h	
+
 2007-07-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/predictor.h, src/core/predictor.cpp: fixed memory leak.
