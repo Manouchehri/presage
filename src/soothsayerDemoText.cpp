@@ -52,6 +52,9 @@ int main(int argc, char** argv)
 	std::cin.getline( buffer, BUFFER_SIZE );
 
 	print_prediction(soothsayer.predict(static_cast<std::string>(buffer)));
+	if (soothsayer.contextChange()) {
+	    std::cout << "-- Context changed" << std::endl;
+	}
     }
     return 0;
 }

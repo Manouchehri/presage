@@ -108,3 +108,8 @@ std::string Soothsayer::history() const
 {
     return historyTracker->getPastStream();
 }
+
+bool Soothsayer::contextChange() const
+{
+    return historyTracker->contextChange();
+}

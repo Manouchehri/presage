@@ -56,6 +56,7 @@ class Soothsayer {
     void complete(std::string);
 
     std::string history() const;
+    bool contextChange() const;
 
   private:
     ProfileManager* profileManager;

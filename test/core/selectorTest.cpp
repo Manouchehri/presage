@@ -470,4 +470,3 @@ void SelectorTest::testSelect_S6_NR_T3()
 
     testSelect(tds_S6_NR_T3);
 }
-

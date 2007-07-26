@@ -65,6 +65,8 @@ HistoryTracker::HistoryTracker(Profile* profile,
     } catch (Profile::ProfileException ex) {
 	std::cerr << "[HistoryTracker] Caught ProfileException: " << ex.what() << std::endl;
     }
+
+    contextChanged = true;
 }
 
 HistoryTracker::~HistoryTracker()
@@ -220,6 +222,60 @@ void HistoryTracker::update(std::string s)
         }
     }
 
+
+    LOG("[HistoryTracker] contextChange: historyTracker-getPrefix():" + getPrefix());
+    LOG("[HistoryTracker] contextChange: historyTracker-getToken(1):" + getToken(1));
+    LOG("[HistoryTracker] contextChange: previous_prefix: " + previous_prefix);
+
+    contextChanged = true;
+
+    if (!getPrefix().empty()) {
+	LOG("[HistoryTracker] Prefix not empty");
+	// if current prefix is not null
+	std::string::size_type loc = getPrefix().find(previous_prefix, 0);
+	if (loc == 0) {
+	    // if current prefix does not contain the previous prefix
+	    // at the beginning of the string, the context has not
+	    // changed
+	    //
+	    LOG("[HistoryTracker] Found prefix in getPrefix()");
+	    contextChanged = false;
+	}
+
+// TODO: if this code block is uncommented, context changes do not
+// occur when separator or blankspace chars are entered. However, this
+// code intriduces a bug that can be reproduced by entering the
+// following text blocks 'foo ' 'bar ' 'foo' 'bar '. The last entered
+// block should cause a context change, but it does not.
+//
+
+//    } else {
+//	// if prefix is empty
+//	LOG("[HistoryTracker] Prefix not empty");
+//	if (previous_prefix != getToken(1)) {
+//	    LOG("[HistoryTracker] Reversing context change");
+//	    contextChanged = false;
+//	}
+    }
+
+    previous_prefix = getPrefix();
+
+    LOG("[HistoryTracker] contextChange: previous_prefix: " + previous_prefix);
+}
+
+/** Returns true if a context change occured.
+ *
+ * A context change occurs when the word the system is trying to
+ * predict changes to a new word. This can occur when:
+ *
+ * - the word was correctly predicted and a new word becomes the
+ *   current word
+ * - the word is changed by the user, by deleting its characters
+ *
+ */
+bool HistoryTracker::contextChange() const
+{
+    return contextChanged;
 }
 
 std::string HistoryTracker::getPrefix()

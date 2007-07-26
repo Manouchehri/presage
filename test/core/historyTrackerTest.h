@@ -50,6 +50,9 @@ public:
     void testGetMaxBufferSize();
     void testSetMaxBufferSize();
 
+    void testContextChange();
+    void testCumulativeContextChange();
+
 private:
     TestStringSuite* testStringSuite;
 
@@ -67,6 +70,8 @@ private:
     CPPUNIT_TEST( testToString             );
     CPPUNIT_TEST( testGetMaxBufferSize     );
     CPPUNIT_TEST( testSetMaxBufferSize     );
+    CPPUNIT_TEST( testContextChange        );
+    CPPUNIT_TEST( testCumulativeContextChange );
     CPPUNIT_TEST_SUITE_END();
 };
 

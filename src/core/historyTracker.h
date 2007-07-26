@@ -157,6 +157,8 @@ public:
 
     void update(std::string);
 
+    bool contextChange() const;
+
     std::string getPrefix();
     std::string getToken (const int);
     //vector<string> getTokens(const int,const int) const;
@@ -188,6 +190,9 @@ private:
     std::string separatorChars;
     std::string blankspaceChars;
     std::string controlChars;
+
+    bool contextChanged;
+    std::string previous_prefix;
 
     // REVISIT: this was removed since a tokenizer is created with
     // each method invocation that needs it

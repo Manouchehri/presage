@@ -84,10 +84,6 @@ public:
 
     std::vector<std::string> select(Prediction);
 
-    // here for testing purposes
-    StringSet getSuggestedWords() const;
-    std::string getPrefix() const;
-	
     void setSuggestions( const int );
     int getSuggestions() const;
     void setRepeatSuggestions( const bool );
@@ -103,14 +99,12 @@ private:
     void repetitionFilter( std::vector<std::string>& );
     void thresholdFilter( std::vector<std::string>& );
 
-    bool contextChange( const std::string&, const std::string& ) const;
-
     StringSet suggestedWords;
 
-    std::string prefix;
+    std::string previous_prefix;
 
-    int SUGGESTIONS;
-    bool REPEAT_SUGGESTION;
+    int          SUGGESTIONS;
+    bool         REPEAT_SUGGESTION;
     unsigned int GREEDY_SUGGESTION_THRESHOLD;
 
     HistoryTracker* historyTracker;

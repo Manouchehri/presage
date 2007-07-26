@@ -42,7 +42,7 @@ void disclaimer();
 void draw_title_win(WINDOW*);
 void draw_history_win(WINDOW*, std::string);
 void draw_function_keys(WINDOW*);
-void draw_previous_suggestions(std::vector<std::string>, const int, int);
+void draw_previous_suggestions(std::vector<std::string>, bool, const int, int);
 int  getGreatestSuggestionLength(std::vector< std::string > suggestions);
 
 const int SUGGESTIONS = 6;
@@ -138,6 +138,7 @@ int main(int argc, char** argv)
 	}
 	draw_history_win(history_win, soothsayer.history());
 	draw_previous_suggestions(words,
+				  soothsayer.contextChange(),
                                   HISTORY_WIN_BEGIN_Y + HISTORY_WIN_HEIGHT + 1,
                                   FUNCTION_WIN_BEGIN_X + FUNCTION_WIN_WIDTH + 1 );
     } while( c != KEY_F(12) );
@@ -189,7 +190,8 @@ void draw_function_keys(WINDOW* win)
     wrefresh(win);
 }
 
-void draw_previous_suggestions(std::vector<std::string> words, const int starty, int startx)
+void draw_previous_suggestions(std::vector<std::string> words, bool contextChange,
+			       const int starty, int startx)
 {
     static std::list< std::vector<std::string> > previousSuggestions;
     static std::vector< WINDOW* > windows;
@@ -203,6 +205,17 @@ void draw_previous_suggestions(std::vector<std::string> words, const int starty,
         delwin(*winit);
     }
     windows.clear();
+
+    if (contextChange) {
+	// insert a context change marker in the list of previous
+	// suggestions
+	// 
+	std::vector< std::string > marker;
+	for (int i = 0; i < 6; i++) {
+	    marker.push_back("|");
+	}
+	previousSuggestions.insert(previousSuggestions.begin(), marker);
+    }
 
     previousSuggestions.insert(previousSuggestions.begin(), words);
 

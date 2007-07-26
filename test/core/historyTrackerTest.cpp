@@ -151,3 +151,65 @@ void HistoryTrackerTest::testGetMaxBufferSize()
 void HistoryTrackerTest::testSetMaxBufferSize()
 {}
 
+void HistoryTrackerTest::testContextChange()
+{
+    HistoryTracker* historyTracker = new HistoryTracker(profile);
+
+    const std::string line   = "foo bar foobar, foo   bar! Foobar foo bar... foobar. ";
+    const std::string change = "00010001000000110001110001100000010001000111100000011";
+    // See TODO in HistoryTracker.cpp
+    // const std::string change = "00010001000000100001000001000000010001000100000000010";
+
+    for (int i = 0; i < line.size(); i++) {
+	std::string temp;
+	temp.push_back(line[i]);
+	historyTracker->update (temp);
+
+	bool expected = (change[i] == '0' ? false : true);
+	
+	std::cerr << "contextChange: " << expected
+		  << " - context: " << historyTracker->getPastStream() << '|' << std::endl;
+	CPPUNIT_ASSERT_EQUAL(expected, historyTracker->contextChange());
+    }
+
+    delete historyTracker;
+}
+
+void HistoryTrackerTest::testCumulativeContextChange()
+{
+    HistoryTracker* historyTracker = new HistoryTracker(profile);
+
+    const char* TRUE = "true";
+    const char* FALSE = "false";
+    const char* dataSuite[] = {
+	"f", FALSE,
+	"o", FALSE,
+	"o", FALSE,
+	" ", TRUE,
+	"ba", FALSE,
+	"r", FALSE,
+	" ", TRUE,
+	"foo", FALSE,
+	"bar ", TRUE,
+	"foo ", TRUE,
+	"b", FALSE,
+	"ar ", TRUE,
+	"foobar ", TRUE,
+	0, 0
+    };
+    
+    int i = 0;
+    while (dataSuite[i] != 0 && dataSuite[i+1] != 0) {
+	historyTracker->update (dataSuite[i]);
+
+	bool expected = (dataSuite[i+1] == FALSE ? false : true);
+
+	std::cerr << "cumulativeContextChange: " << expected
+		  << " - context: " << historyTracker->getPastStream() << '|' << std::endl;
+	CPPUNIT_ASSERT_EQUAL(expected, historyTracker->contextChange());
+
+	i += 2;
+    }
+
+    delete historyTracker;
+}

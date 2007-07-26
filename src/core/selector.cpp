@@ -26,7 +26,6 @@
 #include "selector.h"
 #include "utility.h"
 
-
 #ifdef DEBUG
 # define LOG(x) std::cout << x << std::endl
 #else
@@ -67,7 +66,7 @@ Selector::Selector(Profile* profile, HistoryTracker* ht)
     }
 
     // set prefix
-    prefix = historyTracker->getPrefix();
+    previous_prefix = historyTracker->getPrefix();
 }
 
 Selector::~Selector()
@@ -84,12 +83,9 @@ std::vector<std::string> Selector::select( Prediction p )
     }
 	
     // check whether user has not moved on to a new word
-    if( contextChange( prefix, historyTracker->getPrefix() ) ) {
+    if (historyTracker->contextChange()) {
 	clearSuggestedWords();
     }
-
-    // store new prefix into prefix
-    prefix = historyTracker->getPrefix();
 
     // filter out suggestions that do not satisfy repetition constraint
     if( !REPEAT_SUGGESTION )
@@ -186,11 +182,11 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
     // zero threshold indicates feature is disabled
     if( GREEDY_SUGGESTION_THRESHOLD != 0 ) {
 		
-	int length = prefix.size();
+	int length = historyTracker->getPrefix().size();
 	std::vector<std::string>::iterator i = v.begin();
 	while (i != v.end()) {
 	    if( (i->size()-length) < GREEDY_SUGGESTION_THRESHOLD) {
-		//std::cerr << "Removing token: " << *i << std::endl;
+		LOG("[Selector] Removing token: " + *i);
 		v.erase( i );
 	    } else {
 		i++;
@@ -198,52 +194,6 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
 	}
     }
 }
-
-
-/** Returns true if a context change occured.
- *
- * A context change occurs when the word the system is trying to
- * predict changes to a new word. This can occur when:
- *
- * - the word was correctly predicted and a new word becomes the
- *   current word
- * - the word is changed by the user, by deleting its characters
- *
- * At the moment, a context change is detected by comparing the first
- * character of the old prefix with the first character of the new
- * prefix. If they match, a context change did not occur, therefore
- * function returns false.  If they do not match, a context change
- * occured and therefore true is returned.
- */
-bool Selector::contextChange(const std::string& old,const std::string& nu) const
-{
-    if( old[0] != nu[0] ) {
-	if( old == "" ) {
-	    return false;
-	} else {
-	    return true;
-	}
-    } else {
-	return false;
-    }
-}
-
-/** Getter function, here for testing purposes.
- * 
- */
-StringSet Selector::getSuggestedWords() const
-{
-    return suggestedWords;
-}
-
-/** Getter function, here for testing purposes.
- * 
- */
-std::string Selector::getPrefix() const
-{
-    return prefix;
-}
-
 
 /** Set SUGGESTIONS option.
  *

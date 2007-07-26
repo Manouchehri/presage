@@ -1,3 +1,20 @@
+2007-07-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/selector: removed context change detection from
+	Selector and moved it to HistoryTracker (should be called
+	ContextTracker).
+
+	* src/core/historyTracker: moved context change detection logic
+	from Selector to HistoryTracker and fixed bug.
+
+	* test/core/historyTrackerTest: added context change tests.
+
+	* src/soothsayer: added context change method.
+
+	* src/soothsayerDemo: added context change visual cues.
+
+	* src/soothsayerDemoText: added context change visual cues.
+
 2007-07-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/Makefile.am: added HEADERS primary to install soothsayer.h
