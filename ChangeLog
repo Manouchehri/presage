@@ -1,3 +1,14 @@
+2007-07-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* configure.ac: bumped version up to 0.3.
+
+	* Doxyfile: bumped version up to 0.3.
+	
+	* website/soothsayer_database_dump.sql.gz: improved development
+	pages, added 0.3 release news.
+	
+	* website/soothie_theme.tar.gz: minor style sheet updates.
+
 2007-07-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/selector: removed context change detection from

@@ -7,11 +7,6 @@ TODO list
 
 
 Absolute first
- - website
-   - add description of tools provided and how to use them
-   (i.e. text2ngram)
-   - add description of demo programs and disclaimers
-   - add link to project page
  - make soothsayerSimulator accept normal text files, as opposed to
    files containing one token per line
  - pluginManagerDriver, pluginManager are currently not necessary, as
@@ -24,21 +19,13 @@ Absolute first
    should be taken care of as part of plump integration
 
 Architectural restructure: 
-- configuration pulling instead of pushing
-  instead of having a smart ProfileManager actively initializing each
-  component (including plugins), the individual components should
-  pull the config variable they require from ProfileManager.  This
-  means that the plugins must have a handle to the ProfileManager and
-  call a query method passing what config variable they want and
-  returning a string with the value. The plugin will then convert the
-  string to the appropriate type and use it internally. The advantage
-  of this approach is that the plugin will know what variables it
-  wants and their type (can throw an exception if unable to convert
-  value to appropriate type); ProfileManager does not need to be
-  smart, and there is no need of a PluginManager to keep track of
-  active plugins, since plugins will pull the config variables they
-  need.
-   + profileManager: add ~/.soothsayer/soothsayer.xml searching
+- profile
+  lifetime of Profile object is tied to TiXmlDocument object in
+   ProfileManager, but relationship is not enforced by classes'
+   implementation, i.e. it might be that other objects are using a
+   Profile object that points to a no longer existing TiXmlDocument. A
+   possible solution would be to have Profile cache the configuration
+   into a map of < vector<string>, string > pairs.
 
 - predictive plugins
   could inherit from a Predictor class
@@ -61,14 +48,6 @@ Architectural restructure:
    predictions. Combiner object would know how to retrieve its config
    values and which Strategy to create and use.
 
-- profile
-  lifetime of Profile object is tied to TiXmlDocument object in
-   ProfileManager, but relationship is not enforced by classes'
-   implementation, i.e. it might be that other objects are using a
-   Profile object that points to a no longer existing TiXmlDocument. A
-   possible solution would be to have Profile cache the configuration
-   into a map of < vector<string>, string > pairs.
-
 
 Tests in general should be cleaned up (e.g. we don't need the xDriver
    anymore, those tests should be moved to CPPUnit tests)
@@ -76,8 +55,6 @@ Tests in general should be cleaned up (e.g. we don't need the xDriver
  - pluginManagerDriver in test/core
 
 SoothsayerDemo program:
- - Context switches are marked in some way (either a vertical bar or a
-   box enclosing the other prediction boxes).
  - add command line option to set number of suggestions
 
 Configuration mechanism, from XML DOM to config classes that are
@@ -85,7 +62,7 @@ Configuration mechanism, from XML DOM to config classes that are
 
 
 Short term:
-* implement Combiner class (various combination strategies)
+* write Combiner implementations (various combination strategies)
 * rename HistoryTracker to ContextTracker
 * restructure directories regarding config files and plugins etc.
 * port existing tests to cppunit test cases
@@ -115,7 +92,7 @@ Medium term:
 * use timer alarm to implement threaded plugins controller
 
 Long term:
-* handle unexpected failures with exceptions
+* improve exceptions handling
 * add more predictive plugins
 
 Longer term:
@@ -247,3 +224,25 @@ automake -a --copy
 
 or source the bootstrap script provided (in svn repo):
 . bootstrap
+
+
+----
+DONE
+~~~~
+
+- configuration pulling instead of pushing
+  instead of having a smart ProfileManager actively initializing each
+  component (including plugins), the individual components should
+  pull the config variable they require from ProfileManager.  This
+  means that the plugins must have a handle to the ProfileManager and
+  call a query method passing what config variable they want and
+  returning a string with the value. The plugin will then convert the
+  string to the appropriate type and use it internally. The advantage
+  of this approach is that the plugin will know what variables it
+  wants and their type (can throw an exception if unable to convert
+  value to appropriate type); ProfileManager does not need to be
+  smart, and there is no need of a PluginManager to keep track of
+  active plugins, since plugins will pull the config variables they
+  need.
+   + profileManager: add ~/.soothsayer/soothsayer.xml searching
+
