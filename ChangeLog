@@ -1,3 +1,8 @@
+2007-08-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tinyxml/Makefile.am: prevented inclusion of .svn directory
+	and its contents in tinyxml/docs directory.
+
 2007-07-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: bumped version up to 0.3.

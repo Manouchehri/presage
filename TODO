@@ -62,15 +62,15 @@ Configuration mechanism, from XML DOM to config classes that are
 
 
 Short term:
-* write Combiner implementations (various combination strategies)
+* implement abbreviation expansion plugin
 * rename HistoryTracker to ContextTracker
+* put everything inside the soothsayer namespace
+* write Combiner implementations (various combination strategies)
 * restructure directories regarding config files and plugins etc.
 * port existing tests to cppunit test cases
 * add more tests to increase coverage
-* put everything inside the soothsayer namespace
 * bug: validate string passed to sql_exec query function, unsanitized
    string can cause security problems
-* fix character codes
 
 - investigate the effectiveness of sourcing the initial prefix
    completion list from a different table. One possible idea is to use
@@ -87,11 +87,11 @@ Short term:
    profileManager, use config file in user directory
 
 Medium term:
+* fix character codes
 * overhaul of soothsayer architecture and integration of the plump framework
-* implement abbreviation expansion plugin
-* use timer alarm to implement threaded plugins controller
 
 Long term:
+* use timer alarm to implement threaded plugins controller
 * improve exceptions handling
 * add more predictive plugins
 

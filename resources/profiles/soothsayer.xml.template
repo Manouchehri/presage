@@ -18,8 +18,14 @@
         -->
         <REPEAT_SUGGESTIONS>no</REPEAT_SUGGESTIONS>
 	<!-- GREEDY_SUGGESTION_THRESHOLD
-	  Select only tokens whose completion is longer than the specified
-	  number of characters.
+	  Select only tokens whose completion length is greater than
+          the specified greedy suggestion threshold.
+	  i.e. If this option is set to 2 and the current prefix is
+               "cu", then the word "cub" will not offered as a
+               suggestion, because the completion's length is only one
+               character long. Tokens "curb" or "cube" or "cubicle" or
+               "cucumber" will however be offered, because these
+               words' completions are at least 2 characters long.
 	-->
         <GREEDY_SUGGESTION_THRESHOLD>0</GREEDY_SUGGESTION_THRESHOLD>
     </Selector>

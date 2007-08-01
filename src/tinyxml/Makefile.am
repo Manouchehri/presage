@@ -24,8 +24,9 @@ EXTRA_DIST = 	changes.txt \
 		utf8testverify.xml \
 		docs
 
+
 dist-hook:
-		rm -rf `find $(distdir)/docs -name CVS`
+		rm -rf `find $(distdir)/docs -name .svn`
 
 
 
@@ -50,4 +51,3 @@ DISTCLEANFILES =	utf8testout.xml \
 			test5.xml       \
 			test6.xml       \
 			test7.xml
-
