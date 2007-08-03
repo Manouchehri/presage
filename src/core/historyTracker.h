@@ -182,9 +182,13 @@ public:
     void setMaxBufferSize(const int);
 
 private:
-
+#ifdef USE_STRINGSTREAM
     std::stringstream pastStream;
     std::stringstream futureStream;
+#else
+    std::string pastStream;
+    std::string futureStream;
+#endif
 
     std::string wordChars;
     std::string separatorChars;

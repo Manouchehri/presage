@@ -47,7 +47,9 @@ HistoryTracker::HistoryTracker(Profile* profile,
     //pastStream.clear();
     //pastStream.seekg(0, std::ios::beg);
     //pastStream.seekp(0, std::ios::end);
+#ifdef USE_STRINGSTREAM
     assert(pastStream.good());
+#endif
 
     // read config values
     Variable variable;
@@ -90,9 +92,13 @@ void HistoryTracker::update(std::string s)
             // if s is a word string, append to pastBuffer
             // if s is a separator string, append to pastBuffer
             //std::cerr << "HistoryTracker::update(" << s[i] << ") ";
+#ifdef USE_STRINGSTREAM
             assert(pastStream.good());
             pastStream.put(s[i]);
             assert(pastStream.good());
+#else
+	    pastStream.push_back(s[i]);
+#endif
             //std::cerr << pastStream.str() << std::endl;
             //std::cerr << "HistoryTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
         } else if ( isControlChar(s[i]) ) {
@@ -305,7 +311,12 @@ std::string HistoryTracker::getPrefix()
 
 std::string HistoryTracker::getToken(const int index)
 {
+#ifdef USE_STRINGSTREAM
     ReverseTokenizer tokenizer(pastStream, blankspaceChars, separatorChars);
+#else
+    std::stringstream pastStringStream(pastStream);
+    ReverseTokenizer tokenizer(pastStringStream, blankspaceChars, separatorChars);
+#endif
 
     std::string token;
     int i = 0;
@@ -345,12 +356,20 @@ std::string HistoryTracker::getToken(const int index)
 
 std::string HistoryTracker::getFutureStream() const
 {
+#ifdef USE_STRINGSTREAM
     return futureStream.str();
+#else
+    return futureStream;
+#endif
 }
 
 std::string HistoryTracker::getPastStream() const
 {
+#ifdef USE_STRINGSTREAM
     return pastStream.str();
+#else
+    return pastStream;
+#endif
 }
 
 bool HistoryTracker::isWordChar(const char c) const
@@ -423,8 +442,11 @@ std::string HistoryTracker::getControlChars() const
 
 std::string HistoryTracker::toString() const
 {
+#ifdef USE_STRINGSTREAM
     return pastStream.str() + "<|>" + futureStream.str() + "\n";
-	
+#else
+    return pastStream + "<|>" + futureStream + "\n";
+#endif
 }
 
 int HistoryTracker::getMaxBufferSize() const
