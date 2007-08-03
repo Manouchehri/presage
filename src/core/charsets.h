@@ -37,8 +37,8 @@ const char UP_ARROW    = 30;
 const char DOWN_ARROW  = 31;
 const char END         = 128;    // fix this!!!
 const char HOME        = 128;    // <----------
-const char BACKSPACE   = 8;      // 128 valore fasullo
-const char DELETE      = 18;// ?
+const char BACKSPACE   = '\b';
+const char DELETE      = 18;     // ?
 const char PAGE_UP     = 128;
 const char PAGE_DOWN   = 128;
 

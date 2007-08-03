@@ -34,6 +34,7 @@
 // loaded plugins
 //
 #include "plugins/smoothedUniBiTrigramPlugin.h"
+#include "plugins/abbreviationExpansionPlugin.h"
 #include "plugins/dummyPlugin.h"
 #include "plugins/dictionaryPlugin.h"
 #include "plugins/smoothedCountPlugin.h"
@@ -108,6 +109,8 @@ void Predictor::addPlugin(const std::string& pluginName)
     Plugin* plugin = 0;
     if (pluginName == "SmoothedUniBiTrigramPlugin") {
 	plugin = new SmoothedUniBiTrigramPlugin(profile, historyTracker);
+    } else if (pluginName == "AbbreviationExpansionPlugin") {
+	plugin = new AbbreviationExpansionPlugin(profile, historyTracker);
     } else if (pluginName == "DummyPlugin") {
 	plugin = new DummyPlugin(profile, historyTracker);
     } else if (pluginName == "DictionaryPlugin" ) {

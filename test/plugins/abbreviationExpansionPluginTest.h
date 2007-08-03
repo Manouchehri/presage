@@ -23,73 +23,50 @@
 \******************************************************************************/        
 
 
-#ifndef SOOTH_SMOOTHEDUNIBITRIGRAMPLUGINTEST
-#define SOOTH_SMOOTHEDUNIBITRIGRAMPLUGINTEST
+#ifndef SOOTH_ABBREVIATIONEXPANSIONPLUGINTEST
+#define SOOTH_ABBREVIATIONEXPANSIONPLUGINTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <plugins/smoothedUniBiTrigramPlugin.h>
+#include <plugins/abbreviationExpansionPlugin.h>
 
 #include "pluginsTestMockObjects.h"
+#include "pluginsTestFixture.h"
 
-/** Test SmoothedUniBiTrigramPlugin.
+
+/** Test abbreviationExpansionPlugin.
  * 
  * The idea is to provide mock HistoryTracker and mock Profile classes
  * to supply controlled values to the plugin and test that the
  * returned predictions are as expected.
  *
- * This test also creates a sqlite database with controlled values
- * necessary to generate predictions.
- *
  */
-class SmoothedUniBiTrigramPluginTest : public CppUnit::TestFixture {
-public: 
+//class AbbreviationExpansionPluginTest : public CppUnit::TestFixture {
+
+class AbbreviationExpansionPluginTest : public PluginsTestFixture {
+  public: 
     void setUp();
     void tearDown();
     
-    void testUnigramWeight();
-    void testBigramWeight();
-    void testTrigramWeight();
-    void testUnigramBigramWeight();
-    void testUnigramTrigramWeight();
-    void testBigramTrigramWeight();
-    void testUnigramBigramTrigramWeight();
+    void testSimpleExpansion();
+    void testLongExpansion();
+    void testUnknownAbbreviation();
 
-    void testMaxPartialPredictionSize();
-
-
-private:
+  private:
     /** Converts array of configuration values config to a configuration map.
      */
     ConfigMap prepareConfigMap(const char* config[]) const;
-    /** Asserts prediction is as expected.
-     */
-    void assertCorrectPrediction(const char** config,
-				 const char** history,
-				 const int expected_prediction_size,
-				 const std::string* expected_prediction_words) const;
-    /** Returns prediction computed by plugin.predict() method using given config and profile.
-     */
-    Prediction runPredict(const char** config, const char** history) const;
+    
+    Plugin* createPlugin(Profile* profile, HistoryTracker* ht) const;
 
-    static const std::string DATABASE;
+    static const std::string STANDARD_ABBREVIATION_FILE;
 
-    static const std::string FOO;
-    static const std::string BAR;
-    static const std::string FOOBAR;
-
-
-    CPPUNIT_TEST_SUITE( SmoothedUniBiTrigramPluginTest );
-    CPPUNIT_TEST( testUnigramWeight                    );
-    CPPUNIT_TEST( testBigramWeight                     );
-    CPPUNIT_TEST( testTrigramWeight                    );
-    CPPUNIT_TEST( testUnigramBigramWeight              );
-    CPPUNIT_TEST( testUnigramTrigramWeight             );
-    CPPUNIT_TEST( testBigramTrigramWeight              );
-    CPPUNIT_TEST( testUnigramBigramTrigramWeight       );
-    CPPUNIT_TEST( testMaxPartialPredictionSize         );
+    CPPUNIT_TEST_SUITE( AbbreviationExpansionPluginTest );
+    CPPUNIT_TEST( testSimpleExpansion                   );
+    CPPUNIT_TEST( testLongExpansion                     );
+    CPPUNIT_TEST( testUnknownAbbreviation               );
     CPPUNIT_TEST_SUITE_END();
 };
 
 
-#endif // SOOTH_SMOOTHEDUNIBITRIGRAMPLUGINTEST
+#endif // SOOTH_ABBREVIATIONEXPANSIONPLUGINTEST

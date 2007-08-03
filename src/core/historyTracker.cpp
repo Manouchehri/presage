@@ -26,8 +26,10 @@
 #include "historyTracker.h"
 #include "utility.h"
 
+#define DEBUG
+
 #ifdef DEBUG
-# define LOG(x) std::cout << x << std::endl
+# define LOG(x) std::cerr << x << std::endl
 #else
 # define LOG(x) /* x */
 #endif
@@ -86,12 +88,12 @@ void HistoryTracker::update(std::string s)
         //std::cout << "s[i] " << (isControlChar( s[i] )?"":"non")
         //          << " e' un carattere di controllo." << std::endl;
 
-        if( isWordChar(s[i])
-            || isSeparatorChar(s[i])
-            || isBlankspaceChar(s[i]) ) {
+        if(isWordChar(s[i])
+           || isSeparatorChar(s[i])
+           || isBlankspaceChar(s[i])) {
             // if s is a word string, append to pastBuffer
             // if s is a separator string, append to pastBuffer
-            //std::cerr << "HistoryTracker::update(" << s[i] << ") ";
+            LOG("[HistoryTracker] updating wordChar/separatorChar/blankspaceChar: " + s[i]);
 #ifdef USE_STRINGSTREAM
             assert(pastStream.good());
             pastStream.put(s[i]);
@@ -103,6 +105,7 @@ void HistoryTracker::update(std::string s)
             //std::cerr << "HistoryTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
         } else if ( isControlChar(s[i]) ) {
             //if s is a control string, take the appropriate action
+            LOG("[HistoryTracker] updating controlChar: " + s[i]);
 
 // REVISIT ////
 
@@ -173,15 +176,33 @@ void HistoryTracker::update(std::string s)
 //
 //            }
 //
-//            //BACKSPACE
-//            // backspace key press causes the last character of
-//            // pastBuffer to be erased
-//            if ( s[i] == BACKSPACE && !pastBuffer.empty() ) {
-//
-//                pastBuffer.erase( pastBuffer.end()-1 );
-//
-//            }
-//
+            //BACKSPACE
+            // backspace key press causes the last character of
+            // pastBuffer to be erased
+            if (s[i] == BACKSPACE &&
+#ifdef USE_STRINGSTREAM
+                !pastStream.str().empty()
+#else
+                !pastStream.empty()
+#endif
+            ) {
+                // WARNING: this is bound to be very inefficient!
+                // TODO: provide a better implementation.
+                //
+#ifdef USE_STRINGSTREAM
+                LOG("[HistoryTracker] pastStream before: " + pastStream.str());
+                std::string temp = pastStream.str();
+                temp.erase(temp.end() - 1);
+                pastStream.str(temp);
+                pastStream.seekg(0, std::ios::end);
+                LOG("[HistoryTracker] pastStream after : " + pastStream.str());
+#else
+                LOG("[HistoryTracker] pastStream before: " + pastStream);
+                pastStream.erase(pastStream.end() - 1);
+                LOG("[HistoryTracker] pastStream before: " + pastStream);
+#endif
+            }
+
 //            //DELETE
 //            // delete key press causes the first character of
 //            // futureBuffer to be erased
@@ -211,21 +232,23 @@ void HistoryTracker::update(std::string s)
 //            }
 			
         } else {
-	    std::cerr << "\aAn error occured in function " 
-                 << "void HistoryTracker.update(" << s
-                 << ")" << std::endl << std::endl
-                 << "The error occured when I tried processing "
-                 << "character/string \"" << s << "\""
-                 << std::endl << std::endl;
+	    std::cerr << "[HistoryTracker] Error parsing character: " << s[i] << std::endl
+                      << "[HistoryTracker] The error occured while executing update(" << s << ")" << std::endl;
             for( std::string::const_iterator i = s.begin();
                  i != s.end();
-                 i++ ) {
-                std::cerr << "Char: " << *i << "\tInt: "
+                 i++) {
+                std::cerr << "[HistoryTracker] Char: " << *i << "\tInt: "
                      << static_cast<int>( *i ) << std::endl;
             }
             sleep(1);
             //abort();
         }
+
+#ifdef USE_STRINGSTREAM
+        LOG("[HistoryTracker] pastStream: " + pastStream.str());
+#else
+        LOG("[HistoryTracker] pastStream: " + pastStream);
+#endif
     }
 
 
@@ -374,50 +397,34 @@ std::string HistoryTracker::getPastStream() const
 
 bool HistoryTracker::isWordChar(const char c) const
 {
-    char str[2];
-    str[0] = c;
-    str[1] = '\0';
-    if( wordChars.find( str, 0 ) != std::string::npos )
+    if(wordChars.find(c, 0) != std::string::npos)
         return true;
     else
         return false;
-	
 }
 
 bool HistoryTracker::isSeparatorChar(const char c) const
 {
-    char str[2];
-    str[0] = c;
-    str[1] = '\0';
-    if( separatorChars.find( str, 0 ) != std::string::npos )
+    if(separatorChars.find(c, 0) != std::string::npos)
         return true;
     else
         return false;
-
 }
 
 bool HistoryTracker::isBlankspaceChar(const char c) const
 {
-    for( unsigned int i=0; i<blankspaceChars.size(); i++ ) {
-        if( blankspaceChars[i] == c ) {
-            return true;
-        }
-    }
-
-    return false;
-
+    if(blankspaceChars.find(c, 0) != std::string::npos)
+        return true;
+    else
+        return false;
 }
 
 bool HistoryTracker::isControlChar(const char c) const
 {
-    char str[2];
-    str[0] = c;
-    str[1] = '\0';
-    if( controlChars.find( str, 0 ) != std::string::npos )
+    if(controlChars.find(c, 0) != std::string::npos)
         return true;
     else
         return false;
-
 }
 
 std::string HistoryTracker::getWordChars() const

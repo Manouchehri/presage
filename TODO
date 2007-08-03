@@ -7,6 +7,10 @@ TODO list
 
 
 Absolute first
+ - fix distcheck (problem with abbreviations file retrieval)
+ - document soothsayer interface (soothsayer.h)
+ - remove duplicate code (pluginsTestMockObjects) in plugins tests
+ - prevent .svn directory from being included in tarball (src/tinyxml)
  - make soothsayerSimulator accept normal text files, as opposed to
    files containing one token per line
  - pluginManagerDriver, pluginManager are currently not necessary, as
@@ -64,6 +68,7 @@ Configuration mechanism, from XML DOM to config classes that are
 Short term:
 * implement abbreviation expansion plugin
 * rename HistoryTracker to ContextTracker
+* add ContextTracker tests for control chars
 * put everything inside the soothsayer namespace
 * write Combiner implementations (various combination strategies)
 * restructure directories regarding config files and plugins etc.

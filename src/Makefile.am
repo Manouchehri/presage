@@ -27,10 +27,11 @@ libsoothsayer_la_LIBADD =	core/libcore.la       \
 				tinyxml/libtinyxml.la \
 				tools/libtools.la     \
 				plugins/libplugin.la  \
-				plugins/libSmoothedUniBiTrigramPlugin.la \
-				plugins/libDummyPlugin.la                \
-				plugins/libDictionaryPlugin.la           \
-				plugins/libSmoothedCountPlugin.la        
+				plugins/libSmoothedUniBiTrigramPlugin.la  \
+				plugins/libAbbreviationExpansionPlugin.la \
+				plugins/libDummyPlugin.la                 \
+				plugins/libDictionaryPlugin.la            \
+				plugins/libSmoothedCountPlugin.la         
 
 #				REVISIT remove libSmoothetUniBiTrigram.la 
 #				when reintegrating dynamically loaded plugins

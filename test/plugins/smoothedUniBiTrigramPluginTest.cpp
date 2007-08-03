@@ -142,6 +142,22 @@ ConfigMap SmoothedUniBiTrigramPluginTest::prepareConfigMap(const char* config[])
     return map;
 }
 
+void SmoothedUniBiTrigramPluginTest::assertCorrectPrediction(const char** config,
+							     const char** history,
+							     const int expected_prediction_size,
+							     const std::string* expected_prediction_words) const
+{
+    Prediction prediction = runPredict(config, history);
+
+    std::cout << "assertCorrectPrediction: " << prediction << std::endl;
+
+    CPPUNIT_ASSERT_EQUAL(expected_prediction_size, prediction.size());
+    
+    for (int i = 0; i < expected_prediction_size; i++) {
+	CPPUNIT_ASSERT_EQUAL(expected_prediction_words[i], prediction.getSuggestion(i).getWord());
+    }
+}
+
 Prediction SmoothedUniBiTrigramPluginTest::runPredict(const char** config, const char** history) const
 {
     // convert configuration details into an object that the mock
@@ -158,7 +174,7 @@ Prediction SmoothedUniBiTrigramPluginTest::runPredict(const char** config, const
 
     // similarly, the mock HistoryTracker object's interface is
     // unchanged, therefore casting Profile* argument and using it
-    // pass array of history tokens.
+    // to pass an array of history tokens.
     HistoryTracker ht((Profile*) history);
 
     // creating plugin object to test using the mock HistoryTracker
@@ -167,22 +183,6 @@ Prediction SmoothedUniBiTrigramPluginTest::runPredict(const char** config, const
 
     // return the prediction for comparison with expected results.
     return plugin.predict();
-}
-
-void SmoothedUniBiTrigramPluginTest::assertCorrectPrediction(const char** config,
-							     const char** history,
-							     const int expected_prediction_size,
-							     const std::string* expected_prediction_words) const
-{
-    Prediction prediction = runPredict(config, history);
-
-    std::cout << "assertCorrectPrediction: " << prediction << std::endl;
-
-    CPPUNIT_ASSERT_EQUAL(expected_prediction_size, prediction.size());
-    
-    for (int i = 0; i < expected_prediction_size; i++) {
-	CPPUNIT_ASSERT_EQUAL(expected_prediction_words[i], prediction.getSuggestion(i).getWord());
-    }
 }
 
 void SmoothedUniBiTrigramPluginTest::testUnigramWeight()

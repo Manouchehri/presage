@@ -42,7 +42,7 @@
         <!-- PLUGINS
           Space separated list of predictive plugins to use to generate predictions
         -->
-        <PLUGINS>SmoothedUniBiTrigramPlugin</PLUGINS>
+        <PLUGINS>AbbreviationExpansionPlugin SmoothedUniBiTrigramPlugin</PLUGINS>
     </Predictor>
     <ProfileManager>
         <!-- no options -->
@@ -58,6 +58,9 @@
 	<DictionaryPlugin>
 	    <DICTIONARY_PATH>/usr/share/dict/american-english</DICTIONARY_PATH>
 	</DictionaryPlugin>
+        <AbbreviationExpansionPlugin>
+            <ABBREVIATIONS>::LOCALSTATEDIR::/abbreviations_en.txt</ABBREVIATIONS>
+        </AbbreviationExpansionPlugin>
         <SmoothedCountPlugin>
             <UNIGRAM_WEIGHT>.01</UNIGRAM_WEIGHT>
             <BIGRAM_WEIGHT>.1</BIGRAM_WEIGHT>

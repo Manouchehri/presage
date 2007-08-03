@@ -88,19 +88,41 @@ void Soothsayer::update( char c )
 
 void Soothsayer::complete(const std::string completion)
 {
-    std::string prefix = historyTracker->getPrefix();
- 
-    // ensure that current prefix is a substring of completion token
-    int index = 0;
-    while (prefix[index] == completion[index]) {
-        index++;
-    }
-    if (prefix.size() == index) {
-        std::string remainder = completion.substr(index);
-        update(remainder);
+    // There are two types of completions: normal and erasing.
+    // normal_completion  = prefix + remainder
+    // erasing_completion = eraser + prefix + remainder
+    //
+    // or, given that token = prefix + remainder
+    // normal_completion  = token
+    // erasing_completion = eraser + token
+    // 
+    // where eraser = ^H+ (one or more backspace characters)
+    // 
+    // offset to first non ^H character in completion (^H are inserted
+    // by abbreviation expansion predictor to erase abbreviation from
+    // stream)
+    // 
+    std::string::size_type offset = completion.find_first_not_of('\b');
+    if (offset == 0) {
+        // normal completion, 
+        // ensure that current prefix is a substring of completion
+        // token and update with remainder
+        //
+        std::string prefix = historyTracker->getPrefix();
+        if (completion.find(prefix) == 0) {
+            update(completion.substr(prefix.size()));
+
+        } else {
+            // REVISIT: throw exception
+            std::cerr << "[Soothsayer] Error: completion '" << completion 
+                      << "' does not match prefix '" << prefix << "'" << std::endl;
+            abort();
+        }
     } else {
-        // REVISIT: throw exception
-        std::cerr << "Completion does not match prefix!" << std::endl;
+        // erasing completion,
+        // pass it to tracker in its entirety
+        //
+        update(completion);
     }
 }
 

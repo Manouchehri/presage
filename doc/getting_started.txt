@@ -2,13 +2,15 @@ ____________________________________________________
 Getting started with Soothsayer in 5 minutes or less
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-= Download, build and install soothsayer =
+1) Download, build and install soothsayer
 
 Follow the instructions in the README file to install soothsayer on
 your system.
 
 
-= Run the demo program and the simulator =
+
+
+2) Run the demo program and the simulator
 
 Soothsayer is an extensible predictive text entry platform. It
 provides a clean, simple application programming interface and a higly
@@ -23,7 +25,7 @@ applications are included:
   predictive performance
 
 
-== soothsayerDemo ==
+2.a) soothsayerDemo 
 
 This demo displays the text entered so far in the top window that
 stretches across the screen.  The current prediction is displayed
@@ -37,13 +39,13 @@ Context switches are marked in some way (either a vertical bar or a
 box enclosing the other prediction boxes). [not implemented yet]
 
 
-== soothsayerDemoText == 
+2.b) soothsayerDemoText
 
 This demo works similarly to soothsayerDemo, except that it is much
 more barebones. It is useful when debugging.
 
 
-== soothsayerSimulator == 
+2.c) soothsayerSimulator
 
 This simulator simulate the predictive engine performance on a given
 text file.
@@ -62,10 +64,10 @@ it to standard out.
 
 
 
-= Tweak soothsayer to your needs =
+3) Tweak soothsayer to your needs
 
 
-== soothsayer.xml ==
+3.a) soothsayer.xml
 
 Soothsayer is extensible and configurable. Soothsayer's extensibility
 comes from a range of predictive mechanisms used to generate
@@ -80,7 +82,7 @@ values. soothsayer.xml comes with comments describe what each
 configuration variable is about.
 
 
-== text2ngram ==
+3.b) text2ngram
 
 If you wish to improve soothsayer's predictive performance, or you
 want soothsayer to predict in your native language, you will need to
@@ -97,7 +99,7 @@ quality and accuracy of the predictions.
 
 
 
-= Write a program that uses soothsayer =
+4) Write a program that uses soothsayer
 
 Below is a simple program that demonstrates how to use the C++
 interface to soothsayer.

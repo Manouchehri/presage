@@ -17,17 +17,21 @@
 
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES =	libplugin.la                     \
-			libSmoothedUniBiTrigramPlugin.la \
-			libDictionaryPlugin.la           \
-			libSmoothedCountPlugin.la        \
-			libDummyPlugin.la                   
+noinst_LTLIBRARIES =	libplugin.la                      \
+			libSmoothedUniBiTrigramPlugin.la  \
+			libDictionaryPlugin.la            \
+			libSmoothedCountPlugin.la         \
+			libDummyPlugin.la                 \
+			libAbbreviationExpansionPlugin.la 
 
 
 libplugin_la_SOURCES =	plugin.cpp plugin.h
 
 libSmoothedUniBiTrigramPlugin_la_SOURCES =	smoothedUniBiTrigramPlugin.cpp \
 						smoothedUniBiTrigramPlugin.h   
+
+libAbbreviationExpansionPlugin_la_SOURCES =	abbreviationExpansionPlugin.h   \
+						abbreviationExpansionPlugin.cpp 
 
 ###
 # Dynamically loadable plugin module

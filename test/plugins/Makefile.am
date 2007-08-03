@@ -24,17 +24,26 @@ check_PROGRAMS = $(TESTS)              \
 		dummyPluginDriver      \
 		smoothedCountDriver    
 
-pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                                    \
-				smoothedUniBiTrigramPluginTest.h                         \
-				smoothedUniBiTrigramPluginTest.cpp                       \
-				$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.cpp \
-				$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.h   \
-				$(top_srcdir)/src/core/prediction.h                      \
-				$(top_srcdir)/src/core/prediction.cpp                    \
-				$(top_srcdir)/src/core/suggestion.h                      \
-				$(top_srcdir)/src/core/suggestion.cpp                    \
-				$(top_srcdir)/src/core/utility.h                         \
-				$(top_srcdir)/src/core/utility.cpp                       
+pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                                     \
+				pluginsTestMockObjects.h                                  \
+				pluginsTestMockObjects.cpp                                \
+				pluginsTestFixture.h                                      \
+				pluginsTestFixture.cpp                                    \
+				$(top_srcdir)/src/core/suggestion.h                       \
+				$(top_srcdir)/src/core/suggestion.cpp                     \
+				$(top_srcdir)/src/core/prediction.h                       \
+				$(top_srcdir)/src/core/prediction.cpp                     \
+				$(top_srcdir)/src/core/utility.h                          \
+				$(top_srcdir)/src/core/utility.cpp                        \
+				smoothedUniBiTrigramPluginTest.h                          \
+				smoothedUniBiTrigramPluginTest.cpp                        \
+				$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.cpp  \
+				$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.h    \
+				abbreviationExpansionPluginTest.h                         \
+				abbreviationExpansionPluginTest.cpp                       \
+				$(top_srcdir)/src/plugins/abbreviationExpansionPlugin.h   \
+				$(top_srcdir)/src/plugins/abbreviationExpansionPlugin.cpp 
+
 
 pluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 pluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
