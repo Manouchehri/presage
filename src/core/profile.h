@@ -55,10 +55,9 @@ class Profile {
 public:
     /** Profile constructor.
      *
-     * \param profileDoc Profile takes ownership of the configuration object.
-     *
+     * \param xmlProfileDoc Profile takes ownership of the configuration object.
      */
-    Profile(TiXmlDocument*);
+    Profile(TiXmlDocument* xmlProfileDoc);
 
     /** Profile destructor.
      *
@@ -69,10 +68,10 @@ public:
 
     /** Get configuration value associated to configuration variable.
      *
-     * \param Variable configuration variable
-     * \return Value value associated to variable
+     * \param variable configuration variable
+     * \return value associated to variable
      */
-    Value getConfig(Variable);
+    Value getConfig(Variable variable);
 
     class ProfileException {
     public:

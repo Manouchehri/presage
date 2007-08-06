@@ -26,17 +26,15 @@
 #include "plugins/abbreviationExpansionPlugin.h"
 #include <fstream>
 
-#define DEBUG
-
 #ifdef DEBUG
 # define LOG(x) std::cout << x << std::endl
 #else
 # define LOG(x) /* x */
 #endif
 
-AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Profile* profile, HistoryTracker* ht)
+AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Profile* profile, ContextTracker* ct)
     : Plugin(profile,
-             ht,
+             ct,
              "AbbreviationExpansionPlugin",
              "AbbreviationExpansionPlugin, maps abbreviations to the corresponding fully expanded token.",
              "AbbreviationExpansionPlugin maps abbreviations to the corresponding fully expanded token (i.e. word or phrase).\n\nThe mapping between abbreviations and expansions is stored in the file specified by the plugin configuration section.\n\nThe format for the abbreviation-expansion database is a simple tab separated text file format, with each abbreviation-expansion pair per line."
@@ -71,14 +69,14 @@ Prediction AbbreviationExpansionPlugin::predict() const
     Prediction result;
 
     std::map< std::string, std::string >::const_iterator it = 
-        cache.find(historyTracker->getPrefix());
+        cache.find(contextTracker->getPrefix());
 
     if (it != cache.end()){
         //result.addSuggestion(Suggestion(it->second, 1.0));
 
         // prepend expansion with enough backspaces to erase
         // abbreviation
-        std::string expansion(historyTracker->getPrefix().size(), '\b');
+        std::string expansion(contextTracker->getPrefix().size(), '\b');
 
         // concatenate actual expansion
         expansion += it->second;
@@ -86,7 +84,7 @@ Prediction AbbreviationExpansionPlugin::predict() const
         result.addSuggestion(Suggestion(expansion, 1.0));
 
     } else {
-        LOG("[AbbreviationExpansionPlugin] Could not find expansion for abbreviation: " + historyTracker->getPrefix());
+        LOG("[AbbreviationExpansionPlugin] Could not find expansion for abbreviation: " + contextTracker->getPrefix());
     }
 
     return result;

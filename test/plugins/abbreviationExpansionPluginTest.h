@@ -45,6 +45,8 @@
 
 class AbbreviationExpansionPluginTest : public PluginsTestFixture {
   public: 
+    AbbreviationExpansionPluginTest();
+
     void setUp();
     void tearDown();
     
@@ -57,9 +59,9 @@ class AbbreviationExpansionPluginTest : public PluginsTestFixture {
      */
     ConfigMap prepareConfigMap(const char* config[]) const;
     
-    Plugin* createPlugin(Profile* profile, HistoryTracker* ht) const;
+    Plugin* createPlugin(Profile* profile, ContextTracker* ct) const;
 
-    static const std::string STANDARD_ABBREVIATION_FILE;
+    std::string STANDARD_ABBREVIATION_FILE;
 
     CPPUNIT_TEST_SUITE( AbbreviationExpansionPluginTest );
     CPPUNIT_TEST( testSimpleExpansion                   );

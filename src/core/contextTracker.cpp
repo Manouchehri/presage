@@ -23,10 +23,8 @@
 \*****************************************************************************/
 
 
-#include "historyTracker.h"
+#include "contextTracker.h"
 #include "utility.h"
-
-#define DEBUG
 
 #ifdef DEBUG
 # define LOG(x) std::cerr << x << std::endl
@@ -35,7 +33,7 @@
 #endif
 
 
-HistoryTracker::HistoryTracker(Profile* profile,
+ContextTracker::ContextTracker(Profile* profile,
 			       const char wChars[],
 			       const char tChars[],
 			       const char bChars[],
@@ -56,29 +54,29 @@ HistoryTracker::HistoryTracker(Profile* profile,
     // read config values
     Variable variable;
     variable.push_back("Soothsayer");
-    variable.push_back("HistoryTracker");
+    variable.push_back("ContextTracker");
 
     Value value;
 
     try {
 	variable.push_back("MAX_BUFFER_SIZE");
 	value = profile->getConfig(variable);
-	LOG("[HistoryTracker] MAX_BUFFER_SIZE: " + value);
+	LOG("[ContextTracker] MAX_BUFFER_SIZE: " + value);
 	setMaxBufferSize(toInt(value));
 	variable.pop_back();
     } catch (Profile::ProfileException ex) {
-	std::cerr << "[HistoryTracker] Caught ProfileException: " << ex.what() << std::endl;
+	std::cerr << "[ContextTracker] Caught ProfileException: " << ex.what() << std::endl;
     }
 
     contextChanged = true;
 }
 
-HistoryTracker::~HistoryTracker()
+ContextTracker::~ContextTracker()
 {
     // nothing to do here, move along
 }
 
-void HistoryTracker::update(std::string s)
+void ContextTracker::update(std::string s)
 {
     // process each char in string s individually
     for (unsigned int i=0; i<s.size(); i++) {
@@ -93,7 +91,7 @@ void HistoryTracker::update(std::string s)
            || isBlankspaceChar(s[i])) {
             // if s is a word string, append to pastBuffer
             // if s is a separator string, append to pastBuffer
-            LOG("[HistoryTracker] updating wordChar/separatorChar/blankspaceChar: " + s[i]);
+            LOG("[ContextTracker] updating wordChar/separatorChar/blankspaceChar: " + s[i]);
 #ifdef USE_STRINGSTREAM
             assert(pastStream.good());
             pastStream.put(s[i]);
@@ -102,10 +100,10 @@ void HistoryTracker::update(std::string s)
 	    pastStream.push_back(s[i]);
 #endif
             //std::cerr << pastStream.str() << std::endl;
-            //std::cerr << "HistoryTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
+            //std::cerr << "ContextTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
         } else if ( isControlChar(s[i]) ) {
             //if s is a control string, take the appropriate action
-            LOG("[HistoryTracker] updating controlChar: " + s[i]);
+            LOG("[ContextTracker] updating controlChar: " + s[i]);
 
 // REVISIT ////
 
@@ -190,16 +188,16 @@ void HistoryTracker::update(std::string s)
                 // TODO: provide a better implementation.
                 //
 #ifdef USE_STRINGSTREAM
-                LOG("[HistoryTracker] pastStream before: " + pastStream.str());
+                LOG("[ContextTracker] pastStream before: " + pastStream.str());
                 std::string temp = pastStream.str();
                 temp.erase(temp.end() - 1);
                 pastStream.str(temp);
                 pastStream.seekg(0, std::ios::end);
-                LOG("[HistoryTracker] pastStream after : " + pastStream.str());
+                LOG("[ContextTracker] pastStream after : " + pastStream.str());
 #else
-                LOG("[HistoryTracker] pastStream before: " + pastStream);
+                LOG("[ContextTracker] pastStream before: " + pastStream);
                 pastStream.erase(pastStream.end() - 1);
-                LOG("[HistoryTracker] pastStream before: " + pastStream);
+                LOG("[ContextTracker] pastStream before: " + pastStream);
 #endif
             }
 
@@ -232,12 +230,12 @@ void HistoryTracker::update(std::string s)
 //            }
 			
         } else {
-	    std::cerr << "[HistoryTracker] Error parsing character: " << s[i] << std::endl
-                      << "[HistoryTracker] The error occured while executing update(" << s << ")" << std::endl;
+	    std::cerr << "[ContextTracker] Error parsing character: " << s[i] << std::endl
+                      << "[ContextTracker] The error occured while executing update(" << s << ")" << std::endl;
             for( std::string::const_iterator i = s.begin();
                  i != s.end();
                  i++) {
-                std::cerr << "[HistoryTracker] Char: " << *i << "\tInt: "
+                std::cerr << "[ContextTracker] Char: " << *i << "\tInt: "
                      << static_cast<int>( *i ) << std::endl;
             }
             sleep(1);
@@ -245,21 +243,21 @@ void HistoryTracker::update(std::string s)
         }
 
 #ifdef USE_STRINGSTREAM
-        LOG("[HistoryTracker] pastStream: " + pastStream.str());
+        LOG("[ContextTracker] pastStream: " + pastStream.str());
 #else
-        LOG("[HistoryTracker] pastStream: " + pastStream);
+        LOG("[ContextTracker] pastStream: " + pastStream);
 #endif
     }
 
 
-    LOG("[HistoryTracker] contextChange: historyTracker-getPrefix():" + getPrefix());
-    LOG("[HistoryTracker] contextChange: historyTracker-getToken(1):" + getToken(1));
-    LOG("[HistoryTracker] contextChange: previous_prefix: " + previous_prefix);
+    LOG("[ContextTracker] contextChange: contextTracker-getPrefix():" + getPrefix());
+    LOG("[ContextTracker] contextChange: contextTracker-getToken(1):" + getToken(1));
+    LOG("[ContextTracker] contextChange: previous_prefix: " + previous_prefix);
 
     contextChanged = true;
 
     if (!getPrefix().empty()) {
-	LOG("[HistoryTracker] Prefix not empty");
+	LOG("[ContextTracker] Prefix not empty");
 	// if current prefix is not null
 	std::string::size_type loc = getPrefix().find(previous_prefix, 0);
 	if (loc == 0) {
@@ -267,7 +265,7 @@ void HistoryTracker::update(std::string s)
 	    // at the beginning of the string, the context has not
 	    // changed
 	    //
-	    LOG("[HistoryTracker] Found prefix in getPrefix()");
+	    LOG("[ContextTracker] Found prefix in getPrefix()");
 	    contextChanged = false;
 	}
 
@@ -280,16 +278,16 @@ void HistoryTracker::update(std::string s)
 
 //    } else {
 //	// if prefix is empty
-//	LOG("[HistoryTracker] Prefix not empty");
+//	LOG("[ContextTracker] Prefix not empty");
 //	if (previous_prefix != getToken(1)) {
-//	    LOG("[HistoryTracker] Reversing context change");
+//	    LOG("[ContextTracker] Reversing context change");
 //	    contextChanged = false;
 //	}
     }
 
     previous_prefix = getPrefix();
 
-    LOG("[HistoryTracker] contextChange: previous_prefix: " + previous_prefix);
+    LOG("[ContextTracker] contextChange: previous_prefix: " + previous_prefix);
 }
 
 /** Returns true if a context change occured.
@@ -302,17 +300,17 @@ void HistoryTracker::update(std::string s)
  * - the word is changed by the user, by deleting its characters
  *
  */
-bool HistoryTracker::contextChange() const
+bool ContextTracker::contextChange() const
 {
     return contextChanged;
 }
 
-std::string HistoryTracker::getPrefix()
+std::string ContextTracker::getPrefix()
 {
 //    ReverseTokenizer tokenizer(pastStream, blankspaceChars, separatorChars);
 //
 //    //DEBUG
-//    //std::cerr << "HistoryTracker::getPrefix()" << std::endl;
+//    //std::cerr << "ContextTracker::getPrefix()" << std::endl;
 //    //std::cerr << "tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
 //    //std::cerr << "stream: " << pastStream.str() << std::endl;
 //
@@ -332,7 +330,7 @@ std::string HistoryTracker::getPrefix()
     return getToken(0);
 }
 
-std::string HistoryTracker::getToken(const int index)
+std::string ContextTracker::getToken(const int index)
 {
 #ifdef USE_STRINGSTREAM
     ReverseTokenizer tokenizer(pastStream, blankspaceChars, separatorChars);
@@ -369,15 +367,15 @@ std::string HistoryTracker::getToken(const int index)
 //	result = tokenizer.nextToken();
 //	j++;
 //
-//	std::cerr << "HistoryTracker::getToken() current token: " << result << std::endl;
+//	std::cerr << "ContextTracker::getToken() current token: " << result << std::endl;
 //    }
 //    return result;
 }
 
-//vector<string> HistoryTracker::getTokens(const int i, const int j) const
+//vector<string> ContextTracker::getTokens(const int i, const int j) const
 //{}
 
-std::string HistoryTracker::getFutureStream() const
+std::string ContextTracker::getFutureStream() const
 {
 #ifdef USE_STRINGSTREAM
     return futureStream.str();
@@ -386,7 +384,7 @@ std::string HistoryTracker::getFutureStream() const
 #endif
 }
 
-std::string HistoryTracker::getPastStream() const
+std::string ContextTracker::getPastStream() const
 {
 #ifdef USE_STRINGSTREAM
     return pastStream.str();
@@ -395,7 +393,7 @@ std::string HistoryTracker::getPastStream() const
 #endif
 }
 
-bool HistoryTracker::isWordChar(const char c) const
+bool ContextTracker::isWordChar(const char c) const
 {
     if(wordChars.find(c, 0) != std::string::npos)
         return true;
@@ -403,7 +401,7 @@ bool HistoryTracker::isWordChar(const char c) const
         return false;
 }
 
-bool HistoryTracker::isSeparatorChar(const char c) const
+bool ContextTracker::isSeparatorChar(const char c) const
 {
     if(separatorChars.find(c, 0) != std::string::npos)
         return true;
@@ -411,7 +409,7 @@ bool HistoryTracker::isSeparatorChar(const char c) const
         return false;
 }
 
-bool HistoryTracker::isBlankspaceChar(const char c) const
+bool ContextTracker::isBlankspaceChar(const char c) const
 {
     if(blankspaceChars.find(c, 0) != std::string::npos)
         return true;
@@ -419,7 +417,7 @@ bool HistoryTracker::isBlankspaceChar(const char c) const
         return false;
 }
 
-bool HistoryTracker::isControlChar(const char c) const
+bool ContextTracker::isControlChar(const char c) const
 {
     if(controlChars.find(c, 0) != std::string::npos)
         return true;
@@ -427,27 +425,27 @@ bool HistoryTracker::isControlChar(const char c) const
         return false;
 }
 
-std::string HistoryTracker::getWordChars() const
+std::string ContextTracker::getWordChars() const
 {
     return wordChars;
 }
 
-std::string HistoryTracker::getSeparatorChars() const
+std::string ContextTracker::getSeparatorChars() const
 {
     return separatorChars;
 }
 
-std::string HistoryTracker::getBlankspaceChars() const
+std::string ContextTracker::getBlankspaceChars() const
 {
     return blankspaceChars;
 }
 
-std::string HistoryTracker::getControlChars() const
+std::string ContextTracker::getControlChars() const
 {
     return controlChars;
 }
 
-std::string HistoryTracker::toString() const
+std::string ContextTracker::toString() const
 {
 #ifdef USE_STRINGSTREAM
     return pastStream.str() + "<|>" + futureStream.str() + "\n";
@@ -456,12 +454,12 @@ std::string HistoryTracker::toString() const
 #endif
 }
 
-int HistoryTracker::getMaxBufferSize() const
+int ContextTracker::getMaxBufferSize() const
 {
     return MAX_BUFFER_SIZE;
 }
 
-void HistoryTracker::setMaxBufferSize( const int size )
+void ContextTracker::setMaxBufferSize( const int size )
 {
     if( size > 0 )
         MAX_BUFFER_SIZE = size;

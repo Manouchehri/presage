@@ -25,15 +25,15 @@
 
 #include <iostream>
 #include "plugins/dummyPlugin.h"
-#include "core/historyTracker.h"
+#include "core/contextTracker.h"
 #include <vector>
 #include <string>
 
 int main()
 {
 	Profile mockProfile(0);
-	HistoryTracker historyTracker(&mockProfile);
-	DummyPlugin dummyPlugin(&mockProfile, &historyTracker);
+	ContextTracker contextTracker(&mockProfile);
+	DummyPlugin dummyPlugin(&mockProfile, &contextTracker);
 	Plugin* pluginPtr = &dummyPlugin;
 	
 

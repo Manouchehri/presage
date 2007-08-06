@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Soothsayer>
-    <HistoryTracker>
+    <ContextTracker>
         <!-- MAX_BUFFER_SIZE
           * currently not used
           * likely to be removed
         -->
         <MAX_BUFFER_SIZE>1024</MAX_BUFFER_SIZE>
-    </HistoryTracker>
+    </ContextTracker>
     <Selector>
         <!-- SUGGESTIONS
           Controls how many suggestions are returned in each prediction.

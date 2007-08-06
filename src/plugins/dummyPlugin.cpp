@@ -26,9 +26,9 @@
 #include "plugins/dummyPlugin.h"
 
 
-DummyPlugin::DummyPlugin(Profile* profile, HistoryTracker* ht)
+DummyPlugin::DummyPlugin(Profile* profile, ContextTracker* ct)
     : Plugin(profile,
-	     ht,
+	     ct,
 	     "DummyPlugin",
 	     "DummyPlugin, a fake plugin",
 	     "DummyPlugin is a fake plugin.\n"

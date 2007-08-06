@@ -30,7 +30,7 @@
 
 #include "core/profileManager.h"
 
-#include "core/historyTracker.h"
+#include "core/contextTracker.h"
 #include "core/predictor.h"
 #include "core/selector.h"
 
@@ -48,7 +48,7 @@ private:
     ProfileManager* profileManager;
     Profile*        profile;
 
-    HistoryTracker* historyTracker;
+    ContextTracker* contextTracker;
     Predictor*      predictor;
     Selector*       selector;
     

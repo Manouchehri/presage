@@ -32,15 +32,15 @@ int main()
     // are made, this will fail to build.
     // TODO: transform this into a unit test.
 	Profile mockProfile(0);
-	HistoryTracker historyTracker(&mockProfile);
-	DictionaryPlugin plugin(&mockProfile, &historyTracker);
+	ContextTracker contextTracker(&mockProfile);
+	DictionaryPlugin plugin(&mockProfile, &contextTracker);
 
 	std::string prefix;
 
 	std::cout << "Insert prefix: ";
 	std::cin >> prefix;
 
-	historyTracker.update( prefix );
+	contextTracker.update( prefix );
 	
 	std::cout << plugin.predict();
 

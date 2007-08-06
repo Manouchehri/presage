@@ -107,7 +107,7 @@ private:
 
     ProfileManager*  profileManager;
     Profile*         profile;
-    HistoryTracker*  historyTracker;
+    ContextTracker*  contextTracker;
     Selector*        selector;
 
     CPPUNIT_TEST_SUITE( SelectorTest );

@@ -30,7 +30,7 @@
 
 #include <plugins/smoothedUniBiTrigramPlugin.h>
 
-#include "pluginsTestMockObjects.h"
+#include "pluginsTestFixture.h"
 
 /** Test SmoothedUniBiTrigramPlugin.
  * 
@@ -42,7 +42,7 @@
  * necessary to generate predictions.
  *
  */
-class SmoothedUniBiTrigramPluginTest : public CppUnit::TestFixture {
+class SmoothedUniBiTrigramPluginTest : public PluginsTestFixture {
 public: 
     void setUp();
     void tearDown();
@@ -59,18 +59,16 @@ public:
 
 
 private:
-    /** Converts array of configuration values config to a configuration map.
-     */
     ConfigMap prepareConfigMap(const char* config[]) const;
+    Plugin* createPlugin(Profile*, ContextTracker*) const;
+
     /** Asserts prediction is as expected.
      */
     void assertCorrectPrediction(const char** config,
 				 const char** history,
 				 const int expected_prediction_size,
 				 const std::string* expected_prediction_words) const;
-    /** Returns prediction computed by plugin.predict() method using given config and profile.
-     */
-    Prediction runPredict(const char** config, const char** history) const;
+
 
     static const std::string DATABASE;
 

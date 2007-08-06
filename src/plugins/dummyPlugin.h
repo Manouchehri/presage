@@ -34,7 +34,7 @@
  */
 class DummyPlugin : public Plugin {
 public:
-    DummyPlugin(Profile*, HistoryTracker*);
+    DummyPlugin(Profile*, ContextTracker*);
     ~DummyPlugin();
 
     virtual Prediction predict() const;

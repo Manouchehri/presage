@@ -46,8 +46,8 @@
 #endif
 
 
-Predictor::Predictor(Profile* prof, HistoryTracker* ht)
-    : profile(prof), historyTracker(ht)
+Predictor::Predictor(Profile* prof, ContextTracker* ct)
+    : profile(prof), contextTracker(ct)
 {
     combiner = 0;
 
@@ -108,15 +108,15 @@ void Predictor::addPlugin(const std::string& pluginName)
     //
     Plugin* plugin = 0;
     if (pluginName == "SmoothedUniBiTrigramPlugin") {
-	plugin = new SmoothedUniBiTrigramPlugin(profile, historyTracker);
+	plugin = new SmoothedUniBiTrigramPlugin(profile, contextTracker);
     } else if (pluginName == "AbbreviationExpansionPlugin") {
-	plugin = new AbbreviationExpansionPlugin(profile, historyTracker);
+	plugin = new AbbreviationExpansionPlugin(profile, contextTracker);
     } else if (pluginName == "DummyPlugin") {
-	plugin = new DummyPlugin(profile, historyTracker);
+	plugin = new DummyPlugin(profile, contextTracker);
     } else if (pluginName == "DictionaryPlugin" ) {
-	plugin = new DictionaryPlugin(profile, historyTracker);
+	plugin = new DictionaryPlugin(profile, contextTracker);
     } else if (pluginName == "SmoothedCountPlugin") {
-	plugin = new SmoothedCountPlugin(profile, historyTracker);
+	plugin = new SmoothedCountPlugin(profile, contextTracker);
     } else {
 	// TODO: raise exception
 	std::cerr << "[Predictor] Error: unable to add plugin: " 

@@ -385,8 +385,8 @@ void SelectorTest::setUp()
     profileManager = new ProfileManager();
     profileManager->buildProfile();
     profile = profileManager->getProfile();
-    historyTracker  = new HistoryTracker(profile);
-    selector = new Selector(profile, historyTracker);
+    contextTracker  = new ContextTracker(profile);
+    selector = new Selector(profile, contextTracker);
 }
 
 void SelectorTest::tearDown()
@@ -395,7 +395,7 @@ void SelectorTest::tearDown()
     delete tds_S6_NR_T0;
 
     delete selector;
-    delete historyTracker;
+    delete contextTracker;
     delete profile;
     delete profileManager;
 }
@@ -404,7 +404,7 @@ void SelectorTest::testSelect(TestDataSuite* tds)
 {
     while (tds->hasMoreTestData()) {
 	std::cerr << "Updating with " << tds->getUpdateString() << std::endl;
-	historyTracker->update(tds->getUpdateString());
+	contextTracker->update(tds->getUpdateString());
 	std::vector<std::string> selectedTokens;
 	selectedTokens = selector->select(tds->getInputPrediction());
 

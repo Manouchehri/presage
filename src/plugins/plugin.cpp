@@ -27,20 +27,21 @@
 
 /** Creates a plugin object.
  *
- * @param ht is a reference to HistoryTracker
+ * @param prof pointer to profile
+ * @param ct is a reference to HistoryTracker
  * @param pluginName is the plugin name
  * @param shortDesc is a short description of the plugin's functionality
  * @param longDesc is a long description of the plugin's functionality
  */
 Plugin::Plugin(Profile* prof,
-	       HistoryTracker* ht,
+	       ContextTracker* ct,
 	       const char* pluginName,
 	       const char* shortDesc,
 	       const char* longDesc)
 	: name            (pluginName),
 	  shortDescription(shortDesc ),
 	  longDescription (longDesc  ),
-	  historyTracker  (ht        ),
+	  contextTracker  (ct        ),
 	  profile         (prof      )
 {
     // NOTE: plugin implementations deriving from this class should

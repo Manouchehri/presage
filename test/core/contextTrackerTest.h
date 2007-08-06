@@ -29,10 +29,10 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "core/profileManager.h"
-#include "core/historyTracker.h"
+#include "core/contextTracker.h"
 #include "tokenizer/testStringSuite.h"
 
-class HistoryTrackerTest : public CppUnit::TestFixture { 
+class ContextTrackerTest : public CppUnit::TestFixture { 
 public:
     void setUp();
     void tearDown();
@@ -56,11 +56,11 @@ public:
 private:
     TestStringSuite* testStringSuite;
 
-    HistoryTracker*  historyTracker;
+    ContextTracker*  contextTracker;
     ProfileManager*  profileManager;
     Profile*         profile;
     
-    CPPUNIT_TEST_SUITE( HistoryTrackerTest );
+    CPPUNIT_TEST_SUITE( ContextTrackerTest );
     CPPUNIT_TEST( testConstructor          );
     CPPUNIT_TEST( testUpdate               );
     CPPUNIT_TEST( testGetPrefix            );

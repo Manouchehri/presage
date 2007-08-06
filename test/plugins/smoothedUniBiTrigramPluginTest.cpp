@@ -158,31 +158,10 @@ void SmoothedUniBiTrigramPluginTest::assertCorrectPrediction(const char** config
     }
 }
 
-Prediction SmoothedUniBiTrigramPluginTest::runPredict(const char** config, const char** history) const
+Plugin* SmoothedUniBiTrigramPluginTest::createPlugin(Profile* profile,
+						     ContextTracker* contextTracker) const
 {
-    // convert configuration details into an object that the mock
-    // Profile object can understand - in this case, an std::map of
-    // std::string's.
-    ConfigMap configMap = prepareConfigMap(config);
-
-    // pass the configuration map to the mock profile object. The cast
-    // to TiXmlDocument* is necessary since only the implementation of
-    // the mock Profile class is different - the interface cannot be
-    // changed. The mock Profile object's constructor will cast its
-    // argument back to ConfigMap* before use.
-    Profile profile((TiXmlDocument*) &configMap);
-
-    // similarly, the mock HistoryTracker object's interface is
-    // unchanged, therefore casting Profile* argument and using it
-    // to pass an array of history tokens.
-    HistoryTracker ht((Profile*) history);
-
-    // creating plugin object to test using the mock HistoryTracker
-    // and Profile objects.
-    SmoothedUniBiTrigramPlugin plugin(&profile, &ht);
-
-    // return the prediction for comparison with expected results.
-    return plugin.predict();
+    return new SmoothedUniBiTrigramPlugin(profile, contextTracker);
 }
 
 void SmoothedUniBiTrigramPluginTest::testUnigramWeight()

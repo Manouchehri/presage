@@ -34,7 +34,7 @@
 //#include "plump/src/plump.h"
 //namespace plump { typedef int Plump; }
 
-#include "core/historyTracker.h"
+#include "core/contextTracker.h"
 #include "core/prediction.h"
 #include "core/profile.h"
 
@@ -73,9 +73,10 @@ class Predictor {
      *  forward to the predictive plugins for context retrieval and
      *  analysis.
      *
-     *  @param ht is a reference to HistoryTracker
+     * @param profile pointer to Profile
+     * @param contextTracker pointer to HistoryTracker
      */
-    Predictor(Profile*, HistoryTracker*);
+    Predictor(Profile* profile, ContextTracker* contextTracker);
 
     /** Destroy predictor.
      *
@@ -122,8 +123,6 @@ class Predictor {
      *
      * @param predictTime expressed in milliseconds
      * @return true if the supplied value is valid, false otherwise
-     *
-     * @param milliseconds time in milliseconds
      */
     bool setPredictTime(const int predictTime);
 
@@ -146,9 +145,9 @@ class Predictor {
      * The existing combiner object is first destroyed, then a new
      * combiner object created.
      *
-     * @param cp combination policy
+     * @param policy combination policy
      */
-    void setCombinationPolicy(const std::string);
+    void setCombinationPolicy(const std::string policy);
 
     /** Set Profile interface to currently active profile.
      * 
@@ -163,7 +162,7 @@ class Predictor {
      *
      * @param profile Profile to use.
      */
-    void setProfile(Profile*);
+    void setProfile(Profile* profile);
 
   private:
     // PLUMP
@@ -174,7 +173,7 @@ class Predictor {
     void *execute(void *);
 
 
-    HistoryTracker* historyTracker;
+    ContextTracker* contextTracker;
     Profile* profile;
 
     Combiner* combiner;

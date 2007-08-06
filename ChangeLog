@@ -1,3 +1,25 @@
+2007-08-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* test/plugins/smoothedUniBiTrigramPluginTest: remove duplicate
+	code, test now inherits common code from PluginsTestFixture class
+	and reuses code from PluginsTestMockObjects.
+
+	* documentation: improved, fixed, added doxygen documentation to
+	various source files.
+
+	* src/soothsayer.h: documented soothsayer interface and added
+	mainpage to doxygen generated documentation.
+
+2007-08-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* test/plugins/abbreviationExpansionPluginTest: fixed problem with
+	running test with distchek target (VPATH build).
+
+	* src/soothsayer.h: documented soothsayer interface for doxygen
+	documentation generator.
+	
+	* Doxyfile: modified EXAMPLE_PATH to include getting started guide
+
 2007-08-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/plugins/abbreviationExpansionPlugin: implemented

@@ -28,7 +28,7 @@
 #include <fstream>
 #include <assert.h>
 
-DictionaryPlugin::DictionaryPlugin(Profile* profile, HistoryTracker* ht)
+DictionaryPlugin::DictionaryPlugin(Profile* profile, ContextTracker* ht)
     : Plugin(profile,
 	     ht,
 	     "DictionaryPlugin",
@@ -66,7 +66,7 @@ Prediction DictionaryPlugin::predict() const
     assert(dictFile);
 
     std::string candidate;
-    std::string prefix = historyTracker->getPrefix();
+    std::string prefix = contextTracker->getPrefix();
 
     // scan file entries until we get enough suggestions
     while(dictFile >> candidate) {

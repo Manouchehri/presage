@@ -32,7 +32,7 @@ coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				predictionTest.h predictionTest.cpp         \
 				tokenizer/testStringSuite.h                 \
 				tokenizer/testStringSuite.cpp               \
-				historyTrackerTest.h historyTrackerTest.cpp \
+				contextTrackerTest.h contextTrackerTest.cpp \
 				selectorTest.h selectorTest.cpp             \
 				profileTest.h profileTest.cpp               \
 				profileManagerTest.h profileManagerTest.cpp \

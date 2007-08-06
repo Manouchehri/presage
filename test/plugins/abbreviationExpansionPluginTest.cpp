@@ -24,10 +24,17 @@
 
 #include "abbreviationExpansionPluginTest.h"
 
+#ifdef HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
 
 CPPUNIT_TEST_SUITE_REGISTRATION( AbbreviationExpansionPluginTest );
 
-const std::string AbbreviationExpansionPluginTest::STANDARD_ABBREVIATION_FILE = "../../resources/abbreviations_en.txt";
+AbbreviationExpansionPluginTest::AbbreviationExpansionPluginTest()
+{
+    STANDARD_ABBREVIATION_FILE = static_cast<std::string>(getenv("srcdir"))
+	+ "/../../resources/abbreviations_en.txt";
+}
 
 void AbbreviationExpansionPluginTest::setUp()
 {}
@@ -77,8 +84,8 @@ ConfigMap AbbreviationExpansionPluginTest::prepareConfigMap(const char* config[]
     return result;
 }
 
-Plugin* AbbreviationExpansionPluginTest::createPlugin(Profile* profile, HistoryTracker* ht) const
+Plugin* AbbreviationExpansionPluginTest::createPlugin(Profile* profile, ContextTracker* ct) const
 {
     std::cerr << "AbbreviationExpansionPluginTest::createPlugin" << std::endl;
-    return new AbbreviationExpansionPlugin(profile, ht);
+    return new AbbreviationExpansionPlugin(profile, ct);
 }

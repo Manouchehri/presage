@@ -32,7 +32,7 @@ void ProfileManagerTest::setUp()
     profileManager = new ProfileManager();
     profile        = 0;
     
-    historyTracker = 0;
+    contextTracker = 0;
     selector       = 0;
     predictor      = 0;
 }
@@ -41,7 +41,7 @@ void ProfileManagerTest::tearDown()
 {
     delete predictor;
     delete selector;
-    delete historyTracker;
+    delete contextTracker;
 
     delete profile;
     delete profileManager;
@@ -54,9 +54,9 @@ void ProfileManagerTest::testDefaultProfile()
     profileManager->buildProfile();
     profile = profileManager->getProfile();
 
-    historyTracker = new HistoryTracker(profile);
-    selector = new Selector(profile, historyTracker);
-    predictor = new Predictor(profile, historyTracker);
+    contextTracker = new ContextTracker(profile);
+    selector = new Selector(profile, contextTracker);
+    predictor = new Predictor(profile, contextTracker);
 
     std::cout << "ProfileManagerTest: before testProfile()" << std::endl;
     testProfile();
@@ -75,18 +75,18 @@ void ProfileManagerTest::testNonExistantProfile()
     profileManager->loadProfile(wacky_profile);
     profile = profileManager->getProfile();
 
-    historyTracker = new HistoryTracker(profile);
-    selector = new Selector(profile, historyTracker);
-    predictor = new Predictor(profile, historyTracker);
+    contextTracker = new ContextTracker(profile);
+    selector = new Selector(profile, contextTracker);
+    predictor = new Predictor(profile, contextTracker);
 
     testProfile();
 }
 
 void ProfileManagerTest::testProfile()
 {
-    // test init historyTracker
+    // test init contextTracker
     CPPUNIT_ASSERT_EQUAL(DEFAULT_MAX_BUFFER_SIZE,
-			 historyTracker->getMaxBufferSize());
+			 contextTracker->getMaxBufferSize());
 
     // test init predictor
     CPPUNIT_ASSERT_EQUAL(DEFAULT_PREDICT_TIME,

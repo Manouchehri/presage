@@ -26,10 +26,11 @@ libcore_la_SOURCES =	prediction.cpp prediction.h         \
 			utility.cpp utility.h               \
 			iso8859_1.h                         \
 			charsets.h                          \
-			historyTracker.cpp historyTracker.h \
+			contextTracker.cpp contextTracker.h \
 			predictor.cpp predictor.h           \
 			combiner.h combiner.cpp             \
-			meritocracyCombiner.h meritocracyCombiner.cpp \
+			meritocracyCombiner.h               \
+			meritocracyCombiner.cpp             \
 			linearCombiner.h                    \
 			backoffCombiner.h                   \
 			maxEntropyCombiner.h                \

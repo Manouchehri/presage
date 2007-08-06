@@ -26,7 +26,7 @@
 #include "soothsayer.h"
 
 #include "core/profileManager.h"
-#include "core/historyTracker.h"
+#include "core/contextTracker.h"
 #include "core/selector.h"
 #include "core/predictor.h"
 
@@ -35,9 +35,9 @@ Soothsayer::Soothsayer()
     profileManager = new ProfileManager();
     profile = profileManager->getProfile();
 
-    historyTracker = new HistoryTracker(profile);
-    predictor = new Predictor(profile, historyTracker);
-    selector = new Selector(profile, historyTracker);
+    contextTracker = new ContextTracker(profile);
+    predictor = new Predictor(profile, contextTracker);
+    selector = new Selector(profile, contextTracker);
 
     //plump::Logger::getLogger()->setLevel(plump::Logger::DEBUG);
     //plump.appendPath("./plugins");
@@ -50,7 +50,7 @@ Soothsayer::~Soothsayer()
 {
     delete selector;
     delete predictor;
-    delete historyTracker;
+    delete contextTracker;
 
     delete profile;
     delete profileManager;
@@ -59,7 +59,7 @@ Soothsayer::~Soothsayer()
 
 std::vector<std::string> Soothsayer::predict( std::string s )
 {
-    historyTracker->update (s);
+    contextTracker->update (s);
     return selector->select (predictor->predict());
 }
 
@@ -75,7 +75,7 @@ std::vector<std::string> Soothsayer::predict( char c )
 
 void Soothsayer::update( std::string s )
 {
-    historyTracker->update (s);
+    contextTracker->update (s);
 }
 
 void Soothsayer::update( char c )
@@ -83,7 +83,7 @@ void Soothsayer::update( char c )
     char str[2];
     str[0] = c;
     str[1] = '\0';
-    historyTracker->update (str);
+    contextTracker->update (str);
 }
 
 void Soothsayer::complete(const std::string completion)
@@ -108,7 +108,7 @@ void Soothsayer::complete(const std::string completion)
         // ensure that current prefix is a substring of completion
         // token and update with remainder
         //
-        std::string prefix = historyTracker->getPrefix();
+        std::string prefix = contextTracker->getPrefix();
         if (completion.find(prefix) == 0) {
             update(completion.substr(prefix.size()));
 
@@ -128,10 +128,10 @@ void Soothsayer::complete(const std::string completion)
 
 std::string Soothsayer::history() const
 {
-    return historyTracker->getPastStream();
+    return contextTracker->getPastStream();
 }
 
 bool Soothsayer::contextChange() const
 {
-    return historyTracker->contextChange();
+    return contextTracker->contextChange();
 }

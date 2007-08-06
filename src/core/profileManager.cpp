@@ -147,8 +147,8 @@ void ProfileManager::buildProfile(const std::string p)
     root = xmlProfileDoc->InsertEndChild( TiXmlElement( "Soothsayer" ) );
     assert( root );
 
-    // HistoryTracker module
-    module = root->InsertEndChild( TiXmlElement( "HistoryTracker" ) );
+    // ContextTracker module
+    module = root->InsertEndChild( TiXmlElement( "ContextTracker" ) );
     assert( module );
     if( module ) {
         element = module->InsertEndChild( TiXmlElement( "MAX_BUFFER_SIZE" ) );

@@ -29,7 +29,7 @@
 //#include "plump/src/pluginInterface.h"
 
 #include "core/prediction.h"
-#include "core/historyTracker.h"
+#include "core/contextTracker.h"
 #include "core/profile.h"
 
 #include <string>
@@ -49,7 +49,7 @@ class Plugin {
 //PLUMP    : public plump::PluginInterface {
 public:
     Plugin(Profile*        profile,
-           HistoryTracker* historyTracker,
+           ContextTracker* contextTracker,
 	   const char*     pluginName       = "Plugin",
            const char*     shortDescription = "",
            const char*     longDescription  = "");
@@ -77,7 +77,7 @@ protected:
     const std::string shortDescription; // plugin's descriptive name
     const std::string longDescription;  // plugin's exhaustive description
 
-    HistoryTracker* historyTracker;
+    ContextTracker* contextTracker;
 
     Profile* profile;
     

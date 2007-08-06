@@ -32,7 +32,7 @@
 
 #include "core/suggestion.h"
 #include "core/prediction.h"
-#include "core/historyTracker.h"
+#include "core/contextTracker.h"
 #include "core/predictor.h"
 
 #include <string>
@@ -79,7 +79,7 @@ typedef	std::set< std::string, std::less<std::string> > StringSet;
  */
 class Selector {
 public:
-    Selector(Profile*, HistoryTracker*);
+    Selector(Profile*, ContextTracker*);
     ~Selector();
 
     std::vector<std::string> select(Prediction);
@@ -107,7 +107,7 @@ private:
     bool         REPEAT_SUGGESTION;
     unsigned int GREEDY_SUGGESTION_THRESHOLD;
 
-    HistoryTracker* historyTracker;
+    ContextTracker* contextTracker;
 
 };
 

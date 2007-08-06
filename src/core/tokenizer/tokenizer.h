@@ -50,7 +50,7 @@
  * - valid characters: any non blankspace and non separator character.
  *
  * Each byte read from the input stream is regarded as a character in
- * the range '\u0000' through '\u00FF'.
+ * the range '\\u0000' through '\\u00FF'.
  *
  * In addition, an instance has flags that control:
  *

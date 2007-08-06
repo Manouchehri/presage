@@ -23,16 +23,16 @@
 \******************************************************************************/        
 
 
-#include "historyTrackerTest.h"
-#include "core/historyTracker.h"
+#include "contextTrackerTest.h"
+#include "core/contextTracker.h"
 #include "core/profileManager.h"
 
 #include <string>
 #include <assert.h>
 
-CPPUNIT_TEST_SUITE_REGISTRATION( HistoryTrackerTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( ContextTrackerTest );
 
-void HistoryTrackerTest::setUp()
+void ContextTrackerTest::setUp()
 {
     testStringSuite = new TestStringSuite();
 
@@ -41,7 +41,7 @@ void HistoryTrackerTest::setUp()
     profile = profileManager->getProfile();
 }
 
-void HistoryTrackerTest::tearDown()
+void ContextTrackerTest::tearDown()
 {
     delete testStringSuite;
 
@@ -50,25 +50,25 @@ void HistoryTrackerTest::tearDown()
 }
 
 
-void HistoryTrackerTest::testConstructor()
+void ContextTrackerTest::testConstructor()
 {}
 
-void HistoryTrackerTest::testUpdate()
+void ContextTrackerTest::testUpdate()
 {
-    std::cerr << "HistoryTrackerTest::testUpdate()" << std::endl;
+    std::cerr << "ContextTrackerTest::testUpdate()" << std::endl;
 
-    HistoryTracker hT(profile);
+    ContextTracker hT(profile);
     hT.update("foo bar foobar");
     std::cerr << "prefix: " << hT.getPrefix() << std::endl;
     std::cerr << "token : " << hT.getToken(1) << std::endl;
 }
 
-void HistoryTrackerTest::testGetPrefix()
+void ContextTrackerTest::testGetPrefix()
 {
-    std::cerr << "HistoryTrackerTest::testGetPrefix()" << std::endl;
+    std::cerr << "ContextTrackerTest::testGetPrefix()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	HistoryTracker hT(profile);
+	ContextTracker hT(profile);
 	hT.update(testStringSuite->currentTestString()->getstr());
 
 	assert(testStringSuite->currentTestString() != 0);
@@ -90,12 +90,12 @@ void HistoryTrackerTest::testGetPrefix()
     }
 }
 
-void HistoryTrackerTest::testGetToken()
+void ContextTrackerTest::testGetToken()
 {
-    std::cerr << "HistoryTrackerTest::testGetToken()" << std::endl;
+    std::cerr << "ContextTrackerTest::testGetToken()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	HistoryTracker hT(profile);
+	ContextTracker hT(profile);
 	hT.update(testStringSuite->currentTestString()->getstr());
 
 	assert(testStringSuite->currentTestString() != 0);
@@ -118,15 +118,15 @@ void HistoryTrackerTest::testGetToken()
 }
 
 
-void HistoryTrackerTest::testGetFutureStream()
+void ContextTrackerTest::testGetFutureStream()
 {}
 
-void HistoryTrackerTest::testGetPastStream()
+void ContextTrackerTest::testGetPastStream()
 {
-    std::cerr << "HistoryTrackerTest::testGetPastBuffer()" << std::endl;
+    std::cerr << "ContextTrackerTest::testGetPastBuffer()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	HistoryTracker hT(profile);
+	ContextTracker hT(profile);
 	std::string str = testStringSuite->currentTestString()->getstr();
 	std::string partial_str;
         for (int i = 0; i < str.size(); i++) {
@@ -142,42 +142,42 @@ void HistoryTrackerTest::testGetPastStream()
     }
 }
 
-void HistoryTrackerTest::testToString()
+void ContextTrackerTest::testToString()
 {}
 
-void HistoryTrackerTest::testGetMaxBufferSize()
+void ContextTrackerTest::testGetMaxBufferSize()
 {}
 
-void HistoryTrackerTest::testSetMaxBufferSize()
+void ContextTrackerTest::testSetMaxBufferSize()
 {}
 
-void HistoryTrackerTest::testContextChange()
+void ContextTrackerTest::testContextChange()
 {
-    HistoryTracker* historyTracker = new HistoryTracker(profile);
+    ContextTracker* contextTracker = new ContextTracker(profile);
 
     const std::string line   = "foo bar foobar, foo   bar! Foobar foo bar... foobar. ";
     const std::string change = "00010001000000110001110001100000010001000111100000011";
-    // See TODO in HistoryTracker.cpp
+    // See TODO in ContextTracker.cpp
     // const std::string change = "00010001000000100001000001000000010001000100000000010";
 
     for (int i = 0; i < line.size(); i++) {
 	std::string temp;
 	temp.push_back(line[i]);
-	historyTracker->update (temp);
+	contextTracker->update (temp);
 
 	bool expected = (change[i] == '0' ? false : true);
 	
 	std::cerr << "contextChange: " << expected
-		  << " - context: " << historyTracker->getPastStream() << '|' << std::endl;
-	CPPUNIT_ASSERT_EQUAL(expected, historyTracker->contextChange());
+		  << " - context: " << contextTracker->getPastStream() << '|' << std::endl;
+	CPPUNIT_ASSERT_EQUAL(expected, contextTracker->contextChange());
     }
 
-    delete historyTracker;
+    delete contextTracker;
 }
 
-void HistoryTrackerTest::testCumulativeContextChange()
+void ContextTrackerTest::testCumulativeContextChange()
 {
-    HistoryTracker* historyTracker = new HistoryTracker(profile);
+    ContextTracker* contextTracker = new ContextTracker(profile);
 
     const char* TRUE = "true";
     const char* FALSE = "false";
@@ -200,16 +200,16 @@ void HistoryTrackerTest::testCumulativeContextChange()
     
     int i = 0;
     while (dataSuite[i] != 0 && dataSuite[i+1] != 0) {
-	historyTracker->update (dataSuite[i]);
+	contextTracker->update (dataSuite[i]);
 
 	bool expected = (dataSuite[i+1] == FALSE ? false : true);
 
 	std::cerr << "cumulativeContextChange: " << expected
-		  << " - context: " << historyTracker->getPastStream() << '|' << std::endl;
-	CPPUNIT_ASSERT_EQUAL(expected, historyTracker->contextChange());
+		  << " - context: " << contextTracker->getPastStream() << '|' << std::endl;
+	CPPUNIT_ASSERT_EQUAL(expected, contextTracker->contextChange());
 
 	i += 2;
     }
 
-    delete historyTracker;
+    delete contextTracker;
 }

@@ -23,8 +23,8 @@
 \*****************************************************************************/
 
 
-#ifndef SOOTH_HISTORYTRACKER
-#define SOOTH_HISTORYTRACKER
+#ifndef SOOTH_CONTEXTTRACKER
+#define SOOTH_CONTEXTTRACKER
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -41,9 +41,9 @@
 #include "core/profile.h"
 
 
-/** HistoryTracker tracks user's interaction and context
+/** \brief Tracks user interaction and context.
  *
- * HistoryTracker job is to track the history of user's input and
+ * ContextTracker job is to track the history of user input and
  * track context changes.
  *
  * History is the sequence of characters input by the user. Context is
@@ -146,14 +146,14 @@
  *
  * 
  */
-class HistoryTracker {
+class ContextTracker {
 public:
-    HistoryTracker(Profile* profile,
+    ContextTracker(Profile* profile,
 		   const char[]=DEFAULT_WORD_CHARS,
                    const char[]=DEFAULT_SEPARATOR_CHARS,
                    const char[]=DEFAULT_BLANKSPACE_CHARS,
                    const char[]=DEFAULT_CONTROL_CHARS );
-    ~HistoryTracker();
+    ~ContextTracker();
 
     void update(std::string);
 
@@ -223,4 +223,4 @@ private:
  */
 
 
-#endif // SOOTH_HISTORYTRACKER
+#endif // SOOTH_CONTEXTTRACKER

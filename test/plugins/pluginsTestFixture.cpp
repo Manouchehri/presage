@@ -49,14 +49,14 @@ Prediction PluginsTestFixture::runPredict(const char** config, const char** hist
     // argument back to ConfigMap* before use.
     Profile profile((TiXmlDocument*) &configMap);
 
-    // similarly, the mock HistoryTracker object's interface is
+    // similarly, the mock ContextTracker object's interface is
     // unchanged, therefore casting Profile* argument and using it
     // to pass an array of history tokens.
-    HistoryTracker ht((Profile*) history);
+    ContextTracker contextTracker((Profile*) history);
 
-    // creating plugin object to test using the mock HistoryTracker
+    // creating plugin object to test using the mock ContextTracker
     // and Profile objects.
-    Plugin* plugin = createPlugin(&profile, &ht);
+    Plugin* plugin = createPlugin(&profile, &contextTracker);
 
     // generate prediction.
     Prediction result = plugin->predict();

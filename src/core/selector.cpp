@@ -33,8 +33,8 @@
 #endif
 
 
-Selector::Selector(Profile* profile, HistoryTracker* ht)
-    : historyTracker( ht )
+Selector::Selector(Profile* profile, ContextTracker* ct)
+    : contextTracker(ct)
 {
     // read config values
     Variable variable;
@@ -66,7 +66,7 @@ Selector::Selector(Profile* profile, HistoryTracker* ht)
     }
 
     // set prefix
-    previous_prefix = historyTracker->getPrefix();
+    previous_prefix = contextTracker->getPrefix();
 }
 
 Selector::~Selector()
@@ -83,7 +83,7 @@ std::vector<std::string> Selector::select( Prediction p )
     }
 	
     // check whether user has not moved on to a new word
-    if (historyTracker->contextChange()) {
+    if (contextTracker->contextChange()) {
 	clearSuggestedWords();
     }
 
@@ -182,7 +182,7 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
     // zero threshold indicates feature is disabled
     if( GREEDY_SUGGESTION_THRESHOLD != 0 ) {
 		
-	int length = historyTracker->getPrefix().size();
+	int length = contextTracker->getPrefix().size();
 	std::vector<std::string>::iterator i = v.begin();
 	while (i != v.end()) {
 	    if( (i->size()-length) < GREEDY_SUGGESTION_THRESHOLD) {

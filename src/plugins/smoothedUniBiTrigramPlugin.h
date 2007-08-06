@@ -48,7 +48,7 @@
  */
 class SmoothedUniBiTrigramPlugin : public Plugin {
 public:
-    SmoothedUniBiTrigramPlugin(Profile*, HistoryTracker*);
+    SmoothedUniBiTrigramPlugin(Profile*, ContextTracker*);
     ~SmoothedUniBiTrigramPlugin();
 
     virtual Prediction predict() const;

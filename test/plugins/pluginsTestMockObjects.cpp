@@ -50,7 +50,7 @@ Value Profile::getConfig(Variable variable)
 ////////////////////////////
 // Mock HistoryTracker class
 
-HistoryTracker::HistoryTracker(Profile* profile,
+ContextTracker::ContextTracker(Profile* profile,
 			       const char wc[],
 			       const char sc[],
 			       const char bc[],
@@ -62,18 +62,18 @@ HistoryTracker::HistoryTracker(Profile* profile,
     blankspaceChars = history[0]; // getToken(2)
 }
 
-HistoryTracker::~HistoryTracker()
+ContextTracker::~ContextTracker()
 {}
 
-void HistoryTracker::update(std::string update)
+void ContextTracker::update(std::string update)
 {}
 
-std::string HistoryTracker::getPrefix()
+std::string ContextTracker::getPrefix()
 {
     return wordChars;
 }
 
-std::string HistoryTracker::getToken(const int index)
+std::string ContextTracker::getToken(const int index)
 { 
     std::string result;
     switch (index) {
@@ -92,43 +92,43 @@ std::string HistoryTracker::getToken(const int index)
     return result;
 }
 
-std::string HistoryTracker::getFutureStream() const
+std::string ContextTracker::getFutureStream() const
 { std::string result; return result; }
 
-std::string HistoryTracker::getPastStream() const
+std::string ContextTracker::getPastStream() const
 { std::string result; return result; }
 
-std::string HistoryTracker::getWordChars()       const
+std::string ContextTracker::getWordChars()       const
 { std::string result; return result; }
 
-std::string HistoryTracker::getSeparatorChars()  const
+std::string ContextTracker::getSeparatorChars()  const
 { std::string result; return result; }
 
-std::string HistoryTracker::getBlankspaceChars() const
+std::string ContextTracker::getBlankspaceChars() const
 { std::string result; return result; }
 
-std::string HistoryTracker::getControlChars()    const
+std::string ContextTracker::getControlChars()    const
 { std::string result; return result; }
 
-std::string HistoryTracker::toString() const
+std::string ContextTracker::toString() const
 { std::string result; return result; }
 
-int  HistoryTracker::getMaxBufferSize() const
+int  ContextTracker::getMaxBufferSize() const
 { int result; return result; }
 
-void HistoryTracker::setMaxBufferSize(const int)
+void ContextTracker::setMaxBufferSize(const int)
 {}
 
-bool HistoryTracker::isWordChar      (const char) const
+bool ContextTracker::isWordChar      (const char) const
 { return true; }
 
-bool HistoryTracker::isSeparatorChar (const char) const
+bool ContextTracker::isSeparatorChar (const char) const
 { return true; }
 
-bool HistoryTracker::isControlChar   (const char) const
+bool ContextTracker::isControlChar   (const char) const
 { return true; }
 
-bool HistoryTracker::isBlankspaceChar(const char) const
+bool ContextTracker::isBlankspaceChar(const char) const
 { return true; }
 
 

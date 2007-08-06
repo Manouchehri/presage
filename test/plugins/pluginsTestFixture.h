@@ -39,11 +39,35 @@ class PluginsTestFixture : public CppUnit::TestFixture {
     virtual void setUp()    = 0;
     virtual void tearDown() = 0;
 
-    virtual Prediction runPredict(const char**, const char**) const;
+    /** \brief Returns prediction computed by plugin.predict() method
+     *         using given config and profile.
+     *
+     * \param config configuration used by predictive plugin.
+     * \param history current context used by predictive plugin.
+     * \return prediction computed by plugin method predict().
+     */
+    virtual Prediction runPredict(const char** config, const char** history) const;
 
   private:
+    /** \brief Converts array of configuration values config to a
+     *         configuration map.
+     *
+     * \note To be overridden by actual test class inheriting from *this.
+     *
+     * \param config array of configuration variables and values.
+     * \return cocnfiguration map.
+     */
     virtual ConfigMap  prepareConfigMap(const char* config[])  const = 0;
-    virtual Plugin*    createPlugin(Profile*, HistoryTracker*) const = 0;
+    /** \brief Converts array of configuration values config to a
+     *         configuration map.
+     *
+     * \note To be overridden by actual test class inheriting from *this.
+     * 
+     * \param profile profile
+     * \param ct context tracker
+     * \return instance of plugin to be tested
+     */
+    virtual Plugin* createPlugin(Profile* profile, ContextTracker* ct) const = 0;
 
 };
 

@@ -37,7 +37,7 @@
  */
 class DictionaryPlugin : public Plugin {
 public:
-    DictionaryPlugin(Profile*, HistoryTracker*);
+    DictionaryPlugin(Profile*, ContextTracker*);
     ~DictionaryPlugin();
 
     virtual Prediction predict() const;

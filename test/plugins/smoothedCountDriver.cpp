@@ -32,8 +32,8 @@ int main()
     // are made, this will fail to build.
     // TODO: transform this into a unit test.
 	Profile mockProfile(0);
-	HistoryTracker historyTracker(&mockProfile);
-	SmoothedCountPlugin plugin(&mockProfile, &historyTracker);
+	ContextTracker contextTracker(&mockProfile);
+	SmoothedCountPlugin plugin(&mockProfile, &contextTracker);
 
 	const int SIZE = 80;
 	char historyBuffer[SIZE];
@@ -41,7 +41,7 @@ int main()
 	std::cout << "Insert string: ";
 	std::cin.getline( historyBuffer, SIZE );
 
-	historyTracker.update( historyBuffer );
+	contextTracker.update( historyBuffer );
 	
 	std::cout << plugin.predict();
 
