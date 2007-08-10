@@ -62,7 +62,7 @@ Configuration mechanism, from XML DOM to config classes that are
 
 
 Short term:
-* rename HistoryTracker to ContextTracker
+* improve smoothed uni-bi-tri-gram plugin to support n-grams for any n
 * add ContextTracker tests for control chars
 * put everything inside the soothsayer namespace
 * write Combiner implementations (various combination strategies)
@@ -71,6 +71,7 @@ Short term:
 * add more tests to increase coverage
 * bug: validate string passed to sql_exec query function, unsanitized
    string can cause security problems
+* implement activation map predictive plugin
 
 - investigate the effectiveness of sourcing the initial prefix
    completion list from a different table. One possible idea is to use

@@ -122,5 +122,9 @@ SOURCE=.\changes.txt
 
 SOURCE=.\readme.txt
 # End Source File
+# Begin Source File
+
+SOURCE=.\tutorial_gettingStarted.txt
+# End Source File
 # End Target
 # End Project
