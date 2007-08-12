@@ -18,6 +18,7 @@
 ## Process this file with automake to produce Makefile.in
 
 noinst_LTLIBRARIES =	libplugin.la                      \
+			libSmoothedNgramPlugin.la         \
 			libSmoothedUniBiTrigramPlugin.la  \
 			libDictionaryPlugin.la            \
 			libSmoothedCountPlugin.la         \
@@ -26,6 +27,9 @@ noinst_LTLIBRARIES =	libplugin.la                      \
 
 
 libplugin_la_SOURCES =	plugin.cpp plugin.h
+
+libSmoothedNgramPlugin_la_SOURCES =		smoothedNgramPlugin.cpp \
+						smoothedNgramPlugin.h   
 
 libSmoothedUniBiTrigramPlugin_la_SOURCES =	smoothedUniBiTrigramPlugin.cpp \
 						smoothedUniBiTrigramPlugin.h   

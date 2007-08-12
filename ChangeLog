@@ -1,4 +1,21 @@
-2007-08-06  Matteo Vescovi  <matteo.vescovi@burrow.oz>
+2007-08-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/plugins/smoothedNgram: added initial implementation of
+	generalized smoothed n-gram probabilistic predictive plugin.
+
+	* src/plugins/Makefile.am: added support for smoothed n-gram
+	predictive plugin.
+
+	* src/core/predictor.cpp: added support for smoothed n-gram
+	predictive plugin.
+	
+	* src/Makefile.am: added support for smoothed n-gram predictive
+	plugin.
+
+	* resources/profiles/soothsayer.xml.template: added configuration
+	section for smoothed n-gram predictive plugin.
+
+2007-08-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: bumped version up to 0.4.
 

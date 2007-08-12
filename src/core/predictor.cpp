@@ -33,6 +33,7 @@
 // IMPORTANT: remove following include when moving back to dynamically
 // loaded plugins
 //
+#include "plugins/smoothedNgramPlugin.h"
 #include "plugins/smoothedUniBiTrigramPlugin.h"
 #include "plugins/abbreviationExpansionPlugin.h"
 #include "plugins/dummyPlugin.h"
@@ -107,7 +108,9 @@ void Predictor::addPlugin(const std::string& pluginName)
     // created based on their name.
     //
     Plugin* plugin = 0;
-    if (pluginName == "SmoothedUniBiTrigramPlugin") {
+    if (pluginName == "SmoothedNgramPlugin") {
+	plugin = new SmoothedNgramPlugin(profile, contextTracker);
+    } else if (pluginName == "SmoothedUniBiTrigramPlugin") {
 	plugin = new SmoothedUniBiTrigramPlugin(profile, contextTracker);
     } else if (pluginName == "AbbreviationExpansionPlugin") {
 	plugin = new AbbreviationExpansionPlugin(profile, contextTracker);

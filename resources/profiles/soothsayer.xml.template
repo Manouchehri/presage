@@ -42,12 +42,18 @@
         <!-- PLUGINS
           Space separated list of predictive plugins to use to generate predictions
         -->
-        <PLUGINS>AbbreviationExpansionPlugin SmoothedUniBiTrigramPlugin</PLUGINS>
+        <PLUGINS>AbbreviationExpansionPlugin SmoothedNgramPlugin</PLUGINS>
     </Predictor>
     <ProfileManager>
         <!-- no options -->
     </ProfileManager>
     <Plugins>
+        <SmoothedNgramPlugin>
+            <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
+            <MAX_PARTIAL_PREDICTION_SIZE>60</MAX_PARTIAL_PREDICTION_SIZE>
+            <!-- \delta_0, \delta_1, ..., \delta_{n-1} -->
+            <DELTAS>0.01 0.1 0.89</DELTAS>
+        </SmoothedNgramPlugin>
         <SmoothedUniBiTrigramPlugin>
             <UNIGRAM_WEIGHT>.1</UNIGRAM_WEIGHT>
             <BIGRAM_WEIGHT>.3</BIGRAM_WEIGHT>

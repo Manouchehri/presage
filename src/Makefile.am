@@ -27,6 +27,7 @@ libsoothsayer_la_LIBADD =	core/libcore.la       \
 				tinyxml/libtinyxml.la \
 				tools/libtools.la     \
 				plugins/libplugin.la  \
+				plugins/libSmoothedNgramPlugin.la         \
 				plugins/libSmoothedUniBiTrigramPlugin.la  \
 				plugins/libAbbreviationExpansionPlugin.la \
 				plugins/libDummyPlugin.la                 \
