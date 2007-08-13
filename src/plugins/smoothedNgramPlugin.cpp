@@ -26,8 +26,6 @@
 #include "plugins/smoothedNgramPlugin.h"
 #include <sstream>
 
-#define DEBUG
-
 #ifdef DEBUG
 # define LOG(x) std::cerr << x << std::endl
 #else

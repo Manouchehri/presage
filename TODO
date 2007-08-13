@@ -7,6 +7,9 @@ TODO list
 
 
 Absolute first
+ - use highest n-gram to generate initial completion table instead of
+   using 1-grams, fall back on lower n-grams if initial completion
+   table is smaller than requested by max partial prediction size
  - check soothsayerSimulator when used with SmoothedNgramPlugin and
    DEBUG turned on.
  - test performance with different n values in n-gram
