@@ -26,6 +26,8 @@
 #include "plugins/smoothedNgramPlugin.h"
 #include <sstream>
 
+#define DEBUG
+
 #ifdef DEBUG
 # define LOG(x) std::cerr << x << std::endl
 #else
@@ -114,7 +116,7 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
 	copy(tokens.end() - ngram_size + offset , tokens.end() + offset, ngram.begin());
 
 #ifdef DEBUG
-	std::cerr << "[SmoothedNgram] ngram: ";
+	std::cerr << "[SmoothedNgramPlugin] ngram: ";
 	for (int j = 0; j < ngram.size(); j++) {
 	    std::cerr << ngram[j] << ' ';
 	}

@@ -35,6 +35,10 @@ pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                               
 				$(top_srcdir)/src/core/prediction.cpp                     \
 				$(top_srcdir)/src/core/utility.h                          \
 				$(top_srcdir)/src/core/utility.cpp                        \
+				smoothedNgramPluginTest.h                          \
+				smoothedNgramPluginTest.cpp                        \
+				$(top_srcdir)/src/plugins/smoothedNgramPlugin.cpp  \
+				$(top_srcdir)/src/plugins/smoothedNgramPlugin.h    \
 				smoothedUniBiTrigramPluginTest.h                          \
 				smoothedUniBiTrigramPluginTest.cpp                        \
 				$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.cpp  \

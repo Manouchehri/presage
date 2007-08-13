@@ -7,7 +7,6 @@ TODO list
 
 
 Absolute first
- - add SmoothedNgramPluginTests. Can use uni/bi/tri-gram tests.
  - check soothsayerSimulator when used with SmoothedNgramPlugin and
    DEBUG turned on.
  - test performance with different n values in n-gram
@@ -66,7 +65,7 @@ Configuration mechanism, from XML DOM to config classes that are
 
 
 Short term:
-* improve smoothed uni-bi-tri-gram plugin to support n-grams for any n
+* retire SmoothedUniBiTrigramPlugin when SmoothedNgramPlugin is done
 * add ContextTracker tests for control chars
 * put everything inside the soothsayer namespace
 * write Combiner implementations (various combination strategies)
