@@ -38,6 +38,8 @@ void parseCommandLineArgs(int argc, char* argv[]);
 void printUsage();
 void printVersion();
 
+bool case_insensitive = false;
+
 int main(int argc, char* argv[])
 {
     parseCommandLineArgs(argc, argv);
@@ -60,6 +62,7 @@ int main(int argc, char* argv[])
     ForwardTokenizer tokenizer(infile,
 			       DEFAULT_BLANKSPACE_CHARS,
 			       DEFAULT_SEPARATOR_CHARS);
+    tokenizer.lowercaseMode(case_insensitive);
     while(tokenizer.hasMoreTokens()) {
 	simulator.simulate(tokenizer.nextToken());
     }
@@ -77,12 +80,13 @@ void parseCommandLineArgs(int argc, char* argv[])
     int next_option;
 	
     // getopt structures
-    const char* const short_options = "hv";
+    const char* const short_options = "ihv";
 
     const struct option long_options[] = {
-	{ "help",   0, NULL, 'h' },
-	{ "version",0, NULL, 'v' },
-	{ NULL,     0, NULL,   0 }
+        { "insensitive", 0, NULL, 'i' },
+	{ "help",        0, NULL, 'h' },
+	{ "version",     0, NULL, 'v' },
+	{ NULL,          0, NULL,   0 }
     };
 
     do {
@@ -90,21 +94,24 @@ void parseCommandLineArgs(int argc, char* argv[])
 				   short_options, long_options, NULL );
 		
 	switch( next_option ) {
-	case 'h': // --help or -h option
+          case 'i': // --insensitive or -i option
+            case_insensitive = true;
+            break;
+          case 'h': // --help or -h option
 	    printUsage();
 	    exit (0);
 	    break;
-	case 'v': // --version or -v option
+          case 'v': // --version or -v option
 	    printVersion();
 	    exit (0);
 	    break;
-	case '?': // unknown option
+          case '?': // unknown option
 	    printUsage();
 	    exit (0);
 	    break;
-	case -1:
+          case -1:
 	    break;
-	default:
+          default:
 	    abort();
 	}
 
@@ -124,8 +131,9 @@ void printUsage()
 {
     std::cout << "Usage: " << PROGRAM_NAME << " [INFILE]" << std::endl
 	      << std::endl
-	      << "  -h, --help     display this help and exit" << std::endl
-	      << "  -v, --version  output version information and exit" << std::endl
+              << "  -i, --insensitive  case insensitive mode" << std::endl
+	      << "  -h, --help         display this help and exit" << std::endl
+	      << "  -v, --version      output version information and exit" << std::endl
 	      << std::endl
 	      << "Direct your bug reports to: " << PACKAGE_BUGREPORT << std::endl;
 }

@@ -1,3 +1,13 @@
+2007-08-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/simulator/simulator.cpp: fixed bug in simulator which caused
+	the reported keystroke reduction rate to be much lower than the
+	actual rate. The prediction success rate is actually much higher
+	than previously reported, which is great news.
+
+	* src/soothsayerSimulator.cpp: added flag to enable case
+	insensitive simulation.
+
 2007-08-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/plugins/smoothedNgram: added initial implementation of

@@ -90,6 +90,7 @@ void Simulator::simulate( std::string str )
 	// of its characters to feed to Soothsayer.
 	if( hit ) {
 
+            soothsayerPtr->complete(str);
 	    soothsayerPtr->update( " " );
 	    kn += str.size() + 1;
 	    ki++;
@@ -151,6 +152,7 @@ void Simulator::reset()
 void Simulator::results() const
 {
     std::cout << std::endl
+              << "============================" << std::endl
 	      << "Keystroke Savings Rate (KSR)" << std::endl
 	      << "           ki + ks        "   << std::endl
 	      << "KSR = (1 - ------- ) * 100"   << std::endl
