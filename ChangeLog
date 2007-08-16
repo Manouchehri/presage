@@ -1,3 +1,11 @@
+2007-08-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tools/text2ngram: implement -a append flag for sqlite file
+	format output.
+
+	* src/tools/databaseConnector: creating table if table does not
+	exit only.
+
 2007-08-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/simulator/simulator.cpp: fixed bug in simulator which caused

@@ -12,6 +12,7 @@ Absolute first
    table is smaller than requested by max partial prediction size
  - check soothsayerSimulator when used with SmoothedNgramPlugin and
    DEBUG turned on.
+ - implement -a flag for text2ngram tool and tsv file format
  - test performance with different n values in n-gram
  - make soothsayerSimulator accept normal text files, as opposed to
    files containing one token per line

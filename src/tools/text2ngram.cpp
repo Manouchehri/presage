@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
     std::string format = TABBED_SEPARATED_VALUES;
 
     bool lowercase = false;
-
+    bool append    = false;
 	
     // getopt structures
     const char * const  short_options  = "n:o:f:alhv";
@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
 	    break;
 	case 'a': // --append or -a option
 	    // append mode
-	    // TODO
+            append = true;
 	    break;
 	case 'l': // --lowercase or -l option
 	    lowercase = true;
@@ -227,7 +227,7 @@ int main(int argc, char* argv[]) {
 
 	SqliteDatabaseConnector sqliteDbCntr(output);
         sqliteDbCntr.beginTransaction();
-	sqliteDbCntr.createNgramTable(ngrams);
+        sqliteDbCntr.createNgramTable(ngrams);
 
 	// write results to output stream
 	ProgressBar progressBar;
@@ -244,8 +244,22 @@ int main(int argc, char* argv[]) {
 		ngram.push_back(*jt);
 	    }
 
-	    // insert Ngram
-	    sqliteDbCntr.insertNgram(ngram, it->second);
+            if (append) {
+                // need to check whether ngram is already in database.
+                // when appending to existing database
+                int count = sqliteDbCntr.getNgramCount(ngram);
+                if (count > 0) {
+                    // ngram already in database, update count
+                    sqliteDbCntr.updateNgram(ngram, count + it->second);
+                } else {
+                    // ngram not in database, insert it
+                    sqliteDbCntr.insertNgram(ngram, it->second);
+                }
+            } else {
+                // insert ngram
+                sqliteDbCntr.insertNgram(ngram, it->second);
+            }
+
 	    progressBar.update(static_cast<double>(count++)/total);
 	}
         sqliteDbCntr.endTransaction();

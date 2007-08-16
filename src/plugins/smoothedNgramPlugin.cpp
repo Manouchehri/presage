@@ -176,17 +176,17 @@ Prediction SmoothedNgramPlugin::predict() const
 	for (int k = 0; k < cardinality; k++) {
 	    double numerator = count(tokens, 0, k+1);
 	    double denominator = count(tokens, -1, k);
-	    assert(numerator <= denominator);
-
 	    double frequency = ((denominator > 0) ? (numerator / denominator) : 0);
-	    assert(frequency <= 1);
-
 	    probability += deltas[k] * frequency;
 
 	    LOG("[SmoothedNgramPlugin] numerator:   " << numerator);
 	    LOG("[SmoothedNgramPlugin] denominator: " << denominator);
 	    LOG("[SmoothedNgramPlugin] frequency:   " << frequency);
 	    LOG("[SmoothedNgramPlugin] delta:       " << deltas[k]);
+
+            // sanity checks
+	    assert(numerator <= denominator);
+	    assert(frequency <= 1);
 	}
 
 	if (probability > 0) {

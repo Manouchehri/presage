@@ -46,7 +46,7 @@ void DatabaseConnector::createNgramTable(const int n) const
     if (n > 0) {
 	std::stringstream query;
 	std::stringstream unique;
-	query << "CREATE TABLE _" << n << "_gram (";
+	query << "CREATE TABLE IF NOT EXISTS _" << n << "_gram (";
 	for (int i = n - 1; i >= 0; i--) {
 	    if (i != 0) {
 		unique << "word_" << i << ", ";
