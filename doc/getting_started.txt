@@ -47,15 +47,15 @@ more barebones. It is useful when debugging.
 
 2.c) soothsayerSimulator
 
-This simulator simulate the predictive engine performance on a given
-text file.
+This simulator evaluates the performance of the predictive engine on a
+given text file.
 
 The simulator requires a text file to be passed as argument. It reads
-each character from the input file and send it to the soothsayer
+each character from the input file and sends it to the soothsayer
 prediction engine. The simulator counts the number of key presses
-required to select the desired prediction, if correctly predicted, or
-enter the desired word until the word is completed or the prediction
-offered.
+required to enter the desired text using the soothsayer prediction
+engine and the number of key presses required to enter the same text
+with no prediction enabled.
 
 At the end of the simulation, it generates a report on predictive
 performance (expressed in terms of Keystrokes Savings Rate) and prints
