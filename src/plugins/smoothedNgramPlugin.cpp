@@ -26,6 +26,8 @@
 #include "plugins/smoothedNgramPlugin.h"
 #include <sstream>
 
+//#define DEBUG
+
 #ifdef DEBUG
 # define LOG(x) std::cerr << x << std::endl
 #else
@@ -147,28 +149,89 @@ Prediction SmoothedNgramPlugin::predict() const
 	LOG("[SmoothedNgramPlugin] Cached tokens[" << cardinality - 1 - i << "] = " << tokens[cardinality - 1 - i]);
     }
 
-    // Get table of possible prefix completitions. The possible prefix
-    // completions are obtained from the _1_gram table because in a
-    // well-constructed ngram database the _1_gram table will contain
-    // all tokens contained in any other table. The _1_gram counts,
-    // however, will take precedence over the higher-order counts.
-    //
-    // Perhaps it is worth investigating the effectiveness of sourcing
-    // the initial prefix completion list from a different table. One
-    // possible idea is to use the table that has the strongest
-    // weight.
-    //
-    Ngram prefix_gram;
-    prefix_gram.push_back(tokens[cardinality - 1]);
-    db->beginTransaction();
-    NgramTable prefixCompletionTable = db->getNgramLikeTable(prefix_gram);
-    db->endTransaction();
+//    // Get table of possible prefix completitions. The possible prefix
+//    // completions are obtained from the _1_gram table because in a
+//    // well-constructed ngram database the _1_gram table will contain
+//    // all tokens contained in any other table. The _1_gram counts,
+//    // however, will take precedence over the higher-order counts.
+//    //
+//    // Perhaps it is worth investigating the effectiveness of sourcing
+//    // the initial prefix completion list from a different table. One
+//    // possible idea is to use the table that has the strongest
+//    // weight.
+//    //
+//    Ngram prefix_gram;
+//    prefix_gram.push_back(tokens[cardinality - 1]);
+//    db->beginTransaction();
+//    NgramTable prefixCompletionTable = db->getNgramLikeTable(prefix_gram);
+//    db->endTransaction();
 
-    // let's retrieve all the other counts I need
+
+    std::vector<std::string> prefixCompletionCandidates;
+    for (int k = cardinality; (k > 0 && prefixCompletionCandidates.size() < max_partial_prediction_size); k--) {
+        LOG("[SmoothedNgramPlugin] Building partial prefix completion table of cardinality: " << k);
+        // create n-gram used to retrieve initial prefix completion table
+        Ngram prefix_ngram(k);
+        copy(tokens.end() - k, tokens.end(), prefix_ngram.begin());
+#ifdef DEBUG
+        std::cerr << "[SmoothedNgramPlugin] prefix_ngram: ";
+        for (int r = 0; r < prefix_ngram.size(); r++) {
+            std::cerr << prefix_ngram[r] << ' ';
+        }
+        std::cerr << std::endl;
+#endif
+        
+        // obtain initial prefix completion table
+        db->beginTransaction();
+        NgramTable partial = db->getNgramLikeTable(prefix_ngram);
+        db->endTransaction();
+
+#ifdef DEBUG
+        std::cerr << "[SmoothedNgramPlugin] partial prefixCompletionCandidates" << std::endl
+                  << "[SmoothedNgramPlugin] ----------------------------------" << std::endl;
+        for (int j = 0; j < partial.size(); j++) {
+            std::cerr << "[SmoothedNgramPlugin] ";
+            for (int k = 0; k < partial[j].size(); k++) {
+                std::cerr << partial[j][k] << " ";
+            }
+            std::cerr << std::endl;
+        }
+#endif
+        LOG("[SmoothedNgramPlugin] Partial prefix completion table contains " << partial.size() << " potential completions.");
+
+        // append newly discovered potential completions to prefix
+        // completion candidates array to fill it up to
+        // max_partial_prediction_size
+        //
+        std::vector<Ngram>::const_iterator it = partial.begin();
+        while (it != partial.end() && prefixCompletionCandidates.size() < max_partial_prediction_size) {
+            // only add new candidates, iterator it points to Ngram,
+            // it->end() - 2 points to the token candidate
+            //
+            if (find(prefixCompletionCandidates.begin(),
+                     prefixCompletionCandidates.end(),
+                     *(it->end() - 2)) == prefixCompletionCandidates.end()) {
+                prefixCompletionCandidates.push_back(*(it->end() - 2));
+            }
+            it++;
+        }
+    }
+    
+#ifdef DEBUG
+    std::cerr << "[SmoothedNgramPlugin] prefixCompletionCandidates" << std::endl
+              << "[SmoothedNgramPlugin] --------------------------" << std::endl;
+    for (int j = 0; j < prefixCompletionCandidates.size(); j++) {
+        LOG("[SmoothedNgramPlugin] " << prefixCompletionCandidates[j]);
+    }
+#endif
+
+    // compute smoothed probabilities for all candidates
+    //
     db->beginTransaction();
-    for (int j = 0; (j < prefixCompletionTable.size() && j < max_partial_prediction_size); j++) {
-        // get w_i
-	tokens[cardinality - 1] = prefixCompletionTable[j][0];
+    for (int j = 0; (j < prefixCompletionCandidates.size() && j < max_partial_prediction_size); j++) {
+        // store w_i candidate at end of tokens
+        tokens[cardinality - 1] = prefixCompletionCandidates[j];
+
 	LOG("[SmoothedNgramPlugin] ------------------");
 	LOG("[SmoothedNgramPlugin] w_i: " << tokens[cardinality - 1]);
     
@@ -184,10 +247,13 @@ Prediction SmoothedNgramPlugin::predict() const
 	    LOG("[SmoothedNgramPlugin] frequency:   " << frequency);
 	    LOG("[SmoothedNgramPlugin] delta:       " << deltas[k]);
 
-            // sanity checks
+            // for some sanity checks
 	    assert(numerator <= denominator);
 	    assert(frequency <= 1);
 	}
+
+        LOG("[SmoothedNgramPlugin] ____________ ");
+        LOG("[SmoothedNgramPlugin] probability: " << probability);
 
 	if (probability > 0) {
 	    prediction.addSuggestion(Suggestion(tokens[cardinality - 1], probability));

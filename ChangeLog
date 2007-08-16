@@ -1,5 +1,9 @@
 2007-08-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/plugins/smoothedNgram: use highest n-gram to generate
+	initial completion candidates, fall back on lower n-grams if
+	initial completion set is smaller than required.
+	
 	* src/tools/text2ngram: implement -a append flag for sqlite file
 	format output.
 
