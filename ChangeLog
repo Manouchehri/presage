@@ -1,5 +1,11 @@
 2007-08-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/tools/databaseConnector: fixed problem caused by SQLite
+	2.x. not supporting IF NOT EXISTS clause in a CREATE TABLE
+	statement.
+
+2007-08-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
 	* configure.ac: bumped version up to 0.5.
 
 	* Doxyfile: bumped version up to 0.5.
