@@ -46,14 +46,11 @@
 
 typedef std::list<std::string> NgramList;
 
-std::string program_name;
-
 void usage();
 void version();
 
-int main(int argc, char* argv[]) {
-	
-    program_name = argv[0];
+int main(int argc, char* argv[])
+{
     int next_option;
 
     int ngrams = 1;
@@ -277,7 +274,7 @@ int main(int argc, char* argv[]) {
 void version()
 {
     std::cout
-	<< program_name << ' ' << PACKAGE_VERSION << std::endl
+	<< "text2ngram (soothsayer) " << VERSION << std::endl
 	<< "Copyright (C) Matteo Vescovi" << std::endl
 	<< "This is free software; see the source for copying conditions.  There is NO" << std::endl
 	<< "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE." << std::endl
@@ -288,8 +285,8 @@ void version()
 void usage()
 {
     std::cout 
-	<< program_name << ' ' << VERSION << std::endl
-	<< "Usage: " << program_name << " [-n ngrams] [-l] [-a] [-f format] -o outfile infiles..." << std::endl
+	<< "text2ngram (soothsayer) " << VERSION << std::endl
+	<< "Usage: text2ngram [-n ngrams] [-l] [-a] [-f format] -o outfile infiles..." << std::endl
 	<< "Options:" << std::endl
         << "--output, -o O  " << "Output file name O" << std::endl
 	<< "--ngrams, -n N  " << "Specify ngram cardinality N" << std::endl
@@ -299,7 +296,7 @@ void usage()
 	<< "--help, -h      " << "Display this information" << std::endl
 	<< "--version, -v   " << "Show version information" << std::endl
 	<< std::endl
-	<< program_name << " is free software distributed under the GPL." << std::endl
+	<< "text2ngram is free software distributed under the GPL." << std::endl
 	<< "Send bug reports to " << PACKAGE_BUGREPORT << std::endl
 	<< "Copyright (C) Matteo Vescovi" << std::endl;
 }

@@ -36,6 +36,8 @@ Simulator::Simulator()
     ki = 0;
     ks = 1;
     kn = 0;
+
+    silent_mode = false;
 }
 
 
@@ -203,11 +205,15 @@ void Simulator::setKs( int value )
 
 bool Simulator::find( const std::vector<std::string>& w, const std::string& t ) const
 {
-    std::cout << "===> " << t << std::endl;
+    if (!silent_mode) {
+	std::cout << "===> " << t << std::endl;
+    }
     bool found = false;
     std::vector<std::string>::const_iterator i = w.begin();
     while( i != w.end() && !found ) {
-	std::cout << *i << std::endl;
+	if (!silent_mode) {
+	    std::cout << *i << std::endl;
+	}
 	if( *i == t )
 	    found = true;
 	i++;
@@ -216,17 +222,17 @@ bool Simulator::find( const std::vector<std::string>& w, const std::string& t ) 
     return found;
 }
  
-
 bool Simulator::getAutoSpace() const
 {
     return autoSpace;
 }
-
 
 void Simulator::setAutoSpace( bool b )
 {
     autoSpace = b;
 }
 
-
-
+void Simulator::silentMode(bool mode)
+{
+    silent_mode = mode;
+}

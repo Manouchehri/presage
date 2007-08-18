@@ -26,8 +26,6 @@
 #include "plugins/smoothedNgramPlugin.h"
 #include <sstream>
 
-//#define DEBUG
-
 #ifdef DEBUG
 # define LOG(x) std::cerr << x << std::endl
 #else
@@ -149,24 +147,18 @@ Prediction SmoothedNgramPlugin::predict() const
 	LOG("[SmoothedNgramPlugin] Cached tokens[" << cardinality - 1 - i << "] = " << tokens[cardinality - 1 - i]);
     }
 
-//    // Get table of possible prefix completitions. The possible prefix
-//    // completions are obtained from the _1_gram table because in a
-//    // well-constructed ngram database the _1_gram table will contain
-//    // all tokens contained in any other table. The _1_gram counts,
-//    // however, will take precedence over the higher-order counts.
-//    //
-//    // Perhaps it is worth investigating the effectiveness of sourcing
-//    // the initial prefix completion list from a different table. One
-//    // possible idea is to use the table that has the strongest
-//    // weight.
-//    //
-//    Ngram prefix_gram;
-//    prefix_gram.push_back(tokens[cardinality - 1]);
-//    db->beginTransaction();
-//    NgramTable prefixCompletionTable = db->getNgramLikeTable(prefix_gram);
-//    db->endTransaction();
-
-
+    // Generate list of prefix completition candidates.
+    // 
+    // The prefix completion candidates used to be obtained from the
+    // _1_gram table because in a well-constructed ngram database the
+    // _1_gram table (which contains all known tokens). However, this
+    // inroduced a skew, since the unigram counts will take precedence
+    // over the higher-order counts.
+    //
+    // The current solution retrieves candidates from the highest
+    // n-gram table, falling back on lower order n-gram tables if
+    // initial completion set is smaller than required.
+    //
     std::vector<std::string> prefixCompletionCandidates;
     for (int k = cardinality; (k > 0 && prefixCompletionCandidates.size() < max_partial_prediction_size); k--) {
         LOG("[SmoothedNgramPlugin] Building partial prefix completion table of cardinality: " << k);

@@ -38,6 +38,7 @@ void parseCommandLineArgs(int argc, char* argv[]);
 void printUsage();
 void printVersion();
 
+bool silent_mode = false;
 bool case_insensitive = false;
 
 int main(int argc, char* argv[])
@@ -58,6 +59,7 @@ int main(int argc, char* argv[])
     }
 
     Simulator simulator;
+    simulator.silentMode(silent_mode);
 
     ForwardTokenizer tokenizer(infile,
 			       DEFAULT_BLANKSPACE_CHARS,
@@ -80,9 +82,11 @@ void parseCommandLineArgs(int argc, char* argv[])
     int next_option;
 	
     // getopt structures
-    const char* const short_options = "ihv";
+    const char* const short_options = "sqihv";
 
     const struct option long_options[] = {
+	{ "silent",      0, NULL, 's' },
+	{ "quiet",       0, NULL, 'q' },
         { "insensitive", 0, NULL, 'i' },
 	{ "help",        0, NULL, 'h' },
 	{ "version",     0, NULL, 'v' },
@@ -94,24 +98,28 @@ void parseCommandLineArgs(int argc, char* argv[])
 				   short_options, long_options, NULL );
 		
 	switch( next_option ) {
-          case 'i': // --insensitive or -i option
+	case 's': // --silent or -s option
+	case 'q': // --quiet or -q option
+	    silent_mode = true;
+	    break;
+	case 'i': // --insensitive or -i option
             case_insensitive = true;
             break;
-          case 'h': // --help or -h option
+	case 'h': // --help or -h option
 	    printUsage();
 	    exit (0);
 	    break;
-          case 'v': // --version or -v option
+	case 'v': // --version or -v option
 	    printVersion();
 	    exit (0);
 	    break;
-          case '?': // unknown option
+	case '?': // unknown option
 	    printUsage();
 	    exit (0);
 	    break;
-          case -1:
+	case -1:
 	    break;
-          default:
+	default:
 	    abort();
 	}
 
@@ -132,6 +140,8 @@ void printUsage()
     std::cout << "Usage: " << PROGRAM_NAME << " [INFILE]" << std::endl
 	      << std::endl
               << "  -i, --insensitive  case insensitive mode" << std::endl
+	      << "  -q, --quiet        quiet mode, no verbose output, same as silent" << std::endl
+	      << "  -s, --silent       silent mode, no verbose output, same as quiet" << std::endl
 	      << "  -h, --help         display this help and exit" << std::endl
 	      << "  -v, --version      output version information and exit" << std::endl
 	      << std::endl

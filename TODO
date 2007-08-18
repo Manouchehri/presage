@@ -9,6 +9,7 @@ TODO list
 Absolute first
  - clean up SmoothedNgram debug code
  - test performance with different n values in n-gram
+ - limit ngram-like select
  - make soothsayerSimulator accept normal text files, as opposed to
    files containing one token per line
  - pluginManagerDriver, pluginManager are currently not necessary, as

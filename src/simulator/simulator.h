@@ -53,7 +53,7 @@ public:
     Simulator();
     ~Simulator();
 	
-    void simulate( std::string );
+    void simulate(std::string);
     void reset();
     void results() const;
     int getKi() const;
@@ -64,7 +64,9 @@ public:
     bool getAutoSpace() const;
     void setAutoSpace( bool );
 
-    void setKs( int );
+    void setKs(int);
+
+    void silentMode(bool);
 
 private:
     Soothsayer* soothsayerPtr;
@@ -77,6 +79,7 @@ private:
     int ks;
     int kn;
 
+    bool silent_mode;
 };
 
 
