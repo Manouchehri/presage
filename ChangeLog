@@ -1,5 +1,13 @@
 2007-08-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* configure.ac: bumped version up to 0.5.
+
+	* Doxyfile: bumped version up to 0.5.
+	
+	* website/soothsayer_database_dump.sql.gz: added 0.5 release news.
+
+2007-08-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
 	* src/plugins/smoothedNgramPlugin: performance enhancement,
 	candidates generation no longer retrieves unnecessary n-gram like
 	counts from database.
