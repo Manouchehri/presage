@@ -61,7 +61,7 @@ public:
 
     /** Returns a table of ngrams matching the specified ngram-like query.
      */
-    NgramTable getNgramLikeTable(const Ngram ngram) const;
+    NgramTable getNgramLikeTable(const Ngram ngram, int limit = -1) const;
 
     /** Increments the specified ngram count and returns the updated count.
      *

@@ -1,5 +1,15 @@
 2007-08-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/plugins/smoothedNgramPlugin: performance enhancement,
+	candidates generation no longer retrieves unnecessary n-gram like
+	counts from database.
+
+	* src/tools/databaseConnector: extended getNgramLikeTable to
+	produce a LIMIT clause in the SQL query.
+
+	* test/tools/dataConnectorTest: added test for new limit
+	functionality.
+
 	* src/simulator/simulator, src/soothsayerSimulator: added silent
 	flag to reduce simulation verbosity.
 	

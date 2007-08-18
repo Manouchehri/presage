@@ -44,7 +44,8 @@ public:
 //    void testSanitizeString();
     void testCreateNgramTable();
     void testGetNgramCount();
-    void testGetNgramLikeCount();
+    void testGetNgramLikeTable();
+    void testGetNgramLikeTableLimit();
     void testInsertNgram();
     void testUpdateNgram();
     void testRemoveNgram();
@@ -164,7 +165,8 @@ private:
 //    CPPUNIT_TEST( testSanitizeString          );
     CPPUNIT_TEST( testCreateNgramTable        );
     CPPUNIT_TEST( testGetNgramCount           );
-    CPPUNIT_TEST( testGetNgramLikeCount       );
+    CPPUNIT_TEST( testGetNgramLikeTable       );
+    CPPUNIT_TEST( testGetNgramLikeTableLimit  );
     CPPUNIT_TEST( testInsertNgram             );
     CPPUNIT_TEST( testUpdateNgram             );
     CPPUNIT_TEST( testRemoveNgram             );

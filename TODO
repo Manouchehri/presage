@@ -9,7 +9,6 @@ TODO list
 Absolute first
  - clean up SmoothedNgram debug code
  - test performance with different n values in n-gram
- - limit ngram-like select
  - make soothsayerSimulator accept normal text files, as opposed to
    files containing one token per line
  - pluginManagerDriver, pluginManager are currently not necessary, as
@@ -68,6 +67,7 @@ Short term:
 * retire SmoothedUniBiTrigramPlugin when SmoothedNgramPlugin is done
 * add ContextTracker tests for control chars
 * put everything inside the soothsayer namespace
+* write integration tests
 * write Combiner implementations (various combination strategies)
 * restructure directories regarding config files and plugins etc.
 * port existing tests to cppunit test cases

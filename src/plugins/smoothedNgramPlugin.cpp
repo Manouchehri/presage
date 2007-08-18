@@ -173,9 +173,10 @@ Prediction SmoothedNgramPlugin::predict() const
         std::cerr << std::endl;
 #endif
         
-        // obtain initial prefix completion table
+        // obtain initial prefix completion candidates
         db->beginTransaction();
-        NgramTable partial = db->getNgramLikeTable(prefix_ngram);
+        NgramTable partial = db->getNgramLikeTable(prefix_ngram,
+						   max_partial_prediction_size - prefixCompletionCandidates.size());
         db->endTransaction();
 
 #ifdef DEBUG
