@@ -59,7 +59,7 @@ const unsigned int DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
  */
 class ProfileManager {
 public:
-    ProfileManager();
+    ProfileManager(const std::string = "");
     ~ProfileManager();
 
     bool loadProfile(const std::string = DEFAULT_PROFILE_FILENAME);

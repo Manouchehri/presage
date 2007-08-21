@@ -1,3 +1,18 @@
+2007-08-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/soothsayerSimulator, src/soothsayerDemo,
+	src/soothsayerDemoText: implemented -c flag to specify custom XML
+	configuration file.
+
+	* src/soothsayer, src/simulator/simulator: added constructor
+	taking custom configuration file as a parameter.
+	
+	* src/core/profileManager: extended profile loading from current
+	directory or absolute path.
+
+	* test/core/profileManagerTest: added unit tests for loading
+	profiles from current dir or using absolute filename.
+
 2007-08-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/databaseConnector: fixed problem caused by SQLite
@@ -33,7 +48,7 @@
 	initial completion candidates, fall back on lower n-grams if
 	initial completion set is smaller than required.
 	
-	* src/tools/text2ngram: implement -a append flag for sqlite file
+	* src/tools/text2ngram: implemented -a append flag for sqlite file
 	format output.
 
 	* src/tools/databaseConnector: creating table if table does not

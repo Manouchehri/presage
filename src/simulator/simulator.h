@@ -50,7 +50,7 @@
  */
 class Simulator {
 public:
-    Simulator();
+    Simulator(const std::string = "");
     ~Simulator();
 	
     void simulate(std::string);

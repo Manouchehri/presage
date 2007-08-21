@@ -46,6 +46,7 @@ void draw_previous_suggestions(std::vector<std::string>, bool, const int, int);
 int  getGreatestSuggestionLength(std::vector< std::string > suggestions);
 
 const int SUGGESTIONS = 6;
+std::string config;
 
 /** Demo program using ncurses.
  *
@@ -67,7 +68,7 @@ int main(int argc, char** argv)
     parseCommandLineArgs(argc, argv);
 
     // magic starts here
-    Soothsayer soothsayer;
+    Soothsayer soothsayer(config);
 
     // ncurses 
     initscr();
@@ -308,12 +309,13 @@ void parseCommandLineArgs(int argc, char* argv[])
     int next_option;
 	
     // getopt structures
-    const char* const short_options = "hv";
+    const char* const short_options = "c:hv";
 
     const struct option long_options[] = {
-	{ "help",   0, NULL, 'h' },
-	{ "version",0, NULL, 'v' },
-	{ NULL,     0, NULL,   0 }
+        { "config",  required_argument, 0, 'c' },
+	{ "help",    no_argument,       0, 'h' },
+	{ "version", no_argument,       0, 'v' },
+	{ 0, 0, 0, 0 }
     };
 
     do {
@@ -321,6 +323,9 @@ void parseCommandLineArgs(int argc, char* argv[])
 				   short_options, long_options, NULL );
 		
 	switch( next_option ) {
+        case 'c': // --config or -c option
+            config = optarg;
+            break;
 	case 'h': // --help or -h option
 	    printUsage();
 	    exit (0);
@@ -344,7 +349,7 @@ void parseCommandLineArgs(int argc, char* argv[])
 
 void printVersion()
 {
-    std::cout << PACKAGE << " version " << VERSION << std::endl
+    std::cout << PROGRAM_NAME << " (" << PACKAGE << ") version " << VERSION << std::endl
 	      << "Copyright (C) 2004 Matteo Vescovi." << std::endl
 	      << "This is free software; see the source for copying conditions.  There is NO" << std::endl
 	      << "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE," << std::endl
@@ -353,15 +358,16 @@ void printVersion()
 
 void printUsage()
 {
-    std::cout << "Usage: " << PROGRAM_NAME << std::endl
+    std::cout << "Usage: " << PROGRAM_NAME << " [OPTION]..." << std::endl
 	      << std::endl
 	      << "Begin typing. soothsayer will attempt to predict the desired word." << std::endl
 	      << "After each keystroke, soothsayer will return a number of predictions." << std::endl
 	      << "If the desired word appears in the prediction list, select it by pressing the" << std::endl
 	      << "corresponding function key." << std::endl
 	      << std::endl
-	      << "  -h, --help     display this help and exit" << std::endl
-	      << "  -v, --version  output version information and exit" << std::endl
+              << "  -c, --config CONFIG  use config file CONFIG" << std::endl
+	      << "  -h, --help           display this help and exit" << std::endl
+	      << "  -v, --version        output version information and exit" << std::endl
 	      << std::endl
 	      << "Direct your bug reports to: " << PACKAGE_BUGREPORT << std::endl;
 }

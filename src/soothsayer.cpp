@@ -45,6 +45,15 @@ Soothsayer::Soothsayer()
     //plump.discoverPlugins();
 }
 
+Soothsayer::Soothsayer(const std::string config)
+{
+    profileManager = new ProfileManager(config);
+    profile = profileManager->getProfile();
+
+    contextTracker = new ContextTracker(profile);
+    predictor = new Predictor(profile, contextTracker);
+    selector = new Selector(profile, contextTracker);
+}
 
 Soothsayer::~Soothsayer()
 {

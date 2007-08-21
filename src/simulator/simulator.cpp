@@ -27,9 +27,9 @@
 
 #include <iostream>
 
-Simulator::Simulator()
+Simulator::Simulator(const std::string config)
 {
-    soothsayerPtr = new Soothsayer;
+    soothsayerPtr = new Soothsayer(config);
 
     autoSpace = true;
 	

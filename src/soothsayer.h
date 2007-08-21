@@ -46,6 +46,10 @@ class Soothsayer {
     /** Creates and initializes soothsayer.
      */
     Soothsayer();
+    /** Creates and initializes soothsayer with supplied configuration.
+     * \param config path to configuration file
+     */
+    Soothsayer(const std::string config);
     ~Soothsayer();
 
     /** \brief Obtain a prediction, and notify soothsayer of newly

@@ -27,6 +27,7 @@
 #include "core/utility.h"        // isYes isNo isTrue isFalse utility function
 #include "dirs.h"                // sysconfdir macro define
 
+#define DEBUG
 
 #ifdef DEBUG
 # define LOG(x) std::cout << x << std::endl
@@ -40,10 +41,14 @@
  * Initialises other modules.
  *
  */
-ProfileManager::ProfileManager()
+ProfileManager::ProfileManager(const std::string profilename)
 {
     xmlProfileDoc = 0;
-    loadProfile();
+    if (profilename.empty()) {
+        loadProfile();
+    } else {
+        loadProfile(profilename);
+    }
 }
 
 
@@ -83,31 +88,37 @@ bool ProfileManager::loadProfile(const std::string profilename)
     
     const int PROFILE_DIRS_SIZE = 2;
     std::string profile_dirs[PROFILE_DIRS_SIZE] = {
-	sysconfdir,
-	"/etc/soothsayer"
+	sysconfdir,        // installation config directory
+	"/etc/soothsayer"  // system-wide config directory
     };
 
     bool readOk = false;
-    int i = 0;
-    while(!readOk && i < PROFILE_DIRS_SIZE) {
-	profileFile = profile_dirs[i] + '/' + profilename;
-	readOk = xmlProfileDoc->LoadFile (profileFile.c_str());
-
-        if (!readOk) {
-            LOG("[ProfileManager] Opening profile: '" << profileFile << "' attempt failed.");
-        }
-
-	i++;
-    }
-
+    // try current directory or absolute filename
+    readOk = xmlProfileDoc->LoadFile (profilename.c_str());
     if (readOk) {
-	LOG("[ProfileManager] Using profile '" << profileFile);
+        LOG("[ProfileManager] Using profile: " << profilename);
     } else {
-	// Handle failure to load profile
-	LOG("[ProfileManager] No profiles were found. Using default parameters.");
-	buildProfile();
+        LOG("[ProfileManager] Opening profile: '" << profilename << "' attempt failed.");
+        // try looking for profilename in profile dirs
+        int i = 0;
+        while(!readOk && i < PROFILE_DIRS_SIZE) {
+            profileFile = profile_dirs[i] + '/' + profilename;
+            readOk = xmlProfileDoc->LoadFile (profileFile.c_str());
+            
+            if (!readOk) {
+                LOG("[ProfileManager] Opening profile: '" << profileFile << "' attempt failed.");
+            }
+            
+            i++;
+        }
+        if (readOk) {
+            LOG("[ProfileManager] Using profile: " << profileFile);
+        } else {
+            // Handle failure to load profile
+            LOG("[ProfileManager] No profiles were found. Using default parameters.");
+            buildProfile();
+        }
     }
-
     return readOk;
 }
 

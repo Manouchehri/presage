@@ -102,3 +102,39 @@ void ProfileManagerTest::testProfile()
     CPPUNIT_ASSERT_EQUAL(DEFAULT_GREEDY_SUGGESTION_THRESHOLD,
 			 selector->getGreedySuggestionThreshold());
 }
+
+void ProfileManagerTest::testCustomProfile()
+{
+    std::cout << "ProfileManagerTest::testCustomProfile()" << std::endl;
+
+    // create custom profile
+    const std::string custom_profile = "custom_profile.xml";
+    std::ofstream profile_stream(custom_profile.c_str());
+    profile_stream << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n"
+                   << "<Soothsayer>\n"
+                   << "    <Custom>CUSTOM</Custom>\n"
+                   << "</Soothsayer>\n";
+    profile_stream.close();
+
+    profileManager->loadProfile(custom_profile);
+    profile = profileManager->getProfile();
+
+    Variable variable;
+    variable.push_back("Soothsayer");
+    variable.push_back("Custom");
+
+    Value value = profile->getConfig(variable);
+
+    CPPUNIT_ASSERT_EQUAL(std::string("CUSTOM"), value);
+
+#ifdef HAVE_UNISTD_H
+    // remove file
+    int result = unlink(custom_profile.c_str());
+    assert(result == 0);
+#else
+    // fail test
+    std::string message = "Unable to remove custom profile file " + custom_profile;
+    CPPUNIT_FAIL(message.c_str());
+#endif
+
+}

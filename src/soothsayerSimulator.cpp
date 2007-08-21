@@ -40,6 +40,7 @@ void printVersion();
 
 bool silent_mode = false;
 bool case_insensitive = false;
+std::string config;
 
 int main(int argc, char* argv[])
 {
@@ -58,7 +59,7 @@ int main(int argc, char* argv[])
 	return 1;
     }
 
-    Simulator simulator;
+    Simulator simulator(config);
     simulator.silentMode(silent_mode);
 
     ForwardTokenizer tokenizer(infile,
@@ -82,15 +83,16 @@ void parseCommandLineArgs(int argc, char* argv[])
     int next_option;
 	
     // getopt structures
-    const char* const short_options = "sqihv";
+    const char* const short_options = "c:sqihv";
 
     const struct option long_options[] = {
-	{ "silent",      0, NULL, 's' },
-	{ "quiet",       0, NULL, 'q' },
-        { "insensitive", 0, NULL, 'i' },
-	{ "help",        0, NULL, 'h' },
-	{ "version",     0, NULL, 'v' },
-	{ NULL,          0, NULL,   0 }
+        { "config",      required_argument, 0, 'c' },
+	{ "silent",      no_argument,       0, 's' },
+	{ "quiet",       no_argument,       0, 'q' },
+        { "insensitive", no_argument,       0, 'i' },
+	{ "help",        no_argument,       0, 'h' },
+	{ "version",     no_argument,       0, 'v' },
+	{ 0, 0, 0, 0 }
     };
 
     do {
@@ -98,28 +100,31 @@ void parseCommandLineArgs(int argc, char* argv[])
 				   short_options, long_options, NULL );
 		
 	switch( next_option ) {
-	case 's': // --silent or -s option
-	case 'q': // --quiet or -q option
+          case 'c': // -- config of -f option
+            config = optarg;
+            break;
+          case 's': // --silent or -s option
+          case 'q': // --quiet or -q option
 	    silent_mode = true;
 	    break;
-	case 'i': // --insensitive or -i option
+          case 'i': // --insensitive or -i option
             case_insensitive = true;
             break;
-	case 'h': // --help or -h option
+          case 'h': // --help or -h option
 	    printUsage();
 	    exit (0);
 	    break;
-	case 'v': // --version or -v option
-	    printVersion();
-	    exit (0);
+          case 'v': // --version or -v option
+            printVersion();
+            exit (0);
 	    break;
-	case '?': // unknown option
+          case '?': // unknown option
 	    printUsage();
 	    exit (0);
 	    break;
-	case -1:
+          case -1:
 	    break;
-	default:
+          default:
 	    abort();
 	}
 
@@ -128,7 +133,7 @@ void parseCommandLineArgs(int argc, char* argv[])
 
 void printVersion()
 {
-    std::cout << PACKAGE << " version " << VERSION << std::endl
+    std::cout << PROGRAM_NAME << " (" << PACKAGE << ") version " << VERSION << std::endl
 	      << "Copyright (C) 2004 Matteo Vescovi." << std::endl
 	      << "This is free software; see the source for copying conditions.  There is NO" << std::endl
 	      << "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE," << std::endl
@@ -137,13 +142,14 @@ void printVersion()
 
 void printUsage()
 {
-    std::cout << "Usage: " << PROGRAM_NAME << " [INFILE]" << std::endl
+    std::cout << "Usage: " << PROGRAM_NAME << " [OPTION]... FILE" << std::endl
 	      << std::endl
-              << "  -i, --insensitive  case insensitive mode" << std::endl
-	      << "  -q, --quiet        quiet mode, no verbose output, same as silent" << std::endl
-	      << "  -s, --silent       silent mode, no verbose output, same as quiet" << std::endl
-	      << "  -h, --help         display this help and exit" << std::endl
-	      << "  -v, --version      output version information and exit" << std::endl
+              << "  -c, --config CONFIG  use config file CONFIG" << std::endl
+              << "  -i, --insensitive    case insensitive mode" << std::endl
+	      << "  -q, --quiet          quiet mode, no verbose output, same as silent" << std::endl
+	      << "  -s, --silent         silent mode, no verbose output, same as quiet" << std::endl
+	      << "  -h, --help           display this help and exit" << std::endl
+	      << "  -v, --version        output version information and exit" << std::endl
 	      << std::endl
 	      << "Direct your bug reports to: " << PACKAGE_BUGREPORT << std::endl;
 }
