@@ -287,16 +287,15 @@ void version()
 void usage()
 {
     std::cout 
-	<< PROGRAM_NAME << " (" << PACKAGE << ") version " << VERSION << std::endl
-	<< "Usage: " << PROGRAM_NAME << " [-n ngrams] [-l] [-a] [-f format] -o outfile infiles..." << std::endl
-	<< "Options:" << std::endl
-        << "--output, -o O  " << "Output file name O" << std::endl
-	<< "--ngrams, -n N  " << "Specify ngram cardinality N" << std::endl
-	<< "--format, -f F  " << "Output file format F: sqlite, tsv (tabbed separated values)" << std::endl
-	<< "--lowercase, -l " << "Enable lowercase conversion mode" << std::endl
-	<< "--append, -a    " << "Open output file in append mode" << std::endl
-	<< "--help, -h      " << "Display this information" << std::endl
-	<< "--version, -v   " << "Show version information" << std::endl
+	<< "Usage: " << PROGRAM_NAME << " [OPTION]... -o outfile  -f format -n ngrams infiles..." << std::endl
+	<< std::endl
+        << "  --output, -o O  " << "Output file name O" << std::endl
+	<< "  --ngrams, -n N  " << "Specify ngram cardinality N" << std::endl
+	<< "  --format, -f F  " << "Output file format F: sqlite, tsv (tabbed separated values)" << std::endl
+	<< "  --lowercase, -l " << "Enable lowercase conversion mode" << std::endl
+	<< "  --append, -a    " << "Open output file in append mode" << std::endl
+	<< "  --help, -h      " << "Display this information" << std::endl
+	<< "  --version, -v   " << "Show version information" << std::endl
 	<< std::endl
 	<< PROGRAM_NAME << " is free software distributed under the GPL." << std::endl
 	<< "Send bug reports to " << PACKAGE_BUGREPORT << std::endl

@@ -23,9 +23,9 @@
 \******************************************************************************/        
 
 #include <profileManagerTest.h>
+#include <fstream>
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ProfileManagerTest );
-
 
 void ProfileManagerTest::setUp()
 {

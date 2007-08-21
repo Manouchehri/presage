@@ -7,7 +7,8 @@ TODO list
 
 
 Absolute first
- - add a -f config option to simulator and demo programs
+ - dependency on ncurses
+ - linking of text2ngram (ncurses, static?)
  - clean up SmoothedNgram debug code
  - test performance with different n values in n-gram
  - make soothsayerSimulator accept normal text files, as opposed to

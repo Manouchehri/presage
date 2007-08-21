@@ -1,5 +1,12 @@
 2007-08-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* test/core/profileManagerTest: fixed compilation problem on
+	Windows+CygWin.
+	
+	* src/tools/text2ngram: minor correction to --help output.
+
+2007-08-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
 	* src/soothsayerSimulator, src/soothsayerDemo,
 	src/soothsayerDemoText: implemented -c flag to specify custom XML
 	configuration file.
