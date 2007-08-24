@@ -41,13 +41,16 @@ libsoothsayer_la_LIBADD =	core/libcore.la       \
 #				plump/src/libplump.la 
 
 
-bin_PROGRAMS =			soothsayerDemo       \
-				soothsayerDemoText   \
+bin_PROGRAMS =			soothsayerDemoText   \
 				soothsayerSimulator  
+
+if HAVE_CURSES
+bin_PROGRAMS +=			soothsayerDemo       
 
 soothsayerDemo_SOURCES =	soothsayerDemo.cpp
 soothsayerDemo_LDADD =		libsoothsayer.la
 soothsayerDemo_LDFLAGS =	-lncurses
+endif
 
 soothsayerDemoText_SOURCES = 	soothsayerDemoText.cpp
 soothsayerDemoText_LDADD = 	libsoothsayer.la

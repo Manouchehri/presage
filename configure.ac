@@ -61,15 +61,15 @@ AC_HEADER_DIRENT
 dnl ==================
 dnl Checks for ncurses
 dnl ==================
-AC_CHECK_LIB([ncurses],
+AC_CHECK_LIB([curses],
              [initscr],
-             [],
-	     [AC_MSG_ERROR([ncurses library not found. Please install ncurses package.])])
-
+             [have_curses_library=true],
+	     [AC_MSG_WARN([curses library not found. curses demo programs will not be built.])])
 AC_CHECK_HEADERS([curses.h],
-                 [],
-                 [AC_MSG_ERROR([ncurses header file not found. Please install ncurses development package.])],
+                 [have_curses_header=true],
+                 [AC_MSG_WARN([curses header file not found. curses demo programs will not be built.])],
                  [])
+AM_CONDITIONAL(HAVE_CURSES, test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue")
 
 dnl =================
 dnl Checks for SQLite

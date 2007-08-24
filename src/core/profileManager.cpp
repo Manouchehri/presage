@@ -68,6 +68,7 @@ ProfileManager::~ProfileManager()
  * corresponds to the specified profile is loaded.
  *
  * The directories searched and their search order is:
+ * - current directory/absolute filename path
  * - sysconfdir/soothsayer.xml
  * - ~/.soothsayer/soothsayer.xml (TBD)
  * - /etc/soothsayer/soothsayer.xml

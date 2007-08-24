@@ -238,7 +238,6 @@ void ContextTracker::update(std::string s)
                 std::cerr << "[ContextTracker] Char: " << *i << "\tInt: "
                      << static_cast<int>( *i ) << std::endl;
             }
-            sleep(1);
             //abort();
         }
 

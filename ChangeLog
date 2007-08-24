@@ -1,3 +1,11 @@
+2007-08-23  Matteo Vescovi  <mvescovi@mvescovi.dublin.emea.iona.com>
+
+	* configure.ac: checking for curses instead of ncurses header and
+	library to increase portability.
+
+	* src/Makefile.am: made compilation of soothsayerDemo conditional
+	on curses autoconf check.
+	
 2007-08-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* test/core/profileManagerTest: fixed compilation problem on
