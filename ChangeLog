@@ -1,5 +1,9 @@
 2007-08-24  Matteo Vescovi  <mvescovi@mvescovi.dublin.emea.iona.com>
 
+	* src/tools/databaseConnector: minor fix to get soothsayer to
+	build on Solaris 10 with SUN Studio 10 and 11. Soothsayer builds
+	on Solaris!
+
 	* src/plugins/smoothedNgramPlugin,
 	src/plugins/smoothedCountPlugin,
 	src/plugins/smoothedUniBiTrigramPlugin: cleaned up header files

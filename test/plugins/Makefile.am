@@ -17,12 +17,14 @@
 
 ## Process this file with automake to produce Makefile.in
 
-TESTS =	pluginsTestRunner
-
 check_PROGRAMS = $(TESTS)              \
 		dictionaryPluginDriver \
 		dummyPluginDriver      \
 		smoothedCountDriver    
+
+if HAVE_CPPUNIT
+
+TESTS =	pluginsTestRunner
 
 pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                                     \
 				pluginsTestMockObjects.h                                  \
@@ -53,6 +55,8 @@ pluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 pluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 pluginsTestRunner_LDADD =	$(top_builddir)/src/plugins/libplugin.la \
 				$(top_builddir)/src/tools/libtools.la    
+
+endif # HAVE_CPPUNIT
 
 dictionaryPluginDriver_SOURCES =	dictionaryPluginDriver.cpp \
 					$(top_srcdir)/src/plugins/dictionaryPlugin.cpp \

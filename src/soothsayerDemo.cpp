@@ -25,7 +25,17 @@
 
 #include "soothsayer.h"
 
-#include <ncurses.h>
+/* Solaris 10 needs to have NOMACROS defined to avoid conflict between
+   curses and standard template library code.
+ */
+#ifndef NOMACROS
+# define NOMACROS
+# include <curses.h>
+# undef NOMACROS
+#else
+# include <curses.h>
+#endif
+
 #include <iostream>
 #include <sstream>
 #include <getopt.h>
@@ -48,7 +58,7 @@ int  getGreatestSuggestionLength(std::vector< std::string > suggestions);
 const int SUGGESTIONS = 6;
 std::string config;
 
-/** Demo program using ncurses.
+/** Demo program using curses.
  *
  * This demo displays the text entered in a top windows that stretches
  * across the screen. The current prediction is displayed immediately
@@ -70,7 +80,7 @@ int main(int argc, char** argv)
     // magic starts here
     Soothsayer soothsayer(config);
 
-    // ncurses 
+    // curses 
     initscr();
     noecho();
     cbreak();
@@ -80,7 +90,7 @@ int main(int argc, char** argv)
 
     disclaimer();
 
-    // ncurses title window
+    // curses title window
     const int TITLE_WIN_HEIGHT  = 6;
     const int TITLE_WIN_WIDTH   = COLS;
     const int TITLE_WIN_BEGIN_Y = 0;
@@ -88,7 +98,7 @@ int main(int argc, char** argv)
     WINDOW* title_win = newwin(TITLE_WIN_HEIGHT, TITLE_WIN_WIDTH, TITLE_WIN_BEGIN_Y, TITLE_WIN_BEGIN_X);
     draw_title_win(title_win);
 
-    // ncurses history window
+    // curses history window
     const int HISTORY_WIN_HEIGHT  = 5;
     const int HISTORY_WIN_WIDTH   = COLS;
     const int HISTORY_WIN_BEGIN_Y = TITLE_WIN_BEGIN_Y + TITLE_WIN_HEIGHT + 1;
@@ -96,7 +106,7 @@ int main(int argc, char** argv)
     WINDOW* history_win = newwin(HISTORY_WIN_HEIGHT, HISTORY_WIN_WIDTH, HISTORY_WIN_BEGIN_Y, HISTORY_WIN_BEGIN_X);
     draw_history_win(history_win, std::string(""));
 
-    // ncurses function keys window
+    // curses function keys window
     const int FUNCTION_WIN_HEIGHT  = 6 + 2;
     const int FUNCTION_WIN_WIDTH   = 4;
     const int FUNCTION_WIN_BEGIN_Y = HISTORY_WIN_BEGIN_Y + HISTORY_WIN_HEIGHT + 1;
@@ -134,7 +144,7 @@ int main(int argc, char** argv)
 	    str[0] = static_cast<char>( c );
 	    words = soothsayer.predict(std::string(str));
 
-	    // refresh ncurses screen
+	    // refresh curses screen
 	    refresh();
 	}
 	draw_history_win(history_win, soothsayer.history());

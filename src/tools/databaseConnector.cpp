@@ -129,17 +129,19 @@ int DatabaseConnector::incrementNgramCount(const Ngram ngram) const
 
     if (count > 0) {
 	// the ngram was found in the database
-	updateNgram(ngram, count + 1);
+	updateNgram(ngram, ++count);
 	
-	LOG("[DatabaseConnector] Updated ngram to " << count + 1);
+	LOG("[DatabaseConnector] Updated ngram to " << count);
 
     } else {
 	// the ngram was not found in the database
-	insertNgram(ngram, 1);
+        count = 1;
+	insertNgram(ngram, count);
 
 	LOG("[DatabaseConnector] Inserted ngram");
 
     }
+    return count;
 }
 
 void DatabaseConnector::removeNgram(const Ngram ngram) const

@@ -49,7 +49,7 @@ bin_PROGRAMS +=			soothsayerDemo
 
 soothsayerDemo_SOURCES =	soothsayerDemo.cpp
 soothsayerDemo_LDADD =		libsoothsayer.la
-soothsayerDemo_LDFLAGS =	-lncurses
+soothsayerDemo_LDFLAGS =	-lcurses
 endif
 
 soothsayerDemoText_SOURCES = 	soothsayerDemoText.cpp
