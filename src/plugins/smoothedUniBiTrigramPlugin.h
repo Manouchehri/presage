@@ -29,16 +29,15 @@
 #include "plugins/plugin.h"
 #include "core/utility.h"    // strtolower
 
-#include <string>
-
-#include <sqlite.h>
 #include <assert.h>
-#include <stdlib.h>    // double atof( const char* )
-//#include <dlfcn.h>     // dlopen() and friends...
-//#include <ltdl.h>
-#include <math.h>      // log()
 
-#include "dirs.h"
+#if defined(HAVE_SQLITE3_H) 
+# include <sqlite3.h>
+#elif defined(HAVE_SQLITE_H)
+# include <sqlite.h>
+#else
+# error "SQLite is required. Please install SQLite."
+#endif
 
 #include "tools/sqliteDatabaseConnector.h"
 

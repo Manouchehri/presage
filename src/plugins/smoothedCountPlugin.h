@@ -28,16 +28,16 @@
 
 #include "plugins/plugin.h"
 
-#if defined(HAVE_SQLITE_H)
-# include <sqlite.h>
-#elif defined(HAVE_SQLITE3_H)
-# include <sqlite3.h>
-#endif
-
 #include <assert.h>
 #include <stdlib.h>    // double atof( const char* )
-#include <string>
-//#include <dlfcn.h>     // dlopen() and friends...
+
+#if defined(HAVE_SQLITE3_H) 
+# include <sqlite3.h>
+#elif defined(HAVE_SQLITE_H)
+# include <sqlite.h>
+#else
+# error "SQLite is required. Please install SQLite."
+#endif
 
 /** Smoothed count statistical plugin
  *
