@@ -123,6 +123,14 @@ AM_PATH_CPPUNIT([1.9.6],
                 [AC_MSG_WARN([CppUnit not found. Unit tests will not be built. CppUnit can be obtained from http://cppunit.sourceforge.net.])])
 AM_CONDITIONAL(HAVE_CPPUNIT, test "$CPPUNIT_LIBS")
 
+dnl =================
+dnl Checks for Python
+dnl =================
+AM_PATH_PYTHON([1.5],
+               [],
+               [AC_MSG_WARN([Python not found. Python binding will not be built. Python can be obtained from http://www.python.org])])
+AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON")
+
 
 ############################
 # Temporarily disabling this
@@ -144,4 +152,5 @@ AC_OUTPUT([
 	test/tools/Makefile
 	test/simulator/Makefile
 	resources/Makefile
-	resources/profiles/Makefile])
+	resources/profiles/Makefile
+	bindings/Makefile])

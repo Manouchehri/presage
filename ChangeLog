@@ -1,4 +1,11 @@
-2007-08-24  Matteo Vescovi  <mvescovi@mvescovi.dublin.emea.iona.com>
+2007-08-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings, bindings/soothsayer.i, bindings/Makefile.am,
+	bindings/runme.py, configure.ac, Makefile.am: added initial
+	support for generating a python binding for soothsayer. Not fully
+	integrated into build system yet.
+
+2007-08-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/tools/databaseConnector: minor fix to get soothsayer to
 	build on Solaris 10 with SUN Studio 10 and 11. Soothsayer builds
@@ -9,7 +16,7 @@
 	src/plugins/smoothedUniBiTrigramPlugin: cleaned up header files
 	inclusions.
 
-2007-08-23  Matteo Vescovi  <mvescovi@mvescovi.dublin.emea.iona.com>
+2007-08-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: checking for curses instead of ncurses header and
 	library to increase portability.

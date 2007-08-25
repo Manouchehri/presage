@@ -1,4 +1,4 @@
-## Makefile for the toplevel directory of Soothsayer.
+## Makefile for the bindings directory of Soothsayer.
 ## Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 ##
 ## This program is free software; you can redistribute it and/or modify
@@ -17,20 +17,12 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	src test resources bindings
+#SUBDIRS =	python
 
-BUILT_SOURCES =	dirs.h
-CLEANFILES =	dirs.h
+if HAVE_PYTHON
 
-dirs.h:	Makefile
-	echo '#define prefix "$(prefix)"' > $@
-	echo '#define bindir "$(bindir)"' >> $@
-	echo '#define libdir "$(libdir)"' >> $@
-	echo '#define sysconfdir "$(sysconfdir)"' >> $@
-	echo '#define datadir "$(datadir)"' >> $@
-	echo '#define pkgdatadir "$(pkgdatadir)"' >> $@
-	echo '#define localstatedir "$(localstatedir)"' >> $@
+soothsayer.py soothsayer_wrap.cxx:	soothsayer.i
+	swig -c++ -python -I$(srcdir)/../src $<
 
-
-EXTRA_DIST =	INSTALL_cygwin_dev_env.txt FAQ Doxyfile
+endif
 
