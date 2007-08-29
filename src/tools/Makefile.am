@@ -32,6 +32,6 @@ libtools_la_SOURCES =	progress.cpp progress.h           \
 			databaseConnector.h               \
 			sqliteDatabaseConnector.cpp       \
 			sqliteDatabaseConnector.h         
-
+libtools_la_LIBADD =	$(SQLITE_LIBS)
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/core

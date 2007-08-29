@@ -77,7 +77,7 @@ dnl =================
 dnl 
 dnl check for libsqlite3
 dnl if (libsqlite3 found) {
-dnl     prepend -lsqlite3 to LIBS
+dnl     set SQLITE_LIBS to -lsqlite3
 dnl     check for sqlite3.h
 dnl     if (sqlite3.h found) {
 dnl         using sqlite3
@@ -87,7 +87,7 @@ dnl     }
 dnl } else {
 dnl     check for libsqlite2
 dnl     if (libsqlite2 found) {
-dnl         prepend -lsqlite to LIBS
+dnl         set SQLITE_LIBS to -lsqlite
 dnl         check for sqlite2.h
 dnl         if (sqlite2.h found) {
 dnl             using sqlite2
@@ -100,19 +100,20 @@ dnl     }
 dnl }
 AC_CHECK_LIB([sqlite3],
              [sqlite3_open],
-             [LIBS="-lsqlite3 $LIBS" && \
+             [SQLITE_LIBS="-lsqlite3" &&
               AC_CHECK_HEADERS([sqlite3.h],
                                [AC_MSG_NOTICE([using sqlite 3])],
                                [AC_MSG_ERROR([Found sqlite3 library, but cannot find matching sqlite3.h header.])],
                                [])],
 	     [AC_CHECK_LIB([sqlite],
                            [sqlite_open],
-                           [LIBS="-lsqlite $LIBS" && \
+                           [SQLITE_LIBS="-lsqlite" && \
                             AC_CHECK_HEADERS([sqlite.h],
                                              [AC_MSG_NOTICE([using sqlite 2])],
                                              [AC_MSG_ERROR([Found sqlite 2 library, but cannot find matching sqlite.h header.])],
                                              [])],
                            [AC_MSG_ERROR([SQLite library not found. SQLite can be obtained from http://sqlite.org.])])])
+AC_SUBST([SQLITE_LIBS], ["$SQLITE_LIBS"])
 
 
 dnl ==================

@@ -1,3 +1,7 @@
+2007-08-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* configure.ac, src/tools/Makefile.am: changed SQLite link flag.
+
 2007-08-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings, bindings/soothsayer.i, bindings/Makefile.am,
