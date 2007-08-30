@@ -1,5 +1,7 @@
 2007-08-30  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* configure.ac: added --enable-python-binding configure flag.
+	
 	* bindings/Makefile.am, bindings/runme.py, configure.ac,
 	Makefile.am: added support for building python binding module.
 

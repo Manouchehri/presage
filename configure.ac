@@ -129,22 +129,37 @@ dnl ============================
 dnl Bindings for other languages
 dnl ==
 
+dnl ===============
+dnl Checks for SWIG
+dnl ===============
+AC_PROG_SWIG(1.3.17)
+AM_CONDITIONAL(HAVE_SWIG, test "$SWIG")
+
+
 dnl =================
 dnl Checks for Python
 dnl =================
 AM_PATH_PYTHON([1.5],
                [],
-               [AC_MSG_WARN([Python not found. Python binding will not be built. Python can be obtained from http://www.python.org])])
+               [AC_MSG_WARN([Python not found. Python is required to build soothsayer python binding. Python can be obtained from http://www.python.org])])
 AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON")
 
-dnl ===============
-dnl Checks for SWIG
-dnl ===============
-AC_PROG_SWIG(1.3.17)
-SWIG_ENABLE_CXX
-# SWIG_MULTI_MODULE_SUPPORT
-SWIG_PYTHON
-AM_CONDITIONAL(HAVE_SWIG, test "$SWIG")
+
+AC_ARG_ENABLE([python-binding],
+              AS_HELP_STRING([--enable-python-binding],
+                             [build python binding (default=no]),
+              [ac_enable_python_binding=yes],
+              [ac_enable_python_binding=no])
+if test "x$ac_enable_python_binding" = "xyes"
+then
+    SWIG_ENABLE_CXX
+    # SWIG_MULTI_MODULE_SUPPORT
+    SWIG_PYTHON
+else
+    AC_MSG_NOTICE([Python binding for soothsayer will not be built])
+    AC_MSG_NOTICE([You can enable python binding module with --enable-python-binding])
+fi
+AM_CONDITIONAL(ENABLE_PYTHON_BINDING, test "x$ac_enable_python_binding" = "xyes")
 
 
 ############################

@@ -21,6 +21,7 @@
 
 if HAVE_SWIG
 if HAVE_PYTHON
+if ENABLE_PYTHON_BINDING
 
 SWIG_SOURCES =			soothsayer.i
 
@@ -37,5 +38,6 @@ _soothsayer_la_LIBADD =		../src/libsoothsayer.la
 $(srcdir)/soothsayer_wrap.cpp:	$(SWIG_SOURCES)
 	$(SWIG) $(SWIG_PYTHON_OPT) -I$(top_srcdir)/src -o $@ $<
 
+endif # ENABLE_PYTHON_BINDING
 endif # HAVE_PYTHON
 endif # HAVE_SWIG
