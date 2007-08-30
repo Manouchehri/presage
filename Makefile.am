@@ -33,4 +33,3 @@ dirs.h:	Makefile
 
 
 EXTRA_DIST =	INSTALL_cygwin_dev_env.txt FAQ Doxyfile
-

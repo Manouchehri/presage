@@ -124,6 +124,11 @@ AM_PATH_CPPUNIT([1.9.6],
                 [AC_MSG_WARN([CppUnit not found. Unit tests will not be built. CppUnit can be obtained from http://cppunit.sourceforge.net.])])
 AM_CONDITIONAL(HAVE_CPPUNIT, test "$CPPUNIT_LIBS")
 
+
+dnl ============================
+dnl Bindings for other languages
+dnl ==
+
 dnl =================
 dnl Checks for Python
 dnl =================
@@ -132,10 +137,20 @@ AM_PATH_PYTHON([1.5],
                [AC_MSG_WARN([Python not found. Python binding will not be built. Python can be obtained from http://www.python.org])])
 AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON")
 
+dnl ===============
+dnl Checks for SWIG
+dnl ===============
+AC_PROG_SWIG(1.3.17)
+SWIG_ENABLE_CXX
+# SWIG_MULTI_MODULE_SUPPORT
+SWIG_PYTHON
+AM_CONDITIONAL(HAVE_SWIG, test "$SWIG")
+
 
 ############################
 # Temporarily disabling this
 #AC_CONFIG_SUBDIRS(src/plump)
+
 
 AC_OUTPUT([
 	Makefile

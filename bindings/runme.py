@@ -23,10 +23,14 @@
  ##############################################################################
 
 import soothsayer
+import sys
 
-# Modify config to point to your local soothsayer.xml file
-#
-config = "C:/cygwin/home/matt/soothsayer/trunk/bindings/soothsayer.xml"
+if len(sys.argv) != 2:
+	print "Usage: python runme.py soothsayer_config_file"
+	sys.exit(1)
+else:
+	config = sys.argv[1]
+
 
 # Create Soothsayer object
 soothie = soothsayer.Soothsayer(config)

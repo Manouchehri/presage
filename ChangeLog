@@ -1,3 +1,15 @@
+2007-08-30  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/Makefile.am, bindings/runme.py, configure.ac,
+	Makefile.am: added support for building python binding module.
+
+	* m4, m4/swig_enable_cxx.m4, m4/ac_python_devel.m4,
+	m4/swig_multi_module_support.m4, m4/swig_python.m4,
+	m4/ac_pkg_swig.m4: added autoconf macros to support SWIG and
+	python binding builds.
+
+	* bootstrap: changed bootstrap to use SWIG macros.
+	
 2007-08-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac, src/tools/Makefile.am: changed SQLite link flag.

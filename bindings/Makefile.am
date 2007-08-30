@@ -19,10 +19,23 @@
 
 #SUBDIRS =	python
 
+if HAVE_SWIG
 if HAVE_PYTHON
 
-soothsayer.py soothsayer_wrap.cxx:	soothsayer.i
-	swig -c++ -python -I$(srcdir)/../src $<
+SWIG_SOURCES =			soothsayer.i
 
-endif
+BUILT_SOURCES =			$(srcdir)/soothsayer_wrap.cpp $(srcdir)/soothsayer.py
+CLEANFILES =			$(srcdir)/soothsayer_wrap.cpp $(srcdir)/soothsayer.py
 
+pkgpython_PYTHON =		soothsayer.py
+pkgpyexec_LTLIBRARIES =		_soothsayer.la
+_soothsayer_la_SOURCES =	$(srcdir)/soothsayer_wrap.cpp $(SWIG_SOURCES)
+_soothsayer_la_CPPFLAGS =	$(SWIG_PYTHON_CPPFLAGS) -I$(top_srcdir)/src
+_soothsayer_la_LDFLAGS =	-module
+_soothsayer_la_LIBADD =		../src/libsoothsayer.la
+
+$(srcdir)/soothsayer_wrap.cpp:	$(SWIG_SOURCES)
+	$(SWIG) $(SWIG_PYTHON_OPT) -I$(top_srcdir)/src -o $@ $<
+
+endif # HAVE_PYTHON
+endif # HAVE_SWIG
