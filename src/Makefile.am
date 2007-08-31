@@ -39,7 +39,7 @@ libsoothsayer_la_LIBADD =	core/libcore.la       \
 
 #				REVISIT add libplump.la when using plump
 #				plump/src/libplump.la 
-
+libsoothsayer_la_LDFLAGS =	-no-undefined
 
 bin_PROGRAMS =			soothsayerDemoText   \
 				soothsayerSimulator  

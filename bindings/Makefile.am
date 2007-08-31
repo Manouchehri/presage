@@ -32,7 +32,7 @@ pkgpython_PYTHON =		soothsayer.py
 pkgpyexec_LTLIBRARIES =		_soothsayer.la
 _soothsayer_la_SOURCES =	$(srcdir)/soothsayer_wrap.cpp $(SWIG_SOURCES)
 _soothsayer_la_CPPFLAGS =	$(SWIG_PYTHON_CPPFLAGS) -I$(top_srcdir)/src
-_soothsayer_la_LDFLAGS =	-module
+_soothsayer_la_LDFLAGS =	-module -no-undefined -avoid-version $(PYTHON_LDFLAGS)
 _soothsayer_la_LIBADD =		../src/libsoothsayer.la
 
 $(srcdir)/soothsayer_wrap.cpp:	$(SWIG_SOURCES)

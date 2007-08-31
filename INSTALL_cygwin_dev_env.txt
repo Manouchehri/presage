@@ -41,7 +41,6 @@ You want to make sure that the following packages are selected:
 
   Devel
     binutils
-    cppunit
     gcc-core
     gcc-g++
     gcc-mingw-core
@@ -60,7 +59,15 @@ You want to make sure that the following packages are selected:
     cvs
     subversion
 
+    cppunit
+
     libncurses-devel
+
+    swig
+    
+  Interpreters
+    python
+
 
 then go ahead and click next. The packages will download and install
 in your system.

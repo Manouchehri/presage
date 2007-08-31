@@ -1,3 +1,11 @@
+2007-08-31  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/Makefile.am: added -no-undefined linker flag to ensure
+	that shared libraries are built on Windows targets.
+
+	* bindings/Makefile.am: added -no-undefined -avoid-version 
+	linker flags to python dynamically loaded extension module.
+
 2007-08-30  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: added --enable-python-binding configure flag.
