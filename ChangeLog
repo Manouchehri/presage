@@ -1,3 +1,8 @@
+2007-09-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* Makefile.am: Ensure local m4 macros are included during
+	autoreconf and automatic aclocal.m4 remaking
+
 2007-08-31  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/Makefile.am: added -no-undefined linker flag to ensure

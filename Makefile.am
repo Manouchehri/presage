@@ -33,3 +33,7 @@ dirs.h:	Makefile
 
 
 EXTRA_DIST =	INSTALL_cygwin_dev_env.txt FAQ Doxyfile
+
+# Ensure local m4 macros are included during autoreconf and automatic
+# aclocal.m4 remaking
+ACLOCAL_AMFLAGS = -I m4
