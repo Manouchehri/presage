@@ -184,4 +184,6 @@ AC_OUTPUT([
 	test/simulator/Makefile
 	resources/Makefile
 	resources/profiles/Makefile
-	bindings/Makefile])
+	bindings/Makefile
+	bindings/python/setup.py
+	bindings/python/Makefile])

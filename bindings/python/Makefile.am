@@ -1,4 +1,4 @@
-## Makefile for the bindings directory of Soothsayer.
+## Makefile for the bindings/python directory of Soothsayer.
 ## Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 ##
 ## This program is free software; you can redistribute it and/or modify
@@ -17,26 +17,26 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	python
-
 if HAVE_SWIG
 if HAVE_PYTHON
 if ENABLE_PYTHON_BINDING
 
-SWIG_SOURCES =			soothsayer.i
+SWIG_INTERFACE =	../soothsayer.i
 
-BUILT_SOURCES =			$(srcdir)/soothsayer_wrap.cpp $(srcdir)/soothsayer.py
-CLEANFILES =			$(srcdir)/soothsayer_wrap.cpp $(srcdir)/soothsayer.py
+BUILT_SOURCES =		soothsayer_wrap.cpp soothsayer.py
+CLEANFILES =		soothsayer_wrap.cpp soothsayer.py
 
-pkgpython_PYTHON =		soothsayer.py
-pkgpyexec_LTLIBRARIES =		_soothsayer.la
-_soothsayer_la_SOURCES =	$(srcdir)/soothsayer_wrap.cpp $(SWIG_SOURCES)
-_soothsayer_la_CPPFLAGS =	$(SWIG_PYTHON_CPPFLAGS) -I$(top_srcdir)/src
-_soothsayer_la_LDFLAGS =	-module -no-undefined -avoid-version $(PYTHON_LDFLAGS)
-_soothsayer_la_LIBADD =		../src/libsoothsayer.la
+all-local:	soothsayer_wrap.cpp soothsayer.py
+	$(PYTHON) setup.py build
 
-$(srcdir)/soothsayer_wrap.cpp:	$(SWIG_SOURCES)
-	$(SWIG) $(SWIG_PYTHON_OPT) -I$(top_srcdir)/src -o $@ $<
+install-exec-local:
+	$(PYTHON) setup.py install --prefix=$(prefix)
+
+soothsayer_wrap.cpp soothsayer.py:	$(SWIG_INTERFACE)
+	$(SWIG) $(SWIG_PYTHON_OPT) -I$(top_srcdir)/src -o $@ -outdir . $<
+
+clean-local:
+	rm -rf build
 
 endif # ENABLE_PYTHON_BINDING
 endif # HAVE_PYTHON
