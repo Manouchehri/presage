@@ -33,10 +33,12 @@ install-exec-local:
 	$(PYTHON) setup.py install --prefix=$(prefix)
 
 soothsayer_wrap.cpp soothsayer.py:	$(SWIG_INTERFACE)
-	$(SWIG) $(SWIG_PYTHON_OPT) -I$(top_srcdir)/src -o $@ -outdir . $<
+	$(SWIG) -c++ -python -I$(top_srcdir)/src -o $@ -outdir . $<
 
 clean-local:
 	rm -rf build
+
+EXTRA_DIST =	runme.py
 
 endif # ENABLE_PYTHON_BINDING
 endif # HAVE_PYTHON

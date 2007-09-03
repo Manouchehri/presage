@@ -37,7 +37,6 @@ soothie = soothsayer.Soothsayer(config)
 
 print "Enter text at the prompt (press enter on empty line to exit):"
 
-#while True:
 while str != "":
 	str = raw_input(">  ")
 	print soothie.predict(str)
