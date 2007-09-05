@@ -1,3 +1,12 @@
+2007-09-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* configure.ac: bumped version up to 0.6.
+
+	* Doxyfile: bumped version up to 0.6.
+	
+	* NEWS, website/soothsayer_database_dump.sql.gz: added 0.6 release
+	news.
+
 2007-09-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python, bindings/python/Makefile.am,

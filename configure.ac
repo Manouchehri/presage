@@ -19,7 +19,7 @@ dnl  Process this file with autoconf to produce a configure script.
 
 
 AC_INIT([soothsayer],
-	[0.5],
+	[0.6],
 	[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 
