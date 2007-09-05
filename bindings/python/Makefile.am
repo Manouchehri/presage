@@ -39,6 +39,10 @@ clean-local:
 
 soothsayer_wrap.cpp soothsayer.py:	$(SWIG_INTERFACE)
 	$(SWIG) -c++ -python -I$(top_srcdir)/src -o soothsayer_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)
+	@if test "x`uname -o`" = "xCygwin"; then \
+		echo "WARNING: working around bug in SWIG on Windows/Cygwin platforms ONLY"; \
+		sed -i.bak -f fix_wrapper.sed soothsayer_wrap.cpp; \
+	fi
 
 endif # ENABLE_PYTHON_BINDING
 endif # HAVE_PYTHON
