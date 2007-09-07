@@ -119,11 +119,8 @@ int main(int argc, char** argv)
 
 
     std::vector<std::string> words;
-    int c;
-    char str[2];
-    str[1] = '\0';
+    int c = 0;
     do {
-	c = getch();
 	if ((KEY_F0 < c) && (c <= KEY_F(words.size())) && (c - KEY_F0 <= words.size())) {
 	    // prediction was successful. user pressed the function
 	    // key corresponding to desired token. selecting
@@ -141,8 +138,7 @@ int main(int argc, char** argv)
 	} else {
 	    // prediction unsuccessful. get next character from user
 	    // and elaborate a new prediction.
-	    str[0] = static_cast<char>( c );
-	    words = soothsayer.predict(std::string(str));
+	    words = soothsayer.predict(c);
 
 	    // refresh curses screen
 	    refresh();
@@ -152,6 +148,8 @@ int main(int argc, char** argv)
 				  soothsayer.contextChange(),
                                   HISTORY_WIN_BEGIN_Y + HISTORY_WIN_HEIGHT + 1,
                                   FUNCTION_WIN_BEGIN_X + FUNCTION_WIN_WIDTH + 1 );
+        c = getch();
+
     } while( c != KEY_F(12) );
 
 

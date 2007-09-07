@@ -27,8 +27,6 @@
 #include "core/utility.h"        // isYes isNo isTrue isFalse utility function
 #include "dirs.h"                // sysconfdir macro define
 
-#define DEBUG
-
 #ifdef DEBUG
 # define LOG(x) std::cout << x << std::endl
 #else
