@@ -42,7 +42,7 @@ int main()
 
 	contextTracker.update( prefix );
 	
-	std::cout << plugin.predict();
+	std::cout << plugin.predict(100);
 
 	return 0;
 

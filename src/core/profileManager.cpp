@@ -214,6 +214,15 @@ void ProfileManager::buildProfile(const std::string p)
             assert( node );
         }
 
+        element = module->InsertEndChild(TiXmlElement("MAX_PARTIAL_PREDICTION_SIZE"));
+        assert( element );
+        if( element ) {
+            std::ostringstream ss;
+            ss << DEFAULT_MAX_PARTIAL_PREDICTION_SIZE;
+            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
+            assert( node );
+        }
+
         element = module->InsertEndChild( TiXmlElement( "COMBINATION_POLICY" ) );
         assert( element );
         if( element ) {

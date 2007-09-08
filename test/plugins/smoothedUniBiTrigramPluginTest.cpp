@@ -136,8 +136,7 @@ ConfigMap SmoothedUniBiTrigramPluginTest::prepareConfigMap(const char* config[])
     map["UNIGRAM_WEIGHT"]              = config[0];
     map["BIGRAM_WEIGHT"]               = config[1];
     map["TRIGRAM_WEIGHT"]              = config[2];
-    map["MAX_PARTIAL_PREDICTION_SIZE"] = config[3];
-    map["DBFILENAME"]                  = config[4];
+    map["DBFILENAME"]                  = config[3];
     
     return map;
 }
@@ -166,7 +165,7 @@ Plugin* SmoothedUniBiTrigramPluginTest::createPlugin(Profile* profile,
 
 void SmoothedUniBiTrigramPluginTest::testUnigramWeight()
 {
-    const char* config[] = { "1.0", "0.0", "0.0", "6", DATABASE.c_str() };
+    const char* config[] = { "1.0", "0.0", "0.0", DATABASE.c_str() };
 
     {
 	const char* history[] = { "foo", "bar", "" };
@@ -214,7 +213,7 @@ void SmoothedUniBiTrigramPluginTest::testUnigramWeight()
 
 void SmoothedUniBiTrigramPluginTest::testBigramWeight()
 {
-    const char* config[] = { "0.0", "1.0", "0.0", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0", "1.0", "0.0", DATABASE.c_str() };
 
     {
 	const char* history[] = { "foo", "bar", "" };
@@ -262,7 +261,7 @@ void SmoothedUniBiTrigramPluginTest::testBigramWeight()
 
 void SmoothedUniBiTrigramPluginTest::testTrigramWeight()
 {
-    const char* config[] = { "0.0", "0.0", "1.0", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0", "0.0", "1.0", DATABASE.c_str() };
 
     {
 	const char* history[] = { "foo", "bar", "" };
@@ -303,7 +302,7 @@ void SmoothedUniBiTrigramPluginTest::testTrigramWeight()
 
 void SmoothedUniBiTrigramPluginTest::testUnigramBigramWeight()
 {
-    const char* config[] = { "0.0001", "0.9999", "0.0", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0001", "0.9999", "0.0", DATABASE.c_str() };
 
     // unigram weight is much lower han bigram weight in order to
     // ensure that results are not masked by unigram results.
@@ -333,7 +332,7 @@ void SmoothedUniBiTrigramPluginTest::testUnigramBigramWeight()
 
 void SmoothedUniBiTrigramPluginTest::testUnigramTrigramWeight()
 {
-    const char* config[] = { "0.0001", "0.0", "0.9999", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0001", "0.0", "0.9999", DATABASE.c_str() };
 
     // unigram weight is much lower han trigram weight in order to
     // ensure that results are not masked by unigram results.
@@ -363,7 +362,7 @@ void SmoothedUniBiTrigramPluginTest::testUnigramTrigramWeight()
 
 void SmoothedUniBiTrigramPluginTest::testBigramTrigramWeight()
 {
-    const char* config[] = { "0.0", "0.0001", "0.9999", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0", "0.0001", "0.9999", DATABASE.c_str() };
 
     // unigram weight is much lower han trigram weight in order to
     // ensure that results are not masked by unigram results.
@@ -393,7 +392,7 @@ void SmoothedUniBiTrigramPluginTest::testBigramTrigramWeight()
 
 void SmoothedUniBiTrigramPluginTest::testUnigramBigramTrigramWeight()
 {
-    const char* config[] = { "0.000001", "0.001", "0.998999", "6", DATABASE.c_str() };
+    const char* config[] = { "0.000001", "0.001", "0.998999", DATABASE.c_str() };
 
     // unigram weight is much lower han trigram weight in order to
     // ensure that results are not masked by unigram results.
@@ -427,16 +426,13 @@ void SmoothedUniBiTrigramPluginTest::testMaxPartialPredictionSize()
     // honoured by checking that returned prediction size does not
     // exceed specified partial prediction size.
     for (int size = 0; size <= 3; size++) {
-	std::stringstream ss; // used to convert int to C-string
-	ss << size;
-	std::string size_str = ss.str();
 
 	// assign equal weight to uni/bi/tri-grams; only vary maximum
 	// partial prediction size.
-	const char* config[] = { "0.33", "0.33", "0.33", size_str.c_str(), DATABASE.c_str() };
+	const char* config[] = { "0.33", "0.33", "0.33", DATABASE.c_str() };
 	const char* history[] = { "", "", "" };
 	
-	Prediction prediction = runPredict(config, history);
+	Prediction prediction = runPredict(config, history, size);
 	CPPUNIT_ASSERT_EQUAL(size, prediction.size());
     }
 }

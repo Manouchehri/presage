@@ -50,7 +50,7 @@ public:
     SmoothedNgramPlugin(Profile*, ContextTracker*);
     ~SmoothedNgramPlugin();
 
-    virtual Prediction predict() const;
+    virtual Prediction predict(const int) const;
 
     virtual void learn();
     virtual void extract();
@@ -62,7 +62,6 @@ private:
     DatabaseConnector*  db;
     std::string         dbfilename;
     std::vector<double> deltas;
-    int                 max_partial_prediction_size;
 
 };
 

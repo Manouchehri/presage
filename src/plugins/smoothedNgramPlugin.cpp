@@ -49,12 +49,6 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
     Value value;
 
     try {
-	variable.push_back("MAX_PARTIAL_PREDICTION_SIZE");
-	value = profile->getConfig(variable);
-	LOG("[SmoothedNgramPlugin] MAX_PARTIAL_PREDICTION_SIZE: " + value);
-	max_partial_prediction_size = toInt(value);
-	variable.pop_back();
-
 	variable.push_back("DBFILENAME");
 	value = profile->getConfig(variable);
 	LOG("[SmoothedNgramPlugin] DBFILENAME: " + value);
@@ -127,7 +121,7 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
     }
 }
 
-Prediction SmoothedNgramPlugin::predict() const
+Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) const
 {
     LOG("[SmoothedNgramPlugin] Entering SmoothedNgramPlugin::predict()");
 

@@ -1,3 +1,10 @@
+2007-09-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/plugins/plugins: modified Plugin::predict() method signature
+	to have parameter indicating desired prediction size.
+
+	* test/integration: added larval integration test suite.
+	
 2007-09-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/soothsayerDemo.cpp: display initial prediction before user

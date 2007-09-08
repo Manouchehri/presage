@@ -1,4 +1,4 @@
-## Makefile for the test directory of Soothsayer.
+## Makefile for the test/integration directory of Soothsayer.
 ## Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 ##
 ## This program is free software; you can redistribute it and/or modify
@@ -17,26 +17,6 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	core plugins tools simulator integration
+TESTS_ENVIRONMENT = $(SHELL) -x
+TESTS =	integration.sh
 
-if HAVE_CPPUNIT
-
-TESTS =	testRunner
-
-check_PROGRAMS = $(TESTS)
-
-testRunner_SOURCES =	testRunner.cpp
-testRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
-testRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-testRunner_LIBS =	-ldl
-
-
-LDADD =	$(top_builddir)/src/libsoothsayer.la \
-	$(top_builddir)/src/tools/libtools.la \
-	$(top_builddir)/src/tinyxml/libtinyxml.la
-
-AM_CPPFLAGS =	-I$(top_srcdir)/src
-
-DEPENDENCIES =	libsoothsayer.la
-
-endif

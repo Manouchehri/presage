@@ -66,12 +66,6 @@ SmoothedUniBiTrigramPlugin::SmoothedUniBiTrigramPlugin(Profile* profile, Context
 	TRIGRAM_WEIGHT = toDouble(value);
 	variable.pop_back();
 
-	variable.push_back("MAX_PARTIAL_PREDICTION_SIZE");
-	value = profile->getConfig(variable);
-	LOG("[SmoothedUniBiTriGramPlugin] MAX_PARTIAL_PREDICTION_SIZE: " + value);
-	MAX_PARTIAL_PREDICTION_SIZE = toInt(value);
-	variable.pop_back();
-
 	variable.push_back("DBFILENAME");
 	value = profile->getConfig(variable);
 	LOG("[SmoothedUniBiTriGramPlugin] DBFILENAME: " + value);
@@ -96,7 +90,7 @@ SmoothedUniBiTrigramPlugin::~SmoothedUniBiTrigramPlugin()
 
 
 
-Prediction SmoothedUniBiTrigramPlugin::predict() const
+Prediction SmoothedUniBiTrigramPlugin::predict(const int max_partial_predictions_size) const
 {
     //DEBUG
     LOG("[SmoothedUniBiTriGramPlugin] Entering SmoothedUniBiTrigramPlugin::predict()");
@@ -119,8 +113,6 @@ Prediction SmoothedUniBiTrigramPlugin::predict() const
     double beta = BIGRAM_WEIGHT;
     double gamma = UNIGRAM_WEIGHT;
 
-    int max_partial_predictions_size = MAX_PARTIAL_PREDICTION_SIZE;
-	
     // To estimate  P( w | w_2, w_1 ) we need the following counts
     int c_w2_w1_w = 0;  // c( w_2, w_1, w )  
     int c_w2_w1 = 0;    // c( w_2, w_1 )     

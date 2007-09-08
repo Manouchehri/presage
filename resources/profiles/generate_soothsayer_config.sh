@@ -20,21 +20,19 @@
 ## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
-# This script takes the directory that contains $TEMPLATE and the
-# localstatedir as arguments and writes to $OUTPUT file, replacing all
-# tokens (in the form of ::TOKEN::) in $TEMPLATE.
+# This script takes the configuration $TEMPLATE file, the output file
+# name and the localstatedir as arguments and writes to $OUTPUT file,
+# replacing all tokens (in the form of ::TOKEN::) in $TEMPLATE.
 
-TEMPLATE=soothsayer.xml.template
-OUTPUT=soothsayer.xml
-
-if [ $# -lt 2 ];
+if [ $# -lt 3 ];
 then
-    echo "Usage: $0 srcdir localstatedir"
+    echo "Usage: $0 template output localstatedir"
     exit 1
 fi
 
-srcdir=$1
-localstatedir=$2
+TEMPLATE=$1
+OUTPUT=$2
+LOCALSTATEDIR=$3
 
 # Determining CYGWIN_ROOT is required to work around a problem with
 # Sqlite on Cygwin, whereby Sqlite will not be able to open a database
@@ -53,4 +51,4 @@ else
 fi
 
 # Replace the token in $TEMPLATE and write result to $OUTPUT
-sed -e "s|::LOCALSTATEDIR::|${CYGWIN_ROOT}${localstatedir}|" ${srcdir}/${TEMPLATE} > ${OUTPUT}
+sed -e "s|::LOCALSTATEDIR::|${CYGWIN_ROOT}${LOCALSTATEDIR}|" ${TEMPLATE} > ${OUTPUT}

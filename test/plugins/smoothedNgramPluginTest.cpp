@@ -134,8 +134,7 @@ ConfigMap SmoothedNgramPluginTest::prepareConfigMap(const char* config[]) const
 {
     ConfigMap map;
     map["DELTAS"]                      = config[0];
-    map["MAX_PARTIAL_PREDICTION_SIZE"] = config[1];
-    map["DBFILENAME"]                  = config[2];
+    map["DBFILENAME"]                  = config[1];
     
     return map;
 }
@@ -164,7 +163,7 @@ Plugin* SmoothedNgramPluginTest::createPlugin(Profile* profile,
 
 void SmoothedNgramPluginTest::testUnigramWeight()
 {
-    const char* config[] = { "1.0 0.0 0.0", "6", DATABASE.c_str() };
+    const char* config[] = { "1.0 0.0 0.0", DATABASE.c_str() };
 
     {
 	const char* history[] = { "foo", "bar", "" };
@@ -212,7 +211,7 @@ void SmoothedNgramPluginTest::testUnigramWeight()
 
 void SmoothedNgramPluginTest::testBigramWeight()
 {
-    const char* config[] = { "0.0 1.0 0.0", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0 1.0 0.0", DATABASE.c_str() };
 
     {
 	const char* history[] = { "foo", "bar", "" };
@@ -260,7 +259,7 @@ void SmoothedNgramPluginTest::testBigramWeight()
 
 void SmoothedNgramPluginTest::testTrigramWeight()
 {
-    const char* config[] = { "0.0 0.0 1.0", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0 0.0 1.0", DATABASE.c_str() };
 
     {
 	const char* history[] = { "foo", "bar", "" };
@@ -301,7 +300,7 @@ void SmoothedNgramPluginTest::testTrigramWeight()
 
 void SmoothedNgramPluginTest::testUnigramBigramWeight()
 {
-    const char* config[] = { "0.0001 0.9999 0.0", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0001 0.9999 0.0", DATABASE.c_str() };
 
     // unigram weight is much lower han bigram weight in order to
     // ensure that results are not masked by unigram results.
@@ -331,7 +330,7 @@ void SmoothedNgramPluginTest::testUnigramBigramWeight()
 
 void SmoothedNgramPluginTest::testUnigramTrigramWeight()
 {
-    const char* config[] = { "0.0001 0.0 0.9999", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0001 0.0 0.9999", DATABASE.c_str() };
 
     // unigram weight is much lower han trigram weight in order to
     // ensure that results are not masked by unigram results.
@@ -361,7 +360,7 @@ void SmoothedNgramPluginTest::testUnigramTrigramWeight()
 
 void SmoothedNgramPluginTest::testBigramTrigramWeight()
 {
-    const char* config[] = { "0.0 0.0001 0.9999", "6", DATABASE.c_str() };
+    const char* config[] = { "0.0 0.0001 0.9999", DATABASE.c_str() };
 
     // unigram weight is much lower han trigram weight in order to
     // ensure that results are not masked by unigram results.
@@ -391,7 +390,7 @@ void SmoothedNgramPluginTest::testBigramTrigramWeight()
 
 void SmoothedNgramPluginTest::testUnigramBigramTrigramWeight()
 {
-    const char* config[] = { "0.000001 0.001 0.998999", "6", DATABASE.c_str() };
+    const char* config[] = { "0.000001 0.001 0.998999", DATABASE.c_str() };
 
     // unigram weight is much lower han trigram weight in order to
     // ensure that results are not masked by unigram results.
@@ -425,16 +424,13 @@ void SmoothedNgramPluginTest::testMaxPartialPredictionSize()
     // honoured by checking that returned prediction size does not
     // exceed specified partial prediction size.
     for (int size = 0; size <= 3; size++) {
-	std::stringstream ss; // used to convert int to C-string
-	ss << size;
-	std::string size_str = ss.str();
 
 	// assign equal weight to uni/bi/tri-grams; only vary maximum
 	// partial prediction size.
-	const char* config[] = { "0.33 0.33 0.33", size_str.c_str(), DATABASE.c_str() };
+	const char* config[] = { "0.33 0.33 0.33", DATABASE.c_str() };
 	const char* history[] = { "", "", "" };
 	
-	Prediction prediction = runPredict(config, history);
+	Prediction prediction = runPredict(config, history, size);
 	CPPUNIT_ASSERT_EQUAL(size, prediction.size());
     }
 }

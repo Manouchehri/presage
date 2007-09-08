@@ -40,7 +40,7 @@ public:
     DictionaryPlugin(Profile*, ContextTracker*);
     ~DictionaryPlugin();
 
-    virtual Prediction predict() const;
+    virtual Prediction predict(const int) const;
 
     virtual void learn();
     virtual void extract();

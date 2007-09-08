@@ -179,6 +179,8 @@ class Predictor {
     Combiner* combiner;
     std::string combinationPolicy;
 
+    int max_partial_prediction_size;
+
     std::vector<Plugin*> plugins;        // active Plugins
     std::vector<Prediction> predictions; // predictions computed by each plugin are returned here
 

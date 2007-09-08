@@ -50,7 +50,7 @@ public:
     SmoothedUniBiTrigramPlugin(Profile*, ContextTracker*);
     ~SmoothedUniBiTrigramPlugin();
 
-    virtual Prediction predict() const;
+    virtual Prediction predict(const int) const;
 
     virtual void learn();
     virtual void extract();
@@ -65,7 +65,6 @@ private:
     double      BIGRAM_WEIGHT;
     double      TRIGRAM_WEIGHT;
     std::string DBFILENAME;
-    int         MAX_PARTIAL_PREDICTION_SIZE;
 
     // sqlite API is an external library. Plugins are compiled into
     // position independent code, so references to external symbols are not

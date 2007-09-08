@@ -34,6 +34,10 @@
           Maximum time allowed for predictive plugins to return their prediction.
 	-->
         <PREDICT_TIME>1000</PREDICT_TIME>
+        <!-- MAX_PARTIAL_PREDICTION_SIZE
+          Desired size of each prediction prior to combination phase.
+        -->
+        <MAX_PARTIAL_PREDICTION_SIZE>60</MAX_PARTIAL_PREDICTION_SIZE>
 	<!-- COMBINATION_POLICY
 	  policy used by predictor to combine predictions returned
 	  by the active predictive plugins into one prediction.
@@ -50,7 +54,6 @@
     <Plugins>
         <SmoothedNgramPlugin>
             <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
-            <MAX_PARTIAL_PREDICTION_SIZE>60</MAX_PARTIAL_PREDICTION_SIZE>
             <!-- \delta_0, \delta_1, ..., \delta_{n-1} -->
             <DELTAS>0.01 0.1 0.89</DELTAS>
         </SmoothedNgramPlugin>
@@ -59,7 +62,6 @@
             <BIGRAM_WEIGHT>.3</BIGRAM_WEIGHT>
             <TRIGRAM_WEIGHT>.6</TRIGRAM_WEIGHT>
             <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
-            <MAX_PARTIAL_PREDICTION_SIZE>60</MAX_PARTIAL_PREDICTION_SIZE>
         </SmoothedUniBiTrigramPlugin>
 	<DictionaryPlugin>
 	    <DICTIONARY_PATH>/usr/share/dict/american-english</DICTIONARY_PATH>

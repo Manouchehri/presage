@@ -47,7 +47,7 @@ public:
     AbbreviationExpansionPlugin(Profile*, ContextTracker*);
     ~AbbreviationExpansionPlugin();
 
-    virtual Prediction predict() const;
+    virtual Prediction predict(const int) const;
 
     virtual void learn();
     virtual void extract();

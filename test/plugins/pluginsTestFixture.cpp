@@ -35,7 +35,9 @@ PluginsTestFixture::~PluginsTestFixture()
     // intentionally empty
 }
 
-Prediction PluginsTestFixture::runPredict(const char** config, const char** history) const
+Prediction PluginsTestFixture::runPredict(const char** config,
+					  const char** history,
+					  const int max_partial_prediction_size) const
 {
     // convert configuration details into an object that the mock
     // Profile object can understand - in this case, an std::map of
@@ -59,7 +61,7 @@ Prediction PluginsTestFixture::runPredict(const char** config, const char** hist
     Plugin* plugin = createPlugin(&profile, &contextTracker);
 
     // generate prediction.
-    Prediction result = plugin->predict();
+    Prediction result = plugin->predict(max_partial_prediction_size);
 
     // plugin object is no longer needed.
     delete plugin;

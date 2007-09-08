@@ -178,6 +178,7 @@ AC_OUTPUT([
 	test/plugins/Makefile
 	test/tools/Makefile
 	test/simulator/Makefile
+	test/integration/Makefile
 	resources/Makefile
 	resources/profiles/Makefile
 	bindings/Makefile

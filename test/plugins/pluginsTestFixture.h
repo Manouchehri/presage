@@ -44,9 +44,12 @@ class PluginsTestFixture : public CppUnit::TestFixture {
      *
      * \param config configuration used by predictive plugin.
      * \param history current context used by predictive plugin.
+     * \param maximum partial prediction size (default 100).
      * \return prediction computed by plugin method predict().
      */
-    virtual Prediction runPredict(const char** config, const char** history) const;
+    virtual Prediction runPredict(const char** config,
+				  const char** history,
+				  const int max_partial_prediction_size = 100) const;
 
   private:
     /** \brief Converts array of configuration values config to a

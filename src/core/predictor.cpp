@@ -66,6 +66,12 @@ Predictor::Predictor(Profile* prof, ContextTracker* ct)
 	setPredictTime(toInt(value));
 	variable.pop_back();
 
+	variable.push_back("MAX_PARTIAL_PREDICTION_SIZE");
+	value = profile->getConfig(variable);
+	LOG("[Predictor] MAX_PARTIAL_PREDICTION_SIZE: " + value);
+	max_partial_prediction_size = toInt(value);
+	variable.pop_back();
+
 	variable.push_back("COMBINATION_POLICY");
 	value = profile->getConfig(variable);
 	LOG("[Predictor] COMBINATION_POLICY: " + value);
@@ -174,7 +180,7 @@ Prediction Predictor::predict()
 	i != plugins.end();
 	i++) {
 	// ...generate and store prediction...
-	predictions.push_back ((*i)->predict());
+	predictions.push_back ((*i)->predict(max_partial_prediction_size));
     }
 
     // ...then merge predictions into a single one...
