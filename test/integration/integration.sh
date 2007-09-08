@@ -91,8 +91,7 @@ function replace_config_entry()
 #
 function restore_config()
 {
-#    rm -f ${CONFIG} ${CONFIG}.bak
-    echo
+    rm -f ${CONFIG} ${CONFIG}.bak
 }
 
 ####
