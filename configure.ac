@@ -150,8 +150,13 @@ AC_ARG_ENABLE([python-binding],
                              [build python binding (default=no]),
               [ac_enable_python_binding=yes],
               [ac_enable_python_binding=no])
-if test ! "x$ac_enable_python_binding" = "xyes"
+if test "x$ac_enable_python_binding" = "xyes"
 then
+    if test ! "$SWIG" -a ! "$PYTHON"
+    then
+        AC_MSG_WARN([Python binding for soothsayer cannot be built. Ensure that SWIG and Python packages are available.])
+    fi
+else
     AC_MSG_NOTICE([Python binding for soothsayer will not be built.])
     AC_MSG_NOTICE([Enable Python binding module building with --enable-python-binding])
 fi
