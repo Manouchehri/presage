@@ -20,3 +20,4 @@
 TESTS_ENVIRONMENT = $(SHELL) -x
 TESTS =	integration.sh
 
+EXTRA_DIST = integration.sh
