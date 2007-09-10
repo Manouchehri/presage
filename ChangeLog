@@ -1,5 +1,8 @@
 2007-09-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* test/integration.sh: modified integration test training corpus
+	and control corpus generation.
+	
 	* configure.ac: warn if requested python binding build cannot be
 	carried out.
 

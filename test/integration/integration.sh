@@ -24,13 +24,14 @@
 TEXT2NGRAM=../../src/tools/text2ngram
 SIMULATOR=../../src/soothsayerSimulator
 
-TRAINING_CORPUS=${srcdir}/foo_corpus.txt
-CONTROL_CORPUS=${srcdir}/foo_control.txt
+TRAINING_CORPUS=${srcdir}/../../COPYING
+CONTROL_CORPUS=`basename ${TRAINING_CORPUS}_excerpt.txt`
 
 CONFIG_TEMPLATE=${srcdir}/../../resources/profiles/soothsayer.xml.template
 CONFIG=soothsayer.xml
 
-NGRAM_CARDINALITY=5
+NGRAM_CARDINALITY=3
+
 
 DATABASE=database.db
 
@@ -95,6 +96,16 @@ function restore_config()
 }
 
 ####
+# Generate control corpus
+#
+function generate_control_corpus
+{
+    # just extract some text from the training
+    # corpus for the time being      # REVISIT
+    cat $TRAINING_CORPUS | head -n 20 | tail -n 10 > $CONTROL_CORPUS
+}
+
+####
 # simulate
 #
 # arg1 control corpus file
@@ -138,9 +149,14 @@ function execute()
 #
 function clean_up()
 {
-    if [ -f $DATABASE ]
+    if [ -f "$DATABASE" ]
     then
 	rm $DATABASE
+    fi
+
+    if [ -f "$CONTROL_CORPUS" ]
+    then
+        rm $CONTROL_CORPUS
     fi
 }
 
@@ -151,6 +167,7 @@ function clean_up()
 clean_up
 generate_config
 generate_resources $NGRAM_CARDINALITY $TRAINING_CORPUS
+generate_control_corpus
 simulate $CONTROL_CORPUS
 restore_config
 clean_up

@@ -7,8 +7,6 @@ TODO list
 
 
 Absolute first
- - change AC_MSG_NOTICE to AC_MSG_WARNING for python binding notices
- - dependency on ncurses
  - clean up SmoothedNgram debug code
  - test performance with different n values in n-gram
  - make soothsayerSimulator accept normal text files, as opposed to
