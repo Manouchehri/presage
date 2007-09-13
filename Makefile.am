@@ -17,7 +17,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	src test resources bindings
+SUBDIRS =	src test resources bindings doc
 
 BUILT_SOURCES =	dirs.h
 CLEANFILES =	dirs.h
@@ -32,7 +32,7 @@ dirs.h:	Makefile
 	echo '#define localstatedir "$(localstatedir)"' >> $@
 
 
-EXTRA_DIST =	INSTALL_cygwin_dev_env.txt FAQ Doxyfile
+EXTRA_DIST =	INSTALL_cygwin_dev_env.txt FAQ
 
 # Ensure local m4 macros are included during autoreconf and automatic
 # aclocal.m4 remaking

@@ -163,6 +163,17 @@ fi
 AM_CONDITIONAL(ENABLE_PYTHON_BINDING, test "x$ac_enable_python_binding" = "xyes")
 
 
+dnl ==================
+dnl Checks for Doxygen
+dnl ==================
+AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
+if test "x$HAVE_DOXYGEN" = "xno"
+then
+    AC_MSG_NOTICE([Doxygen not found. API documentation will not be built.])
+fi
+AM_CONDITIONAL([HAVE_DOXYGEN], [test "x$HAVE_DOXYGEN" = "xyes"])
+
+
 ############################
 # Temporarily disabling this
 #AC_CONFIG_SUBDIRS(src/plump)
@@ -188,4 +199,7 @@ AC_OUTPUT([
 	resources/profiles/Makefile
 	bindings/Makefile
 	bindings/python/setup.py
-	bindings/python/Makefile])
+	bindings/python/Makefile
+	doc/Doxyfile
+	doc/Makefile
+])

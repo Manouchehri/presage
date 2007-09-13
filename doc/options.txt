@@ -1,4 +1,7 @@
 
+Warning: the contents of this file are seriously outdated!
+         See comments in soothsayer.xml instead.
+
 ///////////////////////////////////////////////////////////////////////////////
 [HistoryTracker]
 
