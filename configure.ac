@@ -203,3 +203,39 @@ AC_OUTPUT([
 	doc/Doxyfile
 	doc/Makefile
 ])
+
+if test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue"
+then
+    build_demo_application="yes"
+else
+    build_demo_application="no"
+fi
+if test "$CPPUNIT_LIBS"
+then
+    build_unit_tests="yes"
+else
+    build_unit_tests="no"
+fi
+if test "$SWIG" -a "$PYTHON" -a "$ac_enable_python_binding"
+then
+    build_python_binding="yes"
+else
+    build_python_binding="no"
+fi
+AC_MSG_RESULT([
+  $PACKAGE $VERSION configured successfully.
+
+  General configuration:
+
+    Compiler: ................... ${CXX}
+    Curses demo application: .... ${build_demo_application}
+    Unit tests: ................. ${build_unit_tests}
+    Python binding: ............. ${build_python_binding}
+    API Documentation: .......... ${HAVE_DOXYGEN}
+
+  Building:
+
+    Type `make' to build $PACKAGE.
+    Type `make check' to test $PACKAGE.
+    Type `make install' to install $PACKAGE.
+])

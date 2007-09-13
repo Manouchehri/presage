@@ -3,6 +3,8 @@
 	* configure.ac, doc/Doxyfile.in, Makefile.am: integrated Doxygen
 	documentation generation into autotools build system.
 
+	* configure.ac: added configuration information notification.
+	
 2007-09-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* test/integration.sh: modified integration test training corpus
