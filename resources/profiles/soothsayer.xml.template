@@ -30,6 +30,7 @@
         <GREEDY_SUGGESTION_THRESHOLD>0</GREEDY_SUGGESTION_THRESHOLD>
     </Selector>
     <Predictor>
+        <LOGGER>DEBUG</LOGGER>
         <!-- PREDICT_TIME
           Maximum time allowed for predictive plugins to return their prediction.
 	-->

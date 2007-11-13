@@ -37,6 +37,7 @@
 #include "core/contextTracker.h"
 #include "core/prediction.h"
 #include "core/profile.h"
+#include "core/logger.h"
 
 #include "core/combiner.h"
 #include "core/meritocracyCombiner.h"
@@ -176,6 +177,8 @@ class Predictor {
     ContextTracker* contextTracker;
     Profile* profile;
 
+    Logger<char>* logger;
+
     Combiner* combiner;
     std::string combinationPolicy;
 
@@ -185,6 +188,7 @@ class Predictor {
     std::vector<Prediction> predictions; // predictions computed by each plugin are returned here
 
     int PREDICT_TIME;
+
 };
 
 #endif // SOOTH_PREDICTOR

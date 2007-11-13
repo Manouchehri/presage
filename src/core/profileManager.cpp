@@ -205,6 +205,15 @@ void ProfileManager::buildProfile(const std::string p)
     module = root->InsertEndChild( TiXmlElement( "Predictor" ) );
     assert( module );
     if( module ) {
+        element = module->InsertEndChild(TiXmlElement("LOGGER"));
+        assert( element );
+        if( element ) {
+            std::ostringstream ss;
+            ss << "DEBUG";
+            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
+            assert( node );
+        }
+
         element = module->InsertEndChild(TiXmlElement("PREDICT_TIME"));
         assert( element );
         if( element ) {

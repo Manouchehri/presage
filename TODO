@@ -5,6 +5,21 @@ The Soothsayer project
 TODO list
 ---------
 
+*** working on logger
+ need to integrate it into logger.cxx. idea is that logger has an
+   instance of ostream which has a module name and contains a
+   logging level.
+
+ need to create a manipulator that sets the debug level
+ override operator<< to check debug level to determine whether to send
+   stuff to cerr or not.
+
+ would be nice to have << std::endl working too.
+
+ fix Level
+
+ implement Level manipulator
+
 
 Absolute first
  - clean up SmoothedNgram debug code
@@ -228,25 +243,3 @@ automake -a --copy
 
 or source the bootstrap script provided (in svn repo):
 . bootstrap
-
-
-----
-DONE
-~~~~
-
-- configuration pulling instead of pushing
-  instead of having a smart ProfileManager actively initializing each
-  component (including plugins), the individual components should
-  pull the config variable they require from ProfileManager.  This
-  means that the plugins must have a handle to the ProfileManager and
-  call a query method passing what config variable they want and
-  returning a string with the value. The plugin will then convert the
-  string to the appropriate type and use it internally. The advantage
-  of this approach is that the plugin will know what variables it
-  wants and their type (can throw an exception if unable to convert
-  value to appropriate type); ProfileManager does not need to be
-  smart, and there is no need of a PluginManager to keep track of
-  active plugins, since plugins will pull the config variables they
-  need.
-   + profileManager: add ~/.soothsayer/soothsayer.xml searching
-
