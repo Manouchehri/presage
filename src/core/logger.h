@@ -33,10 +33,27 @@
 #include <iostream>
 
 
-template <class _charT, class _Traits=std::char_traits<_charT> >
-class Logger
-{
-  public:
+// manipulators
+struct _SetLevel { std::string _level; };
+
+/**
+ *  @brief  Manipulator for @c fill.
+ *  @param  c  The new fill character.
+ *
+ *  Sent to a stream object, this manipulator calls @c fill(c) for that
+ *  object.
+ */
+inline _SetLevel
+setlevel(std::string __l)
+{ 
+    _SetLevel __x;
+    __x._level = __l;
+    return __x; 
+}
+
+// current log level manipulators
+class LogLevel {
+public:
     // type definitions
     enum Level
     {
@@ -52,83 +69,119 @@ class Logger
         ALL    = 800
     };
 
-  // constructors
-  Logger (std::basic_ostream<_charT,_Traits>& ostr)
-  : outstream(ostr)
-  {
-      setLevel(ERROR);
-  }
+    LogLevel (const Level& lvl)
+	{
+	    level = lvl;
+	}
+
+private:
+    Level level;
+
+};
+
+
+// TODO: turn these into a macro and add all debug levels
+static LogLevel FATAL(LogLevel::FATAL);
+static LogLevel ERROR(LogLevel::ERROR);
+static LogLevel DEBUG(LogLevel::DEBUG);
+
+template <class _charT, class _Traits=std::char_traits<_charT> >
+class Logger
+{
+public:
+    // type definitions
+    enum Level
+    {
+        EMERG  = 0, 
+        FATAL  = 0,
+        ALERT  = 100,
+        CRIT   = 200,
+        ERROR  = 300, 
+        WARN   = 400,
+        NOTICE = 500,
+        INFO   = 600,
+        DEBUG  = 700,
+        ALL    = 800
+    };
+
+    // constructors
+    Logger (std::basic_ostream<_charT,_Traits>& ostr)
+	: outstream(ostr)
+	{
+	    setLevel(ERROR);
+	    current = ERROR;
+	}
   
-  Logger (std::basic_ostream<_charT,_Traits>& ostr,
-	  const std::string& lvl)
-  : outstream(ostr)
-  {
-      setLevel(ERROR);
-  }
+    Logger (std::basic_ostream<_charT,_Traits>& ostr,
+	    const std::string& lvl)
+	: outstream(ostr)
+	{
+	    setLevel(lvl);
+	    current = DEBUG;
+	}
 
-  // destructor
-  ~Logger ()
-  {
-      outstream.flush();
-  }
-
-
-  // level getters/setters
-  void
-  setLevel(const std::string& lvl)
-  {
-      if (lvl == "EMERG") {
-	  level = EMERG;
-      } else if (lvl == "FATAL") {
-	  level = FATAL;
-      } else if (lvl == "ALERT") {
-	  level = ALERT;
-      } else if (lvl == "CRIT") {
-	  level = CRIT;
-      } else if (lvl == "ERROR") {
-	  level = ERROR;
-      } else if (lvl == "WARN") {
-	  level = WARN;
-      } else if (lvl == "NOTICE") {
-	  level = NOTICE;
-      } else if (lvl == "INFO") {
-	  level = INFO;
-      } else if (lvl == "DEBUG") {
-	  level = DEBUG;
-      } else if (lvl == "ALL") {
-	  level = ALL;
-      } else {
-	  level = ERROR;
-      }
-  }
-
-  void
-  setLevel (Level l)
-  {
-      level = l;
-  }
-
-  Level
-  getLevel () const
-  {
-      return level;
-  }
+    // destructor
+    ~Logger ()
+	{
+	    outstream.flush();
+	}
 
 
+    // level getters/setters
+    void
+    setLevel(const std::string& lvl)
+	{
+	    if (lvl == "EMERG") {
+		level = EMERG;
+	    } else if (lvl == "FATAL") {
+		level = FATAL;
+	    } else if (lvl == "ALERT") {
+		level = ALERT;
+	    } else if (lvl == "CRIT") {
+		level = CRIT;
+	    } else if (lvl == "ERROR") {
+		level = ERROR;
+	    } else if (lvl == "WARN") {
+		level = WARN;
+	    } else if (lvl == "NOTICE") {
+		level = NOTICE;
+	    } else if (lvl == "INFO") {
+		level = INFO;
+	    } else if (lvl == "DEBUG") {
+		level = DEBUG;
+	    } else if (lvl == "ALL") {
+		level = ALL;
+	    } else {
+		level = ERROR;
+	    }
+	}
 
-  // logging methods
+    void
+    setLevel (Level l)
+	{
+	    level = l;
+	}
 
-  template<typename T>
-  friend Logger&
-  operator<< (Logger& lgr, const T& msg)
-  {
-      Level lev = FATAL;
-      if (lgr.level >= lev)
-      {
-	  lgr.outstream << msg;
-      }
-      return lgr;
-  }
+    Level
+    getLevel () const
+	{
+	    return level;
+	}
+
+
+
+    // logging methods
+
+    template<typename T>
+    friend Logger&
+    operator<< (Logger& lgr, const T& msg)
+	{
+	    if (lgr.level >= lgr.current)
+	    {
+		lgr.outstream << msg;
+	    }
+	    return lgr;
+	}
 
 
 //   // this overloaded operator<< is not enough, it results in a
@@ -144,11 +197,33 @@ class Logger
 //       }
 //   }
     
+    inline Logger& 
+    operator<< (_SetLevel __l)
+	{ 
+	    setLevel(__l._level); 
+	    return *this; 
+	}
+    
 
-  private:
-  std::basic_ostream <_charT, _Traits>& outstream;
-  Level level;
+    
+private:
+    std::basic_ostream <_charT, _Traits>& outstream;
+    Level level;
+
+    Level current;
 };
+
+
+//  template<typename _CharT, typename _Traits>
+//  inline Logger<_CharT,_Traits>& 
+//  operator<< (Logger<_CharT,_Traits>& __lgr, _SetLevel __l)
+//    { 
+//      __lgr.setLevel(__l._level); 
+//      return __lgr; 
+//    }
+
+
+
 
 
 #endif // SOOTHSAYER_LOGGER
