@@ -52,7 +52,7 @@ setlevel(std::string __l)
 }
 
 // current log level manipulators
-class LogLevel {
+class LogLevel : public _SetLevel {
 public:
     // type definitions
     enum Level
@@ -80,10 +80,18 @@ private:
 };
 
 
-// TODO: turn these into a macro and add all debug levels
-static LogLevel FATAL(LogLevel::FATAL);
-static LogLevel ERROR(LogLevel::ERROR);
-static LogLevel DEBUG(LogLevel::DEBUG);
+#define declare_log_level(LEVEL) static LogLevel LEVEL(LogLevel::LEVEL)
+
+declare_log_level(EMERG );
+declare_log_level(FATAL );
+declare_log_level(ALERT );
+declare_log_level(CRIT  );
+declare_log_level(ERROR );
+declare_log_level(WARN  );
+declare_log_level(NOTICE);
+declare_log_level(INFO  );
+declare_log_level(DEBUG );
+declare_log_level(ALL   );
 
 template <class _charT, class _Traits=std::char_traits<_charT> >
 class Logger
