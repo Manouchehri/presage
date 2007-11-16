@@ -19,9 +19,10 @@ documentation.
 
 Requirements:
 - A working development enviroment.
-  On Linux/Unix systems, this means having GCC, the GNU Compiler
+  On Linux/Unix systems, this means having GCC (g++), the GNU Compiler
   Collection packages, as well as libraries for these languages
-  (libstdc++, libgcj, glibc, etc).
+  (libstdc++, glibc, etc).
+
   On Windows systems, please install the Cygwin development
   environment. Cygwin can be obtained from http://www.cygwin.com
   Instructions on how to setup Cygwin and the required packages can be
