@@ -51,47 +51,7 @@ setlevel(std::string __l)
     return __x; 
 }
 
-// current log level manipulators
-class LogLevel : public _SetLevel {
-public:
-    // type definitions
-    enum Level
-    {
-        EMERG  = 0, 
-        FATAL  = 0,
-        ALERT  = 100,
-        CRIT   = 200,
-        ERROR  = 300, 
-        WARN   = 400,
-        NOTICE = 500,
-        INFO   = 600,
-        DEBUG  = 700,
-        ALL    = 800
-    };
 
-    LogLevel (const Level& lvl)
-	{
-	    level = lvl;
-	}
-
-private:
-    Level level;
-
-};
-
-
-#define declare_log_level(LEVEL) static LogLevel LEVEL(LogLevel::LEVEL)
-
-declare_log_level(EMERG );
-declare_log_level(FATAL );
-declare_log_level(ALERT );
-declare_log_level(CRIT  );
-declare_log_level(ERROR );
-declare_log_level(WARN  );
-declare_log_level(NOTICE);
-declare_log_level(INFO  );
-declare_log_level(DEBUG );
-declare_log_level(ALL   );
 
 template <class _charT, class _Traits=std::char_traits<_charT> >
 class Logger
@@ -116,16 +76,16 @@ public:
     Logger (std::basic_ostream<_charT,_Traits>& ostr)
 	: outstream(ostr)
 	{
-	    setLevel(ERROR);
-	    current = ERROR;
+	    loggerLevel = ERROR;
+	    currentLevel = ERROR;
 	}
   
     Logger (std::basic_ostream<_charT,_Traits>& ostr,
 	    const std::string& lvl)
 	: outstream(ostr)
 	{
-	    setLevel(lvl);
-	    current = DEBUG;
+	    set (loggerLevel, lvl);
+	    set (currentLevel, lvl);
 	}
 
     // destructor
@@ -139,43 +99,32 @@ public:
     void
     setLevel(const std::string& lvl)
 	{
-	    if (lvl == "EMERG") {
-		level = EMERG;
-	    } else if (lvl == "FATAL") {
-		level = FATAL;
-	    } else if (lvl == "ALERT") {
-		level = ALERT;
-	    } else if (lvl == "CRIT") {
-		level = CRIT;
-	    } else if (lvl == "ERROR") {
-		level = ERROR;
-	    } else if (lvl == "WARN") {
-		level = WARN;
-	    } else if (lvl == "NOTICE") {
-		level = NOTICE;
-	    } else if (lvl == "INFO") {
-		level = INFO;
-	    } else if (lvl == "DEBUG") {
-		level = DEBUG;
-	    } else if (lvl == "ALL") {
-		level = ALL;
-	    } else {
-		level = ERROR;
-	    }
+	    set(loggerLevel, lvl);
 	}
 
     void
-    setLevel (Level l)
+    setLevel (Level lvl)
 	{
-	    level = l;
+	    loggerLevel = lvl;
 	}
 
     Level
     getLevel () const
 	{
-	    return level;
+	    return loggerLevel;
 	}
 
+    void
+    setCurrentLevel (Level lvl)
+	{
+	    currentLevel = lvl;
+	}
+
+    Level
+    getCurrentLevel() const
+	{
+	    return currentLevel;
+	}
 
 
     // logging methods
@@ -184,7 +133,7 @@ public:
     friend Logger&
     operator<< (Logger& lgr, const T& msg)
 	{
-	    if (lgr.level >= lgr.current)
+	    if (lgr.loggerLevel >= lgr.currentLevel)
 	    {
 		lgr.outstream << msg;
 	    }
@@ -211,27 +160,87 @@ public:
 	    setLevel(__l._level); 
 	    return *this; 
 	}
-    
 
+
+    // this method is needed by the functions defined by macro
+    // define_logger_level_manipulator(LEVEL)
+    //
+    inline Logger&
+    operator<< (Logger& (*fp)(Logger&))
+	{
+	    (*fp)(*this);
+	    return *this;
+	}
+
+    inline void endl()
+	{
+	    outstream << std::endl;
+	}
     
 private:
-    std::basic_ostream <_charT, _Traits>& outstream;
-    Level level;
+    void set(Level& level, const std::string& lvl)
+	{
+    	    if (lvl == "EMERG") {
+		level = EMERG;
+	    } else if (lvl == "FATAL") {
+		level = FATAL;
+	    } else if (lvl == "ALERT") {
+		level = ALERT;
+	    } else if (lvl == "CRIT") {
+		level = CRIT;
+	    } else if (lvl == "ERROR") {
+		level = ERROR;
+	    } else if (lvl == "WARN") {
+		level = WARN;
+	    } else if (lvl == "NOTICE") {
+		level = NOTICE;
+	    } else if (lvl == "INFO") {
+		level = INFO;
+	    } else if (lvl == "DEBUG") {
+		level = DEBUG;
+	    } else if (lvl == "ALL") {
+		level = ALL;
+	    } else {
+		level = ERROR;
+	    }
+	}
 
-    Level current;
+    std::basic_ostream <_charT, _Traits>& outstream;
+
+    Level loggerLevel;
+    Level currentLevel;
 };
 
 
-//  template<typename _CharT, typename _Traits>
-//  inline Logger<_CharT,_Traits>& 
-//  operator<< (Logger<_CharT,_Traits>& __lgr, _SetLevel __l)
-//    { 
-//      __lgr.setLevel(__l._level); 
-//      return __lgr; 
-//    }
+
+#define define_logger_level_manipulator(LEVEL)    \
+template <typename _charT, typename _Traits>      \
+inline Logger<_charT, _Traits>&                   \
+LEVEL (Logger<_charT, _Traits>& lgr)              \
+{                                                 \
+    lgr.setCurrentLevel(Logger<_charT, _Traits>::LEVEL); \
+    return lgr;                                   \
+}                                                 
+
+define_logger_level_manipulator(EMERG );
+define_logger_level_manipulator(FATAL );
+define_logger_level_manipulator(ALERT );
+define_logger_level_manipulator(CRIT  );
+define_logger_level_manipulator(ERROR );
+define_logger_level_manipulator(WARN  );
+define_logger_level_manipulator(NOTICE);
+define_logger_level_manipulator(INFO  );
+define_logger_level_manipulator(DEBUG );
+define_logger_level_manipulator(ALL   );
 
 
-
+template <typename _charT, typename _Traits>
+inline Logger<_charT, _Traits>&
+endl (Logger<_charT, _Traits>& lgr)
+{
+    lgr.endl();
+    return lgr;
+}                                                 
 
 
 #endif // SOOTHSAYER_LOGGER

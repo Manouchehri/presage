@@ -39,6 +39,7 @@ public:
     void testFileOutput();
 
     void testSetLevelManipulator();
+    void testCurrentLevelManipulator();
 
 private:
 
@@ -46,6 +47,7 @@ private:
     CPPUNIT_TEST( testStandardErrorOutput );
     CPPUNIT_TEST( testFileOutput          );
     CPPUNIT_TEST( testSetLevelManipulator );
+    CPPUNIT_TEST( testCurrentLevelManipulator );
     CPPUNIT_TEST_SUITE_END();
 };
 
