@@ -161,6 +161,15 @@ void ProfileManager::buildProfile(const std::string p)
     module = root->InsertEndChild( TiXmlElement( "ContextTracker" ) );
     assert( module );
     if( module ) {
+        element = module->InsertEndChild(TiXmlElement("LOGGER"));
+        assert( element );
+        if( element ) {
+            std::ostringstream ss;
+            ss << DEFAULT_LOGGER_LEVEL;
+            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
+            assert( node );
+        }
+
         element = module->InsertEndChild( TiXmlElement( "MAX_BUFFER_SIZE" ) );
         assert( element );
         if( element ) {
@@ -209,7 +218,7 @@ void ProfileManager::buildProfile(const std::string p)
         assert( element );
         if( element ) {
             std::ostringstream ss;
-            ss << "DEBUG";
+            ss << DEFAULT_LOGGER_LEVEL;
             node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
             assert( node );
         }

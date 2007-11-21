@@ -26,12 +26,6 @@
 #include "contextTracker.h"
 #include "utility.h"
 
-#ifdef DEBUG
-# define LOG(x) std::cerr << x << std::endl
-#else
-# define LOG(x) /* x */
-#endif
-
 
 ContextTracker::ContextTracker(Profile* profile,
 			       const char wChars[],
@@ -44,6 +38,7 @@ ContextTracker::ContextTracker(Profile* profile,
       controlChars   (cChars)
       //tokenizer      (pastStream, blankspaceChars, separatorChars)
 {
+    logger = 0;
     //pastStream.clear();
     //pastStream.seekg(0, std::ios::beg);
     //pastStream.seekp(0, std::ios::end);
@@ -59,9 +54,15 @@ ContextTracker::ContextTracker(Profile* profile,
     Value value;
 
     try {
+	variable.push_back("LOGGER");
+	value = profile->getConfig(variable);
+	logger = new Logger<char>(std::cerr, value);
+	*logger << INFO << "[ContextTracker] LOGGER: " << value << endl;
+	variable.pop_back();
+
 	variable.push_back("MAX_BUFFER_SIZE");
 	value = profile->getConfig(variable);
-	LOG("[ContextTracker] MAX_BUFFER_SIZE: " + value);
+	*logger << "[ContextTracker] MAX_BUFFER_SIZE: " << value << endl;
 	setMaxBufferSize(toInt(value));
 	variable.pop_back();
     } catch (Profile::ProfileException ex) {
@@ -73,7 +74,7 @@ ContextTracker::ContextTracker(Profile* profile,
 
 ContextTracker::~ContextTracker()
 {
-    // nothing to do here, move along
+    delete logger;
 }
 
 void ContextTracker::update(std::string s)
@@ -91,7 +92,7 @@ void ContextTracker::update(std::string s)
            || isBlankspaceChar(s[i])) {
             // if s is a word string, append to pastBuffer
             // if s is a separator string, append to pastBuffer
-            LOG("[ContextTracker] updating wordChar/separatorChar/blankspaceChar: " + s[i]);
+            *logger << "[ContextTracker] updating wordChar/separatorChar/blankspaceChar: " << s[i] << endl;
 #ifdef USE_STRINGSTREAM
             assert(pastStream.good());
             pastStream.put(s[i]);
@@ -103,7 +104,7 @@ void ContextTracker::update(std::string s)
             //std::cerr << "ContextTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
         } else if ( isControlChar(s[i]) ) {
             //if s is a control string, take the appropriate action
-            LOG("[ContextTracker] updating controlChar: " + s[i]);
+            *logger << "[ContextTracker] updating controlChar: " << s[i] << endl;
 
 // REVISIT ////
 
@@ -188,16 +189,16 @@ void ContextTracker::update(std::string s)
                 // TODO: provide a better implementation.
                 //
 #ifdef USE_STRINGSTREAM
-                LOG("[ContextTracker] pastStream before: " + pastStream.str());
+                *logger << "[ContextTracker] pastStream before: " << pastStream.str() << endl;
                 std::string temp = pastStream.str();
                 temp.erase(temp.end() - 1);
                 pastStream.str(temp);
                 pastStream.seekg(0, std::ios::end);
-                LOG("[ContextTracker] pastStream after : " + pastStream.str());
+                *logger << "[ContextTracker] pastStream after : " << pastStream.str() << endl;
 #else
-                LOG("[ContextTracker] pastStream before: " + pastStream);
+                *logger << "[ContextTracker] pastStream before: " << pastStream << endl;
                 pastStream.erase(pastStream.end() - 1);
-                LOG("[ContextTracker] pastStream before: " + pastStream);
+                *logger << "[ContextTracker] pastStream before: " << pastStream << endl;
 #endif
             }
 
@@ -242,21 +243,21 @@ void ContextTracker::update(std::string s)
         }
 
 #ifdef USE_STRINGSTREAM
-        LOG("[ContextTracker] pastStream: " + pastStream.str());
+        *logger << "[ContextTracker] pastStream: " << pastStream.str() << endl;
 #else
-        LOG("[ContextTracker] pastStream: " + pastStream);
+        *logger << "[ContextTracker] pastStream: " << pastStream << endl;
 #endif
     }
 
 
-    LOG("[ContextTracker] contextChange: contextTracker-getPrefix():" + getPrefix());
-    LOG("[ContextTracker] contextChange: contextTracker-getToken(1):" + getToken(1));
-    LOG("[ContextTracker] contextChange: previous_prefix: " + previous_prefix);
+    *logger << "[ContextTracker] contextChange: contextTracker-getPrefix():" << getPrefix() << endl;
+    *logger << "[ContextTracker] contextChange: contextTracker-getToken(1):" << getToken(1) << endl;
+    *logger << "[ContextTracker] contextChange: previous_prefix: " << previous_prefix << endl;
 
     contextChanged = true;
 
     if (!getPrefix().empty()) {
-	LOG("[ContextTracker] Prefix not empty");
+	*logger << "[ContextTracker] Prefix not empty" << endl;
 	// if current prefix is not null
 	std::string::size_type loc = getPrefix().find(previous_prefix, 0);
 	if (loc == 0) {
@@ -264,7 +265,7 @@ void ContextTracker::update(std::string s)
 	    // at the beginning of the string, the context has not
 	    // changed
 	    //
-	    LOG("[ContextTracker] Found prefix in getPrefix()");
+	    *logger << "[ContextTracker] Found prefix in getPrefix()" << endl;
 	    contextChanged = false;
 	}
 
@@ -277,16 +278,16 @@ void ContextTracker::update(std::string s)
 
 //    } else {
 //	// if prefix is empty
-//	LOG("[ContextTracker] Prefix not empty");
+//	*logger << "[ContextTracker] Prefix not empty");
 //	if (previous_prefix != getToken(1)) {
-//	    LOG("[ContextTracker] Reversing context change");
+//	    *logger << "[ContextTracker] Reversing context change");
 //	    contextChanged = false;
 //	}
     }
 
     previous_prefix = getPrefix();
 
-    LOG("[ContextTracker] contextChange: previous_prefix: " + previous_prefix);
+    *logger << "[ContextTracker] contextChange: previous_prefix: " << previous_prefix << endl;
 }
 
 /** Returns true if a context change occured.

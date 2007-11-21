@@ -10,15 +10,18 @@ TODO list
    instance of ostream which has a module name and contains a
    logging level.
 
- need to create a manipulator that sets the debug level
- override operator<< to check debug level to determine whether to send
+DONE need to create a manipulator that sets the debug level
+DONE override operator<< to check debug level to determine whether to send
    stuff to cerr or not.
 
- would be nice to have << std::endl working too.
+DONE would be nice to have << std::endl working too.
 
- fix Level
+DONE fix Level
 
- implement Level manipulator
+DONE implement Level manipulator
+
+ use new logger throughout soothie
+
 
 
 Absolute first

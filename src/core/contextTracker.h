@@ -39,7 +39,7 @@
 #include "core/tokenizer/reverseTokenizer.h"
 #include "core/charsets.h"
 #include "core/profile.h"
-
+#include "core/logger.h"
 
 /** \brief Tracks user interaction and context.
  *
@@ -212,6 +212,7 @@ private:
     bool isControlChar   (const char) const;
     bool isBlankspaceChar(const char) const;
 
+    Logger<char>* logger;
 };
 
 /*

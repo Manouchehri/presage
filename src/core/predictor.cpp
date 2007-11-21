@@ -58,30 +58,30 @@ Predictor::Predictor(Profile* prof, ContextTracker* ct)
 	value = profile->getConfig(variable);
 	logger = new Logger<char>(std::cerr, value);
 
-	*logger << INFO << "[Predictor] LOGGER: " << value << '\n';
+	*logger << INFO << "[Predictor] LOGGER: " << value << endl;
 	variable.pop_back();
 
 	variable.push_back("PREDICT_TIME");
 	value = profile->getConfig(variable);
-	*logger << INFO << "[Predictor] PREDICT_TIME: " << value << '\n';
+	*logger << INFO << "[Predictor] PREDICT_TIME: " << value << endl;
 	setPredictTime(toInt(value));
 	variable.pop_back();
 
 	variable.push_back("MAX_PARTIAL_PREDICTION_SIZE");
 	value = profile->getConfig(variable);
-	*logger << INFO << "[Predictor] MAX_PARTIAL_PREDICTION_SIZE: " << value << '\n';
+	*logger << INFO << "[Predictor] MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
 	max_partial_prediction_size = toInt(value);
 	variable.pop_back();
 
 	variable.push_back("COMBINATION_POLICY");
 	value = profile->getConfig(variable);
-	*logger << INFO << "[Predictor] COMBINATION_POLICY: " << value << '\n';
+	*logger << INFO << "[Predictor] COMBINATION_POLICY: " << value << endl;
 	setCombinationPolicy(value);
 	variable.pop_back();
 
 	variable.push_back("PLUGINS");
 	value = profile->getConfig(variable);
-	*logger << INFO << "[Predictor] PLUGINS: " << value << '\n';
+	*logger << INFO << "[Predictor] PLUGINS: " << value << endl;
 	setPlugins(value);
 	variable.pop_back();
 
@@ -104,7 +104,7 @@ void Predictor::setPlugins(const std::string& pluginList)
     std::stringstream ss(pluginList);
     std::string pluginName;
     while (ss >> pluginName) {
-	*logger << INFO << "[Predictor] Initializing predictive plugin: " << pluginName << '\n';
+	*logger << INFO << "[Predictor] Initializing predictive plugin: " << pluginName << endl;
 	addPlugin(pluginName);
     }
 }
@@ -138,7 +138,7 @@ void Predictor::addPlugin(const std::string& pluginName)
     
     if (plugin != 0) {
 	plugins.push_back (plugin);
-	*logger << INFO << "[Predictor] Activated predictive plugin: " << pluginName << '\n';
+	*logger << INFO << "[Predictor] Activated predictive plugin: " << pluginName << endl;
     }
 }
 
@@ -210,7 +210,7 @@ bool Predictor::setPredictTime( const int predictTime )
                   << "than or equal to zero.\a" << std::endl;
         return false;
     } else {
-	*logger << INFO << "[Predictor] Setting PREDICT_TIME to " << predictTime << '\n';
+	*logger << INFO << "[Predictor] Setting PREDICT_TIME to " << predictTime << endl;
         PREDICT_TIME = predictTime;
         return true;
     }
@@ -225,7 +225,7 @@ int Predictor::getPredictTime() const
 
 void Predictor::setCombinationPolicy(const std::string cp)
 {
-    *logger << INFO << "[Predictor] Setting COMBINATION_POLICY to " << cp << '\n';
+    *logger << INFO << "[Predictor] Setting COMBINATION_POLICY to " << cp << endl;
     delete combiner;
     combinationPolicy = cp;
 
