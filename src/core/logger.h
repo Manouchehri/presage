@@ -73,19 +73,25 @@ public:
     };
 
     // constructors
-    Logger (std::basic_ostream<_charT,_Traits>& ostr)
+    Logger (std::string logger_name,
+	    std::basic_ostream<_charT,_Traits>& ostr)
 	: outstream(ostr)
 	{
+	    set_logger_name(logger_name);
 	    loggerLevel = ERROR;
 	    currentLevel = ERROR;
+	    line_beginning = true;
 	}
   
-    Logger (std::basic_ostream<_charT,_Traits>& ostr,
+    Logger (std::string logger_name,
+	    std::basic_ostream<_charT,_Traits>& ostr,
 	    const std::string& lvl)
 	: outstream(ostr)
 	{
+	    set_logger_name(logger_name);
 	    set (loggerLevel, lvl);
 	    set (currentLevel, lvl);
+	    line_beginning = true;
 	}
 
     // destructor
@@ -135,6 +141,10 @@ public:
 	{
 	    if (lgr.loggerLevel >= lgr.currentLevel)
 	    {
+		if (lgr.line_beginning) {
+		    lgr.outstream << lgr.name;
+		    lgr.line_beginning = false;
+		}
 		lgr.outstream << msg;
 	    }
 	    return lgr;
@@ -175,6 +185,7 @@ public:
     inline void endl()
 	{
 	    outstream << std::endl;
+	    line_beginning = true;
 	}
     
 private:
@@ -205,7 +216,15 @@ private:
 	    }
 	}
 
+    void set_logger_name(const std::string& logger_name)
+	{
+	    name = "[" + logger_name + "] ";
+	}
+
+    std::string name;
     std::basic_ostream <_charT, _Traits>& outstream;
+
+    bool line_beginning;
 
     Level loggerLevel;
     Level currentLevel;

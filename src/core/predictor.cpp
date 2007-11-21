@@ -56,37 +56,37 @@ Predictor::Predictor(Profile* prof, ContextTracker* ct)
     try {
 	variable.push_back("LOGGER");
 	value = profile->getConfig(variable);
-	logger = new Logger<char>(std::cerr, value);
+	logger = new Logger<char>("Predictor", std::cerr, value);
 
-	*logger << INFO << "[Predictor] LOGGER: " << value << endl;
+	*logger << INFO << "LOGGER: " << value << endl;
 	variable.pop_back();
 
 	variable.push_back("PREDICT_TIME");
 	value = profile->getConfig(variable);
-	*logger << INFO << "[Predictor] PREDICT_TIME: " << value << endl;
+	*logger << INFO << "PREDICT_TIME: " << value << endl;
 	setPredictTime(toInt(value));
 	variable.pop_back();
 
 	variable.push_back("MAX_PARTIAL_PREDICTION_SIZE");
 	value = profile->getConfig(variable);
-	*logger << INFO << "[Predictor] MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
+	*logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
 	max_partial_prediction_size = toInt(value);
 	variable.pop_back();
 
 	variable.push_back("COMBINATION_POLICY");
 	value = profile->getConfig(variable);
-	*logger << INFO << "[Predictor] COMBINATION_POLICY: " << value << endl;
+	*logger << INFO << "COMBINATION_POLICY: " << value << endl;
 	setCombinationPolicy(value);
 	variable.pop_back();
 
 	variable.push_back("PLUGINS");
 	value = profile->getConfig(variable);
-	*logger << INFO << "[Predictor] PLUGINS: " << value << endl;
+	*logger << INFO << "PLUGINS: " << value << endl;
 	setPlugins(value);
 	variable.pop_back();
 
     } catch (Profile::ProfileException ex) {
-	std::cerr << "[Predictor] Caught ProfileException: " << ex.what() << std::endl;
+	*logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
     }
 }
 
@@ -104,7 +104,7 @@ void Predictor::setPlugins(const std::string& pluginList)
     std::stringstream ss(pluginList);
     std::string pluginName;
     while (ss >> pluginName) {
-	*logger << INFO << "[Predictor] Initializing predictive plugin: " << pluginName << endl;
+	*logger << INFO << "Initializing predictive plugin: " << pluginName << endl;
 	addPlugin(pluginName);
     }
 }
@@ -131,14 +131,14 @@ void Predictor::addPlugin(const std::string& pluginName)
 	plugin = new SmoothedCountPlugin(profile, contextTracker);
     } else {
 	// TODO: raise exception
-	std::cerr << "[Predictor] Error: unable to add plugin: " 
-		  << pluginName << std::endl;
+	*logger << ERROR << "Error: unable to add plugin: " 
+		<< pluginName << endl;
 	abort();
     }
     
     if (plugin != 0) {
 	plugins.push_back (plugin);
-	*logger << INFO << "[Predictor] Activated predictive plugin: " << pluginName << endl;
+	*logger << INFO << "Activated predictive plugin: " << pluginName << endl;
     }
 }
 
@@ -204,13 +204,13 @@ bool Predictor::setPredictTime( const int predictTime )
 {
     // handle exception where predictTime is less than zero
     if( predictTime < 0 ) {
-        std::cerr << "Error: attempted to set PREDICT_TIME option to "
-                  << "a negative integer value. Please make sure that "
-                  << "PREDICT_TIME option is set to a value greater "
-                  << "than or equal to zero.\a" << std::endl;
+        *logger << ERROR << "Error: attempted to set PREDICT_TIME option to "
+		<< "a negative integer value. Please make sure that "
+		<< "PREDICT_TIME option is set to a value greater "
+		<< "than or equal to zero.\a" << endl;
         return false;
     } else {
-	*logger << INFO << "[Predictor] Setting PREDICT_TIME to " << predictTime << endl;
+	*logger << INFO << "Setting PREDICT_TIME to " << predictTime << endl;
         PREDICT_TIME = predictTime;
         return true;
     }
@@ -225,7 +225,7 @@ int Predictor::getPredictTime() const
 
 void Predictor::setCombinationPolicy(const std::string cp)
 {
-    *logger << INFO << "[Predictor] Setting COMBINATION_POLICY to " << cp << endl;
+    *logger << INFO << "Setting COMBINATION_POLICY to " << cp << endl;
     delete combiner;
     combinationPolicy = cp;
 
@@ -234,8 +234,8 @@ void Predictor::setCombinationPolicy(const std::string cp)
 	combiner = new MeritocracyCombiner();
     } else {
 	// TODO: throw exception
-	std::cerr << "[Predictor] Error - unknown combination policy: "
-		  << cp << std::endl;
+	*logger << ERROR << "Error - unknown combination policy: "
+		<< cp << endl;
     }
 }
 

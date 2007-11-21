@@ -20,6 +20,9 @@ DONE fix Level
 
 DONE implement Level manipulator
 
+DONE make logger print a string at the beginning of each log
+   line (i.e. [Predictor] log message )
+
  use new logger throughout soothie
 
 

@@ -37,7 +37,7 @@ void LoggerTest::tearDown()
 
 void LoggerTest::testStandardErrorOutput()
 {
-    Logger<char>* logger = new Logger<char>(std::cerr);
+    Logger<char>* logger = new Logger<char>("LoggerTest", std::cerr);
     
     *logger << "[LoggerTest] testStandardErrorOutput" << endl;
 }
@@ -49,7 +49,7 @@ void LoggerTest::testFileOutput()
 
 void LoggerTest::testSetLevelManipulator()
 {
-    Logger<char> logger(std::cerr);
+    Logger<char> logger("LoggerTest", std::cerr);
 
     logger << setlevel("EMERG") << "[LoggerTest] testSetLevelManipulator: EMERG\n";
     CPPUNIT_ASSERT_EQUAL( Logger<char>::EMERG, logger.getLevel());
@@ -75,7 +75,7 @@ void LoggerTest::testSetLevelManipulator()
 
 void LoggerTest::testCurrentLevelManipulator()
 {
-    Logger<char> logger(std::cerr);
+    Logger<char> logger("LoggerTest", std::cerr);
 
     logger << EMERG << "[LoggerTest] testCurrentLevelManipulator: EMERG\n";
     CPPUNIT_ASSERT_EQUAL( Logger<char>::EMERG, logger.getCurrentLevel());
