@@ -54,6 +54,8 @@ private:
     void assertDatabaseDumpEqualsBenchmark(std::stringstream& benchmark) const;
     void assertEqualNgramTable(const NgramTable* const, const NgramTable&);
 
+    void strip_char(char c, std::string& str) const;
+
     DatabaseConnector* sqliteDatabaseConnector;
 
     Ngram* unigram;
