@@ -78,8 +78,8 @@ public:
 	: outstream(ostr)
 	{
 	    set_logger_name(logger_name);
-	    loggerLevel = ERROR;
-	    currentLevel = ERROR;
+	    loggerLevel = ALL;
+	    currentLevel = ALL;
 	    line_beginning = true;
 	}
   

@@ -184,6 +184,15 @@ void ProfileManager::buildProfile(const std::string p)
     module = root->InsertEndChild( TiXmlElement( "Selector" ) );
     assert( module );
     if( module ) {
+        element = module->InsertEndChild(TiXmlElement("LOGGER"));
+        assert( element );
+        if( element ) {
+            std::ostringstream ss;
+            ss << DEFAULT_LOGGER_LEVEL;
+            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
+            assert( node );
+        }
+
         element = module->InsertEndChild(TiXmlElement("SUGGESTIONS"));
         assert( element );
         if( element ) {

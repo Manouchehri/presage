@@ -9,6 +9,7 @@
         <MAX_BUFFER_SIZE>1024</MAX_BUFFER_SIZE>
     </ContextTracker>
     <Selector>
+	<LOGGER>DEBUG</LOGGER>
         <!-- SUGGESTIONS
           Controls how many suggestions are returned in each prediction.
         -->

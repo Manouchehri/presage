@@ -26,15 +26,10 @@
 #include "selector.h"
 #include "utility.h"
 
-#ifdef DEBUG
-# define LOG(x) std::cout << x << std::endl
-#else
-# define LOG(x) /* x */
-#endif
-
 
 Selector::Selector(Profile* profile, ContextTracker* ct)
-    : contextTracker(ct)
+    : contextTracker(ct),
+      logger("Selector", std::cerr)
 {
     // read config values
     Variable variable;
@@ -44,25 +39,31 @@ Selector::Selector(Profile* profile, ContextTracker* ct)
     Value value;
 
     try {
+	variable.push_back("LOGGER");
+	value = profile->getConfig(variable);
+	logger << setlevel(value);
+	logger << INFO << "LOGGER: " << value << endl;
+	variable.pop_back();
+
 	variable.push_back("SUGGESTIONS");
 	value = profile->getConfig(variable);
-	LOG("[Selector] SUGGESTIONS: " + value);
+	logger << INFO << "SUGGESTIONS: " << value << endl;
 	setSuggestions(toInt(value));
 	variable.pop_back();
 
 	variable.push_back("REPEAT_SUGGESTIONS");
 	value = profile->getConfig(variable);
-	LOG("[Selector] REPEAT_SUGGESTIONS: " + value);
+	logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
 	setRepeatSuggestions(isYes(value));
 	variable.pop_back();
 
 	variable.push_back("GREEDY_SUGGESTION_THRESHOLD");
 	value = profile->getConfig(variable);
-	LOG("[Selector] GREEDY_SUGGESTION_THRESHOLD: " + value);
+	logger << INFO << "GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
 	setGreedySuggestionThreshold(toInt(value));
 	variable.pop_back();
     } catch (Profile::ProfileException ex) {
-	std::cerr << "[Selector] Caught ProfileException: " << ex.what() << std::endl;
+	logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
     }
 
     // set prefix
@@ -186,7 +187,7 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
 	std::vector<std::string>::iterator i = v.begin();
 	while (i != v.end()) {
 	    if( (i->size()-length) < GREEDY_SUGGESTION_THRESHOLD) {
-		LOG("[Selector] Removing token: " + *i);
+		logger << INFO << "Removing token: " << *i << endl;
 		v.erase( i );
 	    } else {
 		i++;
@@ -201,10 +202,10 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
 void Selector::setSuggestions( const int value )
 {
     if( value > 0 ) {
-	LOG("[Selector] Setting SUGGESTIONS to " << value);
+	logger << INFO << "Setting SUGGESTIONS to " << value << endl;
 	SUGGESTIONS = value;
     } else {
-	std::cerr << "[Selector] SUGGESTIONS option not set. Value " << value << " out of range!/a" << std::endl;
+	logger << ERROR << "SUGGESTIONS option not set. Value " << value << " out of range!/a" << endl;
     }
 }
 
@@ -223,7 +224,7 @@ int Selector::getSuggestions() const
  */
 void Selector::setRepeatSuggestions( const bool value )
 {
-    LOG("[Selector] Setting REPEAT_SUGGESTION: " << value);
+    logger << INFO << "Setting REPEAT_SUGGESTION: " << value << endl;
     REPEAT_SUGGESTION = value;
 }
 
@@ -243,7 +244,7 @@ bool Selector::getRepeatSuggestions() const
 void Selector::setGreedySuggestionThreshold( const unsigned int value )
 {
     if( value >= 0 ) {
-	LOG("[Selector] Setting GREEDY_SUGGESTION_THRESHOLD: " << value);
+	logger << INFO << "Setting GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
 	GREEDY_SUGGESTION_THRESHOLD = value;
     }
 }

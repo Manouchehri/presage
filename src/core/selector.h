@@ -34,6 +34,7 @@
 #include "core/prediction.h"
 #include "core/contextTracker.h"
 #include "core/predictor.h"
+#include "core/logger.h"
 
 #include <string>
 #include <vector>
@@ -108,7 +109,7 @@ private:
     unsigned int GREEDY_SUGGESTION_THRESHOLD;
 
     ContextTracker* contextTracker;
-
+    Logger<char> logger;
 };
 
 
