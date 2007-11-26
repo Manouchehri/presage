@@ -27,12 +27,6 @@
 #include "core/utility.h"        // isYes isNo isTrue isFalse utility function
 #include "dirs.h"                // sysconfdir macro define
 
-#ifdef DEBUG
-# define LOG(x) std::cout << x << std::endl
-#else
-# define LOG(x) /* x */
-#endif
-
 
 /** Constructor.
  *
@@ -40,6 +34,7 @@
  *
  */
 ProfileManager::ProfileManager(const std::string profilename)
+    : logger("ProfileManager", std::cerr)
 {
     xmlProfileDoc = 0;
     if (profilename.empty()) {
@@ -95,9 +90,9 @@ bool ProfileManager::loadProfile(const std::string profilename)
     // try current directory or absolute filename
     readOk = xmlProfileDoc->LoadFile (profilename.c_str());
     if (readOk) {
-        LOG("[ProfileManager] Using profile: " << profilename);
+        logger << "Using profile: " << profilename << endl;
     } else {
-        LOG("[ProfileManager] Opening profile: '" << profilename << "' attempt failed.");
+        logger << "Opening profile: '" << profilename << "' attempt failed." << endl;
         // try looking for profilename in profile dirs
         int i = 0;
         while(!readOk && i < PROFILE_DIRS_SIZE) {
@@ -105,16 +100,16 @@ bool ProfileManager::loadProfile(const std::string profilename)
             readOk = xmlProfileDoc->LoadFile (profileFile.c_str());
             
             if (!readOk) {
-                LOG("[ProfileManager] Opening profile: '" << profileFile << "' attempt failed.");
+                logger << "Opening profile: '" << profileFile << "' attempt failed." << endl;
             }
             
             i++;
         }
         if (readOk) {
-            LOG("[ProfileManager] Using profile: " << profileFile);
+            logger << "Using profile: " << profileFile << endl;
         } else {
             // Handle failure to load profile
-            LOG("[ProfileManager] No profiles were found. Using default parameters.");
+            logger << "No profiles were found. Using default parameters." << endl;
             buildProfile();
         }
     }
@@ -273,12 +268,14 @@ void ProfileManager::buildProfile(const std::string p)
     module = root->InsertEndChild( TiXmlElement( "ProfileManager" ) );
     assert( module );
     if( module ) {
-        element = module->InsertEndChild(TiXmlElement("DUMMY_OPTION"));
-        assert( element );
-        if( element ) {
-            node = element->InsertEndChild( TiXmlText( "very dummy" ) );
-            assert( node );
-        }
+        //element = module->InsertEndChild(TiXmlElement("LOGGER"));
+        //assert( element );
+        //if( element ) {
+        //    std::ostringstream ss;
+        //    ss << DEFAULT_LOGGER_LEVEL;
+        //    node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
+        //    assert( node );
+        //}
     }
 
     //PLUMP

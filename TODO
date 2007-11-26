@@ -23,7 +23,7 @@ DONE implement Level manipulator
 DONE make logger print a string at the beginning of each log
    line (i.e. [Predictor] log message )
 
- don't make instantiation of logger dependent on retrival of LOGGER
+ don't make instantiation of logger dependent on retrieval of LOGGER
    configuration variable; if variable is not found, next line logged
    will result in dereferencing a null pointer!
  use a member logger, rather than a pointer to a logger
@@ -33,6 +33,9 @@ DONE make logger print a string at the beginning of each log
 
 
 Absolute first
+ - implement logger level inheritance from parent module
+ - ProfileManager logger level currently can not be read from profile
+   (chicken and egg problem), need to find solution
  - clean up SmoothedNgram debug code
  - test performance with different n values in n-gram
  - make soothsayerSimulator accept normal text files, as opposed to

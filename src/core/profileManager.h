@@ -28,6 +28,7 @@
 #include "core/profile.h"
 #include "tinyxml/tinyxml.h"
 #include "core/combiner.h"
+#include "core/logger.h"
 
 #include <string>
 #include <sstream> // for std::ostringstream
@@ -72,6 +73,7 @@ public:
 private:
     TiXmlDocument*  xmlProfileDoc;
     std::string     profileFile;
+    Logger<char>    logger;
 };
 
 
