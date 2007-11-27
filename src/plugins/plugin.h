@@ -55,7 +55,7 @@ public:
            const char*     longDescription  = "");
     virtual ~Plugin();
 
-    virtual Prediction predict(const int) const = 0;
+    virtual Prediction predict(const int) = 0;
 
     virtual void learn() = 0;
     virtual void extract() = 0;
@@ -83,6 +83,8 @@ protected:
     
     double toDouble(const std::string) const;
     int    toInt   (const std::string) const;
+
+    Logger<char> logger;
 
 private:
 

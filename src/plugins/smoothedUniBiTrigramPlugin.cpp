@@ -90,7 +90,7 @@ SmoothedUniBiTrigramPlugin::~SmoothedUniBiTrigramPlugin()
 
 
 
-Prediction SmoothedUniBiTrigramPlugin::predict(const int max_partial_predictions_size) const
+Prediction SmoothedUniBiTrigramPlugin::predict(const int max_partial_predictions_size)
 {
     //DEBUG
     LOG("[SmoothedUniBiTriGramPlugin] Entering SmoothedUniBiTrigramPlugin::predict()");

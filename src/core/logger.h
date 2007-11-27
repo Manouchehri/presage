@@ -184,8 +184,11 @@ public:
 
     inline void endl()
 	{
-	    outstream << std::endl;
-	    line_beginning = true;
+	    if (loggerLevel >= currentLevel)
+	    {
+		outstream << std::endl;
+		line_beginning = true;
+	    }
 	}
     
 private:

@@ -37,7 +37,7 @@ public:
     DummyPlugin(Profile*, ContextTracker*);
     ~DummyPlugin();
 
-    virtual Prediction predict(const int) const;
+    virtual Prediction predict(const int);
 
     virtual void learn();
     virtual void extract();

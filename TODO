@@ -37,6 +37,7 @@ Absolute first
  - ProfileManager logger level currently can not be read from profile
    (chicken and egg problem), need to find solution
  - clean up SmoothedNgram debug code
+ - should Profile::getConfig() really throw exception?
  - test performance with different n values in n-gram
  - make soothsayerSimulator accept normal text files, as opposed to
    files containing one token per line

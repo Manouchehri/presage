@@ -50,7 +50,7 @@ public:
     SmoothedUniBiTrigramPlugin(Profile*, ContextTracker*);
     ~SmoothedUniBiTrigramPlugin();
 
-    virtual Prediction predict(const int) const;
+    virtual Prediction predict(const int);
 
     virtual void learn();
     virtual void extract();

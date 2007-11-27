@@ -26,11 +26,6 @@
 #include "plugins/smoothedNgramPlugin.h"
 #include <sstream>
 
-#ifdef DEBUG
-# define LOG(x) std::cerr << x << std::endl
-#else
-# define LOG(x) /* x */
-#endif
 
 SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
     : Plugin(profile,
@@ -39,7 +34,7 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
              "SmoothedNgramPlugin, a linear interpolating unigram bigram trigram plugin",
              "SmoothedNgramPlugin, long description." )
 {
-    LOG("[SmoothedNgramPlugin] Entering SmoothedNgramPlugin::SmoothedNgramPlugin()");
+    logger << DEBUG << "Entering SmoothedNgramPlugin::SmoothedNgramPlugin()" << endl;
 
     Variable variable;
     variable.push_back("Soothsayer");
@@ -49,31 +44,38 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
     Value value;
 
     try {
+	variable.push_back("LOGGER");
+	value = profile->getConfig(variable);
+	logger << setlevel(value);
+	logger << INFO << "LOGGER: " << value << endl;
+	dbfilename = value;
+	variable.pop_back();
+
 	variable.push_back("DBFILENAME");
 	value = profile->getConfig(variable);
-	LOG("[SmoothedNgramPlugin] DBFILENAME: " + value);
+	logger << INFO << "DBFILENAME: " << value << endl;
 	dbfilename = value;
 	variable.pop_back();
 
 	variable.push_back("DELTAS");
 	value = profile->getConfig(variable);
-	LOG("[SmoothedNgramPlugin] DELTAS: " + value);
+	logger << INFO << "DELTAS: " << value << endl;
 	std::stringstream ss_deltas(value);
 	std::string delta;
 	while (ss_deltas >> delta) {
-	    LOG("[SmoothedNgramPlugin] Pushing delta: " + delta);
+	    logger << DEBUG << "Pushing delta: " << delta << endl;
 	    deltas.push_back(toDouble(delta));
 	}
 	variable.pop_back();
 
     } catch (Profile::ProfileException ex) {
-	std::cerr << "[SmoothedNgramPlugin] Caught ProfileException: " << ex.what() << std::endl;
+	logger << ERROR << "[SmoothedNgramPlugin] Caught ProfileException: " << ex.what() << endl;
     }
 
     // open database connector
     db = new SqliteDatabaseConnector(dbfilename);
     
-    LOG("[SmoothedNgramPlugin] Exiting SmoothedNgramPlugin::SmoothedNgramPlugin()");
+    logger << DEBUG << "Exiting SmoothedNgramPlugin::SmoothedNgramPlugin()" << endl;
 }
 
 
@@ -98,7 +100,7 @@ SmoothedNgramPlugin::~SmoothedNgramPlugin()
  * \endverbatim
  *
  */
-unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, int offset, int ngram_size) const
+unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, int offset, int ngram_size)
 {
     assert(offset <= 0); // TODO: handle this better
     assert(ngram_size >= 0);
@@ -107,13 +109,13 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
 	Ngram ngram(ngram_size);
 	copy(tokens.end() - ngram_size + offset , tokens.end() + offset, ngram.begin());
 
-#ifdef DEBUG
-	std::cerr << "[SmoothedNgramPlugin] ngram: ";
-	for (int j = 0; j < ngram.size(); j++) {
-	    std::cerr << ngram[j] << ' ';
-	}
-	std::cerr << std::endl;
-#endif
+//	if (logger.getLevel() >= Logger<char>::DEBUG) {
+	    logger << DEBUG << "[SmoothedNgramPlugin] ngram: ";
+	    for (int j = 0; j < ngram.size(); j++) {
+		logger << DEBUG << ngram[j] << ' ';
+	    }
+	    logger << DEBUG << endl;
+//	}
 
 	return db->getNgramCount(ngram);
     } else {
@@ -121,9 +123,9 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
     }
 }
 
-Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) const
+Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size)
 {
-    LOG("[SmoothedNgramPlugin] Entering SmoothedNgramPlugin::predict()");
+    logger << DEBUG << "Entering SmoothedNgramPlugin::predict()" << endl;
 
     // Result prediction
     Prediction prediction;
@@ -138,7 +140,7 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
     std::vector<std::string> tokens(cardinality);
     for (int i = 0; i < cardinality; i++) {
 	tokens[cardinality - 1 - i] = strtolower(contextTracker->getToken(i));
-	LOG("[SmoothedNgramPlugin] Cached tokens[" << cardinality - 1 - i << "] = " << tokens[cardinality - 1 - i]);
+	logger << DEBUG << "Cached tokens[" << cardinality - 1 - i << "] = " << tokens[cardinality - 1 - i] << endl;
     }
 
     // Generate list of prefix completition candidates.
@@ -155,7 +157,7 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
     //
     std::vector<std::string> prefixCompletionCandidates;
     for (int k = cardinality; (k > 0 && prefixCompletionCandidates.size() < max_partial_prediction_size); k--) {
-        LOG("[SmoothedNgramPlugin] Building partial prefix completion table of cardinality: " << k);
+        logger << DEBUG << "Building partial prefix completion table of cardinality: " << k << endl;
         // create n-gram used to retrieve initial prefix completion table
         Ngram prefix_ngram(k);
         copy(tokens.end() - k, tokens.end(), prefix_ngram.begin());
@@ -184,7 +186,7 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
             std::cerr << std::endl;
         }
 #endif
-        LOG("[SmoothedNgramPlugin] Partial prefix completion table contains " << partial.size() << " potential completions.");
+        logger << DEBUG << "Partial prefix completion table contains " << partial.size() << " potential completions." << endl;
 
         // append newly discovered potential completions to prefix
         // completion candidates array to fill it up to
@@ -208,7 +210,7 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
     std::cerr << "[SmoothedNgramPlugin] prefixCompletionCandidates" << std::endl
               << "[SmoothedNgramPlugin] --------------------------" << std::endl;
     for (int j = 0; j < prefixCompletionCandidates.size(); j++) {
-        LOG("[SmoothedNgramPlugin] " << prefixCompletionCandidates[j]);
+        logger << DEBUG << prefixCompletionCandidates[j] << endl;
     }
 #endif
 
@@ -219,8 +221,8 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
         // store w_i candidate at end of tokens
         tokens[cardinality - 1] = prefixCompletionCandidates[j];
 
-	LOG("[SmoothedNgramPlugin] ------------------");
-	LOG("[SmoothedNgramPlugin] w_i: " << tokens[cardinality - 1]);
+	logger << DEBUG << "------------------" << endl;
+	logger << DEBUG << "w_i: " << tokens[cardinality - 1] << endl;
     
 	double probability = 0;
 	for (int k = 0; k < cardinality; k++) {
@@ -229,18 +231,18 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
 	    double frequency = ((denominator > 0) ? (numerator / denominator) : 0);
 	    probability += deltas[k] * frequency;
 
-	    LOG("[SmoothedNgramPlugin] numerator:   " << numerator);
-	    LOG("[SmoothedNgramPlugin] denominator: " << denominator);
-	    LOG("[SmoothedNgramPlugin] frequency:   " << frequency);
-	    LOG("[SmoothedNgramPlugin] delta:       " << deltas[k]);
+	    logger << DEBUG << "numerator:   " << numerator << endl;
+	    logger << DEBUG << "denominator: " << denominator << endl;
+	    logger << DEBUG << "frequency:   " << frequency << endl;
+	    logger << DEBUG << "delta:       " << deltas[k] << endl;
 
             // for some sanity checks
 	    assert(numerator <= denominator);
 	    assert(frequency <= 1);
 	}
 
-        LOG("[SmoothedNgramPlugin] ____________ ");
-        LOG("[SmoothedNgramPlugin] probability: " << probability);
+        logger << DEBUG << "____________" << endl;
+        logger << DEBUG << "probability: " << probability << endl;
 
 	if (probability > 0) {
 	    prediction.addSuggestion(Suggestion(tokens[cardinality - 1], probability));
@@ -248,10 +250,9 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
     }
     db->endTransaction();
 
-    LOG("[SmoothedNgramPlugin] "           );
-    LOG("[SmoothedNgramPlugin] Prediction:");
-    LOG("[SmoothedNgramPlugin] -----------");
-    LOG(                       prediction  );
+    logger << DEBUG << "Prediction:" << endl;
+    logger << DEBUG << "-----------" << endl;
+    logger << DEBUG << prediction << endl;
 	
     return prediction;
 }
@@ -259,22 +260,22 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
 
 void SmoothedNgramPlugin::learn()
 {
-    LOG("[SmoothedNgramPlugin] learn() method called");
-    LOG("[SmoothedNgramPlugin::learn() method exited");
+    logger << DEBUG << "learn() method called" << endl;
+    logger << DEBUG << "learn() method exited" << endl;
 }
 
 
 
 void SmoothedNgramPlugin::extract()
 {
-    LOG("SmoothedNgramPlugin::extract() method called");
-    LOG("SmoothedNgramPlugin::extract() method exited");
+    logger << DEBUG << "extract() method called" << endl;
+    logger << DEBUG << "extract() method exited" << endl;
 }
 
 
 
 void SmoothedNgramPlugin::train()
 {
-    LOG("SmoothedNgramPlugin::train() method called");
-    LOG("SmoothedNgramPlugin::train() method exited");
+    logger << DEBUG << "train() method called" << endl;
+    logger << DEBUG << "train() method exited" << endl;
 }

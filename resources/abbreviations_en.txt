@@ -6,6 +6,6 @@ w8	wait
 b4	before
 c	see
 r	are
-afair	as far as I know
+afaik	as far as I know
 asap	as soon as possible
 ianal	I am not a lawyer

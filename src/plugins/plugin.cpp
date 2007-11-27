@@ -42,7 +42,8 @@ Plugin::Plugin(Profile* prof,
 	  shortDescription(shortDesc ),
 	  longDescription (longDesc  ),
 	  contextTracker  (ct        ),
-	  profile         (prof      )
+	  profile         (prof      ),
+	  logger          (pluginName, std::cerr)
 {
     // NOTE: plugin implementations deriving from this class should
     // use profile to query the value of needed configuration

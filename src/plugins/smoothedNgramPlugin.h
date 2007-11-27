@@ -28,6 +28,7 @@
 
 #include "plugins/plugin.h"
 #include "core/utility.h"    // strtolower
+#include "core/logger.h"
 
 #include <assert.h>
 
@@ -50,14 +51,14 @@ public:
     SmoothedNgramPlugin(Profile*, ContextTracker*);
     ~SmoothedNgramPlugin();
 
-    virtual Prediction predict(const int) const;
+    virtual Prediction predict(const int);
 
     virtual void learn();
     virtual void extract();
     virtual void train();
 
 private:
-    unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
+    unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size);
 
     DatabaseConnector*  db;
     std::string         dbfilename;

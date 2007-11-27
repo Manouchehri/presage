@@ -26,11 +26,6 @@
 #include "plugins/abbreviationExpansionPlugin.h"
 #include <fstream>
 
-#ifdef DEBUG
-# define LOG(x) std::cout << x << std::endl
-#else
-# define LOG(x) /* x */
-#endif
 
 AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Profile* profile, ContextTracker* ct)
     : Plugin(profile,
@@ -50,11 +45,11 @@ AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Profile* profile, Conte
     try {
 	variable.push_back("ABBREVIATIONS");
 	value = profile->getConfig(variable);
-        LOG("[AbbreviationExpansionPlugin] ABBREVIATIONS:" + value);
+        logger << INFO << "ABBREVIATIONS:" << value << endl;
         abbreviations = value;
 	variable.pop_back();
     } catch (Profile::ProfileException ex) {
-        std::cerr << "[AbbreviationExpansionPlugin] Caught ProfileException: " << ex.what() << std::endl;
+        logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
     }
 
     cacheAbbreviationsExpansions();
@@ -64,7 +59,7 @@ AbbreviationExpansionPlugin::~AbbreviationExpansionPlugin()
 {}
 
 
-Prediction AbbreviationExpansionPlugin::predict(const int max_partial_predictions_size) const
+Prediction AbbreviationExpansionPlugin::predict(const int max_partial_predictions_size)
 {
     Prediction result;
 
@@ -84,7 +79,7 @@ Prediction AbbreviationExpansionPlugin::predict(const int max_partial_prediction
         result.addSuggestion(Suggestion(expansion, 1.0));
 
     } else {
-        LOG("[AbbreviationExpansionPlugin] Could not find expansion for abbreviation: " + contextTracker->getPrefix());
+        logger << NOTICE << "Could not find expansion for abbreviation: " << contextTracker->getPrefix() << endl;
     }
 
     return result;
@@ -105,12 +100,12 @@ void AbbreviationExpansionPlugin::cacheAbbreviationsExpansions()
 
     std::ifstream abbr_file(abbreviations.c_str());
     if (!abbr_file) {
-        LOG("[AbbreviationExpansionPlugin] Could not open abbreviations file: " + abbreviations);
+        logger << ERROR << "Could not open abbreviations file: " << abbreviations << endl;
         // TODO: throw exception here
         //
 
     } else {
-        LOG("[AbbreviationExpansionPlugin] Caching abbreviations/expansions from file: " + abbreviations);
+        logger << INFO << "Caching abbreviations/expansions from file: " << abbreviations << endl;
     
         std::string buffer;
         std::string abbreviation;
@@ -119,15 +114,14 @@ void AbbreviationExpansionPlugin::cacheAbbreviationsExpansions()
         while (getline(abbr_file, buffer)) {
             tab_pos = buffer.find_first_of('\t');
             if (tab_pos == std::string::npos) {
-                LOG("[AbbreviationExpansionPlugin] Error reading abbreviations/expansions from file: " + abbreviations);
+                logger << ERROR << "Error reading abbreviations/expansions from file: " << abbreviations << endl;
             } else {
                 abbreviation = buffer.substr(0, tab_pos);
                 expansion    = buffer.substr(tab_pos + 1, std::string::npos);
 
-                LOG("[AbbreviationExpansionPlugin] Caching abbreviation: " + abbreviation + " - expansion: " + expansion);
+                logger << INFO << "Caching abbreviation: " << abbreviation << " - expansion: " << expansion << endl;
                 cache[abbreviation] = expansion;
             }
-            //LOG("[AbbreviationExpansionPlugin] Error reading expansion for abbreviation: " + abbreviation + " from file: " + abbreviations);
         }
         
         abbr_file.close();
