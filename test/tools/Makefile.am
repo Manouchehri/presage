@@ -23,22 +23,13 @@ TESTS =	toolsTestRunner
 
 check_PROGRAMS = $(TESTS)
 
-toolsTestRunner_SOURCES =	toolsTestRunner.cpp             \
-				nGramTest.h nGramTest.cpp       \
-				databaseConnectorTest.cpp       \
-				databaseConnectorTest.h         \
-				sqliteDatabaseConnectorTest.cpp \
-				sqliteDatabaseConnectorTest.h   
+toolsTestRunner_SOURCES =	toolsTestRunner.cpp       \
+				nGramTest.h nGramTest.cpp 
 toolsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 toolsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 toolsTestRunner_LIBS =		-ldl
-toolsTestRunner_LDADD =		$(top_builddir)/src/libsoothsayer.la
+toolsTestRunner_LDADD =		$(top_builddir)/src/tools/libtools.la
 
-AM_CPPFLAGS =	-I$(top_srcdir)/src      \
-		-I$(top_srcdir)/src/core
-
-# Clean out files created during tests.
-# Required to make distcheck happy.
-DISTCLEANFILES =	test.db
+toolsTestRunner_CPPFLAGS =	-I$(top_srcdir)/src
 
 endif

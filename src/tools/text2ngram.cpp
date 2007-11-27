@@ -38,11 +38,11 @@
 #include <getopt.h>
 #include <assert.h>
 
-#include "tokenizer/forwardTokenizer.h"
-#include "iso8859_1.h"
-#include "progress.h"
+#include "core/tokenizer/forwardTokenizer.h"
+#include "core/iso8859_1.h"
+#include "tools/progress.h"
 
-#include "sqliteDatabaseConnector.h"
+#include "core/dbconnector/sqliteDatabaseConnector.h"
 
 const std::string PROGRAM_NAME = "text2ngram";
 

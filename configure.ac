@@ -184,6 +184,7 @@ AC_OUTPUT([
 	src/Makefile
 	src/core/Makefile
 	src/core/tokenizer/Makefile
+	src/core/dbconnector/Makefile
 	src/plugins/Makefile
 	src/tools/Makefile
 	src/simulator/Makefile
@@ -191,6 +192,7 @@ AC_OUTPUT([
 	test/Makefile
 	test/core/Makefile
 	test/core/tokenizer/Makefile
+	test/core/dbconnector/Makefile
 	test/plugins/Makefile
 	test/tools/Makefile
 	test/simulator/Makefile

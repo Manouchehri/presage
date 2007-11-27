@@ -37,10 +37,10 @@
 struct _SetLevel { std::string _level; };
 
 /**
- *  @brief  Manipulator for @c fill.
- *  @param  c  The new fill character.
+ *  @brief  Manipulator for @c level.
+ *  @param  @__l  The new logger level.
  *
- *  Sent to a stream object, this manipulator calls @c fill(c) for that
+ *  Sent to a logger object, this manipulator calls @c setLevel(c) for that
  *  object.
  */
 inline _SetLevel

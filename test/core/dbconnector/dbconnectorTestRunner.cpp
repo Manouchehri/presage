@@ -23,62 +23,17 @@
 \******************************************************************************/        
 
 
-#ifndef SOOTH_SQLITEDATABASECONNECTORTEST
-#define SOOTH_SQLITEDATABASECONNECTORTEST
+#include <cppunit/extensions/TestFactoryRegistry.h>
+#include <cppunit/ui/text/TestRunner.h>
 
-#include <cppunit/extensions/HelperMacros.h>
+int main()
+{
 
-#include "tools/sqliteDatabaseConnector.h"
+	CppUnit::TextUi::TestRunner runner;
+	CppUnit::TestFactoryRegistry& registry = CppUnit::TestFactoryRegistry::getRegistry();
+	runner.addTest( registry.makeTest() );
+	bool success = runner.run();
+	
+	return success ? 0 : 1;
+}
 
-#include <iostream>
-#include <sstream>
-
-static const char DEFAULT_DATABASE_FILENAME[] = "database.db";
-static const char DATABASE_DUMP[] = "database.dump";
-
-class SqliteDatabaseConnectorTest : public CppUnit::TestFixture { 
-public:
-    void setUp();
-    void tearDown();
-
-    void testConstructor();
-    void testInsertNgram();
-    void testUpdateNgram();
-    void testRemoveNgram();
-    void testGetNgramCount();
-    void testIncrementNgramCount();
-    void testGetNgramLikeTable();
-
-private:
-    void assertExistsAndRemoveFile(const char* filename) const;
-    void assertDatabaseDumpEqualsBenchmark(std::stringstream& benchmark) const;
-    void assertEqualNgramTable(const NgramTable* const, const NgramTable&);
-
-    void strip_char(char c, std::string& str) const;
-
-    DatabaseConnector* sqliteDatabaseConnector;
-
-    Ngram* unigram;
-    Ngram* bigram;
-    Ngram* trigram;
-
-    Ngram* unigram1;
-    Ngram* bigram1;
-    Ngram* trigram1;
-
-    static const int MAGIC_NUMBER;
-
-    CPPUNIT_TEST_SUITE( SqliteDatabaseConnectorTest );
-    CPPUNIT_TEST( testConstructor                   );
-    CPPUNIT_TEST( testInsertNgram                   );
-    CPPUNIT_TEST( testUpdateNgram                   );
-    CPPUNIT_TEST( testRemoveNgram                   );
-    CPPUNIT_TEST( testGetNgramCount                 );
-    CPPUNIT_TEST( testIncrementNgramCount           );
-    CPPUNIT_TEST( testGetNgramLikeTable             );
-    CPPUNIT_TEST_SUITE_END();
-};
-
-const int SqliteDatabaseConnectorTest::MAGIC_NUMBER = 1337;
-
-#endif // SOOTH_SQLITEDATABASECONNECTORTEST

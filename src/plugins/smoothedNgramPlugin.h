@@ -40,7 +40,7 @@
 # error "SQLite is required. Please install SQLite."
 #endif
 
-#include "tools/sqliteDatabaseConnector.h"
+#include "core/dbconnector/sqliteDatabaseConnector.h"
 
 
 /** Smoothed n-gram statistical plugin.

@@ -17,7 +17,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =		tokenizer
+SUBDIRS =		tokenizer dbconnector
 
 noinst_LTLIBRARIES = 	libcore.la
 
@@ -42,6 +42,7 @@ libcore_la_SOURCES =	prediction.cpp prediction.h         \
 # Temporarily disabled
 #                       pluginManager.cpp pluginManager.h
 
-libcore_la_LIBADD =	tokenizer/libtokenizer.la
+libcore_la_LIBADD =	tokenizer/libtokenizer.la     \
+			dbconnector/libdbconnector.la 
 
 AM_CPPFLAGS =		-I$(top_srcdir)/src

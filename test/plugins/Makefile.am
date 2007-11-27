@@ -53,8 +53,8 @@ pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                               
 
 pluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 pluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-pluginsTestRunner_LDADD =	$(top_builddir)/src/plugins/libplugin.la \
-				$(top_builddir)/src/tools/libtools.la    
+pluginsTestRunner_LDADD =	$(top_builddir)/src/plugins/libplugin.la               \
+				$(top_builddir)/src/core/dbconnector/libdbconnector.la 
 
 endif # HAVE_CPPUNIT
 

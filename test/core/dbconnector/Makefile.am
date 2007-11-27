@@ -1,4 +1,4 @@
-## Makefile for the src/tools directory of Soothsayer.
+## Makefile for the test/core/dbconnector directory of Soothsayer.
 ## Copyright (C) 2004  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 ##
 ## This program is free software; you can redistribute it and/or modify
@@ -17,17 +17,25 @@
 
 ## Process this file with automake to produce Makefile.in
 
-bin_PROGRAMS =		text2ngram     
+if HAVE_CPPUNIT
 
-text2ngram_SOURCES =	text2ngram.cpp
+TESTS =	dbconnectorTestRunner
 
-text2ngram_LDADD =	libtools.la        \
-			../core/libcore.la
+check_PROGRAMS = $(TESTS)
 
-noinst_LTLIBRARIES =	libtools.la
+dbconnectorTestRunner_SOURCES =	dbconnectorTestRunner.cpp       \
+				databaseConnectorTest.cpp       \
+				databaseConnectorTest.h         \
+				sqliteDatabaseConnectorTest.cpp \
+				sqliteDatabaseConnectorTest.h   
+dbconnectorTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
+dbconnectorTestRunner_LDFLAGS =		$(CPPUNIT_LIBS)
+dbconnectorTestRunner_LIBS =		-ldl
+dbconnectorTestRunner_LDADD =		$(top_builddir)/src/core/dbconnector/libdbconnector.la
+dbconnectorTestRunner_CPPFLAGS =	-I$(top_srcdir)/src
 
-libtools_la_SOURCES =	progress.cpp progress.h           \
-			ngram.cpp ngram.h                 
-libtools_la_LIBADD =	$(SQLITE_LIBS)
+# Clean out files created during tests.
+# Required to make distcheck happy.
+DISTCLEANFILES =	test.db
 
-AM_CPPFLAGS =	-I$(top_srcdir)/src
+endif
