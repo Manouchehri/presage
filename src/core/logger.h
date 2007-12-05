@@ -73,126 +73,129 @@ public:
     };
 
     // constructors
+    inline 
     Logger (std::string logger_name,
 	    std::basic_ostream<_charT,_Traits>& ostr)
 	: outstream(ostr)
 	{
-	    set_logger_name(logger_name);
-	    loggerLevel = ALL;
-	    currentLevel = ALL;
-	    line_beginning = true;
+	    init(logger_name, "ALL");
 	}
-  
+
+    inline
     Logger (std::string logger_name,
 	    std::basic_ostream<_charT,_Traits>& ostr,
 	    const std::string& lvl)
 	: outstream(ostr)
 	{
-	    set_logger_name(logger_name);
-	    set (loggerLevel, lvl);
-	    set (currentLevel, lvl);
-	    line_beginning = true;
+	    init(logger_name, lvl);
+	}
+
+    inline
+    void init(const std::string& name, const std::string& lvl)
+	{
+	    set_name(name);
+	    state = new LoggerState();
+	    set (state->loggerLevel, lvl);
+	    set (state->currentLevel, lvl);
+	    state->line_beginning = true;
 	}
 
     // destructor
+    inline
     ~Logger ()
 	{
 	    outstream.flush();
+	    delete state;
 	}
 
 
     // level getters/setters
+    inline
     void
-    setLevel(const std::string& lvl)
+    setLevel(const std::string& lvl) const
 	{
-	    set(loggerLevel, lvl);
+	    set(state->loggerLevel, lvl);
 	}
 
+    inline
     void
-    setLevel (Level lvl)
+    setLevel (Level lvl) const
 	{
-	    loggerLevel = lvl;
+	    state->loggerLevel = lvl;
 	}
 
+    inline
     Level
     getLevel () const
 	{
-	    return loggerLevel;
+	    return state->loggerLevel;
 	}
 
+    inline
     void
-    setCurrentLevel (Level lvl)
+    setCurrentLevel (Level lvl) const
 	{
-	    currentLevel = lvl;
+	    state->currentLevel = lvl;
 	}
 
+    inline
     Level
     getCurrentLevel() const
 	{
-	    return currentLevel;
+	    return state->currentLevel;
 	}
 
 
-    // logging methods
-
+    // logging method
     template<typename T>
-    friend Logger&
-    operator<< (Logger& lgr, const T& msg)
+    friend inline 
+    const Logger&
+    operator<< (const Logger& lgr, const T& msg)
 	{
-	    if (lgr.loggerLevel >= lgr.currentLevel)
+	    if (lgr.state->loggerLevel >= lgr.state->currentLevel)
 	    {
-		if (lgr.line_beginning) {
+		if (lgr.state->line_beginning) {
 		    lgr.outstream << lgr.name;
-		    lgr.line_beginning = false;
+		    lgr.state->line_beginning = false;
 		}
 		lgr.outstream << msg;
 	    }
 	    return lgr;
 	}
 
+    // this method is needed by the functions defined by macro
+    // define_logger_level_manipulator(LEVEL)
+    //
+    friend inline
+    const Logger&
+    operator<< (const Logger& lgr, const Logger& (*fp)(const Logger&))
+	{
+	    (*fp)(lgr);
+	    return lgr;
+	}
 
-//   // this overloaded operator<< is not enough, it results in a
-//   // segmentation fault
-//   template<typename T>
-//   Logger&
-//   operator<< (const T& msg)
-//   {
-//       Level lev = FATAL;
-//       if (level >= lev)
-//       {
-// 	  outstream << msg;
-//       }
-//   }
-    
-    inline Logger& 
-    operator<< (_SetLevel __l)
+    inline 
+    const Logger& 
+    operator<< (_SetLevel __l) const
 	{ 
 	    setLevel(__l._level); 
 	    return *this; 
 	}
 
-
-    // this method is needed by the functions defined by macro
-    // define_logger_level_manipulator(LEVEL)
-    //
-    inline Logger&
-    operator<< (Logger& (*fp)(Logger&))
+    inline
+    void endl() const
 	{
-	    (*fp)(*this);
-	    return *this;
-	}
-
-    inline void endl()
-	{
-	    if (loggerLevel >= currentLevel)
+	    if (state->loggerLevel >= state->currentLevel)
 	    {
 		outstream << std::endl;
-		line_beginning = true;
+		state->line_beginning = true;
 	    }
 	}
     
 private:
-    void set(Level& level, const std::string& lvl)
+    inline
+    void
+    set(Level& level, const std::string& lvl) const
 	{
     	    if (lvl == "EMERG") {
 		level = EMERG;
@@ -219,7 +222,9 @@ private:
 	    }
 	}
 
-    void set_logger_name(const std::string& logger_name)
+    inline
+    void
+    set_name(const std::string& logger_name)
 	{
 	    name = "[" + logger_name + "] ";
 	}
@@ -227,18 +232,23 @@ private:
     std::string name;
     std::basic_ostream <_charT, _Traits>& outstream;
 
-    bool line_beginning;
+    class LoggerState {
+    public:
+	bool line_beginning;
+	Level loggerLevel;
+	Level currentLevel;
 
-    Level loggerLevel;
-    Level currentLevel;
+    };
+
+    LoggerState* state;
 };
 
 
 
 #define define_logger_level_manipulator(LEVEL)    \
 template <typename _charT, typename _Traits>      \
-inline Logger<_charT, _Traits>&                   \
-LEVEL (Logger<_charT, _Traits>& lgr)              \
+inline const Logger<_charT, _Traits>&                   \
+LEVEL (const Logger<_charT, _Traits>& lgr)              \
 {                                                 \
     lgr.setCurrentLevel(Logger<_charT, _Traits>::LEVEL); \
     return lgr;                                   \
@@ -257,8 +267,8 @@ define_logger_level_manipulator(ALL   );
 
 
 template <typename _charT, typename _Traits>
-inline Logger<_charT, _Traits>&
-endl (Logger<_charT, _Traits>& lgr)
+inline const Logger<_charT, _Traits>&
+endl (const Logger<_charT, _Traits>& lgr)
 {
     lgr.endl();
     return lgr;
