@@ -9,8 +9,49 @@
 	using its own member logger would not compile due to disregarding
 	const qualifier.
 
-... lots of log changes missing here ...
-	
+2007-11-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* Moved DatabaseConnector to new dbconnector directory within core.
+
+	* Plugin base class uses new logger, started cleaning up
+	SmoothedNgramPlugin logging, fixed typo in abbreviations expansion
+	database.
+
+2007-11-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* ProfileManager uses new logger.
+
+2007-11-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* Fix tools tests, should now work with every sqlite/sqlite3
+	command line executable version.
+
+	* Selector now uses the new logger.
+
+2007-11-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* Logger logs its name at beginning of each log line.
+
+	* ContextTracker uses new logger and endl line endings.
+
+2007-11-17  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* More logger work. Getting to a stage where it is actually
+	providing some functionality.
+
+2007-11-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* Minor doc update.
+
+2007-11-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* Adding logger levels. More logger changes, still not
+	complete. Added logger test files.
+
+2007-11-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* Initial implementation of Logger, more features to be added.
+
 2007-09-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac, doc/Doxyfile.in, Makefile.am: integrated Doxygen
