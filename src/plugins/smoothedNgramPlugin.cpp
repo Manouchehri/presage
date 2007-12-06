@@ -100,7 +100,7 @@ SmoothedNgramPlugin::~SmoothedNgramPlugin()
  * \endverbatim
  *
  */
-unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, int offset, int ngram_size)
+unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, int offset, int ngram_size) const
 {
     assert(offset <= 0); // TODO: handle this better
     assert(ngram_size >= 0);
@@ -123,7 +123,7 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
     }
 }
 
-Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size)
+Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) const
 {
     logger << DEBUG << "Entering SmoothedNgramPlugin::predict()" << endl;
 

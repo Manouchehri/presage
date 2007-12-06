@@ -55,7 +55,7 @@ public:
            const char*     longDescription  = "");
     virtual ~Plugin();
 
-    virtual Prediction predict(const int) = 0;
+    virtual Prediction predict(const int) const = 0;
 
     virtual void learn() = 0;
     virtual void extract() = 0;

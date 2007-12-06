@@ -84,7 +84,7 @@ SmoothedCountPlugin::~SmoothedCountPlugin()
 
 
 
-Prediction SmoothedCountPlugin::predict(const int max_partial_predictions_size)
+Prediction SmoothedCountPlugin::predict(const int max_partial_predictions_size) const
 {
     // get w_2, w_1, and prefix from HistoryTracker object
     std::string prefix = strtolower( contextTracker->getPrefix() );

@@ -51,14 +51,14 @@ public:
     SmoothedNgramPlugin(Profile*, ContextTracker*);
     ~SmoothedNgramPlugin();
 
-    virtual Prediction predict(const int);
+    virtual Prediction predict(const int) const;
 
     virtual void learn();
     virtual void extract();
     virtual void train();
 
 private:
-    unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size);
+    unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
 
     DatabaseConnector*  db;
     std::string         dbfilename;

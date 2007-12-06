@@ -49,7 +49,7 @@ DictionaryPlugin::DictionaryPlugin(Profile* profile, ContextTracker* ht)
 DictionaryPlugin::~DictionaryPlugin()
 {}
 
-Prediction DictionaryPlugin::predict(const int max_partial_predictions_size)
+Prediction DictionaryPlugin::predict(const int max_partial_predictions_size) const
 {
 //	std::cout << "DictionaryPlugin::predict() method called" << std::endl;
 	

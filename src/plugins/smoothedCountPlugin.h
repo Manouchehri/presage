@@ -47,7 +47,7 @@ public:
     SmoothedCountPlugin(Profile*, ContextTracker*);
     ~SmoothedCountPlugin();
 
-    virtual Prediction predict(const int);
+    virtual Prediction predict(const int) const;
 
     virtual void learn();
     virtual void extract();

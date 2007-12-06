@@ -1,3 +1,16 @@
+2007-12-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* plugin.h, plugins: reverted to const predict method now
+	that logger has been fixed.
+
+2007-12-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* logger.h: resolved problem whereby a const method of a class
+	using its own member logger would not compile due to disregarding
+	const qualifier.
+
+... lots of log changes missing here ...
+	
 2007-09-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac, doc/Doxyfile.in, Makefile.am: integrated Doxygen
