@@ -55,6 +55,7 @@ ContextTracker::ContextTracker(Profile* profile,
 			       const char sc[],
 			       const char bc[],
 			       const char cc[])
+    : logger("MockContextTracker", std::cerr)
 {
     const char** history = (const char**) profile;
     wordChars       = history[2]; // getPrefix()

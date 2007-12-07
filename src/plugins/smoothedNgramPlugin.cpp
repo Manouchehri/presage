@@ -109,13 +109,11 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
 	Ngram ngram(ngram_size);
 	copy(tokens.end() - ngram_size + offset , tokens.end() + offset, ngram.begin());
 
-//	if (logger.getLevel() >= Logger<char>::DEBUG) {
-	    logger << DEBUG << "[SmoothedNgramPlugin] ngram: ";
-	    for (int j = 0; j < ngram.size(); j++) {
-		logger << DEBUG << ngram[j] << ' ';
-	    }
-	    logger << DEBUG << endl;
-//	}
+	logger << DEBUG << "[SmoothedNgramPlugin] ngram: ";
+	for (int j = 0; j < ngram.size(); j++) {
+	    logger << DEBUG << ngram[j] << ' ';
+	}
+	logger << DEBUG << endl;
 
 	return db->getNgramCount(ngram);
     } else {

@@ -174,13 +174,13 @@ class Predictor {
     void *execute(void *);
 
 
+    Logger<char>    logger;
+
     ContextTracker* contextTracker;
-    Profile* profile;
+    Profile*        profile;
 
-    Logger<char>* logger;
-
-    Combiner* combiner;
-    std::string combinationPolicy;
+    Combiner*       combiner;
+    std::string     combinationPolicy;
 
     int max_partial_prediction_size;
 
