@@ -28,14 +28,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#ifdef DEBUG
-# include <iostream>
-# define LOG(x) std::cout << x << std::endl
-#else
-# define LOG(x) /* x */
-#endif
-
 DatabaseConnector::DatabaseConnector()
+    : logger("DatabaseConnector", std::cerr)
 {}
 
 DatabaseConnector::~DatabaseConnector()
@@ -76,12 +70,12 @@ int DatabaseConnector::getUnigramCountsSum() const
 
     NgramTable result = executeSql(query);
 
-    LOG("[DatabaseConnector] NgramTable:");
+    logger << DEBUG << "NgramTable:";
     for (int i = 0; i < result.size(); i++) {
 	for (int j = 0; j < result[i].size(); j++) {
-	    LOG(result[i][j] << '\t');
+	    logger << DEBUG << result[i][j] << '\t';
 	}
-	LOG("");
+    logger << DEBUG << endl;
     }
 
     return extractFirstInteger(result);
@@ -96,12 +90,12 @@ int DatabaseConnector::getNgramCount(const Ngram ngram) const
 
     NgramTable result = executeSql(query.str());
 
-    LOG("[DatabaseConnector] NgramTable:");
+    logger << DEBUG << "NgramTable:";
     for (int i = 0; i < result.size(); i++) {
 	for (int j = 0; j < result[i].size(); j++) {
-	    LOG(result[i][j] << '\t');
+	    logger << DEBUG << result[i][j] << '\t';
 	}
-	LOG("");
+	logger << DEBUG << endl;
     }
 
     return extractFirstInteger(result);
@@ -131,14 +125,14 @@ int DatabaseConnector::incrementNgramCount(const Ngram ngram) const
 	// the ngram was found in the database
 	updateNgram(ngram, ++count);
 	
-	LOG("[DatabaseConnector] Updated ngram to " << count);
+	logger << DEBUG << "Updated ngram to " << count << endl;
 
     } else {
 	// the ngram was not found in the database
         count = 1;
 	insertNgram(ngram, count);
 
-	LOG("[DatabaseConnector] Inserted ngram");
+	logger << DEBUG << "Inserted ngram" << endl;
 
     }
     return count;
@@ -257,12 +251,12 @@ int DatabaseConnector::extractFirstInteger(const NgramTable& table) const
 	}
     }
 
-    LOG("[DatabaseConnector] table: ");
+    logger << DEBUG << "table: ";
     for (int i = 0; i < table.size(); i++) {
 	for (int j = 0; j < table[i].size(); j++) {
-	    LOG(table[i][j] << '\t');
+	    logger << DEBUG << table[i][j] << '\t';
 	}
-	LOG("");
+	logger << DEBUG << endl;
     }
 	
     return (count > 0 ? count : 0);

@@ -1,5 +1,10 @@
 2007-12-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* databaseConnector, sqliteDatabaseConnector: now use new logger.
+	
+	* smoothedNgramPlugin: read database connector logger level
+	configuration variable and init logger.
+
 	* contextTracker, predictor: have an instance of logger, instead
 	of pointer to logger.
 

@@ -51,6 +51,15 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
 	dbfilename = value;
 	variable.pop_back();
 
+	variable.push_back("DatabaseConnector");
+	variable.push_back("LOGGER");
+	value = profile->getConfig(variable);
+	logger << setlevel(value);
+	logger << INFO << "LOGGER: " << value << endl;
+	dbfilename = value;
+	variable.pop_back();
+	variable.pop_back();
+
 	variable.push_back("DBFILENAME");
 	value = profile->getConfig(variable);
 	logger << INFO << "DBFILENAME: " << value << endl;

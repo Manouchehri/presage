@@ -29,6 +29,8 @@
 #include "config.h"
 #endif
 
+#include "core/logger.h"
+
 #include <map>
 #include <vector>
 #include <string>
@@ -98,6 +100,8 @@ protected:
     virtual void closeDatabase()                                 = 0;
     virtual NgramTable executeSql(const std::string query) const = 0;
 
+    Logger<char> logger;
+
 private:
     /** Returns a string containing the column specifiers for the SQL
      *  SELECT clause built for an ngram of specified cardinality.
@@ -124,6 +128,7 @@ private:
     /** Returns the first element of the ngramtable as an integer.
      */
     int extractFirstInteger(const NgramTable&) const;
+
 };
 
 #endif // DATABASECONNECTOR_H
