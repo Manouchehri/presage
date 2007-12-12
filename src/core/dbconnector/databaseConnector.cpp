@@ -32,6 +32,10 @@ DatabaseConnector::DatabaseConnector()
     : logger("DatabaseConnector", std::cerr)
 {}
 
+DatabaseConnector::DatabaseConnector(const std::string& log_level)
+    : logger("DatabaseConnector", std::cerr, log_level)
+{}
+
 DatabaseConnector::~DatabaseConnector()
 {}
 

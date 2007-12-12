@@ -43,6 +43,12 @@ AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Profile* profile, Conte
     Value value;
 
     try {
+	variable.push_back("LOGGER");
+	value = profile->getConfig(variable);
+	logger << setlevel(value);
+        logger << INFO << "LOGGER:" << value << endl;
+	variable.pop_back();
+
 	variable.push_back("ABBREVIATIONS");
 	value = profile->getConfig(variable);
         logger << INFO << "ABBREVIATIONS:" << value << endl;

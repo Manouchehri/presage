@@ -44,6 +44,7 @@ typedef std::vector<Ngram> NgramTable;
 class DatabaseConnector {
 public:
     DatabaseConnector();
+    DatabaseConnector(const std::string& log_level);
     virtual ~DatabaseConnector();
 
     /** Creates a table to store N-grams.

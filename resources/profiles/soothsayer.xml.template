@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Soothsayer>
     <ContextTracker>
-	<LOGGER>DEBUG</LOGGER>
+	<LOGGER>ERROR</LOGGER>
         <!-- MAX_BUFFER_SIZE
           * currently not used
           * likely to be removed
@@ -9,7 +9,7 @@
         <MAX_BUFFER_SIZE>1024</MAX_BUFFER_SIZE>
     </ContextTracker>
     <Selector>
-	<LOGGER>DEBUG</LOGGER>
+	<LOGGER>ERROR</LOGGER>
         <!-- SUGGESTIONS
           Controls how many suggestions are returned in each prediction.
         -->
@@ -32,7 +32,7 @@
         <GREEDY_SUGGESTION_THRESHOLD>0</GREEDY_SUGGESTION_THRESHOLD>
     </Selector>
     <Predictor>
-        <LOGGER>DEBUG</LOGGER>
+        <LOGGER>ERROR</LOGGER>
         <!-- PREDICT_TIME
           Maximum time allowed for predictive plugins to return their prediction.
 	-->
@@ -56,12 +56,12 @@
     </ProfileManager>
     <Plugins>
         <SmoothedNgramPlugin>
-            <LOGGER>DEBUG</LOGGER>
+            <LOGGER>ERROR</LOGGER>
             <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
             <!-- \delta_0, \delta_1, ..., \delta_{n-1} -->
             <DELTAS>0.01 0.1 0.89</DELTAS>
             <DatabaseConnector>
-                <LOGGER>DEBUG</LOGGER>
+                <LOGGER>ERROR</LOGGER>
             </DatabaseConnector>
         </SmoothedNgramPlugin>
         <SmoothedUniBiTrigramPlugin>
@@ -74,6 +74,7 @@
 	    <DICTIONARY_PATH>/usr/share/dict/american-english</DICTIONARY_PATH>
 	</DictionaryPlugin>
         <AbbreviationExpansionPlugin>
+            <LOGGER>ERROR</LOGGER>
             <ABBREVIATIONS>::LOCALSTATEDIR::/abbreviations_en.txt</ABBREVIATIONS>
         </AbbreviationExpansionPlugin>
         <SmoothedCountPlugin>

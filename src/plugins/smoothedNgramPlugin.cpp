@@ -34,8 +34,6 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
              "SmoothedNgramPlugin, a linear interpolating unigram bigram trigram plugin",
              "SmoothedNgramPlugin, long description." )
 {
-    logger << DEBUG << "Entering SmoothedNgramPlugin::SmoothedNgramPlugin()" << endl;
-
     Variable variable;
     variable.push_back("Soothsayer");
     variable.push_back("Plugins");
@@ -49,15 +47,6 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	dbfilename = value;
-	variable.pop_back();
-
-	variable.push_back("DatabaseConnector");
-	variable.push_back("LOGGER");
-	value = profile->getConfig(variable);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-	dbfilename = value;
-	variable.pop_back();
 	variable.pop_back();
 
 	variable.push_back("DBFILENAME");
@@ -78,13 +67,22 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
 	variable.pop_back();
 
     } catch (Profile::ProfileException ex) {
-	logger << ERROR << "[SmoothedNgramPlugin] Caught ProfileException: " << ex.what() << endl;
+	logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
     }
-
-    // open database connector
-    db = new SqliteDatabaseConnector(dbfilename);
     
-    logger << DEBUG << "Exiting SmoothedNgramPlugin::SmoothedNgramPlugin()" << endl;
+    try {
+	variable.push_back("DatabaseConnector");
+	variable.push_back("LOGGER");
+	value = profile->getConfig(variable);
+	variable.pop_back();
+	variable.pop_back();
+
+	// open database connector
+	db = new SqliteDatabaseConnector(dbfilename, value);
+    } catch (Profile::ProfileException& ex) {
+	logger << "Exception while trying to fetch DatabaseConnector logger level." << endl;
+	db = new SqliteDatabaseConnector(dbfilename);
+    }
 }
 
 

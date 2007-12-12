@@ -1,3 +1,16 @@
+2007-12-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* logger, soothsayer.xml.template: changed default logging level
+	to ERROR.
+
+	* abbreviationExpansionPlugin: added plugin logger initialization.
+
+	* smoothedNgramPlugin: fixed incorrect DatabaseConnector logger
+	level initialization.
+
+	* databaseConnector, sqliteDatabaseConnector: added constructor
+	taking logger level.
+	
 2007-12-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* databaseConnector, sqliteDatabaseConnector: now use new logger.

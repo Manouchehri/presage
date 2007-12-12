@@ -29,6 +29,14 @@
 #endif
 
 SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name)
+    : DatabaseConnector()
+{
+    db_name = database_name;
+    openDatabase();
+}
+
+SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name, const std::string logger_level)
+    : DatabaseConnector(logger_level)
 {
     db_name = database_name;
     openDatabase();

@@ -56,6 +56,7 @@ ContextTracker::ContextTracker(Profile* profile,
     try {
 	variable.push_back("LOGGER");
 	value = profile->getConfig(variable);
+	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	variable.pop_back();
 
