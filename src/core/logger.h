@@ -78,7 +78,7 @@ public:
 	    std::basic_ostream<_charT,_Traits>& ostr)
 	: outstream(ostr)
 	{
-	    init(logger_name, "ALL");
+	    init(logger_name, "ERROR");
 	}
 
     inline
