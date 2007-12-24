@@ -1,0 +1,55 @@
+Source: soothsayer
+Section: devel
+Priority: extra
+Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Build-Depends: debhelper (>= 5), autotools-dev
+Standards-Version: 3.7.2
+
+Package: soothsayer
+Section: misc
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: The intelligent predictive text entry platform
+ Soothsayer is an intelligent predictive text entry
+ platform. Soothsayer exploits redundant information embedded in
+ natural languages to generate predictions. Soothsayer's modular and
+ pluggable architecture allows its language model to be extended and
+ customized to utilize statistical, syntactic, and semantic information
+ sources.
+
+Package: soothsayer-doc
+Section: doc
+Architecture: all
+Recommends: soothsayer
+Description: Documentation for soothsayer, the intelligent predictive text entry platform
+ Soothsayer is an intelligent predictive text entry
+ platform. Soothsayer exploits redundant information embedded in
+ natural languages to generate predictions. Soothsayer's modular and
+ pluggable architecture allows its language model to be extended and
+ customized to utilize statistical, syntactic, and semantic information
+ sources.
+
+Package: libsoothsayer-0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: The intelligent predictive text entry platform library
+ Soothsayer is an intelligent predictive text entry
+ platform. Soothsayer exploits redundant information embedded in
+ natural languages to generate predictions. Soothsayer's modular and
+ pluggable architecture allows its language model to be extended and
+ customized to utilize statistical, syntactic, and semantic information
+ sources.
+
+Package: libsoothsayer-dev
+Section: libdevel
+Suggests: soothsayer-doc
+Architecture: any
+Depends: libsoothsayer-0 (= ${Source-Version}), libc6-dev
+Description: Development files for soothsayer, the intelligent predictive text entry platform
+ Soothsayer is an intelligent predictive text entry
+ platform. Soothsayer exploits redundant information embedded in
+ natural languages to generate predictions. Soothsayer's modular and
+ pluggable architecture allows its language model to be extended and
+ customized to utilize statistical, syntactic, and semantic information
+ sources.

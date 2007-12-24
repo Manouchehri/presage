@@ -5,9 +5,16 @@ The Soothsayer project
 TODO list
 ---------
 
+Debian packaging
+-
+Initial stab at creating a Debian package for soothsayer. 
+ - everything still goes into soothsayer package, instead of being
+   split in lib and dev and doc packages.
+
 
 SqliteDatabaseConnector callback: had to disable logging there because
    static method.
+
 
 *** working on logger
  need to integrate it into logger.cxx. idea is that logger has an
