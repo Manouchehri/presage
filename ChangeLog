@@ -1,3 +1,9 @@
+2007-12-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian: switched to cdbs, cleaned up and fixed installations
+	into separate packages, removed unnecessary files from debian
+	directory.
+
 2007-12-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* debian: initial stab at creating a soothsayer debian package.
