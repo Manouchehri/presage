@@ -1,3 +1,8 @@
+2007-12-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian: changes to debian files to fix various lintian warnings
+	and errors.
+
 2007-12-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* debian: switched to cdbs, cleaned up and fixed installations

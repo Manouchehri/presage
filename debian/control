@@ -21,7 +21,7 @@ Package: soothsayer-doc
 Section: doc
 Architecture: all
 Recommends: soothsayer
-Description: Documentation for soothsayer, the intelligent predictive text entry platform
+Description: Documentation for the intelligent predictive text entry platform
  Soothsayer is an intelligent predictive text entry
  platform. Soothsayer exploits redundant information embedded in
  natural languages to generate predictions. Soothsayer's modular and
@@ -29,11 +29,11 @@ Description: Documentation for soothsayer, the intelligent predictive text entry
  customized to utilize statistical, syntactic, and semantic information
  sources.
 
-Package: libsoothsayer-0
+Package: libsoothsayer0
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}
-Description: The intelligent predictive text entry platform library
+Description: Shared library of the intelligent predictive text entry platform library
  Soothsayer is an intelligent predictive text entry
  platform. Soothsayer exploits redundant information embedded in
  natural languages to generate predictions. Soothsayer's modular and
@@ -45,8 +45,8 @@ Package: libsoothsayer-dev
 Section: libdevel
 Suggests: soothsayer-doc
 Architecture: any
-Depends: libsoothsayer-0 (= ${Source-Version}), libc6-dev
-Description: Development files for soothsayer, the intelligent predictive text entry platform
+Depends: libsoothsayer0 (= ${Source-Version}), libc6-dev
+Description: Development files for the intelligent predictive text entry platform
  Soothsayer is an intelligent predictive text entry
  platform. Soothsayer exploits redundant information embedded in
  natural languages to generate predictions. Soothsayer's modular and
