@@ -1,0 +1,4 @@
+var/abbreviations_en.txt
+var/abbreviations_it.txt
+var/database_en.db
+var/database_it.db
