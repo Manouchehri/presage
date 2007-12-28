@@ -1,4 +1,4 @@
-var/abbreviations_en.txt
-var/abbreviations_it.txt
-var/database_en.db
-var/database_it.db
+var/abbreviations_en.txt var/lib/soothsayer
+var/abbreviations_it.txt var/lib/soothsayer
+var/database_en.db       var/lib/soothsayer
+var/database_it.db       var/lib/soothsayer
