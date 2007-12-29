@@ -20,7 +20,6 @@
 bin_PROGRAMS =		text2ngram     
 
 text2ngram_SOURCES =	text2ngram.cpp
-
 text2ngram_LDADD =	libtools.la        \
 			../core/libcore.la
 
@@ -31,3 +30,12 @@ libtools_la_SOURCES =	progress.cpp progress.h           \
 libtools_la_LIBADD =	$(SQLITE_LIBS)
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src
+
+if HAVE_HELP2MAN
+dist_man_MANS =	text2ngram.1
+
+text2ngram.1:	text2ngram.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) text2ngram$(EXEEXT)
+	help2man --output=$@ ./text2ngram$(EXEEXT)
+endif
+

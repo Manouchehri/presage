@@ -7,7 +7,8 @@ TODO list
 
 Debian packaging
 - need to create python binding package
-
+- need to provide manual pages
+- need to change installed configuration file 
 
 SqliteDatabaseConnector callback: had to disable logging there because
    static method.

@@ -57,4 +57,24 @@ soothsayerDemoText_LDADD = 	libsoothsayer.la
 
 soothsayerSimulator_SOURCES =	soothsayerSimulator.cpp
 soothsayerSimulator_LDADD =	simulator/libsimulator.la \
-				libsoothsayer.la          
+				libsoothsayer.la  
+
+
+if HAVE_HELP2MAN
+dist_man_MANS =	soothsayerDemo.1      \
+		soothsayerDemoText.1  \
+		soothsayerSimulator.1 
+
+soothsayerDemo.1:	soothsayerDemo.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) soothsayerDemo$(EXEEXT)
+	help2man --output=$@ ./soothsayerDemo$(EXEEXT)
+
+soothsayerDemoText.1:	soothsayerDemoText.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) soothsayerDemoText$(EXEEXT)
+	help2man --output=$@ ./soothsayerDemoText$(EXEEXT)
+
+soothsayerSimulator.1:	soothsayerSimulator.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) soothsayerSimulator$(EXEEXT)
+	help2man --output=$@ ./soothsayerSimulator$(EXEEXT)
+endif
+

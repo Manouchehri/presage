@@ -174,6 +174,17 @@ fi
 AM_CONDITIONAL([HAVE_DOXYGEN], [test "x$HAVE_DOXYGEN" = "xyes"])
 
 
+dnl ===================
+dnl Checks for help2man
+dnl ===================
+AC_CHECK_PROG([HAVE_HELP2MAN], [help2man], [yes], [no])
+if test "x$HAVE_HELP2MAN" = "xno"
+then
+    AC_MSG_NOTICE([help2man not found. Man documentation pages will not be built.])
+fi
+AM_CONDITIONAL([HAVE_HELP2MAN], [test "x$HAVE_HELP2MAN" = "xyes"])
+
+
 ############################
 # Temporarily disabling this
 #AC_CONFIG_SUBDIRS(src/plump)
