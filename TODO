@@ -6,41 +6,11 @@ TODO list
 ---------
 
 Debian packaging
--
-Initial stab at creating a Debian package for soothsayer. 
- - everything still goes into soothsayer package, instead of being
-   split in lib and dev and doc packages.
+- need to create python binding package
 
 
 SqliteDatabaseConnector callback: had to disable logging there because
    static method.
-
-
-*** working on logger
- need to integrate it into logger.cxx. idea is that logger has an
-   instance of ostream which has a module name and contains a
-   logging level.
-
-DONE need to create a manipulator that sets the debug level
-DONE override operator<< to check debug level to determine whether to send
-   stuff to cerr or not.
-
-DONE would be nice to have << std::endl working too.
-
-DONE fix Level
-
-DONE implement Level manipulator
-
-DONE make logger print a string at the beginning of each log
-   line (i.e. [Predictor] log message )
-
- don't make instantiation of logger dependent on retrieval of LOGGER
-   configuration variable; if variable is not found, next line logged
-   will result in dereferencing a null pointer!
- use a member logger, rather than a pointer to a logger
-
- use new logger throughout soothie
-
 
 
 Absolute first

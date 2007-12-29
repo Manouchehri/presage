@@ -41,7 +41,7 @@ const std::string  DEFAULT_LOGGER_LEVEL                 = "DEBUG";
 const int          DEFAULT_PREDICT_TIME                = 1000;
 const int          DEFAULT_MAX_PARTIAL_PREDICTION_SIZE = 100;
 const std::string  DEFAULT_COMBINATION_POLICY          = "Meritocracy";
-const std::string  DEFAULT_PREDICTIVE_PLUGINS          = "SmoothedUniBiTrigramPlugin";
+const std::string  DEFAULT_PREDICTIVE_PLUGINS          = "";
 const int          DEFAULT_MAX_BUFFER_SIZE             = 1024;  // TODO: <==== not implemented yet
 const int          DEFAULT_SUGGESTIONS                 = 6;
 const bool         DEFAULT_REPEAT_SUGGESTION           = false;

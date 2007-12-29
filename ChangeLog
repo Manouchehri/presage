@@ -1,3 +1,11 @@
+2007-12-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian: added configuration file soothsayer.xml to
+	libsoothsayer0 debian package.
+
+	* src/core/profileManager: changed default value for active
+	predictive plugins to null.
+	
 2007-12-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* debian: changes to debian files to fix various lintian warnings
