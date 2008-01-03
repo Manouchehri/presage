@@ -2,3 +2,7 @@ usr/bin/text2ngram
 usr/bin/soothsayerSimulator
 usr/bin/soothsayerDemo
 usr/bin/soothsayerDemoText
+usr/share/man/man1/text2ngram.1
+usr/share/man/man1/soothsayerSimulator.1
+usr/share/man/man1/soothsayerDemo.1
+usr/share/man/man1/soothsayerDemoText.1

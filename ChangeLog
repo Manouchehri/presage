@@ -1,3 +1,7 @@
+2008-01-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* man: added --name option to help2man man pages generation.
+
 2007-12-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* debian: added configuration file soothsayer.xml to

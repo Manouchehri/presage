@@ -67,14 +67,19 @@ dist_man_MANS =	soothsayerDemo.1      \
 
 soothsayerDemo.1:	soothsayerDemo.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) soothsayerDemo$(EXEEXT)
-	help2man --output=$@ ./soothsayerDemo$(EXEEXT)
+	help2man --output=$@ --name="soothsayer demo program (ncurses)" ./soothsayerDemo$(EXEEXT)
 
 soothsayerDemoText.1:	soothsayerDemoText.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) soothsayerDemoText$(EXEEXT)
-	help2man --output=$@ ./soothsayerDemoText$(EXEEXT)
+	help2man --output=$@ --name="soothsayer demo program (text)" ./soothsayerDemoText$(EXEEXT)
 
 soothsayerSimulator.1:	soothsayerSimulator.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) soothsayerSimulator$(EXEEXT)
-	help2man --output=$@ ./soothsayerSimulator$(EXEEXT)
+	help2man --output=$@ --name="soothsayer simulator program"./soothsayerSimulator$(EXEEXT)
+
+DISTCLEANFILES =	soothsayerDemo.1      \
+			soothsayerDemoText.1  \
+			soothsayerSimulator.1 
+
 endif
 
