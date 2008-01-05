@@ -1,3 +1,8 @@
+2008-01-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian: changed build depends to get package to build in
+	pbuilder chroot.
+
 2008-01-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* man: added --name option to help2man man pages generation.
