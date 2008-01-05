@@ -1,5 +1,11 @@
 2008-01-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* resources/Makefile.am: install generated statistical database
+	resources in soothsayer specific var lib directory.
+
+	* resources/profiles/Makefile.am: generate config file with
+	updated resources location.
+	
 	* debian: changed build depends to get package to build in
 	pbuilder chroot.
 

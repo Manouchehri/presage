@@ -38,10 +38,11 @@ database_en.db:	the_picture_of_dorian_gray.txt
 	$(top_builddir)/src/tools/text2ngram -n 2 -l -f sqlite -o $@ $^
 	$(top_builddir)/src/tools/text2ngram -n 3 -l -f sqlite -o $@ $^
 
-nodist_localstate_DATA =	database_en.db \
-				database_it.db \
-				abbreviations_en.txt \
-				abbreviations_it.txt 
+resourcesdir =		$(localstatedir)/lib/soothsayer
+resources_DATA =	database_en.db \
+			database_it.db \
+			abbreviations_en.txt \
+			abbreviations_it.txt 
 
 # Clean out files created during tests.
 # Required to make distcheck happy.

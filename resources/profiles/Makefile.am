@@ -26,10 +26,10 @@ CLEANFILES =	soothsayer.xml
 # event it had previously been built and then the package reconfigured
 # to install to a different location.
 soothsayer.xml:	Makefile soothsayer.xml.template generate_soothsayer_config.sh
-	${srcdir}/generate_soothsayer_config.sh ${srcdir}/soothsayer.xml.template soothsayer.xml ${localstatedir}
+	${srcdir}/generate_soothsayer_config.sh ${srcdir}/soothsayer.xml.template soothsayer.xml ${localstatedir}/lib/soothsayer
 
 # ${prefix}/etc directory
-nodist_sysconf_DATA =	soothsayer.xml
+sysconf_DATA =	soothsayer.xml
 
 
 #
