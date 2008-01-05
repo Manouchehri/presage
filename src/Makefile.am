@@ -75,7 +75,7 @@ soothsayerDemoText.1:	soothsayerDemoText.cpp $(top_srcdir)/configure.ac
 
 soothsayerSimulator.1:	soothsayerSimulator.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) soothsayerSimulator$(EXEEXT)
-	help2man --output=$@ --name="soothsayer simulator program"./soothsayerSimulator$(EXEEXT)
+	help2man --output=$@ --name="soothsayer simulator program" ./soothsayerSimulator$(EXEEXT)
 
 DISTCLEANFILES =	soothsayerDemo.1      \
 			soothsayerDemoText.1  \
