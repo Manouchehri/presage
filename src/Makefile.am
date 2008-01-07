@@ -59,12 +59,11 @@ soothsayerSimulator_SOURCES =	soothsayerSimulator.cpp
 soothsayerSimulator_LDADD =	simulator/libsimulator.la \
 				libsoothsayer.la  
 
-
-if HAVE_HELP2MAN
 dist_man_MANS =	soothsayerDemo.1      \
 		soothsayerDemoText.1  \
 		soothsayerSimulator.1 
 
+if HAVE_HELP2MAN
 soothsayerDemo.1:	soothsayerDemo.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) soothsayerDemo$(EXEEXT)
 	help2man --output=$@ --name="soothsayer demo program (ncurses)" ./soothsayerDemo$(EXEEXT)
@@ -76,10 +75,6 @@ soothsayerDemoText.1:	soothsayerDemoText.cpp $(top_srcdir)/configure.ac
 soothsayerSimulator.1:	soothsayerSimulator.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) soothsayerSimulator$(EXEEXT)
 	help2man --output=$@ --name="soothsayer simulator program" ./soothsayerSimulator$(EXEEXT)
-
-DISTCLEANFILES =	soothsayerDemo.1      \
-			soothsayerDemoText.1  \
-			soothsayerSimulator.1 
 
 endif
 

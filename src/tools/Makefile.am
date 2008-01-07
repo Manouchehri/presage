@@ -31,13 +31,12 @@ libtools_la_LIBADD =	$(SQLITE_LIBS)
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src
 
-if HAVE_HELP2MAN
 dist_man_MANS =	text2ngram.1
 
+if HAVE_HELP2MAN
 text2ngram.1:	text2ngram.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) text2ngram$(EXEEXT)
 	help2man --output=$@ --name="generate statistical n-gram data from text" ./text2ngram$(EXEEXT)
 
-DISTCLEANFILES =	text2ngram.1
 endif
 

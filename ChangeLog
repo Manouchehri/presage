@@ -3,6 +3,13 @@
 	* compiler-warnings: fixed all compiler warning while building
 	`make all' and `make check'.
 
+	* debian: fixed warning caused by no newline at end of debian
+	packaging files.
+
+	* help2man: generated man pages were erroneously distclean'ed, and
+	not included in the dist tarball when help2man executable was not
+	found: fixed now.
+
 2008-01-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* resources/Makefile.am: install generated statistical database
