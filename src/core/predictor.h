@@ -174,10 +174,10 @@ class Predictor {
     void *execute(void *);
 
 
-    Logger<char>    logger;
-
-    ContextTracker* contextTracker;
     Profile*        profile;
+    ContextTracker* contextTracker;
+
+    Logger<char>    logger;
 
     Combiner*       combiner;
     std::string     combinationPolicy;

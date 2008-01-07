@@ -41,7 +41,8 @@
 #include "plugins/smoothedCountPlugin.h"
 
 Predictor::Predictor(Profile* prof, ContextTracker* ct)
-    : profile(prof), contextTracker(ct),
+    : profile(prof),
+      contextTracker(ct),
       logger("Predictor", std::cerr)
 {
     combiner = 0;
@@ -141,7 +142,7 @@ void Predictor::addPlugin(const std::string& pluginName)
 
 void Predictor::removePlugins()
 {
-    for (int i = 0; i < plugins.size(); i++) {
+    for (size_t i = 0; i < plugins.size(); i++) {
 	delete plugins[i];
     }
     plugins.clear();

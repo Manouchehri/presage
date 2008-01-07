@@ -65,7 +65,7 @@ AbbreviationExpansionPlugin::~AbbreviationExpansionPlugin()
 {}
 
 
-Prediction AbbreviationExpansionPlugin::predict(const int max_partial_predictions_size) const
+Prediction AbbreviationExpansionPlugin::predict(const size_t max_partial_predictions_size) const
 {
     Prediction result;
 

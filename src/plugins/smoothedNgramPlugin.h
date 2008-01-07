@@ -51,7 +51,7 @@ public:
     SmoothedNgramPlugin(Profile*, ContextTracker*);
     ~SmoothedNgramPlugin();
 
-    virtual Prediction predict(const int) const;
+    virtual Prediction predict(const size_t) const;
 
     virtual void learn();
     virtual void extract();

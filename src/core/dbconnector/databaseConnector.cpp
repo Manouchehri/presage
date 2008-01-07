@@ -75,8 +75,8 @@ int DatabaseConnector::getUnigramCountsSum() const
     NgramTable result = executeSql(query);
 
     logger << DEBUG << "NgramTable:";
-    for (int i = 0; i < result.size(); i++) {
-	for (int j = 0; j < result[i].size(); j++) {
+    for (size_t i = 0; i < result.size(); i++) {
+	for (size_t j = 0; j < result[i].size(); j++) {
 	    logger << DEBUG << result[i][j] << '\t';
 	}
     logger << DEBUG << endl;
@@ -95,8 +95,8 @@ int DatabaseConnector::getNgramCount(const Ngram ngram) const
     NgramTable result = executeSql(query.str());
 
     logger << DEBUG << "NgramTable:";
-    for (int i = 0; i < result.size(); i++) {
-	for (int j = 0; j < result[i].size(); j++) {
+    for (size_t i = 0; i < result.size(); i++) {
+	for (size_t j = 0; j < result[i].size(); j++) {
 	    logger << DEBUG << result[i][j] << '\t';
 	}
 	logger << DEBUG << endl;
@@ -171,7 +171,7 @@ std::string DatabaseConnector::buildWhereClause(const Ngram ngram) const
 {
     std::stringstream where_clause;
     where_clause << " WHERE";
-    for (int i = 0; i < ngram.size(); i++) {
+    for (size_t i = 0; i < ngram.size(); i++) {
 	if (i < ngram.size() - 1) {
 	    where_clause << " word_" << ngram.size() - i - 1 << " = '"
 			 << sanitizeString(ngram[i]) << "' AND";
@@ -188,7 +188,7 @@ std::string DatabaseConnector::buildWhereLikeClause(const Ngram ngram) const
 {
     std::stringstream where_clause;
     where_clause << " WHERE";
-    for (int i = 0; i < ngram.size(); i++) {
+    for (size_t i = 0; i < ngram.size(); i++) {
 	if (i < ngram.size() - 1) {
 	    where_clause << " word_" << ngram.size() - i - 1 << " = '"
 			 << sanitizeString(ngram[i]) << "' AND";
@@ -219,7 +219,7 @@ std::string DatabaseConnector::buildValuesClause(const Ngram ngram, const int co
 {
     std::stringstream values_clause;
     values_clause << "VALUES(";
-    for (int i = 0; i < ngram.size(); i++) {
+    for (size_t i = 0; i < ngram.size(); i++) {
 	if (i < ngram.size() - 1) {
 	    values_clause << "'" << sanitizeString(ngram[i]) << "', ";
 	} else {
@@ -256,8 +256,8 @@ int DatabaseConnector::extractFirstInteger(const NgramTable& table) const
     }
 
     logger << DEBUG << "table: ";
-    for (int i = 0; i < table.size(); i++) {
-	for (int j = 0; j < table[i].size(); j++) {
+    for (size_t i = 0; i < table.size(); i++) {
+	for (size_t j = 0; j < table[i].size(); j++) {
 	    logger << DEBUG << table[i][j] << '\t';
 	}
 	logger << DEBUG << endl;

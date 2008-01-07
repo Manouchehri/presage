@@ -36,7 +36,7 @@ Value Profile::getConfig(Variable variable)
     const char SEPARATOR = '.';
     std::string stringifiedVariable;
     TiXmlNode* node = profile;
-    for (int i = 0; (i < variable.size() && node); i++) {
+    for (size_t i = 0; (i < variable.size() && node); i++) {
 	node = node->FirstChild(variable[i].c_str());
 	stringifiedVariable += variable[i] + SEPARATOR;
     }

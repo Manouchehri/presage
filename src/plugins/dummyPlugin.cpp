@@ -39,7 +39,7 @@ DummyPlugin::DummyPlugin(Profile* profile, ContextTracker* ct)
 DummyPlugin::~DummyPlugin()
 {}
 
-Prediction DummyPlugin::predict(const int max_partial_predictions_size) const
+Prediction DummyPlugin::predict(const size_t max_partial_predictions_size) const
 {
     // A real plugin would query its resources to retrieve the most 
     // probable completion of the prefix based on the current history,

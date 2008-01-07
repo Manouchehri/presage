@@ -53,7 +53,7 @@ void draw_title_win(WINDOW*);
 void draw_history_win(WINDOW*, std::string);
 void draw_function_keys(WINDOW*);
 void draw_previous_suggestions(std::vector<std::string>, bool, const int, int);
-int  getGreatestSuggestionLength(std::vector< std::string > suggestions);
+size_t getGreatestSuggestionLength(std::vector< std::string > suggestions);
 
 const int SUGGESTIONS = 6;
 std::string config;
@@ -119,9 +119,10 @@ int main(int argc, char** argv)
 
 
     std::vector<std::string> words;
-    int c = 0;
+    size_t c = 0;
     do {
-	if ((KEY_F0 < c) && (c <= KEY_F(words.size())) && (c - KEY_F0 <= words.size())) {
+	size_t size = words.size();
+	if ((KEY_F0 < c) && (c <= KEY_F(size)) && (c - KEY_F0 <= size)) {
 	    // prediction was successful. user pressed the function
 	    // key corresponding to desired token. selecting
 	    // suggestion.
@@ -254,9 +255,9 @@ void draw_previous_suggestions(std::vector<std::string> words, bool contextChang
     }
 }
 
-int getGreatestSuggestionLength(std::vector< std::string > suggestions)
+size_t getGreatestSuggestionLength(std::vector< std::string > suggestions)
 {
-    int result = 0;
+    size_t result = 0;
     for (std::vector< std::string >::const_iterator it = suggestions.begin();
 	 it != suggestions.end();
 	 it++) {

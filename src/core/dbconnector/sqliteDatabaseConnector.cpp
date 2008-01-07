@@ -49,7 +49,6 @@ SqliteDatabaseConnector::~SqliteDatabaseConnector()
 
 void SqliteDatabaseConnector::openDatabase()
 {
-    char* errormsg = 0;
 #if defined(HAVE_SQLITE3_H)
     int result = sqlite3_open(db_name.c_str(), &db);
     if (result != SQLITE_OK) {
@@ -57,6 +56,7 @@ void SqliteDatabaseConnector::openDatabase()
 	throw SqliteDatabaseConnectorException(error);
     }
 #elif defined(HAVE_SQLITE_H)
+    char* errormsg = 0;
     db = sqlite_open(db_name.c_str(), 0, &errormsg);
     if (db == 0) {
 	std::string error;

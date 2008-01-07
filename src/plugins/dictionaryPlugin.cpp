@@ -49,7 +49,7 @@ DictionaryPlugin::DictionaryPlugin(Profile* profile, ContextTracker* ht)
 DictionaryPlugin::~DictionaryPlugin()
 {}
 
-Prediction DictionaryPlugin::predict(const int max_partial_predictions_size) const
+Prediction DictionaryPlugin::predict(const size_t max_partial_predictions_size) const
 {
 //	std::cout << "DictionaryPlugin::predict() method called" << std::endl;
 	
@@ -69,7 +69,6 @@ Prediction DictionaryPlugin::predict(const int max_partial_predictions_size) con
     std::string prefix = contextTracker->getPrefix();
 
     // scan file entries until we get enough suggestions
-    const unsigned int MAX_COUNT = 6;
     unsigned int count = 0;
     while(dictFile >> candidate && count < max_partial_predictions_size) {
 	if(candidate.find(prefix) == 0) {

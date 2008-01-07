@@ -90,7 +90,7 @@ SmoothedUniBiTrigramPlugin::~SmoothedUniBiTrigramPlugin()
 
 
 
-Prediction SmoothedUniBiTrigramPlugin::predict(const int max_partial_predictions_size) const
+Prediction SmoothedUniBiTrigramPlugin::predict(const size_t max_partial_predictions_size) const
 {
     //DEBUG
     LOG("[SmoothedUniBiTriGramPlugin] Entering SmoothedUniBiTrigramPlugin::predict()");
@@ -145,7 +145,7 @@ Prediction SmoothedUniBiTrigramPlugin::predict(const int max_partial_predictions
 
     // let's retrieve all the other counts I need
     db->beginTransaction();
-    for (int i = 0; (i < prefixCompletionTable.size() && i < max_partial_predictions_size); i++) {
+    for (size_t i = 0; (i < prefixCompletionTable.size() && i < max_partial_predictions_size); i++) {
         // get w
 	word = prefixCompletionTable[i][0];
 

@@ -117,7 +117,7 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
 	copy(tokens.end() - ngram_size + offset , tokens.end() + offset, ngram.begin());
 
 	logger << DEBUG << "[SmoothedNgramPlugin] ngram: ";
-	for (int j = 0; j < ngram.size(); j++) {
+	for (size_t j = 0; j < ngram.size(); j++) {
 	    logger << DEBUG << ngram[j] << ' ';
 	}
 	logger << DEBUG << endl;
@@ -128,7 +128,7 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
     }
 }
 
-Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) const
+Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size) const
 {
     logger << DEBUG << "Entering SmoothedNgramPlugin::predict()" << endl;
 
@@ -161,7 +161,7 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
     // initial completion set is smaller than required.
     //
     std::vector<std::string> prefixCompletionCandidates;
-    for (int k = cardinality; (k > 0 && prefixCompletionCandidates.size() < max_partial_prediction_size); k--) {
+    for (size_t k = cardinality; (k > 0 && prefixCompletionCandidates.size() < max_partial_prediction_size); k--) {
         logger << DEBUG << "Building partial prefix completion table of cardinality: " << k << endl;
         // create n-gram used to retrieve initial prefix completion table
         Ngram prefix_ngram(k);
@@ -222,7 +222,7 @@ Prediction SmoothedNgramPlugin::predict(const int max_partial_prediction_size) c
     // compute smoothed probabilities for all candidates
     //
     db->beginTransaction();
-    for (int j = 0; (j < prefixCompletionCandidates.size() && j < max_partial_prediction_size); j++) {
+    for (size_t j = 0; (j < prefixCompletionCandidates.size() && j < max_partial_prediction_size); j++) {
         // store w_i candidate at end of tokens
         tokens[cardinality - 1] = prefixCompletionCandidates[j];
 
