@@ -129,7 +129,7 @@ void ContextTrackerTest::testGetPastStream()
 	ContextTracker hT(profile);
 	std::string str = testStringSuite->currentTestString()->getstr();
 	std::string partial_str;
-        for (int i = 0; i < str.size(); i++) {
+        for (size_t i = 0; i < str.size(); i++) {
 	    std::string strchar;
 	    strchar.push_back(str[i]);
 	    hT.update(strchar);
@@ -160,7 +160,7 @@ void ContextTrackerTest::testContextChange()
     // See TODO in ContextTracker.cpp
     // const std::string change = "00010001000000100001000001000000010001000100000000010";
 
-    for (int i = 0; i < line.size(); i++) {
+    for (size_t i = 0; i < line.size(); i++) {
 	std::string temp;
 	temp.push_back(line[i]);
 	contextTracker->update (temp);

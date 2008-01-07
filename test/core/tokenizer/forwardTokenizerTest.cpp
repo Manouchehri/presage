@@ -77,7 +77,6 @@ void ForwardTokenizerTest::testCountTokens()
 {
     //std::cerr << "ForwardTokenizerTest::testCountTokens()" << std::endl;
 
-    int i;
     while (stringSuite->hasMoreTestStrings()) {
 	std::stringstream ss;
 	assert(stringSuite->currentTestString() != 0);

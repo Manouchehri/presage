@@ -65,7 +65,7 @@ class TestStringSuite {
 
 	const std::string getstr              () const;
 	const int         tokencount          () const;
-	const std::string token(const int index) const;
+	const std::string token(const size_t index) const;
 
       private:
 	std::string              m_string;

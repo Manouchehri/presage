@@ -404,9 +404,9 @@ void SqliteDatabaseConnectorTest::testGetNgramLikeTable()
 void SqliteDatabaseConnectorTest::assertEqualNgramTable(const NgramTable* const expected, const NgramTable& actual)
 {
     CPPUNIT_ASSERT_EQUAL(expected->size(), actual.size());
-    for (int i = 0; i < expected->size(); i++) {
+    for (size_t i = 0; i < expected->size(); i++) {
 	CPPUNIT_ASSERT_EQUAL((*expected)[i].size(), actual[i].size());
-	for (int j = 0; j < (*expected)[i].size(); j++) {
+	for (size_t j = 0; j < (*expected)[i].size(); j++) {
 	    std::cout << "[assertEqualNgramTable] (" << (*expected)[i][j] << ", " << actual[i][j] << ")" << std::endl;
 	    CPPUNIT_ASSERT((*expected)[i][j] == actual[i][j]);
 	}

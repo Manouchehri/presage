@@ -88,8 +88,8 @@ public:
 	}
 	
     private:
-	int MAGIC_NUMBER;
 	std::string* const m_query;
+	int          MAGIC_NUMBER;
     };
 
     /** Mock DatabaseConnector implementation object for getNgramCountLike().

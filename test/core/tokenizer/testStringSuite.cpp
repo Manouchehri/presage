@@ -53,7 +53,7 @@ const int TestStringSuite::TestString::tokencount() const
     return m_tokens.size();
 }
 
-const std::string TestStringSuite::TestString::token(const int index) const
+const std::string TestStringSuite::TestString::token(const size_t index) const
 {
     assert(index < m_tokens.size());
     return m_tokens[index];

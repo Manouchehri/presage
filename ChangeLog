@@ -1,7 +1,7 @@
 2008-01-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* compiler-warnings: fixed all compiler warning while building
-	`make all'.
+	`make all' and `make check'.
 
 2008-01-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
