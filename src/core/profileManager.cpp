@@ -27,6 +27,8 @@
 #include "core/utility.h"        // isYes isNo isTrue isFalse utility function
 #include "dirs.h"                // sysconfdir macro define
 
+#include <pwd.h>
+#include <stdlib.h>
 
 /** Constructor.
  *
@@ -38,7 +40,7 @@ ProfileManager::ProfileManager(const std::string profilename)
 {
     xmlProfileDoc = 0;
     if (profilename.empty()) {
-        loadProfile();
+        loadDefaultProfile();
     } else {
         loadProfile(profilename);
     }
@@ -54,68 +56,94 @@ ProfileManager::~ProfileManager()
 }
 
 
-/** Load and parse a profile.
+std::string ProfileManager::get_user_home_dir() const
+{
+    std::string result;
+  
+    uid_t me;
+    struct passwd *my_passwd;
+    
+    me = getuid ();
+    my_passwd = getpwuid (me);
+    if (!my_passwd) {
+        // got passwd for user
+        // read home dir from passwd struct
+	result = my_passwd->pw_dir;
+    } else {
+        // unable to get passwd struct,
+        // read $HOME env variable
+        result = getenv("HOME");
+    }
+
+    return result;
+}
+
+/** Load and parse the default user/system profile.
  *
- * Load profile profilename.  The profile is searched in various
- * directories.  The first directory containing a file whose name
- * corresponds to the specified profile is loaded.
- *
- * The directories searched and their search order is:
- * - current directory/absolute filename path
+ * Load default profile in the following order:
+ * - ~/.soothsayer.xml
  * - sysconfdir/soothsayer.xml
- * - ~/.soothsayer/soothsayer.xml (TBD)
- * - /etc/soothsayer/soothsayer.xml
  *
  * If no profile is found, a default profile is built and used.
  *
- * Return true if profile is found and successfully loaded, false
+ * @return true if profile is found and successfully loaded, false
  * otherwise.
  *
  */
-bool ProfileManager::loadProfile(const std::string profilename)
+bool ProfileManager::loadDefaultProfile()
+{
+    const int PROFILE_SEARCH_PATH_SIZE = 2;
+    std::string profile_search_path[PROFILE_SEARCH_PATH_SIZE] = {
+        // home dir dotfile
+        get_user_home_dir() + '/' + '.' + DEFAULT_PROFILE_FILENAME,
+        // installation config directory
+	static_cast<std::string>(sysconfdir) + '/' + DEFAULT_PROFILE_FILENAME
+    };
+
+    bool readOk = false;
+
+    // try looking for profilename in profile dirs
+    int i = 0;
+    while(!readOk && i < PROFILE_SEARCH_PATH_SIZE) {
+        readOk = loadProfile(profile_search_path[i]);
+        i++;
+    }
+
+    if (!readOk) {
+        // handle failure to load profile
+        logger << ERROR << "No profiles were found. Using default parameters." << endl;
+        buildProfile();
+    }
+
+    return readOk;
+}
+
+
+/** Load and parse the specified profile.
+ *
+ * @param profile_file filename of the profile to load
+ * @return true if profile is found and successfully loaded, false
+ * otherwise.
+ *
+ */
+bool ProfileManager::loadProfile(const std::string profile_file)
 {
     // destroy xml profile document to prevent memory leaks.
     delete xmlProfileDoc;
 
     xmlProfileDoc = new TiXmlDocument;
     assert( xmlProfileDoc );
-    
-    const int PROFILE_DIRS_SIZE = 2;
-    std::string profile_dirs[PROFILE_DIRS_SIZE] = {
-	sysconfdir,        // installation config directory
-	"/etc/soothsayer"  // system-wide config directory
-    };
 
-    bool readOk = false;
-    // try current directory or absolute filename
-    readOk = xmlProfileDoc->LoadFile (profilename.c_str());
+    bool readOk = xmlProfileDoc->LoadFile (profile_file.c_str());
+    
     if (readOk) {
-        logger << "Using profile: " << profilename << endl;
+      logger << ERROR << "Using profile '" << profile_file << "'..." << endl;
     } else {
-        logger << "Opening profile: '" << profilename << "' attempt failed." << endl;
-        // try looking for profilename in profile dirs
-        int i = 0;
-        while(!readOk && i < PROFILE_DIRS_SIZE) {
-            profileFile = profile_dirs[i] + '/' + profilename;
-            readOk = xmlProfileDoc->LoadFile (profileFile.c_str());
-            
-            if (!readOk) {
-                logger << "Opening profile: '" << profileFile << "' attempt failed." << endl;
-            }
-            
-            i++;
-        }
-        if (readOk) {
-            logger << "Using profile: " << profileFile << endl;
-        } else {
-            // Handle failure to load profile
-            logger << "No profiles were found. Using default parameters." << endl;
-            buildProfile();
-        }
+      logger << ERROR << "Opening profile '" << profile_file << "' attempt failed." << endl;
     }
+
     return readOk;
 }
-
 
 /** Write profile to disk.
  *

@@ -1,3 +1,15 @@
+2008-01-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+	
+	* src/core/profileManager: look for default profile in user's home
+	directory first and then system config directory /etc/soothsayer.
+
+	* test/core/profileManagerTest: adapted test to take changes to
+	user specified profile into account.
+
+	* test/integration/integration.sh: make simulator use specified
+	configuration, since configuration file in current directory is no
+	longer used by default.
+
 2008-01-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* compiler-warnings: fixed all compiler warning while building

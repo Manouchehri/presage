@@ -69,17 +69,22 @@ void ProfileManagerTest::testNonExistantProfile()
     std::cout << "ProfileManagerTest::testNonExistantProfile()" << std::endl;
 
     // hopefully a file with the following name will not exists
-    // in the directories we look for...
     const std::string wacky_profile("this_IS_a_wAckY_profileName.xml");
 
-    profileManager->loadProfile(wacky_profile);
-    profile = profileManager->getProfile();
+    CPPUNIT_ASSERT( !profileManager->loadProfile(wacky_profile) );
 
-    contextTracker = new ContextTracker(profile);
-    selector = new Selector(profile, contextTracker);
-    predictor = new Predictor(profile, contextTracker);
+    /* This block of code was commented out because ProfileManager
+     * will not build a default profile when the specified profile
+     * cannot be loaded.
+
+     profile = profileManager->getProfile();
+
+     contextTracker = new ContextTracker(profile);
+     selector = new Selector(profile, contextTracker);
+     predictor = new Predictor(profile, contextTracker);
 
     testProfile();
+    */
 }
 
 void ProfileManagerTest::testProfile()

@@ -65,12 +65,15 @@ public:
     ProfileManager(const std::string = "");
     ~ProfileManager();
 
-    bool loadProfile(const std::string = DEFAULT_PROFILE_FILENAME);
+    bool loadDefaultProfile();
+    bool loadProfile(const std::string);
     void buildProfile(const std::string = DEFAULT_PROFILE_FILENAME);
     bool saveProfile() const;
     Profile* getProfile() const;
 
 private:
+    std::string get_user_home_dir() const;
+
     TiXmlDocument*  xmlProfileDoc;
     std::string     profileFile;
     Logger<char>    logger;

@@ -117,7 +117,7 @@ function simulate()
 	echo "Error: simulate requires an argument"
 	exit $ERROR_CODE
     else
-	execute "$SIMULATOR -i -q $CONTROL_CORPUS"
+	execute "$SIMULATOR -i -q -c $CONFIG $CONTROL_CORPUS"
     fi
 }
 
