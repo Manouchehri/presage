@@ -37,3 +37,45 @@ EXTRA_DIST =	INSTALL_cygwin_dev_env.txt FAQ
 # Ensure local m4 macros are included during autoreconf and automatic
 # aclocal.m4 remaking
 ACLOCAL_AMFLAGS = -I m4
+
+
+# Build Debian package
+debian: dist
+	case '$(DIST_ARCHIVES)' in \
+	*.tar.gz*) \
+	  GZIP=$(GZIP_ENV) gunzip -c $(distdir).tar.gz | $(am__untar) && \
+	  cp $(DIST_ARCHIVES) $(PACKAGE)_$(VERSION).orig.tar.gz ;;\
+	*.tar.bz2*) \
+	  bunzip2 -c $(distdir).tar.bz2 | $(am__untar) && \
+	  cp $(DIST_ARCHIVES) $(PACKAGE)_$(VERSION).orig.tar.bz2 ;;\
+	*.tar.Z*) \
+	  uncompress -c $(distdir).tar.Z | $(am__untar) && \
+	  cp $(DIST_ARCHIVES) $(PACKAGE)_$(VERSION).orig.tar.Z ;;\
+	*.shar.gz*) \
+	  GZIP=$(GZIP_ENV) gunzip -c $(distdir).shar.gz | unshar && \
+	  cp $(DIST_ARCHIVES) $(PACKAGE)_$(VERSION).orig.shar.gz ;;\
+	*.zip*) \
+	  unzip $(distdir).zip && \
+	  cp $(DIST_ARCHIVES) $(PACKAGE)_$(VERSION).orig.zip ;;\
+	esac
+	mkdir $(distdir)/debian
+	cp $(srcdir)/debian/* $(distdir)/debian/
+	(cd $(distdir) && \
+	  dpkg-buildpackage -us -uc -rfakeroot)
+
+debiancheck:
+	@echo 
+	@echo "==== Begin lintian check ===="
+	lintian $(PACKAGE)_$(VERSION)*.changes
+	@echo "==== End lintian check   ===="
+	@echo 
+	@echo "==== Begin linda check   ===="
+	linda $(PACKAGE)_$(VERSION)*.changes
+	@echo "==== End linda check     ===="
+
+debianclean:
+	rm -f *.deb
+	rm -f $(PACKAGE)_$(VERSION)*.dsc
+	rm -f $(PACKAGE)_$(VERSION)*.changes
+	rm -f $(PACKAGE)_$(VERSION).orig.*
+	rm -f $(PACKAGE)_$(VERSION)*.diff.*

@@ -2,8 +2,8 @@ Source: soothsayer
 Section: devel
 Priority: extra
 Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
-Build-Depends: cdbs (>= 0.4.15), debhelper (>= 5), autotools-dev, libsqlite-dev, libncurses-dev, doxygen
-Standards-Version: 3.7.2
+Build-Depends: cdbs (>= 0.4.15), debhelper (>= 5), autotools-dev, libsqlite3-dev | libsqlite-dev, libncurses5-dev | libncurses-dev, doxygen
+Standards-Version: 3.7.3
 
 Package: soothsayer
 Section: misc
@@ -17,11 +17,15 @@ Description: The intelligent predictive text entry platform
  pluggable architecture allows its language model to be extended and
  customized to utilize statistical, syntactic, and semantic information
  sources.
+ .
+ This package contains the tools required to generate custom
+ statistical data used by soothsayer to generate predictions.
+ .
+ This package also contains simple demonstration programs.
 
 Package: soothsayer-data
 Section: misc
 Architecture: any
-Depends: ${shlibs:Depends}
 Recommends: soothsayer
 Description: The intelligent predictive text entry platform data
  Soothsayer is an intelligent predictive text entry
@@ -30,6 +34,9 @@ Description: The intelligent predictive text entry platform data
  pluggable architecture allows its language model to be extended and
  customized to utilize statistical, syntactic, and semantic information
  sources.
+ .
+ This package contains the sample statistical data files and
+ abbreviation files needed by soothsayer.
 
 Package: soothsayer-doc
 Section: doc
@@ -42,6 +49,9 @@ Description: The intelligent predictive text entry platform documentation
  pluggable architecture allows its language model to be extended and
  customized to utilize statistical, syntactic, and semantic information
  sources.
+ .
+ This package contains the documentation for soothsayer in text and
+ HTML format.
 
 Package: libsoothsayer0
 Section: libs
@@ -54,12 +64,14 @@ Description: The intelligent predictive text entry platform shared library
  pluggable architecture allows its language model to be extended and
  customized to utilize statistical, syntactic, and semantic information
  sources.
+ .
+ This package contains the shared library.
 
 Package: libsoothsayer0-dev
 Section: libdevel
 Suggests: soothsayer-doc
 Architecture: any
-Depends: libsoothsayer0 (= ${Source-Version}), libc6-dev
+Depends: libsoothsayer0 (= ${binary:Version}), libc6-dev
 Description: The intelligent predictive text entry platform development files
  Soothsayer is an intelligent predictive text entry
  platform. Soothsayer exploits redundant information embedded in
@@ -67,3 +79,5 @@ Description: The intelligent predictive text entry platform development files
  pluggable architecture allows its language model to be extended and
  customized to utilize statistical, syntactic, and semantic information
  sources.
+ .
+ This package contains the development files (headers, static libraries).

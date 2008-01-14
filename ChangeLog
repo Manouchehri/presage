@@ -3,6 +3,12 @@
 	* debian: added files for soothsayer-doc package and registered
 	documentation with doc-base.
 
+	* Makefile.am: added targets to build, check, and clean debian
+	packages.
+
+	* debian/control: changes to make package "unstable lintian
+	clean", edited descriptions.
+	
 2008-01-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 	
 	* src/core/profileManager: look for default profile in user's home
