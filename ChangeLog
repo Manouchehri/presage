@@ -1,3 +1,8 @@
+2008-01-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian: added files for soothsayer-doc package and registered
+	documentation with doc-base.
+
 2008-01-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 	
 	* src/core/profileManager: look for default profile in user's home

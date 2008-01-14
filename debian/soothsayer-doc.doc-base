@@ -1,0 +1,10 @@
+Document: soothsayer
+Title: soothsayer API reference
+Author: Matteo Vescovi
+Abstract: This manual documents soothsayer's application
+ programming interface.
+Section: misc
+
+Format: HTML
+Index: /usr/share/doc/soothsayer-doc/html/index.html
+Files: /usr/share/doc/soothsayer-doc/html/*.html
