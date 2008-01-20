@@ -70,10 +70,11 @@ void Profile::visitNode(TiXmlNode* node, Variable variable)
 		(*configuration)[variable] = text;
 
 		printVariable(variable);
-		std::cerr << " = " << text << std::endl;
+		std::cout << " = " << text << std::endl;
 	    }
 	}
 
+	// then descend down the tree
 	visitNode(node->FirstChild(), variable);
     }
 }
@@ -103,15 +104,8 @@ void Profile::printConfiguration() const
 	 map_it != configuration->end();
 	 map_it++) {
 
-	// iterate vector
-	for (Variable::const_iterator vec_it = map_it->first.begin();
-	     vec_it != map_it->first.end();
-	     vec_it++) {
-	    std::cout << *vec_it;
-	    if (vec_it != map_it->first.end()) {
-		std::cout << '.';
-	    }
-	}
+	// variable
+	printVariable(map_it->first);
 
 	// value
 	std::cout << " = " << map_it->second << std::endl;
