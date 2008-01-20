@@ -30,16 +30,16 @@
 
 Profile::Profile(TiXmlDocument* doc)
 {
-    profile = doc;
+    configuration = (Configuration*) doc;
 }
 
 Profile::~Profile()
 {}
 
-Value Profile::getConfig(Variable variable)
+Value Profile::getConfig(const Variable& variable)
 {
     std::map<std::string, std::string>* config = 
-	( std::map<std::string, std::string>* ) profile;
+	( std::map<std::string, std::string>* ) configuration;
 
     std::string key = variable[variable.size() - 1];
 

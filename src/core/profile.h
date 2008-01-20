@@ -71,7 +71,7 @@ public:
      * \param variable configuration variable
      * \return value associated to variable
      */
-    Value getConfig(Variable variable);
+    Value getConfig(const Variable& variable);
 
     class ProfileException {
     public:
@@ -86,9 +86,17 @@ public:
     };
 
 private:
-    TiXmlDocument* profile;
-    //Configuration* const configuration;
+    void visitNode(TiXmlNode* node, Variable variable);
 
+    void initConfiguration(TiXmlDocument* node);
+
+    std::string stringifyVariable(const Variable& variable) const;
+
+    // debug methods
+    void printConfiguration() const;
+    void printVariable(const Variable& variable) const;
+
+    Configuration* configuration;
 };
 
 #endif // SOOTH_PROFILE

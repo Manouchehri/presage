@@ -58,7 +58,7 @@ void ProfileTest::testGetConfig()
 #define DECLARE_CSTRING(STRING) char* STRING = #STRING
     
     DECLARE_CSTRING(Soothsayer);
-    DECLARE_CSTRING(HistoryTracker);
+    DECLARE_CSTRING(ContextTracker);
     DECLARE_CSTRING(MAX_BUFFER_SIZE);
     DECLARE_CSTRING(Selector);
     DECLARE_CSTRING(SUGGESTIONS);
@@ -73,7 +73,7 @@ void ProfileTest::testGetConfig()
     
     var = new Variable;
     var->push_back(Soothsayer);
-    var->push_back(HistoryTracker);
+    var->push_back(ContextTracker);
     var->push_back(MAX_BUFFER_SIZE);
     CPPUNIT_ASSERT(profile->getConfig(*var) == "1024");
     delete var;

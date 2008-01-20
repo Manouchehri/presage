@@ -24,35 +24,107 @@
 
 #include "core/profile.h"
 
+#include <iostream>
+
 Profile::Profile(TiXmlDocument* profileDoc)
-    : profile(profileDoc)
-{}
+{
+    configuration = new Configuration;
+
+    initConfiguration(profileDoc);
+}
 
 Profile::~Profile()
-{}
-
-Value Profile::getConfig(Variable variable)
 {
-    const char SEPARATOR = '.';
-    std::string stringifiedVariable;
-    TiXmlNode* node = profile;
-    for (size_t i = 0; (i < variable.size() && node); i++) {
-	node = node->FirstChild(variable[i].c_str());
-	stringifiedVariable += variable[i] + SEPARATOR;
+    delete configuration;
+}
+
+void Profile::initConfiguration(TiXmlDocument* root)
+{
+    Variable variable;
+
+    visitNode(root, variable);
+}
+
+void Profile::visitNode(TiXmlNode* node, Variable variable)
+{
+    if (node) {
+	// if we have a node, visit it.
+	// else, do nothing.
+
+	// first visit our siblings
+	visitNode(node->NextSibling(), variable);
+
+	// then check this element contains a
+	// configuration variable
+	TiXmlElement* element = node->ToElement();
+	if (element) {
+	    // append element name to variable to
+	    // build fully qualified variable name
+	    // before visit children
+	    variable.push_back(element->Value());
+
+	    // if element contains text, we have a value for our
+	    // config variable, so add it to our configuration
+	    const char* text = element->GetText();
+	    if (text) {
+		(*configuration)[variable] = text;
+
+		printVariable(variable);
+		std::cerr << " = " << text << std::endl;
+	    }
+	}
+
+	visitNode(node->FirstChild(), variable);
     }
-    if (!node) {
+}
+
+std::string Profile::stringifyVariable(const Variable& variable) const
+{
+    std::string result;
+    size_t i = 0;
+    for ( ; i < variable.size() - 1; i++) {
+	result += variable[i] + '.';
+    }
+    if (i < variable.size()) {
+	result += variable[i];
+    }
+    return result;
+}
+
+void Profile::printVariable(const Variable& variable) const
+{
+    std::cout << stringifyVariable(variable);
+}
+
+void Profile::printConfiguration() const
+{
+    // iterate map
+    for (Configuration::const_iterator map_it = configuration->begin();
+	 map_it != configuration->end();
+	 map_it++) {
+
+	// iterate vector
+	for (Variable::const_iterator vec_it = map_it->first.begin();
+	     vec_it != map_it->first.end();
+	     vec_it++) {
+	    std::cout << *vec_it;
+	    if (vec_it != map_it->first.end()) {
+		std::cout << '.';
+	    }
+	}
+
+	// value
+	std::cout << " = " << map_it->second << std::endl;
+    }
+}
+
+Value Profile::getConfig(const Variable& variable)
+{
+    Configuration::const_iterator it = configuration->find(variable);
+    if (it != configuration->end()) {
+	return it->second;
+    } else {
 	throw ProfileException("[ProfileException] Cannot find variable "
-			       + stringifiedVariable);
+                               + stringifyVariable(variable));
     }
-    TiXmlElement* element = node->ToElement();
-    if (!element) {
-	throw ProfileException("[ProfileException] Cannot convert node to element");
-    }
-    TiXmlText* text = element->FirstChild()->ToText();
-    if (!text) {
-	throw ProfileException("[ProfileException] Cannot convert element to text");
-    }
-    
-    // found desired configuration variable, return value
-    return text->Value();
 }

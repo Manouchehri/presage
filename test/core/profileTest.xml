@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Soothsayer>
-    <HistoryTracker>
+    <ContextTracker>
         <MAX_BUFFER_SIZE>1024</MAX_BUFFER_SIZE>
-    </HistoryTracker>
+    </ContextTracker>
     <Selector>
         <SUGGESTIONS>6</SUGGESTIONS>
         <REPEAT_SUGGESTIONS>no</REPEAT_SUGGESTIONS>

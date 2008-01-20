@@ -5,17 +5,28 @@ The Soothsayer project
 TODO list
 ---------
 
+Working on:
+- profile
+  lifetime of Profile object is tied to TiXmlDocument object in
+   ProfileManager, but relationship is not enforced by classes'
+   implementation, i.e. it might be that other objects are using a
+   Profile object that points to a no longer existing TiXmlDocument. A
+   possible solution would be to have Profile cache the configuration
+   into a map of < vector<string>, string > pairs.
+
+ o Add tests for new Profile class. Test reading non-existing
+   variables and border conditions.
+
+
 Debian packaging
 - need to create python binding package
-
-SqliteDatabaseConnector callback: had to disable logging there because
-   static method.
-
 
 Absolute first
  - implement logger level inheritance from parent module
  - ProfileManager logger level currently can not be read from profile
    (chicken and egg problem), need to find solution
+ - SqliteDatabaseConnector callback: had to disable logging there because
+   static method, investigate on how it can be reenabled
  - clean up SmoothedNgram debug code
  - should Profile::getConfig() really throw exception?
  - test performance with different n values in n-gram
@@ -31,14 +42,6 @@ Absolute first
    should be taken care of as part of plump integration
 
 Architectural restructure: 
-- profile
-  lifetime of Profile object is tied to TiXmlDocument object in
-   ProfileManager, but relationship is not enforced by classes'
-   implementation, i.e. it might be that other objects are using a
-   Profile object that points to a no longer existing TiXmlDocument. A
-   possible solution would be to have Profile cache the configuration
-   into a map of < vector<string>, string > pairs.
-
 - predictive plugins
   could inherit from a Predictor class
   Plugin class should just define the interface, PluginBase should
