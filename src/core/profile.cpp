@@ -81,13 +81,24 @@ void Profile::visitNode(TiXmlNode* node, Variable variable)
 
 std::string Profile::stringifyVariable(const Variable& variable) const
 {
+// BUGGY CODE
+//    std::string result;
+//    size_t i = 0;
+//    for ( ; i < variable.size() - 1; i++) {
+//	result += variable[i] + '.';
+//    }
+//    if (i < variable.size()) {
+//	result += variable[i];
+//    }
+//    return result;
+////
+
     std::string result;
-    size_t i = 0;
-    for ( ; i < variable.size() - 1; i++) {
-	result += variable[i] + '.';
-    }
-    if (i < variable.size()) {
-	result += variable[i];
+    for (size_t i = 0; i < variable.size(); i++) {
+        result += variable[i];
+        if (i < variable.size() - 1) {
+            result += '.';
+        }
     }
     return result;
 }
@@ -114,11 +125,23 @@ void Profile::printConfiguration() const
 
 Value Profile::getConfig(const Variable& variable)
 {
-    Configuration::const_iterator it = configuration->find(variable);
-    if (it != configuration->end()) {
-	return it->second;
+    std::string message;
+    if (variable.size() > 0) {
+        // non empty variable, search for it in the config
+        Configuration::const_iterator it = configuration->find(variable);
+        if (it != configuration->end()) {
+            return it->second;
+        }
+
+        // variable not found, create exception message
+        message = "[ProfileException] Cannot find variable "
+            + stringifyVariable(variable);
+        
     } else {
-	throw ProfileException("[ProfileException] Cannot find variable "
-                               + stringifyVariable(variable));
+        message = "[ProfileException] Empty variable";
     }
+    
+    // if we get here, variable was not found in the configuration,
+    // hence we have a right to complain
+    throw ProfileException(message);
 }

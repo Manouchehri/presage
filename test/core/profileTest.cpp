@@ -52,6 +52,27 @@ void ProfileTest::tearDown()
     delete profileXmlDoc;
 }
 
+void ProfileTest::testStringifyVariable()
+{
+    std::cout << "void ProfileTest::testStringifyVariable()" << std::endl;
+
+    Variable var;
+    std::string expected;
+    CPPUNIT_ASSERT_EQUAL(expected, profile->stringifyVariable(var));
+
+    var.push_back("foo");
+    expected = "foo";
+    CPPUNIT_ASSERT_EQUAL(expected, profile->stringifyVariable(var));
+
+    var.push_back("bar");
+    expected = "foo.bar";
+    CPPUNIT_ASSERT_EQUAL(expected, profile->stringifyVariable(var));
+
+    var.push_back("foobar");
+    expected = "foo.bar.foobar";
+    CPPUNIT_ASSERT_EQUAL(expected, profile->stringifyVariable(var));    
+}
+
 void ProfileTest::testGetConfig()
 {
 
@@ -103,4 +124,18 @@ void ProfileTest::testGetConfig()
     var->push_back(MAX_PARTIAL_PREDICTION_SIZE);
     CPPUNIT_ASSERT(profile->getConfig(*var) == "40");
     delete var;
+}
+
+void ProfileTest::testGetNonExistantConfig()
+{
+    std::cout << "void ProfileTest::testGetNonExistantConfig()" << std::endl;
+
+    Variable var;
+    CPPUNIT_ASSERT_THROW(profile->getConfig(var), Profile::ProfileException);
+
+    var.push_back("foo");
+    CPPUNIT_ASSERT_THROW(profile->getConfig(var), Profile::ProfileException);
+
+    var.push_back("bar");
+    CPPUNIT_ASSERT_THROW(profile->getConfig(var), Profile::ProfileException);
 }

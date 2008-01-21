@@ -35,14 +35,18 @@ public:
     void setUp();
     void tearDown();
 
+    void testStringifyVariable();
     void testGetConfig();
+    void testGetNonExistantConfig();
 
 private:
     TiXmlDocument* profileXmlDoc;
     Profile*       profile;
 
-    CPPUNIT_TEST_SUITE( ProfileTest );
-    CPPUNIT_TEST( testGetConfig     );
+    CPPUNIT_TEST_SUITE( ProfileTest        );
+    CPPUNIT_TEST( testStringifyVariable    );
+    CPPUNIT_TEST( testGetConfig            );
+    CPPUNIT_TEST( testGetNonExistantConfig );
     CPPUNIT_TEST_SUITE_END();
 };
 

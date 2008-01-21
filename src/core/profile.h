@@ -73,6 +73,8 @@ public:
      */
     Value getConfig(const Variable& variable);
 
+    std::string stringifyVariable(const Variable& variable) const;
+
     class ProfileException {
     public:
 	ProfileException() {}
@@ -89,8 +91,6 @@ private:
     void visitNode(TiXmlNode* node, Variable variable);
 
     void initConfiguration(TiXmlDocument* node);
-
-    std::string stringifyVariable(const Variable& variable) const;
 
     // debug methods
     void printConfiguration() const;

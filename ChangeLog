@@ -1,3 +1,8 @@
+2008-01-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/profile, test/core/profileTest: added tests reading
+	non-existing variables, border conditions.
+
 2008-01-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/profile: cache configuration inside Profile object.

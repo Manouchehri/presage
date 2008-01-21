@@ -5,19 +5,6 @@ The Soothsayer project
 TODO list
 ---------
 
-Working on:
-- profile
-  lifetime of Profile object is tied to TiXmlDocument object in
-   ProfileManager, but relationship is not enforced by classes'
-   implementation, i.e. it might be that other objects are using a
-   Profile object that points to a no longer existing TiXmlDocument. A
-   possible solution would be to have Profile cache the configuration
-   into a map of < vector<string>, string > pairs.
-
- o Add tests for new Profile class. Test reading non-existing
-   variables and border conditions.
-
-
 Debian packaging
 - need to create python binding package
 
