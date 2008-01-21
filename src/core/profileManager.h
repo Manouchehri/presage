@@ -54,10 +54,10 @@ const unsigned int DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
  * configuration data and initializes system components according to
  * the config file.
  * 
- * Configuration files:
- *   sysconfdir/soothsayer.xml
- *   ~/.soothsayer/soothsayer.xml
- *   /etc/soothsayer/soothsayer.xml
+ * If no profile is supplied, load the default profile in the
+ * following order:
+ *  - ~/.soothsayer.xml
+ *  - sysconfdir/soothsayer.xml
  *
  */
 class ProfileManager {

@@ -73,8 +73,9 @@ Soothsayer is extensible and configurable. Soothsayer's extensibility
 comes from a range of predictive mechanisms used to generate
 predictions. You can decide what plugins to enable and what predictive
 resources to tie those plugins to. All configuration variables can be
-controlled by editing soothsayer.xml in the etc directory of your
-local soothsayer installation.
+controlled by editing the XML configuration file (either
+~/.soothsayer.xml or soothsayer.xml in the etc/ directory where
+Soothsayer was installed - usually /etc -, whichever is found first).
 
 Feel free to experiment with different settings: try enabling
 different plugins, or changing individual plugins configuration

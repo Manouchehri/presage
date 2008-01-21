@@ -51,11 +51,6 @@ Architectural restructure:
    values and which Strategy to create and use.
 
 
-Tests in general should be cleaned up (e.g. we don't need the xDriver
-   anymore, those tests should be moved to CPPUnit tests)
- - drivers in src/plugins
- - pluginManagerDriver in test/core
-
 SoothsayerDemo program:
  - add command line option to set number of suggestions
 

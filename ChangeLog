@@ -3,6 +3,9 @@
 	* src/core/profile, test/core/profileTest: added tests reading
 	non-existing variables, border conditions.
 
+	* src/core/profileManager, doc/getting_started.txt: update
+	documentation on soothsayer configuration files used.
+
 2008-01-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/profile: cache configuration inside Profile object.

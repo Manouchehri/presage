@@ -34,7 +34,7 @@ libsoothsayer_la_LIBADD =	core/libcore.la       \
 				plugins/libDictionaryPlugin.la            \
 				plugins/libSmoothedCountPlugin.la         
 
-#				REVISIT remove libSmoothetUniBiTrigram.la 
+#				REVISIT remove plugins/lib*.la entries
 #				when reintegrating dynamically loaded plugins
 
 #				REVISIT add libplump.la when using plump
