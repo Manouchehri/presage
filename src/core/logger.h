@@ -145,6 +145,12 @@ public:
 	    return state->currentLevel;
 	}
 
+    inline
+    bool
+    shouldLog() const
+	{
+	    return (state->loggerLevel >= state->currentLevel);
+	}
 
     // logging method
     template<typename T>
@@ -152,7 +158,8 @@ public:
     const Logger&
     operator<< (const Logger& lgr, const T& msg)
 	{
-	    if (lgr.state->loggerLevel >= lgr.state->currentLevel)
+	    //if (lgr.state->loggerLevel >= lgr.state->currentLevel)
+	    if (lgr.shouldLog())
 	    {
 		if (lgr.state->line_beginning) {
 		    lgr.outstream << lgr.name;
@@ -185,7 +192,8 @@ public:
     inline
     void endl() const
 	{
-	    if (state->loggerLevel >= state->currentLevel)
+	    //if (state->loggerLevel >= state->currentLevel)
+	    if (shouldLog())
 	    {
 		outstream << std::endl;
 		state->line_beginning = true;

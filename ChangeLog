@@ -1,3 +1,11 @@
+2008-01-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/plugins/smoothedNgramPlugin: cleaned up debugging and
+	logging statements.
+
+	* src/core/logger: added method that returns whether logger will
+	log or not, useful to replace DEBUG #ifdef's.
+
 2008-01-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/profile, test/core/profileTest: added tests reading

@@ -6,7 +6,7 @@ TODO list
 ---------
 
 Debian packaging
-- need to create python binding package
+ - need to create python binding package
 
 Absolute first
  - implement logger level inheritance from parent module
@@ -14,11 +14,8 @@ Absolute first
    (chicken and egg problem), need to find solution
  - SqliteDatabaseConnector callback: had to disable logging there because
    static method, investigate on how it can be reenabled
- - clean up SmoothedNgram debug code
  - should Profile::getConfig() really throw exception?
  - test performance with different n values in n-gram
- - make soothsayerSimulator accept normal text files, as opposed to
-   files containing one token per line
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plugin loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.

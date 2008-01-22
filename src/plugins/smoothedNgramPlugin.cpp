@@ -166,13 +166,14 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
         // create n-gram used to retrieve initial prefix completion table
         Ngram prefix_ngram(k);
         copy(tokens.end() - k, tokens.end(), prefix_ngram.begin());
-#ifdef DEBUG
-        std::cerr << "[SmoothedNgramPlugin] prefix_ngram: ";
-        for (int r = 0; r < prefix_ngram.size(); r++) {
-            std::cerr << prefix_ngram[r] << ' ';
-        }
-        std::cerr << std::endl;
-#endif
+
+	if (logger.shouldLog()) {
+	    logger << DEBUG << "prefix_ngram: ";
+	    for (size_t r = 0; r < prefix_ngram.size(); r++) {
+		logger << DEBUG << prefix_ngram[r] << ' ';
+	    }
+	    logger << DEBUG << endl;
+	}
         
         // obtain initial prefix completion candidates
         db->beginTransaction();
@@ -180,17 +181,17 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
 						   max_partial_prediction_size - prefixCompletionCandidates.size());
         db->endTransaction();
 
-#ifdef DEBUG
-        std::cerr << "[SmoothedNgramPlugin] partial prefixCompletionCandidates" << std::endl
-                  << "[SmoothedNgramPlugin] ----------------------------------" << std::endl;
-        for (int j = 0; j < partial.size(); j++) {
-            std::cerr << "[SmoothedNgramPlugin] ";
-            for (int k = 0; k < partial[j].size(); k++) {
-                std::cerr << partial[j][k] << " ";
-            }
-            std::cerr << std::endl;
-        }
-#endif
+	if (logger.shouldLog()) {
+	    logger << DEBUG << "partial prefixCompletionCandidates" << endl
+	           << DEBUG << "----------------------------------" << endl;
+	    for (size_t j = 0; j < partial.size(); j++) {
+		for (size_t k = 0; k < partial[j].size(); k++) {
+		    logger << DEBUG << partial[j][k] << " ";
+		}
+		logger << endl;
+	    }
+	}
+
         logger << DEBUG << "Partial prefix completion table contains " << partial.size() << " potential completions." << endl;
 
         // append newly discovered potential completions to prefix
@@ -211,13 +212,13 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
         }
     }
     
-#ifdef DEBUG
-    std::cerr << "[SmoothedNgramPlugin] prefixCompletionCandidates" << std::endl
-              << "[SmoothedNgramPlugin] --------------------------" << std::endl;
-    for (int j = 0; j < prefixCompletionCandidates.size(); j++) {
-        logger << DEBUG << prefixCompletionCandidates[j] << endl;
+    if (logger.shouldLog()) {
+	logger << DEBUG << "prefixCompletionCandidates" << endl
+	       << DEBUG << "--------------------------" << endl;
+	for (size_t j = 0; j < prefixCompletionCandidates.size(); j++) {
+	    logger << DEBUG << prefixCompletionCandidates[j] << endl;
+	}
     }
-#endif
 
     // compute smoothed probabilities for all candidates
     //
