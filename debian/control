@@ -4,6 +4,9 @@ Priority: extra
 Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 Build-Depends: cdbs (>= 0.4.15), debhelper (>= 5), autotools-dev, libsqlite3-dev | libsqlite-dev, libncurses5-dev | libncurses-dev, doxygen
 Standards-Version: 3.7.3
+Homepage: http://soothsayer.sourceforge.net/
+Vcs-Svn: https://soothsayer.svn.sourceforge.net/svnroot/soothsayer/trunk
+Vcs-Browser: http://soothsayer.svn.sourceforge.net/viewvc/soothsayer/
 
 Package: soothsayer
 Section: misc
