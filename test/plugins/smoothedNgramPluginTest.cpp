@@ -133,8 +133,8 @@ void SmoothedNgramPluginTest::tearDown()
 ConfigMap SmoothedNgramPluginTest::prepareConfigMap(const char* config[]) const
 {
     ConfigMap map;
-    map["DELTAS"]                      = config[0];
-    map["DBFILENAME"]                  = config[1];
+    map["Soothsayer.Plugins.SmoothedNgramPlugin.DELTAS"]                      = config[0];
+    map["Soothsayer.Plugins.SmoothedNgramPlugin.DBFILENAME"]                  = config[1];
     
     return map;
 }

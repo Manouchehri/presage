@@ -52,76 +52,32 @@ void ProfileTest::tearDown()
     delete profileXmlDoc;
 }
 
-void ProfileTest::testStringifyVariable()
-{
-    std::cout << "void ProfileTest::testStringifyVariable()" << std::endl;
-
-    Variable var;
-    std::string expected;
-    CPPUNIT_ASSERT_EQUAL(expected, profile->stringifyVariable(var));
-
-    var.push_back("foo");
-    expected = "foo";
-    CPPUNIT_ASSERT_EQUAL(expected, profile->stringifyVariable(var));
-
-    var.push_back("bar");
-    expected = "foo.bar";
-    CPPUNIT_ASSERT_EQUAL(expected, profile->stringifyVariable(var));
-
-    var.push_back("foobar");
-    expected = "foo.bar.foobar";
-    CPPUNIT_ASSERT_EQUAL(expected, profile->stringifyVariable(var));    
-}
-
 void ProfileTest::testGetConfig()
 {
-
-#define DECLARE_CSTRING(STRING) char* STRING = #STRING
-    
-    DECLARE_CSTRING(Soothsayer);
-    DECLARE_CSTRING(ContextTracker);
-    DECLARE_CSTRING(MAX_BUFFER_SIZE);
-    DECLARE_CSTRING(Selector);
-    DECLARE_CSTRING(SUGGESTIONS);
-    DECLARE_CSTRING(REPEAT_SUGGESTIONS);
-    DECLARE_CSTRING(GREEDY_SUGGESTION_THRESHOLD);
-    DECLARE_CSTRING(Plugins);
-    DECLARE_CSTRING(SmoothedNgramPlugin);
-    DECLARE_CSTRING(DBFILENAME);
-    DECLARE_CSTRING(MAX_PARTIAL_PREDICTION_SIZE);
-
     Variable* var;
     
-    var = new Variable;
-    var->push_back(Soothsayer);
-    var->push_back(ContextTracker);
-    var->push_back(MAX_BUFFER_SIZE);
+    var = new Variable("Soothsayer.ContextTracker.MAX_BUFFER_SIZE");
     CPPUNIT_ASSERT(profile->getConfig(*var) == "1024");
     delete var;
 
-    var = new Variable;
-    var->push_back(Soothsayer);
-    var->push_back(Selector);
-    var->push_back(SUGGESTIONS);
+    var = new Variable("Soothsayer.Selector.SUGGESTIONS");
     CPPUNIT_ASSERT(profile->getConfig(*var) == "6");
-    var->pop_back();
-    var->push_back(REPEAT_SUGGESTIONS);
-    CPPUNIT_ASSERT(profile->getConfig(*var) == "no");
-    var->pop_back();
-    var->push_back(GREEDY_SUGGESTION_THRESHOLD);
+    delete var;
+
+    var = new Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD");
     CPPUNIT_ASSERT(profile->getConfig(*var) == "0");
-    var->pop_back();
-    var->push_back(REPEAT_SUGGESTIONS);
+    delete var;
+
+
+    var = new Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS");
+    CPPUNIT_ASSERT(profile->getConfig(*var) == "no");
     delete var;
     
-    var = new Variable;
-    var->push_back(Soothsayer);
-    var->push_back(Plugins);
-    var->push_back(SmoothedNgramPlugin);
-    var->push_back(DBFILENAME);
+    var = new Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DBFILENAME");
     CPPUNIT_ASSERT(profile->getConfig(*var) == "database_en.db");
-    var->pop_back();
-    var->push_back(MAX_PARTIAL_PREDICTION_SIZE);
+    delete var;
+
+    var = new Variable("Soothsayer.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
     CPPUNIT_ASSERT(profile->getConfig(*var) == "40");
     delete var;
 }
@@ -130,12 +86,15 @@ void ProfileTest::testGetNonExistantConfig()
 {
     std::cout << "void ProfileTest::testGetNonExistantConfig()" << std::endl;
 
-    Variable var;
-    CPPUNIT_ASSERT_THROW(profile->getConfig(var), Profile::ProfileException);
+    Variable* var = new Variable();
+    CPPUNIT_ASSERT_THROW(profile->getConfig(*var), Profile::ProfileException);
+    delete var;
 
-    var.push_back("foo");
-    CPPUNIT_ASSERT_THROW(profile->getConfig(var), Profile::ProfileException);
+    var = new Variable("foo");
+    CPPUNIT_ASSERT_THROW(profile->getConfig(*var), Profile::ProfileException);
+    delete var;
 
-    var.push_back("bar");
-    CPPUNIT_ASSERT_THROW(profile->getConfig(var), Profile::ProfileException);
+    var = new Variable("bar");
+    CPPUNIT_ASSERT_THROW(profile->getConfig(*var), Profile::ProfileException);
+    delete var;
 }

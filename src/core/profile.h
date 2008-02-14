@@ -32,7 +32,7 @@
 #include "tinyxml/tinyxml.h"
 
 typedef std::string               Value;
-typedef std::vector<std::string>  Variable;
+#include "core/variable.h"
 typedef std::map<Variable, Value> Configuration;
 
 /** Profile provides access to the active profile configuration variables.
@@ -72,8 +72,6 @@ public:
      * \return value associated to variable
      */
     Value getConfig(const Variable& variable);
-
-    std::string stringifyVariable(const Variable& variable) const;
 
     class ProfileException {
     public:

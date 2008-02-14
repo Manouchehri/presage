@@ -41,7 +41,7 @@ Value Profile::getConfig(const Variable& variable)
     std::map<std::string, std::string>* config = 
 	( std::map<std::string, std::string>* ) configuration;
 
-    std::string key = variable[variable.size() - 1];
+    std::string key = variable.string();
 
     return (*config)[key];
 }

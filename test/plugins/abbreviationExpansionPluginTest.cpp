@@ -79,7 +79,7 @@ ConfigMap AbbreviationExpansionPluginTest::prepareConfigMap(const char* config[]
     std::cerr << "AbbreviationExpansionPluginTest::prepareConfigMap" << std::endl;
 
     ConfigMap result;
-    result["ABBREVIATIONS"] = config[0];
+    result["Soothsayer.Plugins.AbbreviationExpansionPlugin.ABBREVIATIONS"] = config[0];
 
     return result;
 }

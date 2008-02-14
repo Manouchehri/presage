@@ -133,10 +133,10 @@ void SmoothedUniBiTrigramPluginTest::tearDown()
 ConfigMap SmoothedUniBiTrigramPluginTest::prepareConfigMap(const char* config[]) const
 {
     ConfigMap map;
-    map["UNIGRAM_WEIGHT"]              = config[0];
-    map["BIGRAM_WEIGHT"]               = config[1];
-    map["TRIGRAM_WEIGHT"]              = config[2];
-    map["DBFILENAME"]                  = config[3];
+    map["Soothsayer.Plugins.SmoothedUniBiTrigramPlugin.UNIGRAM_WEIGHT"]              = config[0];
+    map["Soothsayer.Plugins.SmoothedUniBiTrigramPlugin.BIGRAM_WEIGHT"]               = config[1];
+    map["Soothsayer.Plugins.SmoothedUniBiTrigramPlugin.TRIGRAM_WEIGHT"]              = config[2];
+    map["Soothsayer.Plugins.SmoothedUniBiTrigramPlugin.DBFILENAME"]                  = config[3];
     
     return map;
 }

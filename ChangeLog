@@ -1,3 +1,19 @@
+2008-02-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/variable: added initial implementation of Variable
+	class to replace typedef'ed vector<string> variable definition.
+
+	* src/core/profile, src/core/Makefile.am: adapted profile object
+	to use new Variable class.
+
+	* test/core/profileTest, 
+	  test/plugins/pluginsTestMockObjects,
+	  test/plugins/abbreviationExpansionPluginTest,
+	  test/plugins/smoothedUniBiTrigramPluginTest,
+	  test/plugins/smoothedNgramPluginTest,
+	  test/plugins/Makefile.am: adapted tests to new Variable class.
+
+
 2008-01-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/plugins/smoothedNgramPlugin: cleaned up debugging and

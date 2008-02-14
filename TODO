@@ -5,6 +5,10 @@ The Soothsayer project
 TODO list
 ---------
 
+Clean up Variable class implementation and remove extra debugging
+   printouts.
+
+
 Debian packaging
  - need to create python binding package
 

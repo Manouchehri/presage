@@ -37,6 +37,8 @@ pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                               
 				$(top_srcdir)/src/core/prediction.cpp                     \
 				$(top_srcdir)/src/core/utility.h                          \
 				$(top_srcdir)/src/core/utility.cpp                        \
+				$(top_srcdir)/src/core/variable.h                         \
+				$(top_srcdir)/src/core/variable.cpp                       \
 				smoothedNgramPluginTest.h                          \
 				smoothedNgramPluginTest.cpp                        \
 				$(top_srcdir)/src/plugins/smoothedNgramPlugin.cpp  \

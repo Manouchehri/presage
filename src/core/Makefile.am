@@ -35,6 +35,7 @@ libcore_la_SOURCES =	prediction.cpp prediction.h         \
 			backoffCombiner.h                   \
 			maxEntropyCombiner.h                \
 			selector.cpp selector.h             \
+			variable.cpp variable.h             \
 			profile.cpp profile.h               \
 			profileManager.cpp profileManager.h \
 			logger.cpp logger.h                 
