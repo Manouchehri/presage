@@ -65,7 +65,6 @@ Soothsayer::~Soothsayer()
     delete profileManager;
 }
 
-
 std::vector<std::string> Soothsayer::predict( std::string s )
 {
     contextTracker->update (s);

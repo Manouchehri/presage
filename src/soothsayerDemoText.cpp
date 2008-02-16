@@ -36,6 +36,7 @@ void printUsage();
 void print_prediction(std::vector<std::string>);
 
 std::string config;
+int suggestions = 0;
 
 int main(int argc, char** argv)
 {
@@ -44,6 +45,31 @@ int main(int argc, char** argv)
 
     // magic start here...
     Soothsayer soothsayer(config);
+
+    if (suggestions) {
+	// problem with this is that even if I implemented the
+	// config() method in Soothsayer class, it still would not
+	// work because components read config values at construction
+	// time. Which means that for this to work the Selector would
+	// have to be destroyed and recreated (which would imply
+	// losing current state) or would have to have an init()
+	// method which re-reads the config from config.
+	// 
+	// Soothsayer class could be made smart by only re-init()'ing
+	// only the affected module by looking at the
+	// Soothsayer.Selector part of the configuration variable.
+	//
+	// All this logic probably belongs to a Configuration class,
+	// which could do the mapping between variable stem and
+	// component. So, Soothsayer::config() would result in a
+	// Configuration::update() call, which would update the
+	// internal representation of the configuration value and then
+	// invoke on the init() method of the affected component
+	// (where a component is for example Selector).
+	//
+
+//	soothsayer.config("Soothsayer.Selector.SUGGESTIONS", suggestions);
+    }
 
     // buffer to read user input
     const int BUFFER_SIZE = 80;
@@ -55,12 +81,13 @@ int main(int argc, char** argv)
 
         print_prediction(
             soothsayer.predict(buffer)  // request new prediction
-        );
+	    );
         std::cout << "-- Context: " << soothsayer.context() << std::endl;
         if (soothsayer.contextChange()) {
             std::cout << "-- Context changed" << std::endl;
         }
     }
+
     return 0;
 }
 
@@ -85,13 +112,14 @@ void parseCommandLineArgs(int argc, char* argv[])
     int next_option;
 
     // getopt structures
-    const char* const short_options = "c:hv";
+    const char* const short_options = "c:s:hv";
 
     const struct option long_options[] = {
-        { "config",  required_argument, 0, 'c' },
-        { "help",    no_argument,       0, 'h' },
-        { "version", no_argument,       0, 'v' },
-        { 0, 0, 0, 0 }
+	{ "config",       required_argument, 0, 'c' },
+	{ "suggestions",  required_argument, 0, 's' },
+	{ "help",         no_argument,       0, 'h' },
+	{ "version",      no_argument,       0, 'v' },
+	{ 0, 0, 0, 0 }
     };
 
     do {
@@ -99,26 +127,30 @@ void parseCommandLineArgs(int argc, char* argv[])
                                    short_options, long_options, NULL );
 
         switch( next_option ) {
-          case 'c': // --config or -c option
+	case 'c': // --config or -c option
             config = optarg;
             break;
-          case 'h': // --help or -h option
-            printUsage();
-            exit (0);
-            break;
-          case 'v': // --version or -v option
-            printVersion();
-            exit (0);
-            break;
-          case '?': // unknown option
-            printUsage();
-            exit (0);
-            break;
-          case -1:
-            break;
-          default:
-            abort();
-        }
+	case 's': // --suggestions or -s option
+	    suggestions = atoi(optarg);
+	    break;
+	case 'h': // --help or -h option
+	    printUsage();
+	    exit (0);
+	    break;
+	case 'v': // --version or -v option
+	    printVersion();
+	    exit (0);
+	    break;
+	case '?': // unknown option
+	    printUsage();
+	    exit (0);
+	    break;
+	case -1:
+	    break;
+	default:
+	    abort();
+	    break;
+	}
 
     } while( next_option != -1 );
 }

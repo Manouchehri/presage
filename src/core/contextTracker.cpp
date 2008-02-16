@@ -47,24 +47,22 @@ ContextTracker::ContextTracker(Profile* profile,
 #endif
 
     // read config values
-    Variable variable;
-    variable.push_back("Soothsayer");
-    variable.push_back("ContextTracker");
-
+    Variable* variable;
     Value value;
 
     try {
-	variable.push_back("LOGGER");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.ContextTracker.LOGGER");
+	value = profile->getConfig(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
-	variable.pop_back();
+	delete variable;
 
-	variable.push_back("MAX_BUFFER_SIZE");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.ContextTracker.MAX_BUFFER_SIZE");
+	value = profile->getConfig(*variable);
 	logger << "MAX_BUFFER_SIZE: " << value << endl;
 	setMaxBufferSize(toInt(value));
-	variable.pop_back();
+	delete variable;
+
     } catch (Profile::ProfileException ex) {
 	logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
     }

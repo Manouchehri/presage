@@ -85,32 +85,28 @@ std::vector<std::string> Variable::string_to_variable(const std::string& str) co
     }
     result.push_back(acc);
 
-    std::cout << "string_to_variable():" << std::endl
-	      << "string  : " << str << std::endl
-	      << "variable: ";
-
 /*
     std::string::size_type start_pos = 0;
     std::string::size_type end_pos = str.find_first_of(SEPARATOR);
-//    std::cout << "start_pos: " << start_pos << " - end_pos: " << end_pos << std::endl;
     while (start_pos != std::string::npos && end_pos != std::string::npos) {
-//	std::cout << "Substring: " << str.substr(start_pos, end_pos - start_pos) << std::endl;
 	result.push_back(str.substr(start_pos, end_pos - start_pos));
 	start_pos = end_pos + 1;
 	end_pos = str.find_first_of(SEPARATOR, start_pos);
-//	std::cout << "start_pos: " << start_pos << " - end_pos: " << end_pos << std::endl;
     }
 */
 
     // DEBUG
-    for (size_t i = 0; i < result.size(); i++) {
-	std::cout << result[i];
-	if (i < result.size() - 1) {
-	    std::cout << '.';
-	}
-    }
-    std::cout << "| variable size: " << result.size() << std::endl;
-    std::cout << std::endl;
+    // std::cout << "string_to_variable():" << std::endl
+    // 	      << "string  : " << str << std::endl
+    // 	      << "variable: ";
+    // for (size_t i = 0; i < result.size(); i++) {
+    // 	std::cout << result[i];
+    // 	if (i < result.size() - 1) {
+    // 	    std::cout << '.';
+    // 	}
+    // }
+    // std::cout << "| variable size: " << result.size() << std::endl;
+    // std::cout << std::endl;
     // DEBUG
 
     return result;
@@ -118,13 +114,6 @@ std::vector<std::string> Variable::string_to_variable(const std::string& str) co
 
 std::string Variable::variable_to_string(const std::vector<std::string>& variable) const
 {
-    std::cout << "variable_to_string():" << std::endl
-	      << "variable: ";
-    for (size_t i = 0; i < variable.size(); i++) {
-	std::cout << variable[i] << ' ';
-    }
-    std::cout << "| variable size: " << variable.size() << std::endl;
-
     std::string result;
     for (size_t i = 0; i < variable.size(); i++) {
         result += variable[i];
@@ -132,11 +121,29 @@ std::string Variable::variable_to_string(const std::vector<std::string>& variabl
             result += '.';
         }
     }
-    std::cout << "string  : " << result << std::endl;
+
+    // DEBUG
+    // std::cout << "variable_to_string():" << std::endl
+    // 	      << "variable: ";
+    // for (size_t i = 0; i < variable.size(); i++) {
+    // 	std::cout << variable[i];
+    // 	if (i < variable.size() - 1) {
+    // 	    std::cout << '.';
+    // 	}
+    // }
+    // std::cout << "| variable size: " << variable.size() << std::endl;
+    // std::cout << "string  : " << result << std::endl;
+    // DEBUG
+
     return result;
 }
 
 bool Variable::operator<(const Variable& right) const
 {
     return (string() < right.string());
+}
+
+size_t Variable::size() const
+{
+    return m_variable.size();
 }

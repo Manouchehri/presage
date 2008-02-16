@@ -85,7 +85,7 @@ public:
 
     std::vector<std::string> select(Prediction);
 
-    void setSuggestions( const int );
+    int setSuggestions( const int );
     int getSuggestions() const;
     void setRepeatSuggestions( const bool );
     bool getRepeatSuggestions() const;

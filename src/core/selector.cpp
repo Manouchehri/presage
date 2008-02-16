@@ -32,36 +32,34 @@ Selector::Selector(Profile* profile, ContextTracker* ct)
       logger("Selector", std::cerr)
 {
     // read config values
-    Variable variable;
-    variable.push_back("Soothsayer");
-    variable.push_back("Selector");
-
+    Variable* variable;
     Value value;
 
     try {
-	variable.push_back("LOGGER");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.Selector.LOGGER");
+	value = profile->getConfig(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
-	variable.pop_back();
+	delete variable;
 
-	variable.push_back("SUGGESTIONS");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.Selector.SUGGESTIONS");
+	value = profile->getConfig(*variable);
 	logger << INFO << "SUGGESTIONS: " << value << endl;
 	setSuggestions(toInt(value));
-	variable.pop_back();
+	delete variable;
 
-	variable.push_back("REPEAT_SUGGESTIONS");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS");
+	value = profile->getConfig(*variable);
 	logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
 	setRepeatSuggestions(isYes(value));
-	variable.pop_back();
+	delete variable;
 
-	variable.push_back("GREEDY_SUGGESTION_THRESHOLD");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD");
+	value = profile->getConfig(*variable);
 	logger << INFO << "GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
 	setGreedySuggestionThreshold(toInt(value));
-	variable.pop_back();
+	delete variable;
+
     } catch (Profile::ProfileException ex) {
 	logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
     }
@@ -197,15 +195,19 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
 }
 
 /** Set SUGGESTIONS option.
- *
+ * 
+ * \param value new number of desired suggestions
+ * \return old number of desired suggestions, -1 in case of error setting the new value
  */
-void Selector::setSuggestions( const int value )
+int Selector::setSuggestions( const int value )
 {
     if( value > 0 ) {
 	logger << INFO << "Setting SUGGESTIONS to " << value << endl;
 	SUGGESTIONS = value;
+	return SUGGESTIONS;
     } else {
 	logger << ERROR << "SUGGESTIONS option not set. Value " << value << " out of range!/a" << endl;
+	return -1;
     }
 }
 

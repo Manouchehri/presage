@@ -48,42 +48,39 @@ Predictor::Predictor(Profile* prof, ContextTracker* ct)
     combiner = 0;
 
     // read config values
-    Variable variable;
-    variable.push_back("Soothsayer");
-    variable.push_back("Predictor");
-
+    Variable* variable;
     Value value;
 
     try {
-	variable.push_back("LOGGER");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.Predictor.LOGGER");
+	value = profile->getConfig(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
-	variable.pop_back();
+	delete variable;
 
-	variable.push_back("PREDICT_TIME");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.Predictor.PREDICT_TIME");
+	value = profile->getConfig(*variable);
 	logger << INFO << "PREDICT_TIME: " << value << endl;
 	setPredictTime(toInt(value));
-	variable.pop_back();
+	delete variable;
 
-	variable.push_back("MAX_PARTIAL_PREDICTION_SIZE");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.Predictor.MAX_PARTIAL_PREDICTION_SIZE");
+	value = profile->getConfig(*variable);
 	logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
 	max_partial_prediction_size = toInt(value);
-	variable.pop_back();
+	delete variable;
 
-	variable.push_back("COMBINATION_POLICY");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.Predictor.COMBINATION_POLICY");
+	value = profile->getConfig(*variable);
 	logger << INFO << "COMBINATION_POLICY: " << value << endl;
 	setCombinationPolicy(value);
-	variable.pop_back();
+	delete variable;
 
-	variable.push_back("PLUGINS");
-	value = profile->getConfig(variable);
+	variable = new Variable("Soothsayer.Predictor.PLUGINS");
+	value = profile->getConfig(*variable);
 	logger << INFO << "PLUGINS: " << value << endl;
 	setPlugins(value);
-	variable.pop_back();
+	delete variable;
 
     } catch (Profile::ProfileException ex) {
 	logger << ERROR << "Caught ProfileException: " << ex.what() << endl;

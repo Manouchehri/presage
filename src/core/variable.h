@@ -40,6 +40,7 @@ public:
 
     void push_back(const std::string& str) { m_variable.push_back(str); }
     void pop_back() { m_variable.pop_back(); }
+    size_t size() const;
 
     bool operator<(const Variable& var) const;
 

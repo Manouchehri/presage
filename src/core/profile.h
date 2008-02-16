@@ -26,7 +26,6 @@
 #define SOOTH_PROFILE
 
 #include <string>
-#include <vector>
 #include <map>
 
 #include "tinyxml/tinyxml.h"

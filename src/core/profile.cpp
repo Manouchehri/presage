@@ -98,10 +98,8 @@ void Profile::printConfiguration() const
     }
 }
 
-Value Profile::getConfig(const Variable& var)
+Value Profile::getConfig(const Variable& variable)
 {
-    std::vector<std::string> variable = var.variable();
-
     std::string message;
     if (variable.size() > 0) {
         // non empty variable, search for it in the config
@@ -112,7 +110,7 @@ Value Profile::getConfig(const Variable& var)
 
         // variable not found, create exception message
         message = "[ProfileException] Cannot find variable "
-            + var.string();
+            + variable.string();
         
     } else {
         message = "[ProfileException] Empty variable";
