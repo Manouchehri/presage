@@ -1,3 +1,10 @@
+2008-02-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/soothsayer: renamed history() method to context().
+
+	* src/soothsayerDemo, src/soothsayerDemoText: cleaned up, added
+	comments and documentation to demo programs.
+
 2008-02-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/variable: added initial implementation of Variable

@@ -135,7 +135,7 @@ void Soothsayer::complete(const std::string completion)
     }
 }
 
-std::string Soothsayer::history() const
+std::string Soothsayer::context() const
 {
     return contextTracker->getPastStream();
 }

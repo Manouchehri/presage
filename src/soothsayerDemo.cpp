@@ -50,7 +50,7 @@ void printVersion();
 void disclaimer();
 
 void draw_title_win(WINDOW*);
-void draw_history_win(WINDOW*, std::string);
+void draw_context_win(WINDOW*, std::string);
 void draw_function_keys(WINDOW*);
 void draw_previous_suggestions(std::vector<std::string>, bool, const int, int);
 size_t getGreatestSuggestionLength(std::vector< std::string > suggestions);
@@ -98,18 +98,18 @@ int main(int argc, char** argv)
     WINDOW* title_win = newwin(TITLE_WIN_HEIGHT, TITLE_WIN_WIDTH, TITLE_WIN_BEGIN_Y, TITLE_WIN_BEGIN_X);
     draw_title_win(title_win);
 
-    // curses history window
-    const int HISTORY_WIN_HEIGHT  = 5;
-    const int HISTORY_WIN_WIDTH   = COLS;
-    const int HISTORY_WIN_BEGIN_Y = TITLE_WIN_BEGIN_Y + TITLE_WIN_HEIGHT + 1;
-    const int HISTORY_WIN_BEGIN_X = 0;
-    WINDOW* history_win = newwin(HISTORY_WIN_HEIGHT, HISTORY_WIN_WIDTH, HISTORY_WIN_BEGIN_Y, HISTORY_WIN_BEGIN_X);
-    draw_history_win(history_win, std::string(""));
+    // curses context window
+    const int CONTEXT_WIN_HEIGHT  = 5;
+    const int CONTEXT_WIN_WIDTH   = COLS;
+    const int CONTEXT_WIN_BEGIN_Y = TITLE_WIN_BEGIN_Y + TITLE_WIN_HEIGHT + 1;
+    const int CONTEXT_WIN_BEGIN_X = 0;
+    WINDOW* context_win = newwin(CONTEXT_WIN_HEIGHT, CONTEXT_WIN_WIDTH, CONTEXT_WIN_BEGIN_Y, CONTEXT_WIN_BEGIN_X);
+    draw_context_win(context_win, std::string(""));
 
     // curses function keys window
     const int FUNCTION_WIN_HEIGHT  = 6 + 2;
     const int FUNCTION_WIN_WIDTH   = 4;
-    const int FUNCTION_WIN_BEGIN_Y = HISTORY_WIN_BEGIN_Y + HISTORY_WIN_HEIGHT + 1;
+    const int FUNCTION_WIN_BEGIN_Y = CONTEXT_WIN_BEGIN_Y + CONTEXT_WIN_HEIGHT + 1;
     const int FUNCTION_WIN_BEGIN_X = 0;
     WINDOW* function_win = newwin(FUNCTION_WIN_HEIGHT, FUNCTION_WIN_WIDTH, FUNCTION_WIN_BEGIN_Y, FUNCTION_WIN_BEGIN_X);
     draw_function_keys(function_win);
@@ -144,10 +144,10 @@ int main(int argc, char** argv)
 	    // refresh curses screen
 	    refresh();
 	}
-	draw_history_win(history_win, soothsayer.history());
+	draw_context_win(context_win, soothsayer.context());
 	draw_previous_suggestions(words,
 				  soothsayer.contextChange(),
-                                  HISTORY_WIN_BEGIN_Y + HISTORY_WIN_HEIGHT + 1,
+                                  CONTEXT_WIN_BEGIN_Y + CONTEXT_WIN_HEIGHT + 1,
                                   FUNCTION_WIN_BEGIN_X + FUNCTION_WIN_WIDTH + 1 );
         c = getch();
 
@@ -155,7 +155,7 @@ int main(int argc, char** argv)
 
 
     delwin(title_win);
-    delwin(history_win);
+    delwin(context_win);
     delwin(function_win);
     endwin();
 
@@ -163,7 +163,7 @@ int main(int argc, char** argv)
 }
 
 
-void draw_history_win(WINDOW* win, std::string str)
+void draw_context_win(WINDOW* win, std::string str)
 {
     wclear( win );
     box( win, 0, 0 );

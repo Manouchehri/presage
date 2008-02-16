@@ -109,9 +109,9 @@ class Soothsayer {
 
     /** \brief Returns the text entered so far.
      *
-     * \return history, text entered so far.
+     * \return context, text entered so far.
      */
-    std::string history() const;
+    std::string context() const;
     /** \brief Returns true if a context change occured.
      *
      * \return true if a context change occured after the last update
