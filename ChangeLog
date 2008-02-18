@@ -5,6 +5,8 @@
 
 	* test/code/variableTest: added unit tests for Variable class.
 
+	* debian/watch: added watch file.
+
 2008-02-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/contextTracker, src/core/selector, src/core/predictor:
