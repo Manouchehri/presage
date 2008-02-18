@@ -124,9 +124,7 @@ void ProfileManagerTest::testCustomProfile()
     profileManager->loadProfile(custom_profile);
     profile = profileManager->getProfile();
 
-    Variable variable;
-    variable.push_back("Soothsayer");
-    variable.push_back("Custom");
+    Variable variable("Soothsayer.Custom");
 
     Value value = profile->getConfig(variable);
 

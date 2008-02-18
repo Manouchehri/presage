@@ -37,7 +37,8 @@ coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				profileTest.h profileTest.cpp               \
 				profileManagerTest.h profileManagerTest.cpp \
 				meritocracyCombinerTest.h meritocracyCombinerTest.cpp \
-				loggerTest.h loggerTest.cpp                 
+				loggerTest.h loggerTest.cpp                 \
+				variableTest.h variableTest.cpp             
 
 coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src                 \
 				-I$(top_srcdir)/test/core/tokenizer
@@ -51,8 +52,6 @@ coreTestRunner_LIBS =		-ldl
 
 
 LDADD =	$(top_builddir)/src/libsoothsayer.la
-
-AM_CPPFLAGS =	-I$(top_srcdir)/src 
 
 DEPENDENCIES =	libsoothsayer.la
 

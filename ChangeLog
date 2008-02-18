@@ -1,3 +1,25 @@
+2008-02-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/variable: fixed bug causing addition of empty config
+	variable part when extracting variable from string.
+
+	* test/code/variableTest: added unit tests for Variable class.
+
+2008-02-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/contextTracker, src/core/selector, src/core/predictor:
+	changed to using new style of variable class.
+
+	* src/core/profile: using Variable class instead of vector of
+	strings.
+
+	* src/core/variable: removed debugging printouts.
+
+	* src/soothsayerDemoText: began implementing support for option to
+	specify number of desired suggestions with each prediction.
+	
+	* src/soothsayer: update documentation comments.
+
 2008-02-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/soothsayer: renamed history() method to context().

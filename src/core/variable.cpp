@@ -83,7 +83,9 @@ std::vector<std::string> Variable::string_to_variable(const std::string& str) co
 	}
 	i++;
     }
-    result.push_back(acc);
+    if (!acc.empty()) {
+	result.push_back(acc);
+    }
 
 /*
     std::string::size_type start_pos = 0;
@@ -136,14 +138,4 @@ std::string Variable::variable_to_string(const std::vector<std::string>& variabl
     // DEBUG
 
     return result;
-}
-
-bool Variable::operator<(const Variable& right) const
-{
-    return (string() < right.string());
-}
-
-size_t Variable::size() const
-{
-    return m_variable.size();
 }

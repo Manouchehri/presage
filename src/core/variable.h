@@ -40,9 +40,11 @@ public:
 
     void push_back(const std::string& str) { m_variable.push_back(str); }
     void pop_back() { m_variable.pop_back(); }
-    size_t size() const;
+    size_t size() const { return m_variable.size(); }
 
-    bool operator<(const Variable& var) const;
+    bool operator<(const Variable& other) const { return (string() < other.string()); }
+//    bool operator>(const Variable& other) const { return (string() > other.string()); }
+//    bool operator==(const Variable& other) const { return !((*this) < other) && !((*this) > other); }
 
 private:
     std::vector<std::string> string_to_variable(const std::string& str) const;

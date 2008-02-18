@@ -5,8 +5,26 @@ The Soothsayer project
 TODO list
 ---------
 
-Clean up Variable class implementation and remove extra debugging
-   printouts.
+Consider removing the following public methods from Variable
+   interface:
+ - Variable();
+ - Variable(const std::vector<std::string>& variable);
+ - std::vector<std::string> variable() const;
+ - void push_back(const std::string& str) { m_variable.push_back(str); }
+ - void pop_back() { m_variable.pop_back(); }
+ - size_t size() const;
+
+
+SoothsayerDemo program:
+ - add command line option to set number of suggestions
+ - provide a config() method that sets or gets the specified config
+   variable
+    - variable should be a dotted scoped string
+    - value should be a string or an int or etc.
+    - conversion between dotted string and Variable should be done in
+   Profile class or other class, not in Soothsayer class.
+
+   See comments in soothsayerDemoText
 
 
 Debian packaging
@@ -50,13 +68,6 @@ Architectural restructure:
    uses different CombinationStrategy objects to do combine
    predictions. Combiner object would know how to retrieve its config
    values and which Strategy to create and use.
-
-
-SoothsayerDemo program:
- - add command line option to set number of suggestions
-
-Configuration mechanism, from XML DOM to config classes that are
-   visited by a ConfiguratorVisitor
 
 
 Short term:
