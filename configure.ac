@@ -174,6 +174,17 @@ fi
 AM_CONDITIONAL([HAVE_DOXYGEN], [test "x$HAVE_DOXYGEN" = "xyes"])
 
 
+dnl ==============
+dnl Checks for dot
+dnl ==============
+AC_CHECK_PROG([HAVE_DOT], [dot], [yes], [no])
+if test "x$HAVE_DOT" = "xno"
+then
+    AC_MSG_NOTICE([dot not found. API documentation will not be built.])
+fi
+AC_SUBST([HAVE_DOT], ["$HAVE_DOT"])
+
+
 dnl ===================
 dnl Checks for help2man
 dnl ===================

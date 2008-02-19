@@ -1,3 +1,8 @@
+2008-02-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* doc/Doxygen.in, configure.ac: added configure check for
+	Graphviz's dot tool to control documentation diagram generation.
+
 2008-02-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/variable: fixed bug causing addition of empty config
