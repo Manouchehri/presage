@@ -9,6 +9,9 @@
 	* utils/modify_license_notice.pl: perl script to replace multiline
 	license notices in source files.
 
+	* resources/profiles/generate_soothsayer_config.sh,
+	test/integration/integration.sh: updated license notices.
+
 2008-02-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/configuration: config class is now a full featured
