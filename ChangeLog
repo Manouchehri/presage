@@ -1,3 +1,18 @@
+2008-02-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/configuration: config class is now a full featured
+	class instead of a typedef'ed map.
+
+	* src/core/Makefile.am: added new Configuration class to library.
+
+	* src/core/utility: added strtoupper function.
+
+	* src/core/profile: using new Configuration class.
+
+	* test/core/configurationTest: configuration unit tests.
+	
+	* test/core/Makefile.am: enabled new unit tests.
+
 2008-02-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* doc/Doxygen.in, configure.ac: added configure check for

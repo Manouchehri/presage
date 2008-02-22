@@ -22,62 +22,33 @@
  *                                                                           *
 \*****************************************************************************/        
 
-#ifndef SOOTH_PROFILE
-#define SOOTH_PROFILE
+#ifndef SOOTH_CONFIGURATION
+#define SOOTH_CONFIGURATION
 
-#include <string>
 #include <map>
 
-#include "tinyxml/tinyxml.h"
+#include "core/variable.h"
 
 typedef std::string Value;
-#include "core/variable.h"
-#include "core/configuration.h"
 
-
-/** Profile provides access to the active profile configuration variables.
- *
- * Profile only provides an accessor method to read configuration
- * values. The class is immutable. It is not possible to modify
- * configuration values. Configuration values are set when the Profile
- * is constructed.
- *
- * Profile acts as an interface to ProfileManager. It converts simple
- * requests for configuration variable values from client objects
- * (such as Plugin objects) into requests to ProfileManager.  There is
- * no need to have a map containing the variable, value pairs. It is
- * sufficient to keep a reference to ProfileManager and have
- * ProfileManager expose an interface that Profile can use to query
- * variable values.
- *
- */
-class Profile {
+class Configuration {
 public:
-    /** Profile constructor.
-     *
-     * \param xmlProfileDoc Profile takes ownership of the configuration object.
-     */
-    Profile(TiXmlDocument* xmlProfileDoc);
+    Configuration();
+    ~Configuration();
 
-    /** Profile destructor.
-     *
-     * Destructor deallocates the Configuration object passed in costructor.
-     *
-     */
-    ~Profile();
+    Value get(const Variable& variable) const;
+    void set(const Variable& variable, const Value& value);
 
-    /** Get configuration value associated to configuration variable.
-     *
-     * \param variable configuration variable
-     * \return value associated to variable
-     */
-    Value getConfig(const Variable& variable);
+    Value operator[](const Variable& variable) const;
+    // Value operator=(const Value& value);
 
-    class ProfileException {
+    void print() const;
+
+    class ConfigurationException {
     public:
-	ProfileException() {}
-	ProfileException(std::string desc) { details = desc; }
-	~ProfileException() {}
+	ConfigurationException() {}
+	ConfigurationException(std::string desc) { details = desc; }
+	~ConfigurationException() {}
 	
 	std::string what() const { return details; }
 
@@ -86,16 +57,8 @@ public:
     };
 
 private:
-    void visitNode(TiXmlNode* node, Variable variable);
+    std::map<Variable, Value>* configuration;
 
-    void initConfiguration(TiXmlDocument* node);
-
-    // debug methods
-    void printConfiguration() const;
-    void printVariable(const Variable& variable) const;
-
-    TiXmlDocument* profile;
-    Configuration* configuration;
 };
 
-#endif // SOOTH_PROFILE
+#endif // SOOTH_CONFIGURATION

@@ -22,87 +22,69 @@
  *                                                                           *
 \*****************************************************************************/        
 
-#include "core/profile.h"
+#include "configuration.h"
 
 #include <iostream>
 
-Profile::Profile(TiXmlDocument* profileDoc)
+Configuration::Configuration()
 {
-    profile = profileDoc;
-    configuration = new Configuration();
-
-    initConfiguration(profileDoc);
+    configuration = new std::map<Variable, Value>();
 }
 
-Profile::~Profile()
+Configuration::~Configuration()
 {
     delete configuration;
 }
-
-void Profile::initConfiguration(TiXmlDocument* root)
+    
+Value Configuration::get(const Variable& variable) const
 {
-    Variable variable;
+    std::string message;
+    if (variable.size() > 0) {
+        // non empty variable, search for it in the config
+        std::map<Variable, Value>::const_iterator it = configuration->find(variable);
+        if (it != configuration->end()) {
+            return it->second;
+        }
 
-    visitNode(root, variable);
-}
-
-void Profile::visitNode(TiXmlNode* node, Variable variable)
-{
-    if (node) {
-	// visit the node only if it is one
-
-	// first visit our siblings
-	visitNode(node->NextSibling(), variable);
-
-	// then check this element contains a
-	// configuration variable
-	TiXmlElement* element = node->ToElement();
-	if (element) {
-	    // append element name to variable to
-	    // build fully qualified variable name
-	    // before visit children
-	    variable.push_back(element->Value());
-
-	    // if element contains text, we have a value for our
-	    // config variable, so add it to our configuration
-	    const char* text = element->GetText();
-	    if (text) {
-		//(*configuration)[variable] = text;
-		configuration->set(variable, text);
-
-		printVariable(variable);
-		std::cout << " = " << text << std::endl;
-	    }
-	}
-
-	// then descend down the tree
-	visitNode(node->FirstChild(), variable);
+        // variable not found, create exception message
+        message = "[Configuration] Cannot find variable "
+            + variable.string();
+        
+    } else {
+        message = "[Configuration] Empty variable";
     }
+    
+    // if we get here, variable was not found in the configuration,
+    // hence we have a right to complain
+    throw ConfigurationException(message);
 }
 
-void Profile::printVariable(const Variable& variable) const
+Value Configuration::operator[](const Variable& variable) const
 {
-    std::cout << variable.string();
+    return get(variable);
 }
 
-void Profile::printConfiguration() const
+void Configuration::set(const Variable& variable, const Value& value)
 {
-    configuration->print();
+    (*configuration)[variable] = value;
 }
 
-Value Profile::getConfig(const Variable& variable)
+//void Configuration::operator[](const Variable& variable)
+//{
+//    //set(variable, value);
+//}
+
+void Configuration::print() const
 {
-    try {
-	return configuration->get(variable);
-    } catch (Configuration::ConfigurationException& ex) {
-	std::cerr << "caught ConfigurationException" << std::endl;
-	
-	// uncomment next throw statement to fix tests,
-	// but more needs to be done to get everything ready for 
-	// committing...
-	//
-	throw Profile::ProfileException(ex.what());
-    } catch (...) {
-	std::cerr << "caught exception" << std::endl;
+    // iterate map
+    for (std::map<Variable, Value>::const_iterator map_it = configuration->begin();
+	 map_it != configuration->end();
+	 map_it++) {
+
+	// variable
+	std::cout << map_it->first.string();
+
+	// value
+	std::cout << " = " << map_it->second << std::endl;
     }
 }

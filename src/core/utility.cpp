@@ -51,7 +51,6 @@ std::string& strtolower(std::string& str)
     return str;
 }
 
-
 /** Returns a lower case copy of a string
  *
  */
@@ -64,6 +63,21 @@ std::string strtolower(const std::string& str)
 	*i = tolower( *i );
     
     return lowstr;
+}
+
+
+/** Convert string to upper case
+ *
+ */
+std::string strtoupper(const std::string& str)
+{
+    std::string upstr = str;
+    for(std::string::iterator i = upstr.begin();
+	i != upstr.end();
+	i++ )
+	*i = toupper( *i );
+    
+    return upstr;
 }
 
 

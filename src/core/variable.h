@@ -28,6 +28,7 @@
 #include <string>
 #include <vector>
 
+
 class Variable {
 public:
     Variable();

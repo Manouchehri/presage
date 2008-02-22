@@ -5,6 +5,11 @@ The Soothsayer project
 TODO list
 ---------
 
+
+Remove Profile::getConfig() method : Components should use
+   Configuration class instead of Profile class to query for
+   variables' values and they should not cache those values.
+
 Consider removing the following public methods from Variable
    interface:
  - Variable();
@@ -71,6 +76,9 @@ Architectural restructure:
 
 
 Short term:
+* put utility.h/utility.cpp functions in a Utility class
+* rewrite strtoupper and strtolower utility functions to use a pointer
+   to function to do the individual char conversion
 * retire SmoothedUniBiTrigramPlugin when SmoothedNgramPlugin is done
 * add ContextTracker tests for control chars
 * put everything inside the soothsayer namespace

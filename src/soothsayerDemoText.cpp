@@ -68,6 +68,13 @@ int main(int argc, char** argv)
 	// (where a component is for example Selector).
 	//
 
+	// A much easier and cleaner solution would be that each
+	// component avoids caching configuration variables and always
+	// ask a Configuration class for the value associated to a
+	// variable each time it needs it. This way configuration can
+	// be programmatically changed on-the-fly.
+	//
+
 //	soothsayer.config("Soothsayer.Selector.SUGGESTIONS", suggestions);
     }
 

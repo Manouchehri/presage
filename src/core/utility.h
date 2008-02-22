@@ -31,6 +31,8 @@ char*        strtolower( char*        );
 std::string& strtolower( std::string& );
 std::string  strtolower( const std::string& );
 
+std::string  strtoupper( const std::string& );
+
 bool isTrueFalse( const char* );
 bool isTrueFalse( const std::string& );
 
