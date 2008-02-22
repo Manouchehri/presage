@@ -1,3 +1,14 @@
+2008-02-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* sources: updated license notices in *.h and *.cpp source files.
+
+	* Makefile.am: updated license notices in Makefile.am files.
+
+	* configure.ac: updated license notice.
+	
+	* utils/modify_license_notice.pl: perl script to replace multiline
+	license notices in source files.
+
 2008-02-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/configuration: config class is now a full featured
