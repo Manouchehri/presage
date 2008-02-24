@@ -1,3 +1,9 @@
+2008-02-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* configure.ac: changed notice message when dot is not found.
+
+	* doc/Doxygen.in: enabled generation of caller graphs.
+
 2008-02-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* sources: updated license notices in *.h and *.cpp source files.
