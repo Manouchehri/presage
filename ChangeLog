@@ -1,3 +1,8 @@
+2008-02-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/setup.py.in, bindings/python/runme.py: updated
+	license notice.
+
 2008-02-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: changed notice message when dot is not found.
