@@ -55,9 +55,9 @@ class AbbreviationExpansionPluginTest : public PluginsTestFixture {
   private:
     /** Converts array of configuration values config to a configuration map.
      */
-    ConfigMap prepareConfigMap(const char* config[]) const;
+    Configuration* prepareConfiguration(const char* config[]) const;
     
-    Plugin* createPlugin(Profile* profile, ContextTracker* ct) const;
+    Plugin* createPlugin(Configuration* configuration, ContextTracker* ct) const;
 
     std::string STANDARD_ABBREVIATION_FILE;
 

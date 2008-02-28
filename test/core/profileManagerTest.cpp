@@ -52,10 +52,11 @@ void ProfileManagerTest::testDefaultProfile()
     std::cout << "ProfileManagerTest::testDefaultProfile()" << std::endl;
     profileManager->buildProfile();
     profile = profileManager->getProfile();
+    configuration = profile->get_configuration();
 
-    contextTracker = new ContextTracker(profile);
-    selector = new Selector(profile, contextTracker);
-    predictor = new Predictor(profile, contextTracker);
+    contextTracker = new ContextTracker(configuration);
+    selector = new Selector(configuration, contextTracker);
+    predictor = new Predictor(configuration, contextTracker);
 
     std::cout << "ProfileManagerTest: before testProfile()" << std::endl;
     testProfile();
@@ -122,10 +123,11 @@ void ProfileManagerTest::testCustomProfile()
 
     profileManager->loadProfile(custom_profile);
     profile = profileManager->getProfile();
+    configuration = profile->get_configuration();
 
     Variable variable("Soothsayer.Custom");
 
-    Value value = profile->getConfig(variable);
+    Value value = configuration->get(variable);
 
     CPPUNIT_ASSERT_EQUAL(std::string("CUSTOM"), value);
 

@@ -24,8 +24,8 @@
 #include "plugins/smoothedCountPlugin.h"
 
 
-SmoothedCountPlugin::SmoothedCountPlugin(Profile* profile, ContextTracker* ct)
-	: Plugin(profile,
+SmoothedCountPlugin::SmoothedCountPlugin(Configuration* config, ContextTracker* ct)
+	: Plugin(config,
 		 ct,
 		 "SmoothedCountPlugin",
 		 "SmoothedCountPlugin, a linear interpolating unigram bigram trigram plugin",
@@ -40,22 +40,22 @@ SmoothedCountPlugin::SmoothedCountPlugin(Profile* profile, ContextTracker* ct)
     Value value;
 
     variable.push_back("UNIGRAM_WEIGHT");
-    value = profile->getConfig(variable);
+    value = config->get(variable);
     UNIGRAM_WEIGHT = toDouble(value);
     variable.pop_back();
 
     variable.push_back("BIGRAM_WEIGHT");
-    value = profile->getConfig(variable);
+    value = config->get(variable);
     BIGRAM_WEIGHT = toDouble(value);
     variable.pop_back();
 
     variable.push_back("TRIGRAM_WEIGHT");
-    value = profile->getConfig(variable);
+    value = config->get(variable);
     TRIGRAM_WEIGHT = toDouble(value);
     variable.pop_back();
 
     variable.push_back("DBFILENAME");
-    value = profile->getConfig(variable);
+    value = config->get(variable);
     DBFILENAME = value;
     variable.pop_back();
 

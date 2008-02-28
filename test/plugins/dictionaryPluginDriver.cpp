@@ -29,9 +29,9 @@ int main()
     // This won't work. It is kept here so that when breaking changes
     // are made, this will fail to build.
     // TODO: transform this into a unit test.
-	Profile mockProfile(0);
-	ContextTracker contextTracker(&mockProfile);
-	DictionaryPlugin plugin(&mockProfile, &contextTracker);
+	Configuration mock_config;
+	ContextTracker contextTracker(&mock_config);
+	DictionaryPlugin plugin(&mock_config, &contextTracker);
 
 	std::string prefix;
 

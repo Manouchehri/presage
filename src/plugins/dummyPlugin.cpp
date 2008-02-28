@@ -24,8 +24,8 @@
 #include "plugins/dummyPlugin.h"
 
 
-DummyPlugin::DummyPlugin(Profile* profile, ContextTracker* ct)
-    : Plugin(profile,
+DummyPlugin::DummyPlugin(Configuration* config, ContextTracker* ct)
+    : Plugin(config,
 	     ct,
 	     "DummyPlugin",
 	     "DummyPlugin, a fake plugin",

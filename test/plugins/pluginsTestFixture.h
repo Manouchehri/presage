@@ -58,17 +58,17 @@ class PluginsTestFixture : public CppUnit::TestFixture {
      * \param config array of configuration variables and values.
      * \return cocnfiguration map.
      */
-    virtual ConfigMap  prepareConfigMap(const char* config[])  const = 0;
-    /** \brief Converts array of configuration values config to a
-     *         configuration map.
+    virtual Configuration* prepareConfiguration(const char* config[])  const = 0;
+
+    /** \brief Creates a predictive plugin instance for testing.
      *
      * \note To be overridden by actual test class inheriting from *this.
      * 
-     * \param profile profile
+     * \param config configuration
      * \param ct context tracker
      * \return instance of plugin to be tested
      */
-    virtual Plugin* createPlugin(Profile* profile, ContextTracker* ct) const = 0;
+    virtual Plugin* createPlugin(Configuration* config, ContextTracker* ct) const = 0;
 
 };
 

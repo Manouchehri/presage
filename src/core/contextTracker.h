@@ -36,7 +36,7 @@
 
 #include "core/tokenizer/reverseTokenizer.h"
 #include "core/charsets.h"
-#include "core/profile.h"
+#include "core/configuration.h"
 #include "core/logger.h"
 
 /** \brief Tracks user interaction and context.
@@ -146,7 +146,7 @@
  */
 class ContextTracker {
 public:
-    ContextTracker(Profile* profile,
+    ContextTracker(Configuration* config,
 		   const char[]=DEFAULT_WORD_CHARS,
                    const char[]=DEFAULT_SEPARATOR_CHARS,
                    const char[]=DEFAULT_BLANKSPACE_CHARS,

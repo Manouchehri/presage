@@ -25,7 +25,7 @@
 #include "utility.h"
 
 
-ContextTracker::ContextTracker(Profile* profile,
+ContextTracker::ContextTracker(Configuration* config,
 			       const char wChars[],
 			       const char tChars[],
 			       const char bChars[],
@@ -50,19 +50,19 @@ ContextTracker::ContextTracker(Profile* profile,
 
     try {
 	variable = new Variable("Soothsayer.ContextTracker.LOGGER");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	delete variable;
 
 	variable = new Variable("Soothsayer.ContextTracker.MAX_BUFFER_SIZE");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << "MAX_BUFFER_SIZE: " << value << endl;
 	setMaxBufferSize(toInt(value));
 	delete variable;
 
-    } catch (Profile::ProfileException ex) {
-	logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
+    } catch (Configuration::ConfigurationException ex) {
+	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
 
     contextChanged = true;

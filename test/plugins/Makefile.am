@@ -43,14 +43,12 @@ pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                               
 				$(top_srcdir)/src/core/utility.cpp                        \
 				$(top_srcdir)/src/core/variable.h                         \
 				$(top_srcdir)/src/core/variable.cpp                       \
+				$(top_srcdir)/src/core/configuration.h                    \
+				$(top_srcdir)/src/core/configuration.cpp                  \
 				smoothedNgramPluginTest.h                          \
 				smoothedNgramPluginTest.cpp                        \
 				$(top_srcdir)/src/plugins/smoothedNgramPlugin.cpp  \
 				$(top_srcdir)/src/plugins/smoothedNgramPlugin.h    \
-				smoothedUniBiTrigramPluginTest.h                          \
-				smoothedUniBiTrigramPluginTest.cpp                        \
-				$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.cpp  \
-				$(top_srcdir)/src/plugins/smoothedUniBiTrigramPlugin.h    \
 				abbreviationExpansionPluginTest.h                         \
 				abbreviationExpansionPluginTest.cpp                       \
 				$(top_srcdir)/src/plugins/abbreviationExpansionPlugin.h   \

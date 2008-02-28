@@ -35,7 +35,7 @@
 
 #include "core/contextTracker.h"
 #include "core/prediction.h"
-#include "core/profile.h"
+#include "core/configuration.h"
 #include "core/logger.h"
 
 #include "core/combiner.h"
@@ -69,14 +69,14 @@ class Predictor {
 
     /** Construct a predictor object.
      *
-     *  Predictor needs a reference to the HistoryTracker object to
+     *  Predictor needs a reference to the ContextTracker object to
      *  forward to the predictive plugins for context retrieval and
      *  analysis.
      *
-     * @param profile pointer to Profile
-     * @param contextTracker pointer to HistoryTracker
+     * @param config pointer to configuration
+     * @param contextTracker pointer to ContextTracker
      */
-    Predictor(Profile* profile, ContextTracker* contextTracker);
+    Predictor(Configuration* config, ContextTracker* contextTracker);
 
     /** Destroy predictor.
      *
@@ -149,21 +149,6 @@ class Predictor {
      */
     void setCombinationPolicy(const std::string policy);
 
-    /** Set Profile interface to currently active profile.
-     * 
-     * Profile provides an interface to the active profile. Each
-     * component can pull the values of the configuration variables it
-     * is interested in from the Profile object, rather than having
-     * the configuration variable values pushed down from
-     * ProfileManager.
-     *
-     * Eventually, all components should start pulling their config
-     * instead of having the config pushed down their throat.
-     *
-     * @param profile Profile to use.
-     */
-    void setProfile(Profile* profile);
-
   private:
     // PLUMP
     //plump::Plump& plump;
@@ -173,7 +158,7 @@ class Predictor {
     void *execute(void *);
 
 
-    Profile*        profile;
+    Configuration*  config;
     ContextTracker* contextTracker;
 
     Logger<char>    logger;

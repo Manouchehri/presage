@@ -32,7 +32,7 @@
  */
 class DummyPlugin : public Plugin {
 public:
-    DummyPlugin(Profile*, ContextTracker*);
+    DummyPlugin(Configuration*, ContextTracker*);
     ~DummyPlugin();
 
     virtual Prediction predict(const size_t) const;

@@ -37,32 +37,29 @@ Prediction PluginsTestFixture::runPredict(const char** config,
 					  const char** history,
 					  const int max_partial_prediction_size) const
 {
-    // convert configuration details into an object that the mock
-    // Profile object can understand - in this case, an std::map of
-    // std::string's.
-    ConfigMap configMap = prepareConfigMap(config);
+    // convert configuration details into a Configuration object
+    // 
+    Configuration* configuration = prepareConfiguration(config);
 
-    // pass the configuration map to the mock profile object. The cast
-    // to TiXmlDocument* is necessary since only the implementation of
-    // the mock Profile class is different - the interface cannot be
-    // changed. The mock Profile object's constructor will cast its
-    // argument back to ConfigMap* before use.
-    Profile profile((TiXmlDocument*) &configMap);
-
-    // similarly, the mock ContextTracker object's interface is
-    // unchanged, therefore casting Profile* argument and using it
-    // to pass an array of history tokens.
-    ContextTracker contextTracker((Profile*) history);
+    // The cast to Configuration* is necessary since only the
+    // implementation of the mock ContextTracker class is different -
+    // the interface cannot be changed.
+    //
+    // Using argument to pass an array of history tokens.
+    // 
+    ContextTracker contextTracker((Configuration*) history);
 
     // creating plugin object to test using the mock ContextTracker
     // and Profile objects.
-    Plugin* plugin = createPlugin(&profile, &contextTracker);
+    Plugin* plugin = createPlugin(configuration, &contextTracker);
 
     // generate prediction.
     Prediction result = plugin->predict(max_partial_prediction_size);
 
     // plugin object is no longer needed.
     delete plugin;
+    // same for configuration
+    delete configuration;
 
     // return the prediction for comparison with expected results.
     return result;

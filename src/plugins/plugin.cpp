@@ -25,13 +25,13 @@
 
 /** Creates a plugin object.
  *
- * @param prof pointer to profile
+ * @param config pointer to configuration
  * @param ct is a reference to HistoryTracker
  * @param pluginName is the plugin name
  * @param shortDesc is a short description of the plugin's functionality
  * @param longDesc is a long description of the plugin's functionality
  */
-Plugin::Plugin(Profile* prof,
+Plugin::Plugin(Configuration* config,
 	       ContextTracker* ct,
 	       const char* pluginName,
 	       const char* shortDesc,
@@ -40,7 +40,7 @@ Plugin::Plugin(Profile* prof,
 	  shortDescription(shortDesc ),
 	  longDescription (longDesc  ),
 	  contextTracker  (ct        ),
-	  profile         (prof      ),
+	  configuration   (config    ),
 	  logger          (pluginName, std::cerr)
 {
     // NOTE: plugin implementations deriving from this class should

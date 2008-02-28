@@ -28,30 +28,37 @@
 Profile::Profile(TiXmlDocument* profileDoc)
 {
     profile = profileDoc;
-    configuration = new Configuration();
-
-    initConfiguration(profileDoc);
 }
 
 Profile::~Profile()
 {
-    delete configuration;
 }
 
-void Profile::initConfiguration(TiXmlDocument* root)
+Configuration* Profile::get_configuration()
+{
+    Configuration* config = new Configuration();
+
+    init_configuration(config, profile);
+
+    return config;
+}
+
+void Profile::init_configuration(Configuration* config, TiXmlDocument* root)
 {
     Variable variable;
 
-    visitNode(root, variable);
+    visit_node(config, root, variable);
 }
 
-void Profile::visitNode(TiXmlNode* node, Variable variable)
+void Profile::visit_node(Configuration* configuration,
+			 TiXmlNode* node,
+			 Variable variable)
 {
     if (node) {
 	// visit the node only if it is one
 
 	// first visit our siblings
-	visitNode(node->NextSibling(), variable);
+	visit_node(configuration, node->NextSibling(), variable);
 
 	// then check this element contains a
 	// configuration variable
@@ -69,39 +76,28 @@ void Profile::visitNode(TiXmlNode* node, Variable variable)
 		//(*configuration)[variable] = text;
 		configuration->set(variable, text);
 
-		printVariable(variable);
-		std::cout << " = " << text << std::endl;
+		std::cout << variable.string() << " = " << text << std::endl;
 	    }
 	}
 
 	// then descend down the tree
-	visitNode(node->FirstChild(), variable);
+	visit_node(configuration, node->FirstChild(), variable);
     }
 }
 
-void Profile::printVariable(const Variable& variable) const
-{
-    std::cout << variable.string();
-}
-
-void Profile::printConfiguration() const
-{
-    configuration->print();
-}
-
-Value Profile::getConfig(const Variable& variable)
-{
-    try {
-	return configuration->get(variable);
-    } catch (Configuration::ConfigurationException& ex) {
-	std::cerr << "caught ConfigurationException" << std::endl;
-	
-	// uncomment next throw statement to fix tests,
-	// but more needs to be done to get everything ready for 
-	// committing...
-	//
-	throw Profile::ProfileException(ex.what());
-    } catch (...) {
-	std::cerr << "caught exception" << std::endl;
-    }
-}
+// Value Profile::getConfig(const Variable& variable)
+// {
+//     try {
+// 	return configuration->get(variable);
+//     } catch (Configuration::ConfigurationException& ex) {
+// 	std::cerr << "caught ConfigurationException" << std::endl;
+// 	
+// 	// uncomment next throw statement to fix tests,
+// 	// but more needs to be done to get everything ready for 
+// 	// committing...
+// 	//
+// 	throw Profile::ProfileException(ex.what());
+//     } catch (...) {
+// 	std::cerr << "caught exception" << std::endl;
+//     }
+// }

@@ -32,10 +32,11 @@ Soothsayer::Soothsayer()
 {
     profileManager = new ProfileManager();
     profile = profileManager->getProfile();
+    configuration = profile->get_configuration();
 
-    contextTracker = new ContextTracker(profile);
-    predictor = new Predictor(profile, contextTracker);
-    selector = new Selector(profile, contextTracker);
+    contextTracker = new ContextTracker(configuration);
+    predictor = new Predictor(configuration, contextTracker);
+    selector = new Selector(configuration, contextTracker);
 
     //plump::Logger::getLogger()->setLevel(plump::Logger::DEBUG);
     //plump.appendPath("./plugins");
@@ -43,14 +44,15 @@ Soothsayer::Soothsayer()
     //plump.discoverPlugins();
 }
 
-Soothsayer::Soothsayer(const std::string config)
+Soothsayer::Soothsayer(const std::string config_filename)
 {
-    profileManager = new ProfileManager(config);
+    profileManager = new ProfileManager(config_filename);
     profile = profileManager->getProfile();
+    configuration = profile->get_configuration();
 
-    contextTracker = new ContextTracker(profile);
-    predictor = new Predictor(profile, contextTracker);
-    selector = new Selector(profile, contextTracker);
+    contextTracker = new ContextTracker(configuration);
+    predictor = new Predictor(configuration, contextTracker);
+    selector = new Selector(configuration, contextTracker);
 }
 
 Soothsayer::~Soothsayer()
@@ -59,6 +61,7 @@ Soothsayer::~Soothsayer()
     delete predictor;
     delete contextTracker;
 
+    delete configuration;
     delete profile;
     delete profileManager;
 }

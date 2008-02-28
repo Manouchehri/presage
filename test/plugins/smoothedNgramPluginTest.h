@@ -57,8 +57,8 @@ public:
 
 
 private:
-    ConfigMap prepareConfigMap(const char* config[]) const;
-    Plugin* createPlugin(Profile*, ContextTracker*) const;
+    Configuration* prepareConfiguration(const char* config[]) const;
+    Plugin* createPlugin(Configuration*, ContextTracker*) const;
 
     /** Asserts prediction is as expected.
      */

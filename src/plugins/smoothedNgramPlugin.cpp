@@ -25,8 +25,8 @@
 #include <sstream>
 
 
-SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
-    : Plugin(profile,
+SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* ct)
+    : Plugin(config,
 	     ct,
              "SmoothedNgramPlugin",
              "SmoothedNgramPlugin, a linear interpolating unigram bigram trigram plugin",
@@ -41,20 +41,20 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
 
     try {
 	variable.push_back("LOGGER");
-	value = profile->getConfig(variable);
+	value = config->get(variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	dbfilename = value;
 	variable.pop_back();
 
 	variable.push_back("DBFILENAME");
-	value = profile->getConfig(variable);
+	value = config->get(variable);
 	logger << INFO << "DBFILENAME: " << value << endl;
 	dbfilename = value;
 	variable.pop_back();
 
 	variable.push_back("DELTAS");
-	value = profile->getConfig(variable);
+	value = config->get(variable);
 	logger << INFO << "DELTAS: " << value << endl;
 	std::stringstream ss_deltas(value);
 	std::string delta;
@@ -64,21 +64,21 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Profile* profile, ContextTracker* ct)
 	}
 	variable.pop_back();
 
-    } catch (Profile::ProfileException ex) {
-	logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
+    } catch (Configuration::ConfigurationException ex) {
+	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
     
     try {
 	variable.push_back("DatabaseConnector");
 	variable.push_back("LOGGER");
-	value = profile->getConfig(variable);
+	value = config->get(variable);
 	variable.pop_back();
 	variable.pop_back();
 
 	// open database connector
 	db = new SqliteDatabaseConnector(dbfilename, value);
-    } catch (Profile::ProfileException& ex) {
-	logger << "Exception while trying to fetch DatabaseConnector logger level." << endl;
+    } catch (Configuration::ConfigurationException& ex) {
+	logger << "ConfigurationException while trying to fetch DatabaseConnector logger level." << endl;
 	db = new SqliteDatabaseConnector(dbfilename);
     }
 }

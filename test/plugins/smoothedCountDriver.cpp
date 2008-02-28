@@ -29,9 +29,9 @@ int main()
     // This won't work. It is kept here so that when breaking changes
     // are made, this will fail to build.
     // TODO: transform this into a unit test.
-	Profile mockProfile(0);
-	ContextTracker contextTracker(&mockProfile);
-	SmoothedCountPlugin plugin(&mockProfile, &contextTracker);
+	Configuration mock_config;
+	ContextTracker contextTracker(&mock_config);
+	SmoothedCountPlugin plugin(&mock_config, &contextTracker);
 
 	const int SIZE = 80;
 	char historyBuffer[SIZE];

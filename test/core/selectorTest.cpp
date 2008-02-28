@@ -383,8 +383,9 @@ void SelectorTest::setUp()
     profileManager = new ProfileManager();
     profileManager->buildProfile();
     profile = profileManager->getProfile();
-    contextTracker  = new ContextTracker(profile);
-    selector = new Selector(profile, contextTracker);
+    configuration = profile->get_configuration();
+    contextTracker  = new ContextTracker(configuration);
+    selector = new Selector(configuration, contextTracker);
 }
 
 void SelectorTest::tearDown()

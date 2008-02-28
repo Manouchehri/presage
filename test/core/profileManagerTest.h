@@ -46,6 +46,7 @@ private:
 
     ProfileManager* profileManager;
     Profile*        profile;
+    Configuration*  configuration;
 
     ContextTracker* contextTracker;
     Predictor*      predictor;

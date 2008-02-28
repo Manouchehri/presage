@@ -57,6 +57,7 @@ private:
     ContextTracker*  contextTracker;
     ProfileManager*  profileManager;
     Profile*         profile;
+    Configuration*   configuration;
     
     CPPUNIT_TEST_SUITE( ContextTrackerTest );
     CPPUNIT_TEST( testConstructor          );

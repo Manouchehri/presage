@@ -25,7 +25,7 @@
 #include "utility.h"
 
 
-Selector::Selector(Profile* profile, ContextTracker* ct)
+Selector::Selector(Configuration* config, ContextTracker* ct)
     : contextTracker(ct),
       logger("Selector", std::cerr)
 {
@@ -35,31 +35,31 @@ Selector::Selector(Profile* profile, ContextTracker* ct)
 
     try {
 	variable = new Variable("Soothsayer.Selector.LOGGER");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	delete variable;
 
 	variable = new Variable("Soothsayer.Selector.SUGGESTIONS");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << INFO << "SUGGESTIONS: " << value << endl;
 	setSuggestions(toInt(value));
 	delete variable;
 
 	variable = new Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
 	setRepeatSuggestions(isYes(value));
 	delete variable;
 
 	variable = new Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << INFO << "GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
 	setGreedySuggestionThreshold(toInt(value));
 	delete variable;
 
-    } catch (Profile::ProfileException ex) {
-	logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
+    } catch (Configuration::ConfigurationException ex) {
+	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
 
     // set prefix

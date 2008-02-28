@@ -105,6 +105,7 @@ private:
 
     ProfileManager*  profileManager;
     Profile*         profile;
+    Configuration*   configuration;
     ContextTracker*  contextTracker;
     Selector*        selector;
 

@@ -23,7 +23,6 @@
 
 noinst_LTLIBRARIES =	libplugin.la                      \
 			libSmoothedNgramPlugin.la         \
-			libSmoothedUniBiTrigramPlugin.la  \
 			libDictionaryPlugin.la            \
 			libSmoothedCountPlugin.la         \
 			libDummyPlugin.la                 \
@@ -34,9 +33,6 @@ libplugin_la_SOURCES =	plugin.cpp plugin.h
 
 libSmoothedNgramPlugin_la_SOURCES =		smoothedNgramPlugin.cpp \
 						smoothedNgramPlugin.h   
-
-libSmoothedUniBiTrigramPlugin_la_SOURCES =	smoothedUniBiTrigramPlugin.cpp \
-						smoothedUniBiTrigramPlugin.h   
 
 libAbbreviationExpansionPlugin_la_SOURCES =	abbreviationExpansionPlugin.h   \
 						abbreviationExpansionPlugin.cpp 

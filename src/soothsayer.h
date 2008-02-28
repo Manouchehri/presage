@@ -31,6 +31,7 @@
 #include <string>
 #include <vector>
 
+class Configuration;
 class ProfileManager;
 class Profile;
 class ContextTracker;
@@ -122,6 +123,7 @@ class Soothsayer {
   private:
     ProfileManager* profileManager;
     Profile*        profile;
+    Configuration*  configuration;
     ContextTracker* contextTracker;
     Predictor*      predictor;
     Selector*       selector;

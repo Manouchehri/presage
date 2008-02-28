@@ -39,6 +39,7 @@ public:
 private:
     TiXmlDocument* profileXmlDoc;
     Profile*       profile;
+    Configuration* configuration;
 
     CPPUNIT_TEST_SUITE( ProfileTest        );
     CPPUNIT_TEST( testGetConfig            );

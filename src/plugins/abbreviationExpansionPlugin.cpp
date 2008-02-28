@@ -25,8 +25,8 @@
 #include <fstream>
 
 
-AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Profile* profile, ContextTracker* ct)
-    : Plugin(profile,
+AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Configuration* config, ContextTracker* ct)
+    : Plugin(config,
              ct,
              "AbbreviationExpansionPlugin",
              "AbbreviationExpansionPlugin, maps abbreviations to the corresponding fully expanded token.",
@@ -42,18 +42,18 @@ AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Profile* profile, Conte
 
     try {
 	variable.push_back("LOGGER");
-	value = profile->getConfig(variable);
+	value = config->get(variable);
 	logger << setlevel(value);
         logger << INFO << "LOGGER:" << value << endl;
 	variable.pop_back();
 
 	variable.push_back("ABBREVIATIONS");
-	value = profile->getConfig(variable);
+	value = config->get(variable);
         logger << INFO << "ABBREVIATIONS:" << value << endl;
         abbreviations = value;
 	variable.pop_back();
-    } catch (Profile::ProfileException ex) {
-        logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
+    } catch (Configuration::ConfigurationException ex) {
+        logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
 
     cacheAbbreviationsExpansions();

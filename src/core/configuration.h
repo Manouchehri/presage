@@ -39,7 +39,7 @@ public:
     void set(const Variable& variable, const Value& value);
 
     Value operator[](const Variable& variable) const;
-    // Value operator=(const Value& value);
+    //Value& operator[](const Variable& variable);
 
     void print() const;
 

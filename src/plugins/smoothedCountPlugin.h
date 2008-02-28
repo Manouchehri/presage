@@ -42,7 +42,7 @@
  */
 class SmoothedCountPlugin : public Plugin {
 public:
-    SmoothedCountPlugin(Profile*, ContextTracker*);
+    SmoothedCountPlugin(Configuration*, ContextTracker*);
     ~SmoothedCountPlugin();
 
     virtual Prediction predict(const size_t) const;

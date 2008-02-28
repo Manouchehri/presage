@@ -42,10 +42,12 @@ void ProfileTest::setUp()
     CPPUNIT_ASSERT(readOk);
 
     profile = new Profile(profileXmlDoc);
+    configuration = profile->get_configuration();
 }
 
 void ProfileTest::tearDown()
 {
+    delete configuration;
     delete profile;
     delete profileXmlDoc;
 }
@@ -55,28 +57,28 @@ void ProfileTest::testGetConfig()
     Variable* var;
     
     var = new Variable("Soothsayer.ContextTracker.MAX_BUFFER_SIZE");
-    CPPUNIT_ASSERT(profile->getConfig(*var) == "1024");
+    CPPUNIT_ASSERT(configuration->get(*var) == "1024");
     delete var;
 
     var = new Variable("Soothsayer.Selector.SUGGESTIONS");
-    CPPUNIT_ASSERT(profile->getConfig(*var) == "6");
+    CPPUNIT_ASSERT(configuration->get(*var) == "6");
     delete var;
 
     var = new Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD");
-    CPPUNIT_ASSERT(profile->getConfig(*var) == "0");
+    CPPUNIT_ASSERT(configuration->get(*var) == "0");
     delete var;
 
 
     var = new Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS");
-    CPPUNIT_ASSERT(profile->getConfig(*var) == "no");
+    CPPUNIT_ASSERT(configuration->get(*var) == "no");
     delete var;
     
     var = new Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DBFILENAME");
-    CPPUNIT_ASSERT(profile->getConfig(*var) == "database_en.db");
+    CPPUNIT_ASSERT(configuration->get(*var) == "database_en.db");
     delete var;
 
     var = new Variable("Soothsayer.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
-    CPPUNIT_ASSERT(profile->getConfig(*var) == "40");
+    CPPUNIT_ASSERT(configuration->get(*var) == "40");
     delete var;
 }
 
@@ -85,14 +87,14 @@ void ProfileTest::testGetNonExistantConfig()
     std::cout << "void ProfileTest::testGetNonExistantConfig()" << std::endl;
 
     Variable* var = new Variable();
-    CPPUNIT_ASSERT_THROW(profile->getConfig(*var), Profile::ProfileException);
+    CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
     delete var;
 
     var = new Variable("foo");
-    CPPUNIT_ASSERT_THROW(profile->getConfig(*var), Profile::ProfileException);
+    CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
     delete var;
 
     var = new Variable("bar");
-    CPPUNIT_ASSERT_THROW(profile->getConfig(*var), Profile::ProfileException);
+    CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
     delete var;
 }

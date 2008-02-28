@@ -23,39 +23,18 @@
 
 #include "pluginsTestMockObjects.h"
 
-/////////////////////
-// Mock Profile class
-
-Profile::Profile(TiXmlDocument* doc)
-{
-    configuration = (Configuration*) doc;
-}
-
-Profile::~Profile()
-{}
-
-Value Profile::getConfig(const Variable& variable)
-{
-    std::map<std::string, std::string>* config = 
-	( std::map<std::string, std::string>* ) configuration;
-
-    std::string key = variable.string();
-
-    return (*config)[key];
-}
-
 
 ////////////////////////////
 // Mock HistoryTracker class
 
-ContextTracker::ContextTracker(Profile* profile,
+ContextTracker::ContextTracker(Configuration* config,
 			       const char wc[],
 			       const char sc[],
 			       const char bc[],
 			       const char cc[])
     : logger("MockContextTracker", std::cerr)
 {
-    const char** history = (const char**) profile;
+    const char** history = (const char**) config;
     wordChars       = history[2]; // getPrefix()
     separatorChars  = history[1]; // getToken(1)
     blankspaceChars = history[0]; // getToken(2)

@@ -47,7 +47,7 @@ typedef	std::set< std::string, std::less<std::string> > StringSet;
  *
  * Suggestions selection is performed based on users
  * preferences. Preferences are read from configuration and provided
- * by ProfileManager.
+ * by Configuration.
  * 
  * Selected suggestions are returned to the outside world.
  *
@@ -78,7 +78,7 @@ typedef	std::set< std::string, std::less<std::string> > StringSet;
  */
 class Selector {
 public:
-    Selector(Profile*, ContextTracker*);
+    Selector(Configuration*, ContextTracker*);
     ~Selector();
 
     std::vector<std::string> select(Prediction);

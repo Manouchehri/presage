@@ -35,7 +35,7 @@
  */
 class DictionaryPlugin : public Plugin {
 public:
-    DictionaryPlugin(Profile*, ContextTracker*);
+    DictionaryPlugin(Configuration*, ContextTracker*);
     ~DictionaryPlugin();
 
     virtual Prediction predict(const size_t) const;

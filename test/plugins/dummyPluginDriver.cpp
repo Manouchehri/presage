@@ -29,9 +29,9 @@
 
 int main()
 {
-	Profile mockProfile(0);
-	ContextTracker contextTracker(&mockProfile);
-	DummyPlugin dummyPlugin(&mockProfile, &contextTracker);
+	Configuration mock_config;
+	ContextTracker contextTracker(&mock_config);
+	DummyPlugin dummyPlugin(&mock_config, &contextTracker);
 	Plugin* pluginPtr = &dummyPlugin;
 	
 

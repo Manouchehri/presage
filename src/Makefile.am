@@ -32,7 +32,6 @@ libsoothsayer_la_LIBADD =	core/libcore.la       \
 				tools/libtools.la     \
 				plugins/libplugin.la  \
 				plugins/libSmoothedNgramPlugin.la         \
-				plugins/libSmoothedUniBiTrigramPlugin.la  \
 				plugins/libAbbreviationExpansionPlugin.la \
 				plugins/libDummyPlugin.la                 \
 				plugins/libDictionaryPlugin.la            \

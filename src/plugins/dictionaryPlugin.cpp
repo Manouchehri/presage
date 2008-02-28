@@ -26,8 +26,8 @@
 #include <fstream>
 #include <assert.h>
 
-DictionaryPlugin::DictionaryPlugin(Profile* profile, ContextTracker* ht)
-    : Plugin(profile,
+DictionaryPlugin::DictionaryPlugin(Configuration* config, ContextTracker* ht)
+    : Plugin(config,
 	     ht,
 	     "DictionaryPlugin",
 	     "DictionaryPlugin, dictionary lookup",
@@ -39,7 +39,7 @@ DictionaryPlugin::DictionaryPlugin(Profile* profile, ContextTracker* ht)
     variable.push_back("Plugins");
     variable.push_back("DictionaryPlugin");
     variable.push_back("DICTIONARY_PATH");
-    Value value = profile->getConfig(variable);
+    Value value = config->get(variable);
     
     DICTIONARY_PATH = value;
 }

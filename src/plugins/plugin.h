@@ -29,7 +29,7 @@
 
 #include "core/prediction.h"
 #include "core/contextTracker.h"
-#include "core/profile.h"
+#include "core/configuration.h"
 
 #include <string>
 #include <vector>
@@ -47,7 +47,7 @@
 class Plugin {
 //PLUMP    : public plump::PluginInterface {
 public:
-    Plugin(Profile*        profile,
+    Plugin(Configuration*  configuration,
            ContextTracker* contextTracker,
 	   const char*     pluginName       = "Plugin",
            const char*     shortDescription = "",
@@ -78,7 +78,7 @@ protected:
 
     ContextTracker* contextTracker;
 
-    Profile* profile;
+    Configuration* configuration;
     
     double toDouble(const std::string) const;
     int    toInt   (const std::string) const;

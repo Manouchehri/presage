@@ -1,3 +1,67 @@
+2008-02-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/plugins/Makefile.am: no longer build
+	SmoothedUniBiTrigramPlugin.
+
+	* src/Makefile.am, src/core/predictor: removed references to
+	SmoothedUniBiTrigramPlugin.
+
+	* test/plugins/Makefile.am, test/plugins/smoothedUniBiTrigramTest:
+	removed tests.
+	
+2008-02-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* test/plugins/dictionaryPluginDriver.cpp
+	test/plugins/pluginsTestMockObjects.cpp
+	test/plugins/smoothedCountDriver.cpp
+	test/plugins/abbreviationExpansionPluginTest.cpp
+	test/plugins/abbreviationExpansionPluginTest.h
+	test/plugins/smoothedUniBiTrigramPluginTest.cpp
+	test/plugins/smoothedUniBiTrigramPluginTest.h
+	test/plugins/dummyPluginDriver.cpp
+	test/plugins/smoothedNgramPluginTest.cpp
+	test/plugins/Makefile.am
+	test/plugins/pluginsTestFixture.cpp
+	test/plugins/smoothedNgramPluginTest.h
+	test/plugins/pluginsTestFixture.h
+	test/core/profileTest.cpp
+	test/core/profileManagerTest.h
+	test/core/contextTrackerTest.cpp
+	test/core/contextTrackerTest.h
+	test/core/profileTest.h
+	test/core/selectorTest.cpp
+	test/core/selectorTest.h
+	test/core/profileManagerTest.cpp
+	src/plugins/plugin.cpp
+	src/plugins/plugin.h
+	src/plugins/abbreviationExpansionPlugin.cpp
+	src/plugins/smoothedCountPlugin.cpp
+	src/plugins/dummyPlugin.cpp
+	src/plugins/smoothedUniBiTrigramPlugin.cpp
+	src/plugins/abbreviationExpansionPlugin.h
+	src/plugins/smoothedCountPlugin.h
+	src/plugins/dummyPlugin.h
+	src/plugins/smoothedUniBiTrigramPlugin.h
+	src/plugins/dictionaryPlugin.cpp
+	src/plugins/smoothedNgramPlugin.cpp
+	src/plugins/Makefile.am
+	src/plugins/dictionaryPlugin.h
+	src/plugins/smoothedNgramPlugin.h
+	src/soothsayer.cpp
+	src/soothsayer.h
+	src/core/contextTracker.cpp
+	src/core/profile.h
+	src/core/selector.h
+	src/core/profile.cpp
+	src/core/predictor.h
+	src/core/contextTracker.h
+	src/core/configuration.h
+	src/core/selector.cpp
+	src/core/predictor.cpp
+	src/Makefile.am	: ported components to use Configuration class instead of Profile
+	 class to query	for variables' values and they should not cache
+	 those values.
+
 2008-02-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/setup.py.in, bindings/python/runme.py: updated

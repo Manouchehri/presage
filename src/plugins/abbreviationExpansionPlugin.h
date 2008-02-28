@@ -42,7 +42,7 @@
  */
 class AbbreviationExpansionPlugin : public Plugin {
 public:
-    AbbreviationExpansionPlugin(Profile*, ContextTracker*);
+    AbbreviationExpansionPlugin(Configuration*, ContextTracker*);
     ~AbbreviationExpansionPlugin();
 
     virtual Prediction predict(const size_t) const;

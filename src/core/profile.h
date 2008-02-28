@@ -65,12 +65,11 @@ public:
      */
     ~Profile();
 
-    /** Get configuration value associated to configuration variable.
+    /** Get configuration associated to profile.
      *
-     * \param variable configuration variable
-     * \return value associated to variable
+     * \return configuration object
      */
-    Value getConfig(const Variable& variable);
+    Configuration* get_configuration();
 
     class ProfileException {
     public:
@@ -85,16 +84,10 @@ public:
     };
 
 private:
-    void visitNode(TiXmlNode* node, Variable variable);
-
-    void initConfiguration(TiXmlDocument* node);
-
-    // debug methods
-    void printConfiguration() const;
-    void printVariable(const Variable& variable) const;
+    void init_configuration(Configuration* config, TiXmlDocument* node);
+    void visit_node(Configuration* config, TiXmlNode* node, Variable variable);
 
     TiXmlDocument* profile;
-    Configuration* configuration;
 };
 
 #endif // SOOTH_PROFILE

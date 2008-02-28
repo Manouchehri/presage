@@ -129,13 +129,14 @@ void SmoothedNgramPluginTest::tearDown()
 #endif
 }
 
-ConfigMap SmoothedNgramPluginTest::prepareConfigMap(const char* config[]) const
+Configuration* SmoothedNgramPluginTest::prepareConfiguration(const char* config[]) const
 {
-    ConfigMap map;
-    map["Soothsayer.Plugins.SmoothedNgramPlugin.DELTAS"]                      = config[0];
-    map["Soothsayer.Plugins.SmoothedNgramPlugin.DBFILENAME"]                  = config[1];
+    Configuration* configuration = new Configuration();
+    configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.LOGGER"), "ALL");
+    configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DELTAS"), config[0]);
+    configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DBFILENAME"), config[1]);
     
-    return map;
+    return configuration;
 }
 
 void SmoothedNgramPluginTest::assertCorrectPrediction(const char** config,
@@ -154,10 +155,10 @@ void SmoothedNgramPluginTest::assertCorrectPrediction(const char** config,
     }
 }
 
-Plugin* SmoothedNgramPluginTest::createPlugin(Profile* profile,
+Plugin* SmoothedNgramPluginTest::createPlugin(Configuration* config,
                                               ContextTracker* contextTracker) const
 {
-    return new SmoothedNgramPlugin(profile, contextTracker);
+    return new SmoothedNgramPlugin(config, contextTracker);
 }
 
 void SmoothedNgramPluginTest::testUnigramWeight()

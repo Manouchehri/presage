@@ -32,14 +32,13 @@
 // loaded plugins
 //
 #include "plugins/smoothedNgramPlugin.h"
-#include "plugins/smoothedUniBiTrigramPlugin.h"
 #include "plugins/abbreviationExpansionPlugin.h"
 #include "plugins/dummyPlugin.h"
 #include "plugins/dictionaryPlugin.h"
 #include "plugins/smoothedCountPlugin.h"
 
-Predictor::Predictor(Profile* prof, ContextTracker* ct)
-    : profile(prof),
+Predictor::Predictor(Configuration* configuration, ContextTracker* ct)
+    : config(configuration),
       contextTracker(ct),
       logger("Predictor", std::cerr)
 {
@@ -51,37 +50,37 @@ Predictor::Predictor(Profile* prof, ContextTracker* ct)
 
     try {
 	variable = new Variable("Soothsayer.Predictor.LOGGER");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	delete variable;
 
 	variable = new Variable("Soothsayer.Predictor.PREDICT_TIME");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << INFO << "PREDICT_TIME: " << value << endl;
 	setPredictTime(toInt(value));
 	delete variable;
 
 	variable = new Variable("Soothsayer.Predictor.MAX_PARTIAL_PREDICTION_SIZE");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
 	max_partial_prediction_size = toInt(value);
 	delete variable;
 
 	variable = new Variable("Soothsayer.Predictor.COMBINATION_POLICY");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << INFO << "COMBINATION_POLICY: " << value << endl;
 	setCombinationPolicy(value);
 	delete variable;
 
 	variable = new Variable("Soothsayer.Predictor.PLUGINS");
-	value = profile->getConfig(*variable);
+	value = config->get(*variable);
 	logger << INFO << "PLUGINS: " << value << endl;
 	setPlugins(value);
 	delete variable;
 
-    } catch (Profile::ProfileException ex) {
-	logger << ERROR << "Caught ProfileException: " << ex.what() << endl;
+    } catch (Configuration::ConfigurationException ex) {
+	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
 }
 
@@ -111,17 +110,15 @@ void Predictor::addPlugin(const std::string& pluginName)
     //
     Plugin* plugin = 0;
     if (pluginName == "SmoothedNgramPlugin") {
-	plugin = new SmoothedNgramPlugin(profile, contextTracker);
-    } else if (pluginName == "SmoothedUniBiTrigramPlugin") {
-	plugin = new SmoothedUniBiTrigramPlugin(profile, contextTracker);
+	plugin = new SmoothedNgramPlugin(config, contextTracker);
     } else if (pluginName == "AbbreviationExpansionPlugin") {
-	plugin = new AbbreviationExpansionPlugin(profile, contextTracker);
+	plugin = new AbbreviationExpansionPlugin(config, contextTracker);
     } else if (pluginName == "DummyPlugin") {
-	plugin = new DummyPlugin(profile, contextTracker);
+	plugin = new DummyPlugin(config, contextTracker);
     } else if (pluginName == "DictionaryPlugin" ) {
-	plugin = new DictionaryPlugin(profile, contextTracker);
+	plugin = new DictionaryPlugin(config, contextTracker);
     } else if (pluginName == "SmoothedCountPlugin") {
-	plugin = new SmoothedCountPlugin(profile, contextTracker);
+	plugin = new SmoothedCountPlugin(config, contextTracker);
     } else {
 	// TODO: raise exception
 	logger << ERROR << "Error: unable to add plugin: " 
@@ -236,10 +233,4 @@ void Predictor::setCombinationPolicy(const std::string cp)
 std::string Predictor::getCombinationPolicy() const
 {
     return combinationPolicy;
-}
-
-void Predictor::setProfile(Profile* prof)
-{
-    delete profile;
-    profile = prof;
 }

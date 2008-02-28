@@ -46,7 +46,7 @@
  */
 class SmoothedNgramPlugin : public Plugin {
 public:
-    SmoothedNgramPlugin(Profile*, ContextTracker*);
+    SmoothedNgramPlugin(Configuration*, ContextTracker*);
     ~SmoothedNgramPlugin();
 
     virtual Prediction predict(const size_t) const;

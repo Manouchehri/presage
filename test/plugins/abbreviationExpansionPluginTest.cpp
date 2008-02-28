@@ -73,18 +73,19 @@ void AbbreviationExpansionPluginTest::testUnknownAbbreviation()
     CPPUNIT_ASSERT_EQUAL(0, prediction.size());
 }
 
-ConfigMap AbbreviationExpansionPluginTest::prepareConfigMap(const char* config[]) const
+Configuration* AbbreviationExpansionPluginTest::prepareConfiguration(const char* config[]) const
 {
     std::cerr << "AbbreviationExpansionPluginTest::prepareConfigMap" << std::endl;
 
-    ConfigMap result;
-    result["Soothsayer.Plugins.AbbreviationExpansionPlugin.ABBREVIATIONS"] = config[0];
+    Configuration* result = new Configuration();
+    result->set(Variable("Soothsayer.Plugins.AbbreviationExpansionPlugin.LOGGER"), "ALL");
+    result->set(Variable("Soothsayer.Plugins.AbbreviationExpansionPlugin.ABBREVIATIONS"), config[0]);
 
     return result;
 }
 
-Plugin* AbbreviationExpansionPluginTest::createPlugin(Profile* profile, ContextTracker* ct) const
+Plugin* AbbreviationExpansionPluginTest::createPlugin(Configuration* configuration, ContextTracker* ct) const
 {
     std::cerr << "AbbreviationExpansionPluginTest::createPlugin" << std::endl;
-    return new AbbreviationExpansionPlugin(profile, ct);
+    return new AbbreviationExpansionPlugin(configuration, ct);
 }
