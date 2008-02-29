@@ -23,8 +23,7 @@
 
 EXTRA_DIST =	\
 	getting_started.txt \
-	python_binding.txt \
-	options.txt
+	python_binding.txt  
 
 if HAVE_DOXYGEN
 #pkgdata_DATA =	html latex

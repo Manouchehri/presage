@@ -25,13 +25,7 @@ EXTRA_DIST = 	changes.txt \
 		readme.txt \
 		utf8test.gif \
 		utf8test.xml \
-		utf8testverify.xml \
-		docs
-
-
-dist-hook:
-		rm -rf `find $(distdir)/docs -name .svn`
-
+		utf8testverify.xml
 
 
 TESTS = xmltest

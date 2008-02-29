@@ -7,10 +7,6 @@ TODO list
 ---------
 
 
-Remove Profile::getConfig() method : Components should use
-   Configuration class instead of Profile class to query for
-   variables' values and they should not cache those values.
-
 Consider removing the following public methods from Variable
    interface:
  - Variable();
@@ -37,6 +33,7 @@ Debian packaging
  - need to create python binding package
 
 Absolute first
+ - remove debug variable printouts
  - implement logger level inheritance from parent module
  - ProfileManager logger level currently can not be read from profile
    (chicken and egg problem), need to find solution

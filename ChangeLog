@@ -1,3 +1,11 @@
+2008-02-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/tinyxml/Makefile.am: no longer bundle tinyxml/doc files in
+	distribution package.
+
+	* doc/Makefile.am, doc/options.txt: removed outdated file, removed
+	references to it from Makefile.am.
+	
 2008-02-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/plugins/Makefile.am: no longer build
