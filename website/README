@@ -37,6 +37,18 @@ rights.
      mysql -u user -p database < soothsayer_website_backup.sql
 
 
+ o checkout a local copy of source repository. This is needed to
+   satisfy the website links to the documentation.
+
+   - create a soothsayer/ directory and change to it
+
+     mkdir soothsayer && cd soothsayer
+
+   - check out the source repository
+
+     svn co https://soothsayer.svn.sourceforge.net/svnroot/soothsayer/trunk
+
+
 
 To generate a database backup dump:
   mysqldump -u user -p database > soothsayer_database_dump.sql
