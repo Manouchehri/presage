@@ -12,7 +12,7 @@ rights.
 
  o download drupal, the open source content management platform.
    drupal can be obtained from http://drupal.org.
-   At the time of this writing, soothsayer website uses 5.1.
+   At the time of writing, soothsayer website uses drupal-5.1.
 
 
  o install drupal by following the instructions found in file
@@ -21,7 +21,7 @@ rights.
 
  o install soothie theme in themes/ directory
 
-     gunzip -C themes/ soothie_theme.tar.gz
+     tar -C themes/ -zxvf /path/to/soothie_theme.tar.gz
 
 
  o populate drupal's database. If you followed the steps described in
@@ -30,7 +30,7 @@ rights.
 
    - unzip drupal database
 
-     gunzip soothsayer_website_backup.sql.gz
+     gunzip /path/to/soothsayer_website_backup.sql.gz
 
    - restore database from drupal's database backup
 
