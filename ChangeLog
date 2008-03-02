@@ -1,3 +1,9 @@
+2008-03-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian/copyright: update copyright notice.
+
+	* debian/changelog: closes Intent To Package bug number.
+
 2008-03-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* debian/control: updated description fields.
