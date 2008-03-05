@@ -1,3 +1,9 @@
+2008-03-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/sqliteDatabaseConnector: fixed bug when attempting to
+	free() error message string allocated by sqlite3_exec() call: use
+	sqlite3_free() instead.
+
 2008-03-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* debian/copyright: update copyright notice.

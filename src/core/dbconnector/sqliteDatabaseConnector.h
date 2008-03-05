@@ -53,7 +53,7 @@ class SqliteDatabaseConnector : public DatabaseConnector {
 	SqliteDatabaseConnectorException(std::string errormsg) { details = errormsg; }
 	std::string what() const { return details; }
     private:
-	SqliteDatabaseConnectorException();
+	SqliteDatabaseConnectorException() {};
 	std::string details;
     };
 

@@ -107,8 +107,12 @@ NgramTable SqliteDatabaseConnector::executeSql(const std::string query) const
 	if (sqlite_error_msg != 0) {
 	    error = sqlite_error_msg;
 	}
-#ifdef HAVE_STDLIB_H
+#if defined(HAVE_SQLITE3_H)
+        sqlite3_free(sqlite_error_msg);
+#elif defined(HAVE_SQLITE_H)
+# ifdef HAVE_STDLIB_H
         free(sqlite_error_msg);
+# endif
 #endif
 	throw SqliteDatabaseConnectorException(error);
     }
