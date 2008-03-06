@@ -33,6 +33,7 @@ Debian packaging
  - need to create python binding package
 
 Absolute first
+ - text2ngram should link with libsoothsayer shared lib
  - remove debug variable printouts
  - implement logger level inheritance from parent module
  - ProfileManager logger level currently can not be read from profile
