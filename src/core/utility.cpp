@@ -180,7 +180,8 @@ bool isYes( const char* str )
     std::string lowstr = strtolower (workingStr);
     if( lowstr == "yes" ||
 	lowstr == "yeah" ||
-	lowstr == "ye" )
+	lowstr == "ye" ||
+	lowstr == "true")
 	result = true;
     
     delete[] workingStr;
@@ -203,7 +204,8 @@ bool isNo( const char* str )
     if( lowstr == "no" ||
 	lowstr == "nope" ||
 	lowstr == "nah" ||
-	lowstr == "nay" )
+	lowstr == "nay" ||
+	lowstr == "false")
 	result = true;
 
     delete[] workingStr;

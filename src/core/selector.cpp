@@ -24,9 +24,14 @@
 #include "selector.h"
 #include "utility.h"
 
+const Variable Selector::SUGGESTIONS = Variable("Soothsayer.Selector.SUGGESTIONS");
+const Variable Selector::REPEAT_SUGGESTIONS = Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS");
+const Variable Selector::GREEDY_SUGGESTION_THRESHOLD = Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD");
 
-Selector::Selector(Configuration* config, ContextTracker* ct)
+
+Selector::Selector(Configuration* configuration, ContextTracker* ct)
     : contextTracker(ct),
+      config(configuration),
       logger("Selector", std::cerr)
 {
     // read config values
@@ -38,24 +43,6 @@ Selector::Selector(Configuration* config, ContextTracker* ct)
 	value = config->get(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
-	delete variable;
-
-	variable = new Variable("Soothsayer.Selector.SUGGESTIONS");
-	value = config->get(*variable);
-	logger << INFO << "SUGGESTIONS: " << value << endl;
-	setSuggestions(toInt(value));
-	delete variable;
-
-	variable = new Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS");
-	value = config->get(*variable);
-	logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
-	setRepeatSuggestions(isYes(value));
-	delete variable;
-
-	variable = new Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD");
-	value = config->get(*variable);
-	logger << INFO << "GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
-	setGreedySuggestionThreshold(toInt(value));
 	delete variable;
 
     } catch (Configuration::ConfigurationException ex) {
@@ -85,17 +72,17 @@ std::vector<std::string> Selector::select( Prediction p )
     }
 
     // filter out suggestions that do not satisfy repetition constraint
-    if( !REPEAT_SUGGESTION )
+    if( !repeat_suggestions() )
 	repetitionFilter( result );
 
     // filter out suggestions that do not satisfy threshold constraint
-    if( GREEDY_SUGGESTION_THRESHOLD > 0 )
+    if( greedy_suggestion_threshold() > 0 )
 	thresholdFilter( result );
 
     // build result
 	
     // check that we have enough selected words
-    if( result.size() < static_cast<unsigned int>(SUGGESTIONS) ) {
+    if( result.size() < static_cast<unsigned int>(suggestions()) ) {
 	// Job's not done, got to get a bigger Prediction
 	// we should invoke predict() to get more Suggestions
 
@@ -111,11 +98,11 @@ std::vector<std::string> Selector::select( Prediction p )
 		
     } else {
 	// erase the requested number of words
-	result.erase( result.begin() + SUGGESTIONS, result.end() );
-
-	// update suggested words set
-	updateSuggestedWords( result );
+	result.erase( result.begin() + suggestions(), result.end() );
     }
+
+    // update suggested words set
+    updateSuggestedWords( result );
 
     return result;
 }
@@ -174,15 +161,15 @@ void Selector::repetitionFilter( std::vector<std::string>& v )
  */
 void Selector::thresholdFilter( std::vector<std::string>& v )
 {
-    assert( GREEDY_SUGGESTION_THRESHOLD >= 0 );
+    assert( greedy_suggestion_threshold() >= 0 );
 
     // zero threshold indicates feature is disabled
-    if( GREEDY_SUGGESTION_THRESHOLD != 0 ) {
+    if( greedy_suggestion_threshold() != 0 ) {
 		
 	int length = contextTracker->getPrefix().size();
 	std::vector<std::string>::iterator i = v.begin();
 	while (i != v.end()) {
-	    if( (i->size()-length) < GREEDY_SUGGESTION_THRESHOLD) {
+	    if( (i->size()-length) < greedy_suggestion_threshold()) {
 		logger << INFO << "Removing token: " << *i << endl;
 		v.erase( i );
 	    } else {
@@ -192,68 +179,48 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
     }
 }
 
-/** Set SUGGESTIONS option.
- * 
- * \param value new number of desired suggestions
- * \return old number of desired suggestions, -1 in case of error setting the new value
- */
-int Selector::setSuggestions( const int value )
-{
-    if( value > 0 ) {
-	logger << INFO << "Setting SUGGESTIONS to " << value << endl;
-	SUGGESTIONS = value;
-	return SUGGESTIONS;
-    } else {
-	logger << ERROR << "SUGGESTIONS option not set. Value " << value << " out of range!/a" << endl;
-	return -1;
-    }
-}
-
 
 /** Get SUGGESTIONS option.
  *
  */
-int Selector::getSuggestions() const
+int Selector::suggestions() const
 {
-    return SUGGESTIONS;
-}
-
-
-/** Set REPEAT_SUGGESTION option.
- *
- */
-void Selector::setRepeatSuggestions( const bool value )
-{
-    logger << INFO << "Setting REPEAT_SUGGESTION: " << value << endl;
-    REPEAT_SUGGESTION = value;
+    Value value = config->get(Variable("Soothsayer.Selector.SUGGESTIONS"));
+    logger << INFO << "SUGGESTIONS: " << value << endl;
+    int result = toInt(value);
+    if (result < 0) {
+	logger << ERROR << "Soothsayer.Selector.SUGGESTIONS value out of range!/a" << endl;
+	// REVISIT: throw exception
+	abort();
+    }
+    return result;
 }
 
 
 /** Get REPEAT_SUGGESTION option.
  *
  */
-bool Selector::getRepeatSuggestions() const
+bool Selector::repeat_suggestions() const
 {
-    return REPEAT_SUGGESTION;
-}
-
-
-/** Set SUGGESTION_THRESHOLD option.
- *
- */
-void Selector::setGreedySuggestionThreshold( const unsigned int value )
-{
-    if( value >= 0 ) {
-	logger << INFO << "Setting GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
-	GREEDY_SUGGESTION_THRESHOLD = value;
-    }
+    Value value = config->get(Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS"));
+    logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
+    bool result = isYes(value);
+    return result;
 }
 
 
 /** Get SUGGESTION_THRESHOLD option.
  *
  */
-unsigned int Selector::getGreedySuggestionThreshold() const
+unsigned int Selector::greedy_suggestion_threshold() const
 {
-    return GREEDY_SUGGESTION_THRESHOLD;
+    Value value = config->get(Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD"));
+    logger << INFO << "GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
+    int result = toInt(value);
+    if( result < 0 ) {
+	logger << ERROR << "GREEDY_SUGGESTION_THRESHOLD value out of range." << value << endl;
+	// REVISIT: throw exception
+	abort();
+    }
+    return result;
 }

@@ -101,11 +101,11 @@ void ProfileManagerTest::testProfile()
 
     // test init selector
     CPPUNIT_ASSERT_EQUAL(DEFAULT_SUGGESTIONS,
-			 selector->getSuggestions());
+			 selector->suggestions());
     CPPUNIT_ASSERT_EQUAL(DEFAULT_REPEAT_SUGGESTION,
-			 selector->getRepeatSuggestions());
+			 selector->repeat_suggestions());
     CPPUNIT_ASSERT_EQUAL(DEFAULT_GREEDY_SUGGESTION_THRESHOLD,
-			 selector->getGreedySuggestionThreshold());
+			 selector->greedy_suggestion_threshold());
 }
 
 void ProfileManagerTest::testCustomProfile()

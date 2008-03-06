@@ -430,9 +430,9 @@ void SelectorTest::testSelect_S6_R_T0()
 {
     std::cerr << "SelectorTest::testSelect_S6_R_T0()" << std::endl;
 
-    selector->setSuggestions(6);
-    selector->setRepeatSuggestions(true);
-    selector->setGreedySuggestionThreshold(0);
+    configuration->set(Selector::SUGGESTIONS, "6");
+    configuration->set(Selector::REPEAT_SUGGESTIONS, "true");
+    configuration->set(Selector::GREEDY_SUGGESTION_THRESHOLD, "0");
 
     testSelect(tds_S6_R_T0);
 }
@@ -441,9 +441,9 @@ void SelectorTest::testSelect_S6_NR_T0()
 {
     std::cerr << "SelectorTest::testSelect_S6_NR_T0()" << std::endl;
 
-    selector->setSuggestions(6);
-    selector->setRepeatSuggestions(false);
-    selector->setGreedySuggestionThreshold(0);
+    configuration->set(Selector::SUGGESTIONS, "6");
+    configuration->set(Selector::REPEAT_SUGGESTIONS, "false");
+    configuration->set(Selector::GREEDY_SUGGESTION_THRESHOLD, "0");
 
     testSelect(tds_S6_NR_T0);
 }
@@ -452,9 +452,9 @@ void SelectorTest::testSelect_S6_R_T3()
 {
     std::cerr << "SelectorTest::testSelect_S6_R_T3()" << std::endl;
 
-    selector->setSuggestions(6);
-    selector->setRepeatSuggestions(true);
-    selector->setGreedySuggestionThreshold(3);
+    configuration->set(Selector::SUGGESTIONS, "6");
+    configuration->set(Selector::REPEAT_SUGGESTIONS, "true");
+    configuration->set(Selector::GREEDY_SUGGESTION_THRESHOLD, "3");
 
     testSelect(tds_S6_R_T3);
 }
@@ -463,9 +463,9 @@ void SelectorTest::testSelect_S6_NR_T3()
 {
     std::cerr << "SelectorTest::testSelect_S6_NR_T3()" << std::endl;
 
-    selector->setSuggestions(6);
-    selector->setRepeatSuggestions(false);
-    selector->setGreedySuggestionThreshold(3);
+    configuration->set(Selector::SUGGESTIONS, "6");
+    configuration->set(Selector::REPEAT_SUGGESTIONS, "false");
+    configuration->set(Selector::GREEDY_SUGGESTION_THRESHOLD, "3");
 
     testSelect(tds_S6_NR_T3);
 }

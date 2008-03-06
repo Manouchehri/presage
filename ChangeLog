@@ -1,3 +1,13 @@
+2008-03-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/core/utility: understand true and false too.
+
+	* src/core/selector: no longer cache selector variables, query
+	them from selector.
+
+	* src/core/selectorTest, src/core/profileManagerTest: changed
+	tests to use new selector api.
+
 2008-03-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/sqliteDatabaseConnector: fixed bug when attempting to

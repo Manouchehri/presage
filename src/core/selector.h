@@ -83,12 +83,13 @@ public:
 
     std::vector<std::string> select(Prediction);
 
-    int setSuggestions( const int );
-    int getSuggestions() const;
-    void setRepeatSuggestions( const bool );
-    bool getRepeatSuggestions() const;
-    void setGreedySuggestionThreshold( const unsigned int );
-    unsigned int getGreedySuggestionThreshold() const;
+    int suggestions() const;
+    bool repeat_suggestions() const;
+    unsigned int greedy_suggestion_threshold() const;
+
+    static const Variable SUGGESTIONS;
+    static const Variable REPEAT_SUGGESTIONS;
+    static const Variable GREEDY_SUGGESTION_THRESHOLD;
 
 private:
 
@@ -102,11 +103,8 @@ private:
 
     std::string previous_prefix;
 
-    int          SUGGESTIONS;
-    bool         REPEAT_SUGGESTION;
-    unsigned int GREEDY_SUGGESTION_THRESHOLD;
-
     ContextTracker* contextTracker;
+    Configuration*  config;
     Logger<char> logger;
 };
 
