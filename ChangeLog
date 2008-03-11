@@ -1,3 +1,7 @@
+2008-03-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian/soothsayer-doc.doc-base: update doc-base section.
+
 2008-03-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/core/utility: understand true and false too.
