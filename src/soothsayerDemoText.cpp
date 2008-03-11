@@ -24,6 +24,7 @@
 #include "soothsayer.h"
 
 #include <iostream>
+#include <sstream>
 #include <getopt.h>
 
 const char PROGRAM_NAME[] = "soothsayerDemoText";
@@ -74,7 +75,10 @@ int main(int argc, char** argv)
 	// be programmatically changed on-the-fly.
 	//
 
-//	soothsayer.config("Soothsayer.Selector.SUGGESTIONS", suggestions);
+	// convert int to string using a stringstream
+	std::stringstream ss;
+	ss << suggestions;
+	soothsayer.config("Soothsayer.Selector.SUGGESTIONS", ss.str());
     }
 
     // buffer to read user input

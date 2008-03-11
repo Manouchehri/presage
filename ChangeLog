@@ -1,5 +1,10 @@
 2008-03-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/soothsayer: added config() to API.
+
+	* src/soothsayerDemoText: added --suggestions flag to set number
+	of suggestions.
+	
 	* debian/soothsayer-doc.doc-base: update doc-base section.
 
 2008-03-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>

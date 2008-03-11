@@ -113,12 +113,32 @@ class Soothsayer {
      * \return context, text entered so far.
      */
     std::string context() const;
+
     /** \brief Returns true if a context change occured.
      *
      * \return true if a context change occured after the last update
      * or predict calls, or false otherwise.
      */
     bool contextChange() const;
+
+
+    /** \brief Gets the value of specified configuration variable.
+     *
+     * Programmatically get the value currently assigned to the
+     * specified configuration \param variable
+     *
+     * \return value assigned to configuration variable.
+     */
+    std::string config(const std::string variable) const;
+
+    /** \brief Sets the value of specified configuration variable.
+     *
+     * Programmatically set the specified configuration \param
+     * variable to \param value. This will override the setting read
+     * from the configuration file in use.
+     *
+     */
+    void config(const std::string variable, const std::string value);
 
   private:
     ProfileManager* profileManager;

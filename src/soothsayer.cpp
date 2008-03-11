@@ -144,3 +144,13 @@ bool Soothsayer::contextChange() const
 {
     return contextTracker->contextChange();
 }
+
+std::string Soothsayer::config(const std::string variable) const
+{
+    return configuration->get(variable);
+}
+
+void Soothsayer::config(const std::string variable, const std::string value)
+{
+    configuration->set(variable, value);
+}
