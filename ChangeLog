@@ -4,6 +4,8 @@
 
 	* src/soothsayerDemo: added -s suggestions functionality.
 
+	* Makefile.am: removed linda check, linda is obsolete.
+
 2008-03-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/soothsayer: added config() to API.

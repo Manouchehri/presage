@@ -72,10 +72,6 @@ debiancheck:
 	@echo "==== Begin lintian check ===="
 	lintian $(PACKAGE)_$(VERSION)*.changes
 	@echo "==== End lintian check   ===="
-	@echo 
-	@echo "==== Begin linda check   ===="
-	linda $(PACKAGE)_$(VERSION)*.changes
-	@echo "==== End linda check     ===="
 
 debianclean:
 	rm -f *.deb
