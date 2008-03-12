@@ -190,6 +190,7 @@ void printUsage()
               << "Any text input is valid, including no text, a single character, or a long string." << std::endl
               << std::endl
               << "  -c, --config CONFIG  use config file CONFIG" << std::endl
+              << "  -s, --suggestions N  set prediction size to N suggestions" << std::endl
               << "  -h, --help           display this help and exit" << std::endl
               << "  -v, --version        output version information and exit" << std::endl
               << std::endl

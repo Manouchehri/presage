@@ -53,7 +53,7 @@ void draw_function_keys(WINDOW*);
 void draw_previous_suggestions(std::vector<std::string>, bool, const int, int);
 size_t getGreatestSuggestionLength(std::vector< std::string > suggestions);
 
-const int SUGGESTIONS = 6;
+std::string suggestions;
 std::string config;
 
 /** Demo program using curses.
@@ -77,6 +77,13 @@ int main(int argc, char** argv)
 
     // magic starts here
     Soothsayer soothsayer(config);
+
+    // configuration variable may be read and written programmatically
+    if (suggestions.empty()) {
+	suggestions = soothsayer.config("Soothsayer.Selector.SUGGESTIONS");
+    } else {
+	soothsayer.config("Soothsayer.Selector.SUGGESTIONS", suggestions);
+    }
 
     // curses 
     initscr();
@@ -105,7 +112,7 @@ int main(int argc, char** argv)
     draw_context_win(context_win, std::string(""));
 
     // curses function keys window
-    const int FUNCTION_WIN_HEIGHT  = 6 + 2;
+    const int FUNCTION_WIN_HEIGHT  = atoi(suggestions.c_str()) + 2;
     const int FUNCTION_WIN_WIDTH   = 4;
     const int FUNCTION_WIN_BEGIN_Y = CONTEXT_WIN_BEGIN_Y + CONTEXT_WIN_HEIGHT + 1;
     const int FUNCTION_WIN_BEGIN_X = 0;
@@ -190,7 +197,7 @@ void draw_function_keys(WINDOW* win)
 {
     wclear(win);
     box(win, 0, 0);
-    for (int i = 1; i <= SUGGESTIONS; i++) {
+    for (int i = 1; i <= atoi(suggestions.c_str()); i++) {
         std::stringstream ss;
         ss << 'F' << i;
         mvwprintw(win, i, 1, ss.str().c_str());
@@ -219,7 +226,7 @@ void draw_previous_suggestions(std::vector<std::string> words, bool contextChang
 	// suggestions
 	// 
 	std::vector< std::string > marker;
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < atoi(suggestions.c_str()); i++) {
 	    marker.push_back("|");
 	}
 	previousSuggestions.insert(previousSuggestions.begin(), marker);
@@ -316,12 +323,13 @@ void parseCommandLineArgs(int argc, char* argv[])
     int next_option;
 	
     // getopt structures
-    const char* const short_options = "c:hv";
+    const char* const short_options = "c:s:hv";
 
     const struct option long_options[] = {
-        { "config",  required_argument, 0, 'c' },
-	{ "help",    no_argument,       0, 'h' },
-	{ "version", no_argument,       0, 'v' },
+        { "config",       required_argument, 0, 'c' },
+	{ "suggestions",  required_argument, 0, 's' },
+	{ "help",         no_argument,       0, 'h' },
+	{ "version",      no_argument,       0, 'v' },
 	{ 0, 0, 0, 0 }
     };
 
@@ -333,6 +341,9 @@ void parseCommandLineArgs(int argc, char* argv[])
         case 'c': // --config or -c option
             config = optarg;
             break;
+	case 's': // --suggestions or -s option
+	    suggestions = optarg;
+	    break;
 	case 'h': // --help or -h option
 	    printUsage();
 	    exit (0);
@@ -373,6 +384,7 @@ void printUsage()
 	      << "corresponding function key." << std::endl
 	      << std::endl
               << "  -c, --config CONFIG  use config file CONFIG" << std::endl
+              << "  -s, --suggestions N  set prediction size to N suggestions" << std::endl
 	      << "  -h, --help           display this help and exit" << std::endl
 	      << "  -v, --version        output version information and exit" << std::endl
 	      << std::endl

@@ -1,3 +1,9 @@
+2008-03-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/soothsayerDemoText: documented -s flag.
+
+	* src/soothsayerDemo: added -s suggestions functionality.
+
 2008-03-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/soothsayer: added config() to API.
