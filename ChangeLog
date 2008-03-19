@@ -1,3 +1,7 @@
+2008-03-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* doc/Makefile.am: fixed minor issue with automake install hook.
+
 2008-03-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/soothsayerDemoText: documented -s flag.

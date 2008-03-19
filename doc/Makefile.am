@@ -28,15 +28,15 @@ EXTRA_DIST =	\
 if HAVE_DOXYGEN
 #pkgdata_DATA =	html latex
 install-data-local:
-	$(mkinstalldirs) $(DESTDIR)/$(pkgdatadir)/html
+	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/html
 	for i in `find html -type f`; \
 	do \
-		$(INSTALL_DATA) $$i $(DESTDIR)/$(pkgdatadir)/$$i; \
+		$(INSTALL_DATA) $$i $(DESTDIR)$(pkgdatadir)/$$i; \
 	done
-	$(mkinstalldirs) $(DESTDIR)/$(pkgdatadir)/latex
+	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/latex
 	for i in `find latex -type f`; \
 	do \
-		$(INSTALL_DATA) $$i $(DESTDIR)/$(pkgdatadir)/$$i; \
+		$(INSTALL_DATA) $$i $(DESTDIR)$(pkgdatadir)/$$i; \
 	done
 
 all-local:	doxygen.timestamp
@@ -51,5 +51,5 @@ distclean-local:
 	rm -rf html latex
 
 uninstall-local:
-	rm -rf $(DESTDIR)/$(pkgdatadir)/html $(DESTDIR)/$(pkgdatadir)/latex
+	rm -rf $(DESTDIR)$(pkgdatadir)/html $(DESTDIR)$(pkgdatadir)/latex
 endif
