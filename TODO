@@ -28,6 +28,7 @@ Debian packaging
 
 Absolute first
  - text2ngram should link with libsoothsayer shared lib
+ - make all components aware of configuration variable runtime changes
  - remove debug variable printouts
  - implement logger level inheritance from parent module
  - ProfileManager logger level currently can not be read from profile

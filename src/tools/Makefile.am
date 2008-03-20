@@ -21,26 +21,57 @@
 
 ## Process this file with automake to produce Makefile.in
 
-bin_PROGRAMS =		text2ngram     
-
-text2ngram_SOURCES =	text2ngram.cpp
-text2ngram_LDADD =	libtools.la        \
-			../core/libcore.la
-
 noinst_LTLIBRARIES =	libtools.la
-
-libtools_la_SOURCES =	progress.cpp progress.h           \
+libtools_la_SOURCES =	progress.cpp progress.h \
 			ngram.cpp ngram.h                 
 libtools_la_LIBADD =	$(SQLITE_LIBS)
 
-AM_CPPFLAGS =	-I$(top_srcdir)/src
+bin_PROGRAMS =		text2ngram          \
+			soothsayerDemoText  \
+			soothsayerSimulator  
 
-dist_man_MANS =	text2ngram.1
+if HAVE_CURSES
+bin_PROGRAMS +=			soothsayerDemo       
+
+soothsayerDemo_SOURCES =	soothsayerDemo.cpp
+soothsayerDemo_LDADD =		../lib/libsoothsayer.la
+soothsayerDemo_LDFLAGS =	-lcurses
+endif
+
+soothsayerDemoText_SOURCES = 	soothsayerDemoText.cpp
+soothsayerDemoText_LDADD = 	../lib/libsoothsayer.la
+
+soothsayerSimulator_SOURCES =	soothsayerSimulator.cpp
+soothsayerSimulator_LDADD =	../lib/libsoothsayer.la  
+
+text2ngram_SOURCES =		text2ngram.cpp
+text2ngram_LDADD =		../lib/libsoothsayer.la \
+				libtools.la
+
+AM_CPPFLAGS =			-I$(top_srcdir)/src/lib -I$(top_srcdir)/src
+
 
 if HAVE_HELP2MAN
 text2ngram.1:	text2ngram.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) text2ngram$(EXEEXT)
 	help2man --output=$@ --name="generate statistical n-gram data from text" ./text2ngram$(EXEEXT)
 
+soothsayerDemo.1:	soothsayerDemo.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) soothsayerDemo$(EXEEXT)
+	help2man --output=$@ --name="soothsayer demo program (ncurses)" ./soothsayerDemo$(EXEEXT)
+
+soothsayerDemoText.1:	soothsayerDemoText.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) soothsayerDemoText$(EXEEXT)
+	help2man --output=$@ --name="soothsayer demo program (text)" ./soothsayerDemoText$(EXEEXT)
+
+soothsayerSimulator.1:	soothsayerSimulator.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) soothsayerSimulator$(EXEEXT)
+	help2man --output=$@ --name="soothsayer simulator program" ./soothsayerSimulator$(EXEEXT)
+
 endif
+
+dist_man_MANS =	text2ngram.1          \
+		soothsayerDemo.1      \
+		soothsayerDemoText.1  \
+		soothsayerSimulator.1 
 

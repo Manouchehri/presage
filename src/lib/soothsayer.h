@@ -134,7 +134,7 @@ class Soothsayer {
     /** \brief Sets the value of specified configuration variable.
      *
      * Programmatically set the specified configuration \param
-     * variable to \param value. This will override the setting read
+     * variable to \param value . This will override the setting read
      * from the configuration file in use.
      *
      */

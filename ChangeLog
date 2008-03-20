@@ -1,3 +1,8 @@
+2008-03-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* changes: restructured source and test directory layout to better
+	reflect logical structure.
+
 2008-03-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* doc/Makefile.am: fixed minor issue with automake install hook.

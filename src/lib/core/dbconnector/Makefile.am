@@ -21,8 +21,13 @@
 
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES =		libsimulator.la
 
-libsimulator_la_SOURCES =	simulator.cpp simulator.h
+noinst_LTLIBRARIES =	libdbconnector.la
 
-AM_CPPFLAGS =	-I$(top_srcdir)/src
+libdbconnector_la_SOURCES =	databaseConnector.cpp             \
+				databaseConnector.h               \
+				sqliteDatabaseConnector.cpp       \
+				sqliteDatabaseConnector.h         
+libdbconnector_la_LIBADD =	$(SQLITE_LIBS)
+
+libdbconnector_la_CPPFLAGS =	-I$(top_srcdir)/src/lib

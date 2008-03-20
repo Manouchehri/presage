@@ -26,7 +26,7 @@
 #
 
 TEXT2NGRAM=../../src/tools/text2ngram
-SIMULATOR=../../src/soothsayerSimulator
+SIMULATOR=../../src/tools/soothsayerSimulator
 
 TRAINING_CORPUS=${srcdir}/../../COPYING
 CONTROL_CORPUS=`basename ${TRAINING_CORPUS}_excerpt.txt`

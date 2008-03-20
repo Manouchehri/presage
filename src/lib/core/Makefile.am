@@ -51,4 +51,4 @@ libcore_la_SOURCES =	prediction.cpp prediction.h         \
 libcore_la_LIBADD =	tokenizer/libtokenizer.la     \
 			dbconnector/libdbconnector.la 
 
-AM_CPPFLAGS =		-I$(top_srcdir)/src
+AM_CPPFLAGS =		-I$(top_srcdir)/src/lib -I$(top_srcdir)/src

@@ -21,28 +21,8 @@
 
 ## Process this file with automake to produce Makefile.in
 
-if HAVE_CPPUNIT
+noinst_LTLIBRARIES =		libsimulator.la
 
-TESTS =			tokenizerTestRunner
+libsimulator_la_SOURCES =	simulator.cpp simulator.h
 
-check_PROGRAMS =	$(TESTS)
-
-tokenizerTestRunner_SOURCES =	tokenizerTestRunner.cpp        \
-				testStringSuite.h              \
-				testStringSuite.cpp            \
-				forwardTokenizerTest.h         \
-				forwardTokenizerTest.cpp       \
-				reverseTokenizerTest.h         \
-				reverseTokenizerTest.cpp       \
-				crossCheckTokenizerTest.h      \
-				crossCheckTokenizerTest.cpp    \
-				stringForwardTokenizerTest.h   \
-				stringForwardTokenizerTest.cpp 
-tokenizerTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
-tokenizerTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-tokenizerTestRunner_LIBS =	-ldl
-tokenizerTestRunner_LDADD =	$(top_builddir)/src/core/tokenizer/libtokenizer.la
-
-AM_CPPFLAGS =	-I$(top_srcdir)/src
-
-endif
+AM_CPPFLAGS =	-I$(top_srcdir)/src/lib

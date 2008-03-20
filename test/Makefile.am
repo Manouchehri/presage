@@ -21,7 +21,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	core plugins tools simulator integration
+SUBDIRS =	lib tools integration
 
 if HAVE_CPPUNIT
 
@@ -34,13 +34,6 @@ testRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 testRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 testRunner_LIBS =	-ldl
 
-
-LDADD =	$(top_builddir)/src/libsoothsayer.la \
-	$(top_builddir)/src/tools/libtools.la \
-	$(top_builddir)/src/tinyxml/libtinyxml.la
-
 AM_CPPFLAGS =	-I$(top_srcdir)/src
-
-DEPENDENCIES =	libsoothsayer.la
 
 endif

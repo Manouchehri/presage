@@ -21,7 +21,7 @@
                                                                              *
                                                                 **********(*)*/
 
-#include <testStringSuite.h>
+#include "testStringSuite.h"
 
 #include <iostream>
 #include <assert.h>

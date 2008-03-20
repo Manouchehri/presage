@@ -57,4 +57,4 @@ libDummyPlugin_la_SOURCES =		dummyPlugin.cpp         \
 					dummyPlugin.h           
 
 
-AM_CPPFLAGS = -I$(top_srcdir)/src
+AM_CPPFLAGS = -I$(top_srcdir)/src/lib

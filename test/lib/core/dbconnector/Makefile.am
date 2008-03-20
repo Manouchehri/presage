@@ -21,13 +21,25 @@
 
 ## Process this file with automake to produce Makefile.in
 
+if HAVE_CPPUNIT
 
-noinst_LTLIBRARIES =	libdbconnector.la
+TESTS =	dbconnectorTestRunner
 
-libdbconnector_la_SOURCES =	databaseConnector.cpp             \
-				databaseConnector.h               \
-				sqliteDatabaseConnector.cpp       \
-				sqliteDatabaseConnector.h         
-libdbconnector_la_LIBADD =	$(SQLITE_LIBS)
+check_PROGRAMS = $(TESTS)
 
-libdbconnector_la_CPPFLAGS =	-I$(top_srcdir)/src
+dbconnectorTestRunner_SOURCES =	dbconnectorTestRunner.cpp       \
+				databaseConnectorTest.cpp       \
+				databaseConnectorTest.h         \
+				sqliteDatabaseConnectorTest.cpp \
+				sqliteDatabaseConnectorTest.h   
+dbconnectorTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
+dbconnectorTestRunner_LDFLAGS =		$(CPPUNIT_LIBS)
+dbconnectorTestRunner_LIBS =		-ldl
+dbconnectorTestRunner_LDADD =		$(top_builddir)/src/lib/core/dbconnector/libdbconnector.la
+dbconnectorTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
+
+# Clean out files created during tests.
+# Required to make distcheck happy.
+DISTCLEANFILES =	test.db
+
+endif

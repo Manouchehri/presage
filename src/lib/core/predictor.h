@@ -43,6 +43,7 @@
 
 #include "plugins/plugin.h"
 
+
 #ifdef STDC_HEADERS
 # include <stdlib.h>  // needed for abort function
 #endif

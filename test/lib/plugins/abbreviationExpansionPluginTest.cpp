@@ -32,7 +32,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( AbbreviationExpansionPluginTest );
 AbbreviationExpansionPluginTest::AbbreviationExpansionPluginTest()
 {
     STANDARD_ABBREVIATION_FILE = static_cast<std::string>(getenv("srcdir"))
-	+ "/../../resources/abbreviations_en.txt";
+	+ "/../../../resources/abbreviations_en.txt";
 }
 
 void AbbreviationExpansionPluginTest::setUp()

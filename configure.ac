@@ -27,7 +27,7 @@ AC_INIT([soothsayer],
 	[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 
-AC_CONFIG_SRCDIR([src/soothsayer.cpp])
+AC_CONFIG_SRCDIR([src/lib/soothsayer.cpp])
 AC_CONFIG_HEADERS([config.h:config.hin])
 
 dnl Checks for programs.
@@ -208,20 +208,22 @@ AM_CONDITIONAL([HAVE_HELP2MAN], [test "x$HAVE_HELP2MAN" = "xyes"])
 AC_OUTPUT([
 	Makefile
 	src/Makefile
-	src/core/Makefile
-	src/core/tokenizer/Makefile
-	src/core/dbconnector/Makefile
-	src/plugins/Makefile
+	src/lib/Makefile
+	src/lib/core/Makefile
+	src/lib/core/tokenizer/Makefile
+	src/lib/core/dbconnector/Makefile
+	src/lib/simulator/Makefile
+	src/lib/tinyxml/Makefile
+	src/lib/plugins/Makefile
 	src/tools/Makefile
-	src/simulator/Makefile
-	src/tinyxml/Makefile
 	test/Makefile
-	test/core/Makefile
-	test/core/tokenizer/Makefile
-	test/core/dbconnector/Makefile
-	test/plugins/Makefile
+	test/lib/Makefile
+	test/lib/core/Makefile
+	test/lib/core/tokenizer/Makefile
+	test/lib/core/dbconnector/Makefile
+	test/lib/plugins/Makefile
+	test/lib/simulator/Makefile
 	test/tools/Makefile
-	test/simulator/Makefile
 	test/integration/Makefile
 	resources/Makefile
 	resources/profiles/Makefile
