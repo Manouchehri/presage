@@ -1,3 +1,10 @@
+2008-03-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/lib/Makefile.am: added -version-info to libsoothsayer.
+	
+	* src/tools/Makefile.am: removed text2ngram unnecessary linking
+	with sqlite library.
+
 2008-03-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* website: added link to ChangeLog in news section.

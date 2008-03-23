@@ -24,7 +24,6 @@
 noinst_LTLIBRARIES =	libtools.la
 libtools_la_SOURCES =	progress.cpp progress.h \
 			ngram.cpp ngram.h                 
-libtools_la_LIBADD =	$(SQLITE_LIBS)
 
 bin_PROGRAMS =		text2ngram          \
 			soothsayerDemoText  \

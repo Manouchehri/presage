@@ -27,7 +27,7 @@ include_HEADERS =		soothsayer.h
 
 lib_LTLIBRARIES = 		libsoothsayer.la
 libsoothsayer_la_SOURCES = 	soothsayer.cpp soothsayer.h
-libsoothsayer_la_LIBADD =	core/libcore.la       \
+libsoothsayer_la_LIBADD =	core/libcore.la \
 				tinyxml/libtinyxml.la \
 				simulator/libsimulator.la \
 				plugins/libplugin.la  \
@@ -42,4 +42,6 @@ libsoothsayer_la_LIBADD =	core/libcore.la       \
 
 #				REVISIT add libplump.la when using plump
 #				plump/src/libplump.la 
-libsoothsayer_la_LDFLAGS =	-no-undefined
+
+libsoothsayer_la_LDFLAGS =	-no-undefined \
+				-version-info 0:0:0 
