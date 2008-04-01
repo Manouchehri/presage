@@ -1,3 +1,7 @@
+2008-04-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* configure.ac: fixed autoconf checks for python.
+
 2008-03-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/lib/Makefile.am: added -version-info to libsoothsayer.

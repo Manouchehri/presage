@@ -143,20 +143,28 @@ AM_CONDITIONAL(HAVE_SWIG, test "$SWIG")
 dnl =================
 dnl Checks for Python
 dnl =================
-AM_PATH_PYTHON([1.5],
+AM_PATH_PYTHON([2.0],
                [],
                [AC_MSG_WARN([Python not found. Python is required to build soothsayer python binding. Python can be obtained from http://www.python.org])])
-AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON")
+if test "$PYTHON"
+then
+    python_include_path=`$PYTHON -c "import distutils.sysconfig; print distutils.sysconfig.get_python_inc();"`
+    AC_CHECK_HEADERS([${python_include_path}/Python.h],
+                     [have_python_header=true],
+                     [AC_MSG_WARN([Python.h header file not found. Python development files are required to build soothsayer python binding. Python can be obtained from http://www.python.org])],
+                     [])
+fi
+AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON" -a "x$have_python_header" = "xtrue")
 
 
 AC_ARG_ENABLE([python-binding],
               AS_HELP_STRING([--enable-python-binding],
-                             [build python binding (default=no]),
+                             [build python binding (default=no)]),
               [ac_enable_python_binding=yes],
               [ac_enable_python_binding=no])
 if test "x$ac_enable_python_binding" = "xyes"
 then
-    if test ! "$SWIG" -a ! "$PYTHON"
+    if test ! "$SWIG" -o ! "$PYTHON" -o ! "x$have_python_header" = "xtrue"
     then
         AC_MSG_WARN([Python binding for soothsayer cannot be built. Ensure that SWIG and Python packages are available.])
     fi
@@ -246,7 +254,7 @@ then
 else
     build_unit_tests="no"
 fi
-if test "$SWIG" -a "$PYTHON" -a "$ac_enable_python_binding"
+if test "$SWIG" -a "$PYTHON" -a "x$have_python_header" = "xtrue" -a "x$ac_enable_python_binding" = "xyes"
 then
     build_python_binding="yes"
 else
