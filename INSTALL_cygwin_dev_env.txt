@@ -41,33 +41,20 @@ STEP 1: Select which packages to install
 You want to make sure that the following packages are selected:
 
   Devel
-    binutils
-    gcc-core
-    gcc-g++
-    gcc-mingw-core
-    gcc-mingw-g++
-    make
-    mingw-runtime
-
     autoconf
-    autoconf-devel
     automake
-    automake-devel
+    cppunit (optional)
+    gcc-g++
+    help2man
+    libncurses-devel (optional)
     libtool
-    libtool-devel
-    libtool-stable
-
-    cvs
+    make
+    sqlite3
     subversion
+    swig (optional)
 
-    cppunit
-
-    libncurses-devel
-
-    swig
-    
   Interpreters
-    python
+    python (optional)
 
 
 then go ahead and click next. The packages will download and install
@@ -83,7 +70,7 @@ STEP 2: Copy the Soothsayer distribution to your home directory
 
 Double-click on the Cygwin icon that was created by the Cygwin
 installation program. This opens a bash shell and puts you in your
-unix home directory.
+cygwin home directory.
 
 Copy the Soothsayer distribution to your home directory by following
 these simple steps:
@@ -93,14 +80,25 @@ these simple steps:
   - type a space followed by a dot `.'
   - press ENTER
 
+Please ensure that the full path to the directory where you copy the
+soothsayer distribution does not contain spaces (libtool might choke
+on space separated paths, depending on which version is
+installed). You can check that by issuing the `pwd' command.
+
 
 _____________________________________
 STEP 3: Install the required packages
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Download SQLite version 2.8.*.
-You will need to get the source from the cvs repository.
-Instructions are available on sqlite.org download page. 
+Cygwin now includes SQLite 3. SQLite 3.x is recommended over SQLite
+2.8.x. However, should you want to use SQLite 2.8.x instead, you will
+have to manually download and install it.
+
+[ONLY follow these steps if you require to use SQLite version 2.8.x
+instead of SQLite version 3.x]
+
+You will need to get the source from the cvs repository. Instructions
+are available on sqlite.org download page.
 
 In short, you will have to run:
 cvs -d :pserver:anonymous@www.sqlite.org:/sqlite login
@@ -119,15 +117,6 @@ It is just a matter of running:
   make install
 
 in most cases.
-
-OPTIONAL:
-If you would like to run the unit tests (by running `make check'),
-then you need to install cppunit. CppUnit can be installed using
-cygwin installer. However, due to a bug in CppUnit on Windows, you
-should install the source package and build only static libraries.
-
-This is achieved by configuring the cppunit package with:
-`./configure --disable-shared --prefix=/usr'
 
 
 _____________________________________

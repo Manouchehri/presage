@@ -1,3 +1,11 @@
+2008-04-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/fix_wrapper.sed: fixed sed script to workaround
+	swig bug.
+
+	* INSTALL_cygwin_dev_env.txt: updated cygwin developer environment
+	installation instructions. 
+
 2008-04-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: fixed autoconf checks for python.
