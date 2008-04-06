@@ -1,3 +1,8 @@
+2008-04-06  Matteo Vescovi  <matt@burrow.oz>
+
+	* website/soothsayer_database_dump.sql.gz: announcing 0.6.1
+	release.
+
 2008-04-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: added configuration report for man pages.
