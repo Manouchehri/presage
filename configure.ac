@@ -269,6 +269,7 @@ AC_MSG_RESULT([
     Curses demo application: .... ${build_demo_application}
     Unit tests: ................. ${build_unit_tests}
     Python binding: ............. ${build_python_binding}
+    Man pages: .................. ${HAVE_HELP2MAN}
     API Documentation: .......... ${HAVE_DOXYGEN}
 
   Building:

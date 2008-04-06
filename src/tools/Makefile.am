@@ -67,10 +67,8 @@ soothsayerSimulator.1:	soothsayerSimulator.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) soothsayerSimulator$(EXEEXT)
 	help2man --output=$@ --name="soothsayer simulator program" ./soothsayerSimulator$(EXEEXT)
 
-endif
-
 dist_man_MANS =	text2ngram.1          \
 		soothsayerDemo.1      \
 		soothsayerDemoText.1  \
 		soothsayerSimulator.1 
-
+endif

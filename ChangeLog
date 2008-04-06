@@ -1,3 +1,11 @@
+2008-04-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* configure.ac: added configuration report for man pages.
+
+	* src/tools/Makefile.am: only distribute manpages if generated.
+
+	* debian/control: added build dependency on help2man.
+
 2008-04-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/fix_wrapper.sed: fixed sed script to workaround
