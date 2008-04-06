@@ -5,6 +5,10 @@
 	* NEWS, website/soothsayer_database_dump.sql.gz: announcing 0.6.1
 	release.
 
+	* bindings/soothsayer.i: update copyright and license notice.
+
+	* bindings/Makefile.am: added soothsayer.i to distribution.
+
 2008-04-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: added configuration report for man pages.
