@@ -30,7 +30,7 @@ SWIG_INTERFACE =	../soothsayer.i
 BUILT_SOURCES =		soothsayer_wrap.cpp soothsayer.py
 CLEANFILES =		soothsayer_wrap.cpp soothsayer.py
 
-EXTRA_DIST =	runme.py
+EXTRA_DIST =	runme.py fix_wrapper.sed
 
 all-local:	soothsayer_wrap.cpp soothsayer.py
 	$(PYTHON) setup.py build

@@ -9,6 +9,8 @@
 
 	* bindings/Makefile.am: added soothsayer.i to distribution.
 
+	* bindings/python/fix_wrapper.sed: added to distribution.
+
 2008-04-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: added configuration report for man pages.
