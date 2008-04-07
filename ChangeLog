@@ -1,4 +1,9 @@
-2008-04-06  Matteo Vescovi  <matt@burrow.oz>
+2008-04-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/prompter.py: initial commit of prompter
+	graphical user interface demonstration program.
+
+2008-04-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: bumped release version up to 0.6.1.
 	
