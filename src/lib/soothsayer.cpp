@@ -145,6 +145,11 @@ bool Soothsayer::contextChange() const
     return contextTracker->contextChange();
 }
 
+std::string Soothsayer::prefix() const
+{
+    return contextTracker->getPrefix();
+}
+
 std::string Soothsayer::config(const std::string variable) const
 {
     return configuration->get(variable);

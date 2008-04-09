@@ -2,8 +2,6 @@
 
 import wx
 import wx.stc
-#import wx.lib.editor
-
 import soothsayer
 
 class Prompter(wx.App):
@@ -18,8 +16,6 @@ class PrompterFrame(wx.Frame):
 
       self.MakeMenuBar()
 
-      # don't use wx.lib.editor, use stc instead
-      #self.editor = wx.lib.editor.Editor(self, id, style=wx.SUNKEN_BORDER)
       self.editor = PrompterEditor(self)
 
       self.sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -34,15 +30,15 @@ class PrompterFrame(wx.Frame):
 
       # file menu
       self.fileMenu = wx.Menu()
-      BindMenu(self.fileMenu.Append(wx.ID_ANY, "&Open"), self.OnFileMenuOpen)
+      BindMenu(self.fileMenu.Append(wx.ID_ANY, "&Open\tCTRL+O"), self.OnFileMenuOpen)
       self.fileMenu.AppendSeparator()
-      BindMenu(self.fileMenu.Append(wx.ID_ANY, "&Close"), self.OnFileMenuClose)
+      BindMenu(self.fileMenu.Append(wx.ID_ANY, "&Close\tCTRL+W"), self.OnFileMenuClose)
 
       # help menu
       self.helpMenu = wx.Menu()
-      BindMenu(self.helpMenu.Append(wx.ID_ANY, "&Contents"), self.OnHelpMenuContents)
+      BindMenu(self.helpMenu.Append(wx.ID_ANY, "&Contents\tF1"), self.OnHelpMenuContents)
       self.helpMenu.AppendSeparator()
-      BindMenu(self.helpMenu.Append(wx.ID_ANY, "&About"), self.OnHelpMenuAbout)
+      BindMenu(self.helpMenu.Append(wx.ID_ANY, "&About\tCTRL+A"), self.OnHelpMenuAbout)
 
       # menu bar
       self.menuBar = wx.MenuBar()
@@ -72,8 +68,11 @@ FOR A PARTICULAR PURPOSE, to the extent permitted by law."""
 class PrompterEditor(wx.stc.StyledTextCtrl):
    def __init__(self, parent):
       wx.stc.StyledTextCtrl.__init__(self, parent)
+
       self.soothie = soothsayer.Soothsayer()
-      self.Bind(wx.EVT_CHAR, self.OnChar)
+
+      #self.Bind(wx.EVT_CHAR, self.OnChar)
+      self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
    def OnChar(self, event):
       prediction = self.soothie.predict(event.GetUnicodeKey())
@@ -88,6 +87,71 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
       self.AutoCompShow(0, prediction_str)
       event.Skip()
+
+   def OnModified(self, event):
+      print """OnModified
+        Mod type:     %s
+        At position:  %d
+        Lines added:  %d
+        Text Length:  %d
+        Text:         %s\n""" % ( self.transModType(event.GetModificationType()),
+                                  event.GetPosition(),
+                                  event.GetLinesAdded(),
+                                  event.GetLength(),
+                                  repr(event.GetText()) )
+
+
+
+      if wx.stc.STC_MOD_INSERTTEXT & event.GetModificationType():
+         print "STC_MOD_INSERTTEXT : " + str(event.GetText())
+         prediction = self.soothie.predict(str(event.GetText()))
+
+         suggestions = " ".join(prediction);
+
+         prefix = self.soothie.prefix()
+
+         print "Context:    " + self.soothie.context()
+         print "Prefix:     " + prefix
+         print len(prefix)
+         print "Prediction: " + suggestions
+
+         self.AutoCompShow(len(prefix), suggestions)
+
+      elif wx.stc.STC_MOD_DELETETEXT & event.GetModificationType():
+         print "STC_MOD_DELETETEXT : " + str(event.GetText())
+         for i in str(event.GetText()):
+            self.soothie.update('\b')
+
+      else:
+         print "Unhandled STC_MOD event received"
+
+   #event.Skip()
+
+
+   def transModType(self, modType):
+      st = ""
+      table = [(wx.stc.STC_MOD_INSERTTEXT, "InsertText"),
+               (wx.stc.STC_MOD_DELETETEXT, "DeleteText"),
+               (wx.stc.STC_MOD_CHANGESTYLE, "ChangeStyle"),
+               (wx.stc.STC_MOD_CHANGEFOLD, "ChangeFold"),
+               (wx.stc.STC_PERFORMED_USER, "UserFlag"),
+               (wx.stc.STC_PERFORMED_UNDO, "Undo"),
+               (wx.stc.STC_PERFORMED_REDO, "Redo"),
+               (wx.stc.STC_LASTSTEPINUNDOREDO, "Last-Undo/Redo"),
+               (wx.stc.STC_MOD_CHANGEMARKER, "ChangeMarker"),
+               (wx.stc.STC_MOD_BEFOREINSERT, "B4-Insert"),
+               (wx.stc.STC_MOD_BEFOREDELETE, "B4-Delete")
+               ]
+
+      for flag,text in table:
+         if flag & modType:
+            st = st + text + " "
+            
+         if not st:
+            st = 'UNKNOWN '
+
+      return st
+
 
 if __name__ == "__main__":
    app = Prompter()

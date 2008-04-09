@@ -121,6 +121,11 @@ class Soothsayer {
      */
     bool contextChange() const;
 
+    /** \brief Returns the current prefix.
+     *
+     * \return prefix
+     */
+    std::string prefix() const;
 
     /** \brief Gets the value of specified configuration variable.
      *
