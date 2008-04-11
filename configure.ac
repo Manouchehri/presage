@@ -61,6 +61,7 @@ dnl Checks for header files
 dnl =======================
 AC_STDC_HEADERS
 AC_HEADER_DIRENT
+AC_CHECK_HEADERS([pwd.h])
 
 dnl ==================
 dnl Checks for ncurses

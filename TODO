@@ -7,6 +7,11 @@ TODO list
 ---------
 
 
+Mingw and MSYS support
+ - conditionally depend on pwd.h
+ - fix get_home_dir() in ProfileManager
+
+
 Consider removing the following public methods from Variable
    interface:
  - Variable();

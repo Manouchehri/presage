@@ -1,3 +1,9 @@
+2008-04-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* configure.ac: added autoconf check for pwd.h.
+
+	* debian/changelog: update changelog to current soothsayer release.
+
 2008-04-09  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/prompter.py: improved autocompletion
