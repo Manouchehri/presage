@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #############
 #  Soothsayer, an extensible predictive text entry system

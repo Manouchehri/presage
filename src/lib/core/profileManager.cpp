@@ -25,7 +25,10 @@
 #include "core/utility.h"        // isYes isNo isTrue isFalse utility function
 #include "dirs.h"                // sysconfdir macro define
 
-#include <pwd.h>
+#ifdef HAVE_PWD_H
+# include <pwd.h>
+#endif
+
 #include <stdlib.h>
 
 /** Constructor.
@@ -58,6 +61,7 @@ std::string ProfileManager::get_user_home_dir() const
 {
     std::string result;
   
+#ifdef HAVE_PWD_H
     uid_t me;
     struct passwd *my_passwd;
     
@@ -72,6 +76,9 @@ std::string ProfileManager::get_user_home_dir() const
         // read $HOME env variable
         result = getenv("HOME");
     }
+#else // HAVE_PWD_H
+    result = getenv("HOME");
+#endif // HAVE_PWD_H
 
     return result;
 }

@@ -1,3 +1,9 @@
+2008-04-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/lib/core/profileManager.cpp, bindings/python/Makefile.am,
+	resources/profiles/generate_soothsayer_config.sh: adding support
+	for MinGW/MSYS.
+
 2008-04-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: added autoconf check for pwd.h.

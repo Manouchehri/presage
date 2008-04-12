@@ -33,7 +33,14 @@ CLEANFILES =		soothsayer_wrap.cpp soothsayer.py
 EXTRA_DIST =	runme.py fix_wrapper.sed
 
 all-local:	soothsayer_wrap.cpp soothsayer.py
-	$(PYTHON) setup.py build
+	@case "`uname`" in \
+	  MINGW*) \
+	    $(PYTHON) setup.py build --compiler=mingw32 \
+	  ;; \
+	  *) \
+	    $(PYTHON) setup.py build \
+	  ;; \
+	esac;
 
 install-exec-local:
 	$(PYTHON) setup.py install --prefix=$(prefix)
