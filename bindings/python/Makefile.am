@@ -25,6 +25,7 @@ if HAVE_SWIG
 if HAVE_PYTHON
 if ENABLE_PYTHON_BINDING
 
+SOOTHSAYER_INTERFACE =	../../src/lib/soothsayer.h
 SWIG_INTERFACE =	../soothsayer.i
 
 BUILT_SOURCES =		soothsayer_wrap.cpp soothsayer.py
@@ -48,7 +49,7 @@ install-exec-local:
 clean-local:
 	rm -rf build
 
-soothsayer_wrap.cpp soothsayer.py:	$(SWIG_INTERFACE)
+soothsayer_wrap.cpp soothsayer.py:	$(SWIG_INTERFACE) $(SOOTHSAYER_INTERFACE)
 	$(SWIG) -c++ -python -I$(top_srcdir)/src/lib -o soothsayer_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)
 	@if test "x`uname -o`" = "xCygwin"; then \
 		echo "WARNING: working around bug in SWIG on Windows/Cygwin platforms ONLY"; \
