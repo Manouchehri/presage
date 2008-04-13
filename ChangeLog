@@ -1,3 +1,9 @@
+2008-04-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/prompter.py: additional work to fix bugs with
+	autocompletion and keeping soothsayer in sync with autocompletion
+	updates.
+
 2008-04-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/lib/core/profileManager.cpp, bindings/python/Makefile.am,

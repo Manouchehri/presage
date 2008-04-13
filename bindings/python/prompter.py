@@ -71,22 +71,28 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
       self.soothie = soothsayer.Soothsayer()
 
-      #self.Bind(wx.EVT_CHAR, self.OnChar)
+      self.Bind(wx.EVT_CHAR, self.OnChar)
       self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
    def OnChar(self, event):
-      prediction = self.soothie.predict(event.GetUnicodeKey())
+      key = chr(event.GetKeyCode())
+      prediction = self.soothie.predict(key)
+      suggestions = " ".join(prediction);
+      prefix = self.soothie.prefix()
 
-      #self.AutoCompSetMaxHeight(6) # should be set to soothsayer prediction size
-      #self.AutoCompSetFillUps("\n\t")
+      print "------------"
+      print "Key:        " + key
+      print "Prefix:     " + prefix
+      print "Prefix len: " + str(len(prefix))
+      print "Context:    " + self.soothie.context()
+      print "Prediction: " + suggestions
 
-      prediction_str = " ".join(prediction);
+      if self.AutoCompActive():
+         self.AutoCompCancel()
 
-      print prediction
-      print self.soothie.context()
+      self.AddText(key)
 
-      self.AutoCompShow(0, prediction_str)
-      event.Skip()
+      self.AutoCompShow(len(prefix), suggestions)
 
    def OnModified(self, event):
       print """OnModified
@@ -100,32 +106,22 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
                                   event.GetLength(),
                                   repr(event.GetText()) )
 
-
-
       if wx.stc.STC_MOD_INSERTTEXT & event.GetModificationType():
          print "STC_MOD_INSERTTEXT : " + str(event.GetText())
-         prediction = self.soothie.predict(str(event.GetText()))
 
-         suggestions = " ".join(prediction);
-
-         prefix = self.soothie.prefix()
+         self.soothie.update(str(event.GetText()))
 
          print "Context:    " + self.soothie.context()
-         print "Prefix:     " + prefix
-         print len(prefix)
-         print "Prediction: " + suggestions
-
-         self.AutoCompShow(len(prefix), suggestions)
 
       elif wx.stc.STC_MOD_DELETETEXT & event.GetModificationType():
          print "STC_MOD_DELETETEXT : " + str(event.GetText())
          for i in str(event.GetText()):
             self.soothie.update('\b')
 
+         print "Context:    " + self.soothie.context()
+
       else:
          print "Unhandled STC_MOD event received"
-
-   #event.Skip()
 
 
    def transModType(self, modType):
@@ -140,7 +136,8 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
                (wx.stc.STC_LASTSTEPINUNDOREDO, "Last-Undo/Redo"),
                (wx.stc.STC_MOD_CHANGEMARKER, "ChangeMarker"),
                (wx.stc.STC_MOD_BEFOREINSERT, "B4-Insert"),
-               (wx.stc.STC_MOD_BEFOREDELETE, "B4-Delete")
+               (wx.stc.STC_MOD_BEFOREDELETE, "B4-Delete"),
+               (wx.stc.STC_MODEVENTMASKALL, "MaskAll")
                ]
 
       for flag,text in table:
