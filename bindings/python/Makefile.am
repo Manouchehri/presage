@@ -44,7 +44,15 @@ all-local:	soothsayer_wrap.cpp soothsayer.py
 	esac;
 
 install-exec-local:
-	$(PYTHON) setup.py install --prefix=$(prefix)
+	@case "`uname`" in \
+	  MINGW*) \
+	    NATIVE_WINDOWS_PREFIX=`cd $(prefix) && pwd -W`; \
+	    $(PYTHON) setup.py install --prefix=$$NATIVE_WINDOWS_PREFIX \
+	  ;; \
+	  *) \
+	    $(PYTHON) setup.py install --prefix=$(prefix) \
+	  ;; \
+	esac;
 
 clean-local:
 	rm -rf build

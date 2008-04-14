@@ -72,15 +72,17 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.soothie = soothsayer.Soothsayer()
 
       self.Bind(wx.EVT_CHAR, self.OnChar)
-      self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
+      self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
+      #self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
    def OnChar(self, event):
       key = chr(event.GetKeyCode())
+      self.AddText(key)
       prediction = self.soothie.predict(key)
       suggestions = " ".join(prediction);
       prefix = self.soothie.prefix()
 
-      print "------------"
+      print "------------ OnChar() handler"
       print "Key:        " + key
       print "Prefix:     " + prefix
       print "Prefix len: " + str(len(prefix))
@@ -90,9 +92,27 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       if self.AutoCompActive():
          self.AutoCompCancel()
 
-      self.AddText(key)
+      # AutoCompShow() does not generate an event when autocompletion is
+      # successful, hence it is not possible to notify soothsayer that
+      # the current token was completed.
+      #self.AutoCompShow(len(prefix), suggestions)
 
-      self.AutoCompShow(len(prefix), suggestions)
+      # UserListShow() throws an EVT_STC_USERLISTSELECTION event that we
+      # can handle to notify soothsayer that the token was automatically
+      # completed.
+      self.UserListShow(1, suggestions)
+
+   def OnUserListSelection(self, event):
+      completion = str(event.GetText())
+      prefix_length = len(self.soothie.prefix())
+      
+      print "----------- OnUserListSelection() handler"
+      print "Completion:    " + completion
+      print "Prefix length: " + str(prefix_length)
+      print "To be added:   " + completion[prefix_length:]
+
+      self.soothie.complete(completion)
+      self.AddText(completion[prefix_length:])
 
    def OnModified(self, event):
       print """OnModified

@@ -1,3 +1,11 @@
+2008-04-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/Makefile.am: fixing python distutils install
+	target by using clever hack to get native Win32 path in MSYS.
+	
+	* bindings/python/prompter.py: fixed problems with autocompletion,
+	which now almost works for simple cases.
+
 2008-04-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/Makefile.am: added dependency on soothsayer.h
