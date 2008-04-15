@@ -36,21 +36,29 @@ EXTRA_DIST =	runme.py fix_wrapper.sed
 all-local:	soothsayer_wrap.cpp soothsayer.py
 	@case "`uname`" in \
 	  MINGW*) \
-	    $(PYTHON) setup.py build --compiler=mingw32 \
+		$(PYTHON) setup.py build --compiler=mingw32 \
 	  ;; \
 	  *) \
-	    $(PYTHON) setup.py build \
+		$(PYTHON) setup.py build \
 	  ;; \
 	esac;
 
+# python on MinGW/MSYS requires pure Windows style paths
+# Using following (cd $dir && pwd -W) hack to get a nearly
+# native Windows path, then translating the forward slash
+# to a backward slash to make python distutils jolly.
+# P.S. the backslash has to be escaped thrice, hence a single
+# backslash turns into a sequence of eight (neat, huh?)
+#
 install-exec-local:
 	@case "`uname`" in \
 	  MINGW*) \
-	    NATIVE_WINDOWS_PREFIX=`cd $(prefix) && pwd -W`; \
-	    $(PYTHON) setup.py install --prefix=$$NATIVE_WINDOWS_PREFIX \
+		NATIVE_WINDOWS_PREFIX="`cd $(prefix) && pwd -W`"; \
+		NATIVE_WINDOWS_PREFIX="`echo $$NATIVE_WINDOWS_PREFIX | tr / \\\\\\\\`"; \
+		$(PYTHON) setup.py install --prefix="$$NATIVE_WINDOWS_PREFIX" \
 	  ;; \
 	  *) \
-	    $(PYTHON) setup.py install --prefix=$(prefix) \
+		$(PYTHON) setup.py install --prefix=$(prefix) \
 	  ;; \
 	esac;
 
@@ -59,10 +67,12 @@ clean-local:
 
 soothsayer_wrap.cpp soothsayer.py:	$(SWIG_INTERFACE) $(SOOTHSAYER_INTERFACE)
 	$(SWIG) -c++ -python -I$(top_srcdir)/src/lib -o soothsayer_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)
-	@if test "x`uname -o`" = "xCygwin"; then \
+	@case "`uname`" in \
+	  CYGWIN*) \
 		echo "WARNING: working around bug in SWIG on Windows/Cygwin platforms ONLY"; \
 		sed -i.bak -f $(srcdir)/fix_wrapper.sed soothsayer_wrap.cpp; \
-	fi
+	  ;; \
+	esac;
 
 endif # ENABLE_PYTHON_BINDING
 endif # HAVE_PYTHON

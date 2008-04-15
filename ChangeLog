@@ -1,3 +1,11 @@
+2008-04-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/Makefile.am: fixed python binding installation
+	on MinGW/MSYS.
+	
+	* resources/profiles/Makefile.am: fixed config file generation on
+	MinGW/MSYS.
+
 2008-04-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/Makefile.am: fixing python distutils install
