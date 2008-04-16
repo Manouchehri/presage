@@ -1,3 +1,10 @@
+2008-04-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/Makefile.am,
+	resources/profiles/generate_soothsayer_config.sh,
+	resources/profiles/Makefile.am: added a few escaped backslashes
+	and swithed to shell built-in case switches for pattern matching.
+
 2008-04-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/Makefile.am: fixed python binding installation

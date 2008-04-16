@@ -54,7 +54,7 @@ install-exec-local:
 	@case "`uname`" in \
 	  MINGW*) \
 		NATIVE_WINDOWS_PREFIX="`cd $(prefix) && pwd -W`"; \
-		NATIVE_WINDOWS_PREFIX="`echo $$NATIVE_WINDOWS_PREFIX | tr / \\\\\\\\`"; \
+		NATIVE_WINDOWS_PREFIX="`echo $$NATIVE_WINDOWS_PREFIX | sed -e 's|/|\\\\\\\\|g'`"; \
 		$(PYTHON) setup.py install --prefix="$$NATIVE_WINDOWS_PREFIX" \
 	  ;; \
 	  *) \

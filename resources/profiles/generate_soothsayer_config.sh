@@ -43,13 +43,15 @@ LOCALSTATEDIR=$3
 # Sqlite has no problem using a relative path (which is of no use to
 # us) or opening a database file rooted at cygwin's root
 # (e.g. c:/cygwin/var/database_en.db)
-
-if [ `uname | grep CYGWIN` ];
-then
-    CYGWIN_ROOT=`mount | grep ' on / type ' | awk '{print $1}' | tr \\\\ /`
-else
+#
+case `uname` in
+CYGWIN*)
+    CYGWIN_ROOT=`mount | grep ' on / type ' | awk '{print $1}' | tr \\\\ /`;
+    ;;
+*)
     CYGWIN_ROOT=
-fi
+    ;;
+esac
 
 # Replace the token in $TEMPLATE and write result to $OUTPUT
 sed -e "s|::LOCALSTATEDIR::|${CYGWIN_ROOT}${LOCALSTATEDIR}|" ${TEMPLATE} > ${OUTPUT}
