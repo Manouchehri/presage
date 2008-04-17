@@ -48,7 +48,44 @@ class PrompterFrame(wx.Frame):
 
    # menu handlers
    def OnFileMenuOpen(self, event):
-      print "This will eventually open a file"
+      print "Opening a file.."
+
+      wildcard = "Text files (*.txt)|*.txt|"     \
+                 "All files (*.*)|*.*"
+
+      # Create the dialog. In this case the current directory is forced as the starting
+      # directory for the dialog, and no default file name is forced. This can easilly
+      # be changed in your program. This is an 'open' dialog, and allows multitple
+      # file selections as well.
+      #
+      # Finally, if the directory is changed in the process of getting files, this
+      # dialog is set up to change the current working directory to the path chosen.
+      dlg = wx.FileDialog(
+          self, message="Choose a file", defaultDir="", 
+          defaultFile="", wildcard=wildcard, style=wx.OPEN | wx.CHANGE_DIR
+          )
+      
+      # Show the dialog and retrieve the user response. If it is the OK response, 
+      # process the data.
+      if dlg.ShowModal() == wx.ID_OK:
+          # This returns a Python list of files that were selected.
+          path = dlg.GetPath()
+      
+          print ("Opening %s\n" % path)
+
+          try:
+              fsock = open(path, 'r')
+              contents = fsock.read()
+              self.editor.SetText(contents)
+          except IOError:
+              dialog = wx.MessageDialog(self, "Error opening file %s" % path, "About Prompter", wx.OK)
+              dialog.ShowModal()
+              dialog.Destroy()
+              
+      # Destroy the dialog. Don't do this until you are done with it!
+      # BAD things can happen otherwise!
+      dlg.Destroy()
+
    def OnFileMenuClose(self, event):
       self.Close(True)
    def OnHelpMenuContents(self, event):
