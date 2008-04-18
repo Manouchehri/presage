@@ -31,6 +31,8 @@ class PrompterFrame(wx.Frame):
       # file menu
       self.fileMenu = wx.Menu()
       BindMenu(self.fileMenu.Append(wx.ID_ANY, "&Open\tCTRL+O"), self.OnFileMenuOpen)
+      BindMenu(self.fileMenu.Append(wx.ID_SAVE, "&Save\tCTRL+S"), self.OnFileMenuSave)
+      BindMenu(self.fileMenu.Append(wx.ID_SAVEAS, "Save &As\tSHIFT+CTRL+S"), self.OnFileMenuSaveAs)
       self.fileMenu.AppendSeparator()
       BindMenu(self.fileMenu.Append(wx.ID_ANY, "&Close\tCTRL+W"), self.OnFileMenuClose)
 
@@ -77,11 +79,52 @@ class PrompterFrame(wx.Frame):
               fsock = open(path, 'r')
               contents = fsock.read()
               self.editor.SetText(contents)
+              fsock.close()
           except IOError:
-              dialog = wx.MessageDialog(self, "Error opening file %s" % path, "About Prompter", wx.OK)
+              dialog = wx.MessageDialog(self, "Error opening file %s" % path, "Error opening file", wx.OK)
               dialog.ShowModal()
               dialog.Destroy()
               
+      # Destroy the dialog. Don't do this until you are done with it!
+      # BAD things can happen otherwise!
+      dlg.Destroy()
+
+   def OnFileMenuSave(self, event):
+      print "Save file"
+
+   def OnFileMenuSaveAs(self, event):
+      print "Save file as"
+
+      # Create the dialog. In this case the current directory is forced as the starting
+      # directory for the dialog, and no default file name is forced. This can easilly
+      # be changed in your program. This is an 'save' dialog.
+      #
+      # Unlike the 'open dialog' example found elsewhere, this example does NOT
+      # force the current working directory to change if the user chooses a different
+      # directory than the one initially set.
+      dlg = wx.FileDialog(
+          self, message="Save file as ...", defaultDir="", 
+          defaultFile="", wildcard="", style=wx.SAVE
+          )
+
+      # This sets the default filter that the user will initially see. Otherwise,
+      # the first filter in the list will be used by default.
+      dlg.SetFilterIndex(2)
+
+      # Show the dialog and retrieve the user response. If it is the OK response, 
+      # process the data.
+      if dlg.ShowModal() == wx.ID_OK:
+          path = dlg.GetPath()
+
+          try:
+              fp = file(path, 'w') # Create file anew
+              fp.write(self.editor.GetText())
+              fp.close()
+          except IOError:
+              dialog = wx.MessageDialog(self, "Error saving file %s" % path, "Error saving file", wx.OK)
+              dialog.ShowModal()
+              dialog.Destroy()
+
       # Destroy the dialog. Don't do this until you are done with it!
       # BAD things can happen otherwise!
       dlg.Destroy()
