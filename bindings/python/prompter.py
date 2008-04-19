@@ -11,6 +11,9 @@ class Prompter(wx.App):
       return True
 
 class PrompterFrame(wx.Frame):
+   wildcard = "Text files (*.txt)|*.txt|"     \
+       "All files (*.*)|*.*"
+
    def __init__(self, parent, id, title):
       wx.Frame.__init__(self, parent, id, title)
 
@@ -30,17 +33,19 @@ class PrompterFrame(wx.Frame):
 
       # file menu
       self.fileMenu = wx.Menu()
-      BindMenu(self.fileMenu.Append(wx.ID_ANY, "&Open\tCTRL+O"), self.OnFileMenuOpen)
+      BindMenu(self.fileMenu.Append(wx.ID_NEW, "&New\tCTRL+N"), self.OnFileMenuNew)
+      BindMenu(self.fileMenu.Append(wx.ID_OPEN, "&Open\tCTRL+O"), self.OnFileMenuOpen)
       BindMenu(self.fileMenu.Append(wx.ID_SAVE, "&Save\tCTRL+S"), self.OnFileMenuSave)
       BindMenu(self.fileMenu.Append(wx.ID_SAVEAS, "Save &As\tSHIFT+CTRL+S"), self.OnFileMenuSaveAs)
       self.fileMenu.AppendSeparator()
-      BindMenu(self.fileMenu.Append(wx.ID_ANY, "&Close\tCTRL+W"), self.OnFileMenuClose)
+      BindMenu(self.fileMenu.Append(wx.ID_CLOSE, "&Close\tCTRL+W"), self.OnFileMenuClose)
+      BindMenu(self.fileMenu.Append(wx.ID_EXIT, "&Quit\tCTRL+Q"), self.OnFileMenuQuit)
 
       # help menu
       self.helpMenu = wx.Menu()
-      BindMenu(self.helpMenu.Append(wx.ID_ANY, "&Contents\tF1"), self.OnHelpMenuContents)
+      BindMenu(self.helpMenu.Append(wx.ID_HELP, "&Contents\tF1"), self.OnHelpMenuContents)
       self.helpMenu.AppendSeparator()
-      BindMenu(self.helpMenu.Append(wx.ID_ANY, "&About\tCTRL+A"), self.OnHelpMenuAbout)
+      BindMenu(self.helpMenu.Append(wx.ID_ABOUT, "&About\tCTRL+A"), self.OnHelpMenuAbout)
 
       # menu bar
       self.menuBar = wx.MenuBar()
@@ -49,11 +54,12 @@ class PrompterFrame(wx.Frame):
       self.SetMenuBar(self.menuBar)
 
    # menu handlers
+   def OnFileMenuNew(self, event):
+      self.editor.file = None
+      self.editor.ClearAll()
+
    def OnFileMenuOpen(self, event):
       print "Opening a file.."
-
-      wildcard = "Text files (*.txt)|*.txt|"     \
-                 "All files (*.*)|*.*"
 
       # Create the dialog. In this case the current directory is forced as the starting
       # directory for the dialog, and no default file name is forced. This can easilly
@@ -64,7 +70,7 @@ class PrompterFrame(wx.Frame):
       # dialog is set up to change the current working directory to the path chosen.
       dlg = wx.FileDialog(
           self, message="Choose a file", defaultDir="", 
-          defaultFile="", wildcard=wildcard, style=wx.OPEN | wx.CHANGE_DIR
+          defaultFile="", wildcard=self.wildcard, style=wx.OPEN | wx.CHANGE_DIR
           )
       
       # Show the dialog and retrieve the user response. If it is the OK response, 
@@ -79,9 +85,11 @@ class PrompterFrame(wx.Frame):
               fsock = open(path, 'r')
               contents = fsock.read()
               self.editor.SetText(contents)
+              self.editor.file = path       # remember file we're editing
               fsock.close()
           except IOError:
-              dialog = wx.MessageDialog(self, "Error opening file %s" % path, "Error opening file", wx.OK)
+              dialog = wx.MessageDialog(self, "Error opening file %s" % path,
+                                        "Error opening file", wx.OK)
               dialog.ShowModal()
               dialog.Destroy()
               
@@ -91,6 +99,11 @@ class PrompterFrame(wx.Frame):
 
    def OnFileMenuSave(self, event):
       print "Save file"
+      if self.editor.file == None:
+         self.OnFileMenuSaveAs(event)
+      else:
+         self.__SaveFile(self.editor.file)
+         #self.fileMenu.Enable(wx.ID_SAVE, False)
 
    def OnFileMenuSaveAs(self, event):
       print "Save file as"
@@ -104,7 +117,7 @@ class PrompterFrame(wx.Frame):
       # directory than the one initially set.
       dlg = wx.FileDialog(
           self, message="Save file as ...", defaultDir="", 
-          defaultFile="", wildcard="", style=wx.SAVE
+          defaultFile="", wildcard=self.wildcard, style=wx.SAVE
           )
 
       # This sets the default filter that the user will initially see. Otherwise,
@@ -115,21 +128,17 @@ class PrompterFrame(wx.Frame):
       # process the data.
       if dlg.ShowModal() == wx.ID_OK:
           path = dlg.GetPath()
-
-          try:
-              fp = file(path, 'w') # Create file anew
-              fp.write(self.editor.GetText())
-              fp.close()
-          except IOError:
-              dialog = wx.MessageDialog(self, "Error saving file %s" % path, "Error saving file", wx.OK)
-              dialog.ShowModal()
-              dialog.Destroy()
+          self.editor.file = path  # remember file we're editing has changed
+          self.__SaveFile(path)
 
       # Destroy the dialog. Don't do this until you are done with it!
       # BAD things can happen otherwise!
       dlg.Destroy()
 
    def OnFileMenuClose(self, event):
+      self.OnFileMenuNew(event)        # this will do for now
+   def OnFileMenuQuit(self, event):
+      print "This should first check that changes have been saved..."
       self.Close(True)
    def OnHelpMenuContents(self, event):
       print "This will eventually open the online help"
@@ -145,9 +154,25 @@ FOR A PARTICULAR PURPOSE, to the extent permitted by law."""
       dialog.ShowModal()
       dialog.Destroy()
 
+   def __SaveFile(self, path):
+      try:
+         fp = file(path, 'w') # Create file anew
+         fp.write(self.editor.GetText())
+         fp.close()
+      except IOError:
+         dialog = wx.MessageDialog(self, "Error saving file %s" % path,
+                                   "Error saving file", wx.OK)
+         dialog.ShowModal()
+         dialog.Destroy()
+
+
 class PrompterEditor(wx.stc.StyledTextCtrl):
    def __init__(self, parent):
       wx.stc.StyledTextCtrl.__init__(self, parent)
+
+      self.file = None
+      #self.enable_saving = False
+      #self.enable_saving_as = False
 
       self.soothie = soothsayer.Soothsayer()
 
