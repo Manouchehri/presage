@@ -35,6 +35,7 @@ class PrompterFrame(wx.Frame):
       self.fileMenu = wx.Menu()
       BindMenu(self.fileMenu.Append(wx.ID_NEW, "&New\tCTRL+N"), self.OnFileMenuNew)
       BindMenu(self.fileMenu.Append(wx.ID_OPEN, "&Open\tCTRL+O"), self.OnFileMenuOpen)
+      self.fileMenu.AppendSeparator()
       BindMenu(self.fileMenu.Append(wx.ID_SAVE, "&Save\tCTRL+S"), self.OnFileMenuSave)
       BindMenu(self.fileMenu.Append(wx.ID_SAVEAS, "Save &As\tSHIFT+CTRL+S"), self.OnFileMenuSaveAs)
       self.fileMenu.AppendSeparator()
@@ -53,10 +54,16 @@ class PrompterFrame(wx.Frame):
       self.menuBar.Append(self.helpMenu, "&Help")
       self.SetMenuBar(self.menuBar)
 
+      # grey out menu items
+      self.fileMenu.Enable(wx.ID_SAVE, False)
+      self.fileMenu.Enable(wx.ID_SAVEAS, False)
+
    # menu handlers
    def OnFileMenuNew(self, event):
       self.editor.file = None
       self.editor.ClearAll()
+      self.fileMenu.Enable(wx.ID_SAVE, False)
+      self.fileMenu.Enable(wx.ID_SAVEAS, False)
 
    def OnFileMenuOpen(self, event):
       print "Opening a file.."
@@ -84,9 +91,11 @@ class PrompterFrame(wx.Frame):
           try:
               fsock = open(path, 'r')
               contents = fsock.read()
+              fsock.close()
               self.editor.SetText(contents)
               self.editor.file = path       # remember file we're editing
-              fsock.close()
+              self.fileMenu.Enable(wx.ID_SAVE, False)
+              self.fileMenu.Enable(wx.ID_SAVEAS, True)
           except IOError:
               dialog = wx.MessageDialog(self, "Error opening file %s" % path,
                                         "Error opening file", wx.OK)
@@ -103,7 +112,7 @@ class PrompterFrame(wx.Frame):
          self.OnFileMenuSaveAs(event)
       else:
          self.__SaveFile(self.editor.file)
-         #self.fileMenu.Enable(wx.ID_SAVE, False)
+         self.fileMenu.Enable(wx.ID_SAVE, False)
 
    def OnFileMenuSaveAs(self, event):
       print "Save file as"
@@ -130,6 +139,7 @@ class PrompterFrame(wx.Frame):
           path = dlg.GetPath()
           self.editor.file = path  # remember file we're editing has changed
           self.__SaveFile(path)
+          self.fileMenu.Enable(wx.ID_SAVE, False)
 
       # Destroy the dialog. Don't do this until you are done with it!
       # BAD things can happen otherwise!
@@ -170,19 +180,22 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
    def __init__(self, parent):
       wx.stc.StyledTextCtrl.__init__(self, parent)
 
-      self.file = None
-      #self.enable_saving = False
-      #self.enable_saving_as = False
+      self.parent = parent    # remember parent access frame menus
+
+      self.file = None    # remember what file to save to
 
       self.soothie = soothsayer.Soothsayer()
 
       self.Bind(wx.EVT_CHAR, self.OnChar)
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
-      #self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
+      self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
    def OnChar(self, event):
       key = chr(event.GetKeyCode())
       self.AddText(key)
+      self.parent.fileMenu.Enable(wx.ID_SAVE, True)
+      self.parent.fileMenu.Enable(wx.ID_SAVEAS, True)
+
       prediction = self.soothie.predict(key)
       suggestions = " ".join(prediction);
       prefix = self.soothie.prefix()
@@ -220,59 +233,8 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.AddText(completion[prefix_length:])
 
    def OnModified(self, event):
-      print """OnModified
-        Mod type:     %s
-        At position:  %d
-        Lines added:  %d
-        Text Length:  %d
-        Text:         %s\n""" % ( self.transModType(event.GetModificationType()),
-                                  event.GetPosition(),
-                                  event.GetLinesAdded(),
-                                  event.GetLength(),
-                                  repr(event.GetText()) )
-
-      if wx.stc.STC_MOD_INSERTTEXT & event.GetModificationType():
-         print "STC_MOD_INSERTTEXT : " + str(event.GetText())
-
-         self.soothie.update(str(event.GetText()))
-
-         print "Context:    " + self.soothie.context()
-
-      elif wx.stc.STC_MOD_DELETETEXT & event.GetModificationType():
-         print "STC_MOD_DELETETEXT : " + str(event.GetText())
-         for i in str(event.GetText()):
-            self.soothie.update('\b')
-
-         print "Context:    " + self.soothie.context()
-
-      else:
-         print "Unhandled STC_MOD event received"
-
-
-   def transModType(self, modType):
-      st = ""
-      table = [(wx.stc.STC_MOD_INSERTTEXT, "InsertText"),
-               (wx.stc.STC_MOD_DELETETEXT, "DeleteText"),
-               (wx.stc.STC_MOD_CHANGESTYLE, "ChangeStyle"),
-               (wx.stc.STC_MOD_CHANGEFOLD, "ChangeFold"),
-               (wx.stc.STC_PERFORMED_USER, "UserFlag"),
-               (wx.stc.STC_PERFORMED_UNDO, "Undo"),
-               (wx.stc.STC_PERFORMED_REDO, "Redo"),
-               (wx.stc.STC_LASTSTEPINUNDOREDO, "Last-Undo/Redo"),
-               (wx.stc.STC_MOD_CHANGEMARKER, "ChangeMarker"),
-               (wx.stc.STC_MOD_BEFOREINSERT, "B4-Insert"),
-               (wx.stc.STC_MOD_BEFOREDELETE, "B4-Delete"),
-               (wx.stc.STC_MODEVENTMASKALL, "MaskAll")
-               ]
-
-      for flag,text in table:
-         if flag & modType:
-            st = st + text + " "
-            
-         if not st:
-            st = 'UNKNOWN '
-
-      return st
+      self.parent.fileMenu.Enable(wx.ID_SAVE, True)
+      self.parent.fileMenu.Enable(wx.ID_SAVEAS, True)
 
 
 if __name__ == "__main__":
