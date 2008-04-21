@@ -36,6 +36,7 @@
 #include "plugins/dummyPlugin.h"
 #include "plugins/dictionaryPlugin.h"
 #include "plugins/smoothedCountPlugin.h"
+#include "plugins/recencyPlugin.h"
 
 Predictor::Predictor(Configuration* configuration, ContextTracker* ct)
     : config(configuration),
@@ -119,6 +120,8 @@ void Predictor::addPlugin(const std::string& pluginName)
 	plugin = new DictionaryPlugin(config, contextTracker);
     } else if (pluginName == "SmoothedCountPlugin") {
 	plugin = new SmoothedCountPlugin(config, contextTracker);
+    } else if (pluginName == "RecencyPlugin") {
+        plugin = new RecencyPlugin(config, contextTracker);
     } else {
 	// TODO: raise exception
 	logger << ERROR << "Error: unable to add plugin: " 

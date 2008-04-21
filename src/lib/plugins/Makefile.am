@@ -26,13 +26,14 @@ noinst_LTLIBRARIES =	libplugin.la                      \
 			libDictionaryPlugin.la            \
 			libSmoothedCountPlugin.la         \
 			libDummyPlugin.la                 \
-			libAbbreviationExpansionPlugin.la 
+			libAbbreviationExpansionPlugin.la \
+			libRecencyPlugin.la
 
 
 libplugin_la_SOURCES =	plugin.cpp plugin.h
 
 libSmoothedNgramPlugin_la_SOURCES =		smoothedNgramPlugin.cpp \
-						smoothedNgramPlugin.h   
+						osmoothedNgramPlugin.h   
 
 libAbbreviationExpansionPlugin_la_SOURCES =	abbreviationExpansionPlugin.h   \
 						abbreviationExpansionPlugin.cpp 
@@ -55,6 +56,9 @@ libSmoothedCountPlugin_la_SOURCES =	smoothedCountPlugin.cpp \
 
 libDummyPlugin_la_SOURCES =		dummyPlugin.cpp         \
 					dummyPlugin.h           
+
+libRecencyPlugin_la_SOURCES =		recencyPlugin.cpp	\
+					recencyPlugin.h
 
 
 AM_CPPFLAGS = -I$(top_srcdir)/src/lib

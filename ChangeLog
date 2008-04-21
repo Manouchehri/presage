@@ -1,3 +1,17 @@
+2008-04-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/lib/plugins/smoothedNgramPlugin.cpp: fixed plugin
+	description typo.
+
+	* src/lib/plugins/recencyPlugin.h,
+	src/lib/plugins/recencyPlugin.cpp, src/lib/core/predictor.cpp,
+	src/lib/Makefile.am, src/lib/plugins/Makefile.am: added new
+	recency statistical predictive plugin.
+
+	* test/lib/plugins/Makefile.am,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/recencyPluginTest.h: added recency plugin tests.
+
 2008-04-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/prompter.py: minor refactor.

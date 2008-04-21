@@ -35,7 +35,8 @@ libsoothsayer_la_LIBADD =	core/libcore.la \
 				plugins/libAbbreviationExpansionPlugin.la \
 				plugins/libDummyPlugin.la                 \
 				plugins/libDictionaryPlugin.la            \
-				plugins/libSmoothedCountPlugin.la         
+				plugins/libSmoothedCountPlugin.la         \
+				plugins/libRecencyPlugin.la
 
 #				REVISIT remove plugins/lib*.la entries
 #				when reintegrating dynamically loaded plugins

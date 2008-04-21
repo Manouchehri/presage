@@ -28,7 +28,7 @@ check_PROGRAMS = $(TESTS)              \
 
 if HAVE_CPPUNIT
 
-TESTS =	pluginsTestRunner
+TESTS =	pluginsTestRunner newPluginsTestRunner
 
 pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                                     \
 				pluginsTestMockObjects.h                                  \
@@ -51,14 +51,22 @@ pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                               
 				$(top_srcdir)/src/lib/plugins/smoothedNgramPlugin.h    \
 				abbreviationExpansionPluginTest.h                         \
 				abbreviationExpansionPluginTest.cpp                       \
-				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.h   \
-				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.cpp 
-
-
+				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.h	\
+				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.cpp	
 pluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 pluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 pluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la               \
 				$(top_builddir)/src/lib/core/dbconnector/libdbconnector.la 
+
+# the following test runner links with libsoothsayer, instead of using
+# mock objects in place of the core libsootsayer library facilities
+newPluginsTestRunner_SOURCES = 	pluginsTestRunner.cpp	\
+				recencyPluginTest.h	\
+				recencyPluginTest.cpp	
+newPluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
+newPluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
+newPluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la	\
+				$(top_builddir)/src/lib/libsoothsayer.la
 
 endif # HAVE_CPPUNIT
 

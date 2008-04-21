@@ -29,7 +29,7 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* 
     : Plugin(config,
 	     ct,
              "SmoothedNgramPlugin",
-             "SmoothedNgramPlugin, a linear interpolating unigram bigram trigram plugin",
+             "SmoothedNgramPlugin, a linear interpolating n-gram plugin",
              "SmoothedNgramPlugin, long description." )
 {
     Variable variable;
