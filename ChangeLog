@@ -1,3 +1,7 @@
+2008-04-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/prompter.py: minor refactor.
+
 2008-04-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/prompter.py: added more menu items, added grey

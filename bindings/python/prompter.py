@@ -181,27 +181,35 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       wx.stc.StyledTextCtrl.__init__(self, parent)
 
       self.parent = parent    # remember parent access frame menus
-
-      self.file = None    # remember what file to save to
-
-      self.soothie = soothsayer.Soothsayer()
+      self.file = None        # remember what file to save to
 
       self.Bind(wx.EVT_CHAR, self.OnChar)
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
       self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
+      self.soothie = soothsayer.Soothsayer()
+
+      #self.AutoCompSetAutoHide(False)
+      #self.AutoCompSetIgnoreCase(1)
+      #self.SetSTCFocus(1)
+      #self.__ShowPrediction()
+
    def OnChar(self, event):
+      print "------------ OnChar() handler"
       key = chr(event.GetKeyCode())
       self.AddText(key)
       self.parent.fileMenu.Enable(wx.ID_SAVE, True)
       self.parent.fileMenu.Enable(wx.ID_SAVEAS, True)
 
-      prediction = self.soothie.predict(key)
+      self.__ShowPrediction(key)
+
+   def __ShowPrediction(self, string = ''):
+      print "------------ __ShowPrediction()"
+      prediction = self.soothie.predict(string)
       suggestions = " ".join(prediction);
       prefix = self.soothie.prefix()
 
-      print "------------ OnChar() handler"
-      print "Key:        " + key
+      print "String:     " + string
       print "Prefix:     " + prefix
       print "Prefix len: " + str(len(prefix))
       print "Context:    " + self.soothie.context()
@@ -231,6 +239,10 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
       self.soothie.complete(completion)
       self.AddText(completion[prefix_length:])
+
+      # This is not working. For some reason, the prediction
+      # is not shown.
+      #self.__ShowPrediction()
 
    def OnModified(self, event):
       self.parent.fileMenu.Enable(wx.ID_SAVE, True)
