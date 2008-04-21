@@ -33,7 +33,7 @@ noinst_LTLIBRARIES =	libplugin.la                      \
 libplugin_la_SOURCES =	plugin.cpp plugin.h
 
 libSmoothedNgramPlugin_la_SOURCES =		smoothedNgramPlugin.cpp \
-						osmoothedNgramPlugin.h   
+						smoothedNgramPlugin.h   
 
 libAbbreviationExpansionPlugin_la_SOURCES =	abbreviationExpansionPlugin.h   \
 						abbreviationExpansionPlugin.cpp 
