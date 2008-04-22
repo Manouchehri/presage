@@ -7,21 +7,6 @@ TODO list
 ---------
 
 
-Mingw and MSYS support
- - conditionally depend on pwd.h
- - fix get_home_dir() in ProfileManager
-
-
-Consider removing the following public methods from Variable
-   interface:
- - Variable();
- - Variable(const std::vector<std::string>& variable);
- - std::vector<std::string> variable() const;
- - void push_back(const std::string& str) { m_variable.push_back(str); }
- - void pop_back() { m_variable.pop_back(); }
- - size_t size() const;
-
-
 SoothsayerDemo program:
  - provide a config() method that sets or gets the specified config
    variable
@@ -34,6 +19,14 @@ Debian packaging
 Absolute first
  - fix bug in prediction, same suggestions can be duplicated in
    prediction
+ - Consider removing the following public methods from Variable
+   interface:
+   . Variable();
+   . Variable(const std::vector<std::string>& variable);
+   . std::vector<std::string> variable() const;
+   . void push_back(const std::string& str) { m_variable.push_back(str); }
+   . void pop_back() { m_variable.pop_back(); }
+   . size_t size() const;
  - make all components aware of configuration variable runtime changes
  - remove debug variable printouts
  - implement logger level inheritance from parent module
