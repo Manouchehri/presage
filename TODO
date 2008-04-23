@@ -7,12 +7,6 @@ TODO list
 ---------
 
 
-SoothsayerDemo program:
- - provide a config() method that sets or gets the specified config
-   variable
-    - value should be a string or an int or etc.
-    - exceptions thrown by Soothsayer::config() ?
-
 Debian packaging
  - need to create python binding package
 

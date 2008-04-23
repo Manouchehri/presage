@@ -57,7 +57,7 @@ Prediction RecencyPlugin::predict(const size_t max) const
         // which is not desirable.
         //
         Suggestion  suggestion;
-        int         index = 1;
+        size_t      index = 1;
         std::string token = contextTracker->getToken(index);
         while (!token.empty() && index <= max) {
             if (token.find(prefix) == 0) { // if token starts with prefix

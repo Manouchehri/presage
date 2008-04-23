@@ -1,3 +1,9 @@
+2008-04-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian/rules: enabled unit tests in debian package build.
+
+	* src/lib/plugins/recencyPlugin.cpp: fixed compilation warning.
+
 2008-04-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/lib/plugins/smoothedNgramPlugin.cpp: fixed plugin
