@@ -23,6 +23,8 @@
 
 #include "suggestion.h"
 
+const double Suggestion::MIN_PROBABILITY = 0.0;
+const double Suggestion::MAX_PROBABILITY = 1.0;
 
 Suggestion::Suggestion(std::string s, double p)
 {

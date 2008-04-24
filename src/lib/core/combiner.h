@@ -40,8 +40,10 @@ class Combiner {
 public:
     Combiner();
     virtual ~Combiner();
-    virtual Prediction combine(const std::vector< Prediction >&) = 0;
-private:
+    virtual Prediction combine(const std::vector<Prediction>&) = 0;
+
+protected:
+    virtual Prediction filter(const Prediction& prediction) const;
 
 };
 

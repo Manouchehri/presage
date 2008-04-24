@@ -50,5 +50,5 @@ Prediction MeritocracyCombiner::combine(const std::vector< Prediction >& predict
 	    result.addSuggestion(it->getSuggestion(i));
 	}
     }
-    return result;
+    return filter(result);
 }

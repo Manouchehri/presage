@@ -43,7 +43,8 @@ coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				meritocracyCombinerTest.h meritocracyCombinerTest.cpp \
 				loggerTest.h loggerTest.cpp                 \
 				variableTest.h variableTest.cpp             \
-				configurationTest.h configurationTest.cpp   
+				configurationTest.h configurationTest.cpp   \
+				combinerTest.h combinerTest.cpp             
 
 coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 coreTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)

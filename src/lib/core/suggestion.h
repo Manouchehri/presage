@@ -61,6 +61,10 @@ public:
     /** Returns a string representation of this suggestion.
      */
     std::string toString() const;
+
+    static const double MIN_PROBABILITY;
+    static const double MAX_PROBABILITY;
+
 private:
     std::string word;
     double probability;

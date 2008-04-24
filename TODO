@@ -11,8 +11,9 @@ Debian packaging
  - need to create python binding package
 
 Absolute first
- - fix bug in prediction, same suggestions can be duplicated in
-   prediction
+ - make recency predictive plugin configurable
+ - add probability invariant when setting probability in suggestion,
+   should throw exception
  - Consider removing the following public methods from Variable
    interface:
    . Variable();
