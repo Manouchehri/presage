@@ -1,0 +1,54 @@
+_________________________
+MinGW and MSYS Soothsayer
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Install MinGW
+~~~~~~~~~~~~~
+Download and install the current version of the following components:
+ MinGW base tools
+ g++ compiler
+
+
+Install MSYS
+~~~~~~~~~~~~
+Install MSYS by repeatedly clicking Next and then answer Yes to continue with the post install script.
+
+
+Install Python
+~~~~~~~~~~~~~~
+No special notes here, just click next.
+
+
+Install wxPython
+~~~~~~~~~~~~~~~~
+Just click next, and make sure that site-packages directory the installer picks up is correct.
+
+
+Install SWIG
+~~~~~~~~~~~~
+Unzip SWIG for Windows
+
+
+Build SQLite3
+~~~~~~~~~~~~~
+Get the SQLite3 amalgamation source distribution and unzip it (i.e. C:\SQLite3 )
+Start MSYS and change into the SQLite3 directory:
+  cd /c/SQLite3 )
+Build the SQLite3 DLL, import library and definition file:
+  gcc -shared -o sqlite3.dll sqlite3.c -Wl,--output-def,sqlite3.def,--out-implib,libsqlite3.a
+
+
+Build soothsayer
+~~~~~~~~~~~~~~~~
+Start MSYS console
+Add Python and SWIG to PATH environment variable:
+  export PATH=/c/Python25:/c/SWIG:$PATH
+Extract and configure soothsayer, taking care of specifying where to find required headers and libraries:
+  CPPFLAGS="-I/c/SQLite3 -I/c/Python25/include" \
+  LDFLAGS="-L/c/SQLite3" \
+  ./configure --enable-python-binding --prefix=/path/to/install/dir
+ 
+
+NEED TO FIX:
+setup.py install
+hardcoded paths in dirs.h
