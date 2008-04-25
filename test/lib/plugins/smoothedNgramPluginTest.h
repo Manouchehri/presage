@@ -30,7 +30,7 @@
 
 #include "pluginsTestFixture.h"
 
-/** Test SmoothedUniBiTrigramPlugin.
+/** Test SmoothedNgramPlugin.
  * 
  * The idea is to provide mock HistoryTracker and mock Profile classes
  * to supply controlled values to the plugin and test that the

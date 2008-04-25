@@ -22,8 +22,9 @@
 ## Process this file with automake to produce Makefile.in
 
 EXTRA_DIST =	\
-	getting_started.txt \
-	python_binding.txt  
+	getting_started.txt	\
+	python_binding.txt	\
+	MinGW-MSYS_devenv.txt	
 
 if HAVE_DOXYGEN
 #pkgdata_DATA =	html latex

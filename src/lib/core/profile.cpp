@@ -76,7 +76,7 @@ void Profile::visit_node(Configuration* configuration,
 		//(*configuration)[variable] = text;
 		configuration->set(variable, text);
 
-		std::cout << variable.string() << " = " << text << std::endl;
+		//std::cout << variable.string() << " = " << text << std::endl;
 	    }
 	}
 

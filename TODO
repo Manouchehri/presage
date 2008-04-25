@@ -11,7 +11,6 @@ Debian packaging
  - need to create python binding package
 
 Absolute first
- - make recency predictive plugin configurable
  - add probability invariant when setting probability in suggestion,
    should throw exception
  - Consider removing the following public methods from Variable
@@ -28,11 +27,11 @@ Absolute first
  - ProfileManager logger level currently can not be read from profile
    (chicken and egg problem), need to find solution
  - SqliteDatabaseConnector callback: had to disable logging there because
-   static method, investigate on how it can be reenabled
+   static method, investigate on how it can be re-enabled
  - should Profile::getConfig() really throw exception?
  - test performance with different n values in n-gram
  - pluginManagerDriver, pluginManager are currently not necessary, as
-   dynamic plugin loading is disabled. This functionality will
+   dynamic plug-in loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.
    files:
       src/core/pluginManager.h
@@ -41,17 +40,17 @@ Absolute first
    should be taken care of as part of plump integration
 
 Architectural restructure: 
-- predictive plugins
+- predictive plug-ins
   could inherit from a Predictor class
   Plugin class should just define the interface, PluginBase should
-  provide a skeleton implementation class that concrete plugins would
+  provide a skeleton implementation class that concrete plug-ins would
   inherit from.
 
 - selector
   should be a class similar to current Predictor i.e. a class that
-  invokes other classes' method to perfom work.
+  invokes other classes' method to perform work.
   Current Selector's functionality should be broken up in Filter
-  objects i.e. an abstract Filter class and implementation of variuos
+  objects i.e. an abstract Filter class and implementation of various
   filters (repetion filter, greedy filter, etc)
 
 - combiner

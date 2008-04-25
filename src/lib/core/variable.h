@@ -31,6 +31,7 @@
 class Variable {
 public:
     Variable();
+    Variable(const char* variable);
     Variable(const std::string& variable);
     Variable(const std::vector<std::string>& variable);
     ~Variable();
@@ -45,6 +46,7 @@ public:
     bool operator<(const Variable& other) const { return (string() < other.string()); }
 //    bool operator>(const Variable& other) const { return (string() > other.string()); }
 //    bool operator==(const Variable& other) const { return !((*this) < other) && !((*this) > other); }
+
 
 private:
     std::vector<std::string> string_to_variable(const std::string& str) const;

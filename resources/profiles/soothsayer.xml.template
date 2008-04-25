@@ -49,7 +49,7 @@
         <!-- PLUGINS
           Space separated list of predictive plugins to use to generate predictions
         -->
-        <PLUGINS>AbbreviationExpansionPlugin SmoothedNgramPlugin</PLUGINS>
+        <PLUGINS>AbbreviationExpansionPlugin SmoothedNgramPlugin RecencyPlugin</PLUGINS>
     </Predictor>
     <ProfileManager>
         <!-- no options -->
@@ -64,12 +64,12 @@
                 <LOGGER>ERROR</LOGGER>
             </DatabaseConnector>
         </SmoothedNgramPlugin>
-        <SmoothedUniBiTrigramPlugin>
-            <UNIGRAM_WEIGHT>.1</UNIGRAM_WEIGHT>
-            <BIGRAM_WEIGHT>.3</BIGRAM_WEIGHT>
-            <TRIGRAM_WEIGHT>.6</TRIGRAM_WEIGHT>
-            <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
-        </SmoothedUniBiTrigramPlugin>
+	<RecencyPlugin>
+            <LOGGER>ERROR</LOGGER>
+            <LAMBDA>1</LAMBDA>
+            <N_0>1</N_0>
+            <CUTOFF_THRESHOLD>20</CUTOFF_THRESHOLD>
+	</RecencyPlugin>
 	<DictionaryPlugin>
 	    <DICTIONARY_PATH>/usr/share/dict/american-english</DICTIONARY_PATH>
 	</DictionaryPlugin>

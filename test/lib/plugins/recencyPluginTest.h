@@ -28,15 +28,8 @@
 
 #include <plugins/recencyPlugin.h>
 
-/** Test SmoothedUniBiTrigramPlugin.
+/** Test RecencyPlugin.
  * 
- * The idea is to provide mock HistoryTracker and mock Profile classes
- * to supply controlled values to the plugin and test that the
- * returned predictions are as expected.
- *
- * This test also creates a sqlite database with controlled values
- * necessary to generate predictions.
- *
  */
 class RecencyPluginTest : public CppUnit::TestFixture {
 public: 

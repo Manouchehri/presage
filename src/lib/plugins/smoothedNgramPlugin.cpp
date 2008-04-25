@@ -44,7 +44,6 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* 
 	value = config->get(variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
-	dbfilename = value;
 	variable.pop_back();
 
 	variable.push_back("DBFILENAME");

@@ -33,9 +33,38 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
              "RecencyPlugin, a recency statistical plugin",
              "RecencyPlugin, long description." )
 {
+    // init default values
     lambda = 1;
     n_0 = 1;
     cutoff_threshold = 20;
+
+    // read values from config
+    try {
+	Variable variable = "Soothsayer.Plugins.RecencyPlugin.LOGGER";
+	Value value = config->get(variable);
+	logger << setlevel(value);
+	logger << INFO << "LOGGER: " << value << endl;
+	
+	variable = "Soothsayer.Plugins.RecencyPlugin.LAMBDA";
+	value = config->get(variable);
+	lambda = toDouble(value);
+	logger << INFO << "LAMBDA: " << value << endl;
+	
+	variable = "Soothsayer.Plugins.RecencyPlugin.N_0";
+	value = config->get(variable);
+	n_0 = toDouble(value);
+	logger << INFO << "N_0: " << value << endl;
+	
+	variable = "Soothsayer.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
+	value = config->get(variable);
+	cutoff_threshold = toInt(value);
+	logger << INFO << "CUTOFF_THRESHOLD: " << value << endl;
+
+    } catch (Configuration::ConfigurationException ex) {
+	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
+    }
+    
+
 }
 
 RecencyPlugin::~RecencyPlugin()
