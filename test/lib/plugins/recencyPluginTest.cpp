@@ -22,16 +22,29 @@
                                                                 **********(*)*/
 
 #include "recencyPluginTest.h"
+#include <math.h>  // for exp()
 
 CPPUNIT_TEST_SUITE_REGISTRATION( RecencyPluginTest );
+
+const int RecencyPluginTest::SIZE = 20;
+const char* RecencyPluginTest::LOGGER = "Soothsayer.Plugins.RecencyPlugin.LOGGER";
+const char* RecencyPluginTest::LAMBDA = "Soothsayer.Plugins.RecencyPlugin.LAMBDA";
+const char* RecencyPluginTest::CUTOFF = "Soothsayer.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
+const char* RecencyPluginTest::N_0    = "Soothsayer.Plugins.RecencyPlugin.N_0";
 
 void RecencyPluginTest::setUp()
 {
     //std::cerr << "RecencyPluginTest::setUp()" << std::endl;
 
     config = new Configuration();
+    // set context tracker config variables
     config->set(Variable("Soothsayer.ContextTracker.LOGGER"), Value("ERROR"));
     config->set(Variable("Soothsayer.ContextTracker.MAX_BUFFER_SIZE"), Value("1024"));
+    // set recency plugin config variables
+    config->set(LOGGER, "ALL");
+    config->set(LAMBDA, "1");
+    config->set(N_0,    "1");
+    config->set(CUTOFF, "20");
 
     ct = new ContextTracker(config);
 }
@@ -46,7 +59,7 @@ void RecencyPluginTest::tearDown()
 
 void RecencyPluginTest::testMaxPartialPredictionSize()
 {
-    //std::cerr << "RecencyPluginTest::testMaxPartialPredictionSize()" << std::endl;
+    std::cerr << "RecencyPluginTest::testMaxPartialPredictionSize()" << std::endl;
 
     RecencyPlugin* plugin = new RecencyPlugin(config, ct);
 
@@ -59,4 +72,51 @@ void RecencyPluginTest::testMaxPartialPredictionSize()
     }
 
     delete plugin;
+}
+
+void RecencyPluginTest::testCutoffThreshold()
+{
+    std::cerr << "RecencyPluginTest::testCutoffThreshold()" << std::endl;
+
+    ct->update("foo bar foobar baz f");
+
+    {
+	config->set(CUTOFF, "0");
+	Prediction expected;
+	RecencyPlugin plugin(config, ct);
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+    }
+
+    {
+	config->set(CUTOFF, "1");
+	Prediction expected;
+	RecencyPlugin plugin(config, ct);
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+    }
+
+    {
+	config->set(CUTOFF, "2");
+	Prediction expected;
+	RecencyPlugin plugin(config, ct);
+	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+    }
+
+    {
+	config->set(CUTOFF, "3");
+	Prediction expected;
+	RecencyPlugin plugin(config, ct);
+	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+    }
+
+    {
+	config->set(CUTOFF, "4");
+	Prediction expected;
+	RecencyPlugin plugin(config, ct);
+	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
+	expected.addSuggestion(Suggestion("foo",    1.0 * exp(-1.0 * 3))); // skip bar, foo is fourth token (offset 3)
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+    }
+
 }

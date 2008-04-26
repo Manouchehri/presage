@@ -25,10 +25,8 @@
 #define SOOTH_RECENCYPLUGIN
 
 #include "plugins/plugin.h"
-#include "core/utility.h"    // strtolower
 #include "core/logger.h"
 
-#include <assert.h>
 
 /** Recency statistical plugin.
  *

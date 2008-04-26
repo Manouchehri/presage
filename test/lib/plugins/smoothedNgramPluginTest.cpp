@@ -132,7 +132,7 @@ void SmoothedNgramPluginTest::tearDown()
 Configuration* SmoothedNgramPluginTest::prepareConfiguration(const char* config[]) const
 {
     Configuration* configuration = new Configuration();
-    configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.LOGGER"), "ALL");
+    configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.LOGGER"), "ERROR");
     configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DELTAS"), config[0]);
     configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DBFILENAME"), config[1]);
     

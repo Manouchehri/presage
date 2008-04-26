@@ -37,14 +37,21 @@ public:
     void tearDown();
     
     void testMaxPartialPredictionSize();
-
+    void testCutoffThreshold();
 
 private:
     Configuration*  config;
     ContextTracker* ct;
 
+    static const int SIZE;
+    static const char* LOGGER;
+    static const char* LAMBDA;
+    static const char* CUTOFF;
+    static const char* N_0;
+
     CPPUNIT_TEST_SUITE( RecencyPluginTest );
     CPPUNIT_TEST( testMaxPartialPredictionSize );
+    CPPUNIT_TEST( testCutoffThreshold );
     CPPUNIT_TEST_SUITE_END();
 };
 

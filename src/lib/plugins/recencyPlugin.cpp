@@ -77,23 +77,36 @@ Prediction RecencyPlugin::predict(const size_t max) const
     Prediction result;
 
     std::string prefix = contextTracker->getPrefix();
+    logger << INFO << "prefix: " << prefix << endl;
     if (!prefix.empty()) {
-        // Only build recency prediction if prefix is not empty.
-        // 
-        // When prefix is empty, all previosly seen tokens are
-        // candidates for prediction. This means that recency
-        // prediction reduces to repetion of max previous tokens,
-        // which is not desirable.
+        // Only build recency prediction if prefix is not empty: when
+        // prefix is empty, all previosly seen tokens are candidates
+        // for prediction. This is not desirable, because it means
+        // that recency prediction reduces to repetion of max previous
+        // tokens (i.e. the prediction would contain the most recent
+        // tokens in reverse order).
         //
         Suggestion  suggestion;
         size_t      index = 1;
         std::string token = contextTracker->getToken(index);
-        while (!token.empty() && index <= max) {
+	double      prob = 0;
+        while (!token.empty()                // context history exhausted
+	       && result.size() < max        // need only max suggestions
+	       && index <= cutoff_threshold  // look back only as far as cutoff
+	    ) {
+	    logger << INFO << "token: " << token << endl;
+
             if (token.find(prefix) == 0) { // if token starts with prefix
+		// compute probability according to exponential decay
+		// formula
+		//
+		prob = n_0 * exp(-(lambda * (index - 1)));
+		logger << INFO << "probability: " << prob << endl;
                 suggestion.setWord(token);
-                suggestion.setProbability(exp(-(lambda * (index - 1))));
+                suggestion.setProbability(prob);
                 result.addSuggestion(suggestion);
             }
+
             index++;
             token = contextTracker->getToken(index);
         }
