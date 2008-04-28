@@ -182,6 +182,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
       self.parent = parent    # remember parent access frame menus
       self.file = None        # remember what file to save to
+      self.append_whitespace_on_completion = True
 
       self.Bind(wx.EVT_CHAR, self.OnChar)
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
@@ -240,9 +241,13 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.soothie.complete(completion)
       self.AddText(completion[prefix_length:])
 
-      # This is not working. For some reason, the prediction
-      # is not shown.
-      #self.__ShowPrediction()
+      if self.append_whitespace_on_completion:
+         self.AddText(' ')
+         self.soothie.update(' ')
+
+      # schedule showing of prediction after current and pending events
+      # are dealt with (thanks to Robin Dunn for pointing this out)
+      wx.CallAfter(self.__ShowPrediction)
 
    def OnModified(self, event):
       self.parent.fileMenu.Enable(wx.ID_SAVE, True)

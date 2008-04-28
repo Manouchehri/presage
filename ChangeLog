@@ -1,3 +1,9 @@
+2008-04-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/prompter.py: fixed problem showing prediction
+	list after user list selection event (thanks to Robin Dunn for
+	providing the solution).
+
 2008-04-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/lib/plugins/recencyPlugin: fixed bug in cutoff threshold.
