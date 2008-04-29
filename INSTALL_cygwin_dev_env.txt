@@ -45,7 +45,7 @@ You want to make sure that the following packages are selected:
     automake
     cppunit (optional)
     gcc-g++
-    help2man
+    help2man (optional)
     libncurses-devel (optional)
     libtool
     make

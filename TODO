@@ -11,6 +11,7 @@ Debian packaging
  - need to create python binding package
 
 Absolute first
+ - remove --enable-python-binding configure flag.
  - add probability invariant when setting probability in suggestion,
    should throw exception
  - Consider removing the following public methods from Variable

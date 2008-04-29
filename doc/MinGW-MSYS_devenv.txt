@@ -16,17 +16,18 @@ Install MSYS by repeatedly clicking Next and then answer Yes to continue with th
 
 Install Python
 ~~~~~~~~~~~~~~
-No special notes here, just click next.
+Install using Python Windows Installer. No special notes here, just click next.
 
 
 Install wxPython
 ~~~~~~~~~~~~~~~~
+Install using wxPython runtime installer matching the installed Python version.
 Just click next, and make sure that site-packages directory the installer picks up is correct.
 
 
 Install SWIG
 ~~~~~~~~~~~~
-Unzip SWIG for Windows
+Install SWIG for Windows by simply unzipping it.
 
 
 Build SQLite3
@@ -41,12 +42,12 @@ Build the SQLite3 DLL, import library and definition file:
 Build soothsayer
 ~~~~~~~~~~~~~~~~
 Start MSYS console
-Add Python and SWIG to PATH environment variable:
-  export PATH=/c/Python25:/c/SWIG:$PATH
-Extract and configure soothsayer, taking care of specifying where to find required headers and libraries:
+Extract and configure soothsayer, taking care of specifying where to find required binaries (Python and SWIG), headers, and libraries:
+
+  PATH=/c/Python25:/c/SWIG:$PATH \
   CPPFLAGS="-I/c/SQLite3 -I/c/Python25/include" \
   LDFLAGS="-L/c/SQLite3" \
-  ./configure --enable-python-binding --prefix=/path/to/install/dir
+  ./configure --enable-python-binding --prefix=/c/soothsayer
  
 
 NEED TO FIX:

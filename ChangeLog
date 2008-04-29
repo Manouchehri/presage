@@ -1,3 +1,11 @@
+2008-04-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* doc/MinGW-MSYS_devenv.txt: updated instructions to build in
+	MinGW/MSYS.
+
+	* INSTALL_cygwin_dev_env.txt: fixed typo in CygWin build 
+	instructions.
+
 2008-04-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/prompter.py: fixed problem showing prediction
