@@ -166,7 +166,7 @@ FOR A PARTICULAR PURPOSE, to the extent permitted by law."""
 
    def __SaveFile(self, path):
       try:
-         fp = file(path, 'w') # Create file anew
+         fp = open(path, 'w') # Create file anew
          fp.write(self.editor.GetText())
          fp.close()
       except IOError:
@@ -183,6 +183,9 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.parent = parent    # remember parent access frame menus
       self.file = None        # remember what file to save to
       self.append_whitespace_on_completion = True
+      self.autopunctuation = True
+      self.autopunctuation_whitespace = ' '
+      self.autopunctuation_chars = '.,;:?!$%&'
 
       self.Bind(wx.EVT_CHAR, self.OnChar)
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
@@ -192,17 +195,28 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
       #self.AutoCompSetAutoHide(False)
       #self.AutoCompSetIgnoreCase(1)
-      #self.SetSTCFocus(1)
-      #self.__ShowPrediction()
+
+      # delaying the __ShowPrediction until after the parent frame and
+      # the STC are shown.
+      wx.CallAfter(self.__ShowPrediction)
+      wx.CallAfter(self.SetSTCFocus, 1)
 
    def OnChar(self, event):
       print "------------ OnChar() handler"
       key = chr(event.GetKeyCode())
-      self.AddText(key)
+
       self.parent.fileMenu.Enable(wx.ID_SAVE, True)
       self.parent.fileMenu.Enable(wx.ID_SAVEAS, True)
 
-      self.__ShowPrediction(key)
+      if self.__AutoPunctuation(key):
+         # autopunctuation takes care of adding text and updating
+         # soothie, nothing to do here.
+         pass
+      else:
+         self.AddText(key)
+         self.soothie.update(key)
+
+      self.__ShowPrediction()
 
    def __ShowPrediction(self, string = ''):
       print "------------ __ShowPrediction()"
@@ -228,6 +242,30 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       # can handle to notify soothsayer that the token was automatically
       # completed.
       self.UserListShow(1, suggestions)
+
+   def __AutoPunctuation(self, char):
+      if self.autopunctuation:
+         # autopunctuation is enabled
+         if char in self.autopunctuation_chars:
+            # char is an autopunctuation character
+            curr_pos = self.GetCurrentPos()
+            if curr_pos > 0:
+               # previous character exists
+               prev_pos = curr_pos - 1
+               prev_char = chr(self.GetCharAt(prev_pos))
+               if prev_char in self.autopunctuation_whitespace:
+                  # previous character is an autopunctuation whitespace
+
+                  # swap whitespace and current char
+                  self.SetSelection(prev_pos, curr_pos)
+                  self.ReplaceSelection(char + ' ')
+
+                  # update soothie
+                  self.soothie.update('\b' + char + ' ')
+
+                  return True
+
+      return False
 
    def OnUserListSelection(self, event):
       completion = str(event.GetText())

@@ -20,6 +20,11 @@
 	test/lib/core/dbconnector/Makefile.am: hooked new soothsayer
 	exception class into build system.
 
+2008-04-30  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/prompter.py: implemented autopunctuation
+	feature, enabled by default. Show prediction list on startup.
+	
 2008-04-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* doc/MinGW-MSYS_devenv.txt: updated instructions to build in
