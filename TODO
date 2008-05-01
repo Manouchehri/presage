@@ -6,6 +6,7 @@ The Soothsayer project
 TODO list
 ---------
 
+Use new Exception class, make other exceptions derive from it.
 
 Debian packaging
  - need to create python binding package

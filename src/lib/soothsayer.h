@@ -31,6 +31,8 @@
 #include <string>
 #include <vector>
 
+#include "soothsayerException.h"
+
 class Configuration;
 class ProfileManager;
 class Profile;

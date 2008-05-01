@@ -1,3 +1,25 @@
+2008-05-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/lib/soothsayerException.h,
+	src/lib/core/soothsayerException.cpp: refactored soothsayer
+	exception hierarchy, created new soothsayer exception base class.
+
+	* src/lib/soothsayer.h: added new SoothsayerException base
+	exception class to soothsayer interface.
+
+	* src/lib/core/configuration.h,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.h: modified
+	existing exception classes to inherit from soothsayer base
+	exception class.
+
+	* src/lib/core/suggestion.cpp: added probability setting
+	validation, exception is raised for out-of-range probability
+	values.
+	
+	* src/lib/core/Makefile.am, test/lib/plugins/Makefile.am,
+	test/lib/core/dbconnector/Makefile.am: hooked new soothsayer
+	exception class into build system.
+
 2008-04-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* doc/MinGW-MSYS_devenv.txt: updated instructions to build in

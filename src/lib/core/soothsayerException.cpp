@@ -21,42 +21,19 @@
                                                                              *
                                                                 **********(*)*/
 
-#ifndef SOOTH_CONFIGURATION
-#define SOOTH_CONFIGURATION
-
-#include <map>
-
-#include "core/variable.h"
 #include "soothsayerException.h"
 
-typedef std::string Value;
+SoothsayerException::SoothsayerException(const std::string& msg) throw()
+{
+    details = msg;
+}
 
-class Configuration {
-public:
-    Configuration();
-    ~Configuration();
+SoothsayerException::~SoothsayerException() throw()
+{
+    // intentionally empty
+}
 
-    Value get(const Variable& variable) const;
-    void set(const Variable& variable, const Value& value);
-
-    Value operator[](const Variable& variable) const;
-    //Value& operator[](const Variable& variable);
-
-    void print() const;
-
-    class ConfigurationException : public SoothsayerException {
-    public:
-	ConfigurationException(const std::string& desc) throw() : SoothsayerException(desc) { }
-	virtual ~ConfigurationException() throw() { }
-
-    private:
-	ConfigurationException() throw() : SoothsayerException("") { }
-
-    };
-
-private:
-    std::map<Variable, Value>* configuration;
-
-};
-
-#endif // SOOTH_CONFIGURATION
+const char* SoothsayerException::what() const throw()
+{
+    return details.c_str();
+}

@@ -77,10 +77,18 @@ void Suggestion::setWord(std::string s)
 
 void Suggestion::setProbability(double p)
 {
-    // TODO: validate correct probability value
-    // correct value depends on whether I decide to implement
-    // a probability or a logprobability
-    probability = p;
+    // this should validate that probability is within range [MIN,
+    // MAX], but certain plugins multiply probability by a delta,
+    // hence only checking lower bound
+    if (p >= MIN_PROBABILITY) { //  && p <= MAX_PROBABILITY) {
+	probability = p;
+    } else {
+	std::stringstream ss;
+	ss << "Suggestion " << word << " probability value "
+	   << p << " out of [" << MIN_PROBABILITY << ", "
+	   << "inf]"; // << MAX_PROBABILITY << "] range";
+	throw SuggestionException(ss.str());
+    }
 }
 
 std::string Suggestion::toString() const

@@ -21,42 +21,37 @@
                                                                              *
                                                                 **********(*)*/
 
-#ifndef SOOTH_CONFIGURATION
-#define SOOTH_CONFIGURATION
+#ifndef SOOTH_EXCEPTION
+#define SOOTH_EXCEPTION
 
-#include <map>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include "core/variable.h"
-#include "soothsayerException.h"
+#include <exception>
+#include <string>
 
-typedef std::string Value;
-
-class Configuration {
+/** When thrown, provides information about an error that has occurred within soothsayer.
+ *
+ * If an error occurs within soothsayer, an exception is thrown, and
+ * this is the object that encapsulates the details of the problem.
+ * 
+ * Application using soothsayer should always ensure that exceptions
+ * are caught by enclosing all soothsayer methods within a try{}
+ * catch(SoothsayerException& e) {} block.
+ *
+ */
+class SoothsayerException : public std::exception {
 public:
-    Configuration();
-    ~Configuration();
-
-    Value get(const Variable& variable) const;
-    void set(const Variable& variable, const Value& value);
-
-    Value operator[](const Variable& variable) const;
-    //Value& operator[](const Variable& variable);
-
-    void print() const;
-
-    class ConfigurationException : public SoothsayerException {
-    public:
-	ConfigurationException(const std::string& desc) throw() : SoothsayerException(desc) { }
-	virtual ~ConfigurationException() throw() { }
-
-    private:
-	ConfigurationException() throw() : SoothsayerException("") { }
-
-    };
+    SoothsayerException(const std::string& msg) throw();
+    virtual ~SoothsayerException() throw();
+    virtual const char* what() const throw();
 
 private:
-    std::map<Variable, Value>* configuration;
+    std::string details;
 
 };
 
-#endif // SOOTH_CONFIGURATION
+
+
+#endif // SOOTH_EXCEPTION

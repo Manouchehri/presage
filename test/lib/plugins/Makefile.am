@@ -45,6 +45,8 @@ pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                               
 				$(top_srcdir)/src/lib/core/variable.cpp                   \
 				$(top_srcdir)/src/lib/core/configuration.h                \
 				$(top_srcdir)/src/lib/core/configuration.cpp              \
+				$(top_srcdir)/src/lib/soothsayerException.h		\
+				$(top_srcdir)/src/lib/core/soothsayerException.cpp	\
 				smoothedNgramPluginTest.h                          \
 				smoothedNgramPluginTest.cpp                        \
 				$(top_srcdir)/src/lib/plugins/smoothedNgramPlugin.cpp  \

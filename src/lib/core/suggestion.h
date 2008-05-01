@@ -32,6 +32,8 @@
 #include <sstream>
 #include <string>
 
+#include "soothsayerException.h"
+
 /** Suggestion
  * 
  * A suggestion is a prediction token, probability pair.
@@ -64,6 +66,16 @@ public:
 
     static const double MIN_PROBABILITY;
     static const double MAX_PROBABILITY;
+
+    class SuggestionException : public SoothsayerException {
+    public:
+	SuggestionException(const std::string& msg) throw() : SoothsayerException(msg) { }
+	virtual ~SuggestionException() throw() { }
+
+    private:
+	SuggestionException() throw() : SoothsayerException("") {};
+
+    };
 
 private:
     std::string word;
