@@ -24,6 +24,7 @@
 #include "core/profileManager.h"
 #include "core/utility.h"        // isYes isNo isTrue isFalse utility function
 #include "dirs.h"                // sysconfdir macro define
+#include "core/configuration.h"
 
 #ifdef HAVE_PWD_H
 # include <pwd.h>
@@ -53,6 +54,7 @@ ProfileManager::ProfileManager(const std::string profilename)
  */
 ProfileManager::~ProfileManager()
 {
+    flush_cached_log_messages();
     delete xmlProfileDoc;
 }
 
@@ -116,6 +118,7 @@ bool ProfileManager::loadDefaultProfile()
 
     if (!readOk) {
         // handle failure to load profile
+	// highest loglevel, no need to cache this
         logger << ERROR << "No profiles were found. Using default parameters." << endl;
         buildProfile();
     }
@@ -141,10 +144,22 @@ bool ProfileManager::loadProfile(const std::string profile_file)
 
     bool readOk = xmlProfileDoc->LoadFile (profile_file.c_str());
     
+    std::stringstream message;
     if (readOk) {
-      logger << ERROR << "Using profile '" << profile_file << "'..." << endl;
+	// logger has not been init'd with configuration, because no
+	// profile is known yet, hence caching this logging item,
+	// which will be flushed when configuration is finally read in
+	//
+	message << "Using profile '" << profile_file << "'...";
+	cache_log_message(logger.NOTICE, message.str());
     } else {
-      logger << ERROR << "Opening profile '" << profile_file << "' attempt failed." << endl;
+	// logger has not been init'd with configuration, because no
+	// profile is known yet, hence caching this logging item,
+	// which will be flushed when configuration is finally read in
+	//
+	std::stringstream message;
+	message << "Opening profile '" << profile_file << "' attempt failed.";
+	cache_log_message(logger.NOTICE, message.str());
     }
 
     return readOk;
@@ -301,14 +316,14 @@ void ProfileManager::buildProfile(const std::string p)
     module = root->InsertEndChild( TiXmlElement( "ProfileManager" ) );
     assert( module );
     if( module ) {
-        //element = module->InsertEndChild(TiXmlElement("LOGGER"));
-        //assert( element );
-        //if( element ) {
-        //    std::ostringstream ss;
-        //    ss << DEFAULT_LOGGER_LEVEL;
-        //    node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-        //    assert( node );
-        //}
+        element = module->InsertEndChild(TiXmlElement("LOGGER"));
+        assert( element );
+        if( element ) {
+            std::ostringstream ss;
+            ss << DEFAULT_LOGGER_LEVEL;
+            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
+            assert( node );
+        }
     }
 
     //PLUMP
@@ -354,7 +369,50 @@ void ProfileManager::buildProfile(const std::string p)
 }
 
 
-Profile* ProfileManager::getProfile() const
+Profile* ProfileManager::getProfile()
 {
-    return new Profile(xmlProfileDoc);
+    Profile* result = new Profile(xmlProfileDoc);
+    // since a Profile is being returned, we know we have a valid
+    // configuration object. Here, we obtain a temporary Configuration
+    // object to read the this ProfileManager configuration.  We could
+    // not do this during profile manager construction because no
+    // profile was available at that time.
+    //
+    refresh_config(result);
+    return result;
+}
+
+void ProfileManager::cache_log_message(Logger<char>::Level level, const std::string& message)
+{
+    static CachedLogMessage clm;
+    //clm.level = level;
+    clm.message = message;
+    //std::cerr << "Caching message: " << message << std::endl;
+    cached_log_messages.push_back(clm);
+}
+
+void ProfileManager::flush_cached_log_messages()
+{
+    std::list<CachedLogMessage>::const_iterator it = cached_log_messages.begin();
+    while (it != cached_log_messages.end()) {
+	//std::cerr << "Flushing message: " << it->message << std::endl;
+	logger << NOTICE << it->message << endl;
+	it++;
+    }
+    cached_log_messages.clear();
+}
+
+void ProfileManager::refresh_config(Profile* profile)
+{
+    Configuration* config = profile->get_configuration();
+    try {
+	logger << setlevel(config->get(Variable("Soothsayer.ProfileManager.LOGGER")));
+    } catch (Configuration::ConfigurationException& ex) {
+	// if no config is available, turn on full logging for profile
+	// manager
+	logger << setlevel("ALL");
+    }
+    delete config;
+
+    flush_cached_log_messages();
 }

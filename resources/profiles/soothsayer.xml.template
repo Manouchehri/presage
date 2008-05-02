@@ -52,7 +52,7 @@
         <PLUGINS>AbbreviationExpansionPlugin SmoothedNgramPlugin RecencyPlugin</PLUGINS>
     </Predictor>
     <ProfileManager>
-        <!-- no options -->
+        <LOGGER>ERROR</LOGGER>
     </ProfileManager>
     <Plugins>
         <SmoothedNgramPlugin>

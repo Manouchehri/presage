@@ -1,3 +1,16 @@
+2008-05-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* configure.ac: switched on buildilng python binding by default
+	(can be turned off with --disable-python-binding option).
+
+	* src/lib/core/profileManager: fixed chicken and egg problem
+	whereby logging was being done before logger level could be read
+	from configuration profile. Solution caches logging statements and
+	flushes them out when configuration becomes available.
+	
+	* resources/profiles/soothsayer.xml.template: added logger
+	configuration variable.
+	
 2008-05-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/lib/soothsayerException.h,

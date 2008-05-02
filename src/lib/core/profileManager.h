@@ -30,6 +30,7 @@
 #include "core/logger.h"
 
 #include <string>
+#include <list>
 #include <sstream> // for std::ostringstream
 #include <stdio.h> // for int remove( const char* ) to remove files/dirs
 
@@ -68,10 +69,34 @@ public:
     bool loadProfile(const std::string);
     void buildProfile(const std::string = DEFAULT_PROFILE_FILENAME);
     bool saveProfile() const;
-    Profile* getProfile() const;
-
+    Profile* getProfile();
+    
 private:
     std::string get_user_home_dir() const;
+    
+    /** Cache log message until logger level is read from configuration.
+     */
+    void cache_log_message(Logger<char>::Level level, const std::string& message);
+    /** Flush cached log messages.
+     */
+    void flush_cached_log_messages();
+    /** Refresh configuration variables
+     */
+    void refresh_config(Profile* profile);
+
+    struct CachedLogMessage {
+	// Level is commented out because it gets translated to
+	// numeric value of enum, instead of acting as templatized
+	// function type switching the logger level as intended.  This
+	// is not an issue however since all cached log messages need
+	// to be logged at same level, so we can hardcode level in
+	// flush method.
+	//
+	//Logger<char>::Level level;
+	std::string         message;
+    };
+
+    std::list<CachedLogMessage> cached_log_messages;
 
     TiXmlDocument*  xmlProfileDoc;
     std::string     profileFile;

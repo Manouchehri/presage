@@ -6,15 +6,13 @@ The Soothsayer project
 TODO list
 ---------
 
-Use new Exception class, make other exceptions derive from it.
-
 Debian packaging
  - need to create python binding package
 
 Absolute first
- - remove --enable-python-binding configure flag.
- - add probability invariant when setting probability in suggestion,
-   should throw exception
+ - distribute soothsayerException.h
+ - make ProfileException inherit from SoothsayerException
+ - fix make distcheck in bindings/python directory
  - Consider removing the following public methods from Variable
    interface:
    . Variable();
@@ -24,10 +22,7 @@ Absolute first
    . void pop_back() { m_variable.pop_back(); }
    . size_t size() const;
  - make all components aware of configuration variable runtime changes
- - remove debug variable printouts
  - implement logger level inheritance from parent module
- - ProfileManager logger level currently can not be read from profile
-   (chicken and egg problem), need to find solution
  - SqliteDatabaseConnector callback: had to disable logging there because
    static method, investigate on how it can be re-enabled
  - should Profile::getConfig() really throw exception?

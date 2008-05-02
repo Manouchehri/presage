@@ -159,10 +159,10 @@ AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON" -a "x$have_python_header" = "xtrue")
 
 
 AC_ARG_ENABLE([python-binding],
-              AS_HELP_STRING([--enable-python-binding],
-                             [build python binding (default=no)]),
-              [ac_enable_python_binding=yes],
-              [ac_enable_python_binding=no])
+              AS_HELP_STRING([--disable-python-binding],
+                             [build python binding (default=yes)]),
+              [ac_enable_python_binding=no],
+              [ac_enable_python_binding=yes])
 if test "x$ac_enable_python_binding" = "xyes"
 then
     if test ! "$SWIG" -o ! "$PYTHON" -o ! "x$have_python_header" = "xtrue"

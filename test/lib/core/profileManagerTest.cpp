@@ -117,6 +117,9 @@ void ProfileManagerTest::testCustomProfile()
     std::ofstream profile_stream(custom_profile.c_str());
     profile_stream << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n"
                    << "<Soothsayer>\n"
+		   << "    <ProfileManager>\n"
+		   << "         <LOGGER>ERROR</LOGGER>\n"
+		   << "    </ProfileManager>\n"
                    << "    <Custom>CUSTOM</Custom>\n"
                    << "</Soothsayer>\n";
     profile_stream.close();
