@@ -36,6 +36,7 @@
 
 %{
 #include "soothsayer.h"
+#include "soothsayerException.h"
 %}
 
 namespace std {
@@ -44,6 +45,4 @@ namespace std {
 
 /* Let's just grab the original header file here */
 %include "soothsayer.h"
-
-
-
+%include "soothsayerException.h"

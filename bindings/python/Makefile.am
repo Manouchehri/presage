@@ -25,7 +25,7 @@ if HAVE_SWIG
 if HAVE_PYTHON
 if ENABLE_PYTHON_BINDING
 
-SOOTHSAYER_INTERFACE =	../../src/lib/soothsayer.h
+SOOTHSAYER_INTERFACE =	../../src/lib/soothsayer.h ../../src/lib/soothsayerException.h
 SWIG_INTERFACE =	../soothsayer.i
 
 BUILT_SOURCES =		soothsayer_wrap.cpp soothsayer.py

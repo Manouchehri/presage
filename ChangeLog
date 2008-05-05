@@ -2,6 +2,9 @@
 
 	* src/lib/Makefile.am: distribute header soothsayerException.h
 
+	* bindings/python/Makefile.am, bindings/soothsayer.i: added
+	soothsayer exception to SWIG interface file.
+
 2008-05-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: switched on buildilng python binding by default
