@@ -5,6 +5,9 @@
 	* bindings/python/Makefile.am, bindings/soothsayer.i: added
 	soothsayer exception to SWIG interface file.
 
+	* bindings/python/runme.py: wrapped soothsayer calls in try:
+	except: block.
+	
 2008-05-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: switched on buildilng python binding by default

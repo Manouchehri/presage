@@ -28,17 +28,19 @@ if len(sys.argv) != 2:
 else:
 	config = sys.argv[1]
 
+try:
+	# Create Soothsayer object
+	soothie = soothsayer.Soothsayer(config)
 
-# Create Soothsayer object
-soothie = soothsayer.Soothsayer(config)
+	print "Enter text at the prompt (press enter on empty line to exit):"
 
-print "Enter text at the prompt (press enter on empty line to exit):"
+	while str != "":
+		str = raw_input(">  ")
+		print soothie.predict(str)
 
-while str != "":
-	str = raw_input(">  ")
-	print soothie.predict(str)
-
-# Destroy Soothsayer object
-del soothie
+	# Destroy Soothsayer object
+	del soothie
+except soothsayer.SoothsayerException,ex:
+	print ex.what()
 
 print "Goodbye"
