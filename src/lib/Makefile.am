@@ -23,19 +23,19 @@
 
 SUBDIRS = 			tinyxml core simulator plugins #plump
 
-include_HEADERS =		soothsayer.h
+include_HEADERS =		soothsayer.h soothsayerException.h
 
 lib_LTLIBRARIES = 		libsoothsayer.la
-libsoothsayer_la_SOURCES = 	soothsayer.cpp soothsayer.h
+libsoothsayer_la_SOURCES = 	soothsayer.cpp soothsayer.h soothsayerException.h
 libsoothsayer_la_LIBADD =	core/libcore.la \
 				tinyxml/libtinyxml.la \
 				simulator/libsimulator.la \
 				plugins/libplugin.la  \
-				plugins/libSmoothedNgramPlugin.la         \
+				plugins/libSmoothedNgramPlugin.la \
 				plugins/libAbbreviationExpansionPlugin.la \
-				plugins/libDummyPlugin.la                 \
-				plugins/libDictionaryPlugin.la            \
-				plugins/libSmoothedCountPlugin.la         \
+				plugins/libDummyPlugin.la \
+				plugins/libDictionaryPlugin.la \
+				plugins/libSmoothedCountPlugin.la \
 				plugins/libRecencyPlugin.la
 
 #				REVISIT remove plugins/lib*.la entries

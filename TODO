@@ -10,7 +10,6 @@ Debian packaging
  - need to create python binding package
 
 Absolute first
- - distribute soothsayerException.h
  - make ProfileException inherit from SoothsayerException
  - fix make distcheck in bindings/python directory
  - Consider removing the following public methods from Variable
