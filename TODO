@@ -13,8 +13,11 @@ Debian packaging
 
 Absolute first
  - distribute MinGW/MSYS install/build guide
+ - update website status page with recency plugin information
+ - should Profile::getConfig() really throw exception? Why not just
+   return an empty string when config is not found? Is not finding a
+   config really an exceptional condition?
  - fix hardcoded unix style paths in MinGW/MSYS build
- - make ProfileException inherit from SoothsayerException
  - fix make distcheck in bindings/python directory
  - Consider removing the following public methods from Variable
    interface:
@@ -28,7 +31,6 @@ Absolute first
  - implement logger level inheritance from parent module
  - SqliteDatabaseConnector callback: had to disable logging there because
    static method, investigate on how it can be re-enabled
- - should Profile::getConfig() really throw exception?
  - test performance with different n values in n-gram
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plug-in loading is disabled. This functionality will
@@ -66,13 +68,11 @@ Short term:
 * put utility.h/utility.cpp functions in a Utility class
 * rewrite strtoupper and strtolower utility functions to use a pointer
    to function to do the individual char conversion
-* retire SmoothedUniBiTrigramPlugin when SmoothedNgramPlugin is done
 * add ContextTracker tests for control chars
 * put everything inside the soothsayer namespace
-* write integration tests
+* write more integration tests
 * write Combiner implementations (various combination strategies)
 * restructure directories regarding config files and plugins etc.
-* port existing tests to cppunit test cases
 * add more tests to increase coverage
 * bug: validate string passed to sql_exec query function, unsanitized
    string can cause security problems

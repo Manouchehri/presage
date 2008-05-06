@@ -185,7 +185,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.append_whitespace_on_completion = True
       self.autopunctuation = True
       self.autopunctuation_whitespace = ' '
-      self.autopunctuation_chars = '.,;:?!$%&'
+      self.autopunctuation_chars = ".,;:'?!$%&"
 
       self.Bind(wx.EVT_CHAR, self.OnChar)
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
