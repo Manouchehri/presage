@@ -10,7 +10,7 @@
 	
 2008-05-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
-	* configure.ac: switched on buildilng python binding by default
+	* configure.ac: switched on building python binding by default
 	(can be turned off with --disable-python-binding option).
 
 	* src/lib/core/profileManager: fixed chicken and egg problem

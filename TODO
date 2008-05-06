@@ -6,10 +6,14 @@ The Soothsayer project
 TODO list
 ---------
 
+release notes ...
+
 Debian packaging
  - need to create python binding package
 
 Absolute first
+ - distribute MinGW/MSYS install/build guide
+ - fix hardcoded unix style paths in MinGW/MSYS build
  - make ProfileException inherit from SoothsayerException
  - fix make distcheck in bindings/python directory
  - Consider removing the following public methods from Variable

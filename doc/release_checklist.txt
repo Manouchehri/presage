@@ -25,3 +25,4 @@ Soothsayer release checklist
 
  o announce release on FreshMeat.net
 
+ o upload website
