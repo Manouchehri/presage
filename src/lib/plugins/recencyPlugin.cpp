@@ -25,6 +25,11 @@
 
 #include <math.h>  // for exp()
 
+// RecencyPlugin config variables
+const Variable RecencyPlugin::LOGGER           = "Soothsayer.Plugins.RecencyPlugin.LOGGER";
+const Variable RecencyPlugin::LAMBDA           = "Soothsayer.Plugins.RecencyPlugin.LAMBDA";
+const Variable RecencyPlugin::N_0              = "Soothsayer.Plugins.RecencyPlugin.N_0";
+const Variable RecencyPlugin::CUTOFF_THRESHOLD = "Soothsayer.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
 
 RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
@@ -40,23 +45,19 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
 
     // read values from config
     try {
-	Variable variable = "Soothsayer.Plugins.RecencyPlugin.LOGGER";
-	Value value = config->get(variable);
+	Value value = config->get(LOGGER);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	
-	variable = "Soothsayer.Plugins.RecencyPlugin.LAMBDA";
-	value = config->get(variable);
+	value = config->get(LAMBDA);
 	lambda = toDouble(value);
 	logger << INFO << "LAMBDA: " << value << endl;
 	
-	variable = "Soothsayer.Plugins.RecencyPlugin.N_0";
-	value = config->get(variable);
+	value = config->get(N_0);
 	n_0 = toDouble(value);
 	logger << INFO << "N_0: " << value << endl;
 	
-	variable = "Soothsayer.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
-	value = config->get(variable);
+	value = config->get(CUTOFF_THRESHOLD);
 	cutoff_threshold = toInt(value);
 	logger << INFO << "CUTOFF_THRESHOLD: " << value << endl;
 

@@ -67,6 +67,11 @@ public:
 
 private:
 
+    static const Variable LOGGER;
+    static const Variable LAMBDA;
+    static const Variable N_0;
+    static const Variable CUTOFF_THRESHOLD;
+    
     double lambda;
     double n_0;
     int cutoff_threshold;

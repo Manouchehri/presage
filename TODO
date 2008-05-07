@@ -8,6 +8,8 @@ TODO list
 
 release notes ...
 
+update README with MinGW/MSYS information.
+
 Debian packaging
  - need to create python binding package
 
@@ -65,6 +67,8 @@ Architectural restructure:
 
 
 Short term:
+* use static const Variable objects to read in configuration for
+   modules (see RecencyPlugin for an example)
 * put utility.h/utility.cpp functions in a Utility class
 * rewrite strtoupper and strtolower utility functions to use a pointer
    to function to do the individual char conversion
