@@ -20,6 +20,9 @@ Absolute first
    return an empty string when config is not found? Is not finding a
    config really an exceptional condition?
  - fix hardcoded unix style paths in MinGW/MSYS build
+ - when plugin initialization throws exception, predictor just catches it
+   and carries on, which is not what should happen (test by removing a
+   config variable needed by a plugin to see what happens)
  - fix make distcheck in bindings/python directory
  - Consider removing the following public methods from Variable
    interface:
@@ -67,6 +70,7 @@ Architectural restructure:
 
 
 Short term:
+* enable dictionary plugin by default (dictionary file?)
 * use static const Variable objects to read in configuration for
    modules (see RecencyPlugin for an example)
 * put utility.h/utility.cpp functions in a Utility class

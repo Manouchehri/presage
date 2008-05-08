@@ -23,63 +23,55 @@
 
 #include "plugins/dictionaryPlugin.h"
 
-#include <fstream>
 #include <assert.h>
+
+const Variable DictionaryPlugin::DICTIONARY  = "Soothsayer.Plugins.DictionaryPlugin.DICTIONARY";
+const Variable DictionaryPlugin::PROBABILITY = "Soothsayer.Plugins.DictionaryPlugin.PROBABILITY";
 
 DictionaryPlugin::DictionaryPlugin(Configuration* config, ContextTracker* ht)
     : Plugin(config,
 	     ht,
 	     "DictionaryPlugin",
 	     "DictionaryPlugin, dictionary lookup",
-	     "DictionaryPlugin is a dictionary based plugin.\n"
-	     "It searches a list of words and returns those that contain the current prefix as a prefix." )
+	     "DictionaryPlugin, a dictionary based plugin that generates a prediction by extracting tokens that start with the current prefix from a given dictionary")
 {
-    Variable variable;
-    variable.push_back("Soothsayer");
-    variable.push_back("Plugins");
-    variable.push_back("DictionaryPlugin");
-    variable.push_back("DICTIONARY_PATH");
-    Value value = config->get(variable);
-    
-    DICTIONARY_PATH = value;
+    dictionary_path = config->get(DICTIONARY); // might throw ConfigurationException
+    probability     = toDouble(config->get(PROBABILITY));
 }
 
 DictionaryPlugin::~DictionaryPlugin()
-{}
+{
+    // intentionally empty
+}
 
 Prediction DictionaryPlugin::predict(const size_t max_partial_predictions_size) const
 {
-//	std::cout << "DictionaryPlugin::predict() method called" << std::endl;
-	
-    Prediction p;
-
-    // open dictionary file for input
-    std::ifstream dictFile;
-
-    dictFile.open(DICTIONARY_PATH.c_str());
-
-    if(!dictFile)
-	std::cerr << "Dictionary file could not be opened\a"
-		  << std::endl;
-    assert(dictFile);
+    Prediction result;
 
     std::string candidate;
     std::string prefix = contextTracker->getPrefix();
 
+    std::ifstream dictionary_file;
+    dictionary_file.open(dictionary_path.c_str());
+    if(!dictionary_file)
+        logger << ERROR << "Error opening dictionary: " << dictionary_path << endl;
+    assert(dictionary_file); // REVISIT: handle with exceptions
+
     // scan file entries until we get enough suggestions
     unsigned int count = 0;
-    while(dictFile >> candidate && count < max_partial_predictions_size) {
+    while(dictionary_file >> candidate && count < max_partial_predictions_size) {
 	if(candidate.find(prefix) == 0) {
-	    p.addSuggestion(Suggestion(candidate,0.1));
+	    result.addSuggestion(Suggestion(candidate,probability));
 	    count++;
-	    std::cout << "o";
+	    logger << NOTICE << "Found valid token: " << candidate << endl;
 	} else {
-	    std::cout << ".";
+	    logger << INFO << "Discarding invalid token: " << candidate << endl;
 	}
     }
 
-//	std::cout << "DictionaryPlugin::predict() method exited" << std::endl;
-    return p;
+    dictionary_file.close();
+
+    return result;
 }
 
 void DictionaryPlugin::learn()

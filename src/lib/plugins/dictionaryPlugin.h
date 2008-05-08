@@ -25,12 +25,13 @@
 #define SOOTH_DICTIONARYPLUGIN
 
 #include "plugins/plugin.h"
+#include <fstream>
 
 
-/** Dictionary plugin.
+/** Dictionary predictive plugin.
  *
- * Uses a list of italian words. Returns those words that contain the
- * current prefix as a prefix.
+ * Generates a prediction by extracting tokens that start with the
+ * current prefix from a given dictionary.
  *
  */
 class DictionaryPlugin : public Plugin {
@@ -45,8 +46,12 @@ public:
     virtual void train();
 
 private:
-    std::string DICTIONARY_PATH;
-	
+    static const Variable DICTIONARY;
+    static const Variable PROBABILITY;
+
+    std::string dictionary_path;
+    double probability;
+
 };
 
 #endif // SOOTH_DICTIONARYPLUGIN

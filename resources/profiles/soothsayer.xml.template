@@ -71,7 +71,9 @@
             <CUTOFF_THRESHOLD>20</CUTOFF_THRESHOLD>
 	</RecencyPlugin>
 	<DictionaryPlugin>
-	    <DICTIONARY_PATH>/usr/share/dict/american-english</DICTIONARY_PATH>
+	    <DICTIONARY>/usr/share/dict/american-english</DICTIONARY>
+            <!-- fixed probability assigned to prediction -->
+            <PROBABILITY>0.0001</PROBABILITY>
 	</DictionaryPlugin>
         <AbbreviationExpansionPlugin>
             <LOGGER>ERROR</LOGGER>
