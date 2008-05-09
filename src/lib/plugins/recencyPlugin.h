@@ -28,8 +28,14 @@
 #include "core/logger.h"
 
 
-/** Recency statistical plugin.
+/** Recency plugin, a recency promotion statistical plugin.
  *
+ * RecencyPlugin, based on recency promotion principle, generates
+ * predictions by assigning exponentially decaying probability values
+ * to previously encountered tokens. Tokens are assigned a probability
+ * value that decays exponentially with their distance from the
+ * current token, thereby promoting context recency
+
  * (from Wikipedia) A quantity is said to be subject to exponential
  * decay if it decreases at a rate proportional to its
  * value. Symbolically, this can be expressed as the following

@@ -35,8 +35,8 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
 	     ct,
              "RecencyPlugin",
-             "RecencyPlugin, a recency statistical plugin",
-             "RecencyPlugin, long description." )
+             "RecencyPlugin, a statistical recency promotion plugin",
+             "RecencyPlugin, based on a recency promotion principle, generates predictions by assigning exponentially decaying probability values to previously encountered tokens. Tokens are assigned a probability value that decays exponentially with their distance from the current token, thereby promoting context recency." )
 {
     // init default values
     lambda = 1;
