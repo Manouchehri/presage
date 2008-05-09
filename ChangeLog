@@ -1,3 +1,9 @@
+2008-05-09  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* README, doc/INSTALL_MinGW_MSYS_dev_env.txt,
+	doc/INSTALL_Cygwin_dev_env.txt: updated documentation and
+	instructions.
+
 2008-05-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/lib/plugins/dictionaryPlugin: refactored and cleaned up

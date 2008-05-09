@@ -1,0 +1,105 @@
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+______________________
+The Soothsayer project
+~~~~~~~~~~~~~~~~~~~~~~
+
+Building Soothsayer on MinGW/MSYS 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following steps will enable your system to build and execute
+soothsayer in native Win32 mode.
+
+
+_____________
+Install MinGW
+~~~~~~~~~~~~~
+
+Download and install the current version of the following components:
+
+    MinGW base tools
+    g++ compiler
+
+
+____________
+Install MSYS
+~~~~~~~~~~~~
+
+Install MSYS by repeatedly clicking Next and then answer Yes to
+continue with the post install script.
+
+
+______________
+Install Python
+~~~~~~~~~~~~~~
+
+Install using Python Windows Installer. No special notes here, just
+click next.
+
+
+________________
+Install wxPython
+~~~~~~~~~~~~~~~~
+
+Install using wxPython runtime installer matching the installed Python
+version.  Just click next, and make sure that site-packages directory
+the installer picks up is correct.
+
+
+____________
+Install SWIG
+~~~~~~~~~~~~
+
+Install SWIG for Windows by simply unzipping it.
+
+
+_____________
+Build SQLite3
+~~~~~~~~~~~~~
+
+Get the SQLite3 amalgamation source distribution and unzip it
+    (i.e. C:\SQLite3 )
+
+Start MSYS and change into the SQLite3 directory:
+    cd /c/SQLite3 
+
+Build the SQLite3 DLL, import library and definition file:
+    gcc -shared -o sqlite3.dll sqlite3.c \
+    -Wl,--output-def,sqlite3.def,--out-implib,libsqlite3.a
+
+
+________________
+Build soothsayer
+~~~~~~~~~~~~~~~~
+
+Start MSYS console
+
+Extract and configure soothsayer, taking care of specifying where to
+find required binaries (Python and SWIG), headers, and libraries:
+
+  PATH=/c/Python25:/c/SWIG:$PATH \
+  CPPFLAGS="-I/c/SQLite3 -I/c/Python25/include" \
+  LDFLAGS="-L/c/SQLite3" \
+  ./configure --prefix=/c/soothsayer
+ 
+
+
+
+########/
+
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+
+Soothsayer is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+########\

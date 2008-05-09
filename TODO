@@ -8,8 +8,6 @@ TODO list
 
 release notes ...
 
-update README with MinGW/MSYS information.
-
 Debian packaging
  - need to create python binding package
 

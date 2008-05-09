@@ -24,10 +24,19 @@ Requirements:
   Collection packages, as well as libraries for these languages
   (libstdc++, glibc, etc).
 
-  On Windows systems, please install the Cygwin development
-  environment. Cygwin can be obtained from http://www.cygwin.com
-  Instructions on how to setup Cygwin and the required packages can be
-  found in the INSTALL_cygwin_dev_env.txt
+  On Solaris systems, this means having Sun Studio 10 or Sun Studio 11
+  compilers.
+
+  On Windows systems, please either install the Cygwin development
+  environment or the MinGW/MSYS developer environment.
+
+  Cygwin can be obtained from http://www.cygwin.com
+  Instructions on how to setup Cygwin and required packages can be
+  found in the doc/INSTALL_Cygwin_dev_env.txt file.
+
+  MinGW/MSYS can be obtained from http://www.mingw.org
+  Instructions on how to setup MinGW/MSYS and required packages can be
+  found in the doc/INSTALL_MinGW_MSYS_dev_env.txt file.
 
 - SQLite package. SQLite is a small C library that implements a
   self-contained, embeddable, zero-configuration SQL database engine.
