@@ -4,6 +4,11 @@
 	doc/INSTALL_Cygwin_dev_env.txt: updated documentation and
 	instructions.
 
+	* src/lib/plugins/recencyPlugin: added comments and description.
+
+	* website/soothsayer_database_dump.sql.gz: adding recency plugin
+	information to website.
+	
 2008-05-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/lib/plugins/dictionaryPlugin: refactored and cleaned up
