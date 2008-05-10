@@ -1,5 +1,8 @@
 2008-05-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* resources/i_malavoglia.txt: converted training text to utf-8
+	encoding.
+	
 	* src/lib/plugins/smoothedNgramPlugin.cpp,
 	src/lib/core/dbconnector/sqliteDatabaseConnector.cpp: added log
 	traces.
