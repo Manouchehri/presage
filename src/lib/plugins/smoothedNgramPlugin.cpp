@@ -73,13 +73,13 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* 
 	value = config->get(variable);
 	variable.pop_back();
 	variable.pop_back();
-
-	// open database connector
-	db = new SqliteDatabaseConnector(dbfilename, value);
     } catch (Configuration::ConfigurationException& ex) {
-	logger << "ConfigurationException while trying to fetch DatabaseConnector logger level." << endl;
+        logger << ERROR << "ConfigurationException while trying to fetch DatabaseConnector logger level." << endl;
 	db = new SqliteDatabaseConnector(dbfilename);
     }
+
+    // open database connector
+    db = new SqliteDatabaseConnector(dbfilename, value);
 }
 
 

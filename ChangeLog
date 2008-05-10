@@ -1,5 +1,9 @@
 2008-05-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.cpp: added log
+	traces.
+	
 	* Makefile.am: fix for hardcoded unix style path problem affecting
 	MinGW/MSYS build, paths are now converted to native win32 style
 	thanks to some shell programming hackery.

@@ -12,12 +12,10 @@ Debian packaging
  - need to create python binding package
 
 Absolute first
- - distribute MinGW/MSYS install/build guide
- - update website status page with recency plugin information
+ - fix hardcoded unix style paths in MinGW/MSYS build
  - should Profile::getConfig() really throw exception? Why not just
    return an empty string when config is not found? Is not finding a
    config really an exceptional condition?
- - fix hardcoded unix style paths in MinGW/MSYS build
  - when plugin initialization throws exception, predictor just catches it
    and carries on, which is not what should happen (test by removing a
    config variable needed by a plugin to see what happens)
