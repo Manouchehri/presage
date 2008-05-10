@@ -73,13 +73,20 @@ std::string ProfileManager::get_user_home_dir() const
         // got passwd for user
         // read home dir from passwd struct
 	result = my_passwd->pw_dir;
-    } else {
+    } else 
         // unable to get passwd struct,
         // read $HOME env variable
-        result = getenv("HOME");
-    }
 #else // HAVE_PWD_H
-    result = getenv("HOME");
+    {
+        const char* HOME = "HOME";
+        char* value = getenv(HOME);
+        // check if HOME env var exists,
+        // assigning a null pointer to a string is
+        // not such a good idea...
+        if (value) {
+            result = value;
+        }
+    }
 #endif // HAVE_PWD_H
 
     return result;

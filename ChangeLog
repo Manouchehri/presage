@@ -1,3 +1,15 @@
+2008-05-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* Makefile.am: fix for hardcoded unix style path problem affecting
+	MinGW/MSYS build, paths are now converted to native win32 style
+	thanks to some shell programming hackery.
+
+	* src/lib/core/profileManager.cpp: fixed core when attempting to
+	retrieve non-existant environment variable.
+
+	* bindings/python/fix_wrapper.sed: added swig wrapper fixes, line
+	numbers seems to change across versions.
+
 2008-05-09  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* README, doc/INSTALL_MinGW_MSYS_dev_env.txt,
