@@ -17,7 +17,7 @@ Soothsayer release checklist
    . do it manually on other platforms (WinXP/Cygwin, Solaris, etc.)
      - tar zxvf soothsayer-RELEASE.tar.gz
      - cd soothsayer-RELEASE
-     - ../configure --enable-python-binding
+     - ../configure
      - make all check install
      - and test python binding
 
