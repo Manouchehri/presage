@@ -1,5 +1,10 @@
 2008-05-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
+	* configure.ac: bumped release version up to 0.6.2.
+	
+	* NEWS, website/soothsayer_database_dump.sql.gz: announcing 0.6.2
+	release.
+
 	* src/lib/core/contextTracker.cpp: fixed logging trace levels.
 
 	* bindings/python/prompter.py: added partial UTF-8 encoded unicode

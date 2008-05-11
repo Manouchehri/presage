@@ -6,6 +6,8 @@ Soothsayer release checklist
 
  o update website NEWS section
 
+ o update NEWS file
+
  o bump release version up in configure.ac file
 
  o create dist tarball on base platform (GNU/Debian stable)

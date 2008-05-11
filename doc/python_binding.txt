@@ -3,21 +3,26 @@ _________________________
 Soothsayer Python binding
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A Python binding for Soothsayer can optionally be built configuring
-the build system is with the --enable-python-binding flag.
+A Python binding for Soothsayer is automatically built when the build
+system determines that the following software requirements are
+satisfied:
+  - Python (include development headers)
+  - SWIG
+
+You can optionally disable building of the python binding by passing
+the --disable-python-binding flag to configure.
 
 The Python binding is a Python extension module that wraps around the
-soothsayer library (libsoothsayer.so). The Python extension module is
-built using SWIG and the Python Distribution Utilities package
-(distutils).
+soothsayer library. The Python extension module is built using SWIG
+and the Python Distribution Utilities package (distutils).
 
 
 To use the Python binding for soothsayer
 
-1) Ensure that the Python extension module is built by configuring in
-   the optional python binding:
+1) Ensure that the Python extension module is enabled by checking that
+   ./configure configuration summary reports the following:
 
-   ./configure --enable-python-binding
+    Python binding: ............. yes
 
 
 2) Build and install as usual
