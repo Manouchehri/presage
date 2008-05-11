@@ -203,7 +203,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
    def OnChar(self, event):
       print "------------ OnChar() handler"
-      key = chr(event.GetKeyCode())
+      key = unichr(event.GetKeyCode())
 
       self.parent.fileMenu.Enable(wx.ID_SAVE, True)
       self.parent.fileMenu.Enable(wx.ID_SAVEAS, True)
@@ -214,7 +214,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
          pass
       else:
          self.AddText(key)
-         self.soothie.update(key)
+         self.soothie.update(key.encode('utf-8'))
 
       self.__ShowPrediction()
 
@@ -261,22 +261,22 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
                   self.ReplaceSelection(char + ' ')
 
                   # update soothie
-                  self.soothie.update('\b' + char + ' ')
+                  self.soothie.update('\b' + char.encode('utf-8') + ' ')
 
                   return True
 
       return False
 
    def OnUserListSelection(self, event):
-      completion = str(event.GetText())
-      prefix_length = len(self.soothie.prefix())
+      completion = unicode(event.GetText())
+      prefix_length = len(unicode(self.soothie.prefix()))
       
       print "----------- OnUserListSelection() handler"
       print "Completion:    " + completion
       print "Prefix length: " + str(prefix_length)
       print "To be added:   " + completion[prefix_length:]
 
-      self.soothie.complete(completion)
+      self.soothie.complete(completion.encode('utf-8'))
       self.AddText(completion[prefix_length:])
 
       if self.append_whitespace_on_completion:

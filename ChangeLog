@@ -1,3 +1,10 @@
+2008-05-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/lib/core/contextTracker.cpp: fixed logging trace levels.
+
+	* bindings/python/prompter.py: added partial UTF-8 encoded unicode
+	text support.
+
 2008-05-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* resources/i_malavoglia.txt: converted training text to utf-8

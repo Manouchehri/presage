@@ -12,7 +12,6 @@ Debian packaging
  - need to create python binding package
 
 Absolute first
- - fix hardcoded unix style paths in MinGW/MSYS build
  - should Profile::getConfig() really throw exception? Why not just
    return an empty string when config is not found? Is not finding a
    config really an exceptional condition?
@@ -66,6 +65,7 @@ Architectural restructure:
 
 
 Short term:
+* add proper unicode support
 * enable dictionary plugin by default (dictionary file?)
 * use static const Variable objects to read in configuration for
    modules (see RecencyPlugin for an example)
@@ -107,7 +107,6 @@ Long term:
 
 Longer term:
 * add gettext support
-* add UNICODE support
 
 
 

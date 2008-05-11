@@ -57,7 +57,7 @@ ContextTracker::ContextTracker(Configuration* config,
 
 	variable = new Variable("Soothsayer.ContextTracker.MAX_BUFFER_SIZE");
 	value = config->get(*variable);
-	logger << "MAX_BUFFER_SIZE: " << value << endl;
+	logger << INFO << "MAX_BUFFER_SIZE: " << value << endl;
 	setMaxBufferSize(toInt(value));
 	delete variable;
 
@@ -86,7 +86,7 @@ void ContextTracker::update(std::string s)
            || isBlankspaceChar(s[i])) {
             // if s is a word string, append to pastBuffer
             // if s is a separator string, append to pastBuffer
-            logger << "updating wordChar/separatorChar/blankspaceChar: " << s[i] << endl;
+	  logger << INFO << "updating wordChar/separatorChar/blankspaceChar: " << s[i] << endl;
 #ifdef USE_STRINGSTREAM
             assert(pastStream.good());
             pastStream.put(s[i]);
@@ -98,7 +98,7 @@ void ContextTracker::update(std::string s)
             //std::cerr << "ContextTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
         } else if ( isControlChar(s[i]) ) {
             //if s is a control string, take the appropriate action
-            logger << "updating controlChar: " << s[i] << endl;
+	  logger << INFO << "updating controlChar: " << s[i] << endl;
 
 // REVISIT ////
 
@@ -183,16 +183,16 @@ void ContextTracker::update(std::string s)
                 // TODO: provide a better implementation.
                 //
 #ifdef USE_STRINGSTREAM
-                logger << "pastStream before: " << pastStream.str() << endl;
+                logger << INFO << "pastStream before: " << pastStream.str() << endl;
                 std::string temp = pastStream.str();
                 temp.erase(temp.end() - 1);
                 pastStream.str(temp);
                 pastStream.seekg(0, std::ios::end);
-                logger << "pastStream after : " << pastStream.str() << endl;
+                logger << INFO << "pastStream after : " << pastStream.str() << endl;
 #else
-                logger << "pastStream before: " << pastStream << endl;
+                logger << INFO << "pastStream before: " << pastStream << endl;
                 pastStream.erase(pastStream.end() - 1);
-                logger << "pastStream before: " << pastStream << endl;
+                logger << INFO << "pastStream before: " << pastStream << endl;
 #endif
             }
 
@@ -237,21 +237,21 @@ void ContextTracker::update(std::string s)
         }
 
 #ifdef USE_STRINGSTREAM
-        logger << "pastStream: " << pastStream.str() << endl;
+        logger << INFO << "pastStream: " << pastStream.str() << endl;
 #else
-        logger << "pastStream: " << pastStream << endl;
+        logger << INFO << "pastStream: " << pastStream << endl;
 #endif
     }
 
 
-    logger << "contextChange: contextTracker-getPrefix():" << getPrefix() << endl;
-    logger << "contextChange: contextTracker-getToken(1):" << getToken(1) << endl;
-    logger << "contextChange: previous_prefix: " << previous_prefix << endl;
+    logger << INFO << "contextChange: contextTracker-getPrefix():" << getPrefix() << endl;
+    logger << INFO << "contextChange: contextTracker-getToken(1):" << getToken(1) << endl;
+    logger << INFO << "contextChange: previous_prefix: " << previous_prefix << endl;
 
     contextChanged = true;
 
     if (!getPrefix().empty()) {
-	logger << "Prefix not empty" << endl;
+        logger << INFO << "Prefix not empty" << endl;
 	// if current prefix is not null
 	std::string::size_type loc = getPrefix().find(previous_prefix, 0);
 	if (loc == 0) {
@@ -259,7 +259,7 @@ void ContextTracker::update(std::string s)
 	    // at the beginning of the string, the context has not
 	    // changed
 	    //
-	    logger << "Found prefix in getPrefix()" << endl;
+	    logger << INFO << "Found prefix in getPrefix()" << endl;
 	    contextChanged = false;
 	}
 
@@ -281,7 +281,7 @@ void ContextTracker::update(std::string s)
 
     previous_prefix = getPrefix();
 
-    logger << "contextChange: previous_prefix: " << previous_prefix << endl;
+    logger << INFO << "contextChange: previous_prefix: " << previous_prefix << endl;
 }
 
 /** Returns true if a context change occured.
