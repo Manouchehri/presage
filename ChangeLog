@@ -5,6 +5,11 @@
 	* bindings/python/prompter.py: added partial UTF-8 encoded unicode
 	text support.
 
+	* test/lib/plugins/smoothedNgramPluginTest.cpp: fixed test failure.
+
+	* bindings/python/Makefile.am: added distribution and byte-compilation
+	of prompter.py.
+
 2008-05-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* resources/i_malavoglia.txt: converted training text to utf-8

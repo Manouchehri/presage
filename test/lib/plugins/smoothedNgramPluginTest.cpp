@@ -135,6 +135,7 @@ Configuration* SmoothedNgramPluginTest::prepareConfiguration(const char* config[
     configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.LOGGER"), "ERROR");
     configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DELTAS"), config[0]);
     configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DBFILENAME"), config[1]);
+    configuration->set(Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER"), "ERROR");
     
     return configuration;
 }

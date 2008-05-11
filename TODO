@@ -66,6 +66,7 @@ Architectural restructure:
 
 Short term:
 * add proper unicode support
+* look into using PYTHON automake primary to build python binding module
 * enable dictionary plugin by default (dictionary file?)
 * use static const Variable objects to read in configuration for
    modules (see RecencyPlugin for an example)
