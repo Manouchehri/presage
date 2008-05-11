@@ -31,7 +31,7 @@ dirs.h:	Makefile
 		location="$$1"; \
 		unix_path="$$2"; \
 		\
-		native_windows_path="`cd $$unix_path && pwd -W`"; \
+		native_windows_path="`mkdir -p $$unix_path && cd $$unix_path && pwd -W`"; \
 		native_windows_path="`echo $$native_windows_path | sed -e 's|/|\\\\\\\\|g'`"; \
 		\
 		echo "#define $$location \"$$native_windows_path\"" >> $@; \
