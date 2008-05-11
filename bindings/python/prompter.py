@@ -17,6 +17,21 @@ class PrompterFrame(wx.Frame):
    def __init__(self, parent, id, title):
       wx.Frame.__init__(self, parent, id, title)
 
+      message = """
+Prompter, the intelligent mind reader
+
+Copyright (C) Matteo Vescovi
+
+This program is intended as a demonstration of Soothsayer ONLY.
+
+The Soothsayer project aims to provide an intelligent predictive text entry platform. Its intent is NOT to provide a predictive text entry user interface.
+
+Think of Soothsayer as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.
+"""
+      dialog = wx.MessageDialog(self, message, "About Prompter demo", wx.OK)
+      dialog.ShowModal()
+      dialog.Destroy()
+
       self.MakeMenuBar()
 
       self.editor = PrompterEditor(self)

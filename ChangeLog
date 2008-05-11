@@ -8,7 +8,7 @@
 	* src/lib/core/contextTracker.cpp: fixed logging trace levels.
 
 	* bindings/python/prompter.py: added partial UTF-8 encoded unicode
-	text support.
+	text support, added start-up informational message.
 
 	* test/lib/plugins/smoothedNgramPluginTest.cpp: fixed test failure.
 
