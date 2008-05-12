@@ -14,7 +14,8 @@ _____________
 Install MinGW
 ~~~~~~~~~~~~~
 
-Download and install the current version of the following components:
+Download the current Automated MinGW installer and install the
+following components:
 
     MinGW base tools
     g++ compiler
@@ -24,8 +25,8 @@ ____________
 Install MSYS
 ~~~~~~~~~~~~
 
-Install MSYS by repeatedly clicking Next and then answer Yes to
-continue with the post install script.
+Install current MSYS Base System by repeatedly clicking Next and then
+answer Yes to continue with the post install script.
 
 
 ______________

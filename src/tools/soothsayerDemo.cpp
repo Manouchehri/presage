@@ -139,12 +139,14 @@ int main(int argc, char** argv)
 	    // inform soothsayer that the prediction was successful.
 	    soothsayer.complete(words[c - KEY_F0 - 1]);
 	    // ask soothsayer to predict next token
-	    words = soothsayer.predict(' ');
+	    words = soothsayer.predict(" ");
 
 	} else {
 	    // prediction unsuccessful. get next character from user
 	    // and elaborate a new prediction.
-	    words = soothsayer.predict(c);
+            std::string str;
+            str += c;
+	    words = soothsayer.predict(str);
 
 	    // refresh curses screen
 	    refresh();

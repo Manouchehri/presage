@@ -76,7 +76,9 @@ void Simulator::simulate( std::string str )
 	while( i != str.end() && !hit ) {
 			
 	    // predict using new keystroke
-	    hit =  find( soothsayerPtr->predict( *i ), str );
+            std::string up;
+            up += *i;
+	    hit = find(soothsayerPtr->predict(up), str);
 
 	    // simulate character keystroke
 	    ki++;
@@ -91,7 +93,7 @@ void Simulator::simulate( std::string str )
 	if( hit ) {
 
             soothsayerPtr->complete(str);
-	    soothsayerPtr->update( " " );
+	    soothsayerPtr->update(" ");
 	    kn += str.size() + 1;
 	    ki++;
 

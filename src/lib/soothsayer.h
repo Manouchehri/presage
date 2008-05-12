@@ -73,15 +73,6 @@ class Soothsayer {
      */
     std::vector<std::string> predict(std::string str);
 
-    /** \brief Obtain a prediction, and notify soothsayer of newly
-     *         entered text character.
-     *
-     * \param character user entered character
-     * 
-     * \see predict(std::string str)
-     */
-    std::vector<std::string> predict(char character);
-
     /** \brief Notifies soothsayer that new text was entered.
      *
      * Notifies soothsayer that new text was entered, without
@@ -90,15 +81,6 @@ class Soothsayer {
      * \param str user entered text
      */
     void update(std::string str);
-
-    /** \brief Notifies soothsayer that a new character was entered.
-     *
-     * Notifies soothsayer that a new character was entered, without
-     * requesting a new prediction to be generated.
-     *
-     * \param character user entered character
-     */
-    void update(char character);
 
     /** \brief Informs soothsayer that a prediction was successful.
      *

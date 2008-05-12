@@ -66,33 +66,15 @@ Soothsayer::~Soothsayer()
     delete profileManager;
 }
 
-std::vector<std::string> Soothsayer::predict( std::string s )
+std::vector<std::string> Soothsayer::predict(std::string s)
 {
     contextTracker->update (s);
     return selector->select (predictor->predict());
 }
 
-std::vector<std::string> Soothsayer::predict( char c )
-{
-    char str[2];
-    str[0] = c;
-    str[1] = '\0';
-
-    return predict (str);
-}
-
-
-void Soothsayer::update( std::string s )
+void Soothsayer::update(std::string s)
 {
     contextTracker->update (s);
-}
-
-void Soothsayer::update( char c )
-{
-    char str[2];
-    str[0] = c;
-    str[1] = '\0';
-    contextTracker->update (str);
 }
 
 void Soothsayer::complete(const std::string completion)

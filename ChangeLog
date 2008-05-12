@@ -1,3 +1,18 @@
+2008-05-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* src/lib/soothsayer.cpp, src/lib/soothsayer.h: simplified
+	interface, removed redundant methods that take a char type. Now
+	using only methods taking std::string types. Removal of methods
+	taking char has downside of breaking ABI, but has the advantage of
+	making future unicode support more straightforward (plus there are
+	no third party applications currently depending on soothsayer that
+	I am aware of).
+
+	* src/lib/simulator/simulator.cpp, src/tools/soothsayerDemo.cpp:
+	adapted to interface change.
+	
+	* doc/INSTALL_MinGW_MSYS_dev_env.txt: minor doc updates.
+
 2008-05-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: bumped release version up to 0.6.2.
