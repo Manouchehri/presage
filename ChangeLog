@@ -1,3 +1,20 @@
+2008-05-13  Matteo Vescovi  <mvescovi@mvescovi.dublin.emea.iona.com>
+
+	* bindings/python/Makefile.am: fixed bug, not honouring DESTDIR.
+	
+	* debian/copyright: using new proposed machine-interpretable
+	copyright and license format.
+
+	* debian/soothsayer-doc.docs: updated location of Cygwin and
+	MinGW/MSYS installation instructions.
+	
+	* resources/la_coscienza_di_zeno.txt: re-encoded text file in
+	UTF-8.
+
+	* resources/Makefile.am, resources/i_malavoglia.txt: removed text
+	file and switched to other italian text resources for sample
+	statistical database generation.
+
 2008-05-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* src/lib/soothsayer.cpp, src/lib/soothsayer.h: simplified

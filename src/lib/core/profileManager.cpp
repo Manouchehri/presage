@@ -76,7 +76,7 @@ std::string ProfileManager::get_user_home_dir() const
     } else 
         // unable to get passwd struct,
         // read $HOME env variable
-#else // HAVE_PWD_H
+#endif // HAVE_PWD_H
     {
         const char* HOME = "HOME";
         char* value = getenv(HOME);
@@ -87,7 +87,6 @@ std::string ProfileManager::get_user_home_dir() const
             result = value;
         }
     }
-#endif // HAVE_PWD_H
 
     return result;
 }

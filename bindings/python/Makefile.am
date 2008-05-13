@@ -58,12 +58,12 @@ all-local:	soothsayer_wrap.cpp soothsayer.py
 install-exec-local:
 	@case "`uname`" in \
 	  MINGW*) \
-		NATIVE_WINDOWS_PREFIX="`cd $(prefix) && pwd -W`"; \
+		NATIVE_WINDOWS_PREFIX="`cd $(DESTDIR)$(prefix) && pwd -W`"; \
 		NATIVE_WINDOWS_PREFIX="`echo $$NATIVE_WINDOWS_PREFIX | sed -e 's|/|\\\\\\\\|g'`"; \
 		$(PYTHON) setup.py install --prefix="$$NATIVE_WINDOWS_PREFIX" \
 	  ;; \
 	  *) \
-		$(PYTHON) setup.py install --prefix=$(prefix) \
+		$(PYTHON) setup.py install --prefix=$(DESTDIR)$(prefix) \
 	  ;; \
 	esac;
 

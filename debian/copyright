@@ -1,36 +1,53 @@
-This package was debianized by Matteo Vescovi <matteo.vescovi@yahoo.co.uk> on
-Wed, 19 Dec 2007 16:42:15 +0000.
+Format-Specification: http://wiki.debian.org/Proposals/CopyrightFormat
+Upstream-Author: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Debianized-By: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Debianized-Date: Wed, 19 Dec 2007 16:42:15 +0000.
+Original-Source-Location: http://sourceforge.net/projects/soothsayer/
+Original-Source-Command: ./debian/rules get-orig-source
+Original-Source-Size: 1292184
+Original-Source-MD5: 5a47645993c01b4203733ef179004835
 
-It was downloaded from http://soothsayer.sourceforge.net/
+Files: *
+Copyright: Copyright 2008, Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+License: GPL-2+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ On Debian systems, the complete text of the GNU General Public License
+ can be found in file "/usr/share/common-licenses/GPL".
 
-Upstream Author: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Files: src/lib/tinyxml/*
+Copyright: Copyright 2000-2006 Lee Thomason (www.grinninglizard.com)
+License: ZLIB
+ This software is provided 'as-is', without any express or implied
+ warranty. In no event will the authors be held liable for any
+ damages arising from the use of this software.
+ .
+ Permission is granted to anyone to use this software for any
+ purpose, including commercial applications, and to alter it and
+ redistribute it freely, subject to the following restrictions:
+ .
+ 1. The origin of this software must not be misrepresented; you must
+ not claim that you wrote the original software. If you use this
+ software in a product, an acknowledgment in the product documentation
+ would be appreciated but is not required.
+ .
+ 2. Altered source versions must be plainly marked as such, and
+ must not be misrepresented as being the original software.
+ .
+ 3. This notice may not be removed or altered from any source
+ distribution.
 
-Copyright: 2008 Matteo Vescovi
+Files: resources/the_picture_of_dorian_gray.txt
+Copyright: Public Domain
+License: other
+ Please see file for full license details.
 
-License:
-
-   This package is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
-
-   This package is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this package; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-
-On Debian systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL'.
-
-The Debian packaging is (C) 2008, Matteo Vescovi <matteo.vescovi@yahoo.co.uk> and
-is licensed under the GPL, see above.
-
-
-Soothsayer is released under the GNU General Public License.
-
-TinyXML is released under the ZLib license. TinyXML is contained
-within the src/tinyxml directory.
+Files: resources/la_coscienza_di_zeno.txt
+Copyright: 
+License: other
+ Creative Commons Attribution-NonCommercial-ShareAlike 2.5
+ .
+ The complete text of the license can be found at: http://www.liberliber.it/biblioteca/licenze/

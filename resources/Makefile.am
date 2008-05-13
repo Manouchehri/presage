@@ -23,16 +23,15 @@
 
 SUBDIRS =	profiles
 
-EXTRA_DIST =	i_malavoglia.txt                \
+EXTRA_DIST =	the_picture_of_dorian_gray.txt  \
 		la_coscienza_di_zeno.txt        \
-		the_picture_of_dorian_gray.txt  \
 		abbreviations_en.txt            \
 		abbreviations_it.txt            
 
 BUILT_SOURCES =	database_en.db \
 		database_it.db
 
-database_it.db:	i_malavoglia.txt
+database_it.db:	la_coscienza_di_zeno.txt
 	$(top_builddir)/src/tools/text2ngram -n 1 -l -f sqlite -o $@ $^
 	$(top_builddir)/src/tools/text2ngram -n 2 -l -f sqlite -o $@ $^
 	$(top_builddir)/src/tools/text2ngram -n 3 -l -f sqlite -o $@ $^
