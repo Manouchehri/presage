@@ -241,6 +241,7 @@ AC_OUTPUT([
 	bindings/python/Makefile
 	doc/Doxyfile
 	doc/Makefile
+	setup.py
 ])
 
 if test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue"

@@ -68,7 +68,7 @@ install-exec-local:
 	esac;
 
 clean-local:
-	rm -rf build
+	$(PYTHON) setup.py clean --all
 
 soothsayer_wrap.cpp soothsayer.py:	$(SWIG_INTERFACE) $(SOOTHSAYER_INTERFACE)
 	$(SWIG) -c++ -python -I$(top_srcdir)/src/lib -o soothsayer_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)

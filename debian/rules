@@ -5,3 +5,6 @@ include /usr/share/cdbs/1/class/autotools.mk
 
 DEB_MAKE_CHECK_TARGET := check
 DEB_DH_INSTALL_ARGS := --sourcedir=debian/tmp
+
+DEB_PYTHON_SYSTEM := pysupport
+include /usr/share/cdbs/1/class/python-distutils.mk

@@ -1,4 +1,13 @@
-2008-05-13  Matteo Vescovi  <mvescovi@mvescovi.dublin.emea.iona.com>
+2008-05-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian/control, debian/rules: added soothsayer-python package.
+
+	* setup.py.in, configure.ac: added distutils distribution file.
+
+	* bindings/python/Makefile.am, bindings/python/setup.py.in:
+	cleaning using distutils, maintainer field.
+
+2008-05-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/Makefile.am: fixed bug, not honouring DESTDIR.
 	
