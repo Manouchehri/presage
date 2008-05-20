@@ -2,7 +2,16 @@ Source: soothsayer
 Section: devel
 Priority: extra
 Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
-Build-Depends: cdbs (>= 0.4.15), debhelper (>= 5), autotools-dev, libsqlite3-dev | libsqlite-dev, libncurses5-dev | libncurses-dev, help2man, doxygen, graphviz, python-all-dev (>= 2.3.5-11), python-support (>= 0.5.3)
+Build-Depends: cdbs (>= 0.4.15),
+	       debhelper (>= 5),
+	       autotools-dev,
+	       libsqlite3-dev | libsqlite-dev,
+	       libncurses5-dev | libncurses-dev,
+	       help2man,
+	       doxygen,
+	       graphviz,
+	       python-all-dev (>= 2.3.5-11),
+	       python-support (>= 0.5.3)
 Standards-Version: 3.7.3
 Homepage: http://soothsayer.sourceforge.net/
 Vcs-Svn: https://soothsayer.svn.sourceforge.net/svnroot/soothsayer/trunk
@@ -125,7 +134,7 @@ Section: python
 Architecture: any
 Depends: ${python:Depends}, ${shlibs:Depends}
 Provides: ${python:Provides}
-Description: intelligent predictive text entry platform (python binding)
+Description: intelligent predictive text entry platform (Python binding)
  Soothsayer is an intelligent predictive text entry platform.
  .
  A predictive text entry system attempts to improve the ease and speed
@@ -140,4 +149,4 @@ Description: intelligent predictive text entry platform (python binding)
  allows its language model to be extended and customized to utilize
  statistical, syntactic, and semantic information sources.
  .
- This package contains the soothsayer python binding.
+ This package contains the Python binding.

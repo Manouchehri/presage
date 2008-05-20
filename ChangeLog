@@ -1,3 +1,9 @@
+2008-05-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* debian/control, debian/python-soothsayer.install: fixed few
+	python binding debian package problems, soothsayer python binding
+	package is now working and usable.
+	
 2008-05-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* debian/control, debian/rules: added soothsayer-python package.
