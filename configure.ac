@@ -274,6 +274,16 @@ AC_MSG_RESULT([
     Man pages: .................. ${HAVE_HELP2MAN}
     API Documentation: .......... ${HAVE_DOXYGEN}
 
+
+  Predictive plugins:
+
+    Smoothed n-gram: ............ yes
+    Recency promotion: .......... yes
+    Abbreviation expansion: ..... yes
+    Smoothed count: ............. yes
+    Dictionary: ................. yes
+
+
   Building:
 
     Type `make' to build $PACKAGE.

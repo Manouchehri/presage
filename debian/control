@@ -11,7 +11,8 @@ Build-Depends: cdbs (>= 0.4.15),
 	       doxygen,
 	       graphviz,
 	       python-all-dev (>= 2.3.5-11),
-	       python-support (>= 0.5.3)
+	       python-support (>= 0.5.3),
+	       swig
 Standards-Version: 3.7.3
 Homepage: http://soothsayer.sourceforge.net/
 Vcs-Svn: https://soothsayer.svn.sourceforge.net/svnroot/soothsayer/trunk

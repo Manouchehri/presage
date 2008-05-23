@@ -6,9 +6,6 @@ The Soothsayer project
 TODO list
 ---------
 
-Debian packaging
- - need to create python binding package
-
 Absolute first
  - should Profile::getConfig() really throw exception? Why not just
    return an empty string when config is not found? Is not finding a
