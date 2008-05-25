@@ -1,5 +1,5 @@
 usr/lib/python*/site-packages/soothsayer.py
 usr/lib/python*/site-packages/soothsayer.pyc
 usr/lib/python*/site-packages/_soothsayer.so
-usr/lib/python*/site-packages/soothsayer_python_demo.py
-usr/lib/python*/site-packages/prompter.py
+usr/bin/soothsayer_python_demo.py
+usr/bin/prompter.py
