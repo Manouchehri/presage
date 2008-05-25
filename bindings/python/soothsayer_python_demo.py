@@ -1,3 +1,4 @@
+#!/usr/bin/python
 
 #############
 #  Soothsayer, an extensible predictive text entry system
@@ -23,7 +24,7 @@ import soothsayer
 import sys
 
 if len(sys.argv) != 2:
-	print "Usage: python runme.py soothsayer_config_file"
+	print "Usage: python soothsayer_python_demo.py soothsayer_config_file"
 	sys.exit(1)
 else:
 	config = sys.argv[1]

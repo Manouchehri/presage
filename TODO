@@ -7,6 +7,8 @@ TODO list
 ---------
 
 Absolute first
+ - put runme.py and prompter.py in bindings/python/samples dir and
+   document their usage, package them up in debian package
  - should Profile::getConfig() really throw exception? Why not just
    return an empty string when config is not found? Is not finding a
    config really an exceptional condition?
