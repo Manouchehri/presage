@@ -1,3 +1,11 @@
+2008-05-26  Matteo Vescovi  <mvescovi@mvescovi.dublin.emea.iona.com>
+
+	* debian/python-soothsayer.install, setup.py.in,
+	bindings/python/prompter.py, bindings/python/Makefile.am,
+	bindings/python/setup.py.in,
+	bindings/python/soothsayer_python_demo.py: removed .py suffix from
+	python demo programs.
+
 2008-05-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* debian/python-soothsayer.install: fixed script-not-executable

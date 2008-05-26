@@ -31,8 +31,8 @@ SWIG_INTERFACE =	../soothsayer.i
 BUILT_SOURCES =		soothsayer_wrap.cpp soothsayer.py
 CLEANFILES =		soothsayer_wrap.cpp soothsayer.py
 
-EXTRA_DIST =	soothsayer_python_demo.py \
-		prompter.py \
+EXTRA_DIST =	soothsayer_python_demo \
+		prompter \
 		fix_wrapper.sed
 
 all-local:	soothsayer_wrap.cpp soothsayer.py
