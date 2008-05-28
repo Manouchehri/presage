@@ -242,6 +242,8 @@ AC_OUTPUT([
 	doc/Doxyfile
 	doc/Makefile
 	setup.py
+	bindings/python/soothsayer_python_demo
+	bindings/python/prompter
 ])
 
 if test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue"

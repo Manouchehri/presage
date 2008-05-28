@@ -76,6 +76,15 @@ soothsayer_wrap.cpp soothsayer.py:	$(SWIG_INTERFACE) $(SOOTHSAYER_INTERFACE)
 	  ;; \
 	esac;
 
+if HAVE_HELP2MAN
+soothsayer_python_demo.1:	soothsayer_python_demo $(top_srcdir)/configure.ac
+	chmod u+x ./soothsayer_python_demo
+	help2man --output=$@ --name="soothsayer demo program (Python)" ./soothsayer_python_demo
+
+dist_man_MANS =	soothsayer_python_demo.1
+
+endif 
+
 endif # ENABLE_PYTHON_BINDING
 endif # HAVE_PYTHON
 endif # HAVE_SWIG

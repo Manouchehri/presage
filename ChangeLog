@@ -1,4 +1,21 @@
-2008-05-26  Matteo Vescovi  <mvescovi@mvescovi.dublin.emea.iona.com>
+2008-05-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/Makefile.am: generate man page from python
+	script.
+
+	* debian/python-soothsayer.install: added man page to debian
+	package.
+
+	* configure.ac, bindings/python/soothsayer_python_demo.in,
+	bindings/python/prompter.in: process python scripts with autoconf
+	to insert versioning and maintainer information.
+
+	* bindings/python/setup.py.in,
+	bindings/python/soothsayer_python_demo, bindings/python/prompter:
+	appended .in to python programs finenames to allow autoconf
+	processing.
+
+2008-05-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* debian/python-soothsayer.install, setup.py.in,
 	bindings/python/prompter.py, bindings/python/Makefile.am,
