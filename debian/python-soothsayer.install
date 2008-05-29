@@ -2,6 +2,6 @@ usr/lib/python*/site-packages/soothsayer.py
 usr/lib/python*/site-packages/soothsayer.pyc
 usr/lib/python*/site-packages/_soothsayer.so
 usr/bin/soothsayer_python_demo
-usr/bin/prompter
+usr/bin/soothsayer_prompter
 usr/share/man/man1/soothsayer_python_demo.1
-usr/share/man/man1/prompter.1
+usr/share/man/man1/soothsayer_prompter.1
