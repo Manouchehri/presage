@@ -33,7 +33,9 @@ CLEANFILES =		soothsayer_wrap.cpp soothsayer.py
 
 EXTRA_DIST =	soothsayer_python_demo \
 		prompter \
-		fix_wrapper.sed
+		fix_wrapper.sed \
+		prompter/__init__.py \
+		prompter/prompter.py
 
 all-local:	soothsayer_wrap.cpp soothsayer.py
 	@case "`uname`" in \
@@ -81,7 +83,12 @@ soothsayer_python_demo.1:	soothsayer_python_demo $(top_srcdir)/configure.ac
 	chmod u+x ./soothsayer_python_demo
 	help2man --output=$@ --name="soothsayer demo program (Python)" ./soothsayer_python_demo
 
-dist_man_MANS =	soothsayer_python_demo.1
+prompter.1:	prompter $(top_srcdir)/configure.ac
+	chmod u+x ./prompter
+	help2man --output=$@ --name="prompter, the intelligent mind reader" ./prompter
+
+dist_man_MANS =	soothsayer_python_demo.1 \
+		prompter.1
 
 endif 
 

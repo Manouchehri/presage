@@ -1,4 +1,3 @@
-
 #############
 #  Soothsayer, an extensible predictive text entry system
 #  ------------------------------------------------------
@@ -19,24 +18,3 @@
 #  with this program; if not, write to the Free Software Foundation, Inc.,
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-# Process this file with configure to produce setup.py
-
-from distutils.core import setup, Extension
-setup(name='@PACKAGE_NAME@',
-      version='@PACKAGE_VERSION@',
-      description='Soothsayer Python binding',
-      author='Matteo Vescovi',
-      author_email='@PACKAGE_BUGREPORT@',
-      maintainer='Matteo Vescovi',
-      maintainer_email='@PACKAGE_BUGREPORT@',
-      url='http://soothsayer.sourceforge.net/',
-      py_modules=['soothsayer'],
-      package_dir={'prompter': '@top_srcdir@/bindings/python/prompter'},
-      packages=['prompter'],
-      scripts=['soothsayer_python_demo',
-               'prompter'],
-      ext_modules=[Extension('_soothsayer', ['soothsayer_wrap.cpp'],
-                             include_dirs=['@top_srcdir@/src/lib'],
-                             library_dirs=['../../src/lib/.libs'],
-                             libraries=['soothsayer'])],
-      )

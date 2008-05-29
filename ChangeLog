@@ -1,3 +1,22 @@
+2008-05-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/Makefile.am: automatically generate soothsayer_prompter demo
+	man page.
+
+	* debian/python-soothsayer.install: included prompter man page in
+	debian package.
+
+	* bindings/python/setup.py.in:
+
+	* bindings/python/prompter.in,
+	bindings/python/prompter,
+	bindings/python/prompter/prompter.py,
+	bindings/python/prompter/__init__.py: split prompter demo program
+	in a front-end script and a back-end package.
+
+	* bindings/python/soothsayer_prompter.in: renamed prompter
+	front-end to soothsayer_prompter.  * configure.ac:
+
 2008-05-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/Makefile.am: generate man page from python
