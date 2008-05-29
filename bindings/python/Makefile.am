@@ -85,7 +85,7 @@ soothsayer_python_demo.1:	soothsayer_python_demo $(top_srcdir)/configure.ac
 
 soothsayer_prompter.1:	soothsayer_prompter $(top_srcdir)/configure.ac
 	chmod u+x ./soothsayer_prompter
-	help2man --output=$@ --name="prompter, the intelligent mind reader" ./soothsayer_prompter
+	help2man --output=$@ --name="Prompter, the intelligent mind reader" ./soothsayer_prompter
 
 dist_man_MANS =	soothsayer_python_demo.1 \
 		soothsayer_prompter.1
