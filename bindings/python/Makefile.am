@@ -31,9 +31,9 @@ SWIG_INTERFACE =	../soothsayer.i
 BUILT_SOURCES =		soothsayer_wrap.cpp soothsayer.py
 CLEANFILES =		soothsayer_wrap.cpp soothsayer.py
 
-EXTRA_DIST =	soothsayer_python_demo \
-		prompter \
-		fix_wrapper.sed \
+EXTRA_DIST =	fix_wrapper.sed \
+		soothsayer_python_demo \
+		soothsayer_prompter \
 		prompter/__init__.py \
 		prompter/prompter.py
 
@@ -83,12 +83,12 @@ soothsayer_python_demo.1:	soothsayer_python_demo $(top_srcdir)/configure.ac
 	chmod u+x ./soothsayer_python_demo
 	help2man --output=$@ --name="soothsayer demo program (Python)" ./soothsayer_python_demo
 
-prompter.1:	prompter $(top_srcdir)/configure.ac
-	chmod u+x ./prompter
-	help2man --output=$@ --name="prompter, the intelligent mind reader" ./prompter
+soothsayer_prompter.1:	soothsayer_prompter $(top_srcdir)/configure.ac
+	chmod u+x ./soothsayer_prompter
+	help2man --output=$@ --name="prompter, the intelligent mind reader" ./soothsayer_prompter
 
 dist_man_MANS =	soothsayer_python_demo.1 \
-		prompter.1
+		soothsayer_prompter.1
 
 endif 
 

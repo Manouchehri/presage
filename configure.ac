@@ -243,7 +243,7 @@ AC_OUTPUT([
 	doc/Makefile
 	setup.py
 	bindings/python/soothsayer_python_demo
-	bindings/python/prompter
+	bindings/python/soothsayer_prompter
 ])
 
 if test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue"
