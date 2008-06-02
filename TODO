@@ -7,7 +7,6 @@ TODO list
 ---------
 
 Absolute first
- - clean up soothsayer_python_demo.py and prompter.py demo python scripts
  - should Profile::getConfig() really throw exception? Why not just
    return an empty string when config is not found? Is not finding a
    config really an exceptional condition?

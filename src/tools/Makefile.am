@@ -25,23 +25,23 @@ noinst_LTLIBRARIES =	libtools.la
 libtools_la_SOURCES =	progress.cpp progress.h \
 			ngram.cpp ngram.h                 
 
-bin_PROGRAMS =		text2ngram          \
-			soothsayerDemoText  \
-			soothsayerSimulator  
+bin_PROGRAMS =		text2ngram \
+			soothsayer_demo_text \
+			soothsayer_simulator
 
 if HAVE_CURSES
-bin_PROGRAMS +=			soothsayerDemo       
+bin_PROGRAMS +=			soothsayer_demo       
 
-soothsayerDemo_SOURCES =	soothsayerDemo.cpp
-soothsayerDemo_LDADD =		../lib/libsoothsayer.la
-soothsayerDemo_LDFLAGS =	-lcurses
+soothsayer_demo_SOURCES =	soothsayerDemo.cpp
+soothsayer_demo_LDADD =		../lib/libsoothsayer.la
+soothsayer_demo_LDFLAGS =	-lcurses
 endif
 
-soothsayerDemoText_SOURCES = 	soothsayerDemoText.cpp
-soothsayerDemoText_LDADD = 	../lib/libsoothsayer.la
+soothsayer_demo_text_SOURCES = 	soothsayerDemoText.cpp
+soothsayer_demo_text_LDADD = 	../lib/libsoothsayer.la
 
-soothsayerSimulator_SOURCES =	soothsayerSimulator.cpp
-soothsayerSimulator_LDADD =	../lib/libsoothsayer.la  
+soothsayer_simulator_SOURCES =	soothsayerSimulator.cpp
+soothsayer_simulator_LDADD =	../lib/libsoothsayer.la  
 
 text2ngram_SOURCES =		text2ngram.cpp
 text2ngram_LDADD =		../lib/libsoothsayer.la \
@@ -55,20 +55,24 @@ text2ngram.1:	text2ngram.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) text2ngram$(EXEEXT)
 	help2man --output=$@ --name="generate statistical n-gram data from text" ./text2ngram$(EXEEXT)
 
-soothsayerDemo.1:	soothsayerDemo.cpp $(top_srcdir)/configure.ac
-	$(MAKE) $(AM_MAKEFLAGS) soothsayerDemo$(EXEEXT)
-	help2man --output=$@ --name="soothsayer demo program (ncurses)" ./soothsayerDemo$(EXEEXT)
+soothsayer_demo_text.1:	soothsayerDemoText.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) soothsayer_demo_text$(EXEEXT)
+	help2man --output=$@ --name="soothsayer demo program (text)" ./soothsayer_demo_text$(EXEEXT)
 
-soothsayerDemoText.1:	soothsayerDemoText.cpp $(top_srcdir)/configure.ac
-	$(MAKE) $(AM_MAKEFLAGS) soothsayerDemoText$(EXEEXT)
-	help2man --output=$@ --name="soothsayer demo program (text)" ./soothsayerDemoText$(EXEEXT)
+soothsayer_simulator.1:	soothsayerSimulator.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) soothsayer_simulator$(EXEEXT)
+	help2man --output=$@ --name="soothsayer simulator program" ./soothsayer_simulator$(EXEEXT)
 
-soothsayerSimulator.1:	soothsayerSimulator.cpp $(top_srcdir)/configure.ac
-	$(MAKE) $(AM_MAKEFLAGS) soothsayerSimulator$(EXEEXT)
-	help2man --output=$@ --name="soothsayer simulator program" ./soothsayerSimulator$(EXEEXT)
+dist_man_MANS =	text2ngram.1 \
+		soothsayer_demo_text.1 \
+		soothsayer_simulator.1
 
-dist_man_MANS =	text2ngram.1          \
-		soothsayerDemo.1      \
-		soothsayerDemoText.1  \
-		soothsayerSimulator.1 
+if HAVE_CURSES
+soothsayer_demo.1:	soothsayerDemo.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) soothsayer_demo$(EXEEXT)
+	help2man --output=$@ --name="soothsayer demo program (ncurses)" ./soothsayer_demo$(EXEEXT)
+
+dist_man_MANS +=	soothsayer_demo.1
+endif
+
 endif

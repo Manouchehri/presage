@@ -1,16 +1,20 @@
+2008-06-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* test/integration/integration.sh, src/tools/Makefile.am,
+	doc/getting_started.txt: changed binaries names from capitalized
+	style to underscore separated style (i.e. from soothsayerSimulator
+	to soothsayer_simulator).
+
 2008-05-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
-	* bindings/python/Makefile.am: automatically generate soothsayer_prompter demo
-	man page.
+	* bindings/python/Makefile.am: automatically generate
+	soothsayer_prompter demo man page.
 
 	* debian/python-soothsayer.install: included prompter man page in
 	debian package.
 
-	* bindings/python/setup.py.in:
-
-	* bindings/python/prompter.in,
-	bindings/python/prompter,
-	bindings/python/prompter/prompter.py,
+	* bindings/python/setup.py.in, bindings/python/prompter.in,
+	bindings/python/prompter, bindings/python/prompter/prompter.py,
 	bindings/python/prompter/__init__.py: split prompter demo program
 	in a front-end script and a back-end package.
 
