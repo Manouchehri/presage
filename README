@@ -115,7 +115,12 @@ Soothsayer includes a little demonstration program that will read the
 user input and guess what the user intends to type using its
 predictive technology. To start it, type
 
-  soothsayerDemo
+  soothsayer_demo
+
+or
+
+  soothsayer_demo_text
+
 
 
 ########/
