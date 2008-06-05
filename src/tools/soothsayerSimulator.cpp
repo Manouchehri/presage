@@ -21,11 +21,21 @@
                                                                              *
                                                                 **********(*)*/
 
-#include <iostream>
-#include <fstream>
-#include <string.h>
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
+#ifdef HAVE_STDLIB_H
+# include <stdlib.h>
+#endif
+#ifdef HAVE_STRING_H
+# include <string.h>
+#endif
 
 #include <getopt.h>
+
+#include <iostream>
+#include <fstream>
 
 #include "core/charsets.h"
 #include "core/tokenizer/forwardTokenizer.h"

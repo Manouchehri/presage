@@ -31,7 +31,11 @@
 #include <map>
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+# include <unistd.h>
+#endif
+
+#ifdef HAVE_STDLIB_H
+# include <stdlib.h>
 #endif
 
 #include <getopt.h>

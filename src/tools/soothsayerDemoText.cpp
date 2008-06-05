@@ -23,9 +23,14 @@
 
 #include "soothsayer.h"
 
+#ifdef HAVE_STDLIB_H
+# include <stdlib.h>
+#endif
+
+#include <getopt.h>
+
 #include <iostream>
 #include <sstream>
-#include <getopt.h>
 
 const char PROGRAM_NAME[] = "soothsayerDemoText";
 

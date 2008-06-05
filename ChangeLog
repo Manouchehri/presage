@@ -1,3 +1,18 @@
+2008-06-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* test/lib/core/dbconnector/sqliteDatabaseConnectorTest.cpp,
+	src/tools/soothsayerSimulator.cpp, src/tools/soothsayerDemo.cpp,
+	src/tools/soothsayerDemoText.cpp, src/tools/text2ngram.cpp,
+	src/lib/plugins/plugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp, src/lib/core/utility.cpp,
+	src/lib/core/utility.h: ported soothsayer to GCC 4.3, which has
+	stricter and cleaner header dependencies, causing required headers
+	to be explicitly included.
+	
+	* bindings/python/Makefile.am: changing man page generation
+	dependency from generated file to source file.
+
 2008-06-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* configure.ac: bumped release version up to 0.6.3.

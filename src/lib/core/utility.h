@@ -24,6 +24,10 @@
 #ifndef SOOTH_UTILITY
 #define SOOTH_UTILITY
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif 
+
 #include <string>   // overload strtolower function
 
 char*        strtolower( char*        );

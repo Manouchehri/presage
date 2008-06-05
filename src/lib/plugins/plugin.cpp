@@ -23,6 +23,10 @@
 
 #include "plugins/plugin.h"
 
+#ifdef HAVE_STDLIB_H
+# include <stdlib.h>
+#endif
+
 /** Creates a plugin object.
  *
  * @param config pointer to configuration

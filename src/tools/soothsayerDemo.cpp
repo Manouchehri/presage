@@ -34,9 +34,14 @@
 # include <curses.h>
 #endif
 
+#ifdef HAVE_STDLIB_H
+# include <stdlib.h>
+#endif
+
+#include <getopt.h>
+
 #include <iostream>
 #include <sstream>
-#include <getopt.h>
 #include <list>
 
 const char PROGRAM_NAME[] = "soothsayerDemo";

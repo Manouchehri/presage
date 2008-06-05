@@ -6,6 +6,15 @@ The Soothsayer project
 TODO list
 ---------
 
+
+Ideas
+  write a "deja-vu" plugin, a plugin that is able to learn and then
+   later reproduces previous text sequences: the goal is to write a
+   simple plugin that demonstrates how learning can be implemented in
+   the soothsayer system and expose what functionality is required for
+   learning plugins to work within the soothsayer framework.
+
+
 Absolute first
  - should Profile::getConfig() really throw exception? Why not just
    return an empty string when config is not found? Is not finding a

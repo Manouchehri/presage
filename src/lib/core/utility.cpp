@@ -22,7 +22,12 @@
                                                                 **********(*)*/
 
 #include "utility.h"
-
+#ifdef HAVE_STRING_H
+# include <string.h>
+#endif
+#ifdef HAVE_STDLIB_H
+# include <stdlib.h>
+#endif
 
 /** Convert string to lower case
  *

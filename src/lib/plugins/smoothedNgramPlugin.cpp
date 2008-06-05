@@ -22,8 +22,9 @@
                                                                 **********(*)*/
 
 #include "plugins/smoothedNgramPlugin.h"
-#include <sstream>
 
+#include <sstream>
+#include <algorithm>
 
 SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
@@ -150,8 +151,8 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
     // The prefix completion candidates used to be obtained from the
     // _1_gram table because in a well-constructed ngram database the
     // _1_gram table (which contains all known tokens). However, this
-    // inroduced a skew, since the unigram counts will take precedence
-    // over the higher-order counts.
+    // introduced a skew, since the unigram counts will take
+    // precedence over the higher-order counts.
     //
     // The current solution retrieves candidates from the highest
     // n-gram table, falling back on lower order n-gram tables if
@@ -200,10 +201,11 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
             // only add new candidates, iterator it points to Ngram,
             // it->end() - 2 points to the token candidate
             //
+            std::string candidate = *(it->end() - 2);
             if (find(prefixCompletionCandidates.begin(),
                      prefixCompletionCandidates.end(),
-                     *(it->end() - 2)) == prefixCompletionCandidates.end()) {
-                prefixCompletionCandidates.push_back(*(it->end() - 2));
+                     candidate) == prefixCompletionCandidates.end()) {
+                prefixCompletionCandidates.push_back(candidate);
             }
             it++;
         }

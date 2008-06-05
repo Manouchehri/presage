@@ -28,6 +28,10 @@
 # include <unistd.h>
 #endif
 
+#ifdef HAVE_STRING_H
+# include <string.h>
+#endif
+
 // for opendir(), readdir(), closedir(), DIR, dirent
 #if HAVE_DIRENT_H
 # include <dirent.h>
