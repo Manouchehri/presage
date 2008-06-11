@@ -75,8 +75,8 @@ install-exec-local:
 uninstall-local:
 	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/*soothsayer*
 	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/prompter
-	rm -rf $(DESTDIR)$(bindir)/soothsayer_python_demo
-	rm -rf $(DESTDIR)$(bindir)/soothsayer_prompter
+	rm -f $(DESTDIR)$(bindir)/soothsayer_python_demo
+	rm -f $(DESTDIR)$(bindir)/soothsayer_prompter
 
 clean-local:
 	$(PYTHON) setup.py clean --all
