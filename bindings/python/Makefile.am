@@ -66,6 +66,18 @@ install-exec-local:
 	  ;; \
 	esac;
 
+# This rule cleans up stuff installed by Python's setup.py
+# Unfortunately, Python's distutils do not provide an uninstall
+# command, so we have to make up for it here in uninstall-local
+# hook. This might break if distutils' behaviour changes as automake
+# has no control over what distutils install command does.
+#
+uninstall-local:
+	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/*soothsayer*
+	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/prompter
+	rm -rf $(DESTDIR)$(bindir)/soothsayer_python_demo
+	rm -rf $(DESTDIR)$(bindir)/soothsayer_prompter
+
 clean-local:
 	$(PYTHON) setup.py clean --all
 

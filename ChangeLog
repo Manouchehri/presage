@@ -1,3 +1,7 @@
+2008-06-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/Makefile.am: fixed distcheck.
+
 2008-06-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* test/lib/core/dbconnector/sqliteDatabaseConnectorTest.cpp,
