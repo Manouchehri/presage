@@ -95,7 +95,22 @@ def parse_cmd_line_args():
 
 
 def main():
-	import soothsayer
+        try:
+	        import soothsayer
+        except ImportError, e:
+                print '''
+Error: failed to import module soothsayer.
+
+Check that soothsayer python binding is properly installed (if
+installed in a non-standard location, please set PYTHONPATH
+accordingly).
+
+Check that soothsayer library is properly installed (if installed in a
+non-standard location, please set LD_LIBRARY_PATH (PATH, LIBPATH)
+accordingly).
+'''
+		print e
+                sys.exit(1)
 
 	try:
 		# Create Soothsayer object

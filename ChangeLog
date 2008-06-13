@@ -1,3 +1,10 @@
+2008-06-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* bindings/python/prompter/prompter.py,
+	bindings/python/soothsayer_python_demo.in,
+	bindings/python/soothsayer_prompter.in: handle module import
+	errors gracefully.
+
 2008-06-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/Makefile.am: fixed distcheck.

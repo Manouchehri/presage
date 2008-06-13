@@ -18,9 +18,38 @@
 #  with this program; if not, write to the Free Software Foundation, Inc.,
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import wx
-import wx.stc
-import soothsayer
+import sys
+
+try:
+   import wx
+   import wx.stc
+except ImportError, ex:
+   print '''
+Error: failed to import module wxPython.
+
+wxPython is a Python binding for the wxWidgets toolkit.
+
+Check that wxPython is properly installed.
+'''
+   print ex
+   sys.exit(1)
+
+try:
+   import soothsayer
+except ImportError, ex:
+   print '''
+Error: failed to import module soothsayer.
+
+Check that soothsayer python binding is properly installed (if
+installed in a non-standard location, please set PYTHONPATH
+accordingly).
+
+Check that soothsayer library is properly installed (if installed in a
+non-standard location, please set LD_LIBRARY_PATH (PATH, LIBPATH)
+accordingly).
+'''
+   print ex
+   sys.exit(1)
 
 class Prompter(wx.App):
    def OnInit(self):

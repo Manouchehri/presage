@@ -79,6 +79,16 @@ def parse_cmd_line_args():
 if __name__ == "__main__":
    parse_cmd_line_args()
 
-   import prompter.prompter
-   app = prompter.prompter.Prompter()
-   app.MainLoop()
+   try:
+      import prompter.prompter
+   except ImportError, e:
+      print '''
+Error: failed to import module prompter.
+
+Check that prompter is properly installed (if installed in a
+non-standard location, please set PYTHONPATH accordingly).
+'''
+      print e
+   else:
+      app = prompter.prompter.Prompter()
+      app.MainLoop()
