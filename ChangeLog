@@ -1,3 +1,8 @@
+2008-06-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* website/soothsayer_database_dump.sql.gz: minor update to home
+	page.
+
 2008-06-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* bindings/python/prompter/prompter.py,
