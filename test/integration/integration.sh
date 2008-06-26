@@ -88,7 +88,9 @@ function generate_config()
 
 function replace_config_entry()
 {
-    sed -i.bak -e "s|<$1>.*</$1>|<$1>$2</$1>|" ${CONFIG}
+    rm -f ${CONFIG}.tmp
+    sed -e "s|<$1>.*</$1>|<$1>$2</$1>|" ${CONFIG} > ${CONFIG}.tmp
+    mv ${CONFIG}.tmp ${CONFIG}
 }
 
 ####

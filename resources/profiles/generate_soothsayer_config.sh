@@ -35,10 +35,10 @@ TEMPLATE=$1
 OUTPUT=$2
 LOCALSTATEDIR=$3
 
-# Determining CYGWIN_ROOT is required to work around a problem with
-# Sqlite on Cygwin, whereby Sqlite will not be able to open a database
-# file when specified as an absolute path rooted at /
-# (e.g. /var/database_en.db)
+# Determining whether LOCALSTATEDIR is in a format which will be
+# understood by SQLite on Cygwin, whereby SQLite will not be
+# able to open a database file when specified as an absolute path
+# rooted at / (e.g. /var/database_en.db)
 #
 # Sqlite has no problem using a relative path (which is of no use to
 # us) or opening a database file rooted at cygwin's root
@@ -46,12 +46,11 @@ LOCALSTATEDIR=$3
 #
 case `uname` in
 CYGWIN*)
-    CYGWIN_ROOT=`mount | grep ' on / type ' | awk '{print $1}' | tr \\\\ /`;
+    LOCALSTATEDIR=`cygpath -m ${LOCALSTATEDIR}`;
     ;;
 *)
-    CYGWIN_ROOT=
     ;;
 esac
 
 # Replace the token in $TEMPLATE and write result to $OUTPUT
-sed -e "s|::LOCALSTATEDIR::|${CYGWIN_ROOT}${LOCALSTATEDIR}|" ${TEMPLATE} > ${OUTPUT}
+sed -e "s|::LOCALSTATEDIR::|${LOCALSTATEDIR}|" ${TEMPLATE} > ${OUTPUT}

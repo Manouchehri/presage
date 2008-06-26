@@ -1,3 +1,16 @@
+2008-06-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+
+	* test\integration\integration.sh: fix integration test failure on
+	Windows/MinGW/MSYS platform.
+
+	* bindings\python\fix_wrapper.sed: make workaround fix for SWIG
+	bug on Windows a bit more robust to changes in the generated
+	wrapper.
+
+	* resources\profiles\generate_soothsayer_config.sh: use cygpath
+	program to obtain properly formatted path instead of using mount |
+	grep | awk | tr hack.
+
 2008-06-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
 
 	* website/soothsayer_database_dump.sql.gz: minor update to home

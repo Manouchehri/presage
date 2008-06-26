@@ -5,3 +5,5 @@
 5949 s/char \*name =/const char \*name =/
 5972 s/char \*name =/const char \*name =/
 6077 s/char \*name =/const char \*name =/
+s/char \*c \= methods\[i\]\.ml_doc;/const char *c = methods[i].ml_doc;/
+s/char \*name \= c + 10;/const char *name = c + 10;/
