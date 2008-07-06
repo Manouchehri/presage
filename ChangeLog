@@ -1,4 +1,9 @@
-2008-06-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-07-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test\integration\integration.sh: fixed problem in distcheck
+	target.
+
+2008-06-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test\integration\integration.sh: fix integration test failure on
 	Windows/MinGW/MSYS platform.
@@ -11,23 +16,23 @@
 	program to obtain properly formatted path instead of using mount |
 	grep | awk | tr hack.
 
-2008-06-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-06-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/soothsayer_database_dump.sql.gz: minor update to home
 	page.
 
-2008-06-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-06-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter/prompter.py,
 	bindings/python/soothsayer_python_demo.in,
 	bindings/python/soothsayer_prompter.in: handle module import
 	errors gracefully.
 
-2008-06-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-06-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am: fixed distcheck.
 
-2008-06-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-06-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/core/dbconnector/sqliteDatabaseConnectorTest.cpp,
 	src/tools/soothsayerSimulator.cpp, src/tools/soothsayerDemo.cpp,
@@ -42,21 +47,21 @@
 	* bindings/python/Makefile.am: changing man page generation
 	dependency from generated file to source file.
 
-2008-06-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-06-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: bumped release version up to 0.6.3.
 	
 	* NEWS, website/soothsayer_database_dump.sql.gz: announcing 0.6.3
 	release.
 
-2008-06-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-06-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/integration/integration.sh, src/tools/Makefile.am,
 	doc/getting_started.txt: changed binaries names from capitalized
 	style to underscore separated style (i.e. from soothsayerSimulator
 	to soothsayer_simulator).
 
-2008-05-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am: automatically generate
 	soothsayer_prompter demo man page.
@@ -72,7 +77,7 @@
 	* bindings/python/soothsayer_prompter.in: renamed prompter
 	front-end to soothsayer_prompter.  * configure.ac:
 
-2008-05-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am: generate man page from python
 	script.
@@ -89,7 +94,7 @@
 	appended .in to python programs finenames to allow autoconf
 	processing.
 
-2008-05-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/python-soothsayer.install, setup.py.in,
 	bindings/python/prompter.py, bindings/python/Makefile.am,
@@ -97,12 +102,12 @@
 	bindings/python/soothsayer_python_demo.py: removed .py suffix from
 	python demo programs.
 
-2008-05-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/python-soothsayer.install: fixed script-not-executable
 	warnings for python scripts in python-soothsayer package.
 
-2008-05-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* setup.py.in, bindings/python/Makefile.am,
 	bindings/python/setup.py.in: distributing
@@ -113,19 +118,19 @@
 	bindings/python/soothsayer_python_demo.py,
 	bindings/python/runme.py: renamed runme.py.
 
-2008-05-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/control: added swig to build dependencies.
 
 	* configure.ac: print summary of predictive plugins to build.
 
-2008-05-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/control, debian/python-soothsayer.install: fixed few
 	python binding debian package problems, soothsayer python binding
 	package is now working and usable.
 	
-2008-05-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/control, debian/rules: added soothsayer-python package.
 
@@ -134,7 +139,7 @@
 	* bindings/python/Makefile.am, bindings/python/setup.py.in:
 	cleaning using distutils, maintainer field.
 
-2008-05-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am: fixed bug, not honouring DESTDIR.
 	
@@ -151,7 +156,7 @@
 	file and switched to other italian text resources for sample
 	statistical database generation.
 
-2008-05-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/soothsayer.cpp, src/lib/soothsayer.h: simplified
 	interface, removed redundant methods that take a char type. Now
@@ -166,7 +171,7 @@
 	
 	* doc/INSTALL_MinGW_MSYS_dev_env.txt: minor doc updates.
 
-2008-05-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: bumped release version up to 0.6.2.
 	
@@ -183,7 +188,7 @@
 	* bindings/python/Makefile.am: added distribution and byte-compilation
 	of prompter.py.
 
-2008-05-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources/i_malavoglia.txt: converted training text to utf-8
 	encoding.
@@ -202,7 +207,7 @@
 	* bindings/python/fix_wrapper.sed: added swig wrapper fixes, line
 	numbers seems to change across versions.
 
-2008-05-09  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* README, doc/INSTALL_MinGW_MSYS_dev_env.txt,
 	doc/INSTALL_Cygwin_dev_env.txt: updated documentation and
@@ -213,7 +218,7 @@
 	* website/soothsayer_database_dump.sql.gz: adding recency plugin
 	information to website.
 	
-2008-05-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/dictionaryPlugin: refactored and cleaned up
 	plugin.
@@ -221,17 +226,17 @@
 	* resources/profiles/soothsayer.xml.template: added dictionary
 	plugin config variable.
 	
-2008-05-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/recencyPlugin: added const configuration
 	variable keys.
 
-2008-05-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/profile.h: made ProfileException inherit from
 	SoothsayerException.
 
-2008-05-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/Makefile.am: distribute header soothsayerException.h
 
@@ -241,7 +246,7 @@
 	* bindings/python/runme.py: wrapped soothsayer calls in try:
 	except: block.
 	
-2008-05-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: switched on building python binding by default
 	(can be turned off with --disable-python-binding option).
@@ -254,7 +259,7 @@
 	* resources/profiles/soothsayer.xml.template: added logger
 	configuration variable.
 	
-2008-05-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-05-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/soothsayerException.h,
 	src/lib/core/soothsayerException.cpp: refactored soothsayer
@@ -276,12 +281,12 @@
 	test/lib/core/dbconnector/Makefile.am: hooked new soothsayer
 	exception class into build system.
 
-2008-04-30  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter.py: implemented autopunctuation
 	feature, enabled by default. Show prediction list on startup.
 	
-2008-04-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* doc/MinGW-MSYS_devenv.txt: updated instructions to build in
 	MinGW/MSYS.
@@ -289,13 +294,13 @@
 	* INSTALL_cygwin_dev_env.txt: fixed typo in CygWin build 
 	instructions.
 
-2008-04-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter.py: fixed problem showing prediction
 	list after user list selection event (thanks to Robin Dunn for
 	providing the solution).
 
-2008-04-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/recencyPlugin: fixed bug in cutoff threshold.
 
@@ -304,7 +309,7 @@
 	* test/lib/plugins/smoothedNgramPluginTest.cpp: turned off verbose
 	test output.
 
-2008-04-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/recencyPlugin.cpp: added code to read values
 	from config variables.
@@ -320,7 +325,7 @@
 
 	* src/lib/core/profile.cpp: removed debug printout statement.
 
-2008-04-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/combiner, src/lib/core/meritocracyCombiner,
 	src/lib/core/suggestion: added filter method to remove duplicate
@@ -330,13 +335,13 @@
 	* test/lib/core/combinerTest, test/lib/core/Makefile.am: added
 	duplicate suggestions filter test.
 
-2008-04-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/rules: enabled unit tests in debian package build.
 
 	* src/lib/plugins/recencyPlugin.cpp: fixed compilation warning.
 
-2008-04-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/smoothedNgramPlugin.cpp: fixed plugin
 	description typo.
@@ -350,27 +355,27 @@
 	test/lib/plugins/recencyPluginTest.cpp,
 	test/lib/plugins/recencyPluginTest.h: added recency plugin tests.
 
-2008-04-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter.py: minor refactor.
 
-2008-04-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter.py: added more menu items, added grey
 	out of unavailable menu items.
 
-2008-04-17  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter.py: added file open functionality.
 
-2008-04-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am,
 	resources/profiles/generate_soothsayer_config.sh,
 	resources/profiles/Makefile.am: added a few escaped backslashes
 	and swithed to shell built-in case switches for pattern matching.
 
-2008-04-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am: fixed python binding installation
 	on MinGW/MSYS.
@@ -378,7 +383,7 @@
 	* resources/profiles/Makefile.am: fixed config file generation on
 	MinGW/MSYS.
 
-2008-04-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am: fixing python distutils install
 	target by using clever hack to get native Win32 path in MSYS.
@@ -386,30 +391,30 @@
 	* bindings/python/prompter.py: fixed problems with autocompletion,
 	which now almost works for simple cases.
 
-2008-04-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am: added dependency on soothsayer.h
 	interface.
 
-2008-04-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter.py: additional work to fix bugs with
 	autocompletion and keeping soothsayer in sync with autocompletion
 	updates.
 
-2008-04-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/profileManager.cpp, bindings/python/Makefile.am,
 	resources/profiles/generate_soothsayer_config.sh: adding support
 	for MinGW/MSYS.
 
-2008-04-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: added autoconf check for pwd.h.
 
 	* debian/changelog: update changelog to current soothsayer release.
 
-2008-04-09  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter.py: improved autocompletion
 	functionality of prompter demo application (still very buggy).
@@ -417,12 +422,12 @@
 	* src/lib/soothsayer: added prefix() method to obtain current
 	prediction prefix.
 
-2008-04-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter.py: initial commit of prompter
 	graphical user interface demonstration program.
 
-2008-04-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: bumped release version up to 0.6.1.
 	
@@ -435,7 +440,7 @@
 
 	* bindings/python/fix_wrapper.sed: added to distribution.
 
-2008-04-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: added configuration report for man pages.
 
@@ -443,7 +448,7 @@
 
 	* debian/control: added build dependency on help2man.
 
-2008-04-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/fix_wrapper.sed: fixed sed script to workaround
 	swig bug.
@@ -451,31 +456,31 @@
 	* INSTALL_cygwin_dev_env.txt: updated cygwin developer environment
 	installation instructions. 
 
-2008-04-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-04-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: fixed autoconf checks for python.
 
-2008-03-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/Makefile.am: added -version-info to libsoothsayer.
 	
 	* src/tools/Makefile.am: removed text2ngram unnecessary linking
 	with sqlite library.
 
-2008-03-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website: added link to ChangeLog in news section.
 
-2008-03-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* changes: restructured source and test directory layout to better
 	reflect logical structure.
 
-2008-03-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* doc/Makefile.am: fixed minor issue with automake install hook.
 
-2008-03-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/soothsayerDemoText: documented -s flag.
 
@@ -483,7 +488,7 @@
 
 	* Makefile.am: removed linda check, linda is obsolete.
 
-2008-03-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/soothsayer: added config() to API.
 
@@ -492,7 +497,7 @@
 	
 	* debian/soothsayer-doc.doc-base: update doc-base section.
 
-2008-03-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/utility: understand true and false too.
 
@@ -502,13 +507,13 @@
 	* src/core/selectorTest, src/core/profileManagerTest: changed
 	tests to use new selector api.
 
-2008-03-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/sqliteDatabaseConnector: fixed bug when attempting to
 	free() error message string allocated by sqlite3_exec() call: use
 	sqlite3_free() instead.
 
-2008-03-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/copyright: update copyright notice.
 
@@ -516,11 +521,11 @@
 
 	* website: updated website to Drupal 5.7, updated instructions.
 	
-2008-03-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-03-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/control: updated description fields.
 
-2008-02-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tinyxml/Makefile.am: no longer bundle tinyxml/doc files in
 	distribution package.
@@ -528,7 +533,7 @@
 	* doc/Makefile.am, doc/options.txt: removed outdated file, removed
 	references to it from Makefile.am.
 	
-2008-02-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/plugins/Makefile.am: no longer build
 	SmoothedUniBiTrigramPlugin.
@@ -539,7 +544,7 @@
 	* test/plugins/Makefile.am, test/plugins/smoothedUniBiTrigramTest:
 	removed tests.
 	
-2008-02-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/plugins/dictionaryPluginDriver.cpp
 	test/plugins/pluginsTestMockObjects.cpp
@@ -592,18 +597,18 @@
 	 class to query	for variables' values and they should not cache
 	 those values.
 
-2008-02-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/setup.py.in, bindings/python/runme.py: updated
 	license notice.
 
-2008-02-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: changed notice message when dot is not found.
 
 	* doc/Doxygen.in: enabled generation of caller graphs.
 
-2008-02-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* sources: updated license notices in *.h and *.cpp source files.
 
@@ -617,7 +622,7 @@
 	* resources/profiles/generate_soothsayer_config.sh,
 	test/integration/integration.sh: updated license notices.
 
-2008-02-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/configuration: config class is now a full featured
 	class instead of a typedef'ed map.
@@ -632,12 +637,12 @@
 	
 	* test/core/Makefile.am: enabled new unit tests.
 
-2008-02-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* doc/Doxygen.in, configure.ac: added configure check for
 	Graphviz's dot tool to control documentation diagram generation.
 
-2008-02-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/variable: fixed bug causing addition of empty config
 	variable part when extracting variable from string.
@@ -646,7 +651,7 @@
 
 	* debian/watch: added watch file.
 
-2008-02-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/contextTracker, src/core/selector, src/core/predictor:
 	changed to using new style of variable class.
@@ -661,14 +666,14 @@
 	
 	* src/soothsayer: update documentation comments.
 
-2008-02-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/soothsayer: renamed history() method to context().
 
 	* src/soothsayerDemo, src/soothsayerDemoText: cleaned up, added
 	comments and documentation to demo programs.
 
-2008-02-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-02-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/variable: added initial implementation of Variable
 	class to replace typedef'ed vector<string> variable definition.
@@ -684,7 +689,7 @@
 	  test/plugins/Makefile.am: adapted tests to new Variable class.
 
 
-2008-01-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-01-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/plugins/smoothedNgramPlugin: cleaned up debugging and
 	logging statements.
@@ -692,7 +697,7 @@
 	* src/core/logger: added method that returns whether logger will
 	log or not, useful to replace DEBUG #ifdef's.
 
-2008-01-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-01-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/profile, test/core/profileTest: added tests reading
 	non-existing variables, border conditions.
@@ -700,11 +705,11 @@
 	* src/core/profileManager, doc/getting_started.txt: update
 	documentation on soothsayer configuration files used.
 
-2008-01-20  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-01-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/profile: cache configuration inside Profile object.
 
-2008-01-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-01-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian: added files for soothsayer-doc package and registered
 	documentation with doc-base.
@@ -715,7 +720,7 @@
 	* debian/control: changes to make package "unstable lintian
 	clean", edited descriptions.
 	
-2008-01-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-01-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 	
 	* src/core/profileManager: look for default profile in user's home
 	directory first and then system config directory /etc/soothsayer.
@@ -727,7 +732,7 @@
 	configuration, since configuration file in current directory is no
 	longer used by default.
 
-2008-01-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-01-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* compiler-warnings: fixed all compiler warning while building
 	`make all' and `make check'.
@@ -739,7 +744,7 @@
 	not included in the dist tarball when help2man executable was not
 	found: fixed now.
 
-2008-01-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-01-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources/Makefile.am: install generated statistical database
 	resources in soothsayer specific var lib directory.
@@ -750,11 +755,11 @@
 	* debian: changed build depends to get package to build in
 	pbuilder chroot.
 
-2008-01-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2008-01-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* man: added --name option to help2man man pages generation.
 
-2007-12-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-12-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian: added configuration file soothsayer.xml to
 	libsoothsayer0 debian package.
@@ -766,22 +771,22 @@
 	text2ngram, soothsayerDemo, soothsayerDemoText, and
 	soothsayerSimulator executables.
 	
-2007-12-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-12-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian: changes to debian files to fix various lintian warnings
 	and errors, added soothsayer-data package, fixed dev package name.
 
-2007-12-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-12-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian: switched to cdbs, cleaned up and fixed installations
 	into separate packages, removed unnecessary files from debian
 	directory.
 
-2007-12-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-12-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian: initial stab at creating a soothsayer debian package.
 
-2007-12-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-12-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* logger, soothsayer.xml.template: changed default logging level
 	to ERROR.
@@ -794,7 +799,7 @@
 	* databaseConnector, sqliteDatabaseConnector: added constructor
 	taking logger level.
 	
-2007-12-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-12-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* databaseConnector, sqliteDatabaseConnector: now use new logger.
 	
@@ -804,18 +809,18 @@
 	* contextTracker, predictor: have an instance of logger, instead
 	of pointer to logger.
 
-2007-12-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-12-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* plugin.h, plugins: reverted to const predict method now
 	that logger has been fixed.
 
-2007-12-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-12-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* logger.h: resolved problem whereby a const method of a class
 	using its own member logger would not compile due to disregarding
 	const qualifier.
 
-2007-11-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-11-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* Moved DatabaseConnector to new dbconnector directory within core.
 
@@ -823,49 +828,49 @@
 	SmoothedNgramPlugin logging, fixed typo in abbreviations expansion
 	database.
 
-2007-11-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-11-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* ProfileManager uses new logger.
 
-2007-11-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-11-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* Fix tools tests, should now work with every sqlite/sqlite3
 	command line executable version.
 
 	* Selector now uses the new logger.
 
-2007-11-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-11-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* Logger logs its name at beginning of each log line.
 
 	* ContextTracker uses new logger and endl line endings.
 
-2007-11-17  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-11-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* More logger work. Getting to a stage where it is actually
 	providing some functionality.
 
-2007-11-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-11-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* Minor doc update.
 
-2007-11-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-11-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* Adding logger levels. More logger changes, still not
 	complete. Added logger test files.
 
-2007-11-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-11-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* Initial implementation of Logger, more features to be added.
 
-2007-09-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-09-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac, doc/Doxyfile.in, Makefile.am: integrated Doxygen
 	documentation generation into autotools build system.
 
 	* configure.ac: added configuration information notification.
 	
-2007-09-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-09-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/integration.sh: modified integration test training corpus
 	and control corpus generation.
@@ -873,21 +878,21 @@
 	* configure.ac: warn if requested python binding build cannot be
 	carried out.
 
-2007-09-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-09-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/plugins/plugins: modified Plugin::predict() method signature
 	to have parameter indicating desired prediction size.
 
 	* test/integration: added larval integration test suite.
 	
-2007-09-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-09-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/soothsayerDemo.cpp: display initial prediction before user
 	enter first character.
 
 	* src/core/profileManager.cpp: turn off debugging.
 	
-2007-09-05  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-09-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: bumped version up to 0.6.
 
@@ -896,19 +901,19 @@
 	* NEWS, website/soothsayer_database_dump.sql.gz: added 0.6 release
 	news.
 
-2007-09-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-09-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python, bindings/python/Makefile.am,
 	bindings/python/setup.py.in, bindings/Makefile.am, configure.ac:
 	added support for building and installing Python binding based on
 	Python distutils.
 
-2007-09-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-09-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* Makefile.am: Ensure local m4 macros are included during
 	autoreconf and automatic aclocal.m4 remaking
 
-2007-08-31  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/Makefile.am: added -no-undefined linker flag to ensure
 	that shared libraries are built on Windows targets.
@@ -916,7 +921,7 @@
 	* bindings/Makefile.am: added -no-undefined -avoid-version 
 	linker flags to python dynamically loaded extension module.
 
-2007-08-30  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: added --enable-python-binding configure flag.
 	
@@ -930,18 +935,18 @@
 
 	* bootstrap: changed bootstrap to use SWIG macros.
 	
-2007-08-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac, src/tools/Makefile.am: changed SQLite link flag.
 
-2007-08-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings, bindings/soothsayer.i, bindings/Makefile.am,
 	bindings/runme.py, configure.ac, Makefile.am: added initial
 	support for generating a python binding for soothsayer. Not fully
 	integrated into build system yet.
 
-2007-08-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/databaseConnector: minor fix to get soothsayer to
 	build on Solaris 10 with SUN Studio 10 and 11. Soothsayer builds
@@ -952,7 +957,7 @@
 	src/plugins/smoothedUniBiTrigramPlugin: cleaned up header files
 	inclusions.
 
-2007-08-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: checking for curses instead of ncurses header and
 	library to increase portability.
@@ -960,14 +965,14 @@
 	* src/Makefile.am: made compilation of soothsayerDemo conditional
 	on curses autoconf check.
 	
-2007-08-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/core/profileManagerTest: fixed compilation problem on
 	Windows+CygWin.
 	
 	* src/tools/text2ngram: minor correction to --help output.
 
-2007-08-21  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/soothsayerSimulator, src/soothsayerDemo,
 	src/soothsayerDemoText: implemented -c flag to specify custom XML
@@ -982,13 +987,13 @@
 	* test/core/profileManagerTest: added unit tests for loading
 	profiles from current dir or using absolute filename.
 
-2007-08-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/databaseConnector: fixed problem caused by SQLite
 	2.x. not supporting IF NOT EXISTS clause in a CREATE TABLE
 	statement.
 
-2007-08-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: bumped version up to 0.5.
 
@@ -996,7 +1001,7 @@
 	
 	* website/soothsayer_database_dump.sql.gz: added 0.5 release news.
 
-2007-08-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/plugins/smoothedNgramPlugin: performance enhancement,
 	candidates generation no longer retrieves unnecessary n-gram like
@@ -1011,7 +1016,7 @@
 	* src/simulator/simulator, src/soothsayerSimulator: added silent
 	flag to reduce simulation verbosity.
 	
-2007-08-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/plugins/smoothedNgram: use highest n-gram to generate
 	initial completion candidates, fall back on lower n-grams if
@@ -1023,7 +1028,7 @@
 	* src/tools/databaseConnector: creating table if table does not
 	exit only.
 
-2007-08-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/simulator/simulator.cpp: fixed bug in simulator which caused
 	the reported keystroke reduction rate to be much lower than the
@@ -1033,7 +1038,7 @@
 	* src/soothsayerSimulator.cpp: added flag to enable case
 	insensitive simulation.
 
-2007-08-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/plugins/smoothedNgram: added initial implementation of
 	generalized smoothed n-gram probabilistic predictive plugin.
@@ -1050,7 +1055,7 @@
 	* resources/profiles/soothsayer.xml.template: added configuration
 	section for smoothed n-gram predictive plugin.
 
-2007-08-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: bumped version up to 0.4.
 
@@ -1058,7 +1063,7 @@
 	
 	* website/soothsayer_database_dump.sql.gz: added 0.4 release news.
 	
-2007-08-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/plugins/smoothedUniBiTrigramPluginTest: remove duplicate
 	code, test now inherits common code from PluginsTestFixture class
@@ -1070,7 +1075,7 @@
 	* src/soothsayer.h: documented soothsayer interface and added
 	mainpage to doxygen generated documentation.
 
-2007-08-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/plugins/abbreviationExpansionPluginTest: fixed problem with
 	running test with distchek target (VPATH build).
@@ -1080,7 +1085,7 @@
 	
 	* Doxyfile: modified EXAMPLE_PATH to include getting started guide
 
-2007-08-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/plugins/abbreviationExpansionPlugin: implemented
 	abbreviation expansion predictive plugin.
@@ -1128,17 +1133,17 @@
 
 	* doc/getting_started.txt: minor header changes.
 
-2007-08-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/historyTracker: conditionally use std::string or
 	std::stringstream to track past and future stream.
 
-2007-08-01  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-08-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tinyxml/Makefile.am: prevented inclusion of .svn directory
 	and its contents in tinyxml/docs directory.
 
-2007-07-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: bumped version up to 0.3.
 
@@ -1149,7 +1154,7 @@
 	
 	* website/soothie_theme.tar.gz: minor style sheet updates.
 
-2007-07-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/selector: removed context change detection from
 	Selector and moved it to HistoryTracker (should be called
@@ -1166,7 +1171,7 @@
 
 	* src/soothsayerDemoText: added context change visual cues.
 
-2007-07-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/Makefile.am: added HEADERS primary to install soothsayer.h
 	
@@ -1177,13 +1182,13 @@
 	src/soothsayerDemo.cpp, src/soothsayerDemoText.cpp:
 	added required headers to account for changes to soothsayer.h	
 
-2007-07-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/predictor.h, src/core/predictor.cpp: fixed memory leak.
 
 	* src/core/utility.cpp: fixed free memory mismatch.
 
-2007-07-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/plugins/smoothedUniBiTrigramPlugin.cpp,
 	src/plugins/smoothedUniBiTrigramPlugin.h,
@@ -1205,19 +1210,19 @@
 	* resources/profiles/soothsayer.xml.template: added PLUGINS
 	configuration variable to Predictor section.
 
-2007-07-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/profileManager, test/core/profileManagerTest: changed
 	COMBINER_METHOD to COMBINER_POLICY.
 
 	* src/core/predictor: combiner policy change.
 
-2007-07-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website: revamped website design, created new drupal theme based
 	on Zen drupal theme, created new soothsayer logo.
 
-2007-07-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/profileManager.cpp: fixed memory leak in
 	ProfileManager, xml profile document was not being delete on
@@ -1225,7 +1230,7 @@
 
 	* src/core/utility.cpp: fixed memory leaks in utility functions.
 
-2007-07-14  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/plugins/smoothedUniBiTrigramPluginTest.cpp,
 	test/plugins/dictionaryPluginDriver.cpp,
@@ -1253,7 +1258,7 @@
 	ProfileManager push the configuration out towards plugins and
 	components.
 
-2007-07-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/combiner: modified interface to take std::vector of
 	predictions to be combined.
@@ -1274,16 +1279,16 @@
 	* test/core/Makefile.am: added meritocracyCombiner object to
 	test runner.
 	
-2007-07-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: bumped version up to 0.2, updated website.
 
-2007-07-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/soothsayerDemo: improved previous predictions drawing logic,
 	predictions windows are only drawn if they fit on screen.
 
-2007-07-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-07-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/soothsayerSimulator: modified help and version option
 	handling.
@@ -1295,18 +1300,18 @@
 
 	* src/simulator/simulator: increase results verbosity.
 	
-2007-06-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* sqlite3: added support for sqlite3. sqlite3 will be used in
 	preference of sqlite2 is both are installed.
 
-2007-06-28  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources/profiles/Makefile.am: fixed problem regenerating
 	configuration file from template. Configuration file was not
 	rebuilt after package reconfiguration.
 
-2007-06-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/sqliteDatabaseConnector: fixed exceptions raised when
 	sqlite returns error conditions.
@@ -1314,7 +1319,7 @@
 	* test/tools/sqliteDatabaseConnector: added assertions to check
 	expected exceptions are thrown.
 	
-2007-06-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/plugins/smoothedUniBiTrigramPluginTest: added plugin unit
 	tests.
@@ -1322,16 +1327,16 @@
 	* src/plugins/smoothedUniBiTrigramPluginTest: fixed bug exposed by
 	new plugin unit tests.
 
-2007-06-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/suggestion, src/core/prediction: minor change to
 	interface. Adapted unit tests accordingly.
 
-2007-06-22  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* Makefile.am: minor changes and cleanups.
 
-2007-06-13  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/databaseConnector: added method to compute the sum of
 	all unigrams counts.
@@ -1339,28 +1344,28 @@
 	* src/tools/smoothedUniBiTrigramPlugin: using DatabaseConnector
 	interface instead of derived SqliteDatabaseConnector interface.
 	
-2007-06-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/resources/profiles: added script to generate soothsayer.xml
 	config file from template and determine cygwin root directory,
 	when on cygwin, to work around sqlite problem with absolute
 	database paths on Windows+Cygwin
 
-2007-06-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/Makefile.am, src/plugins/Makefile.am: cleaned up
 	dependencies of convenience libraries.
 
-2007-06-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-06-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: added checks for ncurses.
 
-2007-05-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources/profiles/soothsayer.xml: removed superflous bits and
 	added element descriptions.
 
-2007-05-11  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/historyTracker: fixed bug in getToken(index), incorrect
 	token was returned when index pointed too far back into the
@@ -1375,11 +1380,11 @@
 	string literal. The following WHERE word = "word" is a no-op, the
 	correct clause is WHERE word = 'word'.
 
-2007-05-10  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/soothsayerDemo: added function key sidebar.
 
-2007-05-09  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/text2ngram: improved performance of sqlite database
 	creation by enclosing INSERTs in a transaction. The resulting
@@ -1395,7 +1400,7 @@
 	* src/plugins/Makefile.am: minor change to
 	SmoothedUniBiTrigramPlugin sources.
 
-2007-05-08  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/text2ngram: added progress bar to result writing
 	phase.
@@ -1406,7 +1411,7 @@
 
 	* src/core/createXML: removed as not needed.
 	
-2007-05-07  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/text2ngram: corrected -f option flag to generate
 	tabbed separated values to 'tsv' instead of generic 'file'.
@@ -1421,7 +1426,7 @@
 
 	* resources/profile/defaultpassword.xml: no longer needed.
 	
-2007-05-06  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/core/profile: added Profile class to easy configuration
 	variable querying by plugins and other components.
@@ -1441,7 +1446,7 @@
 
 	* src/core/profileManager: added support for Profile class.
 	
-2007-05-04  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/soothsayerDemo: added disclaimer and copyright information,
 	added helpful comments, fixed bug in display refreshing, minor
@@ -1452,7 +1457,7 @@
 
 	* src/soothsayerDriverNcurses: changed name to soothsayerDemoSimple
 	
-2007-05-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/utility: not needed, removed
 
@@ -1467,7 +1472,7 @@
 
 	* Doxyfile: added Doxygen configuration file to distribution.
 	
-2007-05-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-05-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: fixed check for CppUnit library.
 
@@ -1477,32 +1482,32 @@
 	* Makefile.am: made building and running unit tests conditional on
 	whether CppUnit is found.
 
-2007-04-29  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-04-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools: removed unneeded database.h, database.cpp,
 	sqlite.cpp, fileTokenizer.h, fileTokenizer.cpp
 
-2007-04-27  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-04-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* updated_email_address: in all .h and .cpp files, courtesy of the
 	all powerful find and sed utils - i.e. `find . -name "*.h" -type f
 	-exec sed -i -e
 	's/matteo.vescovi@yahoo.co.uk/matteo.vescovi@yahoo.co.uk/' {} \;'
 	
-2007-04-26  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-04-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* tools: retired old text2unigram, text2bigram, text2trigram,
 	text2unigramdb, text2bigramdb, text2trigramdb tools, which are
 	superseded by text2ngram tool.
 
-2007-04-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-04-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* logging: added LOG() macro to turn log messages on/off in
 	tools/dbConnectors. This is a temporary solution using
 	preprocessor macros, which should be replaced by an appropriate
 	logger implementation.
 
-2007-04-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-04-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/plugins/smoothedUniBiTriGramPlugin: modified plugin to use new
 	databaseConnector classes
@@ -1510,19 +1515,19 @@
 	* src/tools/sqliteDatabaseConnector: added ORDER BY clause to
 	getNgramLikeTable() method
 
-2007-04-15  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-04-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources: switched database creation to new text2ngram tool,
 	which uses the new table names in _N_gram form.
 	
-2007-04-12  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-04-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/sqliteDatabaseConnector: fixed callback() method by
 	return 0 to signal normal execution. Oddly, even the the method
 	signature specifies an integer return type, the gcc C++ compiler
 	does not generate any error or warning that no value is returned.
 
-2007-03-30  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-03-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/tools/databaseConnectorTest: added tests for
 	...NgramLikeTable() methods family, fixed tests to account for
@@ -1531,12 +1536,12 @@
 	* test/tools/sqliteDatabaseConnectorTest: fixed tests to account
 	for buildXClause changes
 	
-2007-03-25  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-03-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/databaseConnector: fixed bugs affecting the
 	buildXClause family of functions
 
-2007-03-23  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-03-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/databaseConnector: added getNgramLikeTable() method,
 	which returns a set of ngrams that are possible completions of the
@@ -1546,7 +1551,7 @@
 	NgramTable instead of a string to ease subsequent manipulation and
 	information extraction
 	
-2007-03-03  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-03-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/tokenizer: renamed Tokenizer class to FileTokenizer,
 	taking us one step closer to fully removing code duplication with
@@ -1557,7 +1562,7 @@
 	
 	* src/Makefile.am: linking libtools.la with libsoothsayer.la
 
-2007-02-24  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-02-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* text2ngram: added -o option (set output file) and option -f (set
 	file format), text2ngram can output in text file or sqlite format
@@ -1565,12 +1570,12 @@
 	* progress.h: turned progress bar implementation into a class,
 	added progress bar completion on object destruction
 
-2007-02-19  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-02-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* profileManager: when no profile is found, use default value for
 	configuration parameters
 
-2007-02-16  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-02-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* headers: changed generation of multiple headers containing
 	directory value to single header
@@ -1581,13 +1586,13 @@
 	* smoothedUniBiTrigramPlugin: database is found based on
 	installation location
 
-2007-02-02  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-02-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* headers: added generation of headers with defines for
 	sysconfdir, datadir, pkgdatadir, and localstatedir using built
 	sources
 
-2007-01-18  Matteo Vescovi  <matteo.vescovi@yahoo.co.uk>
+2007-01-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* svn: moved soothsayer codebase to subversion
 

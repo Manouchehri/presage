@@ -90,7 +90,7 @@ function replace_config_entry()
 {
     rm -f ${CONFIG}.tmp
     sed -e "s|<$1>.*</$1>|<$1>$2</$1>|" ${CONFIG} > ${CONFIG}.tmp
-    mv ${CONFIG}.tmp ${CONFIG}
+    mv -f ${CONFIG}.tmp ${CONFIG}
 }
 
 ####
