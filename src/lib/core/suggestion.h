@@ -32,7 +32,7 @@
 #include <sstream>
 #include <string>
 
-#include "soothsayerException.h"
+#include "presageException.h"
 
 /** Suggestion
  * 
@@ -67,13 +67,13 @@ public:
     static const double MIN_PROBABILITY;
     static const double MAX_PROBABILITY;
 
-    class SuggestionException : public SoothsayerException {
+    class SuggestionException : public PresageException {
     public:
-	SuggestionException(const std::string& msg) throw() : SoothsayerException(msg) { }
+	SuggestionException(const std::string& msg) throw() : PresageException(msg) { }
 	virtual ~SuggestionException() throw() { }
 
     private:
-	SuggestionException() throw() : SoothsayerException("") {};
+	SuggestionException() throw() : PresageException("") {};
 
     };
 

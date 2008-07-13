@@ -21,7 +21,7 @@
                                                                              *
                                                                 **********(*)*/
 
-#include "soothsayer.h"
+#include "presage.h"
 
 #ifdef HAVE_STDLIB_H
 # include <stdlib.h>
@@ -32,7 +32,7 @@
 #include <iostream>
 #include <sstream>
 
-const char PROGRAM_NAME[] = "soothsayerDemoText";
+const char PROGRAM_NAME[] = "presage_demo_text";
 
 void disclaimer();
 void parseCommandLineArgs(int argc, char** argv);
@@ -49,24 +49,24 @@ int main(int argc, char** argv)
     disclaimer();
 
     // magic start here...
-    Soothsayer soothsayer(config);
+    Presage presage(config);
 
     if (suggestions) {
 	// problem with this is that even if I implemented the
-	// config() method in Soothsayer class, it still would not
+	// config() method in Presage class, it still would not
 	// work because components read config values at construction
 	// time. Which means that for this to work the Selector would
 	// have to be destroyed and recreated (which would imply
 	// losing current state) or would have to have an init()
 	// method which re-reads the config from config.
 	// 
-	// Soothsayer class could be made smart by only re-init()'ing
+	// Presage class could be made smart by only re-init()'ing
 	// only the affected module by looking at the
-	// Soothsayer.Selector part of the configuration variable.
+	// Presage.Selector part of the configuration variable.
 	//
 	// All this logic probably belongs to a Configuration class,
 	// which could do the mapping between variable stem and
-	// component. So, Soothsayer::config() would result in a
+	// component. So, Presage::config() would result in a
 	// Configuration::update() call, which would update the
 	// internal representation of the configuration value and then
 	// invoke on the init() method of the affected component
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
 	// convert int to string using a stringstream
 	std::stringstream ss;
 	ss << suggestions;
-	soothsayer.config("Soothsayer.Selector.SUGGESTIONS", ss.str());
+	presage.config("Presage.Selector.SUGGESTIONS", ss.str());
     }
 
     // buffer to read user input
@@ -95,10 +95,10 @@ int main(int argc, char** argv)
         std::cin.getline (buffer, BUFFER_SIZE);  // read in string (if any)
 
         print_prediction(
-            soothsayer.predict(buffer)  // request new prediction
+            presage.predict(buffer)  // request new prediction
 	    );
-        std::cout << "-- Context: " << soothsayer.context() << std::endl;
-        if (soothsayer.contextChange()) {
+        std::cout << "-- Context: " << presage.context() << std::endl;
+        if (presage.contextChange()) {
             std::cout << "-- Context changed" << std::endl;
         }
     }
@@ -110,15 +110,15 @@ int main(int argc, char** argv)
 void disclaimer()
 {
     std::cout <<
-        "Soothsayer Textual Demo\n"
-        "-----------------------\n"
+        "Presage Textual Demo\n"
+        "--------------------\n"
         "\n"
-        "This program is intended as a demonstration of Soothsayer ONLY.\n"
+        "This program is intended as a demonstration of Presage ONLY.\n"
         "\n"
-        "The Soothsayer project aims to provide an intelligent predictive text entry platform.\n"
+        "The Presage project aims to provide an intelligent predictive text entry platform.\n"
         "\n"
         "Its intent is NOT to provide a predictive text entry user interface.\n"
-        "Think of Soothsayer as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.\n"
+        "Think of Presage as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.\n"
         "\n" << std::endl;
 }
 

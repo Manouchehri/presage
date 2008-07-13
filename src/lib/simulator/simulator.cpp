@@ -27,7 +27,7 @@
 
 Simulator::Simulator(const std::string config)
 {
-    soothsayerPtr = new Soothsayer(config);
+    presagePtr = new Presage(config);
 
     autoSpace = true;
 	
@@ -41,28 +41,28 @@ Simulator::Simulator(const std::string config)
 
 Simulator::~Simulator()
 {
-    delete soothsayerPtr;
+    delete presagePtr;
 }
 
 
 void Simulator::simulate( std::string str )
 {
 
-    // Soothsayer predicts a word even when the prefix
+    // Presage predicts a word even when the prefix
     // is a null string. This initial call to the predict
     // method simulates this condition.
-    bool hit = find( soothsayerPtr->predict( "" ), str );
+    bool hit = find( presagePtr->predict( "" ), str );
 
     // If the correct predicted word is returned, then
     // we've got a hit! If this happens when the prefix is
     // a null string, kudos to the developer (me)! 
-    // Soothsayer predicted the word is one try!
-    // We need to update the Soothsayer object with the whole
+    // Presage predicted the word is one try!
+    // We need to update the Presage object with the whole
     // string and take the trailing space into account.
     if( hit ) {
 	kn += str.size() + 1; 
 	ks++;
-	soothsayerPtr->update( str + " " );
+	presagePtr->update( str + " " );
 	if( !autoSpace ) {
 	    ki++;
 	}
@@ -78,7 +78,7 @@ void Simulator::simulate( std::string str )
 	    // predict using new keystroke
             std::string up;
             up += *i;
-	    hit = find(soothsayerPtr->predict(up), str);
+	    hit = find(presagePtr->predict(up), str);
 
 	    // simulate character keystroke
 	    ki++;
@@ -89,11 +89,11 @@ void Simulator::simulate( std::string str )
 		
 	// If we got a hit, we've got the correct
 	// predicted word after having used up some
-	// of its characters to feed to Soothsayer.
+	// of its characters to feed to Presage.
 	if( hit ) {
 
-            soothsayerPtr->complete(str);
-	    soothsayerPtr->update(" ");
+            presagePtr->complete(str);
+	    presagePtr->update(" ");
 	    kn += str.size() + 1;
 	    ki++;
 
@@ -101,7 +101,7 @@ void Simulator::simulate( std::string str )
 	    // To bad we were not able to get the right 
 	    // prediction... no hit for us.
 	    // That means we ran each character of the 
-	    // string through Soothsayer. We only need 
+	    // string through Presage. We only need 
 	    // to cater for our beloved trailing 
 	    // whitespace then.
 	} else {
@@ -116,7 +116,7 @@ void Simulator::simulate( std::string str )
 	    // We'll simulate entering a whitespace.
 	    if( i == str.end() ) {
 
-		soothsayerPtr->update( " " );
+		presagePtr->update( " " );
 		ki++;
 		kn += str.size() + 1;
 
@@ -124,13 +124,13 @@ void Simulator::simulate( std::string str )
 
 		// Else we got the right prediction
 		// b4 we got to the end of the string
-		// Let's update Soothsayer with 
+		// Let's update Presage with 
 		// the remainder of the string we
 		// didn't use and take care of our
 		// trailing whitespace.
 		std::string suffix;
 		suffix.insert( suffix.begin(), i, str.end() );
-		soothsayerPtr->update( suffix + " " );
+		presagePtr->update( suffix + " " );
 		if( !autoSpace ) {
 		    ki++;
 		}
@@ -142,8 +142,8 @@ void Simulator::simulate( std::string str )
 
 void Simulator::reset()
 {
-    delete soothsayerPtr;
-    soothsayerPtr = new Soothsayer;
+    delete presagePtr;
+    presagePtr = new Presage;
 
     ki = 0;
     ks = 1;

@@ -1,7 +1,7 @@
 
-#############
-#  Soothsayer, an extensible predictive text entry system
-#  ------------------------------------------------------
+##########
+#  Presage, an extensible predictive text entry system
+#  ---------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 #
@@ -21,22 +21,22 @@
 
 
 ## Build instructions
-# swig -c++ -python -I../src soothsayer.i
-# g++ -c -fpic soothsayer_wrap.cxx ../src/soothsayer.cpp -I/usr/include/python2.4 -I/usr/lib/python2.4/config -I../src
-# g++ -shared soothsayer.o soothsayer_wrap.o -L../../build/src/.libs -lsoothsayer -o _soothsayer.so
+# swig -c++ -python -I../src presage.i
+# g++ -c -fpic presage_wrap.cxx ../src/presage.cpp -I/usr/include/python2.4 -I/usr/lib/python2.4/config -I../src
+# g++ -shared presage.o presage_wrap.o -L../../build/src/.libs -lpresage -o _presage.so
 
 ## Test with
 # python runme.py
 
 
-%module soothsayer
+%module presage
 
 %include "std_vector.i"
 %include "std_string.i"
 
 %{
-#include "soothsayer.h"
-#include "soothsayerException.h"
+#include "presage.h"
+#include "presageException.h"
 %}
 
 namespace std {
@@ -44,5 +44,5 @@ namespace std {
 }
 
 /* Let's just grab the original header file here */
-%include "soothsayer.h"
-%include "soothsayerException.h"
+%include "presage.h"
+%include "presageException.h"

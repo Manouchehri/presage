@@ -50,7 +50,7 @@ coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 coreTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 coreTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 coreTestRunner_LIBS =		-ldl
-coreTestRunner_LDADD =		$(top_builddir)/src/lib/libsoothsayer.la
+coreTestRunner_LDADD =		$(top_builddir)/src/lib/libpresage.la
 
 
 # Temporarily disabled
@@ -59,6 +59,6 @@ coreTestRunner_LDADD =		$(top_builddir)/src/lib/libsoothsayer.la
 
 
 
-DEPENDENCIES =	libsoothsayer.la
+DEPENDENCIES =	libpresage.la
 
 endif

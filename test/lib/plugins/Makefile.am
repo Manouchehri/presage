@@ -30,37 +30,37 @@ if HAVE_CPPUNIT
 
 TESTS =	pluginsTestRunner newPluginsTestRunner
 
-pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp                                     \
-				pluginsTestMockObjects.h                                  \
-				pluginsTestMockObjects.cpp                                \
-				pluginsTestFixture.h                                      \
-				pluginsTestFixture.cpp                                    \
-				$(top_srcdir)/src/lib/core/suggestion.h                   \
-				$(top_srcdir)/src/lib/core/suggestion.cpp                 \
-				$(top_srcdir)/src/lib/core/prediction.h                   \
-				$(top_srcdir)/src/lib/core/prediction.cpp                 \
-				$(top_srcdir)/src/lib/core/utility.h                      \
-				$(top_srcdir)/src/lib/core/utility.cpp                    \
-				$(top_srcdir)/src/lib/core/variable.h                     \
-				$(top_srcdir)/src/lib/core/variable.cpp                   \
-				$(top_srcdir)/src/lib/core/configuration.h                \
-				$(top_srcdir)/src/lib/core/configuration.cpp              \
-				$(top_srcdir)/src/lib/soothsayerException.h		\
-				$(top_srcdir)/src/lib/core/soothsayerException.cpp	\
-				smoothedNgramPluginTest.h                          \
-				smoothedNgramPluginTest.cpp                        \
-				$(top_srcdir)/src/lib/plugins/smoothedNgramPlugin.cpp  \
-				$(top_srcdir)/src/lib/plugins/smoothedNgramPlugin.h    \
-				abbreviationExpansionPluginTest.h                         \
-				abbreviationExpansionPluginTest.cpp                       \
-				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.h	\
+pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp \
+				pluginsTestMockObjects.h \
+				pluginsTestMockObjects.cpp \
+				pluginsTestFixture.h \
+				pluginsTestFixture.cpp \
+				$(top_srcdir)/src/lib/core/suggestion.h \
+				$(top_srcdir)/src/lib/core/suggestion.cpp \
+				$(top_srcdir)/src/lib/core/prediction.h \
+				$(top_srcdir)/src/lib/core/prediction.cpp \
+				$(top_srcdir)/src/lib/core/utility.h \
+				$(top_srcdir)/src/lib/core/utility.cpp \
+				$(top_srcdir)/src/lib/core/variable.h \
+				$(top_srcdir)/src/lib/core/variable.cpp \
+				$(top_srcdir)/src/lib/core/configuration.h \
+				$(top_srcdir)/src/lib/core/configuration.cpp \
+				$(top_srcdir)/src/lib/presageException.h \
+				$(top_srcdir)/src/lib/core/presageException.cpp	\
+				smoothedNgramPluginTest.h \
+				smoothedNgramPluginTest.cpp \
+				$(top_srcdir)/src/lib/plugins/smoothedNgramPlugin.cpp \
+				$(top_srcdir)/src/lib/plugins/smoothedNgramPlugin.h \
+				abbreviationExpansionPluginTest.h \
+				abbreviationExpansionPluginTest.cpp \
+				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.h \
 				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.cpp	
 pluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 pluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 pluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la               \
 				$(top_builddir)/src/lib/core/dbconnector/libdbconnector.la 
 
-# the following test runner links with libsoothsayer, instead of using
+# the following test runner links with libpresage, instead of using
 # mock objects in place of the core libsootsayer library facilities
 newPluginsTestRunner_SOURCES = 	pluginsTestRunner.cpp	\
 				recencyPluginTest.h	\
@@ -68,20 +68,20 @@ newPluginsTestRunner_SOURCES = 	pluginsTestRunner.cpp	\
 newPluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 newPluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 newPluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la	\
-				$(top_builddir)/src/lib/libsoothsayer.la
+				$(top_builddir)/src/lib/libpresage.la
 
 endif # HAVE_CPPUNIT
 
 dictionaryPluginDriver_SOURCES =	dictionaryPluginDriver.cpp
 dictionaryPluginDriver_LDADD =		$(top_builddir)/src/lib/plugins/libDictionaryPlugin.la \
-					$(top_builddir)/src/lib/libsoothsayer.la 
+					$(top_builddir)/src/lib/libpresage.la 
 
 dummyPluginDriver_SOURCES = 	dummyPluginDriver.cpp
 dummyPluginDriver_LDADD =	$(top_builddir)/src/lib/plugins/libDummyPlugin.la \
-				$(top_builddir)/src/lib/libsoothsayer.la 
+				$(top_builddir)/src/lib/libpresage.la 
 
 smoothedCountDriver_SOURCES = 	smoothedCountDriver.cpp
 smoothedCountDriver_LDADD =	$(top_builddir)/src/lib/plugins/libSmoothedCountPlugin.la \
-				$(top_builddir)/src/lib/libsoothsayer.la
+				$(top_builddir)/src/lib/libpresage.la
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib

@@ -1,6 +1,6 @@
 
-#############
-#  Soothsayer, an extensible predictive text entry system
+##########
+#  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
@@ -24,19 +24,19 @@
 from distutils.core import setup, Extension
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
-      description='Soothsayer Python binding',
+      description='Presage Python binding',
       author='Matteo Vescovi',
       author_email='@PACKAGE_BUGREPORT@',
       maintainer='Matteo Vescovi',
       maintainer_email='@PACKAGE_BUGREPORT@',
-      url='http://soothsayer.sourceforge.net/',
-      py_modules=['soothsayer'],
+      url='http://presage.sourceforge.net/',
+      py_modules=['presage'],
       package_dir={'prompter': '@top_srcdir@/bindings/python/prompter'},
       packages=['prompter'],
-      scripts=['soothsayer_python_demo',
-               'soothsayer_prompter'],
-      ext_modules=[Extension('_soothsayer', ['soothsayer_wrap.cpp'],
+      scripts=['presage_python_demo',
+               'presage_prompter'],
+      ext_modules=[Extension('_presage', ['presage_wrap.cpp'],
                              include_dirs=['@top_srcdir@/src/lib'],
                              library_dirs=['../../src/lib/.libs'],
-                             libraries=['soothsayer'])],
+                             libraries=['presage'])],
       )

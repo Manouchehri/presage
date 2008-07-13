@@ -21,7 +21,7 @@
                                                                              *
                                                                 **********(*)*/
 
-#include "soothsayer.h"
+#include "presage.h"
 
 /* Solaris 10 needs to have NOMACROS defined to avoid conflict between
    curses and standard template library code.
@@ -44,7 +44,7 @@
 #include <sstream>
 #include <list>
 
-const char PROGRAM_NAME[] = "soothsayerDemo";
+const char PROGRAM_NAME[] = "presage_demo";
 
 void parseCommandLineArgs(int argc, char** argv);
 void printUsage();
@@ -81,13 +81,13 @@ int main(int argc, char** argv)
     parseCommandLineArgs(argc, argv);
 
     // magic starts here
-    Soothsayer soothsayer(config);
+    Presage presage(config);
 
     // configuration variable may be read and written programmatically
     if (suggestions.empty()) {
-	suggestions = soothsayer.config("Soothsayer.Selector.SUGGESTIONS");
+	suggestions = presage.config("Presage.Selector.SUGGESTIONS");
     } else {
-	soothsayer.config("Soothsayer.Selector.SUGGESTIONS", suggestions);
+	presage.config("Presage.Selector.SUGGESTIONS", suggestions);
     }
 
     // curses 
@@ -141,24 +141,24 @@ int main(int argc, char** argv)
             clrtoeol();
 	    move(LINES, COLS);
 
-	    // inform soothsayer that the prediction was successful.
-	    soothsayer.complete(words[c - KEY_F0 - 1]);
-	    // ask soothsayer to predict next token
-	    words = soothsayer.predict(" ");
+	    // inform presage that the prediction was successful.
+	    presage.complete(words[c - KEY_F0 - 1]);
+	    // ask presage to predict next token
+	    words = presage.predict(" ");
 
 	} else {
 	    // prediction unsuccessful. get next character from user
 	    // and elaborate a new prediction.
             std::string str;
             str += c;
-	    words = soothsayer.predict(str);
+	    words = presage.predict(str);
 
 	    // refresh curses screen
 	    refresh();
 	}
-	draw_context_win(context_win, soothsayer.context());
+	draw_context_win(context_win, presage.context());
 	draw_previous_suggestions(words,
-				  soothsayer.contextChange(),
+				  presage.contextChange(),
                                   CONTEXT_WIN_BEGIN_Y + CONTEXT_WIN_HEIGHT + 1,
                                   FUNCTION_WIN_BEGIN_X + FUNCTION_WIN_WIDTH + 1 );
         c = getch();
@@ -291,15 +291,15 @@ void disclaimer()
     box(borderWin, 0, 0);
     wrefresh(borderWin);
     wprintw(disclaimerWin,
-	    "Soothsayer Demo\n"
-	    "---------------\n"
-	    "This program is intended as a demonstration of Soothsayer ONLY.\n"
+	    "Presage Demo\n"
+	    "------------\n"
+	    "This program is intended as a demonstration of Presage ONLY.\n"
 	    "\n"
-	    "The Soothsayer project aims to provide an intelligent predictive\n"
+	    "The Presage project aims to provide an intelligent predictive\n"
 	    "text entry platform.\n"
 	    "\n"
 	    "Its intent is NOT to provide a predictive text entry user interface.\n"
-	    "Think of Soothsayer as the predictive backend that sits behind a\n"
+	    "Think of Presage as the predictive backend that sits behind a\n"
 	    "shiny user interface and does all the predictive heavy lifting.\n"
 	);
     mvwprintw(disclaimerWin, (borderWinHeight-2)-1, 1, "Press any key to continue...");
@@ -318,7 +318,7 @@ void draw_title_win(WINDOW* title_win)
 {
     wclear(title_win);
     box(title_win, 0, 0);
-    mvwprintw(title_win, 1, 1, "Soothsayer Demo ", VERSION);
+    mvwprintw(title_win, 1, 1, "Presage Demo ", VERSION);
     mvwprintw(title_win, 2, 1, "Copyright (C) Matteo Vescovi");
     mvwprintw(title_win, 3, 1, "This is free software; see the source for copying conditions.  There is NO");
     mvwprintw(title_win, 4, 1, "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.");
@@ -385,8 +385,8 @@ void printUsage()
 {
     std::cout << "Usage: " << PROGRAM_NAME << " [OPTION]..." << std::endl
 	      << std::endl
-	      << "Begin typing. soothsayer will attempt to predict the desired word." << std::endl
-	      << "After each keystroke, soothsayer will return a number of predictions." << std::endl
+	      << "Begin typing. presage will attempt to predict the desired word." << std::endl
+	      << "After each keystroke, presage will return a number of predictions." << std::endl
 	      << "If the desired word appears in the prediction list, select it by pressing the" << std::endl
 	      << "corresponding function key." << std::endl
 	      << std::endl

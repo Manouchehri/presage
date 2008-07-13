@@ -21,37 +21,19 @@
                                                                              *
                                                                 **********(*)*/
 
-#ifndef SOOTH_EXCEPTION
-#define SOOTH_EXCEPTION
+#include "presageException.h"
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+PresageException::PresageException(const std::string& msg) throw()
+{
+    details = msg;
+}
 
-#include <exception>
-#include <string>
+PresageException::~PresageException() throw()
+{
+    // intentionally empty
+}
 
-/** When thrown, provides information about an error that has occurred within soothsayer.
- *
- * If an error occurs within soothsayer, an exception is thrown, and
- * this is the object that encapsulates the details of the problem.
- * 
- * Application using soothsayer should always ensure that exceptions
- * are caught by enclosing all soothsayer methods within a try{}
- * catch(SoothsayerException& e) {} block.
- *
- */
-class SoothsayerException : public std::exception {
-public:
-    SoothsayerException(const std::string& msg) throw();
-    virtual ~SoothsayerException() throw();
-    virtual const char* what() const throw();
-
-private:
-    std::string details;
-
-};
-
-
-
-#endif // SOOTH_EXCEPTION
+const char* PresageException::what() const throw()
+{
+    return details.c_str();
+}

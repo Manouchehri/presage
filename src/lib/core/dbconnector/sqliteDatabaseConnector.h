@@ -37,7 +37,7 @@
 #endif
 
 #include "databaseConnector.h"
-#include "soothsayerException.h"
+#include "presageException.h"
 
 class SqliteDatabaseConnector : public DatabaseConnector {
   public:
@@ -49,13 +49,13 @@ class SqliteDatabaseConnector : public DatabaseConnector {
     virtual void closeDatabase();
     virtual NgramTable executeSql(const std::string query) const;
 
-    class SqliteDatabaseConnectorException : public SoothsayerException {
+    class SqliteDatabaseConnectorException : public PresageException {
     public:
-	SqliteDatabaseConnectorException(const std::string& errormsg) throw() : SoothsayerException(errormsg) { }
+	SqliteDatabaseConnectorException(const std::string& errormsg) throw() : PresageException(errormsg) { }
 	virtual ~SqliteDatabaseConnectorException() throw() { }
 
     private:
-	SqliteDatabaseConnectorException() throw() : SoothsayerException("") {};
+	SqliteDatabaseConnectorException() throw() : PresageException("") {};
 
     };
 

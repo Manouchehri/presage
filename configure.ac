@@ -1,7 +1,7 @@
-dnl configure.ac for Soothsayer
+dnl configure.ac for Presage
 
-dnl Soothsayer, an extensible predictive text entry system
-dnl ------------------------------------------------------
+dnl Presage, an extensible predictive text entry system
+dnl ---------------------------------------------------
 dnl
 dnl Copyright (C) 2008  Matteo Vescovi <matteo.vescovi\@yahoo.co.uk>
 dnl
@@ -22,12 +22,12 @@ dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 dnl Process this file with autoconf to produce a configure script.
 
 
-AC_INIT([soothsayer],
+AC_INIT([presage],
 	[0.6.3],
 	[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 
-AC_CONFIG_SRCDIR([src/lib/soothsayer.cpp])
+AC_CONFIG_SRCDIR([src/lib/presage.cpp])
 AC_CONFIG_HEADERS([config.h:config.hin])
 
 dnl Checks for programs.
@@ -146,13 +146,13 @@ dnl Checks for Python
 dnl =================
 AM_PATH_PYTHON([2.0],
                [],
-               [AC_MSG_WARN([Python not found. Python is required to build soothsayer python binding. Python can be obtained from http://www.python.org])])
+               [AC_MSG_WARN([Python not found. Python is required to build presage python binding. Python can be obtained from http://www.python.org])])
 if test "$PYTHON"
 then
     python_include_path=`$PYTHON -c "import distutils.sysconfig; print distutils.sysconfig.get_python_inc();"`
     AC_CHECK_HEADERS([${python_include_path}/Python.h],
                      [have_python_header=true],
-                     [AC_MSG_WARN([Python.h header file not found. Python development files are required to build soothsayer python binding. Python can be obtained from http://www.python.org])],
+                     [AC_MSG_WARN([Python.h header file not found. Python development files are required to build presage python binding. Python can be obtained from http://www.python.org])],
                      [])
 fi
 AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON" -a "x$have_python_header" = "xtrue")
@@ -167,10 +167,10 @@ if test "x$ac_enable_python_binding" = "xyes"
 then
     if test ! "$SWIG" -o ! "$PYTHON" -o ! "x$have_python_header" = "xtrue"
     then
-        AC_MSG_WARN([Python binding for soothsayer cannot be built. Ensure that SWIG and Python packages are available.])
+        AC_MSG_WARN([Python binding for presage cannot be built. Ensure that SWIG and Python packages are available.])
     fi
 else
-    AC_MSG_NOTICE([Python binding for soothsayer will not be built.])
+    AC_MSG_NOTICE([Python binding for presage will not be built.])
     AC_MSG_NOTICE([Enable Python binding module building with --enable-python-binding])
 fi
 AM_CONDITIONAL(ENABLE_PYTHON_BINDING, test "x$ac_enable_python_binding" = "xyes")
@@ -242,8 +242,8 @@ AC_OUTPUT([
 	doc/Doxyfile
 	doc/Makefile
 	setup.py
-	bindings/python/soothsayer_python_demo
-	bindings/python/soothsayer_prompter
+	bindings/python/presage_python_demo
+	bindings/python/presage_prompter
 ])
 
 if test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue"

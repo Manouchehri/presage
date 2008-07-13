@@ -1,5 +1,5 @@
-#############
-#  Soothsayer, an extensible predictive text entry system
+##########
+#  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
@@ -35,16 +35,16 @@ Check that wxPython is properly installed.
    sys.exit(1)
 
 try:
-   import soothsayer
+   import presage
 except ImportError, ex:
    print '''
-Error: failed to import module soothsayer.
+Error: failed to import module presage.
 
-Check that soothsayer python binding is properly installed (if
+Check that presage python binding is properly installed (if
 installed in a non-standard location, please set PYTHONPATH
 accordingly).
 
-Check that soothsayer library is properly installed (if installed in a
+Check that presage library is properly installed (if installed in a
 non-standard location, please set LD_LIBRARY_PATH (PATH, LIBPATH)
 accordingly).
 '''
@@ -69,11 +69,11 @@ Prompter, the intelligent mind reader
 
 Copyright (C) Matteo Vescovi
 
-This program is intended as a demonstration of Soothsayer ONLY.
+This program is intended as a demonstration of Presage ONLY.
 
-The Soothsayer project aims to provide an intelligent predictive text entry platform. Its intent is NOT to provide a predictive text entry user interface.
+The Presage project aims to provide an intelligent predictive text entry platform. Its intent is NOT to provide a predictive text entry user interface.
 
-Think of Soothsayer as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.
+Think of Presage as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.
 """
       dialog = wx.MessageDialog(self, message, "About Prompter demo", wx.OK)
       dialog.ShowModal()
@@ -253,7 +253,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
       self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
-      self.soothie = soothsayer.Soothsayer()
+      self.soothie = presage.Presage()
 
       #self.AutoCompSetAutoHide(False)
       #self.AutoCompSetIgnoreCase(1)
@@ -296,12 +296,12 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
          self.AutoCompCancel()
 
       # AutoCompShow() does not generate an event when autocompletion is
-      # successful, hence it is not possible to notify soothsayer that
+      # successful, hence it is not possible to notify presage that
       # the current token was completed.
       #self.AutoCompShow(len(prefix), suggestions)
 
       # UserListShow() throws an EVT_STC_USERLISTSELECTION event that we
-      # can handle to notify soothsayer that the token was automatically
+      # can handle to notify presage that the token was automatically
       # completed.
       self.UserListShow(1, suggestions)
 

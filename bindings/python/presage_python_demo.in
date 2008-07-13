@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-#############
-#  Soothsayer, an extensible predictive text entry system
+##########
+#  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
@@ -23,24 +23,24 @@
 import sys
 import getopt
 
-PROGRAM_NAME = 'soothsayer_python_demo'
+PROGRAM_NAME = 'presage_python_demo'
 
 config = None
 suggestions = None
 
 def disclaimer():
 	print """
-Soothsayer python demo
+Presage python demo
 -----------------------
 
-This program is intended as a demonstration of Soothsayer ONLY.
+This program is intended as a demonstration of Presage ONLY.
 
-The Soothsayer project aims to provide an intelligent predictive text
+The Presage project aims to provide an intelligent predictive text
 entry platform.
 
 Its intent is NOT to provide a predictive text entry user interface.
 
-Think of Soothsayer as the predictive backend that sits behind a shiny
+Think of Presage as the predictive backend that sits behind a shiny
 user interface and does all the predictive heavy lifting.
 """
 
@@ -96,16 +96,16 @@ def parse_cmd_line_args():
 
 def main():
         try:
-	        import soothsayer
+	        import presage
         except ImportError, e:
                 print '''
-Error: failed to import module soothsayer.
+Error: failed to import module presage.
 
-Check that soothsayer python binding is properly installed (if
+Check that presage python binding is properly installed (if
 installed in a non-standard location, please set PYTHONPATH
 accordingly).
 
-Check that soothsayer library is properly installed (if installed in a
+Check that presage library is properly installed (if installed in a
 non-standard location, please set LD_LIBRARY_PATH (PATH, LIBPATH)
 accordingly).
 '''
@@ -113,14 +113,14 @@ accordingly).
                 sys.exit(1)
 
 	try:
-		# Create Soothsayer object
+		# Create Presage object
 		if config:
-			soothie = soothsayer.Soothsayer(config)
+			soothie = presage.Presage(config)
 		else:
-			soothie = soothsayer.Soothsayer()
+			soothie = presage.Presage()
 		
 		if suggestions:
-			soothie.config('Soothsayer.Selector.SUGGESTIONS', suggestions)
+			soothie.config('Presage.Selector.SUGGESTIONS', suggestions)
 
 		print "Enter text at the prompt (press enter on empty line to exit):"
 		str = None
@@ -128,9 +128,9 @@ accordingly).
 			str = raw_input(">  ")
 			print soothie.predict(str)
 		
-	        # Destroy Soothsayer object
+	        # Destroy Presage object
 		del soothie
-	except soothsayer.SoothsayerException,ex:
+	except presage.PresageException,ex:
 		print ex.what()
 		sys.exit(1)
 

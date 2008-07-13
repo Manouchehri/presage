@@ -1,8 +1,8 @@
 #!/usr/bin/perl
 
-#############
-#  Soothsayer, an extensible predictive text entry system
-#  ------------------------------------------------------
+##########
+#  Presage, an extensible predictive text entry system
+#  ---------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi\@yahoo.co.uk>
 #
@@ -30,9 +30,9 @@ use warnings;
 
 # use heredoc string to supply new license
 my $new_license = <<HEREDOC;
-/*********************************************************
- *  Soothsayer, an extensible predictive text entry system
- *  ------------------------------------------------------
+/******************************************************
+ *  Presage, an extensible predictive text entry system
+ *  ---------------------------------------------------
  *
  *  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi\@yahoo.co.uk>
 
@@ -61,7 +61,7 @@ foreach my $file (@ARGV) {
     my $contents = do { local $/; <FILE> };
     close FILE;
 
-    if ($contents =~ s%/\*{70,}.*\*{70,}/\s*%$new_license%ms) {
+    if ($contents =~ s%/\*{50,}.*\*{10}\(\*\)\*/%$new_license%ms) {
 	my $temp_file = "${file}.out.bak";
 	open OUTFILE, ">", "$temp_file" or die "Cannot open file $temp_file for writing.\n";
 	print OUTFILE "$contents";

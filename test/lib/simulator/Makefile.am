@@ -27,10 +27,10 @@ check_PROGRAMS = $(TESTS)
 
 #simulatorDriver_SOURCES =	
 
-LDADD =	$(top_builddir)/src/libsoothsayer.la      \
+LDADD =	$(top_builddir)/src/libpresage.la      \
 	$(top_builddir)/src/tools/libtools.la     \
 	$(top_builddir)/src/tinyxml/libtinyxml.la
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src
 
-DEPENDENCIES =	libsoothsayer.la
+DEPENDENCIES =	libpresage.la

@@ -23,11 +23,11 @@
 
 SUBDIRS = 			tinyxml core simulator plugins #plump
 
-include_HEADERS =		soothsayer.h soothsayerException.h
+include_HEADERS =		presage.h presageException.h
 
-lib_LTLIBRARIES = 		libsoothsayer.la
-libsoothsayer_la_SOURCES = 	soothsayer.cpp soothsayer.h soothsayerException.h
-libsoothsayer_la_LIBADD =	core/libcore.la \
+lib_LTLIBRARIES = 		libpresage.la
+libpresage_la_SOURCES = 	presage.cpp presage.h presageException.h
+libpresage_la_LIBADD =		core/libcore.la \
 				tinyxml/libtinyxml.la \
 				simulator/libsimulator.la \
 				plugins/libplugin.la  \
@@ -44,5 +44,5 @@ libsoothsayer_la_LIBADD =	core/libcore.la \
 #				REVISIT add libplump.la when using plump
 #				plump/src/libplump.la 
 
-libsoothsayer_la_LDFLAGS =	-no-undefined \
+libpresage_la_LDFLAGS =		-no-undefined \
 				-version-info 0:0:0 

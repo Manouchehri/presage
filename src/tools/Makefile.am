@@ -1,6 +1,6 @@
 
-#############
-#  Soothsayer, an extensible predictive text entry system
+###########
+#  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
@@ -26,28 +26,28 @@ libtools_la_SOURCES =	progress.cpp progress.h \
 			ngram.cpp ngram.h                 
 
 bin_PROGRAMS =		text2ngram \
-			soothsayer_demo_text \
-			soothsayer_simulator
+			presage_demo_text \
+			presage_simulator
 
 if HAVE_CURSES
-bin_PROGRAMS +=			soothsayer_demo       
+bin_PROGRAMS +=		presage_demo       
 
-soothsayer_demo_SOURCES =	soothsayerDemo.cpp
-soothsayer_demo_LDADD =		../lib/libsoothsayer.la
-soothsayer_demo_LDFLAGS =	-lcurses
+presage_demo_SOURCES =	presageDemo.cpp
+presage_demo_LDADD =	../lib/libpresage.la
+presage_demo_LDFLAGS =	-lcurses
 endif
 
-soothsayer_demo_text_SOURCES = 	soothsayerDemoText.cpp
-soothsayer_demo_text_LDADD = 	../lib/libsoothsayer.la
+presage_demo_text_SOURCES = 	presageDemoText.cpp
+presage_demo_text_LDADD = 	../lib/libpresage.la
 
-soothsayer_simulator_SOURCES =	soothsayerSimulator.cpp
-soothsayer_simulator_LDADD =	../lib/libsoothsayer.la  
+presage_simulator_SOURCES =	presageSimulator.cpp
+presage_simulator_LDADD =	../lib/libpresage.la  
 
 text2ngram_SOURCES =		text2ngram.cpp
-text2ngram_LDADD =		../lib/libsoothsayer.la \
+text2ngram_LDADD =		../lib/libpresage.la \
 				libtools.la
 
-AM_CPPFLAGS =			-I$(top_srcdir)/src/lib -I$(top_srcdir)/src
+AM_CPPFLAGS =	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src
 
 
 if HAVE_HELP2MAN
@@ -55,24 +55,24 @@ text2ngram.1:	text2ngram.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) text2ngram$(EXEEXT)
 	help2man --output=$@ --name="generate statistical n-gram data from text" ./text2ngram$(EXEEXT)
 
-soothsayer_demo_text.1:	soothsayerDemoText.cpp $(top_srcdir)/configure.ac
-	$(MAKE) $(AM_MAKEFLAGS) soothsayer_demo_text$(EXEEXT)
-	help2man --output=$@ --name="soothsayer demo program (text)" ./soothsayer_demo_text$(EXEEXT)
+presage_demo_text.1:	presageDemoText.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) presage_demo_text$(EXEEXT)
+	help2man --output=$@ --name="presage demo program (text)" ./presage_demo_text$(EXEEXT)
 
-soothsayer_simulator.1:	soothsayerSimulator.cpp $(top_srcdir)/configure.ac
-	$(MAKE) $(AM_MAKEFLAGS) soothsayer_simulator$(EXEEXT)
-	help2man --output=$@ --name="soothsayer simulator program" ./soothsayer_simulator$(EXEEXT)
+presage_simulator.1:	presageSimulator.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) presage_simulator$(EXEEXT)
+	help2man --output=$@ --name="presage simulator program" ./presage_simulator$(EXEEXT)
 
 dist_man_MANS =	text2ngram.1 \
-		soothsayer_demo_text.1 \
-		soothsayer_simulator.1
+		presage_demo_text.1 \
+		presage_simulator.1
 
 if HAVE_CURSES
-soothsayer_demo.1:	soothsayerDemo.cpp $(top_srcdir)/configure.ac
-	$(MAKE) $(AM_MAKEFLAGS) soothsayer_demo$(EXEEXT)
-	help2man --output=$@ --name="soothsayer demo program (ncurses)" ./soothsayer_demo$(EXEEXT)
+presage_demo.1:	presageDemo.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) presage_demo$(EXEEXT)
+	help2man --output=$@ --name="presage demo program (ncurses)" ./presage_demo$(EXEEXT)
 
-dist_man_MANS +=	soothsayer_demo.1
+dist_man_MANS +=	presage_demo.1
 endif
 
 endif

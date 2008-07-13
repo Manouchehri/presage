@@ -1,3 +1,30 @@
+2008-07-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/integration/integration.sh, test/lib/simulator/Makefile.am,
+	test/lib/plugins/Makefile.am,
+	test/lib/core/dbconnector/Makefile.am, test/lib/core/Makefile.am,
+	src/tools/soothsayerSimulator.cpp, src/tools/presageDemoText.cpp,
+	src/tools/soothsayerDemo.cpp, src/tools/presageSimulator.cpp,
+	src/tools/Makefile.am, src/tools/soothsayerDemoText.cpp,
+	src/tools/presageDemo.cpp, src/lib/simulator/simulator.cpp,
+	src/lib/simulator/simulator.h, src/lib/soothsayer.cpp,
+	src/lib/soothsayerException.h, src/lib/soothsayer.h,
+	src/lib/presage.cpp, src/lib/core/profile.h,
+	src/lib/core/soothsayerException.cpp, src/lib/core/suggestion.h,
+	src/lib/core/presageException.cpp, src/lib/core/configuration.h,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.h,
+	src/lib/core/Makefile.am, src/lib/Makefile.am,
+	src/lib/presageException.h, src/lib/presage.h,
+	bindings/python/presage_python_demo.in,
+	bindings/python/presage_prompter.in,
+	bindings/python/prompter/prompter.py, bindings/python/Makefile.am,
+	bindings/python/soothsayer_python_demo.in,
+	bindings/python/setup.py.in,
+	bindings/python/soothsayer_prompter.in, bindings/soothsayer.i,
+	bindings/presage.i, utils/modify_license_notice.pl, configure.ac,
+	Makefile.am: initial project name change from soothsayer to
+	presage.
+
 2008-07-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/soothsayer_database_dump.sql.gz: more website updates.

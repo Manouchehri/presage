@@ -27,7 +27,7 @@
 #include <map>
 
 #include "core/variable.h"
-#include "soothsayerException.h"
+#include "presageException.h"
 
 typedef std::string Value;
 
@@ -44,13 +44,13 @@ public:
 
     void print() const;
 
-    class ConfigurationException : public SoothsayerException {
+    class ConfigurationException : public PresageException {
     public:
-	ConfigurationException(const std::string& desc) throw() : SoothsayerException(desc) { }
+	ConfigurationException(const std::string& desc) throw() : PresageException(desc) { }
 	virtual ~ConfigurationException() throw() { }
 
     private:
-	ConfigurationException() throw() : SoothsayerException("") { }
+	ConfigurationException() throw() : PresageException("") { }
 
     };
 

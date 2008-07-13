@@ -21,14 +21,14 @@
                                                                              *
                                                                 **********(*)*/
 
-#include "soothsayer.h"
+#include "presage.h"
 
 #include "core/profileManager.h"
 #include "core/contextTracker.h"
 #include "core/selector.h"
 #include "core/predictor.h"
 
-Soothsayer::Soothsayer()
+Presage::Presage()
 {
     profileManager = new ProfileManager();
     profile = profileManager->getProfile();
@@ -44,7 +44,7 @@ Soothsayer::Soothsayer()
     //plump.discoverPlugins();
 }
 
-Soothsayer::Soothsayer(const std::string config_filename)
+Presage::Presage(const std::string config_filename)
 {
     profileManager = new ProfileManager(config_filename);
     profile = profileManager->getProfile();
@@ -55,7 +55,7 @@ Soothsayer::Soothsayer(const std::string config_filename)
     selector = new Selector(configuration, contextTracker);
 }
 
-Soothsayer::~Soothsayer()
+Presage::~Presage()
 {
     delete selector;
     delete predictor;
@@ -66,18 +66,18 @@ Soothsayer::~Soothsayer()
     delete profileManager;
 }
 
-std::vector<std::string> Soothsayer::predict(std::string s)
+std::vector<std::string> Presage::predict(std::string s)
 {
     contextTracker->update (s);
     return selector->select (predictor->predict());
 }
 
-void Soothsayer::update(std::string s)
+void Presage::update(std::string s)
 {
     contextTracker->update (s);
 }
 
-void Soothsayer::complete(const std::string completion)
+void Presage::complete(const std::string completion)
 {
     // There are two types of completions: normal and erasing.
     // normal_completion  = prefix + remainder
@@ -105,7 +105,7 @@ void Soothsayer::complete(const std::string completion)
 
         } else {
             // REVISIT: throw exception
-            std::cerr << "[Soothsayer] Error: completion '" << completion 
+            std::cerr << "[Presage] Error: completion '" << completion 
                       << "' does not match prefix '" << prefix << "'" << std::endl;
             abort();
         }
@@ -117,27 +117,27 @@ void Soothsayer::complete(const std::string completion)
     }
 }
 
-std::string Soothsayer::context() const
+std::string Presage::context() const
 {
     return contextTracker->getPastStream();
 }
 
-bool Soothsayer::contextChange() const
+bool Presage::contextChange() const
 {
     return contextTracker->contextChange();
 }
 
-std::string Soothsayer::prefix() const
+std::string Presage::prefix() const
 {
     return contextTracker->getPrefix();
 }
 
-std::string Soothsayer::config(const std::string variable) const
+std::string Presage::config(const std::string variable) const
 {
     return configuration->get(variable);
 }
 
-void Soothsayer::config(const std::string variable, const std::string value)
+void Presage::config(const std::string variable, const std::string value)
 {
     configuration->set(variable, value);
 }

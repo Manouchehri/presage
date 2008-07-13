@@ -25,19 +25,19 @@ if HAVE_SWIG
 if HAVE_PYTHON
 if ENABLE_PYTHON_BINDING
 
-SOOTHSAYER_INTERFACE =	../../src/lib/soothsayer.h ../../src/lib/soothsayerException.h
-SWIG_INTERFACE =	../soothsayer.i
+PRESAGE_INTERFACE =	../../src/lib/presage.h ../../src/lib/presageException.h
+SWIG_INTERFACE =	../presage.i
 
-BUILT_SOURCES =		soothsayer_wrap.cpp soothsayer.py
-CLEANFILES =		soothsayer_wrap.cpp soothsayer.py
+BUILT_SOURCES =		presage_wrap.cpp presage.py
+CLEANFILES =		presage_wrap.cpp presage.py
 
 EXTRA_DIST =	fix_wrapper.sed \
-		soothsayer_python_demo \
-		soothsayer_prompter \
+		presage_python_demo \
+		presage_prompter \
 		prompter/__init__.py \
 		prompter/prompter.py
 
-all-local:	soothsayer_wrap.cpp soothsayer.py
+all-local:	presage_wrap.cpp presage.py
 	@case "`uname`" in \
 	  MINGW*) \
 		$(PYTHON) setup.py build --compiler=mingw32 \
@@ -73,34 +73,34 @@ install-exec-local:
 # has no control over what distutils install command does.
 #
 uninstall-local:
-	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/*soothsayer*
+	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/*presage*
 	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/prompter
-	rm -f $(DESTDIR)$(bindir)/soothsayer_python_demo
-	rm -f $(DESTDIR)$(bindir)/soothsayer_prompter
+	rm -f $(DESTDIR)$(bindir)/presage_python_demo
+	rm -f $(DESTDIR)$(bindir)/presage_prompter
 
 clean-local:
 	$(PYTHON) setup.py clean --all
 
-soothsayer_wrap.cpp soothsayer.py:	$(SWIG_INTERFACE) $(SOOTHSAYER_INTERFACE)
-	$(SWIG) -c++ -python -I$(top_srcdir)/src/lib -o soothsayer_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)
+presage_wrap.cpp presage.py:	$(SWIG_INTERFACE) $(PRESAGE_INTERFACE)
+	$(SWIG) -c++ -python -I$(top_srcdir)/src/lib -o presage_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)
 	@case "`uname`" in \
 	  CYGWIN*) \
 		echo "WARNING: working around bug in SWIG on Windows/Cygwin platforms ONLY"; \
-		sed -i.bak -f $(srcdir)/fix_wrapper.sed soothsayer_wrap.cpp; \
+		sed -i.bak -f $(srcdir)/fix_wrapper.sed presage_wrap.cpp; \
 	  ;; \
 	esac;
 
 if HAVE_HELP2MAN
-soothsayer_python_demo.1:	soothsayer_python_demo.in $(top_srcdir)/configure.ac
-	chmod u+x ./soothsayer_python_demo
-	help2man --output=$@ --name="soothsayer demo program (Python)" ./soothsayer_python_demo
+presage_python_demo.1:	presage_python_demo.in $(top_srcdir)/configure.ac
+	chmod u+x ./presage_python_demo
+	help2man --output=$@ --name="presage demo program (Python)" ./presage_python_demo
 
-soothsayer_prompter.1:	soothsayer_prompter.in $(top_srcdir)/configure.ac
-	chmod u+x ./soothsayer_prompter
-	help2man --output=$@ --name="Prompter, the intelligent mind reader" ./soothsayer_prompter
+presage_prompter.1:	presage_prompter.in $(top_srcdir)/configure.ac
+	chmod u+x ./presage_prompter
+	help2man --output=$@ --name="Prompter, the intelligent mind reader" ./presage_prompter
 
-dist_man_MANS =	soothsayer_python_demo.1 \
-		soothsayer_prompter.1
+dist_man_MANS =	presage_python_demo.1 \
+		presage_prompter.1
 
 endif 
 

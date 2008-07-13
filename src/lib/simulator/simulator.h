@@ -24,12 +24,12 @@
 #ifndef SOOTH_SIMULATOR
 #define SOOTH_SIMULATOR
 
-#include "soothsayer.h"
+#include "presage.h"
 
-/** Evaluates how good Soothsayer is at doing its job (in other words, its ability to reduce keystrokes the user is required to type).
+/** Evaluates how good Presage is at doing its job (in other words, its ability to reduce keystrokes the user is required to type).
  *
  * Simulator computes the KSR (Keystrokes Savings Rate) obtained by
- * using Soothsayer preditive ability compared to manually entering
+ * using Presage preditive ability compared to manually entering
  * text.
  * 
  * The KSR is computed as ( 1 - ( ki + ks ) / kn ) * 100, where
@@ -37,7 +37,7 @@
  * ks is the number of keystrokes needed to select among the predictions presented
  * kn is the number of keystrokes that would be needed if the whole text was typed without any prediction aid.
  *
- * The simulator is built with a reference to a Soothsayer object
+ * The simulator is built with a reference to a Presage object
  * which simulates and takes a string holding the text to be run
  * through the simulation.  Multiple calls to the simulate method can
  * take place. Each call runs the string through the simulator. The
@@ -67,7 +67,7 @@ public:
     void silentMode(bool);
 
 private:
-    Soothsayer* soothsayerPtr;
+    Presage* presagePtr;
 
     bool find( const std::vector<std::string>&, const std::string& ) const;
 

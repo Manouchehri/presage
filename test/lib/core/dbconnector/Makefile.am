@@ -32,11 +32,11 @@ dbconnectorTestRunner_SOURCES =	dbconnectorTestRunner.cpp       \
 				databaseConnectorTest.h         \
 				sqliteDatabaseConnectorTest.cpp \
 				sqliteDatabaseConnectorTest.h   \
-				$(top_srcdir)/src/lib/soothsayerException.h	\
-				$(top_srcdir)/src/lib/core/soothsayerException.cpp
-# soothsayerException files are included in sources since sqlite
+				$(top_srcdir)/src/lib/presageException.h	\
+				$(top_srcdir)/src/lib/core/presageException.cpp
+# presageException files are included in sources since sqlite
 # database connector defines an exception that inherits from
-# soothsayer base exception
+# presage base exception
 
 dbconnectorTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 dbconnectorTestRunner_LDFLAGS =		$(CPPUNIT_LIBS)

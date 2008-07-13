@@ -32,7 +32,7 @@
 typedef std::string Value;
 #include "core/variable.h"
 #include "core/configuration.h"
-#include "soothsayerException.h"
+#include "presageException.h"
 
 /** Profile provides access to the active profile configuration variables.
  *
@@ -71,13 +71,13 @@ public:
      */
     Configuration* get_configuration();
 
-    class ProfileException : public SoothsayerException {
+    class ProfileException : public PresageException {
     public:
-	ProfileException(const std::string& desc) throw() : SoothsayerException(desc) { }
+	ProfileException(const std::string& desc) throw() : PresageException(desc) { }
 	virtual ~ProfileException() throw() { }
 	
     private:
-	ProfileException() throw() : SoothsayerException("") { }
+	ProfileException() throw() : PresageException("") { }
 
     };
 
