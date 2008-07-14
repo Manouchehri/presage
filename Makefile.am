@@ -1,5 +1,5 @@
 
-#############
+##########
 #  Presage, an extensible predictive text entry system
 #  ---------------------------------------------------
 #

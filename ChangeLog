@@ -1,6 +1,6 @@
 2008-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
-	* *.h, *.cpp: changed license notices to update project name to
+	* *.h, *.cpp, *.am: changed license notices to update project name to
 	presage, changed header include guard.
 
 	* src/lib/plugins/dejavuPlugin.h, src/lib/plugins/Makefile.am,
