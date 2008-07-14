@@ -1,18 +1,11 @@
 2008-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
-	* *.h, *.cpp, *.am: changed license notices to update project name to
+	* *.h, *.cpp, *.am, *: changed license notices to update project name to
 	presage, changed header include guard.
 
-	* src/lib/plugins/dejavuPlugin.h, src/lib/plugins/Makefile.am,
-	src/lib/plugins/dejavuPlugin.cpp, src/lib/core/profileManager.h,
-	src/lib/core/profileManager.cpp, src/lib/core/predictor.cpp,
-	src/lib/Makefile.am, TODO,
-	resources/profiles/presage.xml.template,
-	resources/profiles/generate_soothsayer_config.sh,
-	resources/profiles/Makefile.am,
-	resources/profiles/soothsayer.xml.template,
-	resources/profiles/generate_presage_config.sh: more changes for
-	project name change, commited experimental deja-vu plugin.
+	* src/lib/plugins/dejavuPlugin.h,
+	src/lib/plugins/dejavuPlugin.cpp: commited experimental deja-vu
+	plugin.
 
 2008-07-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 

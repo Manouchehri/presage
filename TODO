@@ -1,7 +1,7 @@
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
-______________________
-The Soothsayer project
-~~~~~~~~~~~~~~~~~~~~~~
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
 
 TODO list
 ---------
@@ -11,8 +11,8 @@ Ideas
   write a "deja-vu" plugin, a plugin that is able to learn and then
    later reproduces previous text sequences: the goal is to write a
    simple plugin that demonstrates how learning can be implemented in
-   the soothsayer system and expose what functionality is required for
-   learning plugins to work within the soothsayer framework.
+   the presage system and expose what functionality is required for
+   learning plugins to work within the presage framework.
 
   implementation idea: plugin remembers previously entered text (by
    storing it in a config defined file); when current token is found
@@ -83,7 +83,7 @@ Short term:
 * rewrite strtoupper and strtolower utility functions to use a pointer
    to function to do the individual char conversion
 * add ContextTracker tests for control chars
-* put everything inside the soothsayer namespace
+* put everything inside the presage namespace
 * write more integration tests
 * write Combiner implementations (various combination strategies)
 * restructure directories regarding config files and plugins etc.
@@ -108,7 +108,7 @@ Short term:
 
 Medium term:
 * fix character codes
-* overhaul of soothsayer architecture and integration of the plump framework
+* overhaul of presage architecture and integration of the plump framework
 
 Long term:
 * use timer alarm to implement threaded plugins controller
@@ -149,7 +149,7 @@ PluginManager should manager the association between a Plugin object
 and the module (library) object that contains the Plugin.
 
 Plump, the Pluggable Lightweight Multithreaded Platform, was created
-to solve this and other problems and is going to become soothsayer's
+to solve this and other problems and is going to become presage's
 plugin framework implementation.
 
 
@@ -164,8 +164,8 @@ Plump framework integration
    which makes integration, usage and deployment of a plugin framework
    dead easy.
 
-   Plump integration into soothsayer will require a number of changes to
-   soothsayer architecture, affecting Predictor and PluginManager
+   Plump integration into presage will require a number of changes to
+   presage architecture, affecting Predictor and PluginManager
    classes in particular.
 
    Predictor and PluginManager classes will delegate much of their
@@ -249,7 +249,7 @@ or source the bootstrap script provided (in svn repo):
 
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 
-Soothsayer is free software; you can redistribute it and/or modify
+Presage is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
