@@ -1,3 +1,8 @@
+2008-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* *.h, *.cpp: changed license notices to update project name to
+	presage.
+	
 2008-07-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/integration/integration.sh, test/lib/simulator/Makefile.am,

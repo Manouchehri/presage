@@ -1,7 +1,7 @@
 
-/*********************************************************
- *  Soothsayer, an extensible predictive text entry system
- *  ------------------------------------------------------
+/******************************************************
+ *  Presage, an extensible predictive text entry system
+ *  ---------------------------------------------------
  *
  *  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 
@@ -20,6 +20,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
                                                                              *
                                                                 **********(*)*/
+
 
 #ifndef SOOTH_LOGGERTEST
 #define SOOTH_LOGGERTEST
