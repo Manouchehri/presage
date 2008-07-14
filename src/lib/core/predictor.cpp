@@ -106,7 +106,7 @@ void Predictor::setPlugins(const std::string& pluginList)
 void Predictor::addPlugin(const std::string& pluginName)
 {
     // TODO: this will have to do for now, until a proper plugin
-    // framework (i.e. plump) is integrated into soothsayer. Until
+    // framework (i.e. plump) is integrated into presage. Until
     // then, all known plugins have to be listed here and explicitly
     // created based on their name.
     //

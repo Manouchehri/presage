@@ -95,8 +95,8 @@ std::string ProfileManager::get_user_home_dir() const
 /** Load and parse the default user/system profile.
  *
  * Load default profile in the following order:
- * - ~/.soothsayer.xml
- * - sysconfdir/soothsayer.xml
+ * - ~/.presage.xml
+ * - sysconfdir/presage.xml
  *
  * If no profile is found, a default profile is built and used.
  *

@@ -36,7 +36,7 @@
 #include <stdio.h> // for int remove( const char* ) to remove files/dirs
 
 
-const char DEFAULT_PROFILE_FILENAME[] = "soothsayer.xml";
+const char DEFAULT_PROFILE_FILENAME[] = "presage.xml";
 
 const std::string  DEFAULT_LOGGER_LEVEL                 = "DEBUG";
 const int          DEFAULT_PREDICT_TIME                = 1000;
@@ -49,7 +49,7 @@ const bool         DEFAULT_REPEAT_SUGGESTION           = false;
 const unsigned int DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
 
 
-/** Juggles configuration files and soothsayer system initialization.
+/** Juggles configuration files and presage system initialization.
  *
  * The idea is that ProfileManager loads up an xml file containing
  * configuration data and initializes system components according to
@@ -57,8 +57,8 @@ const unsigned int DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
  * 
  * If no profile is supplied, load the default profile in the
  * following order:
- *  - ~/.soothsayer.xml
- *  - sysconfdir/soothsayer.xml
+ *  - ~/.presage.xml
+ *  - sysconfdir/presage.xml
  *
  */
 class ProfileManager {

@@ -38,11 +38,11 @@
 /** Plugin is an abstract class that defines the interface implemented by concrete predictive plugins.
  * 
  * The prediction implemented by predictive plugins is at the heart of
- * soothsayer.  The plugin-based architecture allows new prediction
+ * presage.  The plugin-based architecture allows new prediction
  * methods to be easily and transparently added to the system.
  * 
  * Predictive plugins have access to and rely on the services provided
- * by core components of the soothsayer system.
+ * by core components of the presage system.
  *
  */
 class Plugin {
