@@ -23,4 +23,4 @@
 
 SUBDIRS =	python
 
-EXTRA_DIST =	soothsayer.i
+EXTRA_DIST =	presage.i
