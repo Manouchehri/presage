@@ -1,6 +1,6 @@
-____________________________
-Soothsayer release checklist
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+_________________________
+Presage release checklist
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
  o create release notes
 
@@ -15,8 +15,8 @@ Soothsayer release checklist
  o build, test, install dist tarball on all supported platforms
    . make distcheck on base platform will do the trick
    . do it manually on other platforms (WinXP/Cygwin, Solaris, etc.)
-     - tar zxvf soothsayer-RELEASE.tar.gz
-     - cd soothsayer-RELEASE
+     - tar zxvf presage-RELEASE.tar.gz
+     - cd presage-RELEASE
      - ../configure
      - make all check install
      - and test python binding

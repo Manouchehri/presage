@@ -1,7 +1,7 @@
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
-______________________
-The Soothsayer project
-~~~~~~~~~~~~~~~~~~~~~~
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
 
 How to install Cygwin development environment on Windows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -9,7 +9,7 @@ How to install Cygwin development environment on Windows
 The following steps will turn your puny Windows platform into a fully
 featured Unix-like development environment.
 
-You should follow these steps if you intend to build Soothsayer for
+You should follow these steps if you intend to build Presage for
 Windows from source.
 
 
@@ -64,24 +64,24 @@ Ensure that `Create icon on Desktop' is ticked before you click
 finish.
 
 
-_______________________________________________________________
-STEP 2: Copy the Soothsayer distribution to your home directory
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+____________________________________________________________
+STEP 2: Copy the Presage distribution to your home directory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Double-click on the Cygwin icon that was created by the Cygwin
 installation program. This opens a bash shell and puts you in your
 cygwin home directory.
 
-Copy the Soothsayer distribution to your home directory by following
+Copy the Presage distribution to your home directory by following
 these simple steps:
 
   - type `cp' followed by a space
-  - drag and drop the Soothsayer distribution file in the shell
+  - drag and drop the Presage distribution file in the shell
   - type a space followed by a dot `.'
   - press ENTER
 
 Please ensure that the full path to the directory where you copy the
-soothsayer distribution does not contain spaces (libtool might choke
+presage distribution does not contain spaces (libtool might choke
 on space separated paths, depending on which version is
 installed). You can check that by issuing the `pwd' command.
 
@@ -126,7 +126,7 @@ STEP 4: And you are ready to start...
 The development environment is installed and ready for action.
 
 Now follow the steps detailed in the README file to build and install
-Soothsayer.
+Presage.
 
 Enjoy,
 Matteo
@@ -136,7 +136,7 @@ Matteo
 
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 
-Soothsayer is free software; you can redistribute it and/or modify
+Presage is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.

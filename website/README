@@ -1,18 +1,18 @@
 ______________________
-The Soothsayer project
+The Presage project
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Project website deployment HOWTO
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The soothsayer database username, password, and host can be obtained
+The presage database username, password, and host can be obtained
 from sourceforge.net project page by any user with administrator's
 rights.
 
 
  o download drupal, the open source content management platform.
    drupal can be obtained from http://drupal.org.
-   At the time of writing, soothsayer website uses drupal-5.7.
+   At the time of writing, presage website uses drupal-5.7.
 
 
  o install drupal by following the instructions found in file
@@ -30,28 +30,28 @@ rights.
 
    - unzip drupal database
 
-     gunzip /path/to/soothsayer_website_backup.sql.gz
+     gunzip /path/to/presage_website_backup.sql.gz
 
    - restore database from drupal's database backup
 
-     mysql -u user -p database < soothsayer_website_backup.sql
+     mysql -u user -p database < presage_website_backup.sql
 
 
  o checkout a local copy of source repository. This is needed to
    satisfy the website links to the documentation.
 
-   - create a soothsayer/ directory and change to it
+   - create a presage/ directory and change to it
 
-     mkdir soothsayer && cd soothsayer
+     mkdir presage && cd presage
 
    - check out the source repository
 
-     svn co https://soothsayer.svn.sourceforge.net/svnroot/soothsayer/trunk
+     svn co https://presage.svn.sourceforge.net/svnroot/presage/trunk
 
 
 
 To generate a database backup dump:
-  mysqldump -u user -p database > soothsayer_database_dump.sql
-  gzip soothsayer_database_dump.sql
+  mysqldump -u user -p database > presage_database_dump.sql
+  gzip presage_database_dump.sql
 
 

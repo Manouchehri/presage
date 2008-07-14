@@ -1,11 +1,11 @@
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
-____________________________________________________
-Getting started with Soothsayer in 5 minutes or less
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+_________________________________________________
+Getting started with Presage in 5 minutes or less
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1) Download, build and install soothsayer
+1) Download, build and install presage
 
-Follow the instructions in the README file to install soothsayer on
+Follow the instructions in the README file to install presage on
 your system.
 
 
@@ -13,20 +13,20 @@ your system.
 
 2) Run the demo program and the simulator
 
-Soothsayer is an extensible predictive text entry platform. It
+Presage is an extensible predictive text entry platform. It
 provides a clean, simple application programming interface and a higly
 configurable and extensible predictive framework in the form of a
 library.
 
-Soothsayer is not an end-user application. However, a number of demo
+Presage is not an end-user application. However, a number of demo
 applications are included:
-- soothsayer_demo: ncurses based demonstration program
-- soothsayer_demo_text: text based demonstration program
-- soothsayer_simulator: simulates predictive process and reports on
+- presage_demo: ncurses based demonstration program
+- presage_demo_text: text based demonstration program
+- presage_simulator: simulates predictive process and reports on
   predictive performance
 
 
-2.a) soothsayer_demo 
+2.a) presage_demo 
 
 This demo displays the text entered so far in the top window that
 stretches across the screen.  The current prediction is displayed
@@ -40,21 +40,21 @@ Context switches are marked in some way (either a vertical bar or a
 box enclosing the other prediction boxes). [not implemented yet]
 
 
-2.b) soothsayer_demo_text
+2.b) presage_demo_text
 
-This demo works similarly to soothsayer_demo, except that it is much
+This demo works similarly to presage_demo, except that it is much
 more barebones. It is useful when debugging.
 
 
-2.c) soothsayer_simulator
+2.c) presage_simulator
 
 This simulator evaluates the performance of the predictive engine on a
 given text file.
 
 The simulator requires a text file to be passed as argument. It reads
-each character from the input file and sends it to the soothsayer
+each character from the input file and sends it to the presage
 prediction engine. The simulator counts the number of key presses
-required to enter the desired text using the soothsayer prediction
+required to enter the desired text using the presage prediction
 engine and the number of key presses required to enter the same text
 with no prediction enabled.
 
@@ -65,35 +65,35 @@ it to standard out.
 
 
 
-3) Tweak soothsayer to your needs
+3) Tweak presage to your needs
 
 
-3.a) soothsayer.xml
+3.a) presage.xml
 
-Soothsayer is extensible and configurable. Soothsayer's extensibility
+Presage is extensible and configurable. Presage's extensibility
 comes from a range of predictive mechanisms used to generate
 predictions. You can decide what plugins to enable and what predictive
 resources to tie those plugins to. All configuration variables can be
 controlled by editing the XML configuration file (either
-~/.soothsayer.xml or soothsayer.xml in the etc/ directory where
-Soothsayer was installed - usually /etc -, whichever is found first).
+~/.presage.xml or presage.xml in the etc/ directory where
+Presage was installed - usually /etc -, whichever is found first).
 
 Feel free to experiment with different settings: try enabling
 different plugins, or changing individual plugins configuration
-values. soothsayer.xml comes with comments describe what each
+values. presage.xml comes with comments describe what each
 configuration variable is about.
 
 
 3.b) text2ngram
 
-If you wish to improve soothsayer's predictive performance, or you
-want soothsayer to predict in your native language, you will need to
+If you wish to improve presage's predictive performance, or you
+want presage to predict in your native language, you will need to
 generate resources required by the predictive plugins. Currently, most
 predictive plugins are statistical plugins which require an n-gram
 database.
 
 You can easily generate an n-gram database suitable for consumption by
-soothsayer's plugin with the included text2ngram tool. Feed your
+presage's plugin with the included text2ngram tool. Feed your
 collection of text in your native language or domain-specific text to
 text2ngram and generate customized predictive resources to improve the
 quality and accuracy of the predictions.
@@ -101,18 +101,18 @@ quality and accuracy of the predictions.
 
 
 
-4) Write a program that uses soothsayer
+4) Write a program that uses presage
 
 Below is a simple program that demonstrates how to use the C++
-interface to soothsayer.
+interface to presage.
 
 <code>
-#include "soothsayer.h"
+#include "presage.h"
 #include <iostream>
 
 int main(int argc, char** argv)
 {
-    Soothsayer soothsayer;
+    Presage presage;
     
     std::string buffer;
     std::vector< std::string > predictions;
@@ -127,7 +127,7 @@ int main(int argc, char** argv)
 	    buffer.erase(buffer.end() - 1);
 	}
 	
-	predictions = soothsayer.predict (buffer);
+	predictions = presage.predict (buffer);
 
 	// print predictions
 	for (int i = 0; i < predictions.size(); i++) {
@@ -139,23 +139,23 @@ int main(int argc, char** argv)
 }
 </code>
 
-This program creates an instance of Soothsayer and prints the
-predictions generated by soothsayer to screen after each text fragment
+This program creates an instance of Presage and prints the
+predictions generated by presage to screen after each text fragment
 input by the user.
 
 The instructions to watch for are on the first line in main() which
-initializes soothsayer and on line 21 which tells soothsayer what text
-the user entered and asks soothsayer to generate a prediction.
+initializes presage and on line 21 which tells presage what text
+the user entered and asks presage to generate a prediction.
 
-Soothsayer's API includes other methods, all accessible through the
-Soothsayer class, defined in soothsayer.h.
+Presage's API includes other methods, all accessible through the
+Presage class, defined in presage.h.
 
 
 ########/
 
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 
-Soothsayer is free software; you can redistribute it and/or modify
+Presage is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.

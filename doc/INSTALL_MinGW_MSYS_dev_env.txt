@@ -1,13 +1,13 @@
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
-______________________
-The Soothsayer project
-~~~~~~~~~~~~~~~~~~~~~~
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
 
-Building Soothsayer on MinGW/MSYS 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Building Presage on MinGW/MSYS 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The following steps will enable your system to build and execute
-soothsayer in native Win32 mode.
+presage in native Win32 mode.
 
 
 _____________
@@ -68,19 +68,19 @@ Build the SQLite3 DLL, import library and definition file:
     -Wl,--output-def,sqlite3.def,--out-implib,libsqlite3.a
 
 
-________________
-Build soothsayer
-~~~~~~~~~~~~~~~~
+_____________
+Build presage
+~~~~~~~~~~~~~
 
 Start MSYS console
 
-Extract and configure soothsayer, taking care of specifying where to
+Extract and configure presage, taking care of specifying where to
 find required binaries (Python and SWIG), headers, and libraries:
 
   PATH=/c/Python25:/c/SWIG:$PATH \
   CPPFLAGS="-I/c/SQLite3 -I/c/Python25/include" \
   LDFLAGS="-L/c/SQLite3" \
-  ./configure --prefix=/c/soothsayer
+  ./configure --prefix=/c/presage
  
 
 
@@ -89,7 +89,7 @@ find required binaries (Python and SWIG), headers, and libraries:
 
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 
-Soothsayer is free software; you can redistribute it and/or modify
+Presage is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.

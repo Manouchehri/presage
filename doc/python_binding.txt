@@ -1,9 +1,9 @@
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
-_________________________
-Soothsayer Python binding
-~~~~~~~~~~~~~~~~~~~~~~~~~
+______________________
+Presage Python binding
+~~~~~~~~~~~~~~~~~~~~~~
 
-A Python binding for Soothsayer is automatically built when the build
+A Python binding for Presage is automatically built when the build
 system determines that the following software requirements are
 satisfied:
   - Python (include development headers)
@@ -13,11 +13,11 @@ You can optionally disable building of the python binding by passing
 the --disable-python-binding flag to configure.
 
 The Python binding is a Python extension module that wraps around the
-soothsayer library. The Python extension module is built using SWIG
+presage library. The Python extension module is built using SWIG
 and the Python Distribution Utilities package (distutils).
 
 
-To use the Python binding for soothsayer
+To use the Python binding for presage
 
 1) Ensure that the Python extension module is enabled by checking that
    ./configure configuration summary reports the following:
@@ -31,27 +31,27 @@ To use the Python binding for soothsayer
    make install
 
 
-3) An additional _soothsayer library will have been built and
+3) An additional _presage library will have been built and
    installed into your system Python extension library directory. This
-   is the soothsayer Python extension module.
+   is the presage Python extension module.
 
 
-4) You should now be able to use Soothsayer from Python. Read through
+4) You should now be able to use Presage from Python. Read through
    the runme.py from the bindings/python directory script for an
    example and try running it with:
 
-   python runme.py /path/to/soothsayer.xml
+   python runme.py /path/to/presage.xml
 
 
 
 A few points to note if you installed in a non-default location:
 
-- the Python extension module _soothsayer.so (_soothsayer.dll) depends
-  on libsoothsayer.so (libsoothsayer.dll), so ensure that it is on the
+- the Python extension module _presage.so (_presage.dll) depends
+  on libpresage.so (libpresage.dll), so ensure that it is on the
   runtime loader path (i.e. LD_LIBRARY_PATH on Linux/Solaris, LIBPATH
   on AIX, PATH on Windows, etc.)
 
-- the Python extension module _soothsayer.so needs to be in a standard
+- the Python extension module _presage.so needs to be in a standard
   Python extension library directory in order for Python to find it,
   or the directory containing the extension module needs to be added
   to the PYTHONPATH environment variable
@@ -61,7 +61,7 @@ A few points to note if you installed in a non-default location:
 
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 
-Soothsayer is free software; you can redistribute it and/or modify
+Presage is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.

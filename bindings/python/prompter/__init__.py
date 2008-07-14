@@ -1,5 +1,5 @@
-#############
-#  Soothsayer, an extensible predictive text entry system
+##########
+#  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>

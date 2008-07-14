@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-#############
-#  Soothsayer, an extensible predictive text entry system
-#  ------------------------------------------------------
+##########
+#  Presage, an extensible predictive text entry system
+#  ---------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 #
@@ -43,9 +43,9 @@ Options:
   -v, --version        output version information and exit
 
 Prompter is a simple predictive text editor, written to demonstrate
-the use of soothsayer, the intelligent predictive text entry system.
+the use of presage, the intelligent predictive text entry system.
 
-Begin editing. While editing, prompter uses soothsayer to generate
+Begin editing. While editing, prompter uses presage to generate
 predictions and displays them in a pop-up prediction list. If the
 desired text is displayed in the prediction list, select it by double
 clicking on it or by highlighting it with the arrow keys and then
