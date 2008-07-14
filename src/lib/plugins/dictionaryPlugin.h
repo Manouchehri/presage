@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_DICTIONARYPLUGIN
-#define SOOTH_DICTIONARYPLUGIN
+#ifndef PRESAGE_DICTIONARYPLUGIN
+#define PRESAGE_DICTIONARYPLUGIN
 
 #include "plugins/plugin.h"
 #include <fstream>
@@ -55,4 +55,4 @@ private:
 
 };
 
-#endif // SOOTH_DICTIONARYPLUGIN
+#endif // PRESAGE_DICTIONARYPLUGIN

@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PROFILE
-#define SOOTH_PROFILE
+#ifndef PRESAGE_PROFILE
+#define PRESAGE_PROFILE
 
 #include <string>
 #include <map>
@@ -89,4 +89,4 @@ private:
     TiXmlDocument* profile;
 };
 
-#endif // SOOTH_PROFILE
+#endif // PRESAGE_PROFILE

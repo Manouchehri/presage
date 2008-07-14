@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_RECENCYPLUGINTEST
-#define SOOTH_RECENCYPLUGINTEST
+#ifndef PRESAGE_RECENCYPLUGINTEST
+#define PRESAGE_RECENCYPLUGINTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -57,4 +57,4 @@ private:
 };
 
 
-#endif // SOOTH_RECENCYPLUGINTEST
+#endif // PRESAGE_RECENCYPLUGINTEST

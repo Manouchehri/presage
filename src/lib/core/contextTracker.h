@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_CONTEXTTRACKER
-#define SOOTH_CONTEXTTRACKER
+#ifndef PRESAGE_CONTEXTTRACKER
+#define PRESAGE_CONTEXTTRACKER
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -223,4 +223,4 @@ private:
  */
 
 
-#endif // SOOTH_CONTEXTTRACKER
+#endif // PRESAGE_CONTEXTTRACKER

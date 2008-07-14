@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_UTILITY
-#define SOOTH_UTILITY
+#ifndef PRESAGE_UTILITY
+#define PRESAGE_UTILITY
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -58,4 +58,4 @@ bool isNo( const std::string& );
 double toDouble(const std::string);
 int    toInt   (const std::string);
 
-#endif // SOOTH_UTILITY
+#endif // PRESAGE_UTILITY

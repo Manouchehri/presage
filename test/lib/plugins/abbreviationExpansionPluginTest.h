@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_ABBREVIATIONEXPANSIONPLUGINTEST
-#define SOOTH_ABBREVIATIONEXPANSIONPLUGINTEST
+#ifndef PRESAGE_ABBREVIATIONEXPANSIONPLUGINTEST
+#define PRESAGE_ABBREVIATIONEXPANSIONPLUGINTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -70,4 +70,4 @@ class AbbreviationExpansionPluginTest : public PluginsTestFixture {
 };
 
 
-#endif // SOOTH_ABBREVIATIONEXPANSIONPLUGINTEST
+#endif // PRESAGE_ABBREVIATIONEXPANSIONPLUGINTEST

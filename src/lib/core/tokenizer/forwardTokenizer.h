@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_FORWARDTOKENIZER
-#define SOOTH_FORWARDTOKENIZER
+#ifndef PRESAGE_FORWARDTOKENIZER
+#define PRESAGE_FORWARDTOKENIZER
 
 #include "tokenizer.h"
 
@@ -65,6 +65,6 @@ private:
 
 };
 
-#endif // SOOTH_FORWARDTOKENIZER
+#endif // PRESAGE_FORWARDTOKENIZER
 
 

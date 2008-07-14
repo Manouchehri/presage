@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_VARIABLE
-#define SOOTH_VARIABLE
+#ifndef PRESAGE_VARIABLE
+#define PRESAGE_VARIABLE
 
 #include <string>
 #include <vector>
@@ -57,4 +57,4 @@ private:
     
 };
 
-#endif // SOOTH_VARIABLE
+#endif // PRESAGE_VARIABLE

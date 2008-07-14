@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_SMOOTHEDCOUNTPLUGIN
-#define SOOTH_SMOOTHEDCOUNTPLUGIN
+#ifndef PRESAGE_SMOOTHEDCOUNTPLUGIN
+#define PRESAGE_SMOOTHEDCOUNTPLUGIN
 
 #include "plugins/plugin.h"
 
@@ -94,4 +94,4 @@ struct CallbackData {
 int buildPrediction( void*, int, char**, char** );
 
 
-#endif // SOOTH_SMOOTHEDCOUNTPLUGIN
+#endif // PRESAGE_SMOOTHEDCOUNTPLUGIN

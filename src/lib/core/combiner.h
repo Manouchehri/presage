@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_COMBINER
-#define SOOTH_COMBINER
+#ifndef PRESAGE_COMBINER
+#define PRESAGE_COMBINER
 
 #if HAVE_CONFIG_H
 # include "config.h"
@@ -48,4 +48,4 @@ protected:
 
 };
 
-#endif // SOOTH_COMBINER
+#endif // PRESAGE_COMBINER

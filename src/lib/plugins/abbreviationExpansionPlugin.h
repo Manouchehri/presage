@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_ABBREVIATIONEXPANSIONPLUGIN
-#define SOOTH_ABBREVIATIONEXPANSIONPLUGIN
+#ifndef PRESAGE_ABBREVIATIONEXPANSIONPLUGIN
+#define PRESAGE_ABBREVIATIONEXPANSIONPLUGIN
 
 #include "plugins/plugin.h"
 
@@ -59,4 +59,4 @@ private:
     std::map< std::string, std::string> cache;
 };
 
-#endif // SOOTH_ABBREVIATIONEXPANSIONPLUGIN
+#endif // PRESAGE_ABBREVIATIONEXPANSIONPLUGIN

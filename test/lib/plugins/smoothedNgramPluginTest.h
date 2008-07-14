@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_SMOOTHEDNGRAMPLUGINTEST
-#define SOOTH_SMOOTHEDNGRAMPLUGINTEST
+#ifndef PRESAGE_SMOOTHEDNGRAMPLUGINTEST
+#define PRESAGE_SMOOTHEDNGRAMPLUGINTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -89,4 +89,4 @@ private:
 };
 
 
-#endif // SOOTH_SMOOTHEDNGRAMPLUGINTEST
+#endif // PRESAGE_SMOOTHEDNGRAMPLUGINTEST

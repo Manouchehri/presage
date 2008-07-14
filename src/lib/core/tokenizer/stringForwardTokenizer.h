@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_STRINGFORWARDTOKENIZER
-#define SOOTH_STRINGFORWARDTOKENIZER
+#ifndef PRESAGE_STRINGFORWARDTOKENIZER
+#define PRESAGE_STRINGFORWARDTOKENIZER
 
 #include "forwardTokenizer.h"
 
@@ -57,4 +57,4 @@ private:
 
 };
 
-#endif // SOOTH_STRINGFORWARDTOKENIZER
+#endif // PRESAGE_STRINGFORWARDTOKENIZER

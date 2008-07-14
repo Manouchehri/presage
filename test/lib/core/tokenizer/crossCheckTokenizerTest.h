@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_CROSSCHECKTOKENIZERTEST
-#define SOOTH_CROSSCHECKTOKENIZERTEST
+#ifndef PRESAGE_CROSSCHECKTOKENIZERTEST
+#define PRESAGE_CROSSCHECKTOKENIZERTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -60,4 +60,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_CROSSCHECKTOKENIZERTEST
+#endif // PRESAGE_CROSSCHECKTOKENIZERTEST

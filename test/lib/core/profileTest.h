@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PROFILETEST
-#define SOOTH_PROFILETEST
+#ifndef PRESAGE_PROFILETEST
+#define PRESAGE_PROFILETEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -48,4 +48,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_PROFILETEST
+#endif // PRESAGE_PROFILETEST

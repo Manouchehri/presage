@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_HISTORYTRACKERTEST
-#define SOOTH_HISTORYTRACKERTEST
+#ifndef PRESAGE_HISTORYTRACKERTEST
+#define PRESAGE_HISTORYTRACKERTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -75,4 +75,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_HISTORYTRACKERTEST
+#endif // PRESAGE_HISTORYTRACKERTEST

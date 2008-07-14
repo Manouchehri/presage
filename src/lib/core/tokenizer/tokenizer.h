@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_TOKENIZER
-#define SOOTH_TOKENIZER
+#ifndef PRESAGE_TOKENIZER
+#define PRESAGE_TOKENIZER
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -157,6 +157,6 @@ private:
     bool lowercase;
 };
 
-#endif // SOOTH_TOKENIZER
+#endif // PRESAGE_TOKENIZER
 
 

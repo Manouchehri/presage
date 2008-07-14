@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_SIMULATOR
-#define SOOTH_SIMULATOR
+#ifndef PRESAGE_SIMULATOR
+#define PRESAGE_SIMULATOR
 
 #include "presage.h"
 
@@ -82,4 +82,4 @@ private:
 };
 
 
-#endif // SOOTH_SIMULATOR
+#endif // PRESAGE_SIMULATOR

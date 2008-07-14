@@ -22,12 +22,12 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PLUGINSTESTMOCKOBJECTS
-#define SOOTH_PLUGINSTESTMOCKOBJECTS
+#ifndef PRESAGE_PLUGINSTESTMOCKOBJECTS
+#define PRESAGE_PLUGINSTESTMOCKOBJECTS
 
 #include "plugins/plugin.h"
 
 typedef std::map< std::string, std::string > ConfigMap;
 
 
-#endif // SOOTH_PLUGINSTESTMOCKOBJECTS
+#endif // PRESAGE_PLUGINSTESTMOCKOBJECTS

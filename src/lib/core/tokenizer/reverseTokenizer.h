@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_REVERSETOKENIZER
-#define SOOTH_REVERSETOKENIZER
+#ifndef PRESAGE_REVERSETOKENIZER
+#define PRESAGE_REVERSETOKENIZER
 
 #include "tokenizer.h"
 
@@ -65,6 +65,6 @@ private:
 
 };
 
-#endif // SOOTH_REVERSETOKENIZER
+#endif // PRESAGE_REVERSETOKENIZER
 
 

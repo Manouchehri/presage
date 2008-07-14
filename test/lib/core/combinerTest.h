@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_COMBINERTEST
-#define SOOTH_COMBINERTEST
+#ifndef PRESAGE_COMBINERTEST
+#define PRESAGE_COMBINERTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -74,4 +74,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_COMBINERTEST
+#endif // PRESAGE_COMBINERTEST

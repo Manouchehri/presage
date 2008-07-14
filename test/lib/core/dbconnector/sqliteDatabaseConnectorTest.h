@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_SQLITEDATABASECONNECTORTEST
-#define SOOTH_SQLITEDATABASECONNECTORTEST
+#ifndef PRESAGE_SQLITEDATABASECONNECTORTEST
+#define PRESAGE_SQLITEDATABASECONNECTORTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -80,4 +80,4 @@ private:
 
 const int SqliteDatabaseConnectorTest::MAGIC_NUMBER = 1337;
 
-#endif // SOOTH_SQLITEDATABASECONNECTORTEST
+#endif // PRESAGE_SQLITEDATABASECONNECTORTEST

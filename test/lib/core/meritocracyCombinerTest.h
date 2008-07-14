@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_MERITOCRACYCOMBINERTEST
-#define SOOTH_MERITOCRACYCOMBINERTEST
+#ifndef PRESAGE_MERITOCRACYCOMBINERTEST
+#define PRESAGE_MERITOCRACYCOMBINERTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -58,4 +58,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_MERITOCRACYCOMBINERTEST
+#endif // PRESAGE_MERITOCRACYCOMBINERTEST

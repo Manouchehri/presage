@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_NGRAMTEST
-#define SOOTH_NGRAMTEST
+#ifndef PRESAGE_NGRAMTEST
+#define PRESAGE_NGRAMTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -55,4 +55,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_NGRAMTEST
+#endif // PRESAGE_NGRAMTEST

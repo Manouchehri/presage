@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PLUGINMANAGER
-#define SOOTH_PLUGINMANAGER
+#ifndef PRESAGE_PLUGINMANAGER
+#define PRESAGE_PLUGINMANAGER
 
 
 #include "core/predictor.h"
@@ -96,4 +96,4 @@ class PluginManager {
 
 };
 
-#endif // SOOTH_PLUGINMANAGER
+#endif // PRESAGE_PLUGINMANAGER

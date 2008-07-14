@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_CONFIGURATIONTEST
-#define SOOTH_CONFIGURATIONTEST
+#ifndef PRESAGE_CONFIGURATIONTEST
+#define PRESAGE_CONFIGURATIONTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -44,4 +44,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_CONFIGURATIONTEST
+#endif // PRESAGE_CONFIGURATIONTEST

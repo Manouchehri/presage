@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_NGRAM
-#define SOOTH_NGRAM
+#ifndef PRESAGE_NGRAM
+#define PRESAGE_NGRAM
 
 #include <iostream>
 #include <string>
@@ -52,4 +52,4 @@ private:
 
 };
 
-#endif // SOOTH_NGRAM
+#endif // PRESAGE_NGRAM

@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_SMOOTHEDNGRAMPLUGIN
-#define SOOTH_SMOOTHEDNGRAMPLUGIN
+#ifndef PRESAGE_SMOOTHEDNGRAMPLUGIN
+#define PRESAGE_SMOOTHEDNGRAMPLUGIN
 
 #include "plugins/plugin.h"
 #include "core/utility.h"    // strtolower
@@ -65,4 +65,4 @@ private:
 
 };
 
-#endif // SOOTH_SMOOTHEDNGRAMPLUGIN
+#endif // PRESAGE_SMOOTHEDNGRAMPLUGIN

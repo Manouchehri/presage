@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PLUGINSTESTFIXTURE
-#define SOOTH_PLUGINSTESTFIXTURE
+#ifndef PRESAGE_PLUGINSTESTFIXTURE
+#define PRESAGE_PLUGINSTESTFIXTURE
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -73,4 +73,4 @@ class PluginsTestFixture : public CppUnit::TestFixture {
 
 };
 
-#endif // SOOTH_PLUGINSTESTFIXTURE
+#endif // PRESAGE_PLUGINSTESTFIXTURE

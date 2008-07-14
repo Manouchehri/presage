@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_MERITOCRACYCOMBINER
-#define SOOTH_MERITOCRACYCOMBINER
+#ifndef PRESAGE_MERITOCRACYCOMBINER
+#define PRESAGE_MERITOCRACYCOMBINER
 
 #include "combiner.h"
 
@@ -46,4 +46,4 @@ private:
 };
 
 
-#endif // SOOTH_MERITOCRACYCOMBINER
+#endif // PRESAGE_MERITOCRACYCOMBINER

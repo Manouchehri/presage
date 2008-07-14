@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_FORWARDTOKENIZERTEST
-#define SOOTH_FORWARDTOKENIZERTEST
+#ifndef PRESAGE_FORWARDTOKENIZERTEST
+#define PRESAGE_FORWARDTOKENIZERTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -58,4 +58,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_FORWARDTOKENIZERTEST
+#endif // PRESAGE_FORWARDTOKENIZERTEST

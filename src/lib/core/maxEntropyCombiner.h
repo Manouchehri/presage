@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_MAXENTROPYCOMBINER
-#define SOOTH_MAXENTROPYCOMBINER
+#ifndef PRESAGE_MAXENTROPYCOMBINER
+#define PRESAGE_MAXENTROPYCOMBINER
 
 #include "combiner.h"
 
@@ -40,4 +40,4 @@ public:
 
 };
 
-#endif // SOOTH_MAXENTROPYCOMBINER
+#endif // PRESAGE_MAXENTROPYCOMBINER

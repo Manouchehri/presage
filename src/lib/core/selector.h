@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_SELECTOR
-#define SOOTH_SELECTOR
+#ifndef PRESAGE_SELECTOR
+#define PRESAGE_SELECTOR
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -110,4 +110,4 @@ private:
 };
 
 
-#endif // SOOTH_SELECTOR
+#endif // PRESAGE_SELECTOR

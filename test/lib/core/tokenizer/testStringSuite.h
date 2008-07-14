@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_TESTSTRINGSUITE
-#define SOOTH_TESTSTRINGSUITE
+#ifndef PRESAGE_TESTSTRINGSUITE
+#define PRESAGE_TESTSTRINGSUITE
 
 #include <string>
 #include <vector>
@@ -85,4 +85,4 @@ class TestStringSuite {
 
 };
 
-#endif // SOOTH_TESTSTRINGSUITE
+#endif // PRESAGE_TESTSTRINGSUITE

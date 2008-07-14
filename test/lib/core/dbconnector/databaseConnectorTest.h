@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_DATABASECONNECTORTEST
-#define SOOTH_DATABASECONNECTORTEST
+#ifndef PRESAGE_DATABASECONNECTORTEST
+#define PRESAGE_DATABASECONNECTORTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -172,4 +172,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_DATABASECONNECTORTEST
+#endif // PRESAGE_DATABASECONNECTORTEST

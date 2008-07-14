@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_VARIABLETEST
-#define SOOTH_VARIABLETEST
+#ifndef PRESAGE_VARIABLETEST
+#define PRESAGE_VARIABLETEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -45,4 +45,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_VARIABLETEST
+#endif // PRESAGE_VARIABLETEST

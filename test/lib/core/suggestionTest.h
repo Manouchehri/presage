@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_SUGGESTIONTEST
-#define SOOTH_SUGGESTIONTEST
+#ifndef PRESAGE_SUGGESTIONTEST
+#define PRESAGE_SUGGESTIONTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -59,4 +59,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_SUGGESTIONTEST
+#endif // PRESAGE_SUGGESTIONTEST

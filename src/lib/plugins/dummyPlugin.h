@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_DUMMYPLUGIN
-#define SOOTH_DUMMYPLUGIN
+#ifndef PRESAGE_DUMMYPLUGIN
+#define PRESAGE_DUMMYPLUGIN
 
 #include "plugins/plugin.h"
 
@@ -46,4 +46,4 @@ private:
 	
 };
 
-#endif // SOOTH_DUMMYPLUGIN
+#endif // PRESAGE_DUMMYPLUGIN

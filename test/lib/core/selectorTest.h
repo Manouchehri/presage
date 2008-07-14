@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_SELECTORTEST
-#define SOOTH_SELECTORTEST
+#ifndef PRESAGE_SELECTORTEST
+#define PRESAGE_SELECTORTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -118,4 +118,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_SELECTORTEST
+#endif // PRESAGE_SELECTORTEST

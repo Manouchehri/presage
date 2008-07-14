@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_EXCEPTION
-#define SOOTH_EXCEPTION
+#ifndef PRESAGE_EXCEPTION
+#define PRESAGE_EXCEPTION
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -55,4 +55,4 @@ private:
 
 
 
-#endif // SOOTH_EXCEPTION
+#endif // PRESAGE_EXCEPTION

@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_RECENCYPLUGIN
-#define SOOTH_RECENCYPLUGIN
+#ifndef PRESAGE_RECENCYPLUGIN
+#define PRESAGE_RECENCYPLUGIN
 
 #include "plugins/plugin.h"
 #include "core/logger.h"
@@ -85,4 +85,4 @@ private:
 
 };
 
-#endif // SOOTH_RECENCYPLUGIN
+#endif // PRESAGE_RECENCYPLUGIN

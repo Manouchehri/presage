@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PREDICTOR
-#define SOOTH_PREDICTOR
+#ifndef PRESAGE_PREDICTOR
+#define PRESAGE_PREDICTOR
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -177,4 +177,4 @@ class Predictor {
 
 };
 
-#endif // SOOTH_PREDICTOR
+#endif // PRESAGE_PREDICTOR

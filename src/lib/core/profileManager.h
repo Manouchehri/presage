@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PROFILEMANAGER
-#define SOOTH_PROFILEMANAGER
+#ifndef PRESAGE_PROFILEMANAGER
+#define PRESAGE_PROFILEMANAGER
 
 #include "core/profile.h"
 #include "tinyxml/tinyxml.h"
@@ -105,4 +105,4 @@ private:
 };
 
 
-#endif // SOOTH_PROFILEMANAGER
+#endif // PRESAGE_PROFILEMANAGER

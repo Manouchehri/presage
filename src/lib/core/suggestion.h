@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_SUGGESTION
-#define SOOTH_SUGGESTION
+#ifndef PRESAGE_SUGGESTION
+#define PRESAGE_SUGGESTION
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -86,4 +86,4 @@ private:
 
 
 
-#endif // SOOTH_SUGGESTION
+#endif // PRESAGE_SUGGESTION

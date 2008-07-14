@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_CONFIGURATION
-#define SOOTH_CONFIGURATION
+#ifndef PRESAGE_CONFIGURATION
+#define PRESAGE_CONFIGURATION
 
 #include <map>
 
@@ -60,4 +60,4 @@ private:
 
 };
 
-#endif // SOOTH_CONFIGURATION
+#endif // PRESAGE_CONFIGURATION

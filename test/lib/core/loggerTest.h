@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_LOGGERTEST
-#define SOOTH_LOGGERTEST
+#ifndef PRESAGE_LOGGERTEST
+#define PRESAGE_LOGGERTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -50,4 +50,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_LOGGERTEST
+#endif // PRESAGE_LOGGERTEST

@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_CHARSETS
-#define SOOTH_CHARSETS
+#ifndef PRESAGE_CHARSETS
+#define PRESAGE_CHARSETS
 
 // ISO 8859-1 standard ///////////////////////
 #include "iso8859_1.h"
@@ -231,4 +231,4 @@ const char DEFAULT_CONTROL_CHARS[]={
     '\0' };
 
 
-#endif // SOOTH_CHARSETS
+#endif // PRESAGE_CHARSETS

@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_REVERSETOKENIZERTEST
-#define SOOTH_REVERSETOKENIZERTEST
+#ifndef PRESAGE_REVERSETOKENIZERTEST
+#define PRESAGE_REVERSETOKENIZERTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -58,4 +58,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_REVERSETOKENIZERTEST
+#endif // PRESAGE_REVERSETOKENIZERTEST

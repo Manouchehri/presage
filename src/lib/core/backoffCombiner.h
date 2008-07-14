@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_BACKOFFCOMBINER
-#define SOOTH_BACKOFFCOMBINER
+#ifndef PRESAGE_BACKOFFCOMBINER
+#define PRESAGE_BACKOFFCOMBINER
 
 #include "combiner.h"
 
@@ -40,4 +40,4 @@ private:
 
 };
 
-#endif // SOOTH_BACKOFFCOMBINER
+#endif // PRESAGE_BACKOFFCOMBINER

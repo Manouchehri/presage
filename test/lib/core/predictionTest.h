@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PREDICTIONTEST
-#define SOOTH_PREDICTIONTEST
+#ifndef PRESAGE_PREDICTIONTEST
+#define PRESAGE_PREDICTIONTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -61,4 +61,4 @@ private:
     CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // SOOTH_PREDICTIONTEST
+#endif // PRESAGE_PREDICTIONTEST

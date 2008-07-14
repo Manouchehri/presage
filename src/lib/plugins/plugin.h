@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PLUGIN
-#define SOOTH_PLUGIN
+#ifndef PRESAGE_PLUGIN
+#define PRESAGE_PLUGIN
 
 //PLUMP
 //#include "plump/src/pluginInterface.h"
@@ -131,4 +131,4 @@ private:
 // typedef void    destroy_t(Plugin*);
 
 
-#endif // SOOTH_PLUGIN
+#endif // PRESAGE_PLUGIN

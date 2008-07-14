@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_LINEARCOMBINER
-#define SOOTH_LINEARCOMBINER
+#ifndef PRESAGE_LINEARCOMBINER
+#define PRESAGE_LINEARCOMBINER
 
 #include "combiner.h"
 
@@ -40,4 +40,4 @@ private:
 
 };
 
-#endif // SOOTH_LINEARCOMBINER
+#endif // PRESAGE_LINEARCOMBINER

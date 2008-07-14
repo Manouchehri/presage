@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTH_PREDICTION
-#define SOOTH_PREDICTION
+#ifndef PRESAGE_PREDICTION
+#define PRESAGE_PREDICTION
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -85,4 +85,4 @@ private:
 };
 
 
-#endif // SOOTH_PREDICTION
+#endif // PRESAGE_PREDICTION
