@@ -35,7 +35,7 @@ AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Configuration* config, 
     )
 {
     Variable variable;
-    variable.push_back("Soothsayer");
+    variable.push_back("Presage");
     variable.push_back("Plugins");
     variable.push_back("AbbreviationExpansionPlugin");
 

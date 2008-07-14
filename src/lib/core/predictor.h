@@ -52,7 +52,7 @@
 //#include <dlfcn.h>   // needed for shared library dynamic loading
 
 
-/** Predictor, the heart of Soothsayer system, coordinates the execution of predictive plugins and returns the combination of their predictions.
+/** Predictor, the heart of Presage system, coordinates the execution of predictive plugins and returns the combination of their predictions.
  *
  * Predictor starts the execution of the active predictive plugins,
  * monitors their execution and collects the predictions returned, or
@@ -87,7 +87,7 @@ class Predictor {
 
     /** Runs the predictive plugins, combine their predictions and return the resulting prediction.
      *
-     * This is the heart of Soothsayer.
+     * This is the heart of Presage.
      * 
      * Plump will eventually provide the implementation of sequential or parallel execution of plugins.
      *

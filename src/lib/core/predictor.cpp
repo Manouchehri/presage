@@ -51,31 +51,31 @@ Predictor::Predictor(Configuration* configuration, ContextTracker* ct)
     Value value;
 
     try {
-	variable = new Variable("Soothsayer.Predictor.LOGGER");
+	variable = new Variable("Presage.Predictor.LOGGER");
 	value = config->get(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	delete variable;
 
-	variable = new Variable("Soothsayer.Predictor.PREDICT_TIME");
+	variable = new Variable("Presage.Predictor.PREDICT_TIME");
 	value = config->get(*variable);
 	logger << INFO << "PREDICT_TIME: " << value << endl;
 	setPredictTime(toInt(value));
 	delete variable;
 
-	variable = new Variable("Soothsayer.Predictor.MAX_PARTIAL_PREDICTION_SIZE");
+	variable = new Variable("Presage.Predictor.MAX_PARTIAL_PREDICTION_SIZE");
 	value = config->get(*variable);
 	logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
 	max_partial_prediction_size = toInt(value);
 	delete variable;
 
-	variable = new Variable("Soothsayer.Predictor.COMBINATION_POLICY");
+	variable = new Variable("Presage.Predictor.COMBINATION_POLICY");
 	value = config->get(*variable);
 	logger << INFO << "COMBINATION_POLICY: " << value << endl;
 	setCombinationPolicy(value);
 	delete variable;
 
-	variable = new Variable("Soothsayer.Predictor.PLUGINS");
+	variable = new Variable("Presage.Predictor.PLUGINS");
 	value = config->get(*variable);
 	logger << INFO << "PLUGINS: " << value << endl;
 	setPlugins(value);

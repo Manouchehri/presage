@@ -204,7 +204,7 @@ void ProfileManager::buildProfile(const std::string p)
     assert( node );
 
     // Insert root element
-    root = xmlProfileDoc->InsertEndChild( TiXmlElement( "Soothsayer" ) );
+    root = xmlProfileDoc->InsertEndChild( TiXmlElement( "Presage" ) );
     assert( root );
 
     // ContextTracker module
@@ -413,7 +413,7 @@ void ProfileManager::refresh_config(Profile* profile)
 {
     Configuration* config = profile->get_configuration();
     try {
-	logger << setlevel(config->get(Variable("Soothsayer.ProfileManager.LOGGER")));
+	logger << setlevel(config->get(Variable("Presage.ProfileManager.LOGGER")));
     } catch (Configuration::ConfigurationException& ex) {
 	// if no config is available, turn on full logging for profile
 	// manager

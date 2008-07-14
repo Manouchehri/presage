@@ -26,8 +26,8 @@
 
 #include <assert.h>
 
-const Variable DictionaryPlugin::DICTIONARY  = "Soothsayer.Plugins.DictionaryPlugin.DICTIONARY";
-const Variable DictionaryPlugin::PROBABILITY = "Soothsayer.Plugins.DictionaryPlugin.PROBABILITY";
+const Variable DictionaryPlugin::DICTIONARY  = "Presage.Plugins.DictionaryPlugin.DICTIONARY";
+const Variable DictionaryPlugin::PROBABILITY = "Presage.Plugins.DictionaryPlugin.PROBABILITY";
 
 DictionaryPlugin::DictionaryPlugin(Configuration* config, ContextTracker* ht)
     : Plugin(config,

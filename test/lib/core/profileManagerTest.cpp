@@ -117,19 +117,19 @@ void ProfileManagerTest::testCustomProfile()
     const std::string custom_profile = "custom_profile.xml";
     std::ofstream profile_stream(custom_profile.c_str());
     profile_stream << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n"
-                   << "<Soothsayer>\n"
+                   << "<Presage>\n"
 		   << "    <ProfileManager>\n"
 		   << "         <LOGGER>ERROR</LOGGER>\n"
 		   << "    </ProfileManager>\n"
                    << "    <Custom>CUSTOM</Custom>\n"
-                   << "</Soothsayer>\n";
+                   << "</Presage>\n";
     profile_stream.close();
 
     profileManager->loadProfile(custom_profile);
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
 
-    Variable variable("Soothsayer.Custom");
+    Variable variable("Presage.Custom");
 
     Value value = configuration->get(variable);
 

@@ -50,13 +50,13 @@ ContextTracker::ContextTracker(Configuration* config,
     Value value;
 
     try {
-	variable = new Variable("Soothsayer.ContextTracker.LOGGER");
+	variable = new Variable("Presage.ContextTracker.LOGGER");
 	value = config->get(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	delete variable;
 
-	variable = new Variable("Soothsayer.ContextTracker.MAX_BUFFER_SIZE");
+	variable = new Variable("Presage.ContextTracker.MAX_BUFFER_SIZE");
 	value = config->get(*variable);
 	logger << INFO << "MAX_BUFFER_SIZE: " << value << endl;
 	setMaxBufferSize(toInt(value));

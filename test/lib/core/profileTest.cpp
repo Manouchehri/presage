@@ -57,28 +57,28 @@ void ProfileTest::testGetConfig()
 {
     Variable* var;
     
-    var = new Variable("Soothsayer.ContextTracker.MAX_BUFFER_SIZE");
+    var = new Variable("Presage.ContextTracker.MAX_BUFFER_SIZE");
     CPPUNIT_ASSERT(configuration->get(*var) == "1024");
     delete var;
 
-    var = new Variable("Soothsayer.Selector.SUGGESTIONS");
+    var = new Variable("Presage.Selector.SUGGESTIONS");
     CPPUNIT_ASSERT(configuration->get(*var) == "6");
     delete var;
 
-    var = new Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD");
+    var = new Variable("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD");
     CPPUNIT_ASSERT(configuration->get(*var) == "0");
     delete var;
 
 
-    var = new Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS");
+    var = new Variable("Presage.Selector.REPEAT_SUGGESTIONS");
     CPPUNIT_ASSERT(configuration->get(*var) == "no");
     delete var;
     
-    var = new Variable("Soothsayer.Plugins.SmoothedNgramPlugin.DBFILENAME");
+    var = new Variable("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
     CPPUNIT_ASSERT(configuration->get(*var) == "database_en.db");
     delete var;
 
-    var = new Variable("Soothsayer.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
+    var = new Variable("Presage.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
     CPPUNIT_ASSERT(configuration->get(*var) == "40");
     delete var;
 }

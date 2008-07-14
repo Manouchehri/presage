@@ -25,9 +25,9 @@
 #include "selector.h"
 #include "utility.h"
 
-const Variable Selector::SUGGESTIONS = Variable("Soothsayer.Selector.SUGGESTIONS");
-const Variable Selector::REPEAT_SUGGESTIONS = Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS");
-const Variable Selector::GREEDY_SUGGESTION_THRESHOLD = Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD");
+const Variable Selector::SUGGESTIONS = Variable("Presage.Selector.SUGGESTIONS");
+const Variable Selector::REPEAT_SUGGESTIONS = Variable("Presage.Selector.REPEAT_SUGGESTIONS");
+const Variable Selector::GREEDY_SUGGESTION_THRESHOLD = Variable("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD");
 
 
 Selector::Selector(Configuration* configuration, ContextTracker* ct)
@@ -40,7 +40,7 @@ Selector::Selector(Configuration* configuration, ContextTracker* ct)
     Value value;
 
     try {
-	variable = new Variable("Soothsayer.Selector.LOGGER");
+	variable = new Variable("Presage.Selector.LOGGER");
 	value = config->get(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
@@ -186,11 +186,11 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
  */
 int Selector::suggestions() const
 {
-    Value value = config->get(Variable("Soothsayer.Selector.SUGGESTIONS"));
+    Value value = config->get(Variable("Presage.Selector.SUGGESTIONS"));
     logger << INFO << "SUGGESTIONS: " << value << endl;
     int result = toInt(value);
     if (result < 0) {
-	logger << ERROR << "Soothsayer.Selector.SUGGESTIONS value out of range!/a" << endl;
+	logger << ERROR << "Presage.Selector.SUGGESTIONS value out of range!/a" << endl;
 	// REVISIT: throw exception
 	abort();
     }
@@ -203,7 +203,7 @@ int Selector::suggestions() const
  */
 bool Selector::repeat_suggestions() const
 {
-    Value value = config->get(Variable("Soothsayer.Selector.REPEAT_SUGGESTIONS"));
+    Value value = config->get(Variable("Presage.Selector.REPEAT_SUGGESTIONS"));
     logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
     bool result = isYes(value);
     return result;
@@ -215,7 +215,7 @@ bool Selector::repeat_suggestions() const
  */
 unsigned int Selector::greedy_suggestion_threshold() const
 {
-    Value value = config->get(Variable("Soothsayer.Selector.GREEDY_SUGGESTION_THRESHOLD"));
+    Value value = config->get(Variable("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD"));
     logger << INFO << "GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
     int result = toInt(value);
     if( result < 0 ) {

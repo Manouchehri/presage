@@ -27,10 +27,10 @@
 #include <math.h>  // for exp()
 
 // RecencyPlugin config variables
-const Variable RecencyPlugin::LOGGER           = "Soothsayer.Plugins.RecencyPlugin.LOGGER";
-const Variable RecencyPlugin::LAMBDA           = "Soothsayer.Plugins.RecencyPlugin.LAMBDA";
-const Variable RecencyPlugin::N_0              = "Soothsayer.Plugins.RecencyPlugin.N_0";
-const Variable RecencyPlugin::CUTOFF_THRESHOLD = "Soothsayer.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
+const Variable RecencyPlugin::LOGGER           = "Presage.Plugins.RecencyPlugin.LOGGER";
+const Variable RecencyPlugin::LAMBDA           = "Presage.Plugins.RecencyPlugin.LAMBDA";
+const Variable RecencyPlugin::N_0              = "Presage.Plugins.RecencyPlugin.N_0";
+const Variable RecencyPlugin::CUTOFF_THRESHOLD = "Presage.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
 
 RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,

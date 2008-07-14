@@ -28,10 +28,10 @@
 CPPUNIT_TEST_SUITE_REGISTRATION( RecencyPluginTest );
 
 const int RecencyPluginTest::SIZE = 20;
-const char* RecencyPluginTest::LOGGER = "Soothsayer.Plugins.RecencyPlugin.LOGGER";
-const char* RecencyPluginTest::LAMBDA = "Soothsayer.Plugins.RecencyPlugin.LAMBDA";
-const char* RecencyPluginTest::CUTOFF = "Soothsayer.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
-const char* RecencyPluginTest::N_0    = "Soothsayer.Plugins.RecencyPlugin.N_0";
+const char* RecencyPluginTest::LOGGER = "Presage.Plugins.RecencyPlugin.LOGGER";
+const char* RecencyPluginTest::LAMBDA = "Presage.Plugins.RecencyPlugin.LAMBDA";
+const char* RecencyPluginTest::CUTOFF = "Presage.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
+const char* RecencyPluginTest::N_0    = "Presage.Plugins.RecencyPlugin.N_0";
 
 void RecencyPluginTest::setUp()
 {
@@ -39,8 +39,8 @@ void RecencyPluginTest::setUp()
 
     config = new Configuration();
     // set context tracker config variables
-    config->set(Variable("Soothsayer.ContextTracker.LOGGER"), Value("ERROR"));
-    config->set(Variable("Soothsayer.ContextTracker.MAX_BUFFER_SIZE"), Value("1024"));
+    config->set(Variable("Presage.ContextTracker.LOGGER"), Value("ERROR"));
+    config->set(Variable("Presage.ContextTracker.MAX_BUFFER_SIZE"), Value("1024"));
     // set recency plugin config variables
     config->set(LOGGER, "ALL");
     config->set(LAMBDA, "1");
