@@ -2,7 +2,7 @@ Format-Specification: http://wiki.debian.org/Proposals/CopyrightFormat
 Upstream-Author: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 Debianized-By: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 Debianized-Date: Wed, 19 Dec 2007 16:42:15 +0000.
-Original-Source-Location: http://sourceforge.net/projects/soothsayer/
+Original-Source-Location: http://sourceforge.net/projects/presage/
 Original-Source-Command: ./debian/rules get-orig-source
 Original-Source-Size: 1292184
 Original-Source-MD5: 5a47645993c01b4203733ef179004835

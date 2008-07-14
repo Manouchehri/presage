@@ -1,4 +1,4 @@
-Source: soothsayer
+Source: presage
 Section: devel
 Priority: extra
 Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
@@ -14,17 +14,17 @@ Build-Depends: cdbs (>= 0.4.15),
 	       python-support (>= 0.5.3),
 	       swig
 Standards-Version: 3.7.3
-Homepage: http://soothsayer.sourceforge.net/
-Vcs-Svn: https://soothsayer.svn.sourceforge.net/svnroot/soothsayer/trunk
-Vcs-Browser: http://soothsayer.svn.sourceforge.net/viewvc/soothsayer/
+Homepage: http://presage.sourceforge.net/
+Vcs-Svn: https://presage.svn.sourceforge.net/svnroot/presage/trunk
+Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/
 
-Package: soothsayer
+Package: presage
 Section: misc
 Architecture: any
-Depends: ${shlibs:Depends}, soothsayer-data
-Suggests: soothsayer-doc
+Depends: ${shlibs:Depends}, presage-data
+Suggests: presage-doc
 Description: intelligent predictive text entry platform (tools and demos)
- Soothsayer is an intelligent predictive text entry platform.
+ Presage is an intelligent predictive text entry platform.
  .
  A predictive text entry system attempts to improve the ease and speed
  of textual input by predicting words. Word prediction consists in
@@ -33,22 +33,22 @@ Description: intelligent predictive text entry platform (tools and demos)
  combines the information thus extracted with other information sources
  to calculate the set of most probable tokens.
  .
- Soothsayer exploits redundant information embedded in natural
+ Presage exploits redundant information embedded in natural
  languages to generate word predictions. The modular architecture
  allows its language model to be extended and customized to utilize
  statistical, syntactic, and semantic information sources.
  .
  This package contains the tools required to generate custom
- statistical data used by soothsayer to generate predictions.
+ statistical data used by presage to generate predictions.
  .
  This package also contains simple demonstration programs.
 
-Package: soothsayer-data
+Package: presage-data
 Section: misc
 Architecture: any
-Recommends: soothsayer
+Recommends: presage
 Description: intelligent predictive text entry platform (data files)
- Soothsayer is an intelligent predictive text entry platform.
+ Presage is an intelligent predictive text entry platform.
  .
  A predictive text entry system attempts to improve the ease and speed
  of textual input by predicting words. Word prediction consists in
@@ -57,20 +57,20 @@ Description: intelligent predictive text entry platform (data files)
  combines the information thus extracted with other information sources
  to calculate the set of most probable tokens.
  .
- Soothsayer exploits redundant information embedded in natural
+ Presage exploits redundant information embedded in natural
  languages to generate word predictions. The modular architecture
  allows its language model to be extended and customized to utilize
  statistical, syntactic, and semantic information sources.
  .
  This package contains the sample statistical data files and
- abbreviation files needed by soothsayer.
+ abbreviation files needed by presage.
 
-Package: soothsayer-doc
+Package: presage-doc
 Section: doc
 Architecture: all
-Recommends: soothsayer
+Recommends: presage
 Description: intelligent predictive text entry platform (documentation)
- Soothsayer is an intelligent predictive text entry platform.
+ Presage is an intelligent predictive text entry platform.
  .
  A predictive text entry system attempts to improve the ease and speed
  of textual input by predicting words. Word prediction consists in
@@ -79,20 +79,20 @@ Description: intelligent predictive text entry platform (documentation)
  combines the information thus extracted with other information sources
  to calculate the set of most probable tokens.
  .
- Soothsayer exploits redundant information embedded in natural
+ Presage exploits redundant information embedded in natural
  languages to generate word predictions. The modular architecture
  allows its language model to be extended and customized to utilize
  statistical, syntactic, and semantic information sources.
  .
- This package contains the documentation for soothsayer in HTML and
+ This package contains the documentation for presage in HTML and
  LaTeX format.
 
-Package: libsoothsayer0
+Package: libpresage0
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}
 Description: intelligent predictive text entry platform (shared library)
- Soothsayer is an intelligent predictive text entry platform.
+ Presage is an intelligent predictive text entry platform.
  .
  A predictive text entry system attempts to improve the ease and speed
  of textual input by predicting words. Word prediction consists in
@@ -101,20 +101,20 @@ Description: intelligent predictive text entry platform (shared library)
  combines the information thus extracted with other information sources
  to calculate the set of most probable tokens.
  .
- Soothsayer exploits redundant information embedded in natural
+ Presage exploits redundant information embedded in natural
  languages to generate word predictions. The modular architecture
  allows its language model to be extended and customized to utilize
  statistical, syntactic, and semantic information sources.
  .
  This package contains the shared library.
 
-Package: libsoothsayer-dev
+Package: libpresage-dev
 Section: libdevel
-Suggests: soothsayer-doc
+Suggests: presage-doc
 Architecture: any
-Depends: libsoothsayer0 (= ${binary:Version}), libc6-dev
+Depends: libpresage0 (= ${binary:Version}), libc6-dev
 Description: intelligent predictive text entry platform (development files)
- Soothsayer is an intelligent predictive text entry platform.
+ Presage is an intelligent predictive text entry platform.
  .
  A predictive text entry system attempts to improve the ease and speed
  of textual input by predicting words. Word prediction consists in
@@ -123,20 +123,20 @@ Description: intelligent predictive text entry platform (development files)
  combines the information thus extracted with other information sources
  to calculate the set of most probable tokens.
  .
- Soothsayer exploits redundant information embedded in natural
+ Presage exploits redundant information embedded in natural
  languages to generate word predictions. The modular architecture
  allows its language model to be extended and customized to utilize
  statistical, syntactic, and semantic information sources.
  .
  This package contains the development files (headers, static libraries).
 
-Package: python-soothsayer
+Package: python-presage
 Section: python
 Architecture: any
 Depends: ${python:Depends}, ${shlibs:Depends}
 Provides: ${python:Provides}
 Description: intelligent predictive text entry platform (Python binding)
- Soothsayer is an intelligent predictive text entry platform.
+ Presage is an intelligent predictive text entry platform.
  .
  A predictive text entry system attempts to improve the ease and speed
  of textual input by predicting words. Word prediction consists in
@@ -145,7 +145,7 @@ Description: intelligent predictive text entry platform (Python binding)
  combines the information thus extracted with other information sources
  to calculate the set of most probable tokens.
  .
- Soothsayer exploits redundant information embedded in natural
+ Presage exploits redundant information embedded in natural
  languages to generate word predictions. The modular architecture
  allows its language model to be extended and customized to utilize
  statistical, syntactic, and semantic information sources.

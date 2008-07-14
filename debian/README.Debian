@@ -1,13 +1,13 @@
-soothsayer for Debian
----------------------
+presage for Debian
+------------------
 
-Soothsayer for Debian is split up into the following packages:
+Presage for Debian is split up into the following packages:
 
-soothsayer            Command line tools, demo programs
-soothsayer-data       Data
-soothsayer-doc        Documentation
-libsoothsayer0        Shared library
-libsoothsayer0-dev    Development files (header, static library)
+presage            Command line tools, demo programs
+presage-data       Data
+presage-doc        Documentation
+libpresage0        Shared library
+libpresage0-dev    Development files (header, static library)
 
 
  -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Wed, 19 Dec 2007 16:42:15 +0000
