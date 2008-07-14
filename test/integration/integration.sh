@@ -1,7 +1,7 @@
-#!/bin/bash
+x#!/bin/bash
 
-#############
-#  Soothsayer, an extensible predictive text entry system
+##########
+#  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
@@ -31,8 +31,8 @@ SIMULATOR=../../src/tools/presage_simulator
 TRAINING_CORPUS=${srcdir}/../../COPYING
 CONTROL_CORPUS=`basename ${TRAINING_CORPUS}_excerpt.txt`
 
-CONFIG_TEMPLATE=${srcdir}/../../resources/profiles/soothsayer.xml.template
-CONFIG=soothsayer.xml
+CONFIG_TEMPLATE=${srcdir}/../../resources/profiles/presage.xml.template
+CONFIG=presage.xml
 
 NGRAM_CARDINALITY=3
 
@@ -67,8 +67,8 @@ function generate_resources()
 # 
 function generate_config()
 {
-#    # use generate_soothsayer_config script from src/resources/profiles
-#    ${srcdir}/../../resources/profiles/generate_soothsayer_config.sh ${srcdir}/../../resources/profiles/soothsayer.xml.template soothsayer.xml .
+#    # use generate_presage_config script from src/resources/profiles
+#    ${srcdir}/../../resources/profiles/generate_presage_config.sh ${srcdir}/../../resources/profiles/presage.xml.template presage.xml .
 #
 
     cp -f ${CONFIG_TEMPLATE} ${CONFIG}

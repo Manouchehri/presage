@@ -14,6 +14,11 @@ Ideas
    the soothsayer system and expose what functionality is required for
    learning plugins to work within the soothsayer framework.
 
+  implementation idea: plugin remembers previously entered text (by
+   storing it in a config defined file); when current token is found
+   in the remembered text, the tokens following the current token are
+   suggested; this requires "learning" previously entered text.
+
 
 Absolute first
  - should Profile::getConfig() really throw exception? Why not just

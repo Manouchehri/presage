@@ -1,6 +1,6 @@
 
-#############
-#  Soothsayer, an extensible predictive text entry system
+##########
+#  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
 #  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
@@ -21,42 +21,42 @@
 
 ## Process this file with automake to produce Makefile.in
 
-EXTRA_DIST =	soothsayer.xml.template generate_soothsayer_config.sh
+EXTRA_DIST =	presage.xml.template generate_presage_config.sh
 
-BUILT_SOURCES =	soothsayer.xml
-CLEANFILES =	soothsayer.xml
+BUILT_SOURCES =	presage.xml
+CLEANFILES =	presage.xml
 
 # added dependency on Makefile to regenerate configuration file in the
 # event it had previously been built and then the package reconfigured
 # to install to a different location.
-soothsayer.xml:	Makefile soothsayer.xml.template generate_soothsayer_config.sh
+presage.xml:	Makefile presage.xml.template generate_presage_config.sh
 	@case "`uname`" in \
 	  MINGW*) \
 		NATIVE_LOCALSTATEDIR="`cd ${localstatedir} && pwd -W`"; \
 		NATIVE_LOCALSTATEDIR="`echo $$NATIVE_LOCALSTATEDIR | sed -e 's|/|\\\\\\\\|g'`"; \
-		${srcdir}/generate_soothsayer_config.sh ${srcdir}/soothsayer.xml.template \
-			soothsayer.xml "$$NATIVE_LOCALSTATEDIR\\\\lib\\\\soothsayer"; \
+		${srcdir}/generate_presage_config.sh ${srcdir}/presage.xml.template \
+			presage.xml "$$NATIVE_LOCALSTATEDIR\\\\lib\\\\presage"; \
 	  ;; \
 	  *) \
-		${srcdir}/generate_soothsayer_config.sh ${srcdir}/soothsayer.xml.template \
-			soothsayer.xml ${localstatedir}/lib/soothsayer; \
+		${srcdir}/generate_presage_config.sh ${srcdir}/presage.xml.template \
+			presage.xml ${localstatedir}/lib/presage; \
 	  ;; \
 	esac;
 
 # ${prefix}/etc directory
-sysconf_DATA =	soothsayer.xml
+sysconf_DATA =	presage.xml
 
 
 #
 # ${prefix}/share directory
-# dist_data_DATA =	soothsayer.xml
+# dist_data_DATA =	presage.xml
 #
 # ${prefix}/share/${package-name} directory
-# dist_pkgdata_DATA =	soothsayer.xml
+# dist_pkgdata_DATA =	presage.xml
 # 
 # ${prefix}/var directory
-# dist_localstate_DATA =	soothsayer.xml
+# dist_localstate_DATA =	presage.xml
 # 
 # ${prefix}/com directory
-# dist_sharedstate_DATA =	soothsayer.xml
+# dist_sharedstate_DATA =	presage.xml
 # 

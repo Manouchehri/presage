@@ -27,7 +27,8 @@ noinst_LTLIBRARIES =	libplugin.la                      \
 			libSmoothedCountPlugin.la         \
 			libDummyPlugin.la                 \
 			libAbbreviationExpansionPlugin.la \
-			libRecencyPlugin.la
+			libRecencyPlugin.la               \
+			libDejavuPlugin.la
 
 
 libplugin_la_SOURCES =	plugin.cpp plugin.h
@@ -60,5 +61,7 @@ libDummyPlugin_la_SOURCES =		dummyPlugin.cpp         \
 libRecencyPlugin_la_SOURCES =		recencyPlugin.cpp	\
 					recencyPlugin.h
 
+libDejavuPlugin_la_SOURCES =		dejavuPlugin.cpp        \
+					dejavuPlugin.h
 
 AM_CPPFLAGS = -I$(top_srcdir)/src/lib

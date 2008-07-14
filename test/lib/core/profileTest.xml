@@ -1,5 +1,5 @@
 <!--
-    Soothsayer, an extensible predictive text entry system
+    Presage, an extensible predictive text entry system
     ------------------------------------------------------
  
     Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
@@ -19,7 +19,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 -->
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<Soothsayer>
+<Presage>
     <ContextTracker>
         <MAX_BUFFER_SIZE>1024</MAX_BUFFER_SIZE>
     </ContextTracker>
@@ -52,4 +52,4 @@
             <MAX_PARTIAL_PREDICTION_SIZE>40</MAX_PARTIAL_PREDICTION_SIZE>
         </SmoothedNgramPlugin>
     </Plugins>
-</Soothsayer>
+</Presage>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<Soothsayer>
+<Presage>
     <ContextTracker>
 	<LOGGER>ERROR</LOGGER>
         <!-- MAX_BUFFER_SIZE
@@ -86,4 +86,4 @@
             <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
         </SmoothedCountPlugin>
     </Plugins>
-</Soothsayer>
+</Presage>

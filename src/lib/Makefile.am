@@ -36,7 +36,8 @@ libpresage_la_LIBADD =		core/libcore.la \
 				plugins/libDummyPlugin.la \
 				plugins/libDictionaryPlugin.la \
 				plugins/libSmoothedCountPlugin.la \
-				plugins/libRecencyPlugin.la
+				plugins/libRecencyPlugin.la \
+				plugins/libDejavuPlugin.la
 
 #				REVISIT remove plugins/lib*.la entries
 #				when reintegrating dynamically loaded plugins
