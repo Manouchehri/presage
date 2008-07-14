@@ -1,7 +1,7 @@
 
-/*********************************************************
- *  Soothsayer, an extensible predictive text entry system
- *  ------------------------------------------------------
+/******************************************************
+ *  Presage, an extensible predictive text entry system
+ *  ---------------------------------------------------
  *
  *  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 
@@ -21,8 +21,8 @@
                                                                              *
                                                                 **********(*)*/
 
-#ifndef SOOTH_DEJAVUPLUGIN
-#define SOOTH_DEJAVUPLUGIN
+#ifndef PRESAGE_DEJAVUPLUGIN
+#define PRESAGE_DEJAVUPLUGIN
 
 #include "plugins/plugin.h"
 

@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef SOOTHSAYER_LOGGER
-#define SOOTHSAYER_LOGGER
+#ifndef PRESAGE_LOGGER
+#define PRESAGE_LOGGER
 
 #if HAVE_CONFIG_H
 #  include <config.h>
@@ -282,4 +282,4 @@ endl (const Logger<_charT, _Traits>& lgr)
 }                                                 
 
 
-#endif // SOOTHSAYER_LOGGER
+#endif // PRESAGE_LOGGER
