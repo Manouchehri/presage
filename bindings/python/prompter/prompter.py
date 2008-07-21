@@ -253,7 +253,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
       self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
-      self.soothie = presage.Presage()
+      self.prsg = presage.Presage()
 
       #self.AutoCompSetAutoHide(False)
       #self.AutoCompSetIgnoreCase(1)
@@ -272,24 +272,24 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
       if self.__AutoPunctuation(key):
          # autopunctuation takes care of adding text and updating
-         # soothie, nothing to do here.
+         # prsg, nothing to do here.
          pass
       else:
          self.AddText(key)
-         self.soothie.update(key.encode('utf-8'))
+         self.prsg.update(key.encode('utf-8'))
 
       self.__ShowPrediction()
 
    def __ShowPrediction(self, string = ''):
       print "------------ __ShowPrediction()"
-      prediction = self.soothie.predict(string)
+      prediction = self.prsg.predict(string)
       suggestions = " ".join(prediction);
-      prefix = self.soothie.prefix()
+      prefix = self.prsg.prefix()
 
       print "String:     " + string
       print "Prefix:     " + prefix
       print "Prefix len: " + str(len(prefix))
-      print "Context:    " + self.soothie.context()
+      print "Context:    " + self.prsg.context()
       print "Prediction: " + suggestions
 
       if self.AutoCompActive():
@@ -322,8 +322,8 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
                   self.SetSelection(prev_pos, curr_pos)
                   self.ReplaceSelection(char + ' ')
 
-                  # update soothie
-                  self.soothie.update('\b' + char.encode('utf-8') + ' ')
+                  # update prsg
+                  self.prsg.update('\b' + char.encode('utf-8') + ' ')
 
                   return True
 
@@ -331,19 +331,19 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
    def OnUserListSelection(self, event):
       completion = unicode(event.GetText())
-      prefix_length = len(unicode(self.soothie.prefix()))
+      prefix_length = len(unicode(self.prsg.prefix()))
       
       print "----------- OnUserListSelection() handler"
       print "Completion:    " + completion
       print "Prefix length: " + str(prefix_length)
       print "To be added:   " + completion[prefix_length:]
 
-      self.soothie.complete(completion.encode('utf-8'))
+      self.prsg.complete(completion.encode('utf-8'))
       self.AddText(completion[prefix_length:])
 
       if self.append_whitespace_on_completion:
          self.AddText(' ')
-         self.soothie.update(' ')
+         self.prsg.update(' ')
 
       # schedule showing of prediction after current and pending events
       # are dealt with (thanks to Robin Dunn for pointing this out)

@@ -115,21 +115,21 @@ accordingly).
 	try:
 		# Create Presage object
 		if config:
-			soothie = presage.Presage(config)
+			prsg = presage.Presage(config)
 		else:
-			soothie = presage.Presage()
+			prsg = presage.Presage()
 		
 		if suggestions:
-			soothie.config('Presage.Selector.SUGGESTIONS', suggestions)
+			prsg.config('Presage.Selector.SUGGESTIONS', suggestions)
 
 		print "Enter text at the prompt (press enter on empty line to exit):"
 		str = None
 		while str != "":
 			str = raw_input(">  ")
-			print soothie.predict(str)
+			print prsg.predict(str)
 		
 	        # Destroy Presage object
-		del soothie
+		del prsg
 	except presage.PresageException,ex:
 		print ex.what()
 		sys.exit(1)

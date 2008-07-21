@@ -1,3 +1,9 @@
+2008-07-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/presage_python_demo.in,
+	bindings/python/prompter/prompter.py: removed references to
+	soothsayer.
+
 2008-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* *.h, *.cpp, *.am, *: changed license notices to update project name to
