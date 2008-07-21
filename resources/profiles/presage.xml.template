@@ -49,7 +49,7 @@
         <!-- PLUGINS
           Space separated list of predictive plugins to use to generate predictions
         -->
-        <PLUGINS>AbbreviationExpansionPlugin SmoothedNgramPlugin RecencyPlugin</PLUGINS>
+        <PLUGINS>DejavuPlugin AbbreviationExpansionPlugin SmoothedNgramPlugin RecencyPlugin</PLUGINS>
     </Predictor>
     <ProfileManager>
         <LOGGER>ERROR</LOGGER>
@@ -79,11 +79,9 @@
             <LOGGER>ERROR</LOGGER>
             <ABBREVIATIONS>::LOCALSTATEDIR::/abbreviations_en.txt</ABBREVIATIONS>
         </AbbreviationExpansionPlugin>
-        <SmoothedCountPlugin>
-            <UNIGRAM_WEIGHT>.01</UNIGRAM_WEIGHT>
-            <BIGRAM_WEIGHT>.1</BIGRAM_WEIGHT>
-            <TRIGRAM_WEIGHT>.89</TRIGRAM_WEIGHT>
-            <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
-        </SmoothedCountPlugin>
+        <DejavuPlugin>
+            <LOGGER>ALL</LOGGER>
+            <MEMORY>::LOCALSTATEDIR::/dejavu_memory_en.txt</MEMORY>
+        </DejavuPlugin>
     </Plugins>
 </Presage>

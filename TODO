@@ -21,6 +21,8 @@ Ideas
 
 
 Absolute first
+ - should plugins' learn() method be invoked as part of
+   Predictor::predict() or should it happen in Presage or elsewhere?
  - should Profile::getConfig() really throw exception? Why not just
    return an empty string when config is not found? Is not finding a
    config really an exceptional condition?

@@ -1,3 +1,16 @@
+2008-07-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/smoothedCountPlugin.cpp: use logger instead of
+	standard out.
+
+	* src/lib/plugins/dejavuPlugin.cpp: initial sketch of
+	implementation.
+
+	* src/lib/core/predictor.cpp: invoke learn() method.
+
+	* resources/profiles/presage.xml.template: added dejavu plugin
+	specific configuration.
+
 2008-07-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/presage_python_demo.in,

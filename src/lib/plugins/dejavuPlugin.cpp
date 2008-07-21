@@ -60,30 +60,35 @@ Prediction DejavuPlugin::predict(const size_t max_partial_predictions_size) cons
     //
     Prediction result;
 
-    result.addSuggestion (Suggestion("croak", 0.99));
+    result.addSuggestion (Suggestion("polly", 0.99));
+    result.addSuggestion (Suggestion("wants", 0.98));
+    result.addSuggestion (Suggestion("a", 0.97));
+    result.addSuggestion (Suggestion("cracker", 0.96));
+    result.addSuggestion (Suggestion("croak", 0.95));
+    result.addSuggestion (Suggestion("croak", 0.94));
 
     return result;
 }
 
 void DejavuPlugin::learn()
 {
-    std::cout << "DejavuPlugin::learn() method called" << std::endl;
+    logger << DEBUG << "DejavuPlugin::learn() method called" << endl;
 
     if (contextTracker->contextChange()) {
-	
+	logger << ALL << "You learn something new every day!" << endl;	
     }
 
-    std::cout << "DejavuPlugin::learn() method exited" << std::endl;
+    logger << DEBUG << "DejavuPlugin::learn() method exited" << endl;
 }
 
 void DejavuPlugin::extract()
 {
-    std::cout << "DejavuPlugin::extract() method called" << std::endl;
-    std::cout << "DejavuPlugin::extract() method exited" << std::endl;
+    logger << DEBUG << "DejavuPlugin::extract() method called" << endl;
+    logger << DEBUG << "DejavuPlugin::extract() method exited" << endl;
 }
 
 void DejavuPlugin::train()
 {
-    std::cout << "DejavuPlugin::train() method called" << std::endl;
-    std::cout << "DejavuPlugin::train() method exited" << std::endl;
+    logger << DEBUG << "DejavuPlugin::train() method called" << endl;
+    logger << DEBUG << "DejavuPlugin::train() method exited" << endl;
 }

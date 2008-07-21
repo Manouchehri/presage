@@ -226,30 +226,24 @@ Prediction SmoothedCountPlugin::predict(const size_t max_partial_predictions_siz
 
 void SmoothedCountPlugin::learn()
 {
-    std::cout << "SmoothedCountPlugin::learn() method called"
-    << std::endl;
-    std::cout << "SmoothedCountPlugin::learn() method exited"
-    << std::endl;
+    logger << DEBUG << "learn() method called" << endl;
+    logger << DEBUG << "learn() method exited" << endl;
 }
 
 
 
 void SmoothedCountPlugin::extract()
 {
-	std::cout << "SmoothedCountPlugin::extract() method called"
-		  << std::endl;
-	std::cout << "SmoothedCountPlugin::extract() method exited"
-		  << std::endl;
+    logger << DEBUG << "extract() method called" << endl;
+    logger << DEBUG << "extract() method exited" << endl;
 }
 
 
 
 void SmoothedCountPlugin::train()
 {
-	std::cout << "SmoothedCountPlugin::train() method called"
-		  << std::endl;
-	std::cout << "SmoothedCountPlugin::train() method exited"
-		  << std::endl;
+    logger << DEBUG << "train() method called" << endl;
+    logger << DEBUG << "train() method exited" << endl;
 }
 
 
