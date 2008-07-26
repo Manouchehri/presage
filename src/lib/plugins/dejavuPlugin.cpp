@@ -23,8 +23,11 @@
 
 #include "plugins/dejavuPlugin.h"
 
+#include <algorithm>
+
 const Variable DejavuPlugin::LOGGER = "Presage.Plugins.DejavuPlugin.LOGGER";
 const Variable DejavuPlugin::MEMORY = "Presage.Plugins.DejavuPlugin.MEMORY";
+const Variable DejavuPlugin::TRIGGER = "Presage.Plugins.DejavuPlugin.TRIGGER";
 
 DejavuPlugin::DejavuPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
@@ -43,7 +46,11 @@ DejavuPlugin::DejavuPlugin(Configuration* config, ContextTracker* ct)
 	value = config->get(MEMORY);
 	memory = value;
 	logger << INFO << "MEMORY: " << value << endl;
-	
+
+	value = config->get(TRIGGER);
+	trigger = toInt(value);
+	logger << INFO << "TRIGGER: " << value << endl;
+
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
@@ -54,31 +61,59 @@ DejavuPlugin::~DejavuPlugin()
 
 Prediction DejavuPlugin::predict(const size_t max_partial_predictions_size) const
 {
-    // A real plugin would query its resources to retrieve the most 
-    // probable completion of the prefix based on the current history,
-    // but this is just a dummy plugin that returns random suggestions.
-    //
     Prediction result;
 
-    result.addSuggestion (Suggestion("polly", 0.99));
-    result.addSuggestion (Suggestion("wants", 0.98));
-    result.addSuggestion (Suggestion("a", 0.97));
-    result.addSuggestion (Suggestion("cracker", 0.96));
-    result.addSuggestion (Suggestion("croak", 0.95));
-    result.addSuggestion (Suggestion("croak", 0.94));
+    std::list<std::string> memory_trigger;
+    
+    std::ifstream memory_file(memory.c_str());
+    if (!memory_file) {
+	logger << ERROR << "Error opening memory file: " << memory << endl;
+    } else {
+	if (init_memory_trigger(memory_trigger)) {
+	    logger << INFO << "Memory trigger init'ed" << endl;
+
+	    std::list<std::string> rolling_window;
+	    if (init_rolling_window(rolling_window, memory_file)) {
+		logger << INFO << "Rolling window init'ed" << endl;
+
+		std::string token;
+		while (memory_file >> token) {
+		    logger << INFO << "Considering token: " << token << endl;
+
+		    if (match(memory_trigger, rolling_window)) {
+			logger << INFO << "Adding suggestion: " << token << endl;
+			result.addSuggestion(Suggestion(token, 1.0));
+		    }
+
+		    update_rolling_window(rolling_window, token);
+		}
+
+	    } else {
+		logger << INFO << "Rolling window initialized unsuccessful" << endl;
+	    }
+	} else {
+	    logger << INFO << "Memory trigger initialized unsuccessful" << endl;
+	}
+
+	memory_file.close();
+    }
 
     return result;
 }
 
 void DejavuPlugin::learn()
 {
-    logger << DEBUG << "DejavuPlugin::learn() method called" << endl;
-
     if (contextTracker->contextChange()) {
-	logger << ALL << "You learn something new every day!" << endl;	
+	std::string new_token = contextTracker->getToken(1);
+	logger << INFO << "Commiting new token to memory: " << new_token << endl;
+	std::ofstream memory_file(memory.c_str(), std::ios::app);
+	if (!memory_file) {
+	    logger << ERROR << "Error opening memory file: " << memory << endl;
+	} else {
+	    memory_file << new_token << std::endl;
+	    memory_file.close();
+	}
     }
-
-    logger << DEBUG << "DejavuPlugin::learn() method exited" << endl;
 }
 
 void DejavuPlugin::extract()
@@ -91,4 +126,75 @@ void DejavuPlugin::train()
 {
     logger << DEBUG << "DejavuPlugin::train() method called" << endl;
     logger << DEBUG << "DejavuPlugin::train() method exited" << endl;
+}
+
+/** Tests two list arguments match.
+ *
+ * @return true if lists contain the same tokens in the same order,
+ * false otherwise
+ */
+bool DejavuPlugin::match(const std::list<std::string>& l1, const std::list<std::string>& l2) const
+{
+    return equal(l1.begin(), l1.end(), l2.begin());
+}
+
+/** Initialize memory trigger.
+ *
+ * @param memory_trigger contains tokens that will trigger a memory
+ * recollection
+ * 
+ * @return true if memory trigger has been populated with enough
+ * tokens to trigger a memory recollection, false otherwise
+ *
+ */
+bool DejavuPlugin::init_memory_trigger(std::list<std::string>& memory_trigger) const
+{
+    bool result = false;
+
+    // fill up the token window list that contains the tokens that
+    // will trigger a recollection
+    for (int i = trigger; i > 0; i--) {
+	logger << INFO << "Memory trigger list: " << contextTracker->getToken(i) << endl;
+	memory_trigger.push_back(contextTracker->getToken(i));
+    }
+
+    // check that the current context is rich enough to trigger a
+    // recollection
+    if (memory_trigger.end() == find(memory_trigger.begin(), memory_trigger.end(), "")) {
+	result = true;
+    }
+
+    logger << INFO << "Memory trigger valid: " << result << endl;
+
+    return result;
+}
+
+/** Initialize rolling window.
+ *
+ * @return true if initialized rolling window has been populated with
+ * enough tokens to trigger a memory recollection, false otherwise
+ *
+ */
+bool DejavuPlugin::init_rolling_window(std::list<std::string>& rolling_window, std::ifstream& memory_file) const
+{
+    std::string token;
+    int count = 0;
+    while (memory_file >> token && count < trigger) {
+	logger << INFO << "Rolling window list: " << token << endl;
+	rolling_window.push_back(token);
+	count++;
+    }
+
+    return (count == trigger);
+}
+
+/** Update rolling window.
+ *
+ * Pop front token and push back new token to list.
+ */
+void DejavuPlugin::update_rolling_window(std::list<std::string>& rolling_window, const std::string& token) const
+{
+    rolling_window.pop_front();
+    logger << INFO << "Pushing back on memory list: " << token << endl;
+    rolling_window.push_back(token);
 }

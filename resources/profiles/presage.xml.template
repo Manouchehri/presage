@@ -80,8 +80,9 @@
             <ABBREVIATIONS>::LOCALSTATEDIR::/abbreviations_en.txt</ABBREVIATIONS>
         </AbbreviationExpansionPlugin>
         <DejavuPlugin>
-            <LOGGER>ALL</LOGGER>
+            <LOGGER>ERROR</LOGGER>
             <MEMORY>::LOCALSTATEDIR::/dejavu_memory_en.txt</MEMORY>
+            <TRIGGER>3</TRIGGER>
         </DejavuPlugin>
     </Plugins>
 </Presage>

@@ -1,3 +1,9 @@
+2008-07-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/dejavuPlugin,
+	resources/profiles/presage.xml.template: dejavu plugin now talks
+	back.
+	
 2008-07-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/control, debian/copyright: adding dependencies on

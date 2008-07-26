@@ -26,6 +26,9 @@
 
 #include "plugins/plugin.h"
 
+#include <list>
+#include <string>
+#include <fstream>
 
 /** Dejavu plugin is provided here to show how to implement real plugins.
  *
@@ -42,10 +45,17 @@ public:
     virtual void train();
 
 private:
+    bool init_memory_trigger(std::list<std::string>&) const;
+    bool match(const std::list<std::string>&, const std::list<std::string>&) const;
+    bool init_rolling_window(std::list<std::string>&, std::ifstream&) const;
+    void update_rolling_window(std::list<std::string>&, const std::string&) const;
+
     static const Variable LOGGER;
     static const Variable MEMORY;
+    static const Variable TRIGGER;
 
     std::string memory;
+    int trigger;
 	
 };
 
