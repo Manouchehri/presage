@@ -54,7 +54,7 @@ pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp \
 				abbreviationExpansionPluginTest.h \
 				abbreviationExpansionPluginTest.cpp \
 				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.h \
-				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.cpp	
+				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.cpp
 pluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 pluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 pluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la               \
@@ -62,9 +62,11 @@ pluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la          
 
 # the following test runner links with libpresage, instead of using
 # mock objects in place of the core libsootsayer library facilities
-newPluginsTestRunner_SOURCES = 	pluginsTestRunner.cpp	\
-				recencyPluginTest.h	\
-				recencyPluginTest.cpp	
+newPluginsTestRunner_SOURCES = 	pluginsTestRunner.cpp \
+				recencyPluginTest.h \
+				recencyPluginTest.cpp \
+				dejavuPluginTest.h \
+				dejavuPluginTest.cpp
 newPluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 newPluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 newPluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la	\

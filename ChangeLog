@@ -1,3 +1,9 @@
+2008-07-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/dejavuPluginTest.h,
+	test/lib/plugins/Makefile.am: added dejavu plugin test, still to
+	fix learning mechanism.
+	
 2008-07-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/dejavuPlugin,

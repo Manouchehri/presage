@@ -19,6 +19,8 @@ Ideas
    in the remembered text, the tokens following the current token are
    suggested; this requires "learning" previously entered text.
 
+  write a dejavu plugin unit test
+
 
 Registry:
 
