@@ -20,6 +20,28 @@ Ideas
    suggested; this requires "learning" previously entered text.
 
 
+Registry:
+
+  Predictor class functionality should be split up. There should be
+  one PluginRegitry class which holds the active plugins and whose
+  interface consists of a call that returns an iterator to the
+  plugins.
+
+  Predictor would obtain an iterator from PluginRegistry and invoke
+  the predict() method on each Plugin pointed to by the iterator.
+
+  A new Learner class could invoke the learn() method on them when
+  needed.
+
+  This way, the reverse dependency that implementing learning would
+  cause between ContextTracker and Predictor disappear, being
+  substituted by a single dependency on Registry and the introduction
+  of a new Learner class (name still to decide).
+
+  The registry should eventually just be a simple wrapper around
+  plump.
+
+
 Absolute first
  - should plugins' learn() method be invoked as part of
    Predictor::predict() or should it happen in Presage or elsewhere?
