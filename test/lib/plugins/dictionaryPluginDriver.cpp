@@ -31,7 +31,7 @@ int main()
     // are made, this will fail to build.
     // TODO: transform this into a unit test.
 	Configuration mock_config;
-	ContextTracker contextTracker(&mock_config);
+	ContextTracker contextTracker(&mock_config, 0);
 	DictionaryPlugin plugin(&mock_config, &contextTracker);
 
 	std::string prefix;

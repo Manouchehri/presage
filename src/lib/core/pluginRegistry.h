@@ -22,28 +22,53 @@
                                                                 **********(*)*/
 
 
-#include <iostream>
-#include "plugins/smoothedCountPlugin.h"
+#ifndef PRESAGE_PLUGINREGISTRY
+#define PRESAGE_PLUGINREGISTRY
 
-int main()
-{
-    // This won't work. It is kept here so that when breaking changes
-    // are made, this will fail to build.
-    // TODO: transform this into a unit test.
-	Configuration mock_config;
-	ContextTracker contextTracker(&mock_config, 0);
-	SmoothedCountPlugin plugin(&mock_config, &contextTracker);
 
-	const int SIZE = 80;
-	char historyBuffer[SIZE];
+#include "plugins/plugin.h"
 
-	std::cout << "Insert string: ";
-	std::cin.getline( historyBuffer, SIZE );
+class ContextTracker;
 
-	contextTracker.update( historyBuffer );
+/** PluginRegistry manages Plugin objects.
+ *
+ */
+class PluginRegistry {
+  public:
+    PluginRegistry(Configuration* config);
+    ~PluginRegistry();
+
+    class Iterator {
+    public:
+	Iterator(std::vector<Plugin*>&);
+	~Iterator();
+
+	bool hasNext() const;
+	Plugin* next();
 	
-	std::cout << plugin.predict(100);
+    private:
+	std::vector<Plugin*>::iterator iter_end;
+	std::vector<Plugin*>::iterator iter_curr;
 
-	return 0;
+    };
 
-}
+    Iterator iterator();
+    void setContextTracker(ContextTracker* ct);
+
+  private:
+    void setPlugins(const std::string& plugin_list);
+    void addPlugin(const std::string& plugin_name);
+    void removePlugins();
+
+    Configuration*  config;
+    ContextTracker* contextTracker;
+    Logger<char>    logger;
+
+    std::string          plugins_list;
+    std::vector<Plugin*> plugins;        // active Plugins
+
+    static const Variable LOGGER;
+    static const Variable PLUGINS;
+};
+
+#endif // PRESAGE_PLUGINREGISTRY

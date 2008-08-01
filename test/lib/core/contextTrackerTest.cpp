@@ -23,8 +23,6 @@
 
 
 #include "contextTrackerTest.h"
-#include "core/contextTracker.h"
-#include "core/profileManager.h"
 
 #include <string>
 #include <assert.h>
@@ -39,12 +37,14 @@ void ContextTrackerTest::setUp()
     profileManager->buildProfile();
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
+    pluginRegistry = new PluginRegistry(configuration);
 }
 
 void ContextTrackerTest::tearDown()
 {
     delete testStringSuite;
 
+    delete pluginRegistry;
     delete configuration;
     delete profile;
     delete profileManager;
@@ -58,7 +58,7 @@ void ContextTrackerTest::testUpdate()
 {
     std::cerr << "ContextTrackerTest::testUpdate()" << std::endl;
 
-    ContextTracker hT(configuration);
+    ContextTracker hT(configuration, pluginRegistry);
     hT.update("foo bar foobar");
     std::cerr << "prefix: " << hT.getPrefix() << std::endl;
     std::cerr << "token : " << hT.getToken(1) << std::endl;
@@ -69,7 +69,7 @@ void ContextTrackerTest::testGetPrefix()
     std::cerr << "ContextTrackerTest::testGetPrefix()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	ContextTracker hT(configuration);
+	ContextTracker hT(configuration, pluginRegistry);
 	hT.update(testStringSuite->currentTestString()->getstr());
 
 	assert(testStringSuite->currentTestString() != 0);
@@ -96,7 +96,7 @@ void ContextTrackerTest::testGetToken()
     std::cerr << "ContextTrackerTest::testGetToken()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	ContextTracker hT(configuration);
+	ContextTracker hT(configuration, pluginRegistry);
 	hT.update(testStringSuite->currentTestString()->getstr());
 
 	assert(testStringSuite->currentTestString() != 0);
@@ -127,7 +127,7 @@ void ContextTrackerTest::testGetPastStream()
     std::cerr << "ContextTrackerTest::testGetPastBuffer()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	ContextTracker hT(configuration);
+	ContextTracker hT(configuration, pluginRegistry);
 	std::string str = testStringSuite->currentTestString()->getstr();
 	std::string partial_str;
         for (size_t i = 0; i < str.size(); i++) {
@@ -154,7 +154,7 @@ void ContextTrackerTest::testSetMaxBufferSize()
 
 void ContextTrackerTest::testContextChange()
 {
-    ContextTracker* contextTracker = new ContextTracker(configuration);
+    ContextTracker* contextTracker = new ContextTracker(configuration, pluginRegistry);
 
     const std::string line   = "foo bar foobar, foo   bar! Foobar foo bar... foobar. ";
     const std::string change = "00010001000000110001110001100000010001000111100000011";
@@ -178,7 +178,7 @@ void ContextTrackerTest::testContextChange()
 
 void ContextTrackerTest::testCumulativeContextChange()
 {
-    ContextTracker* contextTracker = new ContextTracker(configuration);
+    ContextTracker* contextTracker = new ContextTracker(configuration, pluginRegistry);
 
     const char* TRUE = "true";
     const char* FALSE = "false";

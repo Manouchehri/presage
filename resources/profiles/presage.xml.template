@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Presage>
+    <PluginRegistry>
+        <LOGGER>ERROR</LOGGER>
+        <!-- PLUGINS
+          Space separated list of predictive plugins to use to generate predictions
+        -->
+        <PLUGINS>DejavuPlugin AbbreviationExpansionPlugin SmoothedNgramPlugin RecencyPlugin</PLUGINS>
+    </PluginRegistry>
     <ContextTracker>
 	<LOGGER>ERROR</LOGGER>
         <!-- MAX_BUFFER_SIZE

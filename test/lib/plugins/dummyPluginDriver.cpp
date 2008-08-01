@@ -31,7 +31,7 @@
 int main()
 {
 	Configuration mock_config;
-	ContextTracker contextTracker(&mock_config);
+	ContextTracker contextTracker(&mock_config, 0);
 	DummyPlugin dummyPlugin(&mock_config, &contextTracker);
 	Plugin* pluginPtr = &dummyPlugin;
 	

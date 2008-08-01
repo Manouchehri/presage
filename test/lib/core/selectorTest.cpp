@@ -385,7 +385,8 @@ void SelectorTest::setUp()
     profileManager->buildProfile();
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
-    contextTracker  = new ContextTracker(configuration);
+    pluginRegistry = new PluginRegistry(configuration);
+    contextTracker  = new ContextTracker(configuration, pluginRegistry);
     selector = new Selector(configuration, contextTracker);
 }
 

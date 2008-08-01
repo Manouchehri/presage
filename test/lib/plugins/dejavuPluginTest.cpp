@@ -23,6 +23,8 @@
 
 
 #include "dejavuPluginTest.h"
+
+#include "core/pluginRegistry.h"
 #include <math.h>  // for exp()
 
 CPPUNIT_TEST_SUITE_REGISTRATION( DejavuPluginTest );
@@ -38,12 +40,17 @@ void DejavuPluginTest::setUp()
     // set context tracker config variables
     config->set(Variable("Presage.ContextTracker.LOGGER"), Value("ERROR"));
     config->set(Variable("Presage.ContextTracker.MAX_BUFFER_SIZE"), Value("1024"));
+    // set plugin registry config variables
+    config->set(Variable("Presage.PluginRegistry.LOGGER"), Value("ERROR"));
+    config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value(""));
     // set dejavu plugin config variables
     config->set(LOGGER,  "ALL");
     config->set(TRIGGER, "3");
     config->set(MEMORY,  "memory.txt");
 
-    ct = new ContextTracker(config);
+    pluginRegistry = new PluginRegistry(config);
+
+    ct = new ContextTracker(config, pluginRegistry);
 }
 
 void DejavuPluginTest::tearDown()
@@ -54,6 +61,7 @@ void DejavuPluginTest::tearDown()
 
 void DejavuPluginTest::testPredict()
 {
+/* */
     ct->update("polly wants a cracker ");
 
     DejavuPlugin plugin(config, ct);
@@ -98,4 +106,5 @@ void DejavuPluginTest::testPredict()
 	expected.addSuggestion(Suggestion("soda",    1.0));
 	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
     }
+/* */
 }

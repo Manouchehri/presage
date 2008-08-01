@@ -23,6 +23,7 @@
 
 
 #include "recencyPluginTest.h"
+
 #include <math.h>  // for exp()
 
 CPPUNIT_TEST_SUITE_REGISTRATION( RecencyPluginTest );
@@ -47,7 +48,7 @@ void RecencyPluginTest::setUp()
     config->set(N_0,    "1");
     config->set(CUTOFF, "20");
 
-    ct = new ContextTracker(config);
+    ct = new ContextTracker(config, 0);
 }
 
 void RecencyPluginTest::tearDown()

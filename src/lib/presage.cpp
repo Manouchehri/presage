@@ -25,6 +25,7 @@
 #include "presage.h"
 
 #include "core/profileManager.h"
+#include "core/pluginRegistry.h"
 #include "core/contextTracker.h"
 #include "core/selector.h"
 #include "core/predictor.h"
@@ -35,7 +36,8 @@ Presage::Presage()
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
 
-    contextTracker = new ContextTracker(configuration);
+    pluginRegistry = new PluginRegistry(configuration);
+    contextTracker = new ContextTracker(configuration, pluginRegistry);
     predictor = new Predictor(configuration, contextTracker);
     selector = new Selector(configuration, contextTracker);
 
@@ -51,7 +53,8 @@ Presage::Presage(const std::string config_filename)
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
 
-    contextTracker = new ContextTracker(configuration);
+    pluginRegistry = new PluginRegistry(configuration);
+    contextTracker = new ContextTracker(configuration, pluginRegistry);
     predictor = new Predictor(configuration, contextTracker);
     selector = new Selector(configuration, contextTracker);
 }
@@ -61,6 +64,7 @@ Presage::~Presage()
     delete selector;
     delete predictor;
     delete contextTracker;
+    delete pluginRegistry;
 
     delete configuration;
     delete profile;

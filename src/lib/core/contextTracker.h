@@ -40,6 +40,8 @@
 #include "core/configuration.h"
 #include "core/logger.h"
 
+class PluginRegistry;
+
 /** \brief Tracks user interaction and context.
  *
  * ContextTracker job is to track the history of user input and
@@ -148,6 +150,7 @@
 class ContextTracker {
 public:
     ContextTracker(Configuration* config,
+		   PluginRegistry* pluginRegistry,
 		   const char[]=DEFAULT_WORD_CHARS,
                    const char[]=DEFAULT_SEPARATOR_CHARS,
                    const char[]=DEFAULT_BLANKSPACE_CHARS,
@@ -181,6 +184,9 @@ public:
     void setMaxBufferSize(const int);
 
 private:
+    void update(unsigned int character);
+    void update_context_change();
+
 #ifdef USE_STRINGSTREAM
     std::stringstream pastStream;
     std::stringstream futureStream;
@@ -212,6 +218,8 @@ private:
     bool isBlankspaceChar(const char) const;
 
     Logger<char> logger;
+    PluginRegistry* pluginRegistry;
+
 };
 
 /*

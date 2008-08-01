@@ -29,6 +29,7 @@
 // Mock HistoryTracker class
 
 ContextTracker::ContextTracker(Configuration* config,
+			       PluginRegistry* pluginRegistry,
 			       const char wc[],
 			       const char sc[],
 			       const char bc[],

@@ -29,6 +29,8 @@
 
 #include "core/profileManager.h"
 #include "core/contextTracker.h"
+#include "core/pluginRegistry.h"
+
 #include "tokenizer/testStringSuite.h"
 
 class ContextTrackerTest : public CppUnit::TestFixture { 
@@ -59,6 +61,7 @@ private:
     ProfileManager*  profileManager;
     Profile*         profile;
     Configuration*   configuration;
+    PluginRegistry*  pluginRegistry;
     
     CPPUNIT_TEST_SUITE( ContextTrackerTest );
     CPPUNIT_TEST( testConstructor          );

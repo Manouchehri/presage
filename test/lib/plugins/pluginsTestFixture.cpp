@@ -48,7 +48,7 @@ Prediction PluginsTestFixture::runPredict(const char** config,
     //
     // Using argument to pass an array of history tokens.
     // 
-    ContextTracker contextTracker((Configuration*) history);
+    ContextTracker contextTracker((Configuration*) history, 0);
 
     // creating plugin object to test using the mock ContextTracker
     // and Profile objects.

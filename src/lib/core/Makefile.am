@@ -44,8 +44,9 @@ libcore_la_SOURCES =	prediction.cpp prediction.h         \
 			profile.cpp profile.h               \
 			profileManager.cpp profileManager.h \
 			logger.cpp logger.h                 \
-			presageException.cpp             \
-			$(srcdir)/../presageException.h  
+			presageException.cpp                \
+			$(srcdir)/../presageException.h     \
+			pluginRegistry.cpp pluginRegistry.h 
 
 # Temporarily disabled
 #                       pluginManager.cpp pluginManager.h

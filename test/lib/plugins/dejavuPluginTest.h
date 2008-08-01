@@ -42,6 +42,7 @@ public:
 private:
     Configuration*  config;
     ContextTracker* ct;
+    PluginRegistry* pluginRegistry;
 
     static const int SIZE;
     static const char* LOGGER;

@@ -28,6 +28,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "core/profileManager.h"
+#include "core/pluginRegistry.h"
 #include "core/selector.h"
 
 #include <tokenizer/testStringSuite.h>
@@ -107,6 +108,7 @@ private:
     ProfileManager*  profileManager;
     Profile*         profile;
     Configuration*   configuration;
+    PluginRegistry*  pluginRegistry;
     ContextTracker*  contextTracker;
     Selector*        selector;
 

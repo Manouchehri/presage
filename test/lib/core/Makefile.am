@@ -44,7 +44,8 @@ coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				loggerTest.h loggerTest.cpp                 \
 				variableTest.h variableTest.cpp             \
 				configurationTest.h configurationTest.cpp   \
-				combinerTest.h combinerTest.cpp             
+				combinerTest.h combinerTest.cpp             \
+				pluginRegistryTest.h pluginRegistryTest.cpp 
 
 coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 coreTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)

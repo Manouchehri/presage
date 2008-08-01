@@ -1,6 +1,36 @@
+2008-08-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/contextTracker.*: refactored update() method and
+	introduced new private methods to facilitate learning in update()
+	method.
+
+2008-07-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/dejavuPluginTest.*,
+	test/lib/plugins/pluginsTestMockObjects.*,
+	test/lib/plugins/recencyPluginTest.*,
+	test/lib/plugins/pluginsTestFixture.*,
+	test/lib/core/contextTrackerTest.*,
+	test/lib/core/profileManagerTest.*, test/lib/core/selectorTest.*:
+	updated tests for context tracker constructor change, now taking a
+	plugin registry parameter.
+
+	* resources/profiles/presage.xml.template: added new plugin
+	registry config variables to template xml config file.
+	
+2008-07-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/pluginRegistry, src/lib/presage,
+	src/lib/core/contextTracker, src/lib/core/Makefile.am: created
+	plugin registry class and began hooking it up into presage to
+	facilitate plugin learning.
+
+	* test/lib/core/pluginRegistryTest.*, test/lib/core/Makefile.am:
+	unit tests for new plugin registry class.
+	
 2008-07-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
-	* test/lib/plugins/dejavuPluginTest.h,
+	* test/lib/plugins/dejavuPluginTest.*,
 	test/lib/plugins/Makefile.am: added dejavu plugin test, still to
 	fix learning mechanism.
 	

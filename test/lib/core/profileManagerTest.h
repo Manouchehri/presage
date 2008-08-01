@@ -29,6 +29,7 @@
 
 #include "core/profileManager.h"
 
+#include "core/pluginRegistry.h"
 #include "core/contextTracker.h"
 #include "core/predictor.h"
 #include "core/selector.h"
@@ -49,6 +50,7 @@ private:
     Profile*        profile;
     Configuration*  configuration;
 
+    PluginRegistry* pluginRegistry;
     ContextTracker* contextTracker;
     Predictor*      predictor;
     Selector*       selector;

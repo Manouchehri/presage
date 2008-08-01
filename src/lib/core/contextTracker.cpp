@@ -24,9 +24,10 @@
 
 #include "contextTracker.h"
 #include "utility.h"
-
+#include "pluginRegistry.h"
 
 ContextTracker::ContextTracker(Configuration* config,
+			       PluginRegistry* registry,
 			       const char wChars[],
 			       const char tChars[],
 			       const char bChars[],
@@ -35,6 +36,7 @@ ContextTracker::ContextTracker(Configuration* config,
       separatorChars (tChars),
       blankspaceChars(bChars),
       controlChars   (cChars),
+      pluginRegistry (registry),
       logger("ContextTracker", std::cerr)
     //tokenizer      (pastStream, blankspaceChars, separatorChars)
 {
@@ -44,6 +46,13 @@ ContextTracker::ContextTracker(Configuration* config,
 #ifdef USE_STRINGSTREAM
     assert(pastStream.good());
 #endif
+
+    // set pointer to this context tracker in plugin registry so that
+    // plugins can be constructed when next iterator is requested
+    // 
+    if (pluginRegistry) {
+	pluginRegistry->setContextTracker(this);
+    }
 
     // read config values
     Variable* variable;
@@ -76,183 +85,22 @@ void ContextTracker::update(std::string s)
 {
     // process each char in string s individually
     for (unsigned int i=0; i<s.size(); i++) {
+	update(s[i]);
 
-	//DEBUG
-        //std::cout << "s[i] = " << static_cast<int>(s[i]) << std::endl;
-        //std::cout << "s[i] " << (isControlChar( s[i] )?"":"non")
-        //          << " e' un carattere di controllo." << std::endl;
+	logger << INFO << "contextChange: contextTracker-getPrefix():" << getPrefix() << endl;
+	logger << INFO << "contextChange: contextTracker-getToken(1):" << getToken(1) << endl;
+	logger << INFO << "contextChange: previous_prefix: " << previous_prefix << endl;
 
-        if(isWordChar(s[i])
-           || isSeparatorChar(s[i])
-           || isBlankspaceChar(s[i])) {
-            // if s is a word string, append to pastBuffer
-            // if s is a separator string, append to pastBuffer
-	  logger << INFO << "updating wordChar/separatorChar/blankspaceChar: " << s[i] << endl;
-#ifdef USE_STRINGSTREAM
-            assert(pastStream.good());
-            pastStream.put(s[i]);
-            assert(pastStream.good());
-#else
-	    pastStream.push_back(s[i]);
-#endif
-            //std::cerr << pastStream.str() << std::endl;
-            //std::cerr << "ContextTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
-        } else if ( isControlChar(s[i]) ) {
-            //if s is a control string, take the appropriate action
-	  logger << INFO << "updating controlChar: " << s[i] << endl;
-
-// REVISIT ////
-
-// Temporarily disabling control chars
-
-//            //UP_ARROW
-//            // up_arrow key press messes things up! There's
-//            // currently no way of knowing where the cursors ends
-//            // up, so we're better off clearing our history up and
-//            // hoping that doesn't modify an existing word but
-//            // starts a new one.
-//            if ( s[i] == UP_ARROW ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }
-//
-//            //LEFT_ARROW
-//            // left_arrow key press causes last char of pastBuffer
-//            // to be erased from pastBuffer and inserted at the
-//            // beginning of futureBuffer
-//            if ( s[i] == LEFT_ARROW && !pastBuffer.empty() ) {
-//				
-//                char p = pastBuffer[pastBuffer.size()-1];
-//                futureBuffer.insert( futureBuffer.begin(), p );
-//                pastBuffer.erase( pastBuffer.end()-1 );
-//				
-//            }
-//
-//            //DOWN_ARROW
-//            // see up_arrow
-//            if ( s[i] == DOWN_ARROW ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }			
-//
-//            //RIGHT_ARROW
-//            // right_arrow key press causes first char of
-//            // futureBuffer to be erased from futureBuffer and 
-//            // inserted at the end of pastBuffer
-//            if ( s[i] == RIGHT_ARROW && !futureBuffer.empty() ) {
-//
-//                char p = futureBuffer[0];
-//                pastBuffer.insert( pastBuffer.end(), p );
-//                futureBuffer.erase( futureBuffer.begin() );
-//
-//            }
-//			
-//            //END
-//            // end key press causes string futureBuffer to be 
-//            // appended to pastBuffer and to be cleared
-//            if ( s[i] == END && !futureBuffer.empty() ) {
-//				
-//                pastBuffer.append( futureBuffer );
-//                futureBuffer.clear();
-//
-//            }
-//
-//            //HOME
-//            // see up_arrow
-//            if ( s[i] == HOME ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }
-//
-            //BACKSPACE
-            // backspace key press causes the last character of
-            // pastBuffer to be erased
-            if (s[i] == BACKSPACE &&
-#ifdef USE_STRINGSTREAM
-                !pastStream.str().empty()
-#else
-                !pastStream.empty()
-#endif
-		) {
-                // WARNING: this is bound to be very inefficient!
-                // TODO: provide a better implementation.
-                //
-#ifdef USE_STRINGSTREAM
-                logger << INFO << "pastStream before: " << pastStream.str() << endl;
-                std::string temp = pastStream.str();
-                temp.erase(temp.end() - 1);
-                pastStream.str(temp);
-                pastStream.seekg(0, std::ios::end);
-                logger << INFO << "pastStream after : " << pastStream.str() << endl;
-#else
-                logger << INFO << "pastStream before: " << pastStream << endl;
-                pastStream.erase(pastStream.end() - 1);
-                logger << INFO << "pastStream before: " << pastStream << endl;
-#endif
-            }
-
-//            //DELETE
-//            // delete key press causes the first character of
-//            // futureBuffer to be erased
-//            if ( s[i] == DELETE && !futureBuffer.empty() ) {
-//				
-//                futureBuffer.erase( futureBuffer.begin(),
-//                                    futureBuffer.begin()+1 );
-//
-//            }
-//
-//            //PAGE_UP
-//            // see up_arrow
-//            if ( s[i] == PAGE_UP ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }
-//			
-//            //PAGE_DOWN
-//            // see up_arrow
-//            if ( s[i] == PAGE_DOWN ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }
-			
-        } else {
-	    logger << ERROR << "Error parsing character: " << s[i] << endl
-		   << "The error occured while executing update(" << s << ")" << endl;
-            for( std::string::const_iterator i = s.begin();
-                 i != s.end();
-                 i++) {
-                logger << ERROR << "Char: " << *i << "\tInt: "
-		       << static_cast<int>( *i ) << endl;
-            }
-            //abort();
-        }
-
-#ifdef USE_STRINGSTREAM
-        logger << INFO << "pastStream: " << pastStream.str() << endl;
-#else
-        logger << INFO << "pastStream: " << pastStream << endl;
-#endif
+	update_context_change();
     }
+}
 
-
-    logger << INFO << "contextChange: contextTracker-getPrefix():" << getPrefix() << endl;
-    logger << INFO << "contextChange: contextTracker-getToken(1):" << getToken(1) << endl;
-    logger << INFO << "contextChange: previous_prefix: " << previous_prefix << endl;
-
+void ContextTracker::update_context_change()
+{
     contextChanged = true;
 
     if (!getPrefix().empty()) {
-        logger << INFO << "Prefix not empty" << endl;
+	logger << INFO << "Prefix not empty" << endl;
 	// if current prefix is not null
 	std::string::size_type loc = getPrefix().find(previous_prefix, 0);
 	if (loc == 0) {
@@ -283,6 +131,169 @@ void ContextTracker::update(std::string s)
     previous_prefix = getPrefix();
 
     logger << INFO << "contextChange: previous_prefix: " << previous_prefix << endl;
+}
+
+void ContextTracker::update(unsigned int character)
+{
+    //DEBUG
+    //std::cout << "s[i] = " << static_cast<int>(s[i]) << std::endl;
+    //std::cout << "s[i] " << (isControlChar( s[i] )?"":"non")
+    //          << " e' un carattere di controllo." << std::endl;
+
+    if(isWordChar(character)
+       || isSeparatorChar(character)
+       || isBlankspaceChar(character)) {
+	// if s is a word string, append to pastBuffer
+	// if s is a separator string, append to pastBuffer
+	logger << INFO << "updating wordChar/separatorChar/blankspaceChar: " << character << endl;
+#ifdef USE_STRINGSTREAM
+	assert(pastStream.good());
+	pastStream.put(character);
+	assert(pastStream.good());
+#else
+	pastStream.push_back(character);
+#endif
+	//std::cerr << pastStream.str() << std::endl;
+	//std::cerr << "ContextTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
+    } else if ( isControlChar(character) ) {
+	//if s is a control string, take the appropriate action
+	logger << INFO << "updating controlChar: " << character << endl;
+
+// REVISIT ////
+
+// Temporarily disabling control chars
+
+//            //UP_ARROW
+//            // up_arrow key press messes things up! There's
+//            // currently no way of knowing where the cursors ends
+//            // up, so we're better off clearing our history up and
+//            // hoping that doesn't modify an existing word but
+//            // starts a new one.
+//            if ( character == UP_ARROW ) {
+//
+//                pastBuffer.clear();
+//                futureBuffer.clear();
+//
+//            }
+//
+//            //LEFT_ARROW
+//            // left_arrow key press causes last char of pastBuffer
+//            // to be erased from pastBuffer and inserted at the
+//            // beginning of futureBuffer
+//            if ( character == LEFT_ARROW && !pastBuffer.empty() ) {
+//				
+//                char p = pastBuffer[pastBuffer.size()-1];
+//                futureBuffer.insert( futureBuffer.begin(), p );
+//                pastBuffer.erase( pastBuffer.end()-1 );
+//				
+//            }
+//
+//            //DOWN_ARROW
+//            // see up_arrow
+//            if ( character == DOWN_ARROW ) {
+//
+//                pastBuffer.clear();
+//                futureBuffer.clear();
+//
+//            }			
+//
+//            //RIGHT_ARROW
+//            // right_arrow key press causes first char of
+//            // futureBuffer to be erased from futureBuffer and 
+//            // inserted at the end of pastBuffer
+//            if ( character == RIGHT_ARROW && !futureBuffer.empty() ) {
+//
+//                char p = futureBuffer[0];
+//                pastBuffer.insert( pastBuffer.end(), p );
+//                futureBuffer.erase( futureBuffer.begin() );
+//
+//            }
+//			
+//            //END
+//            // end key press causes string futureBuffer to be 
+//            // appended to pastBuffer and to be cleared
+//            if ( character == END && !futureBuffer.empty() ) {
+//				
+//                pastBuffer.append( futureBuffer );
+//                futureBuffer.clear();
+//
+//            }
+//
+//            //HOME
+//            // see up_arrow
+//            if ( character == HOME ) {
+//
+//                pastBuffer.clear();
+//                futureBuffer.clear();
+//
+//            }
+//
+	//BACKSPACE
+	// backspace key press causes the last character of
+	// pastBuffer to be erased
+	if (character == BACKSPACE &&
+#ifdef USE_STRINGSTREAM
+	    !pastStream.str().empty()
+#else
+	    !pastStream.empty()
+#endif
+	    ) {
+	    // WARNING: this is bound to be very inefficient!
+	    // TODO: provide a better implementation.
+	    //
+#ifdef USE_STRINGSTREAM
+	    logger << INFO << "pastStream before: " << pastStream.str() << endl;
+	    std::string temp = pastStream.str();
+	    temp.erase(temp.end() - 1);
+	    pastStream.str(temp);
+	    pastStream.seekg(0, std::ios::end);
+	    logger << INFO << "pastStream after : " << pastStream.str() << endl;
+#else
+	    logger << INFO << "pastStream before: " << pastStream << endl;
+	    pastStream.erase(pastStream.end() - 1);
+	    logger << INFO << "pastStream before: " << pastStream << endl;
+#endif
+	}
+
+//            //DELETE
+//            // delete key press causes the first character of
+//            // futureBuffer to be erased
+//            if ( character == DELETE && !futureBuffer.empty() ) {
+//				
+//                futureBuffer.erase( futureBuffer.begin(),
+//                                    futureBuffer.begin()+1 );
+//
+//            }
+//
+//            //PAGE_UP
+//            // see up_arrow
+//            if ( character == PAGE_UP ) {
+//
+//                pastBuffer.clear();
+//                futureBuffer.clear();
+//
+//            }
+//			
+//            //PAGE_DOWN
+//            // see up_arrow
+//            if ( character == PAGE_DOWN ) {
+//
+//                pastBuffer.clear();
+//                futureBuffer.clear();
+//
+//            }
+			
+    } else {
+	logger << ERROR << "Error parsing character: " << character << endl
+	       << "The error occured while executing update(" << character << ")" << endl;
+	//abort();
+    }
+
+#ifdef USE_STRINGSTREAM
+    logger << INFO << "pastStream: " << pastStream.str() << endl;
+#else
+    logger << INFO << "pastStream: " << pastStream << endl;
+#endif
 }
 
 /** Returns true if a context change occured.

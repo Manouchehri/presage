@@ -47,7 +47,7 @@ const int          DEFAULT_MAX_BUFFER_SIZE             = 1024;  // TODO: <==== n
 const int          DEFAULT_SUGGESTIONS                 = 6;
 const bool         DEFAULT_REPEAT_SUGGESTION           = false;
 const unsigned int DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
-
+const std::string  DEFAULT_PLUGINS                     = "";
 
 /** Juggles configuration files and presage system initialization.
  *

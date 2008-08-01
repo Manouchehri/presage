@@ -38,6 +38,7 @@ class Configuration;
 class ProfileManager;
 class Profile;
 class ContextTracker;
+class PluginRegistry;
 class Predictor;
 class Selector;
 
@@ -134,6 +135,7 @@ class Presage {
     ProfileManager* profileManager;
     Profile*        profile;
     Configuration*  configuration;
+    PluginRegistry* pluginRegistry;
     ContextTracker* contextTracker;
     Predictor*      predictor;
     Selector*       selector;

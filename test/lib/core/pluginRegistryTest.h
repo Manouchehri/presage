@@ -22,28 +22,29 @@
                                                                 **********(*)*/
 
 
-#include <iostream>
-#include "plugins/smoothedCountPlugin.h"
+#ifndef PRESAGE_PLUGINREGISTRYTEST
+#define PRESAGE_PLUGINREGISTRYTEST
 
-int main()
-{
-    // This won't work. It is kept here so that when breaking changes
-    // are made, this will fail to build.
-    // TODO: transform this into a unit test.
-	Configuration mock_config;
-	ContextTracker contextTracker(&mock_config, 0);
-	SmoothedCountPlugin plugin(&mock_config, &contextTracker);
+#include <cppunit/extensions/HelperMacros.h>
 
-	const int SIZE = 80;
-	char historyBuffer[SIZE];
+#include <core/pluginRegistry.h>
 
-	std::cout << "Insert string: ";
-	std::cin.getline( historyBuffer, SIZE );
+class PluginRegistryTest : public CppUnit::TestFixture { 
+public:
+    void setUp();
+    void tearDown();
+    
+    void testHasNext();
+    void testNext();
 
-	contextTracker.update( historyBuffer );
-	
-	std::cout << plugin.predict(100);
+private:
+    Configuration* config;
+    PluginRegistry* registry;
 
-	return 0;
+    CPPUNIT_TEST_SUITE( PluginRegistryTest );
+    CPPUNIT_TEST( testHasNext );
+    CPPUNIT_TEST( testNext );
+    CPPUNIT_TEST_SUITE_END();
+};
 
-}
+#endif // PRESAGE_PLUGINREGISTRYTEST

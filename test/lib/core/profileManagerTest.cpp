@@ -54,8 +54,9 @@ void ProfileManagerTest::testDefaultProfile()
     profileManager->buildProfile();
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
+    pluginRegistry = new PluginRegistry(configuration);
 
-    contextTracker = new ContextTracker(configuration);
+    contextTracker = new ContextTracker(configuration, pluginRegistry);
     selector = new Selector(configuration, contextTracker);
     predictor = new Predictor(configuration, contextTracker);
 
