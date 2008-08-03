@@ -48,6 +48,7 @@ private:
     static const char* LOGGER;
     static const char* TRIGGER;
     static const char* MEMORY;
+    static const char* MEMORY_FILENAME;
 
     CPPUNIT_TEST_SUITE( DejavuPluginTest );
     CPPUNIT_TEST( testPredict );

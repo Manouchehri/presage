@@ -179,7 +179,11 @@ bool DejavuPlugin::init_rolling_window(std::list<std::string>& rolling_window, s
 {
     std::string token;
     int count = 0;
-    while (memory_file >> token && count < trigger) {
+    // following while test relies on the fact that if first condition
+    // is true, then the second condition will not be evaluated: in
+    // other words, a token will not be read from file if count is not
+    // less than trigger.
+    while (count < trigger && memory_file >> token) {
 	logger << INFO << "Rolling window list: " << token << endl;
 	rolling_window.push_back(token);
 	count++;

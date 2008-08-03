@@ -1,5 +1,10 @@
 2008-08-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* test/lib/plugins/dejavuPluginTest.*,
+	src/lib/plugins/dejavuPlugin.cpp: fixed dejavu plugin test.
+
+2008-08-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* src/lib/presage.cpp, src/lib/core/contextTracker.*,
 	src/lib/core/pluginRegistry.*, src/lib/core/predictor.*,
 	src/lib/core/selector.*: integrated plugin registry into presage.

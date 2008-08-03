@@ -26,6 +26,7 @@
 
 #include "core/pluginRegistry.h"
 #include <math.h>  // for exp()
+#include <cstdio>  // for remove()
 
 CPPUNIT_TEST_SUITE_REGISTRATION( DejavuPluginTest );
 
@@ -33,6 +34,7 @@ const int DejavuPluginTest::SIZE = 20;
 const char* DejavuPluginTest::LOGGER  = "Presage.Plugins.DejavuPlugin.LOGGER";
 const char* DejavuPluginTest::TRIGGER = "Presage.Plugins.DejavuPlugin.TRIGGER";
 const char* DejavuPluginTest::MEMORY  = "Presage.Plugins.DejavuPlugin.MEMORY";
+const char* DejavuPluginTest::MEMORY_FILENAME = "memory.txt";
 
 void DejavuPluginTest::setUp()
 {
@@ -42,46 +44,51 @@ void DejavuPluginTest::setUp()
     config->set(Variable("Presage.ContextTracker.MAX_BUFFER_SIZE"), Value("1024"));
     // set plugin registry config variables
     config->set(Variable("Presage.PluginRegistry.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value(""));
+    config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value("DejavuPlugin"));
     // set dejavu plugin config variables
     config->set(LOGGER,  "ALL");
     config->set(TRIGGER, "3");
-    config->set(MEMORY,  "memory.txt");
+    config->set(MEMORY,  MEMORY_FILENAME);
 
     pluginRegistry = new PluginRegistry(config);
 
     ct = new ContextTracker(config, pluginRegistry);
+
+    remove(MEMORY_FILENAME);
 }
 
 void DejavuPluginTest::tearDown()
 {
     delete ct;
     delete config;
+
+    remove(MEMORY_FILENAME);
 }
 
 void DejavuPluginTest::testPredict()
 {
     ct->update("polly wants a cracker ");
 
-    DejavuPlugin plugin(config, ct);
+    // get pointer to dejavu plugin
+    Plugin* plugin = pluginRegistry->iterator().next();
     
     {
 	ct->update("polly ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
     }
 
     {
 	ct->update("wants ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
     }
 
     {
 	ct->update("a ");
 	Prediction expected;
 	expected.addSuggestion(Suggestion("cracker", 1.0));
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
     }
 
     ct->update("soda ");
@@ -89,13 +96,13 @@ void DejavuPluginTest::testPredict()
     {
 	ct->update("polly ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
     }
 
     {
 	ct->update("wants ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
     }
 
     {
@@ -103,6 +110,6 @@ void DejavuPluginTest::testPredict()
 	Prediction expected;
 	expected.addSuggestion(Suggestion("cracker", 1.0));
 	expected.addSuggestion(Suggestion("soda",    1.0));
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
     }
 }
