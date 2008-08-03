@@ -34,9 +34,10 @@
 //#include "plump/src/plump.h"
 //namespace plump { typedef int Plump; }
 
+#include "core/configuration.h"
+#include "core/pluginRegistry.h"
 #include "core/contextTracker.h"
 #include "core/prediction.h"
-#include "core/configuration.h"
 #include "core/logger.h"
 
 #include "core/combiner.h"
@@ -78,7 +79,7 @@ class Predictor {
      * @param config pointer to configuration
      * @param contextTracker pointer to ContextTracker
      */
-    Predictor(Configuration* config, ContextTracker* contextTracker);
+    Predictor(Configuration* config, PluginRegistry* registry, ContextTracker* contextTracker);
 
     /** Destroy predictor.
      *
@@ -161,6 +162,7 @@ class Predictor {
 
 
     Configuration*  config;
+    PluginRegistry* pluginRegistry;
     ContextTracker* contextTracker;
 
     Logger<char>    logger;
@@ -170,7 +172,6 @@ class Predictor {
 
     int max_partial_prediction_size;
 
-    std::vector<Plugin*> plugins;        // active Plugins
     std::vector<Prediction> predictions; // predictions computed by each plugin are returned here
 
     int PREDICT_TIME;

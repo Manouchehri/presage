@@ -38,7 +38,7 @@ Presage::Presage()
 
     pluginRegistry = new PluginRegistry(configuration);
     contextTracker = new ContextTracker(configuration, pluginRegistry);
-    predictor = new Predictor(configuration, contextTracker);
+    predictor = new Predictor(configuration, pluginRegistry, contextTracker);
     selector = new Selector(configuration, contextTracker);
 
     //plump::Logger::getLogger()->setLevel(plump::Logger::DEBUG);
@@ -55,7 +55,7 @@ Presage::Presage(const std::string config_filename)
 
     pluginRegistry = new PluginRegistry(configuration);
     contextTracker = new ContextTracker(configuration, pluginRegistry);
-    predictor = new Predictor(configuration, contextTracker);
+    predictor = new Predictor(configuration, pluginRegistry, contextTracker);
     selector = new Selector(configuration, contextTracker);
 }
 

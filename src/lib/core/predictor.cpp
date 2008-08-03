@@ -40,8 +40,11 @@
 #include "plugins/recencyPlugin.h"
 #include "plugins/dejavuPlugin.h"
 
-Predictor::Predictor(Configuration* configuration, ContextTracker* ct)
+Predictor::Predictor(Configuration* configuration,
+		     PluginRegistry* registry,
+		     ContextTracker* ct)
     : config(configuration),
+      pluginRegistry(registry),
       contextTracker(ct),
       logger("Predictor", std::cerr)
 {
@@ -76,12 +79,6 @@ Predictor::Predictor(Configuration* configuration, ContextTracker* ct)
 	setCombinationPolicy(value);
 	delete variable;
 
-	variable = new Variable("Presage.Predictor.PLUGINS");
-	value = config->get(*variable);
-	logger << INFO << "PLUGINS: " << value << endl;
-	setPlugins(value);
-	delete variable;
-
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
@@ -90,63 +87,8 @@ Predictor::Predictor(Configuration* configuration, ContextTracker* ct)
 
 Predictor::~Predictor()
 {
-    removePlugins();
     delete combiner;
 }
-
-void Predictor::setPlugins(const std::string& pluginList)
-{
-    std::stringstream ss(pluginList);
-    std::string pluginName;
-    while (ss >> pluginName) {
-	logger << INFO << "Initializing predictive plugin: " << pluginName << endl;
-	addPlugin(pluginName);
-    }
-}
-
-void Predictor::addPlugin(const std::string& pluginName)
-{
-    // TODO: this will have to do for now, until a proper plugin
-    // framework (i.e. plump) is integrated into presage. Until
-    // then, all known plugins have to be listed here and explicitly
-    // created based on their name.
-    //
-    Plugin* plugin = 0;
-    if (pluginName == "SmoothedNgramPlugin") {
-	plugin = new SmoothedNgramPlugin(config, contextTracker);
-    } else if (pluginName == "AbbreviationExpansionPlugin") {
-	plugin = new AbbreviationExpansionPlugin(config, contextTracker);
-    } else if (pluginName == "DummyPlugin") {
-	plugin = new DummyPlugin(config, contextTracker);
-    } else if (pluginName == "DictionaryPlugin" ) {
-	plugin = new DictionaryPlugin(config, contextTracker);
-    } else if (pluginName == "SmoothedCountPlugin") {
-	plugin = new SmoothedCountPlugin(config, contextTracker);
-    } else if (pluginName == "RecencyPlugin") {
-        plugin = new RecencyPlugin(config, contextTracker);
-    } else if (pluginName == "DejavuPlugin") {
-        plugin = new DejavuPlugin(config, contextTracker);
-    } else {
-	// TODO: raise exception
-	logger << ERROR << "Error: unable to add plugin: " 
-	       << pluginName << endl;
-	abort();
-    }
-    
-    if (plugin != 0) {
-	plugins.push_back (plugin);
-	logger << INFO << "Activated predictive plugin: " << pluginName << endl;
-    }
-}
-
-void Predictor::removePlugins()
-{
-    for (size_t i = 0; i < plugins.size(); i++) {
-	delete plugins[i];
-    }
-    plugins.clear();
-}
-
 
 // PLUMP callback
 //void callback_predict(plump::PluginInstance* plugin, void* data)
@@ -156,14 +98,11 @@ void Predictor::removePlugins()
 //    *p = predictivePlugin->predict();
 //}
 
-
 Prediction Predictor::predict()
 {
     Prediction result;
 
-    // Here goes code to instantiate a separate thread for each Plugin;
-    // code can be taken from test file
-    // /home/matt/word_predictor/programming_test/threads.cpp
+    // Here goes code to instantiate a separate thread for each Plugin
     //
 
     // All threads need to be synched together. One thread makes sure that
@@ -174,15 +113,15 @@ Prediction Predictor::predict()
     // the predictions returned by each of them are combined.
     //
 
+    // clear out previous predictions
     predictions.clear();
-    // for each active predictive plugin...
-    for(std::vector<Plugin*>::const_iterator i = plugins.begin();
-	i != plugins.end();
-	i++) {
-	// ...generate and store prediction...
-	predictions.push_back ((*i)->predict(max_partial_prediction_size));
-	// ...and give plugins a chance to learn...
-	(*i)->learn();
+
+    PluginRegistry::Iterator it = pluginRegistry->iterator();
+    Plugin* plugin = 0;
+    while (it.hasNext()) {
+	plugin = it.next();
+	logger << DEBUG << "Invoking predictive plugin: " << plugin->getName() << endl;
+	predictions.push_back(plugin->predict(max_partial_prediction_size));
     }
 
     // ...then merge predictions into a single one...

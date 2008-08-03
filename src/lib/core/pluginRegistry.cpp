@@ -177,8 +177,6 @@ bool PluginRegistry::Iterator::hasNext() const
 Plugin* PluginRegistry::Iterator::next()
 {
     Plugin* result = *iter_curr;
-    std::cerr << "returning iterator to plugin pointing to: (void*) " << (void*) result << std::endl;
-    std::cerr << "returning iterator to plugin pointing to: " << result << std::endl;
     iter_curr++;
     return result;
 }

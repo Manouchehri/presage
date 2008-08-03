@@ -24,6 +24,7 @@
 
 #include "recencyPluginTest.h"
 
+#include "core/pluginRegistry.h"
 #include <math.h>  // for exp()
 
 CPPUNIT_TEST_SUITE_REGISTRATION( RecencyPluginTest );
@@ -42,13 +43,17 @@ void RecencyPluginTest::setUp()
     // set context tracker config variables
     config->set(Variable("Presage.ContextTracker.LOGGER"), Value("ERROR"));
     config->set(Variable("Presage.ContextTracker.MAX_BUFFER_SIZE"), Value("1024"));
+    // set plugin registry config variables
+    config->set(Variable("Presage.PluginRegistry.LOGGER"), Value("ERROR"));
+    config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value(""));
     // set recency plugin config variables
     config->set(LOGGER, "ALL");
     config->set(LAMBDA, "1");
     config->set(N_0,    "1");
     config->set(CUTOFF, "20");
 
-    ct = new ContextTracker(config, 0);
+    pluginRegistry = new PluginRegistry(config);
+    ct = new ContextTracker(config, pluginRegistry);
 }
 
 void RecencyPluginTest::tearDown()
@@ -56,6 +61,7 @@ void RecencyPluginTest::tearDown()
     //std::cerr << "RecencyPluginTest::tearDown()" << std::endl;
 
     delete ct;
+    delete pluginRegistry;
     delete config;
 }
 

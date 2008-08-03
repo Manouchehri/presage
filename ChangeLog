@@ -1,3 +1,9 @@
+2008-08-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.cpp, src/lib/core/contextTracker.*,
+	src/lib/core/pluginRegistry.*, src/lib/core/predictor.*,
+	src/lib/core/selector.*: integrated plugin registry into presage.
+
 2008-08-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/contextTracker.*: refactored update() method and

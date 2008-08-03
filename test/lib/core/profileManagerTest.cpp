@@ -58,7 +58,7 @@ void ProfileManagerTest::testDefaultProfile()
 
     contextTracker = new ContextTracker(configuration, pluginRegistry);
     selector = new Selector(configuration, contextTracker);
-    predictor = new Predictor(configuration, contextTracker);
+    predictor = new Predictor(configuration, pluginRegistry, contextTracker);
 
     std::cout << "ProfileManagerTest: before testProfile()" << std::endl;
     testProfile();

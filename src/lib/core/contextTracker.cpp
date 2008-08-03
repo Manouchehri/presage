@@ -87,20 +87,28 @@ void ContextTracker::update(std::string s)
     for (unsigned int i=0; i<s.size(); i++) {
 	update(s[i]);
 
-	logger << INFO << "contextChange: contextTracker-getPrefix():" << getPrefix() << endl;
-	logger << INFO << "contextChange: contextTracker-getToken(1):" << getToken(1) << endl;
-	logger << INFO << "contextChange: previous_prefix: " << previous_prefix << endl;
+	logger << DEBUG << "update: contextTracker-getPrefix():" << getPrefix() << endl;
+	logger << DEBUG << "update: contextTracker-getToken(1):" << getToken(1) << endl;
+	logger << DEBUG << "update: previous_prefix: " << previous_prefix << endl;
 
-	update_context_change();
+	if (update_context_change()) {
+	    PluginRegistry::Iterator it = pluginRegistry->iterator();
+	    Plugin* plugin = 0;
+
+	    while (it.hasNext()) {
+		plugin = it.next();
+		plugin->learn();
+	    }
+	}
     }
 }
 
-void ContextTracker::update_context_change()
+bool ContextTracker::update_context_change()
 {
     contextChanged = true;
 
     if (!getPrefix().empty()) {
-	logger << INFO << "Prefix not empty" << endl;
+	logger << DEBUG << "Prefix not empty" << endl;
 	// if current prefix is not null
 	std::string::size_type loc = getPrefix().find(previous_prefix, 0);
 	if (loc == 0) {
@@ -108,7 +116,7 @@ void ContextTracker::update_context_change()
 	    // at the beginning of the string, the context has not
 	    // changed
 	    //
-	    logger << INFO << "Found prefix in getPrefix()" << endl;
+	    logger << DEBUG << "Found prefix in getPrefix()" << endl;
 	    contextChanged = false;
 	}
 
@@ -130,7 +138,10 @@ void ContextTracker::update_context_change()
 
     previous_prefix = getPrefix();
 
-    logger << INFO << "contextChange: previous_prefix: " << previous_prefix << endl;
+    logger << DEBUG << "update_context_change(): previous_prefix: " << previous_prefix << endl;
+    logger << DEBUG << "update_context_change(): context changed: " << contextChanged  << endl;
+
+    return contextChanged;
 }
 
 void ContextTracker::update(unsigned int character)
@@ -145,7 +156,7 @@ void ContextTracker::update(unsigned int character)
        || isBlankspaceChar(character)) {
 	// if s is a word string, append to pastBuffer
 	// if s is a separator string, append to pastBuffer
-	logger << INFO << "updating wordChar/separatorChar/blankspaceChar: " << character << endl;
+	logger << DEBUG << "updating wordChar/separatorChar/blankspaceChar: " << character << endl;
 #ifdef USE_STRINGSTREAM
 	assert(pastStream.good());
 	pastStream.put(character);
@@ -157,7 +168,7 @@ void ContextTracker::update(unsigned int character)
 	//std::cerr << "ContextTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
     } else if ( isControlChar(character) ) {
 	//if s is a control string, take the appropriate action
-	logger << INFO << "updating controlChar: " << character << endl;
+	logger << DEBUG << "updating controlChar: " << character << endl;
 
 // REVISIT ////
 
@@ -242,16 +253,16 @@ void ContextTracker::update(unsigned int character)
 	    // TODO: provide a better implementation.
 	    //
 #ifdef USE_STRINGSTREAM
-	    logger << INFO << "pastStream before: " << pastStream.str() << endl;
+	    logger << DEBUG << "pastStream before: " << pastStream.str() << endl;
 	    std::string temp = pastStream.str();
 	    temp.erase(temp.end() - 1);
 	    pastStream.str(temp);
 	    pastStream.seekg(0, std::ios::end);
-	    logger << INFO << "pastStream after : " << pastStream.str() << endl;
+	    logger << DEBUG << "pastStream after : " << pastStream.str() << endl;
 #else
-	    logger << INFO << "pastStream before: " << pastStream << endl;
+	    logger << DEBUG << "pastStream before: " << pastStream << endl;
 	    pastStream.erase(pastStream.end() - 1);
-	    logger << INFO << "pastStream before: " << pastStream << endl;
+	    logger << DEBUG << "pastStream before: " << pastStream << endl;
 #endif
 	}
 
@@ -290,9 +301,9 @@ void ContextTracker::update(unsigned int character)
     }
 
 #ifdef USE_STRINGSTREAM
-    logger << INFO << "pastStream: " << pastStream.str() << endl;
+    logger << DEBUG << "pastStream: " << pastStream.str() << endl;
 #else
-    logger << INFO << "pastStream: " << pastStream << endl;
+    logger << DEBUG << "pastStream: " << pastStream << endl;
 #endif
 }
 

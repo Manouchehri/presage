@@ -61,7 +61,6 @@ void DejavuPluginTest::tearDown()
 
 void DejavuPluginTest::testPredict()
 {
-/* */
     ct->update("polly wants a cracker ");
 
     DejavuPlugin plugin(config, ct);
@@ -106,5 +105,4 @@ void DejavuPluginTest::testPredict()
 	expected.addSuggestion(Suggestion("soda",    1.0));
 	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
     }
-/* */
 }

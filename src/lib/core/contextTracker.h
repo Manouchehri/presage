@@ -185,7 +185,7 @@ public:
 
 private:
     void update(unsigned int character);
-    void update_context_change();
+    bool update_context_change();
 
 #ifdef USE_STRINGSTREAM
     std::stringstream pastStream;

@@ -63,8 +63,11 @@ std::vector<std::string> Selector::select( Prediction p )
 {
     // copy words from Prediction.Suggestion.word in result vector
     std::vector<std::string> result;
+    std::string token;
     for( int i=0 ; i<p.size() ; i++ ) {
-	result.push_back( p.getSuggestion( i ).getWord() );
+	token =  p.getSuggestion(i).getWord();
+	result.push_back(token);
+	logger << DEBUG << "Added token to selector consideration set: " << token << endl;
     }
 	
     // check whether user has not moved on to a new word
@@ -116,6 +119,7 @@ void Selector::updateSuggestedWords( const std::vector<std::string>& v )
 {
     std::vector<std::string>::const_iterator i = v.begin();
     while( i != v.end() ) {
+	logger << DEBUG << "Adding token to suggested token set: " << *i << endl; 
 	suggestedWords.insert( *i );
 	i++;
     }
@@ -127,6 +131,7 @@ void Selector::updateSuggestedWords( const std::vector<std::string>& v )
  */
 void Selector::clearSuggestedWords()
 {
+    logger << DEBUG << "Clearing previously suggested tokens set." << endl;
     suggestedWords.clear();
 }
 
@@ -145,8 +150,10 @@ void Selector::repetitionFilter( std::vector<std::string>& v )
     for( std::vector<std::string>::iterator i = v.begin();
 	 i != v.end();
 	 i++ ) {
+	logger << DEBUG << "Processing repetition filter on token: " << *i << endl;
 	if( suggestedWords.find( *i ) == suggestedWords.end() ) {
 	    temp.push_back( *i );
+	    logger << DEBUG << "Token passed repetition filter: " << *i << endl;
 	}
     }
 
