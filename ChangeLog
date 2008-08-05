@@ -1,3 +1,10 @@
+2008-08-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/contextTrackerTest.cpp,
+	src/lib/core/contextTracker.cpp: fixed bug in context change
+	detection routine whereby multiple separators trigger spurious
+	context changes.
+
 2008-08-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/plugins/dejavuPluginTest.*,

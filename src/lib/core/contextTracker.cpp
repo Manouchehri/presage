@@ -127,13 +127,13 @@ bool ContextTracker::update_context_change()
 // block should cause a context change, but it does not.
 //
 
-//    } else {
-//	// if prefix is empty
-//	logger << "Prefix not empty");
-//	if (previous_prefix != getToken(1)) {
-//	    logger << "Reversing context change");
-//	    contextChanged = false;
-//	}
+    } else {
+	// if prefix is empty
+	logger << DEBUG << "Prefix not empty" << endl;
+	if (previous_prefix != getToken(1)) {
+	    logger << DEBUG << "Reversing context change" << endl;
+	    contextChanged = false;
+	}
     }
 
     previous_prefix = getPrefix();

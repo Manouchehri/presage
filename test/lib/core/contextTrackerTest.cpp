@@ -157,9 +157,7 @@ void ContextTrackerTest::testContextChange()
     ContextTracker* contextTracker = new ContextTracker(configuration, pluginRegistry);
 
     const std::string line   = "foo bar foobar, foo   bar! Foobar foo bar... foobar. ";
-    const std::string change = "00010001000000110001110001100000010001000111100000011";
-    // See TODO in ContextTracker.cpp
-    // const std::string change = "00010001000000100001000001000000010001000100000000010";
+    const std::string change = "00010001000000100001000001000000010001000100000000010";
 
     for (size_t i = 0; i < line.size(); i++) {
 	std::string temp;
