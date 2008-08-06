@@ -32,6 +32,9 @@
 
 typedef std::string Value;
 
+/** Configuration allows to query and modify all presage runtime configuration variables.
+ *
+ */
 class Configuration {
 public:
     Configuration();

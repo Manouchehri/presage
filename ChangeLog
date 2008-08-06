@@ -1,5 +1,12 @@
 2008-08-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* website/presage_database_dump.sql.gz: updated presage website.
+
+	* src/lib/plugins/dejavuPlugin.*, src/lib/core/configuration.h,
+	src/lib/core/pluginRegistry.h: added descriptive comments.
+	
+2008-08-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* test/lib/core/contextTrackerTest.cpp,
 	src/lib/core/contextTracker.cpp: fixed bug in context change
 	detection routine whereby multiple separators trigger spurious

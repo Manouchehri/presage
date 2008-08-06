@@ -30,7 +30,7 @@
 
 class ContextTracker;
 
-/** PluginRegistry manages Plugin objects.
+/** Manages instantiation and iteration through predictive plugins and aids in generating predictions and learning.
  *
  */
 class PluginRegistry {

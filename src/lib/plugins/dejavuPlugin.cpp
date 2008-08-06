@@ -29,6 +29,14 @@ const Variable DejavuPlugin::LOGGER = "Presage.Plugins.DejavuPlugin.LOGGER";
 const Variable DejavuPlugin::MEMORY = "Presage.Plugins.DejavuPlugin.MEMORY";
 const Variable DejavuPlugin::TRIGGER = "Presage.Plugins.DejavuPlugin.TRIGGER";
 
+/*
+ * Implementation idea: plugin remembers previously entered text (by
+ * storing it in a config defined file); when current token is found
+ * in the remembered text, the tokens following the current token are
+ * suggested; this requires "learning" previously entered text.
+ *
+ */
+
 DejavuPlugin::DejavuPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
 	     ct,

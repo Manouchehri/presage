@@ -30,7 +30,13 @@
 #include <string>
 #include <fstream>
 
-/** Dejavu plugin is provided here to show how to implement real plugins.
+/** Dejavu plugin learns and reproduces previously seen text tokens, once its memory is triggered by a known token sequence.
+ *   
+ * Dejavu plugin is able to learn and then later reproduce previously
+ * seen text sequences. The goal is dejavu plugin is to write a simple
+ * plugin that demonstrates how learning can be implemented in the
+ * presage system and exposes what functionality is required for
+ * learning plugins to work within the presage framework.
  *
  */
 class DejavuPlugin : public Plugin {
