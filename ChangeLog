@@ -1,3 +1,17 @@
+2008-08-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.*: added unit tests
+	for smoothed n-gram plugin learning functionality.
+
+2008-08-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/smoothedNgramPlugin.*: implemented learning for
+	smoothed n-gram plugin, which is now able to learn "on the fly"
+	from the context, while it generate predictions.
+
+	* resources/profiles/presage.xml.template: added smoothed n-gram
+	plugin learn config var.
+
 2008-08-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/presage_database_dump.sql.gz: updated presage website.

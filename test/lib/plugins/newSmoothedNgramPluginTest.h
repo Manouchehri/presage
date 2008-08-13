@@ -22,55 +22,41 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_SMOOTHEDNGRAMPLUGIN
-#define PRESAGE_SMOOTHEDNGRAMPLUGIN
+#ifndef PRESAGE_NEWSMOOTHEDNGRAMPLUGINTEST
+#define PRESAGE_NEWSMOOTHEDNGRAMPLUGINTEST
 
-#include "plugins/plugin.h"
-#include "core/utility.h"    // strtolower
-#include "core/logger.h"
+#include <cppunit/extensions/HelperMacros.h>
 
-#include <assert.h>
+#include <plugins/smoothedNgramPlugin.h>
 
-#if defined(HAVE_SQLITE3_H) 
-# include <sqlite3.h>
-#elif defined(HAVE_SQLITE_H)
-# include <sqlite.h>
-#else
-# error "SQLite is required. Please install SQLite."
-#endif
-
-#include "core/dbconnector/sqliteDatabaseConnector.h"
-
-
-/** Smoothed n-gram statistical plugin.
+/** Test SmoothedNgramPlugin.
  *
+ * this test doesn't follow the pattern of test
+ * SmoothedNgramPluginTest: i.e. it doesn't reuse the infrastructure
+ * provided by the plugin test fixture, because that infrastructure
+ * was not designed to accomodate plugins that are able to learn.
+ * 
  */
-class SmoothedNgramPlugin : public Plugin {
-public:
-    SmoothedNgramPlugin(Configuration*, ContextTracker*);
-    ~SmoothedNgramPlugin();
-
-    virtual Prediction predict(const size_t) const;
-
-    virtual void learn();
-    virtual void extract();
-    virtual void train();
+class NewSmoothedNgramPluginTest : public CppUnit::TestFixture {
+public: 
+    void setUp();
+    void tearDown();
+    
+    void testLearning();
 
 private:
-    static const Variable LOGGER;
-    static const Variable DBFILENAME;
-    static const Variable DELTAS;
-    static const Variable LEARN;
+    Configuration*  config;
+    ContextTracker* ct;
+    PluginRegistry* pluginRegistry;
+    Plugin*         plugin;
 
-    static const Variable DATABASE_LOGGER;
+    static const char* DATABASE;
+    static const int   SIZE;
 
-
-    unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
-
-    DatabaseConnector*  db;
-    std::string         dbfilename;
-    std::vector<double> deltas;
-
+    CPPUNIT_TEST_SUITE( NewSmoothedNgramPluginTest );
+    CPPUNIT_TEST( testLearning );
+    CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // PRESAGE_SMOOTHEDNGRAMPLUGIN
+
+#endif // PRESAGE_NEWSMOOTHEDNGRAMPLUGINTEST

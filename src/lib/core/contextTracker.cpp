@@ -92,6 +92,7 @@ void ContextTracker::update(std::string s)
 	logger << DEBUG << "update: previous_prefix: " << previous_prefix << endl;
 
 	if (update_context_change()) {
+	    // context change occured, time to learn
 	    PluginRegistry::Iterator it = pluginRegistry->iterator();
 	    Plugin* plugin = 0;
 

@@ -27,6 +27,13 @@
 #include <sstream>
 #include <algorithm>
 
+const Variable SmoothedNgramPlugin::LOGGER     = Variable("Presage.Plugins.SmoothedNgramPlugin.LOGGER");
+const Variable SmoothedNgramPlugin::DBFILENAME = Variable("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
+const Variable SmoothedNgramPlugin::DELTAS     = Variable("Presage.Plugins.SmoothedNgramPlugin.DELTAS");
+const Variable SmoothedNgramPlugin::LEARN      = Variable("Presage.Plugins.SmoothedNgramPlugin.LEARN");
+
+const Variable SmoothedNgramPlugin::DATABASE_LOGGER = Variable("Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER");
+
 SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
 	     ct,
@@ -34,28 +41,18 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* 
              "SmoothedNgramPlugin, a linear interpolating n-gram plugin",
              "SmoothedNgramPlugin, long description." )
 {
-    Variable variable;
-    variable.push_back("Presage");
-    variable.push_back("Plugins");
-    variable.push_back("SmoothedNgramPlugin");
-
     Value value;
 
     try {
-	variable.push_back("LOGGER");
-	value = config->get(variable);
+	value = config->get(LOGGER);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
-	variable.pop_back();
 
-	variable.push_back("DBFILENAME");
-	value = config->get(variable);
+	value = config->get(DBFILENAME);
 	logger << INFO << "DBFILENAME: " << value << endl;
 	dbfilename = value;
-	variable.pop_back();
 
-	variable.push_back("DELTAS");
-	value = config->get(variable);
+	value = config->get(DELTAS);
 	logger << INFO << "DELTAS: " << value << endl;
 	std::stringstream ss_deltas(value);
 	std::string delta;
@@ -63,18 +60,13 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* 
 	    logger << DEBUG << "Pushing delta: " << delta << endl;
 	    deltas.push_back(toDouble(delta));
 	}
-	variable.pop_back();
 
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
     
     try {
-	variable.push_back("DatabaseConnector");
-	variable.push_back("LOGGER");
-	value = config->get(variable);
-	variable.pop_back();
-	variable.pop_back();
+	value = config->get(DATABASE_LOGGER);
     } catch (Configuration::ConfigurationException& ex) {
         logger << ERROR << "ConfigurationException while trying to fetch DatabaseConnector logger level." << endl;
 	db = new SqliteDatabaseConnector(dbfilename);
@@ -129,7 +121,7 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
 
 Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size) const
 {
-    logger << DEBUG << "Entering SmoothedNgramPlugin::predict()" << endl;
+    logger << DEBUG << "predict()" << endl;
 
     // Result prediction
     Prediction prediction;
@@ -266,8 +258,40 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
 
 void SmoothedNgramPlugin::learn()
 {
-    logger << DEBUG << "learn() method called" << endl;
-    logger << DEBUG << "learn() method exited" << endl;
+    logger << DEBUG << "learn()" << endl;
+
+    if (isTrue(configuration->get(LEARN))) {
+	// learning is turned on
+
+	// n-gram cardinality (i.e. what is the n in n-gram?)
+	int cardinality = deltas.size();
+
+	Ngram ngram;
+	std::string token;
+	for (int i = 1; i < cardinality + 1; i++) {
+	    token = contextTracker->getToken(i);
+	    ngram.insert(ngram.begin(), token);
+
+	    logger << DEBUG << "Considering to learn ngram: |";
+	    for (size_t j = 0; j < ngram.size(); j++) {
+		logger << DEBUG << ngram[j] << '|';
+	    }
+	    logger << DEBUG << endl;
+
+	    if (ngram.end() == find(ngram.begin(), ngram.end(), "")) {
+		// only learn ngram if it doesn't contain empty strings
+		db->beginTransaction();
+		db->incrementNgramCount(ngram);
+		db->endTransaction();
+		logger << DEBUG << "Committed ngram update to database" << endl;
+	    } else {
+		logger << DEBUG << "Discarded ngram" << endl;
+	    }
+	}
+	
+    }
+
+    logger << DEBUG << "end learn()" << endl;
 }
 
 

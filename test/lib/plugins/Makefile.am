@@ -66,7 +66,9 @@ newPluginsTestRunner_SOURCES = 	pluginsTestRunner.cpp \
 				recencyPluginTest.h \
 				recencyPluginTest.cpp \
 				dejavuPluginTest.h \
-				dejavuPluginTest.cpp
+				dejavuPluginTest.cpp \
+				newSmoothedNgramPluginTest.h \
+				newSmoothedNgramPluginTest.cpp
 newPluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 newPluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 newPluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la	\
