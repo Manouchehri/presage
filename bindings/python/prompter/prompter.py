@@ -51,12 +51,18 @@ accordingly).
    print ex
    sys.exit(1)
 
+##########
+# Prompter
+#
 class Prompter(wx.App):
    def OnInit(self):
       self.frame = PrompterFrame(parent=None, id=-1, title='Prompter')
       self.SetTopWindow(self.frame)
       return True
 
+###############
+# PrompterFrame
+#
 class PrompterFrame(wx.Frame):
    wildcard = "Text files (*.txt)|*.txt|"     \
        "All files (*.*)|*.*"
@@ -104,6 +110,12 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       BindMenu(self.fileMenu.Append(wx.ID_CLOSE, "&Close\tCTRL+W"), self.OnFileMenuClose)
       BindMenu(self.fileMenu.Append(wx.ID_EXIT, "&Quit\tCTRL+Q"), self.OnFileMenuQuit)
 
+      # edit menu
+      self.editMenu = wx.Menu()
+      BindMenu(self.editMenu.Append(wx.ID_CUT, "&Cut\tCTRL+X"), self.OnEditMenuCut)
+      BindMenu(self.editMenu.Append(wx.ID_COPY, "&Copy\tCTRL+C"), self.OnEditMenuCopy)
+      BindMenu(self.editMenu.Append(wx.ID_PASTE, "&Paste\tCTRL+V"), self.OnEditMenuPaste)
+
       # help menu
       self.helpMenu = wx.Menu()
       BindMenu(self.helpMenu.Append(wx.ID_HELP, "&Contents\tF1"), self.OnHelpMenuContents)
@@ -113,6 +125,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       # menu bar
       self.menuBar = wx.MenuBar()
       self.menuBar.Append(self.fileMenu, "&File")
+      self.menuBar.Append(self.editMenu, "&Edit")
       self.menuBar.Append(self.helpMenu, "&Help")
       self.SetMenuBar(self.menuBar)
 
@@ -209,11 +222,27 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
 
    def OnFileMenuClose(self, event):
       self.OnFileMenuNew(event)        # this will do for now
+   
    def OnFileMenuQuit(self, event):
       print "This should first check that changes have been saved..."
       self.Close(True)
+   
+   def OnEditMenuCut(self, event):
+      self.clip = self.editor.GetSelectedText()
+      self.editor.ReplaceSelection('')
+      print "Cut selected text: " + self.clip
+   
+   def OnEditMenuCopy(self, event):
+      self.clip = self.editor.GetSelectedText()
+      print "Stored selected text into clip: " + self.clip
+   
+   def OnEditMenuPaste(self, event):
+      self.editor.ReplaceSelection(self.clip)
+      print "Replace selection with: " + self.clip
+   
    def OnHelpMenuContents(self, event):
       print "This will eventually open the online help"
+   
    def OnHelpMenuAbout(self, event):
       message = """Prompter, the intelligent mind reader
 
@@ -237,7 +266,9 @@ FOR A PARTICULAR PURPOSE, to the extent permitted by law."""
          dialog.ShowModal()
          dialog.Destroy()
 
-
+################
+# PrompterEditor
+#
 class PrompterEditor(wx.stc.StyledTextCtrl):
    def __init__(self, parent):
       wx.stc.StyledTextCtrl.__init__(self, parent)

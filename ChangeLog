@@ -1,3 +1,8 @@
+2008-08-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added edit menu with cut,
+	copy, paste operations.
+	
 2008-08-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/plugins/newSmoothedNgramPluginTest.*: added unit tests
