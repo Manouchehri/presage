@@ -274,7 +274,8 @@ AC_MSG_RESULT([
     Unit tests: ................. ${build_unit_tests}
     Python binding: ............. ${build_python_binding}
     Man pages: .................. ${HAVE_HELP2MAN}
-    API Documentation: .......... ${HAVE_DOXYGEN}
+    API documentation: .......... ${HAVE_DOXYGEN}
+    API documentation diagrams: . ${HAVE_DOT}
 
 
   Predictive plugins:
@@ -284,6 +285,7 @@ AC_MSG_RESULT([
     Abbreviation expansion: ..... yes
     Smoothed count: ............. yes
     Dictionary: ................. yes
+    Deja-vu: .................... yes
 
 
   Building:
