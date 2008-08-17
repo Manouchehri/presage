@@ -86,7 +86,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       dialog.Destroy()
 
       self.MakeMenuBar()
-
+      
       self.editor = PrompterEditor(self)
 
       self.sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -116,6 +116,18 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       BindMenu(self.editMenu.Append(wx.ID_COPY, "&Copy\tCTRL+C"), self.OnEditMenuCopy)
       BindMenu(self.editMenu.Append(wx.ID_PASTE, "&Paste\tCTRL+V"), self.OnEditMenuPaste)
 
+      # view menu
+      self.ID_TOGGLE_TEXT_WRAP = 301
+      self.viewMenu = wx.Menu()
+      # need to save wxMenuItem object returned by Append() to test if checked or not
+      self.text_wrap = self.viewMenu.Append(self.ID_TOGGLE_TEXT_WRAP,
+                                            "&Text wrap mode\tCTRL+T",
+                                            "Toggle text wrap mode",
+                                            wx.ITEM_CHECK)
+      BindMenu(self.text_wrap, self.OnViewMenuToggleTextWrap)
+      # turn text_wrap checked menu item on at start-up
+      self.viewMenu.Check(self.ID_TOGGLE_TEXT_WRAP, True)
+
       # help menu
       self.helpMenu = wx.Menu()
       BindMenu(self.helpMenu.Append(wx.ID_HELP, "&Contents\tF1"), self.OnHelpMenuContents)
@@ -126,6 +138,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       self.menuBar = wx.MenuBar()
       self.menuBar.Append(self.fileMenu, "&File")
       self.menuBar.Append(self.editMenu, "&Edit")
+      self.menuBar.Append(self.viewMenu, "&View")
       self.menuBar.Append(self.helpMenu, "&Help")
       self.SetMenuBar(self.menuBar)
 
@@ -240,6 +253,9 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       self.editor.ReplaceSelection(self.clip)
       print "Replace selection with: " + self.clip
    
+   def OnViewMenuToggleTextWrap(self, event):
+      self.editor.ToggleTextWrapMode()
+
    def OnHelpMenuContents(self, event):
       print "This will eventually open the online help"
    
@@ -285,7 +301,8 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
       self.prsg = presage.Presage()
-
+      
+      self.SetWrapMode(wx.stc.STC_WRAP_WORD)
       #self.AutoCompSetAutoHide(False)
       #self.AutoCompSetIgnoreCase(1)
 
@@ -384,3 +401,8 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.parent.fileMenu.Enable(wx.ID_SAVE, True)
       self.parent.fileMenu.Enable(wx.ID_SAVEAS, True)
 
+   def ToggleTextWrapMode(self):
+      if self.parent.text_wrap.IsChecked():
+         self.SetWrapMode(wx.stc.STC_WRAP_WORD)
+      else:
+         self.SetWrapMode(wx.stc.STC_WRAP_NONE)
