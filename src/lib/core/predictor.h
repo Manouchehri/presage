@@ -77,6 +77,7 @@ class Predictor {
      *  analysis.
      *
      * @param config pointer to configuration
+     * @param registry pointer to plugin registry
      * @param contextTracker pointer to ContextTracker
      */
     Predictor(Configuration* config, PluginRegistry* registry, ContextTracker* contextTracker);
