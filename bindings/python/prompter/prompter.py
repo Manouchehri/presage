@@ -112,10 +112,15 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
 
       # edit menu
       self.editMenu = wx.Menu()
+      BindMenu(self.editMenu.Append(wx.ID_UNDO, "&Undo\tCTRL+Z"), self.OnEditMenuUndo)
+      BindMenu(self.editMenu.Append(wx.ID_REDO, "&Redo\tSHIFT+CTRL+Z"), self.OnEditMenuRedo)
+      self.editMenu.AppendSeparator()
       BindMenu(self.editMenu.Append(wx.ID_CUT, "&Cut\tCTRL+X"), self.OnEditMenuCut)
       BindMenu(self.editMenu.Append(wx.ID_COPY, "&Copy\tCTRL+C"), self.OnEditMenuCopy)
       BindMenu(self.editMenu.Append(wx.ID_PASTE, "&Paste\tCTRL+V"), self.OnEditMenuPaste)
-
+      self.editMenu.AppendSeparator()
+      BindMenu(self.editMenu.Append(wx.ID_SELECTALL, "Select &All\tCTRL+A"), self.OnEditMenuSelectAll)
+      
       # view menu
       self.ID_TOGGLE_TEXT_WRAP = 301
       self.viewMenu = wx.Menu()
@@ -132,7 +137,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       self.helpMenu = wx.Menu()
       BindMenu(self.helpMenu.Append(wx.ID_HELP, "&Contents\tF1"), self.OnHelpMenuContents)
       self.helpMenu.AppendSeparator()
-      BindMenu(self.helpMenu.Append(wx.ID_ABOUT, "&About\tCTRL+A"), self.OnHelpMenuAbout)
+      BindMenu(self.helpMenu.Append(wx.ID_ABOUT, "&About"), self.OnHelpMenuAbout)
 
       # menu bar
       self.menuBar = wx.MenuBar()
@@ -145,6 +150,10 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       # grey out menu items
       self.fileMenu.Enable(wx.ID_SAVE, False)
       self.fileMenu.Enable(wx.ID_SAVEAS, False)
+
+      self.editMenu.Enable(wx.ID_UNDO, False)
+      self.editMenu.Enable(wx.ID_REDO, False)
+      
 
    # menu handlers
    def OnFileMenuNew(self, event):
@@ -240,6 +249,16 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       print "This should first check that changes have been saved..."
       self.Close(True)
    
+   def OnEditMenuUndo(self, event):
+      if self.editor.CanUndo():
+         self.editor.Undo()
+         print "Undo last action"
+
+   def OnEditMenuRedo(self, event):
+      if self.editor.CanRedo():
+         self.editor.Redo()
+         print "Redo last action"
+
    def OnEditMenuCut(self, event):
       self.clip = self.editor.GetSelectedText()
       self.editor.ReplaceSelection('')
@@ -252,7 +271,10 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
    def OnEditMenuPaste(self, event):
       self.editor.ReplaceSelection(self.clip)
       print "Replace selection with: " + self.clip
-   
+
+   def OnEditMenuSelectAll(self, event):
+      self.editor.SelectAll()
+
    def OnViewMenuToggleTextWrap(self, event):
       self.editor.ToggleTextWrapMode()
 
@@ -398,8 +420,19 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       wx.CallAfter(self.__ShowPrediction)
 
    def OnModified(self, event):
+      # grey out or enable menu items
       self.parent.fileMenu.Enable(wx.ID_SAVE, True)
       self.parent.fileMenu.Enable(wx.ID_SAVEAS, True)
+      
+      if self.CanUndo():
+         self.parent.editMenu.Enable(wx.ID_UNDO, True)
+      else:
+         self.parent.editMenu.Enable(wx.ID_UNDO, False)
+      
+      if self.CanRedo():
+         self.parent.editMenu.Enable(wx.ID_REDO, True)
+      else:
+         self.parent.editMenu.Enable(wx.ID_REDO, False)
 
    def ToggleTextWrapMode(self):
       if self.parent.text_wrap.IsChecked():

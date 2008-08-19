@@ -1,3 +1,13 @@
+2008-08-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added select all to edit
+	menu.
+
+2008-08-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added undo/redo to edit
+	menu.
+
 2008-08-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter/prompter.py: added edit menu with cut,
