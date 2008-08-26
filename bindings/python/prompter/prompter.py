@@ -120,6 +120,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       BindMenu(self.editMenu.Append(wx.ID_PASTE, "&Paste\tCTRL+V"), self.OnEditMenuPaste)
       self.editMenu.AppendSeparator()
       BindMenu(self.editMenu.Append(wx.ID_SELECTALL, "Select &All\tCTRL+A"), self.OnEditMenuSelectAll)
+
       
       # view menu
       self.ID_TOGGLE_TEXT_WRAP = 301
@@ -133,6 +134,21 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       # turn text_wrap checked menu item on at start-up
       self.viewMenu.Check(self.ID_TOGGLE_TEXT_WRAP, True)
 
+
+      # presage menu
+      self.presageMenu = wx.Menu()
+      self.ID_PROMPT_ME = 401
+      BindMenu(self.presageMenu.Append(self.ID_PROMPT_ME, "&Prompt me\tCTRL+P"), self.OnPresageMenuPromptMe)
+      
+      self.ID_TOGGLE_LEARN_MODE = 402
+      self.learn_presage_menu_item = self.presageMenu.Append(self.ID_TOGGLE_LEARN_MODE,
+                                                             "&Learn mode\tCTRL+L",
+                                                             "Toggle learn mode",
+                                                             wx.ITEM_CHECK)
+      self.presageMenu.Check(self.ID_TOGGLE_LEARN_MODE, True)
+      BindMenu(self.learn_presage_menu_item, self.OnPresageMenuToggleLearnMode)
+
+      
       # help menu
       self.helpMenu = wx.Menu()
       BindMenu(self.helpMenu.Append(wx.ID_HELP, "&Contents\tF1"), self.OnHelpMenuContents)
@@ -144,6 +160,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       self.menuBar.Append(self.fileMenu, "&File")
       self.menuBar.Append(self.editMenu, "&Edit")
       self.menuBar.Append(self.viewMenu, "&View")
+      self.menuBar.Append(self.presageMenu, "&Presage")
       self.menuBar.Append(self.helpMenu, "&Help")
       self.SetMenuBar(self.menuBar)
 
@@ -278,6 +295,22 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
    def OnViewMenuToggleTextWrap(self, event):
       self.editor.ToggleTextWrapMode()
 
+   def OnPresageMenuPromptMe(self, event):
+      self.editor.ShowPrediction()
+
+   def OnPresageMenuToggleLearnMode(self, event):
+      # TODO: this currently toggles smoothed ngram plugin learning on
+      # or off, it should really switch off context tracker learning
+      # when that is implemented.
+      config_var = "Presage.Plugins.SmoothedNgramPlugin.LEARN"
+      mode = self.editor.prsg.config(config_var)
+      if mode == 'true':
+         mode = 'false'
+      elif mode == 'false':
+         mode = 'true'
+      self.editor.prsg.config(config_var, mode)
+      print "Learn mode switched to " + mode
+
    def OnHelpMenuContents(self, event):
       print "This will eventually open the online help"
    
@@ -349,6 +382,9 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
          self.prsg.update(key.encode('utf-8'))
 
       self.__ShowPrediction()
+
+   def ShowPrediction(self, string = ''):
+      self.__ShowPrediction(string)
 
    def __ShowPrediction(self, string = ''):
       print "------------ __ShowPrediction()"

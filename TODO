@@ -7,6 +7,14 @@ TODO list
 ---------
 
 
+Prompter:
+  paste and cut do not update context tracker, neither does opening a
+   file.
+
+  tool bar?
+  prompt me button?
+
+
 Registry:
 
   Predictor class functionality should be split up. There should be

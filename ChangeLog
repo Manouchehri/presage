@@ -1,3 +1,13 @@
+2008-08-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added prompt me menu item
+	to presage menu.
+
+2008-08-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added presage menu and
+	toggle learn mode item.
+
 2008-08-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter/prompter.py: added select all to edit
