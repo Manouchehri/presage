@@ -73,8 +73,27 @@ Presage::~Presage()
 
 std::vector<std::string> Presage::predict(std::string s)
 {
+    std::vector<std::string> result;
+
     contextTracker->update (s);
-    return selector->select (predictor->predict());
+
+    unsigned int multiplier = 1;
+    Prediction prediction = predictor->predict(multiplier++);
+    result = selector->select(prediction);
+
+    Prediction previous_prediction = prediction;
+    while ((result.size() < (selector->suggestions()))
+	   && (prediction = predictor->predict(multiplier++)).size() > previous_prediction.size()) {
+	// while the number of predicted tokens is lower than desired,
+	// search harder (i.e. higher multiplier) for a prediction of
+	// sufficient size (i.e. that satisfies selector), as long as
+	// the result of current prediction is greater than the
+	// previous prediction (i.e. we are finding new tokens).
+	result = selector->select(prediction);
+	previous_prediction = prediction;
+    }
+
+    return result;
 }
 
 void Presage::update(std::string s)

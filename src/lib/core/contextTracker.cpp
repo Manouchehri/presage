@@ -130,7 +130,7 @@ bool ContextTracker::update_context_change()
 
     } else {
 	// if prefix is empty
-	logger << DEBUG << "Prefix not empty" << endl;
+	logger << DEBUG << "Prefix empty" << endl;
 	if (previous_prefix != getToken(1)) {
 	    logger << DEBUG << "Reversing context change" << endl;
 	    contextChanged = false;

@@ -1,3 +1,9 @@
+2008-08-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.cpp, src/lib/core/predictor.h: incrementally
+	increase depth of prediction when prediction size does not match
+	desired value.
+
 2008-08-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter/prompter.py: added prompt me menu item

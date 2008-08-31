@@ -98,7 +98,7 @@ Predictor::~Predictor()
 //    *p = predictivePlugin->predict();
 //}
 
-Prediction Predictor::predict()
+Prediction Predictor::predict(unsigned int multiplier)
 {
     Prediction result;
 
@@ -121,7 +121,7 @@ Prediction Predictor::predict()
     while (it.hasNext()) {
 	plugin = it.next();
 	logger << DEBUG << "Invoking predictive plugin: " << plugin->getName() << endl;
-	predictions.push_back(plugin->predict(max_partial_prediction_size));
+	predictions.push_back(plugin->predict(max_partial_prediction_size * multiplier));
     }
 
     // ...then merge predictions into a single one...

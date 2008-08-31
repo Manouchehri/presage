@@ -95,7 +95,7 @@ class Predictor {
      *
      * @return prediction produced by the active predictive plugins and combined by the active combiner
      */
-    Prediction predict();
+    Prediction predict(unsigned int multiplier = 1);
 
     /** Set active predictive plugins.
      *
