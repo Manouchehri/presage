@@ -86,6 +86,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       dialog.Destroy()
 
       self.MakeMenuBar()
+      self.MakeToolBar()
       
       self.editor = PrompterEditor(self)
 
@@ -123,7 +124,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
 
       
       # view menu
-      self.ID_TOGGLE_TEXT_WRAP = 301
+      self.ID_TOGGLE_TEXT_WRAP = wx.NewId()
       self.viewMenu = wx.Menu()
       # need to save wxMenuItem object returned by Append() to test if checked or not
       self.text_wrap = self.viewMenu.Append(self.ID_TOGGLE_TEXT_WRAP,
@@ -137,7 +138,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
 
       # presage menu
       self.presageMenu = wx.Menu()
-      self.ID_PROMPT_ME = 401
+      self.ID_PROMPT_ME = wx.NewId()
       BindMenu(self.presageMenu.Append(self.ID_PROMPT_ME, "&Prompt me\tCTRL+P"), self.OnPresageMenuPromptMe)
       
       self.ID_TOGGLE_LEARN_MODE = 402
@@ -170,7 +171,55 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
 
       self.editMenu.Enable(wx.ID_UNDO, False)
       self.editMenu.Enable(wx.ID_REDO, False)
+
+   def MakeToolBar(self):
+      def BindTool(item, handler):
+         self.Bind(wx.EVT_TOOL, handler, item)
+         self.Bind(wx.EVT_TOOL_RCLICKED, handler, item)
+
+      self.toolbar = self.CreateToolBar(wx.TB_HORIZONTAL
+                                        | wx.NO_BORDER
+                                        | wx.TB_FLAT)
+
+      tsize = (24,24)
+      new_bmp =  wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR, tsize)
+      open_bmp = wx.ArtProvider.GetBitmap(wx.ART_FILE_OPEN, wx.ART_TOOLBAR, tsize)
+      save_bmp = wx.ArtProvider.GetBitmap(wx.ART_FILE_SAVE, wx.ART_TOOLBAR, tsize)
+
+      undo_bmp = wx.ArtProvider.GetBitmap(wx.ART_UNDO, wx.ART_TOOLBAR, tsize)
+      redo_bmp = wx.ArtProvider.GetBitmap(wx.ART_REDO, wx.ART_TOOLBAR, tsize)
+
+      cut_bmp = wx.ArtProvider.GetBitmap(wx.ART_CUT, wx.ART_TOOLBAR, tsize)
+      copy_bmp = wx.ArtProvider.GetBitmap(wx.ART_COPY, wx.ART_TOOLBAR, tsize)
+      paste_bmp= wx.ArtProvider.GetBitmap(wx.ART_PASTE, wx.ART_TOOLBAR, tsize)
+
+      prompt_me_bmp= wx.ArtProvider.GetBitmap(wx.ART_TIP, wx.ART_TOOLBAR, tsize)
+
+      self.toolbar.SetToolBitmapSize(tsize)
       
+      BindTool(self.toolbar.AddLabelTool(wx.ID_NEW, "New", new_bmp, shortHelp="New", longHelp="New file"),
+               self.OnFileMenuNew)
+      BindTool(self.toolbar.AddLabelTool(wx.ID_OPEN, "Open", open_bmp, shortHelp="Open", longHelp="Open file"),
+               self.OnFileMenuOpen)
+      BindTool(self.toolbar.AddLabelTool(wx.ID_SAVE, "Save", save_bmp, shortHelp="Save", longHelp="Save file"),
+               self.OnFileMenuSave)
+      self.toolbar.AddSeparator()
+      BindTool(self.toolbar.AddLabelTool(wx.ID_UNDO, "Undo", undo_bmp, shortHelp="Undo", longHelp="Undo last action"),
+               self.OnEditMenuUndo)
+      BindTool(self.toolbar.AddLabelTool(wx.ID_REDO, "Redo", redo_bmp, shortHelp="Redo", longHelp="Redo last action"),
+               self.OnEditMenuRedo)
+      self.toolbar.AddSeparator()
+      BindTool(self.toolbar.AddLabelTool(wx.ID_CUT, "Cut", cut_bmp, shortHelp="Cut", longHelp="Cut selection"),
+               self.OnEditMenuCut)
+      BindTool(self.toolbar.AddLabelTool(wx.ID_COPY, "Copy", copy_bmp, shortHelp="Copy", longHelp="Copy selection"),
+               self.OnEditMenuCopy)
+      BindTool(self.toolbar.AddLabelTool(wx.ID_PASTE, "Paste", paste_bmp, shortHelp="Paste", longHelp="Paste selection"),
+               self.OnEditMenuPaste)
+      self.toolbar.AddSeparator()
+      BindTool(self.toolbar.AddLabelTool(self.ID_PROMPT_ME, "Prompt me", prompt_me_bmp, shortHelp="Prompt me", longHelp="Prompt me with a prediction"),
+               self.OnPresageMenuPromptMe)
+
+      self.toolbar.Realize()
 
    # menu handlers
    def OnFileMenuNew(self, event):

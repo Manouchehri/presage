@@ -1,5 +1,7 @@
 2008-08-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* bindings/python/prompter/prompter.py: added prompter toolbar.
+	
 	* debian/changelog, configure.ac: moved version up to 0.6.4b, will
 	become 0.6.4 when ready to cut release.
 
