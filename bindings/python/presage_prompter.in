@@ -23,7 +23,7 @@
 import sys
 import getopt
 
-PROGRAM_NAME = 'prompter'
+PROGRAM_NAME = 'presage_prompter'
 
 def print_version():
    print """

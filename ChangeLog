@@ -1,5 +1,12 @@
 2008-08-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* debian/changelog, configure.ac: moved version up to 0.6.4b, will
+	become 0.6.4 when ready to cut release.
+
+	* bindings/python/presage_prompter.in: fixed program name typo.
+
+2008-08-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* src/lib/presage.cpp, src/lib/core/predictor.h: incrementally
 	increase depth of prediction when prediction size does not match
 	desired value.
