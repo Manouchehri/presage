@@ -42,7 +42,7 @@
 #include "core/tokenizer/forwardTokenizer.h"
 #include "simulator/simulator.h"
 
-const char PROGRAM_NAME[] = "presageSimulator";
+const char PROGRAM_NAME[] = "presage_simulator";
 
 void parseCommandLineArgs(int argc, char* argv[]);
 void printUsage();
