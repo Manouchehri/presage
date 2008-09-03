@@ -84,6 +84,8 @@ public:
 
     std::vector<std::string> select(Prediction);
 
+    void update();
+
     int suggestions() const;
     bool repeat_suggestions() const;
     unsigned int greedy_suggestion_threshold() const;

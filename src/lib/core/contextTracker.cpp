@@ -83,24 +83,28 @@ ContextTracker::~ContextTracker()
 
 void ContextTracker::update(std::string s)
 {
-    // process each char in string s individually
-    for (unsigned int i=0; i<s.size(); i++) {
-	update(s[i]);
+    if (s.empty()) {
+        update_context_change();
+    } else {
+        // process each char in string s individually
+        for (unsigned int i=0; i<s.size(); i++) {
+            update(s[i]);
 
-	logger << DEBUG << "update: contextTracker-getPrefix():" << getPrefix() << endl;
-	logger << DEBUG << "update: contextTracker-getToken(1):" << getToken(1) << endl;
-	logger << DEBUG << "update: previous_prefix: " << previous_prefix << endl;
+            logger << DEBUG << "update(): contextTracker-getPrefix(): " << getPrefix() << endl;
+            logger << DEBUG << "update(): contextTracker-getToken(1): " << getToken(1) << endl;
+            logger << DEBUG << "update(): previous_prefix           : " << previous_prefix << endl;
 
-	if (update_context_change()) {
-	    // context change occured, time to learn
-	    PluginRegistry::Iterator it = pluginRegistry->iterator();
-	    Plugin* plugin = 0;
+            if (update_context_change()) {
+                // context change occured, time to learn
+                PluginRegistry::Iterator it = pluginRegistry->iterator();
+                Plugin* plugin = 0;
 
-	    while (it.hasNext()) {
-		plugin = it.next();
-		plugin->learn();
-	    }
-	}
+                while (it.hasNext()) {
+                    plugin = it.next();
+                    plugin->learn();
+                }
+            }
+        }
     }
 }
 
@@ -108,8 +112,10 @@ bool ContextTracker::update_context_change()
 {
     contextChanged = true;
 
+    logger << DEBUG << "update_context_change(): current previous_prefix: " << previous_prefix << endl;
+
     if (!getPrefix().empty()) {
-	logger << DEBUG << "Prefix not empty" << endl;
+	logger << DEBUG << "update_context_change(): Prefix not empty" << endl;
 	// if current prefix is not null
 	std::string::size_type loc = getPrefix().find(previous_prefix, 0);
 	if (loc == 0) {
@@ -117,7 +123,7 @@ bool ContextTracker::update_context_change()
 	    // at the beginning of the string, the context has not
 	    // changed
 	    //
-	    logger << DEBUG << "Found prefix in getPrefix()" << endl;
+	    logger << DEBUG << "update_context_change(): Found previous prefix in current prefix, no context change" << endl;
 	    contextChanged = false;
 	}
 
@@ -129,17 +135,19 @@ bool ContextTracker::update_context_change()
 //
 
     } else {
-	// if prefix is empty
-	logger << DEBUG << "Prefix empty" << endl;
-	if (previous_prefix != getToken(1)) {
-	    logger << DEBUG << "Reversing context change" << endl;
-	    contextChanged = false;
-	}
+	// if prefix is empty, handle especially since empty string is
+	// always found in any other string
+        //
+	logger << DEBUG << "update_context_change(): Prefix empty" << endl;
+        if (previous_prefix.empty()) {
+            logger << DEBUG << "update_context_change(): previous_prefix empty, no context change" << endl;
+            contextChanged = false;
+        }
     }
 
     previous_prefix = getPrefix();
 
-    logger << DEBUG << "update_context_change(): previous_prefix: " << previous_prefix << endl;
+    logger << DEBUG << "update_context_change(): updated previous_prefix: " << previous_prefix << endl;
     logger << DEBUG << "update_context_change(): context changed: " << contextChanged  << endl;
 
     return contextChanged;

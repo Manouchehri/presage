@@ -441,11 +441,12 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       suggestions = " ".join(prediction);
       prefix = self.prsg.prefix()
 
-      print "String:     " + string
-      print "Prefix:     " + prefix
-      print "Prefix len: " + str(len(prefix))
-      print "Context:    " + self.prsg.context()
-      print "Prediction: " + suggestions
+      print "String:         " + string
+      print "Prefix:         " + prefix
+      print "Prefix len:     " + str(len(prefix))
+      print "Context:        " + self.prsg.context()
+      print "Context change: " + str(self.prsg.context_change())
+      print "Prediction:     " + suggestions
 
       if self.AutoCompActive():
          self.AutoCompCancel()

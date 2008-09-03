@@ -99,7 +99,7 @@ int main(int argc, char** argv)
             presage.predict(buffer)  // request new prediction
 	    );
         std::cout << "-- Context: " << presage.context() << std::endl;
-        if (presage.contextChange()) {
+        if (presage.context_change()) {
             std::cout << "-- Context changed" << std::endl;
         }
     }

@@ -159,7 +159,7 @@ int main(int argc, char** argv)
 	}
 	draw_context_win(context_win, presage.context());
 	draw_previous_suggestions(words,
-				  presage.contextChange(),
+				  presage.context_change(),
                                   CONTEXT_WIN_BEGIN_Y + CONTEXT_WIN_HEIGHT + 1,
                                   FUNCTION_WIN_BEGIN_X + FUNCTION_WIN_WIDTH + 1 );
         c = getch();

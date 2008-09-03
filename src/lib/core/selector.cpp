@@ -112,6 +112,18 @@ std::vector<std::string> Selector::select( Prediction p )
 }
 
 
+/** Trigger update of the suggested tokens cache
+ *
+ */
+void Selector::update()
+{
+    // check whether user has not moved on to a new word
+    if (contextTracker->contextChange()) {
+	clearSuggestedWords();
+    }
+}
+
+
 /** Adds suggestions to the set of previously selected suggestions.
  *
  */

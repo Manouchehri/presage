@@ -1,3 +1,24 @@
+2008-09-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/profiles/presage.xml.template: disable dejavu plugin
+	by default.
+
+	* src/lib/presage.cpp, src/lib/core/selector.*: fixed problem
+	whereby presage updates were not trigger selector suggested tokens
+	cache cleaning operation.
+
+2008-09-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/contextTracker.cpp: fixed bug whereby context
+	change was not updated when update string is empty.
+
+	* src/tools/presageDemoText.cpp, src/tools/presageDemo.cpp,
+	src/lib/presage.cpp, src/lib/presage.h: changed context change
+	method name.
+
+	* bindings/python/prompter/prompter.py: added context change
+	debugging printouts.
+
 2008-08-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter/prompter.py: added prompter toolbar.

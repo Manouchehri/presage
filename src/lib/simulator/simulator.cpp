@@ -52,18 +52,18 @@ void Simulator::simulate( std::string str )
     // Presage predicts a word even when the prefix
     // is a null string. This initial call to the predict
     // method simulates this condition.
-    bool hit = find( presagePtr->predict( "" ), str );
+    bool hit = find (presagePtr->predict (""), str);
 
     // If the correct predicted word is returned, then
     // we've got a hit! If this happens when the prefix is
     // a null string, kudos to the developer (me)! 
-    // Presage predicted the word is one try!
+    // Presage predicted the word in one try!
     // We need to update the Presage object with the whole
     // string and take the trailing space into account.
-    if( hit ) {
+    if (hit) {
 	kn += str.size() + 1; 
 	ks++;
-	presagePtr->update( str + " " );
+	presagePtr->update (str + " ");
 	if( !autoSpace ) {
 	    ki++;
 	}
@@ -207,7 +207,8 @@ void Simulator::setKs( int value )
 bool Simulator::find( const std::vector<std::string>& w, const std::string& t ) const
 {
     if (!silent_mode) {
-	std::cout << "===> " << t << std::endl;
+	std::cout << "===> " << t << std::endl
+                  << "   > " << presagePtr->prefix() << std::endl;
     }
     bool found = false;
     std::vector<std::string>::const_iterator i = w.begin();

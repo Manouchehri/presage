@@ -5,7 +5,7 @@
         <!-- PLUGINS
           Space separated list of predictive plugins to use to generate predictions
         -->
-        <PLUGINS>DejavuPlugin AbbreviationExpansionPlugin SmoothedNgramPlugin RecencyPlugin</PLUGINS>
+        <PLUGINS>AbbreviationExpansionPlugin SmoothedNgramPlugin RecencyPlugin</PLUGINS>
     </PluginRegistry>
     <ContextTracker>
 	<LOGGER>ERROR</LOGGER>
@@ -53,10 +53,6 @@
 	  by the active predictive plugins into one prediction.
         -->
         <COMBINATION_POLICY>Meritocracy</COMBINATION_POLICY>
-        <!-- PLUGINS
-          Space separated list of predictive plugins to use to generate predictions
-        -->
-        <PLUGINS>DejavuPlugin AbbreviationExpansionPlugin SmoothedNgramPlugin RecencyPlugin</PLUGINS>
     </Predictor>
     <ProfileManager>
         <LOGGER>ERROR</LOGGER>

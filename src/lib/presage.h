@@ -105,7 +105,7 @@ class Presage {
      * \return true if a context change occured after the last update
      * or predict calls, or false otherwise.
      */
-    bool contextChange() const;
+    bool context_change() const;
 
     /** \brief Returns the current prefix.
      *

@@ -99,6 +99,7 @@ std::vector<std::string> Presage::predict(std::string s)
 void Presage::update(std::string s)
 {
     contextTracker->update (s);
+    selector->update ();
 }
 
 void Presage::complete(const std::string completion)
@@ -146,7 +147,7 @@ std::string Presage::context() const
     return contextTracker->getPastStream();
 }
 
-bool Presage::contextChange() const
+bool Presage::context_change() const
 {
     return contextTracker->contextChange();
 }
