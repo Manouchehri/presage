@@ -21,6 +21,8 @@
 
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS =	gtk
+
 noinst_LTLIBRARIES =	libtools.la
 libtools_la_SOURCES =	progress.cpp progress.h \
 			ngram.cpp ngram.h                 

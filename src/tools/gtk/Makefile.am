@@ -1,5 +1,5 @@
 
-##########
+###########
 #  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
@@ -21,6 +21,20 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	lib tools #plump
+if BUILD_GTK_PRESAGE_MATE
 
+bin_PROGRAMS =		gpresagemate
 
+gpresagemate_SOURCES = 	gpresagemate.cpp
+gpresagemate_CPPFLAGS =	$(GNOME_CFLAGS) -I$(top_srcdir)/src/lib
+gpresagemate_LDADD = 	$(GNOME_LIBS) -lXevie ../../lib/libpresage.la
+
+# if HAVE_HELP2MAN
+# gpresagemate.1:	gpresagemate.cpp $(top_srcdir)/configure.ac
+# 	$(MAKE) $(AM_MAKEFLAGS) gpresagemate$(EXEEXT)
+# 	help2man --output=$@ --name="GTK presage mate" ./gpresagemate$(EXEEXT)
+# 
+# dist_man_MANS =	gpresagemate.1
+# endif
+
+endif

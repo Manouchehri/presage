@@ -1,3 +1,23 @@
+2008-09-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/gtk/gpresagemate.cpp: added presage gtk application
+	contributed by John Hills.
+	
+	* src/tools/gtk, src/tools/gtk/Makefile.am, src/tools/Makefile.am,
+	src/Makefile.am, configure.ac: integrated gpresagemate application
+	into build system.
+
+2008-09-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: reduced size of toolbar
+	icons.
+	
+2008-09-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: removed fix_wrapper sed script to
+	workaround bug in swig, which is now fixed in latest stable
+	release.
+
 2008-09-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources/profiles/presage.xml.template: disable dejavu plugin

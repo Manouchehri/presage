@@ -31,8 +31,7 @@ SWIG_INTERFACE =	../presage.i
 BUILT_SOURCES =		presage_wrap.cpp presage.py
 CLEANFILES =		presage_wrap.cpp presage.py
 
-EXTRA_DIST =	fix_wrapper.sed \
-		presage_python_demo \
+EXTRA_DIST =	presage_python_demo \
 		presage_prompter \
 		prompter/__init__.py \
 		prompter/prompter.py
@@ -83,12 +82,6 @@ clean-local:
 
 presage_wrap.cpp presage.py:	$(SWIG_INTERFACE) $(PRESAGE_INTERFACE)
 	$(SWIG) -c++ -python -I$(top_srcdir)/src/lib -o presage_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)
-	@case "`uname`" in \
-	  CYGWIN*) \
-		echo "WARNING: working around bug in SWIG on Windows/Cygwin platforms ONLY"; \
-		sed -i.bak -f $(srcdir)/fix_wrapper.sed presage_wrap.cpp; \
-	  ;; \
-	esac;
 
 if HAVE_HELP2MAN
 presage_python_demo.1:	presage_python_demo.in $(top_srcdir)/configure.ac

@@ -181,7 +181,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
                                         | wx.NO_BORDER
                                         | wx.TB_FLAT)
 
-      tsize = (24,24)
+      tsize = (16,16)
       new_bmp =  wx.ArtProvider.GetBitmap(wx.ART_NEW, wx.ART_TOOLBAR, tsize)
       open_bmp = wx.ArtProvider.GetBitmap(wx.ART_FILE_OPEN, wx.ART_TOOLBAR, tsize)
       save_bmp = wx.ArtProvider.GetBitmap(wx.ART_FILE_SAVE, wx.ART_TOOLBAR, tsize)
