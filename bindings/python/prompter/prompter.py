@@ -423,7 +423,6 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.AutoCompSetSeparator(44)
       #self.AutoCompSetIgnoreCase(1)
       self.AutoCompSetMaxHeight(int(self.prsg.config("Presage.Selector.SUGGESTIONS")))
-      print "setting to " + self.prsg.config("Presage.Selector.SUGGESTIONS")
 
       # delaying the __ShowPrediction until after the parent frame and
       # the STC are shown.
