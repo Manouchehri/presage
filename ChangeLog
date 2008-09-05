@@ -18,7 +18,7 @@
 	workaround bug in swig, which is now fixed in latest stable
 	release.
 
-2008-09-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+2008-09-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources/profiles/presage.xml.template: disable dejavu plugin
 	by default.

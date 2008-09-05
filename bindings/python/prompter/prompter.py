@@ -141,7 +141,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       self.ID_PROMPT_ME = wx.NewId()
       BindMenu(self.presageMenu.Append(self.ID_PROMPT_ME, "&Prompt me\tCTRL+P"), self.OnPresageMenuPromptMe)
       
-      self.ID_TOGGLE_LEARN_MODE = 402
+      self.ID_TOGGLE_LEARN_MODE = wx.NewId()
       self.learn_presage_menu_item = self.presageMenu.Append(self.ID_TOGGLE_LEARN_MODE,
                                                              "&Learn mode\tCTRL+L",
                                                              "Toggle learn mode",
