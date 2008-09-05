@@ -63,7 +63,7 @@
             <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
             <!-- \delta_0, \delta_1, ..., \delta_{n-1} -->
             <DELTAS>0.01 0.1 0.89</DELTAS>
-            <LEARN>true</LEARN>
+            <LEARN>false</LEARN>
             <DatabaseConnector>
                 <LOGGER>ERROR</LOGGER>
             </DatabaseConnector>

@@ -11,6 +11,10 @@
 	src/Makefile.am, configure.ac: integrated gpresagemate application
 	into build system.
 
+	* resources/profiles/presage.xml.template: switched off learning
+	by default to prevent write access exception when default n-gram
+	database is not writable.
+
 2008-09-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter/prompter.py: reduced size of toolbar
