@@ -85,11 +85,11 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       dialog.ShowModal()
       dialog.Destroy()
 
+      self.editor = PrompterEditor(self)
+
       self.MakeMenuBar()
       self.MakeToolBar()
       
-      self.editor = PrompterEditor(self)
-
       self.sizer = wx.BoxSizer(wx.HORIZONTAL)
       self.sizer.Add(self.editor, 1, wx.EXPAND)
       self.SetSizer(self.sizer)
@@ -140,19 +140,35 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       self.presageMenu = wx.Menu()
       self.ID_PROMPT_ME = wx.NewId()
       BindMenu(self.presageMenu.Append(self.ID_PROMPT_ME, "&Prompt me\tCTRL+P"), self.OnPresageMenuPromptMe)
-      
+
+      # TODO: this currently toggles smoothed ngram plugin learning on
+      # or off, it should really switch off context tracker learning
+      # when that is implemented.
+      self.learn_mode_config_var = "Presage.Plugins.SmoothedNgramPlugin.LEARN"
+      learn_mode = self.editor.prsg.config(self.learn_mode_config_var)
+      if learn_mode.lower() == 'true':
+         learn_mode = True
+      elif learn_mode.lower() == 'false':
+         learn_mode = False
       self.ID_TOGGLE_LEARN_MODE = wx.NewId()
       self.learn_presage_menu_item = self.presageMenu.Append(self.ID_TOGGLE_LEARN_MODE,
                                                              "&Learn mode\tCTRL+L",
                                                              "Toggle learn mode",
                                                              wx.ITEM_CHECK)
-      self.presageMenu.Check(self.ID_TOGGLE_LEARN_MODE, True)
+      self.presageMenu.Check(self.ID_TOGGLE_LEARN_MODE, learn_mode)
       BindMenu(self.learn_presage_menu_item, self.OnPresageMenuToggleLearnMode)
 
-      
+      self.ID_TOGGLE_FUNCTION_MODE = wx.NewId()
+      self.function_mode_presage_menu_item = self.presageMenu.Append(self.ID_TOGGLE_FUNCTION_MODE,
+                                                                     "&Function mode\tCTRL+F",
+                                                                     "Toggle function mode",
+                                                                     wx.ITEM_CHECK)
+      self.presageMenu.Check(self.ID_TOGGLE_FUNCTION_MODE, True)
+      BindMenu(self.function_mode_presage_menu_item, self.OnPresageMenuToggleFunctionMode)
+
       # help menu
       self.helpMenu = wx.Menu()
-      BindMenu(self.helpMenu.Append(wx.ID_HELP, "&Contents\tF1"), self.OnHelpMenuContents)
+      BindMenu(self.helpMenu.Append(wx.ID_HELP, "&Contents"), self.OnHelpMenuContents)
       self.helpMenu.AppendSeparator()
       BindMenu(self.helpMenu.Append(wx.ID_ABOUT, "&About"), self.OnHelpMenuAbout)
 
@@ -348,17 +364,11 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       self.editor.ShowPrediction()
 
    def OnPresageMenuToggleLearnMode(self, event):
-      # TODO: this currently toggles smoothed ngram plugin learning on
-      # or off, it should really switch off context tracker learning
-      # when that is implemented.
-      config_var = "Presage.Plugins.SmoothedNgramPlugin.LEARN"
-      mode = self.editor.prsg.config(config_var)
-      if mode == 'true':
-         mode = 'false'
-      elif mode == 'false':
-         mode = 'true'
-      self.editor.prsg.config(config_var, mode)
-      print "Learn mode switched to " + mode
+      self.editor.prsg.config(self.learn_mode_config_var, str(event.Checked()))
+      print "Learn mode switched to " + str(event.Checked())
+
+   def OnPresageMenuToggleFunctionMode(self, event):
+      self.editor.function_keys_enabled = event.Checked()
 
    def OnHelpMenuContents(self, event):
       print "This will eventually open the online help"
@@ -399,6 +409,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.autopunctuation = True
       self.autopunctuation_whitespace = ' '
       self.autopunctuation_chars = ".,;:'?!$%&"
+      self.function_keys_enabled = True
 
       self.Bind(wx.EVT_CHAR, self.OnChar)
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
@@ -407,7 +418,9 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.prsg = presage.Presage()
       
       self.SetWrapMode(wx.stc.STC_WRAP_WORD)
-      #self.AutoCompSetAutoHide(False)
+      self.AutoCompSetAutoHide(False)
+      self.separator = ','
+      self.AutoCompSetSeparator(44)
       #self.AutoCompSetIgnoreCase(1)
 
       # delaying the __ShowPrediction until after the parent frame and
@@ -417,28 +430,36 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
    def OnChar(self, event):
       print "------------ OnChar() handler"
-      key = unichr(event.GetKeyCode())
 
-      self.parent.fileMenu.Enable(wx.ID_SAVE, True)
-      self.parent.fileMenu.Enable(wx.ID_SAVEAS, True)
-
-      if self.__AutoPunctuation(key):
-         # autopunctuation takes care of adding text and updating
-         # prsg, nothing to do here.
-         pass
+      keycode = event.GetKeyCode()
+      
+      if self.__FunctionKey(keycode):
+         self.__HandleFunctionKey(keycode)
       else:
-         self.AddText(key)
-         self.prsg.update(key.encode('utf-8'))
+         key = unichr(keycode)
 
-      self.__ShowPrediction()
+         self.parent.fileMenu.Enable(wx.ID_SAVE, True)
+         self.parent.fileMenu.Enable(wx.ID_SAVEAS, True)
+
+         if self.__AutoPunctuation(key):
+            # autopunctuation takes care of adding text and updating
+            # prsg, nothing to do here.
+            pass
+         else:
+            self.AddText(key)
+            self.prsg.update(key.encode('utf-8'))
+
+         self.__ShowPrediction()
 
    def ShowPrediction(self, string = ''):
       self.__ShowPrediction(string)
 
    def __ShowPrediction(self, string = ''):
       print "------------ __ShowPrediction()"
-      prediction = self.prsg.predict(string)
-      suggestions = " ".join(prediction);
+      self.prediction = self.prsg.predict(string)
+      if self.function_keys_enabled:
+         self.prediction = self.__PrependFunctionLabel(self.prediction)
+      self.suggestions = self.separator.join(self.prediction);
       prefix = self.prsg.prefix()
 
       print "String:         " + string
@@ -446,7 +467,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       print "Prefix len:     " + str(len(prefix))
       print "Context:        " + self.prsg.context()
       print "Context change: " + str(self.prsg.context_change())
-      print "Prediction:     " + suggestions
+      print "Prediction:     " + self.suggestions
 
       if self.AutoCompActive():
          self.AutoCompCancel()
@@ -459,7 +480,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       # UserListShow() throws an EVT_STC_USERLISTSELECTION event that we
       # can handle to notify presage that the token was automatically
       # completed.
-      self.UserListShow(1, suggestions)
+      self.UserListShow(1, self.suggestions)
 
    def __AutoPunctuation(self, char):
       if self.autopunctuation:
@@ -485,8 +506,42 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
       return False
 
+   def __FunctionKey(self, keycode):
+      self.function_keys = [wx.WXK_F1, wx.WXK_F2, wx.WXK_F3, wx.WXK_F4,  wx.WXK_F5,  wx.WXK_F6,
+                            wx.WXK_F7, wx.WXK_F8, wx.WXK_F9, wx.WXK_F10, wx.WXK_F11, wx.WXK_F12]
+      if keycode in self.function_keys:
+         return True
+      else:
+         return False
+
+   def __HandleFunctionKey(self, key):
+      print "Got function key " + str(key)
+
+      try:
+         idx = self.function_keys.index(key)
+         print self.prediction[idx]
+         if self.AutoCompActive():
+            self.AutoCompCancel()
+
+         self.UserListShow(1, self.suggestions)
+         self.AutoCompSelect(self.prediction[idx])
+         self.AutoCompComplete()
+      except IndexError:
+         print 'Key not in prediction completion list'
+   
+   def __PrependFunctionLabel(self, prediction):
+      return ['F' + str(i + 1) + ' ' + prediction[i] for i in range(len(prediction))]
+
+   def __RemoveFunctionLabel(self, completion):
+      idx = completion.find(' ')
+      if not idx == -1:
+         completion = completion[idx+1:]
+      return completion
+
    def OnUserListSelection(self, event):
       completion = unicode(event.GetText())
+      if self.function_keys_enabled:
+         completion = self.__RemoveFunctionLabel(completion)
       prefix_length = len(unicode(self.prsg.prefix()))
       
       print "----------- OnUserListSelection() handler"

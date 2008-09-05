@@ -1,5 +1,9 @@
 2008-09-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* bindings/python/prompter/prompter.py: added function labels and
+	ability to select tokens with function keys, cleaned up presage
+	menu toggling implementation.
+
 	* src/tools/gtk/gpresagemate.cpp: added presage gtk application
 	contributed by John Hills.
 	
