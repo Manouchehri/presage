@@ -449,6 +449,10 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       #self.AutoCompSetIgnoreCase(1)
       self.AutoCompSetMaxHeight(int(self.prsg.config("Presage.Selector.SUGGESTIONS")))
 
+      # hide margings
+      for i in range(5):
+         self.SetMarginWidth(i, 0)
+
       # delaying the __ShowPrediction until after the parent frame and
       # the STC are shown.
       wx.CallAfter(self.__ShowPrediction)
