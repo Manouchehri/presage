@@ -81,7 +81,7 @@ The Presage project aims to provide an intelligent predictive text entry platfor
 
 Think of Presage as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.
 """
-      dialog = wx.MessageDialog(self, message, "About Prompter demo", wx.OK)
+      dialog = wx.MessageDialog(self, message, "About Prompter", wx.OK)
       dialog.ShowModal()
       dialog.Destroy()
 
@@ -116,7 +116,7 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       BindMenu(self.editMenu.Append(wx.ID_UNDO, "&Undo\tCTRL+Z"), self.OnEditMenuUndo)
       BindMenu(self.editMenu.Append(wx.ID_REDO, "&Redo\tSHIFT+CTRL+Z"), self.OnEditMenuRedo)
       self.editMenu.AppendSeparator()
-      BindMenu(self.editMenu.Append(wx.ID_CUT, "&Cut\tCTRL+X"), self.OnEditMenuCut)
+      BindMenu(self.editMenu.Append(wx.ID_CUT, "Cu&t\tCTRL+X"), self.OnEditMenuCut)
       BindMenu(self.editMenu.Append(wx.ID_COPY, "&Copy\tCTRL+C"), self.OnEditMenuCopy)
       BindMenu(self.editMenu.Append(wx.ID_PASTE, "&Paste\tCTRL+V"), self.OnEditMenuPaste)
       self.editMenu.AppendSeparator()
@@ -124,17 +124,24 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
 
       
       # view menu
-      self.ID_TOGGLE_TEXT_WRAP = wx.NewId()
       self.viewMenu = wx.Menu()
+      self.ID_TOGGLE_WORD_WRAP = wx.NewId()
       # need to save wxMenuItem object returned by Append() to test if checked or not
-      self.text_wrap = self.viewMenu.Append(self.ID_TOGGLE_TEXT_WRAP,
-                                            "&Text wrap mode\tCTRL+T",
-                                            "Toggle text wrap mode",
+      self.word_wrap = self.viewMenu.Append(self.ID_TOGGLE_WORD_WRAP,
+                                            "&Word wrap",
+                                            "Toggle word wrap mode",
                                             wx.ITEM_CHECK)
-      BindMenu(self.text_wrap, self.OnViewMenuToggleTextWrap)
+      BindMenu(self.word_wrap, self.OnViewMenuWordWrap)
       # turn text_wrap checked menu item on at start-up
-      self.viewMenu.Check(self.ID_TOGGLE_TEXT_WRAP, True)
-
+      self.viewMenu.Check(self.ID_TOGGLE_WORD_WRAP, True)
+      self.viewMenu.AppendSeparator()
+      self.ID_SHOW_TOOLBAR = wx.NewId()
+      self.show_toolbar_view_menu_item = self.viewMenu.Append(self.ID_SHOW_TOOLBAR,
+                                                              "Show &Toolbar",
+                                                              "Show Toolbar",
+                                                              wx.ITEM_CHECK)
+      BindMenu(self.show_toolbar_view_menu_item, self.OnViewMenuShowToolbar)
+      self.viewMenu.Check(self.ID_SHOW_TOOLBAR, True)
 
       # presage menu
       self.presageMenu = wx.Menu()
@@ -158,13 +165,21 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       self.presageMenu.Check(self.ID_TOGGLE_LEARN_MODE, learn_mode)
       BindMenu(self.learn_presage_menu_item, self.OnPresageMenuToggleLearnMode)
 
-      self.ID_TOGGLE_FUNCTION_MODE = wx.NewId()
-      self.function_mode_presage_menu_item = self.presageMenu.Append(self.ID_TOGGLE_FUNCTION_MODE,
-                                                                     "&Function mode\tCTRL+F",
-                                                                     "Toggle function mode",
+      self.ID_TOGGLE_FUNCTION_KEYS_MODE = wx.NewId()
+      self.function_mode_presage_menu_item = self.presageMenu.Append(self.ID_TOGGLE_FUNCTION_KEYS_MODE,
+                                                                     "&Function keys\tCTRL+F",
+                                                                     "Toggle function keys mode",
                                                                      wx.ITEM_CHECK)
-      self.presageMenu.Check(self.ID_TOGGLE_FUNCTION_MODE, True)
+      self.presageMenu.Check(self.ID_TOGGLE_FUNCTION_KEYS_MODE, True)
       BindMenu(self.function_mode_presage_menu_item, self.OnPresageMenuToggleFunctionMode)
+
+      self.ID_TOGGLE_AUTOPUNCTUATION_MODE = wx.NewId()
+      self.autopunctuation_mode_presage_menu_item = self.presageMenu.Append(self.ID_TOGGLE_AUTOPUNCTUATION_MODE,
+                                                                            "&Autopunctuation\tCTRL+A",
+                                                                            "Toggle autopunctuation mode",
+                                                                            wx.ITEM_CHECK)
+      self.presageMenu.Check(self.ID_TOGGLE_AUTOPUNCTUATION_MODE, True)
+      BindMenu(self.autopunctuation_mode_presage_menu_item, self.OnPresageMenuToggleAutopunctuationMode)
 
       # help menu
       self.helpMenu = wx.Menu()
@@ -357,8 +372,15 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
    def OnEditMenuSelectAll(self, event):
       self.editor.SelectAll()
 
-   def OnViewMenuToggleTextWrap(self, event):
-      self.editor.ToggleTextWrapMode()
+   def OnViewMenuWordWrap(self, event):
+      self.editor.ToggleWordWrapMode()
+
+   def OnViewMenuShowToolbar(self, event):
+      if event.Checked():
+         self.toolbar.Show()
+      else:
+         self.toolbar.Hide()
+      self.SendSizeEvent() # cause Frame to reevaluate childrens' positions
 
    def OnPresageMenuPromptMe(self, event):
       self.editor.ShowPrediction()
@@ -369,6 +391,9 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
 
    def OnPresageMenuToggleFunctionMode(self, event):
       self.editor.function_keys_enabled = event.Checked()
+
+   def OnPresageMenuToggleAutopunctuationMode(self, event):
+      self.editor.autopunctuation = event.Checked()
 
    def OnHelpMenuContents(self, event):
       print "This will eventually open the online help"
@@ -577,8 +602,8 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       else:
          self.parent.editMenu.Enable(wx.ID_REDO, False)
 
-   def ToggleTextWrapMode(self):
-      if self.parent.text_wrap.IsChecked():
+   def ToggleWordWrapMode(self):
+      if self.parent.word_wrap.IsChecked():
          self.SetWrapMode(wx.stc.STC_WRAP_WORD)
       else:
          self.SetWrapMode(wx.stc.STC_WRAP_NONE)

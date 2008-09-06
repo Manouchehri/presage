@@ -1,3 +1,9 @@
+2008-09-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added ability to show/hide
+	toolbar, toggle autopunctuation functionality, cleaned up minor
+	quirks here and there.
+
 2008-09-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter/prompter.py: added function labels and

@@ -11,7 +11,6 @@ Prompter:
   paste and cut do not update context tracker, neither does opening a
    file.
 
-  hide/show toolbar
   toolbar icon size
 
   autocomp max height
