@@ -49,6 +49,7 @@ You want to make sure that the following packages are selected:
     libncurses-devel (optional)
     libtool
     make
+    pkg-config
     sqlite3
     subversion
     swig (optional)
