@@ -388,8 +388,11 @@ class PrompterFrame(wx.Frame):
       self.editor.autopunctuation = event.Checked()
 
    def OnHelpMenuContents(self, event):
-      print "This will eventually open the online help"
-   
+      message = "Sorry, help not written yet."
+      dialog = wx.MessageDialog(self, message, "Prompter Help", wx.OK)
+      dialog.ShowModal()
+      dialog.Destroy()
+
    def OnHelpMenuAbout(self, event):
       self.__ShowAboutDialogBox()
 
