@@ -1,5 +1,12 @@
 2008-09-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* bindings/python/presage_prompter.in: added version info.
+
+	* bindings/python/prompter/prompter.py: redirected debugging
+	output, added about dialog box.
+
+2008-09-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* bindings/python/prompter/prompter.py: added ability to show/hide
 	toolbar, toggle autopunctuation functionality, cleaned up minor
 	quirks here and there, hid margins away.

@@ -55,8 +55,12 @@ accordingly).
 # Prompter
 #
 class Prompter(wx.App):
+   def __init__(self, version, redirect=False):
+      self.version = version # do this first, wx.App.__init__() calls OnInit()
+      wx.App.__init__(self, redirect)
+
    def OnInit(self):
-      self.frame = PrompterFrame(parent=None, id=-1, title='Prompter')
+      self.frame = PrompterFrame(parent=None, id=-1, title='Prompter', version=self.version)
       self.SetTopWindow(self.frame)
       return True
 
@@ -67,23 +71,11 @@ class PrompterFrame(wx.Frame):
    wildcard = "Text files (*.txt)|*.txt|"     \
        "All files (*.*)|*.*"
 
-   def __init__(self, parent, id, title):
+   def __init__(self, parent, id, title, version):
       wx.Frame.__init__(self, parent, id, title)
+      self.version = version
 
-      message = """
-Prompter, the intelligent mind reader
-
-Copyright (C) Matteo Vescovi
-
-This program is intended as a demonstration of Presage ONLY.
-
-The Presage project aims to provide an intelligent predictive text entry platform. Its intent is NOT to provide a predictive text entry user interface.
-
-Think of Presage as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.
-"""
-      dialog = wx.MessageDialog(self, message, "About Prompter", wx.OK)
-      dialog.ShowModal()
-      dialog.Destroy()
+      self.__ShowAboutDialogBox()
 
       self.editor = PrompterEditor(self)
 
@@ -399,16 +391,43 @@ Think of Presage as the predictive backend that sits behind a shiny user interfa
       print "This will eventually open the online help"
    
    def OnHelpMenuAbout(self, event):
-      message = """Prompter, the intelligent mind reader
+      self.__ShowAboutDialogBox()
 
-Copyright (C) Matteo Vescovi
+   def __ShowAboutDialogBox(self):
+      # build about dialog information
+      info = wx.AboutDialogInfo()
+      info.SetName("Prompter")
+      info.SetVersion(self.version)
+      info.SetCopyright("(C) 2008 Matteo Vescovi")
+      info.SetDescription("""This program is intended as a demonstration of Presage ONLY.
 
-This is free software; see the source for copying conditions. \
-There is NO warranty; not even for MERCHANTABILITY or FITNESS \
-FOR A PARTICULAR PURPOSE, to the extent permitted by law."""
-      dialog = wx.MessageDialog(self, message, "About Prompter", wx.OK)
-      dialog.ShowModal()
-      dialog.Destroy()
+The Presage project aims to provide an intelligent predictive text entry platform. Its intent is NOT to provide a predictive text entry user interface.
+
+Think of Presage as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.
+""")
+      info.SetWebSite("http://soothsayer.sourceforge.net/")
+      info.SetArtists(["Matteo Vescovi"])
+      info.SetDevelopers(["Matteo Vescovi"])
+      info.SetDocWriters(["Matteo Vescovi"])
+      #info.SetTranslators([])
+      info.SetLicense("""This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+""")
+      #info.SetIcon()
+
+      # show about dialog box
+      wx.AboutBox(info)
 
    def __SaveFile(self, path):
       try:

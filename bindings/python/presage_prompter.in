@@ -90,5 +90,5 @@ non-standard location, please set PYTHONPATH accordingly).
 '''
       print e
    else:
-      app = prompter.prompter.Prompter()
+      app = prompter.prompter.Prompter("@PACKAGE_VERSION@")
       app.MainLoop()
