@@ -397,23 +397,17 @@ class PrompterFrame(wx.Frame):
       self.__ShowAboutDialogBox()
 
    def __ShowAboutDialogBox(self):
-      # build about dialog information
-      info = wx.AboutDialogInfo()
-      info.SetName("Prompter")
-      info.SetVersion(self.version)
-      info.SetCopyright("(C) 2008 Matteo Vescovi")
-      info.SetDescription("""This program is intended as a demonstration of Presage ONLY.
-
+      name = 'Prompter'
+      version = self.version
+      copyright = '(C) 2008 Matteo Vescovi'
+      description = '''This program is intended as a demonstration of Presage ONLY.
 The Presage project aims to provide an intelligent predictive text entry platform. Its intent is NOT to provide a predictive text entry user interface.
 
 Think of Presage as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.
-""")
-      info.SetWebSite("http://soothsayer.sourceforge.net/")
-      info.SetArtists(["Matteo Vescovi"])
-      info.SetDevelopers(["Matteo Vescovi"])
-      info.SetDocWriters(["Matteo Vescovi"])
-      #info.SetTranslators([])
-      info.SetLicense("""This program is free software; you can redistribute it and/or modify
+'''
+      website = 'http://soothsayer.sourceforge.net/'
+      devs = ["Matteo Vescovi"]
+      license = '''This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
 (at your option) any later version.
@@ -426,11 +420,37 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-""")
-      #info.SetIcon()
+'''
+      # AboutBox and AboutDialogInfo were introduced in wxPython 2.7.1.1
+      if wx.VERSION > (2, 7, 1, 1):
+         # build about dialog information
+         info = wx.AboutDialogInfo()
+         info.SetName(name)
+         info.SetVersion(version)
+         info.SetCopyright(copyright)
+         info.SetDescription(description)
+         info.SetWebSite(website)
+         info.SetDevelopers(devs)
+         info.SetDocWriters(devs)
+         info.SetArtists(devs)
+         #info.SetTranslators(devs)
+         info.SetLicense(license)
+         #info.SetIcon()
+         
+         # show about dialog box
+         wx.AboutBox(info)
 
-      # show about dialog box
-      wx.AboutBox(info)
+      else:
+         message = name + ' ' + version + '\n' \
+                   + '\n' \
+                   + copyright + '\n' \
+                   + '\n' \
+                   + description + '\n' \
+                   + website
+         
+         dialog = wx.MessageDialog(self, message, "About Prompter", wx.OK)
+         dialog.ShowModal()
+         dialog.Destroy()
 
    def __SaveFile(self, path):
       try:
