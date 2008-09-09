@@ -60,6 +60,7 @@ libDummyPlugin_la_SOURCES =		dummyPlugin.cpp         \
 
 libRecencyPlugin_la_SOURCES =		recencyPlugin.cpp	\
 					recencyPlugin.h
+libRecencyPlugin_la_LDFLAGS =		-lm
 
 libDejavuPlugin_la_SOURCES =		dejavuPlugin.cpp        \
 					dejavuPlugin.h

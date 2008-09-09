@@ -31,7 +31,14 @@
 # include <pwd.h>
 #endif
 
-#include <stdlib.h>
+#if HAVE_UNISTD_H
+# include <sys/types.h>
+# include <unistd.h>
+#endif
+
+#if HAVE_STDLIB_H
+# include <stdlib.h>
+#endif
 
 /** Constructor.
  *

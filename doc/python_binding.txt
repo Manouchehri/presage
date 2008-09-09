@@ -36,11 +36,9 @@ To use the Python binding for presage
    is the presage Python extension module.
 
 
-4) You should now be able to use Presage from Python. Read through
-   the runme.py from the bindings/python directory script for an
-   example and try running it with:
-
-   python runme.py /path/to/presage.xml
+4) You should now be able to use Presage from Python. Read through the
+   presage_python_demo script in the bindings/python directory for an
+   example and try running it.
 
 
 

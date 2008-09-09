@@ -48,6 +48,7 @@
 #include <X11/X.h>
 #include <X11/extensions/Xevie.h>
 #include <X11/Xutil.h>
+#include <X11/keysymdef.h>
 
 #include "presage.h"
 

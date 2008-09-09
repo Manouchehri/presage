@@ -161,7 +161,7 @@ AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON" -a "x$have_python_header" = "xtrue")
 AC_ARG_ENABLE([python-binding],
               AS_HELP_STRING([--disable-python-binding],
                              [build python binding (default=yes)]),
-              [ac_enable_python_binding=no],
+              [ac_enable_python_binding=$enableval],
               [ac_enable_python_binding=yes])
 if test "x$ac_enable_python_binding" = "xyes"
 then
@@ -212,23 +212,33 @@ AM_CONDITIONAL([HAVE_HELP2MAN], [test "x$HAVE_HELP2MAN" = "xyes"])
 dnl =======================
 dnl Checks GTK presage mate
 dnl =======================
-build_gtk_presage_mate=yes
-AC_CHECK_HEADERS([X11/Xlib.h X11/Xproto.h X11/X.h X11/Xutil.h pthread.h],
-                 [],
-                 [build_gtk_presage_mate=no],
-                 [])
-AC_CHECK_HEADERS([X11/extensions/Xevie.h],
-                 [],
-                 [build_gtk_presage_mate=no],
-                 [[#if HAVE_X11_XLIB_H
-                   # include <X11/Xlib.h>
-                   #endif]])
-PKG_CHECK_MODULES([GNOME],
-                  [gtk+-2.0],
-                  [],
-                  [build_gtk_presage_mate=no])
-AC_SUBST([GNOME_CFLAGS])
-AC_SUBST([GNOME_LIBS])
+AC_ARG_ENABLE([gpresagemate],
+        AS_HELP_STRING([--disable-gpresagemate],[build gpresagemate (default: enabled)]),
+        [enable_gpresagemate=$enableval],
+        [enable_gpresagemate=yes])
+
+if test "x$enable_gpresagemate" = "xyes"
+then
+	build_gtk_presage_mate=yes
+	AC_CHECK_HEADERS([X11/Xlib.h X11/Xproto.h X11/X.h X11/Xutil.h X11/keysymdef.h pthread.h],
+	                 [],
+	                 [build_gtk_presage_mate=no],
+	                 [])
+	AC_CHECK_HEADERS([X11/extensions/Xevie.h],
+                         [],
+                         [build_gtk_presage_mate=no],
+	                 [[#if HAVE_X11_XLIB_H
+	                   # include <X11/Xlib.h>
+	                   #endif]])
+	PKG_CHECK_MODULES([GNOME],
+	                  [gtk+-2.0],
+	                  [],
+	                  [build_gtk_presage_mate=no])
+	AC_SUBST([GNOME_CFLAGS])
+	AC_SUBST([GNOME_LIBS])
+else
+	build_gtk_presage_mate=no
+fi
 AM_CONDITIONAL(BUILD_GTK_PRESAGE_MATE, test "x$build_gtk_presage_mate" = "xyes")
 
 
