@@ -23,22 +23,7 @@
 
 
 #include "core/predictor.h"
-
-// REVISIT: including SmoothedUniBiTrigramPlugin here because
-// PluginManager and Plump are temporarily disabled. Plugin lifetime
-// management is currently disabled. Only one plugin is used:
-// SmoothedUniBiTrigramPlugin.
-//
-// IMPORTANT: remove following include when moving back to dynamically
-// loaded plugins
-//
-#include "plugins/smoothedNgramPlugin.h"
-#include "plugins/abbreviationExpansionPlugin.h"
-#include "plugins/dummyPlugin.h"
-#include "plugins/dictionaryPlugin.h"
-#include "plugins/smoothedCountPlugin.h"
-#include "plugins/recencyPlugin.h"
-#include "plugins/dejavuPlugin.h"
+#include "core/utility.h"
 
 Predictor::Predictor(Configuration* configuration,
 		     PluginRegistry* registry,

@@ -1,5 +1,16 @@
+2008-09-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/contextTrackerTest.cpp: added test for backspace
+	handling.
+
+	* src/lib/core/predictor.cpp: removed unnecessary includes.
+
+	* src/lib/core/pluginRegistry.h: added documentation comments.
+
 2008-09-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* presage-0.7: released.
+	
 	* src/lib/core/profileManager.cpp: fixed header inclusion bug on
 	Solaris.
 

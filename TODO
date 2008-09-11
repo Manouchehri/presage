@@ -31,11 +31,11 @@ Registry:
   A new Learner class could invoke the learn() method on them when
   needed.
 
-  This way, the reverse dependency that implementing learning would
-  cause between ContextTracker and Predictor disappear, being
+  This way, the reverse dependency that implementing learning cause
+  between ContextTracker and Predictor would disappear, being
   substituted by a single dependency on Registry and the introduction
   of a new Learner class (name still to decide).
-
+ 
   The registry should eventually just be a simple wrapper around
   plump.
 

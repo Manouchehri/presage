@@ -32,6 +32,16 @@ class ContextTracker;
 
 /** Manages instantiation and iteration through predictive plugins and aids in generating predictions and learning.
  *
+ * PluginRegitry class holds the active plugins and provides the
+ * interface required to obtain an iterator to the predictive plugins.
+ * 
+ * The standard use case is: Predictor obtains an iterator from
+ * PluginRegistry and invokes the predict() or learn() method on each
+ * Plugin pointed to by the iterator.
+ * 
+ * Plugin registry should eventually just be a simple wrapper around
+ * plump.
+ * 
  */
 class PluginRegistry {
   public:

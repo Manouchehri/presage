@@ -59,9 +59,24 @@ void ContextTrackerTest::testUpdate()
     std::cerr << "ContextTrackerTest::testUpdate()" << std::endl;
 
     ContextTracker hT(configuration, pluginRegistry);
-    hT.update("foo bar foobar");
-    std::cerr << "prefix: " << hT.getPrefix() << std::endl;
-    std::cerr << "token : " << hT.getToken(1) << std::endl;
+    hT.update("foo");
+    hT.update(" ");
+    hT.update("bar ");
+    hT.update("foobar");
+
+    const std::string expected = "foo bar foobar";
+
+    CPPUNIT_ASSERT_EQUAL(expected, hT.getPastStream());
+    CPPUNIT_ASSERT(hT.getFutureStream() == "");
+
+    for (int i = expected.size() - 1; i >= 0; i--) {
+	hT.update("\b");
+	CPPUNIT_ASSERT_EQUAL(expected.substr(0, i), hT.getPastStream());
+	CPPUNIT_ASSERT(hT.getFutureStream() == "");
+    }
+    hT.update("\b");
+    CPPUNIT_ASSERT_EQUAL(std::string(""), hT.getPastStream());
+    CPPUNIT_ASSERT(hT.getFutureStream() == "");    
 }
 
 void ContextTrackerTest::testGetPrefix()
