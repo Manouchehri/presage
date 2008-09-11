@@ -30,6 +30,13 @@
   !include "MUI2.nsh"
 
 ;--------------------------------
+;Include string replace function
+
+  !include StrRep.nsh
+  !include ReplaceInFile.nsh
+
+
+;--------------------------------
 ;Global Variables
 
   Var StartMenuFolder
@@ -112,6 +119,10 @@ Section "Runtime" SecRuntime
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   
   !insertmacro MUI_STARTMENU_WRITE_END
+
+
+ ;!insertmacro ReplaceInFile SOURCE_FILE SEARCH_TEXT REPLACEMENT
+  !insertmacro ReplaceInFile "$INSTDIR\etc\presage.xml" "c:\presage" "$INSTDIR"
 
 SectionEnd
 
