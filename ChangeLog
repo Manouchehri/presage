@@ -1,3 +1,9 @@
+2008-09-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* windows/win-buildpackage.sh: created script to automate win installer build.
+
+	* windows/presage_installer.nsi: include dynamically generated defines file and proper GPL license text.
+
 2008-09-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: preparing for next release iteration.

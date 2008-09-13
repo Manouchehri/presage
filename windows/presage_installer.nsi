@@ -44,8 +44,7 @@
 ;--------------------------------
 ;Defines
 
-!define PRESAGE_NAME      "presage"
-!define PRESAGE_VERSION   "0.7"
+!include defines.nsh
 
 ;--------------------------------
 ;General
@@ -71,7 +70,7 @@
 ;--------------------------------
 ;Pages
 
-  !insertmacro MUI_PAGE_LICENSE "${NSISDIR}\Docs\Modern UI\License.txt"
+  !insertmacro MUI_PAGE_LICENSE "license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   
