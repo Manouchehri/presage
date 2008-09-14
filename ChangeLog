@@ -1,5 +1,11 @@
 2008-09-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* bindings/python/presage_prompter.in,
+	bindings/python/prompter/prompter.py: search for configuration
+	file in scriptdir/etc and scriptdir/../etc
+
+	* windows/setup.py: initial commit of py2exe setup.py.
+	
 	* src/lib/presage.cpp, src/lib/core/contextTracker.*: completion
 	validation is no longer case sensitive.
 

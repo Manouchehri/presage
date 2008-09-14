@@ -55,12 +55,14 @@ accordingly).
 # Prompter
 #
 class Prompter(wx.App):
-   def __init__(self, version, redirect=False):
+   def __init__(self, version, config=None, suggestions=None, redirect=False):
       self.version = version # do this first, wx.App.__init__() calls OnInit()
+      self.config = config
+      self.suggestions = suggestions
       wx.App.__init__(self, redirect)
 
    def OnInit(self):
-      self.frame = PrompterFrame(parent=None, id=-1, title='Prompter', version=self.version)
+      self.frame = PrompterFrame(parent=None, id=-1, title='Prompter', version=self.version, config=self.config, suggestions=self.suggestions)
       self.SetTopWindow(self.frame)
       return True
 
@@ -71,13 +73,13 @@ class PrompterFrame(wx.Frame):
    wildcard = "Text files (*.txt)|*.txt|"     \
        "All files (*.*)|*.*"
 
-   def __init__(self, parent, id, title, version):
+   def __init__(self, parent, id, title, version, config, suggestions):
       wx.Frame.__init__(self, parent, id, title)
       self.version = version
 
       self.__ShowAboutDialogBox()
 
-      self.editor = PrompterEditor(self)
+      self.editor = PrompterEditor(self, config, suggestions)
 
       self.MakeMenuBar()
       self.MakeToolBar()
@@ -467,7 +469,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 # PrompterEditor
 #
 class PrompterEditor(wx.stc.StyledTextCtrl):
-   def __init__(self, parent):
+   def __init__(self, parent, config, suggestions):
       wx.stc.StyledTextCtrl.__init__(self, parent)
 
       self.parent = parent    # remember parent access frame menus
@@ -482,7 +484,13 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
       self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
-      self.prsg = presage.Presage()
+      if config:
+         self.prsg = presage.Presage(config)
+      else:
+         self.prsg = presage.Presage()
+
+      if suggestions:
+         self.prsg.config('Presage.Selector.SUGGESTIONS', suggestions)
 
       self.SetCodePage(wx.stc.STC_CP_UTF8) # set unicode codepage
       self.SetWrapMode(wx.stc.STC_WRAP_WORD)

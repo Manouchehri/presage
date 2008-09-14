@@ -22,8 +22,11 @@
 
 import sys
 import getopt
+import os
 
 PROGRAM_NAME = 'presage_prompter'
+config = None
+suggestions = None
 
 def print_version():
    print """
@@ -55,9 +58,6 @@ Direct your bug reports to: %s
 """ % (PROGRAM_NAME, '@PACKAGE_BUGREPORT@')
 
 def parse_cmd_line_args():
-   global config
-   global suggestions
-   
    short_options = "c:s:hv"
    long_options  = ["config=", "suggestions=", "help", "version"]
    
@@ -74,6 +74,12 @@ def parse_cmd_line_args():
       elif opt in ('-h', '--help'):
          print_usage()
          sys.exit()
+      elif opt in ('-c', '--config'):
+         global config
+         config = arg
+      elif opt in ('-s', '--suggestions'):
+         global suggestions
+         suggestions = arg
 
 
 if __name__ == "__main__":
@@ -90,5 +96,19 @@ non-standard location, please set PYTHONPATH accordingly).
 '''
       print e
    else:
-      app = prompter.prompter.Prompter("@PACKAGE_VERSION@")
+      if not config:
+         # try to locate presage.xml config file
+         scriptdir = os.path.dirname(sys.argv[0])
+         # in scriptdir/etc
+         conffile = os.path.join(scriptdir, 'etc', 'presage.xml')
+         if os.path.isfile(conffile):
+            config = conffile
+         else:
+            # in scriptdir/../etc
+            conffile = os.path.join(scriptdir, '..', 'etc', 'presage.xml')
+            if os.path.isfile(conffile):
+               config = conffile
+         print 'Configuration file: ' + str(config)
+
+      app = prompter.prompter.Prompter("@PACKAGE_VERSION@", config, suggestions)
       app.MainLoop()
