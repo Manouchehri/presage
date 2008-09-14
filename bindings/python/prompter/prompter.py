@@ -483,7 +483,8 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
       self.prsg = presage.Presage()
-      
+
+      self.SetCodePage(wx.stc.STC_CP_UTF8) # set unicode codepage
       self.SetWrapMode(wx.stc.STC_WRAP_WORD)
       self.AutoCompSetAutoHide(False)
       self.separator = ','

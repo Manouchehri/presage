@@ -1,3 +1,8 @@
+2008-09-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: switched scintilla to UTF8
+	encoded text.
+	
 2008-09-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* windows/win-buildpackage.sh: created script to automate win installer build.
