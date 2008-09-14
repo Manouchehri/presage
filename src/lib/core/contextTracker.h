@@ -168,6 +168,8 @@ public:
     std::string getFutureStream() const;
     std::string getPastStream  () const;
 
+    bool isCompletionValid(const std::string&);
+
     //eliminate after testing phase
     std::string getWordChars()       const;
     std::string getSeparatorChars()  const;

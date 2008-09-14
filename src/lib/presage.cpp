@@ -124,15 +124,16 @@ void Presage::complete(const std::string completion)
         // ensure that current prefix is a substring of completion
         // token and update with remainder
         //
-        std::string prefix = contextTracker->getPrefix();
-        if (completion.find(prefix) == 0) {
+        if (contextTracker->isCompletionValid(completion)) {
+            std::string prefix = contextTracker->getPrefix();
             update(completion.substr(prefix.size()));
 
         } else {
-            // REVISIT: throw exception
-            std::cerr << "[Presage] Error: completion '" << completion 
-                      << "' does not match prefix '" << prefix << "'" << std::endl;
-            abort();
+            std::string message = "[Presage] Error: completion '";
+	    message += completion;
+	    message += "' does not match prefix: ";
+	    message += contextTracker->getPrefix();
+	    throw PresageException(message);
         }
     } else {
         // erasing completion,

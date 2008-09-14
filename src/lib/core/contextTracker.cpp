@@ -419,6 +419,20 @@ std::string ContextTracker::getPastStream() const
 #endif
 }
 
+bool ContextTracker::isCompletionValid(const std::string& completion)
+{
+    bool result = false;
+
+    std::string prefix = getPrefix();
+    // no need to be case sensitive
+    prefix = strtolower(prefix);
+    if (completion.find(prefix) == 0) {
+        result = true;
+    }
+
+    return result;
+}
+
 bool ContextTracker::isWordChar(const char c) const
 {
     if(wordChars.find(c, 0) != std::string::npos)

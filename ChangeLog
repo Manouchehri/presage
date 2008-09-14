@@ -1,5 +1,8 @@
 2008-09-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* src/lib/presage.cpp, src/lib/core/contextTracker.*: completion
+	validation is no longer case sensitive.
+
 	* bindings/python/prompter/prompter.py: switched scintilla to UTF8
 	encoded text.
 	
