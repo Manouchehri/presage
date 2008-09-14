@@ -30,10 +30,14 @@ INSTDIR=$1
 RELEASE=$2
 
 MAKENSIS=makensis.exe
+PYTHON=python
 
 function set_up()
 {
-    for i in presage_installer.nsi StrRep.nsh ReplaceInFile.nsh
+    SCRIPTDIR=`dirname $0`
+    for i in $SCRIPTDIR/presage_installer.nsi \
+             $SCRIPTDIR/StrRep.nsh \
+             $SCRIPTDIR/ReplaceInFile.nsh
     do
         cp $i $INSTDIR
     done
@@ -43,14 +47,22 @@ function set_up()
     echo "!define PRESAGE_NAME \"presage\"" >> $INSTDIR/defines.nsh
 
     # license
-    LICENSE=`dirname $0`
-    LICENSE="$LICENSE/../COPYING"
+    LICENSE="$SCRIPTDIR/../COPYING"
     cp $LICENSE $INSTDIR/license.txt
+
+    # py2exe
+    SETUP_PY="$SCRIPTDIR/setup.py"
+    cp $SETUP_PY $INSTDIR/
 }
 
 function clean_up()
 {
-    for i in presage_installer.nsi StrRep.nsh ReplaceInFile.nsh defines.nsh license.txt
+    for i in presage_installer.nsi \
+             StrRep.nsh \
+             ReplaceInFile.nsh \
+             defines.nsh \
+             license.txt \
+             setup.py
     do
         rm $INSTDIR/$i
     done
@@ -61,10 +73,18 @@ function build_installer()
     (cd $INSTDIR && $MAKENSIS presage_installer.nsi)
 }
 
+function build_py2exe()
+{
+    (cd $INSTDIR \
+     && $PYTHON setup.py py2exe \
+     && cp dist/* bin/)
+}
+
 ####
 # Mainline
 #
 set_up
+#build_py2exe
 build_installer
 clean_up
 
