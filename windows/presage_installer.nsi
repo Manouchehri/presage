@@ -82,6 +82,12 @@
   !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
   
   !insertmacro MUI_PAGE_INSTFILES
+
+  !define MUI_FINISHPAGE_RUN $INSTDIR/bin/presage_prompter
+  !define MUI_FINISHPAGE_RUN_TEXT "Run presage prompter"
+  !define MUI_FINISHPAGE_LINK "For the latest news and updates, visit the website"
+  !define MUI_FINISHPAGE_LINK_LOCATION http://soothsayer.sourceforge.net/
+  !insertmacro MUI_PAGE_FINISH
   
   !insertmacro MUI_UNPAGE_CONFIRM
   !insertmacro MUI_UNPAGE_INSTFILES
