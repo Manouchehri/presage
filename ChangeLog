@@ -1,5 +1,11 @@
 2008-09-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* src/lib/plugins/smoothedNgramPlugin.*: fixed ngram count
+	consistency problem triggered by dynamic learning capability of
+	smoothed n-gram predictive plugin.
+	
+2008-09-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* windows/presage_installer.nsi: added finish page to installer.
 	
 2008-09-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>

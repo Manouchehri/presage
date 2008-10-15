@@ -66,6 +66,7 @@ private:
 
 
     unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
+    void check_learn_consistency(const Ngram& name) const;
 
     DatabaseConnector*  db;
     std::string         dbfilename;

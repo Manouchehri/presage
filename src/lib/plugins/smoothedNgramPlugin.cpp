@@ -107,7 +107,7 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
 	Ngram ngram(ngram_size);
 	copy(tokens.end() - ngram_size + offset , tokens.end() + offset, ngram.begin());
 
-	logger << DEBUG << "[SmoothedNgramPlugin] ngram: ";
+	logger << DEBUG << "[SmoothedNgramPlugin] count ngram: ";
 	for (size_t j = 0; j < ngram.size(); j++) {
 	    logger << DEBUG << ngram[j] << ' ';
 	}
@@ -281,9 +281,13 @@ void SmoothedNgramPlugin::learn()
 	    if (ngram.end() == find(ngram.begin(), ngram.end(), "")) {
 		// only learn ngram if it doesn't contain empty strings
 		db->beginTransaction();
+
 		db->incrementNgramCount(ngram);
+		check_learn_consistency(ngram);
+
 		db->endTransaction();
 		logger << DEBUG << "Committed ngram update to database" << endl;
+
 	    } else {
 		logger << DEBUG << "Discarded ngram" << endl;
 	    }
@@ -294,7 +298,40 @@ void SmoothedNgramPlugin::learn()
     logger << DEBUG << "end learn()" << endl;
 }
 
+void SmoothedNgramPlugin::check_learn_consistency(const Ngram& ngram) const
+{
+    // no need to begin a new transaction, as we'll be called from
+    // within an existing transaction from learn()
 
+    // BEWARE: if the previous sentence is not true, then performance
+    // will suffer!
+
+    size_t size = ngram.size();
+    for (int i = 0; i < size; i++) {
+	if (count(ngram, -i, size - i) > count(ngram, -(i + 1), size - (i + 1))) {
+	    logger << INFO << "consistency adjustment needed!" << endl;
+
+	    int offset = -(i + 1);
+	    int sub_ngram_size = size - (i + 1);
+
+	    logger << DEBUG << "i: " << i << " | offset: " << offset << " | sub_ngram_size: " << sub_ngram_size << endl;
+
+	    Ngram sub_ngram(sub_ngram_size); // need to init to right size for sub_ngram
+	    copy(ngram.end() - sub_ngram_size + offset, ngram.end() + offset, sub_ngram.begin());
+
+	    if (logger.shouldLog()) {
+		logger << "ngram to be count adjusted is: ";
+		for (size_t i = 0; i < sub_ngram.size(); i++) {
+		    logger << sub_ngram[i] << ' ';
+		}
+		logger << endl;
+	    }
+
+	    db->incrementNgramCount(sub_ngram);
+	    logger << DEBUG << "consistency adjusted" << endl;
+	}
+    }
+}
 
 void SmoothedNgramPlugin::extract()
 {
