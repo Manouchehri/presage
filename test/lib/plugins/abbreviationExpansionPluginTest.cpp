@@ -49,7 +49,7 @@ void AbbreviationExpansionPluginTest::testSimpleExpansion()
 
     Prediction prediction = runPredict(config, history);
 
-    CPPUNIT_ASSERT_EQUAL(1, prediction.size());
+    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(1), prediction.size());
     CPPUNIT_ASSERT_EQUAL(std::string("\b\b\b\b\btomorrow"), prediction.getSuggestion(0).getWord());
 }
 
@@ -60,7 +60,7 @@ void AbbreviationExpansionPluginTest::testLongExpansion()
 
     Prediction prediction = runPredict(config, history);
 
-    CPPUNIT_ASSERT_EQUAL(1, prediction.size());
+    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(1), prediction.size());
     CPPUNIT_ASSERT_EQUAL(std::string("\b\b\b\b\bI am not a lawyer"), prediction.getSuggestion(0).getWord());
 }
 
@@ -71,7 +71,7 @@ void AbbreviationExpansionPluginTest::testUnknownAbbreviation()
 
     Prediction prediction = runPredict(config, history);
 
-    CPPUNIT_ASSERT_EQUAL(0, prediction.size());
+    CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), prediction.size());
 }
 
 Configuration* AbbreviationExpansionPluginTest::prepareConfiguration(const char* config[]) const

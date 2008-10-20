@@ -81,7 +81,7 @@ private:
     
     double lambda;
     double n_0;
-    int cutoff_threshold;
+    size_t cutoff_threshold;
 
 };
 

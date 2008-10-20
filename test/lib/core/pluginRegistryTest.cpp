@@ -90,7 +90,8 @@ void PluginRegistryTest::testNext()
     Prediction prediction = plugin->predict(20);
 
     CPPUNIT_ASSERT(plugin != 0);
-    CPPUNIT_ASSERT_EQUAL(18, prediction.size());
+    size_t expected_size = 18;
+    CPPUNIT_ASSERT_EQUAL(expected_size, prediction.size());
     CPPUNIT_ASSERT_EQUAL(Suggestion("foo1", 0.99), prediction.getSuggestion(0));
     CPPUNIT_ASSERT_EQUAL(Suggestion("foobar6", 0.74), prediction.getSuggestion(17));
 }

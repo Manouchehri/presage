@@ -73,7 +73,7 @@ void RecencyPluginTest::testMaxPartialPredictionSize()
 
     ct->update("foo foobar foobaz foo");
 
-    for (int i = 1; i <= 3; i++) {
+    for (size_t i = 1; i <= 3; i++) {
         Prediction prediction = plugin->predict(i);
         CPPUNIT_ASSERT_EQUAL(i, prediction.size());
         std::cout << prediction << std::endl;

@@ -115,8 +115,8 @@ void PredictionTest::testGetSize()
     CPPUNIT_ASSERT( prediction123->size() == 3 );
 
     Prediction* pred = new Prediction();
-    const int total = 100;
-    for (int i = 0; i < total; i++) {
+    const size_t total = 100;
+    for (size_t i = 0; i < total; i++) {
         pred->addSuggestion(*sugg3Ptr);
     }
     CPPUNIT_ASSERT( pred->size() == total );

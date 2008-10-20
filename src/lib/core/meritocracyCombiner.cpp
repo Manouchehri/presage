@@ -47,7 +47,7 @@ Prediction MeritocracyCombiner::combine(const std::vector< Prediction >& predict
     for (std::vector< Prediction >::const_iterator it = predictions.begin();
 	 it != predictions.end();
 	 it++) {
-	for (int i = 0; i < it->size(); i++) {
+	for (size_t i = 0; i < it->size(); i++) {
 	    result.addSuggestion(it->getSuggestion(i));
 	}
     }

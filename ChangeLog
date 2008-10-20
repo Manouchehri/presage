@@ -1,3 +1,22 @@
+2008-10-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/pluginsTestMockObjects.cpp,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/abbreviationExpansionPluginTest.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.h,
+	test/lib/core/predictionTest.cpp,
+	test/lib/core/configurationTest.cpp,
+	test/lib/core/pluginRegistryTest.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/recencyPlugin.h,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/core/profileManager.h, src/lib/core/prediction.cpp,
+	src/lib/core/meritocracyCombiner.cpp, src/lib/core/selector.h,
+	src/lib/core/contextTracker.h, src/lib/core/prediction.h,
+	src/lib/core/selector.cpp: fixed GCC compiler warnings.
+	
 2008-09-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/smoothedNgramPlugin.*: fixed ngram count

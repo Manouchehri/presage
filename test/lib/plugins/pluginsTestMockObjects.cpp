@@ -94,7 +94,7 @@ std::string ContextTracker::toString() const
 { std::string result; return result; }
 
 int  ContextTracker::getMaxBufferSize() const
-{ int result; return result; }
+{ int result = 0; return result; }
 
 void ContextTracker::setMaxBufferSize(const int)
 {}

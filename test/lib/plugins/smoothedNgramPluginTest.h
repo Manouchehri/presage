@@ -65,7 +65,7 @@ private:
      */
     void assertCorrectPrediction(const char** config,
 				 const char** history,
-				 const int expected_prediction_size,
+				 const size_t expected_prediction_size,
 				 const std::string* expected_prediction_words) const;
 
 

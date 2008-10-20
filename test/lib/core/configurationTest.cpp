@@ -45,7 +45,7 @@ void ConfigurationTest::test_get_set()
 	"foo.bar.foobar"
     };
 
-    for (int i = 0; i < SIZE; i++) {
+    for (unsigned int i = 0; i < SIZE; i++) {
 	Value value = test_variables[i];
 	Variable variable(test_variables[i]);
 	configuration->set(variable, value);

@@ -53,7 +53,7 @@ bool Prediction::operator== (const Prediction& right) const
 	} else {
 	    // need to compare each suggestion
 	    bool result = true;
-	    int i = 0;
+	    size_t i = 0;
 	    while (i < size() && result) {
 		if (getSuggestion(i) != right.getSuggestion(i)) {
 		    result = false;
@@ -65,7 +65,7 @@ bool Prediction::operator== (const Prediction& right) const
     }
 }
 
-int Prediction::size() const
+size_t Prediction::size() const
 {
     return suggestions.size();
 }

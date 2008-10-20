@@ -86,7 +86,7 @@ public:
 
     void update();
 
-    int suggestions() const;
+    size_t suggestions() const;
     bool repeat_suggestions() const;
     unsigned int greedy_suggestion_threshold() const;
 

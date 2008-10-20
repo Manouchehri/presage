@@ -64,7 +64,7 @@ std::vector<std::string> Selector::select( Prediction p )
     // copy words from Prediction.Suggestion.word in result vector
     std::vector<std::string> result;
     std::string token;
-    for( int i=0 ; i<p.size() ; i++ ) {
+    for (size_t i=0 ; i<p.size() ; i++) {
 	token =  p.getSuggestion(i).getWord();
 	result.push_back(token);
 	logger << DEBUG << "Added token to selector consideration set: " << token << endl;
@@ -203,7 +203,7 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
 /** Get SUGGESTIONS option.
  *
  */
-int Selector::suggestions() const
+size_t Selector::suggestions() const
 {
     Value value = config->get(Variable("Presage.Selector.SUGGESTIONS"));
     logger << INFO << "SUGGESTIONS: " << value << endl;

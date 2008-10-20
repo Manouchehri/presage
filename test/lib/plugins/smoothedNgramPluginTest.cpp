@@ -143,7 +143,7 @@ Configuration* SmoothedNgramPluginTest::prepareConfiguration(const char* config[
 
 void SmoothedNgramPluginTest::assertCorrectPrediction(const char** config,
                                                       const char** history,
-                                                      const int expected_prediction_size,
+                                                      const size_t expected_prediction_size,
                                                       const std::string* expected_prediction_words) const
 {
     Prediction prediction = runPredict(config, history);
@@ -425,7 +425,7 @@ void SmoothedNgramPluginTest::testMaxPartialPredictionSize()
     // test that maximum partial prediction size config value is
     // honoured by checking that returned prediction size does not
     // exceed specified partial prediction size.
-    for (int size = 0; size <= 3; size++) {
+    for (size_t size = 0; size <= 3; size++) {
 
 	// assign equal weight to uni/bi/tri-grams; only vary maximum
 	// partial prediction size.

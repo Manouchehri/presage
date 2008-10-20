@@ -219,8 +219,8 @@ private:
     bool isControlChar   (const char) const;
     bool isBlankspaceChar(const char) const;
 
-    Logger<char> logger;
     PluginRegistry* pluginRegistry;
+    Logger<char> logger;
 
 };
 

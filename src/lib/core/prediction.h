@@ -59,7 +59,7 @@ public:
 
     /** Returns number of suggestions in prediction.
      */
-    int size() const;                      
+    size_t size() const;                      
 
     /** Returns nth most probable suggestion.
      */

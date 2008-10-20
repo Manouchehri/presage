@@ -307,7 +307,7 @@ void SmoothedNgramPlugin::check_learn_consistency(const Ngram& ngram) const
     // will suffer!
 
     size_t size = ngram.size();
-    for (int i = 0; i < size; i++) {
+    for (size_t i = 0; i < size; i++) {
 	if (count(ngram, -i, size - i) > count(ngram, -(i + 1), size - (i + 1))) {
 	    logger << INFO << "consistency adjustment needed!" << endl;
 
