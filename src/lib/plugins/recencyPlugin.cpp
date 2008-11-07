@@ -49,8 +49,12 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
 	Value value = config->get(LOGGER);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
-	
-	value = config->get(LAMBDA);
+    } catch (Configuration::ConfigurationException ex) {
+	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
+    }
+
+    try {
+	Value value = config->get(LAMBDA);
 	lambda = toDouble(value);
 	logger << INFO << "LAMBDA: " << value << endl;
 	
@@ -63,7 +67,8 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
 	logger << INFO << "CUTOFF_THRESHOLD: " << value << endl;
 
     } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
+	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
+	throw PresageException("Unable to init " + name + " predictive plugin.");
     }
     
 

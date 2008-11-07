@@ -28,6 +28,12 @@
 # include <string.h>
 #endif
 
+const Variable SmoothedCountPlugin::LOGGER         = "Presage.Plugins.SmoothedCountPlugin.LOGGER";
+const Variable SmoothedCountPlugin::UNIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.UNIGRAM_WEIGHT";
+const Variable SmoothedCountPlugin::BIGRAM_WEIGHT  = "Presage.Plugins.SmoothedCountPlugin.BIGRAM_WEIGHT";
+const Variable SmoothedCountPlugin::TRIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.TRIGRAM_WEIGHT";
+const Variable SmoothedCountPlugin::DBFILENAME     = "Presage.Plugins.SmoothedCountPlugin.DBFILENAME";
+
 SmoothedCountPlugin::SmoothedCountPlugin(Configuration* config, ContextTracker* ct)
 	: Plugin(config,
 		 ct,
@@ -36,39 +42,40 @@ SmoothedCountPlugin::SmoothedCountPlugin(Configuration* config, ContextTracker* 
 		 "SmoothedCountPlugin, long description." )
 {
 
-    Variable variable;
-    variable.push_back("Presage");
-    variable.push_back("Plugins");
-    variable.push_back("SmoothedCountPlugin");
-
     Value value;
 
-    variable.push_back("UNIGRAM_WEIGHT");
-    value = config->get(variable);
-    UNIGRAM_WEIGHT = toDouble(value);
-    variable.pop_back();
+    try {
+	value = config->get(LOGGER);
+	logger << setlevel(value);
+	logger << INFO << "LOGGER: " << value << endl;
+    } catch (Configuration::ConfigurationException ex) {
+	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
+    }
 
-    variable.push_back("BIGRAM_WEIGHT");
-    value = config->get(variable);
-    BIGRAM_WEIGHT = toDouble(value);
-    variable.pop_back();
+    try {
+	value = config->get(UNIGRAM_WEIGHT);
+	unigram_weight = toDouble(value);
+	
+	value = config->get(BIGRAM_WEIGHT);
+	bigram_weight = toDouble(value);
+	
+	value = config->get(TRIGRAM_WEIGHT);
+	trigram_weight = toDouble(value);
+	
+	value = config->get(DBFILENAME);
+	dbfilename = value;
 
-    variable.push_back("TRIGRAM_WEIGHT");
-    value = config->get(variable);
-    TRIGRAM_WEIGHT = toDouble(value);
-    variable.pop_back();
-
-    variable.push_back("DBFILENAME");
-    value = config->get(variable);
-    DBFILENAME = value;
-    variable.pop_back();
+    } catch (Configuration::ConfigurationException ex) {
+	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
+	throw PresageException("Unable to init " + name + " predictive plugin.");
+    }
 
     // open database
 #if defined(HAVE_SQLITE3_H)
-    int result = sqlite3_open(DBFILENAME.c_str(), &db);
+    int result = sqlite3_open(dbfilename.c_str(), &db);
     assert(result == SQLITE_OK);
 #elif defined(HAVE_SQLITE_H)
-    db = sqlite_open(DBFILENAME.c_str(), 0777, NULL);
+    db = sqlite_open(dbfilename.c_str(), 0777, NULL);
     assert(db != NULL);
 #endif
 }
@@ -192,7 +199,7 @@ Prediction SmoothedCountPlugin::predict(const size_t max_partial_predictions_siz
     for (size_t i = 0; i < predUnigrams.size(); i++) {
 
 	word   = predUnigrams.getSuggestion( i ).getWord();
-	ccount = UNIGRAM_WEIGHT *
+	ccount = unigram_weight *
 	    predUnigrams.getSuggestion( i ).getProbability();
 	
 	for (size_t j = 0; j < predBigrams.size(); j++) {
@@ -203,13 +210,13 @@ Prediction SmoothedCountPlugin::predict(const size_t max_partial_predictions_siz
 		    
 		    if( predTrigrams.getSuggestion(k).getWord() == word ) {
 			
-			ccount += TRIGRAM_WEIGHT *
+			ccount += trigram_weight *
 			    predTrigrams.getSuggestion(k).getProbability();
 			
 		    }
 		}
 		
-		ccount += BIGRAM_WEIGHT *
+		ccount += bigram_weight *
 		    predBigrams.getSuggestion(j).getProbability();
 		
 	    }

@@ -65,6 +65,16 @@ class PluginRegistry {
     Iterator iterator();
     void setContextTracker(ContextTracker* ct);
 
+    class PluginRegistryException : public PresageException {
+    public:
+	PluginRegistryException(const std::string& desc) throw() : PresageException(desc) { }
+	virtual ~PluginRegistryException() throw() { }
+
+    private:
+	PluginRegistryException() throw() : PresageException("") { }
+
+    };
+
   private:
     void setPlugins(const std::string& plugin_list);
     void addPlugin(const std::string& plugin_name);

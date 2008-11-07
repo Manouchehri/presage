@@ -26,6 +26,9 @@
 #include <fstream>
 
 
+const Variable AbbreviationExpansionPlugin::LOGGER        = "Presage.Plugins.AbbreviationExpansionPlugin.LOGGER";
+const Variable AbbreviationExpansionPlugin::ABBREVIATIONS = "Presage.Plugins.AbbreviationExpansionPlugin.ABBREVIATIONS";
+
 AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
              ct,
@@ -34,27 +37,23 @@ AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Configuration* config, 
              "AbbreviationExpansionPlugin maps abbreviations to the corresponding fully expanded token (i.e. word or phrase).\n\nThe mapping between abbreviations and expansions is stored in the file specified by the plugin configuration section.\n\nThe format for the abbreviation-expansion database is a simple tab separated text file format, with each abbreviation-expansion pair per line."
     )
 {
-    Variable variable;
-    variable.push_back("Presage");
-    variable.push_back("Plugins");
-    variable.push_back("AbbreviationExpansionPlugin");
-
     Value value;
 
     try {
-	variable.push_back("LOGGER");
-	value = config->get(variable);
+	value = config->get(LOGGER);
 	logger << setlevel(value);
         logger << INFO << "LOGGER:" << value << endl;
-	variable.pop_back();
+    } catch (Configuration::ConfigurationException ex) {
+	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
+    }
 
-	variable.push_back("ABBREVIATIONS");
-	value = config->get(variable);
+    try {
+	value = config->get(ABBREVIATIONS);
         logger << INFO << "ABBREVIATIONS:" << value << endl;
         abbreviations = value;
-	variable.pop_back();
     } catch (Configuration::ConfigurationException ex) {
-        logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
+	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
+	throw PresageException("Unable to init " + name + " predictive plugin.");
     }
 
     cacheAbbreviationsExpansions();

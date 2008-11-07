@@ -1,3 +1,17 @@
+2008-11-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/abbreviationExpansionPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/dictionaryPlugin.*,
+	src/lib/plugins/smoothedNgramPlugin.*,
+	src/lib/plugins/dejavuPlugin.*, src/lib/core/pluginRegistry.*:
+	refactored predictive plugins whereby on initialization plugin
+	throws exception and predictor just catches it and carries on,
+	changed behaviour so that missing required variables cause fatal
+	failure and optional variables generate warning.
+
 2008-10-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,

@@ -61,11 +61,17 @@ private:
     sqlite3* db;
 #endif
 
-    double      UNIGRAM_WEIGHT;
-    double      BIGRAM_WEIGHT;
-    double      TRIGRAM_WEIGHT;
-    std::string DBFILENAME;
+    double      unigram_weight;
+    double      bigram_weight;
+    double      trigram_weight;
+    std::string dbfilename;
     int         MAX_PARTIAL_PREDICTION_SIZE;
+
+    static const Variable LOGGER;
+    static const Variable UNIGRAM_WEIGHT;
+    static const Variable BIGRAM_WEIGHT;
+    static const Variable TRIGRAM_WEIGHT;
+    static const Variable DBFILENAME;
 
 };
 

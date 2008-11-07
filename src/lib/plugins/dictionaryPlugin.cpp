@@ -36,7 +36,8 @@ DictionaryPlugin::DictionaryPlugin(Configuration* config, ContextTracker* ht)
 	     "DictionaryPlugin, dictionary lookup",
 	     "DictionaryPlugin, a dictionary based plugin that generates a prediction by extracting tokens that start with the current prefix from a given dictionary")
 {
-    dictionary_path = config->get(DICTIONARY); // might throw ConfigurationException
+    // might throw ConfigurationException
+    dictionary_path = config->get(DICTIONARY);
     probability     = toDouble(config->get(PROBABILITY));
 }
 

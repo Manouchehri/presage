@@ -53,14 +53,19 @@ PluginRegistry::PluginRegistry(Configuration* configuration)
 	value = config->get(LOGGER);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
+    } catch (Configuration::ConfigurationException ex) {
+	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
+    }
 
+    try {
 	value = config->get(PLUGINS);
 	logger << INFO << "PLUGINS: " << value << endl;
 	plugins_list = value;
-
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
+	throw PresageException("");
     }
+
 }
 
 
@@ -89,36 +94,39 @@ void PluginRegistry::setPlugins(const std::string& pluginList)
 
 void PluginRegistry::addPlugin(const std::string& pluginName)
 {
-    // TODO: this will have to do for now, until a proper plugin
-    // framework (i.e. plump) is integrated into presage. Until
-    // then, all known plugins have to be listed here and explicitly
-    // created based on their name.
-    //
     Plugin* plugin = 0;
-    if (pluginName == "SmoothedNgramPlugin") {
-	plugin = new SmoothedNgramPlugin(config, contextTracker);
-    } else if (pluginName == "AbbreviationExpansionPlugin") {
-	plugin = new AbbreviationExpansionPlugin(config, contextTracker);
-    } else if (pluginName == "DummyPlugin") {
-	plugin = new DummyPlugin(config, contextTracker);
-    } else if (pluginName == "DictionaryPlugin" ) {
-	plugin = new DictionaryPlugin(config, contextTracker);
-    } else if (pluginName == "SmoothedCountPlugin") {
-	plugin = new SmoothedCountPlugin(config, contextTracker);
-    } else if (pluginName == "RecencyPlugin") {
-        plugin = new RecencyPlugin(config, contextTracker);
-    } else if (pluginName == "DejavuPlugin") {
-        plugin = new DejavuPlugin(config, contextTracker);
-    } else {
-	// TODO: raise exception
-	logger << ERROR << "Error: unable to add plugin: " 
-	       << pluginName << endl;
-	abort();
+    try {
+	// TODO: this will have to do for now, until a proper plugin
+	// framework (i.e. plump) is integrated into presage. Until
+	// then, all known plugins have to be listed here and explicitly
+	// created based on their name.
+	//
+	if (pluginName == "SmoothedNgramPlugin") {
+	    plugin = new SmoothedNgramPlugin(config, contextTracker);
+	} else if (pluginName == "AbbreviationExpansionPlugin") {
+	    plugin = new AbbreviationExpansionPlugin(config, contextTracker);
+	} else if (pluginName == "DummyPlugin") {
+	    plugin = new DummyPlugin(config, contextTracker);
+	} else if (pluginName == "DictionaryPlugin" ) {
+	    plugin = new DictionaryPlugin(config, contextTracker);
+	} else if (pluginName == "SmoothedCountPlugin") {
+	    plugin = new SmoothedCountPlugin(config, contextTracker);
+	} else if (pluginName == "RecencyPlugin") {
+	    plugin = new RecencyPlugin(config, contextTracker);
+	} else if (pluginName == "DejavuPlugin") {
+	    plugin = new DejavuPlugin(config, contextTracker);
+	}
+    } catch (PresageException ex) {
+	logger << ERROR << "Plugin " + pluginName + " failed to initialize." << endl;
     }
-    
+
     if (plugin != 0) {
 	plugins.push_back (plugin);
 	logger << INFO << "Activated predictive plugin: " << pluginName << endl;
+    } else {
+	// TODO: raise exception
+	logger << FATAL << "Unable to initialize plugin: " << pluginName << endl;
+	throw PluginRegistryException("Unable to initialize plugin: " + pluginName);
     }
 }
 

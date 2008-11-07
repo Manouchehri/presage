@@ -51,7 +51,12 @@ DejavuPlugin::DejavuPlugin(Configuration* config, ContextTracker* ct)
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	
-	value = config->get(MEMORY);
+    } catch (Configuration::ConfigurationException ex) {
+	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
+    }
+
+    try {
+	Value value = config->get(MEMORY);
 	memory = value;
 	logger << INFO << "MEMORY: " << value << endl;
 
@@ -60,7 +65,8 @@ DejavuPlugin::DejavuPlugin(Configuration* config, ContextTracker* ct)
 	logger << INFO << "TRIGGER: " << value << endl;
 
     } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
+	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
+	throw PresageException("Unable to init " + name + " predictive plugin.");
     }
 }
 

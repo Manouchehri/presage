@@ -61,9 +61,7 @@ private:
     static const Variable DBFILENAME;
     static const Variable DELTAS;
     static const Variable LEARN;
-
     static const Variable DATABASE_LOGGER;
-
 
     unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
     void check_learn_consistency(const Ngram& name) const;

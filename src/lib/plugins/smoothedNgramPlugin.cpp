@@ -31,7 +31,6 @@ const Variable SmoothedNgramPlugin::LOGGER     = Variable("Presage.Plugins.Smoot
 const Variable SmoothedNgramPlugin::DBFILENAME = Variable("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
 const Variable SmoothedNgramPlugin::DELTAS     = Variable("Presage.Plugins.SmoothedNgramPlugin.DELTAS");
 const Variable SmoothedNgramPlugin::LEARN      = Variable("Presage.Plugins.SmoothedNgramPlugin.LEARN");
-
 const Variable SmoothedNgramPlugin::DATABASE_LOGGER = Variable("Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER");
 
 SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* ct)
@@ -47,7 +46,11 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* 
 	value = config->get(LOGGER);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
+    } catch (Configuration::ConfigurationException ex) {
+	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
+    }
 
+    try {
 	value = config->get(DBFILENAME);
 	logger << INFO << "DBFILENAME: " << value << endl;
 	dbfilename = value;
@@ -62,13 +65,14 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* 
 	}
 
     } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
+	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
+	throw PresageException("Unable to init " + name + " predictive plugin.");
     }
     
     try {
 	value = config->get(DATABASE_LOGGER);
     } catch (Configuration::ConfigurationException& ex) {
-        logger << ERROR << "ConfigurationException while trying to fetch DatabaseConnector logger level." << endl;
+        logger << WARN << "ConfigurationException while trying to fetch DatabaseConnector logger level." << endl;
 	db = new SqliteDatabaseConnector(dbfilename);
     }
 
@@ -260,7 +264,14 @@ void SmoothedNgramPlugin::learn()
 {
     logger << DEBUG << "learn()" << endl;
 
-    if (isTrue(configuration->get(LEARN))) {
+    bool wanna_learn = false;
+    try {
+	wanna_learn = isTrue(configuration->get(LEARN));
+    } catch (Configuration::ConfigurationException ex) {
+	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
+    }
+
+    if (wanna_learn) {
 	// learning is turned on
 
 	// n-gram cardinality (i.e. what is the n in n-gram?)

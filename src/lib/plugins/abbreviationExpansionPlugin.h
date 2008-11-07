@@ -53,6 +53,9 @@ public:
     virtual void train();
 
 private:
+    static const Variable LOGGER;
+    static const Variable ABBREVIATIONS;
+
     void cacheAbbreviationsExpansions();
     
     std::string abbreviations;

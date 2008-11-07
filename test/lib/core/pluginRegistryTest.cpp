@@ -30,7 +30,8 @@ void PluginRegistryTest::setUp()
 {
     config = new Configuration;
     config->set(Variable("Presage.PluginRegistry.LOGGER"), "ALL");
-    config->set(Variable("Presage.PluginRegistry.PLUGINS"), "SmoothedNgramPlugin RecencyPlugin AbbreviationExpansionPlugin DummyPlugin");
+//    config->set(Variable("Presage.PluginRegistry.PLUGINS"), "SmoothedNgramPlugin RecencyPlugin AbbreviationExpansionPlugin DummyPlugin");
+    config->set(Variable("Presage.PluginRegistry.PLUGINS"), "DummyPlugin DummyPlugin DummyPlugin DummyPlugin");
 
     registry = new PluginRegistry(config);
 }
