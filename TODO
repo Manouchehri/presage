@@ -44,9 +44,6 @@ Absolute first
  - should Profile::getConfig() really throw exception? Why not just
    return an empty string when config is not found? Is not finding a
    config really an exceptional condition?
- - when plugin initialization throws exception, predictor just catches it
-   and carries on, which is not what should happen (test by removing a
-   config variable needed by a plugin to see what happens)
  - Consider removing the following public methods from Variable
    interface:
    . Variable();
