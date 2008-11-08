@@ -2,6 +2,8 @@
 
 	* test/integration/integration.sh: fixed typo
 
+	* resources/la_coscienza_di_zeno.txt: restoring original text encoding.
+
 2008-11-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/recencyPlugin.*,
