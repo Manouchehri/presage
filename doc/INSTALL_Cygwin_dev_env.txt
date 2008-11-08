@@ -50,9 +50,12 @@ You want to make sure that the following packages are selected:
     libtool
     make
     pkg-config
-    sqlite3
     subversion
     swig (optional)
+
+  Database
+    libsqlite3-devel
+    sqlite3
 
   Interpreters
     python (optional)
