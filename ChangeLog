@@ -1,5 +1,8 @@
 2008-11-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* debian/changelog, website/presage_database_dump.sql.gz,
+	configure.ac, NEWS: preparing for upcoming release.
+
 	* test/integration/integration.sh: fixed typo
 
 	* resources/la_coscienza_di_zeno.txt: restoring original text encoding.
