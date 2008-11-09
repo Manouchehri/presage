@@ -32,11 +32,13 @@ BUILT_SOURCES =	database_en.db \
 		database_it.db
 
 database_it.db:	la_coscienza_di_zeno.txt
+	@rm -f $@
 	$(top_builddir)/src/tools/text2ngram -n 1 -l -f sqlite -o $@ $^
 	$(top_builddir)/src/tools/text2ngram -n 2 -l -f sqlite -o $@ $^
 	$(top_builddir)/src/tools/text2ngram -n 3 -l -f sqlite -o $@ $^
 
 database_en.db:	the_picture_of_dorian_gray.txt
+	@rm -f $@
 	$(top_builddir)/src/tools/text2ngram -n 1 -l -f sqlite -o $@ $^
 	$(top_builddir)/src/tools/text2ngram -n 2 -l -f sqlite -o $@ $^
 	$(top_builddir)/src/tools/text2ngram -n 3 -l -f sqlite -o $@ $^
