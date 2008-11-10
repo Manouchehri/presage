@@ -1,3 +1,11 @@
+2008-11-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/contextTracker.*: fixed handling of utf-8 encoded
+	text.
+	
+	* resources/la_coscienza_di_zeno.txt: re-encoded text file in
+	UTF-8.
+
 2008-11-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources/Makefile.am: fixed problem with rebuilding n-gram

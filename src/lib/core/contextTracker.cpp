@@ -87,7 +87,7 @@ void ContextTracker::update(std::string s)
         update_context_change();
     } else {
         // process each char in string s individually
-        for (unsigned int i=0; i<s.size(); i++) {
+        for (int i=0; i < s.size(); i++) {
             update(s[i]);
 
             logger << DEBUG << "update(): contextTracker-getPrefix(): " << getPrefix() << endl;
@@ -153,30 +153,15 @@ bool ContextTracker::update_context_change()
     return contextChanged;
 }
 
-void ContextTracker::update(unsigned int character)
+void ContextTracker::update(int character)
 {
     //DEBUG
     //std::cout << "s[i] = " << static_cast<int>(s[i]) << std::endl;
     //std::cout << "s[i] " << (isControlChar( s[i] )?"":"non")
     //          << " e' un carattere di controllo." << std::endl;
 
-    if(isWordChar(character)
-       || isSeparatorChar(character)
-       || isBlankspaceChar(character)) {
-	// if s is a word string, append to pastBuffer
-	// if s is a separator string, append to pastBuffer
-	logger << DEBUG << "updating wordChar/separatorChar/blankspaceChar: " << character << endl;
-#ifdef USE_STRINGSTREAM
-	assert(pastStream.good());
-	pastStream.put(character);
-	assert(pastStream.good());
-#else
-	pastStream.push_back(character);
-#endif
-	//std::cerr << pastStream.str() << std::endl;
-	//std::cerr << "ContextTracker::update() tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
-    } else if ( isControlChar(character) ) {
-	//if s is a control string, take the appropriate action
+    if (isControlChar(character)) {
+	//if s is a control character, take the appropriate action
 	logger << DEBUG << "updating controlChar: " << character << endl;
 
 // REVISIT ////
@@ -304,9 +289,14 @@ void ContextTracker::update(unsigned int character)
 //            }
 			
     } else {
-	logger << ERROR << "Error parsing character: " << character << endl
-	       << "The error occured while executing update(" << character << ")" << endl;
-	//abort();
+	logger << DEBUG << "updating wordChar/separatorChar/blankspaceChar: " << character << endl;
+#ifdef USE_STRINGSTREAM
+	assert(pastStream.good());
+	pastStream.put(character);
+	assert(pastStream.good());
+#else
+	pastStream.push_back(character);
+#endif
     }
 
 #ifdef USE_STRINGSTREAM

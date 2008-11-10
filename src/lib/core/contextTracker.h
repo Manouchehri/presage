@@ -186,7 +186,7 @@ public:
     void setMaxBufferSize(const int);
 
 private:
-    void update(unsigned int character);
+    void update(int character);
     bool update_context_change();
 
 #ifdef USE_STRINGSTREAM

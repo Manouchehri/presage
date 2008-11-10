@@ -11,6 +11,8 @@ Prompter:
   paste and cut do not update context tracker, neither does opening a
    file.
 
+  add a larger text smaller text menu items to view menu
+
   add icon to about box
 
   toolbar icon size
