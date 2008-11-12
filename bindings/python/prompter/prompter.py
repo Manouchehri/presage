@@ -129,6 +129,9 @@ class PrompterFrame(wx.Frame):
       # turn text_wrap checked menu item on at start-up
       self.viewMenu.Check(self.ID_TOGGLE_WORD_WRAP, True)
       self.viewMenu.AppendSeparator()
+      BindMenu(self.viewMenu.Append(wx.ID_ZOOM_IN, "L&arger text\tCTRL++"), self.OnViewMenuLargerText)
+      BindMenu(self.viewMenu.Append(wx.ID_ZOOM_OUT, "S&maller text\tCTRL+-"), self.OnViewMenuSmallerText)
+      self.viewMenu.AppendSeparator()      
       self.ID_SHOW_TOOLBAR = wx.NewId()
       self.show_toolbar_view_menu_item = self.viewMenu.Append(self.ID_SHOW_TOOLBAR,
                                                               "Show &Toolbar",
@@ -369,6 +372,12 @@ class PrompterFrame(wx.Frame):
    def OnViewMenuWordWrap(self, event):
       self.editor.ToggleWordWrapMode()
 
+   def OnViewMenuLargerText(self, event):
+      self.editor.IncreaseTextSize()
+
+   def OnViewMenuSmallerText(self, event):
+      self.editor.DecreaseTextSize()
+
    def OnViewMenuShowToolbar(self, event):
       if event.Checked():
          self.toolbar.Show()
@@ -499,6 +508,9 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.AutoCompSetSeparator(44)
       #self.AutoCompSetIgnoreCase(1)
       self.AutoCompSetMaxHeight(int(self.prsg.config("Presage.Selector.SUGGESTIONS")))
+
+      self.text_size = 10
+      self.StyleSetSize(wx.stc.STC_STYLE_DEFAULT, self.text_size)
 
       # hide margings
       for i in range(5):
@@ -662,3 +674,12 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
          self.SetWrapMode(wx.stc.STC_WRAP_WORD)
       else:
          self.SetWrapMode(wx.stc.STC_WRAP_NONE)
+
+   def IncreaseTextSize(self):
+      self.text_size += 1
+      self.StyleSetSize(wx.stc.STC_STYLE_DEFAULT, self.text_size)
+
+   def DecreaseTextSize(self):
+      if self.text_size > 1:
+         self.text_size -= 1
+         self.StyleSetSize(wx.stc.STC_STYLE_DEFAULT, self.text_size)

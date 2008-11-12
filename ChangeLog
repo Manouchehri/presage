@@ -1,3 +1,8 @@
+2008-11-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added menu items to
+	increase or decrease text size.
+
 2008-11-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/contextTracker.*: fixed handling of utf-8 encoded
