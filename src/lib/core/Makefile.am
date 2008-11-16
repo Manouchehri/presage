@@ -21,37 +21,55 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =		tokenizer dbconnector
+SUBDIRS =	\
+	tokenizer \
+	dbconnector
 
-noinst_LTLIBRARIES = 	libcore.la
+noinst_LTLIBRARIES = 	\
+	libcore.la
 
-libcore_la_SOURCES =	prediction.cpp prediction.h         \
-			suggestion.cpp suggestion.h         \
-			utility.cpp utility.h               \
-			iso8859_1.h                         \
-			charsets.h                          \
-			contextTracker.cpp contextTracker.h \
-			predictor.cpp predictor.h           \
-			combiner.h combiner.cpp             \
-			meritocracyCombiner.h               \
-			meritocracyCombiner.cpp             \
-			linearCombiner.h                    \
-			backoffCombiner.h                   \
-			maxEntropyCombiner.h                \
-			selector.cpp selector.h             \
-			variable.cpp variable.h             \
-			configuration.cpp configuration.h   \
-			profile.cpp profile.h               \
-			profileManager.cpp profileManager.h \
-			logger.cpp logger.h                 \
-			presageException.cpp                \
-			$(srcdir)/../presageException.h     \
-			pluginRegistry.cpp pluginRegistry.h 
+libcore_la_SOURCES =	\
+	prediction.cpp \
+	prediction.h \
+	suggestion.cpp \
+	suggestion.h \
+	utility.cpp \
+	utility.h \
+	iso8859_1.h \
+	charsets.h \
+	contextTracker.cpp \
+	contextTracker.h \
+	predictorActivator.cpp \
+	predictorActivator.h \
+	combiner.h \
+	combiner.cpp \
+	meritocracyCombiner.h \
+	meritocracyCombiner.cpp \
+	linearCombiner.h \
+	backoffCombiner.h \
+	maxEntropyCombiner.h \
+	selector.cpp \
+	selector.h \
+	variable.cpp \
+	variable.h \
+	configuration.cpp \
+	configuration.h \
+	profile.cpp \
+	profile.h \
+	profileManager.cpp \
+	profileManager.h \
+	logger.cpp \
+	logger.h \
+	presageException.cpp \
+	presageException.h \
+	pluginRegistry.cpp \
+	pluginRegistry.h
 
 # Temporarily disabled
 #                       pluginManager.cpp pluginManager.h
 
-libcore_la_LIBADD =	tokenizer/libtokenizer.la     \
-			dbconnector/libdbconnector.la 
+libcore_la_LIBADD =	\
+	tokenizer/libtokenizer.la \
+	dbconnector/libdbconnector.la 
 
-AM_CPPFLAGS =		-I$(top_srcdir)/src/lib
+AM_CPPFLAGS =	-I$(top_srcdir)/src/lib

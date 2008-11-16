@@ -299,8 +299,8 @@ void ProfileManager::buildProfile(const std::string p)
         }
     }
 
-    // Predictor module
-    module = root->InsertEndChild( TiXmlElement( "Predictor" ) );
+    // PredictorActivator module
+    module = root->InsertEndChild( TiXmlElement( "PredictorActivator" ) );
     assert( module );
     if( module ) {
         element = module->InsertEndChild(TiXmlElement("LOGGER"));

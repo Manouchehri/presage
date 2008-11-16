@@ -22,16 +22,16 @@
                                                                 **********(*)*/
 
 
-#include "core/predictor.h"
+#include "core/predictorActivator.h"
 #include "core/utility.h"
 
-Predictor::Predictor(Configuration* configuration,
+PredictorActivator::PredictorActivator(Configuration* configuration,
 		     PluginRegistry* registry,
 		     ContextTracker* ct)
     : config(configuration),
       pluginRegistry(registry),
       contextTracker(ct),
-      logger("Predictor", std::cerr)
+      logger("PredictorActivator", std::cerr)
 {
     combiner = 0;
 
@@ -40,25 +40,25 @@ Predictor::Predictor(Configuration* configuration,
     Value value;
 
     try {
-	variable = new Variable("Presage.Predictor.LOGGER");
+	variable = new Variable("Presage.PredictorActivator.LOGGER");
 	value = config->get(*variable);
 	logger << setlevel(value);
 	logger << INFO << "LOGGER: " << value << endl;
 	delete variable;
 
-	variable = new Variable("Presage.Predictor.PREDICT_TIME");
+	variable = new Variable("Presage.PredictorActivator.PREDICT_TIME");
 	value = config->get(*variable);
 	logger << INFO << "PREDICT_TIME: " << value << endl;
 	setPredictTime(toInt(value));
 	delete variable;
 
-	variable = new Variable("Presage.Predictor.MAX_PARTIAL_PREDICTION_SIZE");
+	variable = new Variable("Presage.PredictorActivator.MAX_PARTIAL_PREDICTION_SIZE");
 	value = config->get(*variable);
 	logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
 	max_partial_prediction_size = toInt(value);
 	delete variable;
 
-	variable = new Variable("Presage.Predictor.COMBINATION_POLICY");
+	variable = new Variable("Presage.PredictorActivator.COMBINATION_POLICY");
 	value = config->get(*variable);
 	logger << INFO << "COMBINATION_POLICY: " << value << endl;
 	setCombinationPolicy(value);
@@ -70,20 +70,12 @@ Predictor::Predictor(Configuration* configuration,
 }
 
 
-Predictor::~Predictor()
+PredictorActivator::~PredictorActivator()
 {
     delete combiner;
 }
 
-// PLUMP callback
-//void callback_predict(plump::PluginInstance* plugin, void* data)
-//{
-//    Prediction* p = reinterpret_cast<Prediction*>(data);
-//    Plugin* predictivePlugin = reinterpret_cast<Plugin*>(plugin->instance());
-//    *p = predictivePlugin->predict();
-//}
-
-Prediction Predictor::predict(unsigned int multiplier)
+Prediction PredictorActivator::predict(unsigned int multiplier)
 {
     Prediction result;
 
@@ -123,10 +115,10 @@ Prediction Predictor::predict(unsigned int multiplier)
 }
 
 
-bool Predictor::setPredictTime( const int predictTime )
+bool PredictorActivator::setPredictTime( const int predictTime )
 {
     // handle exception where predictTime is less than zero
-    if( predictTime < 0 ) {
+    if (predictTime < 0) {
         logger << ERROR << "Error: attempted to set PREDICT_TIME option to "
 	       << "a negative integer value. Please make sure that "
 	       << "PREDICT_TIME option is set to a value greater "
@@ -140,13 +132,13 @@ bool Predictor::setPredictTime( const int predictTime )
 }
 
 
-int Predictor::getPredictTime() const
+int PredictorActivator::getPredictTime() const
 {
     return PREDICT_TIME;
 }
 
 
-void Predictor::setCombinationPolicy(const std::string cp)
+void PredictorActivator::setCombinationPolicy(const std::string cp)
 {
     logger << INFO << "Setting COMBINATION_POLICY to " << cp << endl;
     delete combiner;
@@ -163,7 +155,7 @@ void Predictor::setCombinationPolicy(const std::string cp)
 }
 
 
-std::string Predictor::getCombinationPolicy() const
+std::string PredictorActivator::getCombinationPolicy() const
 {
     return combinationPolicy;
 }

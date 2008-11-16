@@ -32,7 +32,6 @@
 #include "core/suggestion.h"
 #include "core/prediction.h"
 #include "core/contextTracker.h"
-#include "core/predictor.h"
 #include "core/logger.h"
 
 #include <string>

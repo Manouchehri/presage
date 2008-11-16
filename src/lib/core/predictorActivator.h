@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_PREDICTOR
-#define PRESAGE_PREDICTOR
+#ifndef PRESAGE_PREDICTORACTIVATOR
+#define PRESAGE_PREDICTORACTIVATOR
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -53,9 +53,9 @@
 //#include <dlfcn.h>   // needed for shared library dynamic loading
 
 
-/** Predictor, the heart of Presage system, coordinates the execution of predictive plugins and returns the combination of their predictions.
+/** PredictorActivator, the heart of Presage system, coordinates the execution of predictive plugins and returns the combination of their predictions.
  *
- * Predictor starts the execution of the active predictive plugins,
+ * PredictorActivator starts the execution of the active predictive plugins,
  * monitors their execution and collects the predictions returned, or
  * terminates a predictive plugin's execution if it execedes its
  * maximum prediction time.
@@ -65,14 +65,14 @@
  * refer to my thesis for a list of possible conbination strategies.
  *
  */
-class Predictor {
+class PredictorActivator {
   public:
-//PLUMP    Predictor(HistoryTracker&,
+//PLUMP    PredictorActivator(HistoryTracker&,
 //PLUMP              plump::Plump&);
 
-    /** Construct a predictor object.
+    /** Construct a PredictorActivator object.
      *
-     *  Predictor needs a reference to the ContextTracker object to
+     *  PredictorActivator needs a reference to the ContextTracker object to
      *  forward to the predictive plugins for context retrieval and
      *  analysis.
      *
@@ -80,12 +80,12 @@ class Predictor {
      * @param registry pointer to plugin registry
      * @param contextTracker pointer to ContextTracker
      */
-    Predictor(Configuration* config, PluginRegistry* registry, ContextTracker* contextTracker);
+    PredictorActivator(Configuration* config, PluginRegistry* registry, ContextTracker* contextTracker);
 
-    /** Destroy predictor.
+    /** Destroy predictor activator.
      *
      */
-    ~Predictor();
+    ~PredictorActivator();
 
     /** Runs the predictive plugins, combine their predictions and return the resulting prediction.
      *
@@ -132,9 +132,9 @@ class Predictor {
 
      /** Gets COMBINATION_METHOD option value.
       *
-      * Returns the active combination method used by predictor to
-      * combine predictions returned by the active predictive plugins
-      * into one prediction.
+      * Returns the active combination method used by predictor
+      * activator to combine predictions returned by the active
+      * predictive plugins into one prediction.
       *
       * @return value of COMBINATION_METHOD
       */
@@ -142,9 +142,9 @@ class Predictor {
 
     /** Sets combination policy.
      *
-     * Sets the combination policy used by predictor to combine
-     * predictions returned by the active predictive plugins into one
-     * prediction.
+     * Sets the combination policy used by predictor activator to
+     * combine predictions returned by the active predictive plugins
+     * into one prediction.
      * 
      * The existing combiner object is first destroyed, then a new
      * combiner object created.
@@ -179,4 +179,4 @@ class Predictor {
 
 };
 
-#endif // PRESAGE_PREDICTOR
+#endif // PRESAGE_PREDICTORACTIVATOR
