@@ -1,3 +1,8 @@
+2008-11-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* predictorActivator.*, selector.h, profileManager.cpp,
+	predictor.*: refactored Predictor class to PredictorActivator.
+	
 2008-11-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/prompter/prompter.py: added menu items to

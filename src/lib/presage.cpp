@@ -28,7 +28,7 @@
 #include "core/pluginRegistry.h"
 #include "core/contextTracker.h"
 #include "core/selector.h"
-#include "core/predictor.h"
+#include "core/predictorActivator.h"
 
 Presage::Presage()
 {
@@ -38,7 +38,7 @@ Presage::Presage()
 
     pluginRegistry = new PluginRegistry(configuration);
     contextTracker = new ContextTracker(configuration, pluginRegistry);
-    predictor = new Predictor(configuration, pluginRegistry, contextTracker);
+    predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
     selector = new Selector(configuration, contextTracker);
 
     //plump::Logger::getLogger()->setLevel(plump::Logger::DEBUG);
@@ -55,14 +55,14 @@ Presage::Presage(const std::string config_filename)
 
     pluginRegistry = new PluginRegistry(configuration);
     contextTracker = new ContextTracker(configuration, pluginRegistry);
-    predictor = new Predictor(configuration, pluginRegistry, contextTracker);
+    predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
     selector = new Selector(configuration, contextTracker);
 }
 
 Presage::~Presage()
 {
     delete selector;
-    delete predictor;
+    delete predictorActivator;
     delete contextTracker;
     delete pluginRegistry;
 
@@ -78,12 +78,12 @@ std::vector<std::string> Presage::predict(std::string s)
     contextTracker->update (s);
 
     unsigned int multiplier = 1;
-    Prediction prediction = predictor->predict(multiplier++);
+    Prediction prediction = predictorActivator->predict(multiplier++);
     result = selector->select(prediction);
 
     Prediction previous_prediction = prediction;
     while ((result.size() < (selector->suggestions()))
-	   && (prediction = predictor->predict(multiplier++)).size() > previous_prediction.size()) {
+	   && (prediction = predictorActivator->predict(multiplier++)).size() > previous_prediction.size()) {
 	// while the number of predicted tokens is lower than desired,
 	// search harder (i.e. higher multiplier) for a prediction of
 	// sufficient size (i.e. that satisfies selector), as long as

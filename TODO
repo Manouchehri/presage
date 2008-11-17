@@ -18,53 +18,12 @@ Prompter:
   autocomp max height
 
 
-Registry:
-
-  Predictor class functionality should be split up. There should be
-  one PluginRegitry class which holds the active plugins and whose
-  interface consists of a call that returns an iterator to the
-  plugins.
-
-  Predictor would obtain an iterator from PluginRegistry and invoke
-  the predict() method on each Plugin pointed to by the iterator.
-
-  A new Learner class could invoke the learn() method on them when
-  needed.
-
-  This way, the reverse dependency that implementing learning cause
-  between ContextTracker and Predictor would disappear, being
-  substituted by a single dependency on Registry and the introduction
-  of a new Learner class (name still to decide).
- 
-  The registry should eventually just be a simple wrapper around
-  plump.
-
-
-Absolute first
- - should Profile::getConfig() really throw exception? Why not just
-   return an empty string when config is not found? Is not finding a
-   config really an exceptional condition?
- - Consider removing the following public methods from Variable
-   interface:
-   . Variable();
-   . Variable(const std::vector<std::string>& variable);
-   . std::vector<std::string> variable() const;
-   . void push_back(const std::string& str) { m_variable.push_back(str); }
-   . void pop_back() { m_variable.pop_back(); }
-   . size_t size() const;
+Absolute first:
  - make all components aware of configuration variable runtime changes
  - implement logger level inheritance from parent module
  - SqliteDatabaseConnector callback: had to disable logging there because
    static method, investigate on how it can be re-enabled
  - test performance with different n values in n-gram
- - pluginManagerDriver, pluginManager are currently not necessary, as
-   dynamic plug-in loading is disabled. This functionality will
-   eventually be reinstated and supplied by the plump project.
-   files:
-      src/core/pluginManager.h
-      src/core/pluginManager.cpp
-      test/core/pluginManagerDriver.cpp
-   should be taken care of as part of plump integration
 
 Architectural restructure: 
 - predictive plug-ins
@@ -88,13 +47,50 @@ Architectural restructure:
    predictions. Combiner object would know how to retrieve its config
    values and which Strategy to create and use.
 
+- registry [done]:
+
+  Predictor class functionality should be split up. There should be
+  one PluginRegitry class which holds the active plugins and whose
+  interface consists of a call that returns an iterator to the
+  plugins.
+
+  Predictor would obtain an iterator from PluginRegistry and invoke
+  the predict() method on each Plugin pointed to by the iterator.
+
+  A new Learner class could invoke the learn() method on them when
+  needed.
+
+  This way, the reverse dependency that implementing learning cause
+  between ContextTracker and Predictor would disappear, being
+  substituted by a single dependency on Registry and the introduction
+  of a new Learner class (name still to decide).
+ 
+  The registry should eventually just be a simple wrapper around
+  plump.
+
 
 Short term:
+ - should Profile::getConfig() really throw exception? Why not just
+   return an empty string when config is not found? Is not finding a
+   config really an exceptional condition?
+ - Consider removing the following public methods from Variable
+   interface:
+   . Variable();
+   . Variable(const std::vector<std::string>& variable);
+   . std::vector<std::string> variable() const;
+   . void push_back(const std::string& str) { m_variable.push_back(str); }
+   . void pop_back() { m_variable.pop_back(); }
+   . size_t size() const;
+ - pluginManagerDriver, pluginManager are currently not necessary, as
+   dynamic plug-in loading is disabled. This functionality will
+   eventually be reinstated and supplied by the plump project.
+   files:
+      src/core/pluginManager.h
+      src/core/pluginManager.cpp
+      test/core/pluginManagerDriver.cpp
+   should be taken care of as part of plump integration
 * add proper unicode support
-* look into using PYTHON automake primary to build python binding module
 * enable dictionary plugin by default (dictionary file?)
-* use static const Variable objects to read in configuration for
-   modules (see RecencyPlugin for an example)
 * put utility.h/utility.cpp functions in a Utility class
 * rewrite strtoupper and strtolower utility functions to use a pointer
    to function to do the individual char conversion
@@ -108,9 +104,6 @@ Short term:
    string can cause security problems
 * implement activation map predictive plugin
 
-- investigate the effectiveness of sourcing the initial prefix
-   completion list from a different table. One possible idea is to use
-   the table that has the strongest weight.
 - try to improve reverseTokenizer::progress() accuracy
    currently it uses a delta of 0.7, should try to get it down to 0.3
 - Class HistoryTracker could initialize Tokenizer's members separator
@@ -136,6 +129,9 @@ Longer term:
 
 
 
+
+VARIOUS NOTES
+=============
 
 Plugins and Profiles and Managers
 ---------------------------------

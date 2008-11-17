@@ -31,7 +31,7 @@
 
 #include "core/pluginRegistry.h"
 #include "core/contextTracker.h"
-#include "core/predictor.h"
+#include "core/predictorActivator.h"
 #include "core/selector.h"
 
 class ProfileManagerTest : public CppUnit::TestFixture { 
@@ -52,7 +52,7 @@ private:
 
     PluginRegistry* pluginRegistry;
     ContextTracker* contextTracker;
-    Predictor*      predictor;
+    PredictorActivator* predictorActivator;
     Selector*       selector;
     
     CPPUNIT_TEST_SUITE( ProfileManagerTest );

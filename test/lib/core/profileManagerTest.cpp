@@ -34,12 +34,12 @@ void ProfileManagerTest::setUp()
     
     contextTracker = 0;
     selector       = 0;
-    predictor      = 0;
+    predictorActivator      = 0;
 }
 
 void ProfileManagerTest::tearDown()
 {
-    delete predictor;
+    delete predictorActivator;
     delete selector;
     delete contextTracker;
 
@@ -58,7 +58,7 @@ void ProfileManagerTest::testDefaultProfile()
 
     contextTracker = new ContextTracker(configuration, pluginRegistry);
     selector = new Selector(configuration, contextTracker);
-    predictor = new Predictor(configuration, pluginRegistry, contextTracker);
+    predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
 
     std::cout << "ProfileManagerTest: before testProfile()" << std::endl;
     testProfile();
@@ -83,7 +83,7 @@ void ProfileManagerTest::testNonExistantProfile()
 
      contextTracker = new ContextTracker(profile);
      selector = new Selector(profile, contextTracker);
-     predictor = new Predictor(profile, contextTracker);
+     predictorActivator = new PredictorActivator(profile, contextTracker);
 
     testProfile();
     */
@@ -95,11 +95,11 @@ void ProfileManagerTest::testProfile()
     CPPUNIT_ASSERT_EQUAL(DEFAULT_MAX_BUFFER_SIZE,
 			 contextTracker->getMaxBufferSize());
 
-    // test init predictor
+    // test init predictorActivator
     CPPUNIT_ASSERT_EQUAL(DEFAULT_PREDICT_TIME,
-			 predictor->getPredictTime());
+			 predictorActivator->getPredictTime());
     CPPUNIT_ASSERT_EQUAL(DEFAULT_COMBINATION_POLICY,
-			 predictor->getCombinationPolicy());
+			 predictorActivator->getCombinationPolicy());
 
     // test init selector
     CPPUNIT_ASSERT_EQUAL(DEFAULT_SUGGESTIONS,

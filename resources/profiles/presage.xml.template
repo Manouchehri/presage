@@ -38,7 +38,7 @@
 	-->
         <GREEDY_SUGGESTION_THRESHOLD>0</GREEDY_SUGGESTION_THRESHOLD>
     </Selector>
-    <Predictor>
+    <PredictorActivator>
         <LOGGER>ERROR</LOGGER>
         <!-- PREDICT_TIME
           Maximum time allowed for predictive plugins to return their prediction.
@@ -53,7 +53,7 @@
 	  by the active predictive plugins into one prediction.
         -->
         <COMBINATION_POLICY>Meritocracy</COMBINATION_POLICY>
-    </Predictor>
+    </PredictorActivator>
     <ProfileManager>
         <LOGGER>ERROR</LOGGER>
     </ProfileManager>

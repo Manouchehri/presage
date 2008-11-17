@@ -39,7 +39,7 @@ class ProfileManager;
 class Profile;
 class ContextTracker;
 class PluginRegistry;
-class Predictor;
+class PredictorActivator;
 class Selector;
 
 /** \brief Presage, the intelligent predictive text entry platform.
@@ -132,13 +132,13 @@ class Presage {
     void config(const std::string variable, const std::string value);
 
   private:
-    ProfileManager* profileManager;
-    Profile*        profile;
-    Configuration*  configuration;
-    PluginRegistry* pluginRegistry;
-    ContextTracker* contextTracker;
-    Predictor*      predictor;
-    Selector*       selector;
+    ProfileManager*     profileManager;
+    Profile*            profile;
+    Configuration*      configuration;
+    PluginRegistry*     pluginRegistry;
+    ContextTracker*     contextTracker;
+    PredictorActivator* predictorActivator;
+    Selector*           selector;
 
 };
 

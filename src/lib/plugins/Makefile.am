@@ -39,16 +39,6 @@ libSmoothedNgramPlugin_la_SOURCES =		smoothedNgramPlugin.cpp \
 libAbbreviationExpansionPlugin_la_SOURCES =	abbreviationExpansionPlugin.h   \
 						abbreviationExpansionPlugin.cpp 
 
-###
-# Dynamically loadable plugin module
-# lib_LTLIBRARIES =			smoothedUniBiTrigramPlugin.la
-# 
-# smoothedUniBiTrigramPlugin_la_SOURCES = smoothedUniBiTrigramPlugin.cpp \
-# 					smoothedUniBiTrigramPlugin.h
-# smoothedUniBiTrigramPlugin_la_LIBADD =	libplugin.la
-# smoothedUniBiTrigramPlugin_la_LDFLAGS =	-module -no-undefined 
-
-
 libDictionaryPlugin_la_SOURCES =	dictionaryPlugin.cpp    \
 					dictionaryPlugin.h      
 
