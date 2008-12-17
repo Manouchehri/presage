@@ -26,7 +26,7 @@
 
 #include "core/profileManager.h"
 #include "core/pluginRegistry.h"
-#include "core/contextTracker.h"
+#include "core/context_tracker/contextTracker.h"
 #include "core/selector.h"
 #include "core/predictorActivator.h"
 

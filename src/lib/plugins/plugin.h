@@ -29,7 +29,7 @@
 //#include "plump/src/pluginInterface.h"
 
 #include "core/prediction.h"
-#include "core/contextTracker.h"
+#include "core/context_tracker/contextTracker.h"
 #include "core/configuration.h"
 
 #include <string>

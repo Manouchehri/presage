@@ -28,10 +28,10 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "core/profileManager.h"
-#include "core/contextTracker.h"
+#include "core/context_tracker/contextTracker.h"
 #include "core/pluginRegistry.h"
 
-#include "tokenizer/testStringSuite.h"
+#include "../tokenizer/testStringSuite.h"
 
 class ContextTrackerTest : public CppUnit::TestFixture { 
 public:

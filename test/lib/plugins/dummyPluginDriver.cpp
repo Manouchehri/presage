@@ -24,7 +24,7 @@
 
 #include <iostream>
 #include "plugins/dummyPlugin.h"
-#include "core/contextTracker.h"
+#include "core/context_tracker/contextTracker.h"
 #include <vector>
 #include <string>
 

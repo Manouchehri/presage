@@ -23,8 +23,8 @@
 
 
 #include "contextTracker.h"
-#include "utility.h"
-#include "pluginRegistry.h"
+#include "core/utility.h"
+#include "core/pluginRegistry.h"
 
 ContextTracker::ContextTracker(Configuration* config,
 			       PluginRegistry* registry,

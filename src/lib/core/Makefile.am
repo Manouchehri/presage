@@ -23,6 +23,7 @@
 
 SUBDIRS =	\
 	tokenizer \
+	context_tracker \
 	dbconnector
 
 noinst_LTLIBRARIES = 	\
@@ -37,8 +38,6 @@ libcore_la_SOURCES =	\
 	utility.h \
 	iso8859_1.h \
 	charsets.h \
-	contextTracker.cpp \
-	contextTracker.h \
 	predictorActivator.cpp \
 	predictorActivator.h \
 	combiner.h \
@@ -70,6 +69,7 @@ libcore_la_SOURCES =	\
 
 libcore_la_LIBADD =	\
 	tokenizer/libtokenizer.la \
+	context_tracker/libcontexttracker.la \
 	dbconnector/libdbconnector.la 
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib

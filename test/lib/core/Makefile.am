@@ -21,7 +21,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	tokenizer dbconnector
+SUBDIRS =	tokenizer context_tracker dbconnector
 
 EXTRA_DIST =	profileTest.xml
 
@@ -36,7 +36,6 @@ coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				predictionTest.h predictionTest.cpp         \
 				tokenizer/testStringSuite.h                 \
 				tokenizer/testStringSuite.cpp               \
-				contextTrackerTest.h contextTrackerTest.cpp \
 				selectorTest.h selectorTest.cpp             \
 				profileTest.h profileTest.cpp               \
 				profileManagerTest.h profileManagerTest.cpp \

@@ -36,7 +36,7 @@
 
 #include "core/configuration.h"
 #include "core/pluginRegistry.h"
-#include "core/contextTracker.h"
+#include "core/context_tracker/contextTracker.h"
 #include "core/prediction.h"
 #include "core/logger.h"
 

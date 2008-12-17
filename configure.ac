@@ -253,6 +253,7 @@ AC_OUTPUT([
 	src/lib/Makefile
 	src/lib/core/Makefile
 	src/lib/core/tokenizer/Makefile
+	src/lib/core/context_tracker/Makefile
 	src/lib/core/dbconnector/Makefile
 	src/lib/simulator/Makefile
 	src/lib/tinyxml/Makefile
@@ -263,6 +264,7 @@ AC_OUTPUT([
 	test/lib/Makefile
 	test/lib/core/Makefile
 	test/lib/core/tokenizer/Makefile
+	test/lib/core/context_tracker/Makefile
 	test/lib/core/dbconnector/Makefile
 	test/lib/plugins/Makefile
 	test/lib/simulator/Makefile
