@@ -121,6 +121,7 @@ Section "Runtime" SecRuntime
     
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\presage_prompter.lnk" "$INSTDIR\bin\presage_prompter.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -187,6 +188,7 @@ Section "Uninstall"
   
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
     
+  Delete "$SMPROGRAMS\$StartMenuFolder\presage_prompter.lnk"
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
   

@@ -1,3 +1,10 @@
+2009-01-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/changelog, configure.ac: changed to next beta revision.
+
+	* windows/presage_installer.nsi: added Start menu shortcut for
+	presage prompter.
+
 2008-11-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* predictorActivator.*, selector.h, profileManager.cpp,
