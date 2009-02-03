@@ -38,17 +38,41 @@
  *
  */
 
-#include <stdio.h>
-#include <unistd.h>
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include <pthread.h>
+#include <stdio.h>
+#ifdef HAVE_UNISTD_H
+# include <unistd.h>
+#endif
+#ifdef HAVE_STDLIB_H
+# include <stdlib.h>
+#endif
+
+#ifdef HAVE_PTHREAD_H
+# include <pthread.h>
+#endif
+#ifdef HAVE_X11_XLIB_H
+# include <X11/Xlib.h>
+#endif
+#ifdef HAVE_X11_XPROTO_H
+# include <X11/Xproto.h>
+#endif
+#ifdef HAVE_X11_X_H
+# include <X11/X.h>
+#endif
+#ifdef HAVE_X11_EXTENSIONS_XEVIE_H
+# include <X11/extensions/Xevie.h>
+#endif
+#ifdef HAVE_X11_XUTIL_H
+# include <X11/Xutil.h>
+#endif
+#ifdef HAVE_X11_KEYSYMDEF_H
+# include <X11/keysymdef.h>
+#endif
+
 #include <gtk/gtk.h>
-#include <X11/Xlib.h>
-#include <X11/Xproto.h>
-#include <X11/X.h>
-#include <X11/extensions/Xevie.h>
-#include <X11/Xutil.h>
-#include <X11/keysymdef.h>
 
 #include "presage.h"
 

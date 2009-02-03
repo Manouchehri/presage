@@ -41,6 +41,28 @@ Requirements:
 - SQLite package. SQLite is a small C library that implements a
   self-contained, embeddable, zero-configuration SQL database engine.
   SQLite can be obtained from http://www.sqlite.org
+ 
+  On Debian systems, install libsqlite3-dev and sqlite3 packages.
+
+Optional:
+- Curses library. On Debian systems, install libncurses5-dev.
+
+- CPPUnit library. On Debian systems, install libcppunit-dev.
+
+- Python package. On Debian systems, install python-dev.
+
+- SWIG package. On Debian systems, install swig.
+
+- help2man package. On Debian systems, install help2man.
+
+- doxygen package. On Debian systems, install doxygen.
+
+- dot program. On Debian systems, install graphviz.
+
+- X11 EvIE extension library. On Debian systems, install libxevie-dev.
+
+- GNOME development package. On Debian systems, install gnome-devel.
+
 
 _______________________
 STEP 0: Getting Presage
