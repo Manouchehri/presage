@@ -27,6 +27,7 @@ EXTRA_DIST =	\
 	INSTALL_Cygwin_dev_env.txt \
 	INSTALL_MinGW_MSYS_dev_env.txt	
 
+if BUILD_DOCUMENTATION
 if HAVE_DOXYGEN
 #pkgdata_DATA =	html latex
 install-data-local:
@@ -54,4 +55,5 @@ distclean-local:
 
 uninstall-local:
 	rm -rf $(DESTDIR)$(pkgdatadir)/html $(DESTDIR)$(pkgdatadir)/latex
+endif
 endif

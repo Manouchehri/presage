@@ -1,3 +1,8 @@
+2009-02-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac, doc/Makefile.am: added --disable-documentation
+	configure switch to turn off doxygen documentation generation.
+
 2009-02-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/gtk/gpresagemate.cpp: fixed includes.

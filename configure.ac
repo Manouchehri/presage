@@ -176,6 +176,16 @@ fi
 AM_CONDITIONAL(ENABLE_PYTHON_BINDING, test "x$ac_enable_python_binding" = "xyes")
 
 
+dnl ========================
+dnl Checks for documentation
+dnl ========================
+AC_ARG_ENABLE([documentation],
+        AS_HELP_STRING([--disable-documentation],[disable documentation generation  (default: enabled)]),
+        [enable_documentation=$enableval],
+        [enable_documentation=yes])
+AM_CONDITIONAL([BUILD_DOCUMENTATION], [test "x$enable_documentation" = "xyes"])
+
+
 dnl ==================
 dnl Checks for Doxygen
 dnl ==================
@@ -185,7 +195,12 @@ then
     AC_MSG_NOTICE([Doxygen not found. API documentation will not be built.])
 fi
 AM_CONDITIONAL([HAVE_DOXYGEN], [test "x$HAVE_DOXYGEN" = "xyes"])
-
+if test "x$enable_documentation" = "xyes" -a "x$HAVE_DOXYGEN" = "xyes"
+then
+    build_documentation=yes
+else
+    build_documentation=no
+fi
 
 dnl ==============
 dnl Checks for dot
@@ -196,6 +211,12 @@ then
     AC_MSG_NOTICE([dot not found. Documentation graphs and diagrams will not be generated.])
 fi
 AC_SUBST([HAVE_DOT], ["$HAVE_DOT"])
+if test "x$enable_documentation" = "xyes" -a "x$HAVE_DOXYGEN" = "xyes" -a "x$HAVE_DOT" = "xyes"
+then
+    build_documentation_diagrams=yes
+else
+    build_documentation_diagrams=no
+fi
 
 
 dnl ===================
@@ -310,8 +331,8 @@ AC_MSG_RESULT([
     Unit tests: ................. ${build_unit_tests}
     Python binding: ............. ${build_python_binding}
     Man pages: .................. ${HAVE_HELP2MAN}
-    API documentation: .......... ${HAVE_DOXYGEN}
-    API documentation diagrams: . ${HAVE_DOT}
+    API documentation: .......... ${build_documentation}
+    API documentation diagrams: . ${build_documentation_diagrams}
 
 
   Predictive plugins:
