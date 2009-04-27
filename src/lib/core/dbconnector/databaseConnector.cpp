@@ -60,7 +60,7 @@ void DatabaseConnector::createNgramTable(const int n) const
 		query << "word TEXT, count INTEGER, UNIQUE(" << unique.str() << ") );";
 	    }
 	}
-	
+
 	executeSql(query.str());
     } else {
 	// TODO
@@ -121,6 +121,22 @@ NgramTable DatabaseConnector::getNgramLikeTable(const Ngram ngram, int limit) co
     return executeSql(query.str());
 }
 
+NgramTable DatabaseConnector::getNgramLikeTableFiltered(const Ngram ngram, const char** filter, int limit) const
+{
+    std::stringstream query;
+    query << "SELECT " << buildSelectLikeClause(ngram.size()) << " "
+          << "FROM _" << ngram.size() << "_gram"
+          << buildWhereLikeClauseFiltered(ngram,filter)
+          << " ORDER BY count DESC";
+    if (limit < 0) {
+        query << ";";
+    } else {
+        query << " LIMIT " << limit << ';';
+    }
+
+    return executeSql(query.str());
+}
+
 int DatabaseConnector::incrementNgramCount(const Ngram ngram) const
 {
     int count = getNgramCount(ngram);
@@ -128,7 +144,7 @@ int DatabaseConnector::incrementNgramCount(const Ngram ngram) const
     if (count > 0) {
 	// the ngram was found in the database
 	updateNgram(ngram, ++count);
-	
+
 	logger << DEBUG << "Updated ngram to " << count << endl;
 
     } else {
@@ -152,7 +168,7 @@ void DatabaseConnector::insertNgram(const Ngram ngram, const int count) const
     query << "INSERT INTO _" << ngram.size() << "_gram "
 	  << buildValuesClause(ngram, count)
 	  << ";";
-    
+
     executeSql(query.str());
 }
 
@@ -198,6 +214,36 @@ std::string DatabaseConnector::buildWhereLikeClause(const Ngram ngram) const
     }
     return where_clause.str();
 }
+
+std::string DatabaseConnector::buildWhereLikeClauseFiltered(const Ngram ngram, const char** filter) const
+{
+    std::stringstream where_clause;
+    where_clause << " WHERE";
+    for (size_t i = 0; i < ngram.size(); i++) {
+        if (i < ngram.size() - 1) {
+            where_clause << " word_" << ngram.size() - i - 1 << " = '"
+                         << sanitizeString(ngram[i]) << "' AND";
+        } else {
+	    if(filter == 0)
+		where_clause << " word LIKE '" << sanitizeString(ngram[ngram.size() - 1]) << "%'";
+	    else {
+		std::string true_prefix = sanitizeString(ngram[ngram.size() - 1]);
+		where_clause << " (";
+		for (int j = 0; filter[j] != 0; j++) {
+//		for(size_t j=0; j < filter.size()-1; j++)
+		    if (j) {
+			where_clause << " OR ";
+		    }
+		    where_clause << " word LIKE '" << true_prefix << filter[j] << "%'";
+		}
+//		where_clause << " word LIKE '" << true_prefix <<"%' )";
+		where_clause << ')';
+	    }
+        }
+    }
+    return where_clause.str();
+}
+
 
 std::string DatabaseConnector::buildSelectLikeClause(const int cardinality) const
 {
@@ -262,7 +308,7 @@ int DatabaseConnector::extractFirstInteger(const NgramTable& table) const
 	}
 	logger << DEBUG << endl;
     }
-	
+
     return (count > 0 ? count : 0);
 }
 

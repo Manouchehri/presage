@@ -78,12 +78,12 @@ std::vector<std::string> Presage::predict(std::string s)
     contextTracker->update (s);
 
     unsigned int multiplier = 1;
-    Prediction prediction = predictorActivator->predict(multiplier++);
+    Prediction prediction = predictorActivator->predict(multiplier++, 0);
     result = selector->select(prediction);
 
     Prediction previous_prediction = prediction;
     while ((result.size() < (selector->suggestions()))
-	   && (prediction = predictorActivator->predict(multiplier++)).size() > previous_prediction.size()) {
+	   && (prediction = predictorActivator->predict(multiplier++, 0)).size() > previous_prediction.size()) {
 	// while the number of predicted tokens is lower than desired,
 	// search harder (i.e. higher multiplier) for a prediction of
 	// sufficient size (i.e. that satisfies selector), as long as
@@ -91,6 +91,48 @@ std::vector<std::string> Presage::predict(std::string s)
 	// previous prediction (i.e. we are finding new tokens).
 	result = selector->select(prediction);
 	previous_prediction = prediction;
+    }
+
+    return result;
+}
+
+
+std::map<double, std::string> Presage::predict(std::vector<std::string> filter)
+{
+    std::map<double, std::string> result;
+
+    std::vector<std::string> selection;
+
+    // convert filter to internal representation - currently a null
+    // terminated const char**
+    const char** internal_filter = new const char*[filter.size() + 1];
+    for (std::vector<std::string>::size_type i = 0; i < filter.size(); i++) {
+      internal_filter[i] = filter[i].c_str();
+    }
+    internal_filter[filter.size()] = 0;
+
+    unsigned int multiplier = 1;
+    Prediction prediction = predictorActivator->predict(multiplier++, internal_filter);
+    selection = selector->select(prediction);
+
+    Prediction previous_prediction = prediction;
+    while ((selection.size() < (selector->suggestions()))
+	   && (prediction = predictorActivator->predict(multiplier++, internal_filter)).size() > previous_prediction.size()) {
+	// while the number of predicted tokens is lower than desired,
+	// search harder (i.e. higher multiplier) for a prediction of
+	// sufficient size (i.e. that satisfies selector), as long as
+	// the selection of current prediction is greater than the
+	// previous prediction (i.e. we are finding new tokens).
+	selection = selector->select(prediction);
+	previous_prediction = prediction;
+    }
+
+    delete[] internal_filter;
+
+    for (std::vector<std::string>::const_iterator it = selection.begin();
+	 it != selection.end();
+	 it++) {
+	result[prediction.getSuggestion(*it).getProbability()] = (*it);
     }
 
     return result;
@@ -111,16 +153,16 @@ void Presage::complete(const std::string completion)
     // or, given that token = prefix + remainder
     // normal_completion  = token
     // erasing_completion = eraser + token
-    // 
+    //
     // where eraser = ^H+ (one or more backspace characters)
-    // 
+    //
     // offset to first non ^H character in completion (^H are inserted
     // by abbreviation expansion predictor to erase abbreviation from
     // stream)
-    // 
+    //
     std::string::size_type offset = completion.find_first_not_of('\b');
     if (offset == 0) {
-        // normal completion, 
+        // normal completion,
         // ensure that current prefix is a substring of completion
         // token and update with remainder
         //

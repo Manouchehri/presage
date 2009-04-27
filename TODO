@@ -6,8 +6,7 @@ The Presage project
 TODO list
 ---------
 
- * working on adding context tracker callback support
-
+* make predictive plugins support filters and write related tests
 
 Prompter:
   paste and cut do not update context tracker, neither does opening a

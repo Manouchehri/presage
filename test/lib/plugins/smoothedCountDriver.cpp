@@ -42,7 +42,7 @@ int main()
 
 	contextTracker.update( historyBuffer );
 	
-	std::cout << plugin.predict(100);
+	std::cout << plugin.predict(100, 0);
 
 	return 0;
 

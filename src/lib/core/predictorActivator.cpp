@@ -75,7 +75,7 @@ PredictorActivator::~PredictorActivator()
     delete combiner;
 }
 
-Prediction PredictorActivator::predict(unsigned int multiplier)
+Prediction PredictorActivator::predict(unsigned int multiplier, const char** filter)
 {
     Prediction result;
 
@@ -98,7 +98,7 @@ Prediction PredictorActivator::predict(unsigned int multiplier)
     while (it.hasNext()) {
 	plugin = it.next();
 	logger << DEBUG << "Invoking predictive plugin: " << plugin->getName() << endl;
-	predictions.push_back(plugin->predict(max_partial_prediction_size * multiplier));
+	predictions.push_back(plugin->predict(max_partial_prediction_size * multiplier, filter));
     }
 
     // ...then merge predictions into a single one...

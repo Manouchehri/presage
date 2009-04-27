@@ -65,6 +65,10 @@ public:
      */
     Suggestion getSuggestion(int=0) const;
 
+    /** Returns suggestion with given token.
+     */
+    Suggestion getSuggestion(std::string token) const;
+
     /** Inserts a new suggestion, preserves the ordering.
      * 
      * The suggestion object to be inserted is compared against the

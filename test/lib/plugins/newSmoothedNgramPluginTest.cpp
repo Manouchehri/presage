@@ -78,32 +78,32 @@ void NewSmoothedNgramPluginTest::testLearning()
 
     {
 	ct->update("f");
-	Prediction actual = plugin->predict(SIZE);
+	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
     }
 
     {
 	ct->update("o");
-	Prediction actual = plugin->predict(SIZE);
+	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
     }
 
     {
 	ct->update("o ");
-	Prediction actual = plugin->predict(SIZE);
+	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(1), actual.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(0).getWord());
     }
 
     {
 	ct->update("bar");
-	Prediction actual = plugin->predict(SIZE);
+	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
     }
 
     {
 	ct->update(" ");
-	Prediction actual = plugin->predict(SIZE);
+	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), actual.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(0).getWord());
 	CPPUNIT_ASSERT_EQUAL(std::string("bar"), actual.getSuggestion(1).getWord());
@@ -111,7 +111,7 @@ void NewSmoothedNgramPluginTest::testLearning()
 
     {
 	ct->update("foobar ");
-	Prediction actual = plugin->predict(SIZE);
+	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), actual.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("foobar"), actual.getSuggestion(0).getWord());
 	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(1).getWord());
@@ -120,7 +120,7 @@ void NewSmoothedNgramPluginTest::testLearning()
 
     {
 	ct->update("f");
-	Prediction actual = plugin->predict(SIZE);
+	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), actual.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("foobar"), actual.getSuggestion(0).getWord());
 	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(1).getWord());

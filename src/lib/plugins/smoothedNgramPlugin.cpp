@@ -68,7 +68,7 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* 
 	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
 	throw PresageException("Unable to init " + name + " predictive plugin.");
     }
-    
+
     try {
 	value = config->get(DATABASE_LOGGER);
     } catch (Configuration::ConfigurationException& ex) {
@@ -123,7 +123,7 @@ unsigned int SmoothedNgramPlugin::count(const std::vector<std::string>& tokens, 
     }
 }
 
-Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size) const
+Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size, const char** filter) const
 {
     logger << DEBUG << "predict()" << endl;
 
@@ -144,7 +144,7 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
     }
 
     // Generate list of prefix completition candidates.
-    // 
+    //
     // The prefix completion candidates used to be obtained from the
     // _1_gram table because in a well-constructed ngram database the
     // _1_gram table (which contains all known tokens). However, this
@@ -169,11 +169,18 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
 	    }
 	    logger << DEBUG << endl;
 	}
-        
+
         // obtain initial prefix completion candidates
         db->beginTransaction();
-        NgramTable partial = db->getNgramLikeTable(prefix_ngram,
-						   max_partial_prediction_size - prefixCompletionCandidates.size());
+
+        NgramTable partial;
+
+        if (filter == 0) {
+	    partial = db->getNgramLikeTable(prefix_ngram,max_partial_prediction_size - prefixCompletionCandidates.size());
+	} else {
+	    partial = db->getNgramLikeTableFiltered(prefix_ngram,filter, max_partial_prediction_size - prefixCompletionCandidates.size());
+	}
+
         db->endTransaction();
 
 	if (logger.shouldLog()) {
@@ -207,7 +214,7 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
             it++;
         }
     }
-    
+
     if (logger.shouldLog()) {
 	logger << DEBUG << "prefixCompletionCandidates" << endl
 	       << DEBUG << "--------------------------" << endl;
@@ -225,7 +232,7 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
 
 	logger << DEBUG << "------------------" << endl;
 	logger << DEBUG << "w_i: " << tokens[cardinality - 1] << endl;
-    
+
 	double probability = 0;
 	for (int k = 0; k < cardinality; k++) {
 	    double numerator = count(tokens, 0, k+1);
@@ -255,7 +262,7 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
     logger << DEBUG << "Prediction:" << endl;
     logger << DEBUG << "-----------" << endl;
     logger << DEBUG << prediction << endl;
-	
+
     return prediction;
 }
 
@@ -303,7 +310,7 @@ void SmoothedNgramPlugin::learn()
 		logger << DEBUG << "Discarded ngram" << endl;
 	    }
 	}
-	
+
     }
 
     logger << DEBUG << "end learn()" << endl;

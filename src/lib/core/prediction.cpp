@@ -77,6 +77,16 @@ Suggestion Prediction::getSuggestion(int i) const
     return suggestions[i];
 }
 
+Suggestion Prediction::getSuggestion(std::string token) const
+{
+    for (size_t i = 0; i < suggestions.size(); i++) {
+	if (suggestions[i].getWord() == token) {
+	    return suggestions[i];
+	}
+    }
+    return Suggestion();
+}
+
 void Prediction::addSuggestion(Suggestion s)
 {
     // insert s so that suggestions vector is sorted

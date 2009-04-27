@@ -75,20 +75,20 @@ void DejavuPluginTest::testPredict()
     {
 	ct->update("polly ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
     }
 
     {
 	ct->update("wants ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
     }
 
     {
 	ct->update("a ");
 	Prediction expected;
 	expected.addSuggestion(Suggestion("cracker", 1.0));
-	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
     }
 
     ct->update("soda ");
@@ -96,13 +96,13 @@ void DejavuPluginTest::testPredict()
     {
 	ct->update("polly ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
     }
 
     {
 	ct->update("wants ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
     }
 
     {
@@ -110,7 +110,7 @@ void DejavuPluginTest::testPredict()
 	Prediction expected;
 	expected.addSuggestion(Suggestion("cracker", 1.0));
 	expected.addSuggestion(Suggestion("soda",    1.0));
-	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
     }
 
     ct->update("cake ");
@@ -118,13 +118,13 @@ void DejavuPluginTest::testPredict()
     {
 	ct->update("polly ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
     }
 
     {
 	ct->update("wants ");
 	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
     }
 
     {
@@ -133,6 +133,6 @@ void DejavuPluginTest::testPredict()
 	expected.addSuggestion(Suggestion("cake",    1.0));
 	expected.addSuggestion(Suggestion("cracker", 1.0));
 	expected.addSuggestion(Suggestion("soda",    1.0));
-	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
     }
 }

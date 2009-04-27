@@ -72,72 +72,72 @@ class PluginRegistry;
  *
  * Use-cases:
  *
- * 
+ *
  * Full sentence: Yesterday I went to the market to buy an apple.
- * 
+ *
  * History:Yesterday I went to the|
  * wi-2	"went"
  * wi-1	"to"
  * prefix	""
  * postfix ""
- * 
- * 
+ *
+ *
  * : 'SPC' (space)
  * History:Yesterday I went to the|
  * wi-2	"to"
  * wi-1	"the"
  * prefix	""
  * postfix ""
- * 
+ *
  * : 'm'
  * History:Yesterday I went to the m|
  * wi-2	"to"
  * wi-1	"the"
  * prefix	"m"
  * postfix ""
- * 
+ *
  * : 'a'
  * History:Yesterday I went to the ma|
  * wi-2	"to"
  * wi-1	"the"
  * prefix	"ma"
  * postfix ""
- * 
+ *
  * : 'rket'
  * History:Yesterday I went to the market|
  * wi-2	"to"
  * wi-1	"the"
  * prefix	"market"
  * postfix ""
- * 
+ *
  * : 'SPC'
  * History:Yesterday I went to the market |
  * wi-2	"the"
  * wi-1	"market"
  * prefix	""
  * postfix ""
- * 
+ *
  * : 't'
  * History:Yesterday I went to the market t|
  * wi-2	"the"
  * wi-1	"market"
  * prefix	"t"
  * postfix ""
- * 
+ *
  * : 'LEFT_ARROW'
  * History:Yesterday I went to the market |t
  * wi-2	"the"
  * wi-1	"market"
  * prefix	""
  * postfix ""
- * 
+ *
  * : 'LEFT_ARROW'
  * History:Yesterday I went to the market| t
  * wi-2	"to"
  * wi-1	"the"
  * prefix	"market"
  * postfix ""
- * 
+ *
  * : 's'
  * History:Yesterday I went to the markets| t
  * wi-2	"to"
@@ -145,7 +145,7 @@ class PluginRegistry;
  * prefix	"markets"
  * postfix ""
  *
- * 
+ *
  */
 class ContextTracker {
 public:
@@ -163,8 +163,9 @@ public:
 
     std::string getPrefix();
     std::string getToken (const int);
+
     //vector<string> getTokens(const int,const int) const;
-	
+
     std::string getFutureStream() const;
     std::string getPastStream  () const;
 
@@ -182,7 +183,7 @@ public:
      */
     int  getMaxBufferSize() const;
     /** REVISIT: is this method really needed?
-     */ 
+     */
     void setMaxBufferSize(const int);
 
 private:
@@ -204,6 +205,8 @@ private:
 
     bool contextChanged;
     std::string previous_prefix;
+
+    std::string filter;
 
     // REVISIT: this was removed since a tokenizer is created with
     // each method invocation that needs it

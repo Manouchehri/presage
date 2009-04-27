@@ -74,7 +74,7 @@ void RecencyPluginTest::testMaxPartialPredictionSize()
     ct->update("foo foobar foobaz foo");
 
     for (size_t i = 1; i <= 3; i++) {
-        Prediction prediction = plugin->predict(i);
+        Prediction prediction = plugin->predict(i, 0);
         CPPUNIT_ASSERT_EQUAL(i, prediction.size());
         std::cout << prediction << std::endl;
     }
@@ -92,14 +92,14 @@ void RecencyPluginTest::testCutoffThreshold()
 	config->set(CUTOFF, "0");
 	Prediction expected;
 	RecencyPlugin plugin(config, ct);
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE, 0));
     }
 
     {
 	config->set(CUTOFF, "1");
 	Prediction expected;
 	RecencyPlugin plugin(config, ct);
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE, 0));
     }
 
     {
@@ -107,7 +107,7 @@ void RecencyPluginTest::testCutoffThreshold()
 	Prediction expected;
 	RecencyPlugin plugin(config, ct);
 	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE, 0));
     }
 
     {
@@ -115,7 +115,7 @@ void RecencyPluginTest::testCutoffThreshold()
 	Prediction expected;
 	RecencyPlugin plugin(config, ct);
 	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE, 0));
     }
 
     {
@@ -124,7 +124,7 @@ void RecencyPluginTest::testCutoffThreshold()
 	RecencyPlugin plugin(config, ct);
 	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
 	expected.addSuggestion(Suggestion("foo",    1.0 * exp(-1.0 * 3))); // skip bar, foo is fourth token (offset 3)
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE));
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE, 0));
     }
 
 }

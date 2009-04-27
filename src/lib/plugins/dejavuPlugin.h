@@ -44,7 +44,7 @@ public:
     DejavuPlugin(Configuration*, ContextTracker*);
     ~DejavuPlugin();
 
-    virtual Prediction predict(const size_t) const;
+    virtual Prediction predict(const size_t size, const char** filter) const;
 
     virtual void learn();
     virtual void extract();

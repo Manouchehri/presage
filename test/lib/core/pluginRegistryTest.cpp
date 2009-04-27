@@ -88,7 +88,7 @@ void PluginRegistryTest::testNext()
     // since we've iterated till the end of the plugins list, plugin
     // is now pointing to the DummyPlugin, so let's test we got the
     // dummy prediction back
-    Prediction prediction = plugin->predict(20);
+    Prediction prediction = plugin->predict(20, 0);
 
     CPPUNIT_ASSERT(plugin != 0);
     size_t expected_size = 18;

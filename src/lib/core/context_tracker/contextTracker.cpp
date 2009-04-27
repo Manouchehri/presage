@@ -49,7 +49,7 @@ ContextTracker::ContextTracker(Configuration* config,
 
     // set pointer to this context tracker in plugin registry so that
     // plugins can be constructed when next iterator is requested
-    // 
+    //
     if (pluginRegistry) {
 	pluginRegistry->setContextTracker(this);
     }
@@ -87,7 +87,7 @@ void ContextTracker::update(std::string s)
         update_context_change();
     } else {
         // process each char in string s individually
-        for (int i=0; i < s.size(); i++) {
+        for (size_t i=0; i < s.size(); i++) {
             update(s[i]);
 
             logger << DEBUG << "update(): contextTracker-getPrefix(): " << getPrefix() << endl;
@@ -186,11 +186,11 @@ void ContextTracker::update(int character)
 //            // to be erased from pastBuffer and inserted at the
 //            // beginning of futureBuffer
 //            if ( character == LEFT_ARROW && !pastBuffer.empty() ) {
-//				
+//
 //                char p = pastBuffer[pastBuffer.size()-1];
 //                futureBuffer.insert( futureBuffer.begin(), p );
 //                pastBuffer.erase( pastBuffer.end()-1 );
-//				
+//
 //            }
 //
 //            //DOWN_ARROW
@@ -200,11 +200,11 @@ void ContextTracker::update(int character)
 //                pastBuffer.clear();
 //                futureBuffer.clear();
 //
-//            }			
+//            }
 //
 //            //RIGHT_ARROW
 //            // right_arrow key press causes first char of
-//            // futureBuffer to be erased from futureBuffer and 
+//            // futureBuffer to be erased from futureBuffer and
 //            // inserted at the end of pastBuffer
 //            if ( character == RIGHT_ARROW && !futureBuffer.empty() ) {
 //
@@ -213,12 +213,12 @@ void ContextTracker::update(int character)
 //                futureBuffer.erase( futureBuffer.begin() );
 //
 //            }
-//			
+//
 //            //END
-//            // end key press causes string futureBuffer to be 
+//            // end key press causes string futureBuffer to be
 //            // appended to pastBuffer and to be cleared
 //            if ( character == END && !futureBuffer.empty() ) {
-//				
+//
 //                pastBuffer.append( futureBuffer );
 //                futureBuffer.clear();
 //
@@ -264,7 +264,7 @@ void ContextTracker::update(int character)
 //            // delete key press causes the first character of
 //            // futureBuffer to be erased
 //            if ( character == DELETE && !futureBuffer.empty() ) {
-//				
+//
 //                futureBuffer.erase( futureBuffer.begin(),
 //                                    futureBuffer.begin()+1 );
 //
@@ -278,7 +278,7 @@ void ContextTracker::update(int character)
 //                futureBuffer.clear();
 //
 //            }
-//			
+//
 //            //PAGE_DOWN
 //            // see up_arrow
 //            if ( character == PAGE_DOWN ) {
@@ -287,7 +287,7 @@ void ContextTracker::update(int character)
 //                futureBuffer.clear();
 //
 //            }
-			
+
     } else {
 	logger << DEBUG << "updating wordChar/separatorChar/blankspaceChar: " << character << endl;
 #ifdef USE_STRINGSTREAM

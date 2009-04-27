@@ -73,7 +73,7 @@ DejavuPlugin::DejavuPlugin(Configuration* config, ContextTracker* ct)
 DejavuPlugin::~DejavuPlugin()
 {}
 
-Prediction DejavuPlugin::predict(const size_t max_partial_predictions_size) const
+Prediction DejavuPlugin::predict(const size_t max_partial_predictions_size, const char** filter) const
 {
     Prediction result;
 

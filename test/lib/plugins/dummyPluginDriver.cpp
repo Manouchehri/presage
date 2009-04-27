@@ -44,14 +44,14 @@ int main()
 	dummyPlugin.extract();
 	dummyPlugin.train();
 
-	std::cout << dummyPlugin.predict(100);
+	std::cout << dummyPlugin.predict(100, 0);
 
 	std::cout << "Now testing polymorphic behaviour..." << std::endl;
 
 	pluginPtr->learn();
 	pluginPtr->extract();
 	pluginPtr->train();
-	std::cout << pluginPtr->predict(100);
+	std::cout << pluginPtr->predict(100, 0);
 
 	std::cout << "Testing name and description functions..." << std::endl
 		  << "Name: " << pluginPtr->getName() << std::endl

@@ -66,6 +66,10 @@ public:
      */
     NgramTable getNgramLikeTable(const Ngram ngram, int limit = -1) const;
 
+    /** Returns a table of ngrams matching the specified ngram-like query and satisfying the given filter.
+     */
+    NgramTable getNgramLikeTableFiltered(const Ngram ngram, const char** filter, int limit = -1) const;
+
     /** Increments the specified ngram count and returns the updated count.
      *
      * If the ngram does not yet exit in the database, it is created
@@ -76,7 +80,7 @@ public:
     /** Insert ngram into database and sets its count.
      */
     void insertNgram(const Ngram ngram, const int count) const;
-    
+
     /** Updates ngram count.
      */
     void updateNgram(const Ngram ngram, const int count) const;
@@ -117,6 +121,10 @@ private:
      *  where the last comparison is a LIKE clauses instead of = clause.
      */
     std::string buildWhereLikeClause(const Ngram ngram) const;
+
+    /** Same as buildWhereLikeClause but considers also a filter on the subsequent letter
+     */
+    std::string buildWhereLikeClauseFiltered(const Ngram ngram,const char** filter) const;
 
     /** Returns a string containing an SQL VALUES clause built for the ngram.
      */

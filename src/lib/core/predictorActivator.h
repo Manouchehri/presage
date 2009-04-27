@@ -95,7 +95,7 @@ class PredictorActivator {
      *
      * @return prediction produced by the active predictive plugins and combined by the active combiner
      */
-    Prediction predict(unsigned int multiplier = 1);
+    Prediction predict(unsigned int multiplier, const char** filter);
 
     /** Set active predictive plugins.
      *

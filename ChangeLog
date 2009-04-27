@@ -1,3 +1,38 @@
+2009-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/dictionaryPluginDriver.cpp,
+	test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/smoothedCountDriver.cpp,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/dummyPluginDriver.cpp,
+	test/lib/plugins/pluginsTestFixture.cpp,
+	test/lib/plugins/dejavuPluginTest.cpp,
+	test/lib/core/pluginRegistryTest.cpp,
+	src/lib/plugins/dejavuPlugin.h, src/lib/plugins/plugin.h,
+	src/lib/plugins/recencyPlugin.cpp,
+	src/lib/plugins/abbreviationExpansionPlugin.cpp,
+	src/lib/plugins/dummyPlugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/recencyPlugin.h,
+	src/lib/plugins/abbreviationExpansionPlugin.h,
+	src/lib/plugins/dummyPlugin.h,
+	src/lib/plugins/smoothedCountPlugin.h,
+	src/lib/plugins/dictionaryPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/plugins/dictionaryPlugin.h,
+	src/lib/plugins/smoothedNgramPlugin.h,
+	src/lib/plugins/dejavuPlugin.cpp, src/lib/presage.cpp,
+	src/lib/core/prediction.cpp, src/lib/core/predictorActivator.h,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	src/lib/core/prediction.h, src/lib/core/predictorActivator.cpp,
+	src/lib/core/dbconnector/databaseConnector.cpp,
+	src/lib/core/dbconnector/databaseConnector.h, src/lib/presage.h:
+	added support for predictive plugins filters, database connector
+	limit clause, and new predict() method that returns map of
+	<probability,token> pairs order by probability. Many thanks to
+	Tiziano D'Albis for contributing code for this.
+
 2009-02-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac, doc/Makefile.am: added --disable-documentation

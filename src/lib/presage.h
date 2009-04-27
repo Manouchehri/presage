@@ -31,6 +31,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "presageException.h"
 
@@ -49,10 +50,14 @@ class Presage {
     /** Creates and initializes presage.
      */
     Presage();
+
     /** Creates and initializes presage with supplied configuration.
      * \param config path to configuration file
      */
     Presage(const std::string config);
+
+    /** Destroys presage.
+     */
     ~Presage();
 
     /** \brief Obtain a prediction, and notify presage of newly
@@ -75,6 +80,20 @@ class Presage {
      */
     std::vector<std::string> predict(std::string str);
 
+    /** \brief Obtains a prediction that matches the supplied token
+     *         filter.
+     *
+     * \param filter a vector of strings to use to filter the
+     * prediction for desired tokens.  I.e. If the current prefix is
+     * "gr" and the filter is ["ea", "an"], then only words starting
+     * with "grea" or "gran" such as "great" or "grand"
+     * 
+     * \return prediction containing only tokens that begin with one
+     * of the filter tokens.
+     *
+     */
+    std::map<double, std::string> predict(std::vector<std::string> filter);
+
     /** \brief Notifies presage that new text was entered.
      *
      * Notifies presage that new text was entered, without
@@ -89,7 +108,7 @@ class Presage {
      * Informs presage that a prediction was successful. The
      * successful prediction is passed in as argument. Presage
      * updates its internal tracker with the successful prediction.
-     * 
+     *
      * \param str successful prediction
      */
     void complete(std::string str);
@@ -142,7 +161,7 @@ class Presage {
 
 };
 
-/** \mainpage 
+/** \mainpage
 
 \section intro_section Introduction
 
@@ -189,7 +208,7 @@ software</a>. It is distributed under the term of the <a
 href="http://www.gnu.org/copyleft/gpl.html">General Public
 License</a>.
 
-\author Matteo Vescovi 
+\author Matteo Vescovi
 
 \section getting_started_section Getting started
 \include getting_started.txt

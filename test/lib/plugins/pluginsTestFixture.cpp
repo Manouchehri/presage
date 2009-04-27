@@ -55,7 +55,7 @@ Prediction PluginsTestFixture::runPredict(const char** config,
     Plugin* plugin = createPlugin(configuration, &contextTracker);
 
     // generate prediction.
-    Prediction result = plugin->predict(max_partial_prediction_size);
+    Prediction result = plugin->predict(max_partial_prediction_size, 0);
 
     // plugin object is no longer needed.
     delete plugin;

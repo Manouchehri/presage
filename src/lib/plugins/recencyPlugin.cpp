@@ -79,7 +79,7 @@ RecencyPlugin::~RecencyPlugin()
 
 }
 
-Prediction RecencyPlugin::predict(const size_t max) const
+Prediction RecencyPlugin::predict(const size_t max, const char** filter) const
 {
     Prediction result;
 

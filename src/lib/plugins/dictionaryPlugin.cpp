@@ -46,7 +46,7 @@ DictionaryPlugin::~DictionaryPlugin()
     // intentionally empty
 }
 
-Prediction DictionaryPlugin::predict(const size_t max_partial_predictions_size) const
+Prediction DictionaryPlugin::predict(const size_t max_partial_predictions_size, const char** filter) const
 {
     Prediction result;
 
