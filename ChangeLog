@@ -1,3 +1,9 @@
+2009-05-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/website/presage_database_dump.sql.gz, src/website/README:
+	updated to drupal 5.17, updated sf.net logo link, and made direct
+	links to text files in svn repository.
+	
 2009-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/plugins/dictionaryPluginDriver.cpp,
