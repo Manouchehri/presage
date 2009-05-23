@@ -1,3 +1,7 @@
+2009-05-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_database_dump.sql.gz: updated to drupal 5.18.
+
 2009-05-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/website/presage_database_dump.sql.gz, src/website/README:
