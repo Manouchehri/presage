@@ -1,3 +1,10 @@
+2009-08-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/presageDemo.cpp: fixed initialization bug.
+
+	* src/lib/presage.cpp, src/lib/presage.h: changed predict()'s
+	signature to return a multimap instead of a map.
+
 2009-05-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/presage_database_dump.sql.gz: updated to drupal 5.18.

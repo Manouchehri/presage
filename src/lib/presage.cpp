@@ -97,19 +97,22 @@ std::vector<std::string> Presage::predict(std::string s)
 }
 
 
-std::map<double, std::string> Presage::predict(std::vector<std::string> filter)
+std::multimap<double, std::string> Presage::predict(std::vector<std::string> filter)
 {
-    std::map<double, std::string> result;
+    std::multimap<double, std::string> result;
 
     std::vector<std::string> selection;
-
-    // convert filter to internal representation - currently a null
-    // terminated const char**
-    const char** internal_filter = new const char*[filter.size() + 1];
-    for (std::vector<std::string>::size_type i = 0; i < filter.size(); i++) {
-      internal_filter[i] = filter[i].c_str();
+    const char** internal_filter = 0;
+    if(filter.size()>0)
+    {
+	// convert filter to internal representation - currently a null
+	// terminated const char**
+	internal_filter = new const char*[filter.size() + 1];
+	for (std::vector<std::string>::size_type i = 0; i < filter.size(); i++) {
+	    internal_filter[i] = filter[i].c_str();
+	}
+	internal_filter[filter.size()] = 0;
     }
-    internal_filter[filter.size()] = 0;
 
     unsigned int multiplier = 1;
     Prediction prediction = predictorActivator->predict(multiplier++, internal_filter);
@@ -132,7 +135,10 @@ std::map<double, std::string> Presage::predict(std::vector<std::string> filter)
     for (std::vector<std::string>::const_iterator it = selection.begin();
 	 it != selection.end();
 	 it++) {
-	result[prediction.getSuggestion(*it).getProbability()] = (*it);
+	std::pair<double,std::string> p;
+	p.first = prediction.getSuggestion(*it).getProbability();
+	p.second = (*it);
+	result.insert(p);
     }
 
     return result;

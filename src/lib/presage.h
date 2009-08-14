@@ -87,12 +87,12 @@ class Presage {
      * prediction for desired tokens.  I.e. If the current prefix is
      * "gr" and the filter is ["ea", "an"], then only words starting
      * with "grea" or "gran" such as "great" or "grand"
-     * 
+     *
      * \return prediction containing only tokens that begin with one
      * of the filter tokens.
      *
      */
-    std::map<double, std::string> predict(std::vector<std::string> filter);
+    std::multimap<double, std::string> predict(std::vector<std::string> filter);
 
     /** \brief Notifies presage that new text was entered.
      *
