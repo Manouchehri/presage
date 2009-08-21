@@ -73,7 +73,7 @@ void NewSmoothedNgramPluginTest::tearDown()
 
 void NewSmoothedNgramPluginTest::testLearning()
 {
-    // get pointer to dejavu plugin
+    // get pointer to plugin
     Plugin* plugin = pluginRegistry->iterator().next();
 
     {
@@ -125,4 +125,108 @@ void NewSmoothedNgramPluginTest::testLearning()
 	CPPUNIT_ASSERT_EQUAL(std::string("foobar"), actual.getSuggestion(0).getWord());
 	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(1).getWord());
     }
+}
+void NewSmoothedNgramPluginTest::testFilter()
+{
+    // get pointer to plugin
+    Plugin* plugin = pluginRegistry->iterator().next();
+
+    /*
+    std::vector<std::string> change;
+    change.push_back("foo");
+    change.push_back("bar");
+    change.push_back("foobar");
+    change.push_back("foz");
+    change.push_back("baz");
+    change.push_back("fozbaz");
+    change.push_back("roo");
+    change.push_back("rar");
+    change.push_back("roobar");
+    */
+
+    ct->update("foo bar foobar foz baz fozbaz roo rar roobar ");
+
+    {
+	Prediction actual = plugin->predict(SIZE, 0);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(9), actual.size());
+    }
+
+    {
+	const char* filters[] = {"f", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(4), actual.size());
+    }
+
+    {
+	const char* filters[] = {"b", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), actual.size());
+    }
+
+    {
+	const char* filters[] = {"r", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), actual.size());
+    }
+
+    {
+	const char* filters[] = {"f", "b", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(6), actual.size());
+    }
+
+    {
+	const char* filters[] = {"f", "r", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(7), actual.size());
+    }
+
+    {
+	const char* filters[] = {"f", "b", "r", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(9), actual.size());
+    }
+
+    {
+	const char* filters[] = {"fo", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(4), actual.size());
+    }
+
+    {
+	const char* filters[] = {"foo", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), actual.size());
+    }
+
+    {
+	const char* filters[] = {"fo", "ba", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(6), actual.size());
+    }
+
+    {
+	const char* filters[] = {"fo", "ba", "ro", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(8), actual.size());
+    }
+
+    {
+	const char* filters[] = {"foo", "bar", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), actual.size());
+    }
+
+    {
+	const char* filters[] = {"foobar", "fozba", "roo", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(4), actual.size());
+    }
+
+    {
+	const char* filters[] = {"foobar", "fozbaz", "roobar", 0};
+	Prediction actual = plugin->predict(SIZE, filters);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), actual.size());
+    }
+
 }

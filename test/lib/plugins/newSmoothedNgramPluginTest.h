@@ -43,6 +43,7 @@ public:
     void tearDown();
     
     void testLearning();
+    void testFilter();
 
 private:
     Configuration*  config;
@@ -55,6 +56,7 @@ private:
 
     CPPUNIT_TEST_SUITE( NewSmoothedNgramPluginTest );
     CPPUNIT_TEST( testLearning );
+    CPPUNIT_TEST( testFilter );
     CPPUNIT_TEST_SUITE_END();
 };
 
