@@ -1,3 +1,21 @@
+2009-09-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/progress.cpp, src/tools/progress.h,
+	src/lib/core/progress.h, src/lib/core/progress.cpp,
+	src/tools/Makefile.am, src/lib/core/Makefile.am,
+	src/tools/text2ngram.cpp: moved progress class to core lib.
+	
+	* src/lib/plugins/ARPAPlugin.cpp, src/lib/plugins/ARPAPlugin.h,
+	src/lib/plugins/Makefile.am,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	src/lib/core/logger.h, src/lib/core/pluginRegistry.cpp,
+	src/lib/Makefile.am, resources/profiles/presage.xml.template:
+	added new Katz backoff smoothed predictive plugin using ARPA
+	n-gram format.
+	
+	* doc/python_binding.txt: minor update
+
 2009-08-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/plugins/newSmoothedNgramPluginTest.*,

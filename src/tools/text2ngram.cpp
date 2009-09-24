@@ -44,7 +44,7 @@
 
 #include "core/tokenizer/forwardTokenizer.h"
 #include "core/iso8859_1.h"
-#include "tools/progress.h"
+#include "core/progress.h"
 
 #include "core/dbconnector/sqliteDatabaseConnector.h"
 
@@ -162,7 +162,7 @@ int main(int argc, char* argv[])
 	std::cout << "Parsing " << argv[i] << "..."
 		  << std::endl;
 
-	ProgressBar progressBar;
+	ProgressBar<char> progressBar;
 
 	// create tokenizer object and open input file stream
 	std::ifstream infile(argv[i]);
@@ -209,7 +209,7 @@ int main(int argc, char* argv[])
 	assert(outstream);
 
 	// write results to output stream
-	ProgressBar progressBar;
+	ProgressBar<char> progressBar;
 	long total = ngramMap.size();
 	long count = 0;
 	std::map<NgramList, int>::const_iterator it;
@@ -233,7 +233,7 @@ int main(int argc, char* argv[])
         sqliteDbCntr.createNgramTable(ngrams);
 
 	// write results to output stream
-	ProgressBar progressBar;
+	ProgressBar<char> progressBar;
 	long total = ngramMap.size();
 	long count = 0;
 	std::map<NgramList, int>::const_iterator it;

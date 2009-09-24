@@ -55,6 +55,14 @@ A few points to note if you installed in a non-default location:
   to the PYTHONPATH environment variable
 
 
+The presage python API is generated from the presage C++ API by SWIG.
+As such, it follows SWIG conventions for mapping Python code to C++
+code. A minimal description of the presage python module interface is
+available from the python interpreter itself by executing:
+>>> import presage
+>>> help (presage)
+
+
 ########/
 
 Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>

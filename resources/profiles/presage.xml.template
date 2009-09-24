@@ -88,5 +88,11 @@
             <MEMORY>::LOCALSTATEDIR::/dejavu_memory_en.txt</MEMORY>
             <TRIGGER>3</TRIGGER>
         </DejavuPlugin>
+	<ARPAPlugin>
+	  <LOGGER>ERROR</LOGGER>
+	  <ARPAFILENAME>::LOCALSTATEDIR::/a.arpa</ARPAFILENAME>
+	  <VOCABFILENAME>::LOCALSTATEDIR::/a.vocab</VOCABFILENAME>
+	  <TIMEOUT>100</TIMEOUT>
+	</ARPAPlugin>
     </Plugins>
 </Presage>

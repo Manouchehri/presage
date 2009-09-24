@@ -18,8 +18,8 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-                                                                             *
-                                                                **********(*)*/
+    *
+    **********(*)*/
 
 
 #ifndef PRESAGE_LOGGER
@@ -44,10 +44,10 @@ struct _SetLevel { std::string _level; };
  */
 inline _SetLevel
 setlevel(std::string __l)
-{ 
+{
     _SetLevel __x;
     __x._level = __l;
-    return __x; 
+    return __x;
 }
 
 
@@ -59,11 +59,11 @@ public:
     // type definitions
     enum Level
     {
-        EMERG  = 0, 
+        EMERG  = 0,
         FATAL  = 0,
         ALERT  = 100,
         CRIT   = 200,
-        ERROR  = 300, 
+        ERROR  = 300,
         WARN   = 400,
         NOTICE = 500,
         INFO   = 600,
@@ -72,7 +72,7 @@ public:
     };
 
     // constructors
-    inline 
+    inline
     Logger (std::string logger_name,
 	    std::basic_ostream<_charT,_Traits>& ostr)
 	: outstream(ostr)
@@ -153,7 +153,7 @@ public:
 
     // logging method
     template<typename T>
-    friend inline 
+    friend inline
     const Logger&
     operator<< (const Logger& lgr, const T& msg)
 	{
@@ -180,12 +180,12 @@ public:
 	    return lgr;
 	}
 
-    inline 
-    const Logger& 
+    inline
+    const Logger&
     operator<< (_SetLevel __l) const
-	{ 
-	    setLevel(__l._level); 
-	    return *this; 
+	{
+	    setLevel(__l._level);
+	    return *this;
 	}
 
     inline
@@ -198,7 +198,7 @@ public:
 		state->line_beginning = true;
 	    }
 	}
-    
+
 private:
     inline
     void
@@ -252,14 +252,14 @@ private:
 
 
 
-#define define_logger_level_manipulator(LEVEL)    \
-template <typename _charT, typename _Traits>      \
-inline const Logger<_charT, _Traits>&                   \
-LEVEL (const Logger<_charT, _Traits>& lgr)              \
-{                                                 \
-    lgr.setCurrentLevel(Logger<_charT, _Traits>::LEVEL); \
-    return lgr;                                   \
-}                                                 
+#define define_logger_level_manipulator(LEVEL)			\
+    template <typename _charT, typename _Traits>		\
+    inline const Logger<_charT, _Traits>&			\
+    LEVEL (const Logger<_charT, _Traits>& lgr)			\
+    {								\
+	lgr.setCurrentLevel(Logger<_charT, _Traits>::LEVEL);	\
+	return lgr;						\
+    }
 
 define_logger_level_manipulator(EMERG );
 define_logger_level_manipulator(FATAL );
@@ -279,7 +279,7 @@ endl (const Logger<_charT, _Traits>& lgr)
 {
     lgr.endl();
     return lgr;
-}                                                 
+}
 
 
 #endif // PRESAGE_LOGGER

@@ -28,7 +28,8 @@ noinst_LTLIBRARIES =	libplugin.la                      \
 			libDummyPlugin.la                 \
 			libAbbreviationExpansionPlugin.la \
 			libRecencyPlugin.la               \
-			libDejavuPlugin.la
+			libDejavuPlugin.la                \
+			libARPAPlugin.la
 
 
 libplugin_la_SOURCES =	plugin.cpp plugin.h
@@ -54,5 +55,8 @@ libRecencyPlugin_la_LDFLAGS =		-lm
 
 libDejavuPlugin_la_SOURCES =		dejavuPlugin.cpp        \
 					dejavuPlugin.h
+
+libARPAPlugin_la_SOURCES =		ARPAPlugin.cpp		\
+					ARPAPlugin.h
 
 AM_CPPFLAGS = -I$(top_srcdir)/src/lib

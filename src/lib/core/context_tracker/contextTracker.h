@@ -206,8 +206,6 @@ private:
     bool contextChanged;
     std::string previous_prefix;
 
-    std::string filter;
-
     // REVISIT: this was removed since a tokenizer is created with
     // each method invocation that needs it
     //ReverseTokenizer tokenizer;

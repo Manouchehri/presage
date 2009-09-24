@@ -18,7 +18,7 @@ pairs. The filters feature enables lookahead prediction.
 Presage 0.7.2 incorporates a number of bug fixes, such as handling of
 utf-8 encoded text, initialization bug in presage demo program, build
 problems fixes in gpresagemate. Prompter comes with user interface
-improvements, such as text size cocntrols.
+improvements, such as text size controls.
 
 Presage 0.7.2 also includes other bug fixes and enhancements. Please
 see the ChangeLog for more details.

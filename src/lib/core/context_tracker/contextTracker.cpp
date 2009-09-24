@@ -79,7 +79,8 @@ ContextTracker::ContextTracker(Configuration* config,
 }
 
 ContextTracker::~ContextTracker()
-{}
+{
+}
 
 void ContextTracker::update(std::string s)
 {

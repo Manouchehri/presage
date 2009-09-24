@@ -31,6 +31,7 @@
 // loaded plugins.
 //
 #include "plugins/smoothedNgramPlugin.h"
+#include "plugins/ARPAPlugin.h"
 #include "plugins/abbreviationExpansionPlugin.h"
 #include "plugins/dummyPlugin.h"
 #include "plugins/dictionaryPlugin.h"
@@ -115,6 +116,8 @@ void PluginRegistry::addPlugin(const std::string& pluginName)
 	    plugin = new RecencyPlugin(config, contextTracker);
 	} else if (pluginName == "DejavuPlugin") {
 	    plugin = new DejavuPlugin(config, contextTracker);
+	} else if (pluginName == "ARPAPlugin") {
+	      plugin = new ARPAPlugin(config,contextTracker);
 	}
     } catch (PresageException ex) {
 	logger << ERROR << "Plugin " + pluginName + " failed to initialize." << endl;

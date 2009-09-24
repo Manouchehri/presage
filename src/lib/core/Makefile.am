@@ -62,7 +62,9 @@ libcore_la_SOURCES =	\
 	presageException.cpp \
 	../presageException.h \
 	pluginRegistry.cpp \
-	pluginRegistry.h
+	pluginRegistry.h \
+	progress.cpp \
+	progress.h 
 
 # Temporarily disabled
 #                       pluginManager.cpp pluginManager.h

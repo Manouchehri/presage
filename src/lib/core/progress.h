@@ -18,44 +18,48 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-                                                                             *
-                                                                **********(*)*/
+    *
+    **********(*)*/
 
 
-#include "progress.h"
+#ifndef PROGRESS_H
+#define PROGRESS_H
 
 #include <iostream>
 
-ProgressBar::ProgressBar()
-{
-    progress = 0;
-    quantum = 2;
-    printProgressHeading();
-}
+template <class _charT, class _Traits=std::char_traits<_charT> >
+class ProgressBar {
+    
+private:
+    int progress;
+    int quantum;
+    std::basic_ostream<_charT,_Traits>&  outstream;
+    
+public:
+    ProgressBar(std::basic_ostream<_charT,_Traits>& ostr = std::cout) : outstream(ostr)
+	{
+	    progress = 0;
+	    quantum = 2;
+	    outstream << "0---10---20---30---40---50---60---70---80---90--100" << std::endl;
+	}
+    
+    ~ProgressBar()
+	{
+	    for (int i = progress; i <= 100; i += quantum) {
+		outstream << '#';
+	    }
+	    outstream << std::endl;
+	}
 
-ProgressBar::~ProgressBar()
-{
-    // complete progress bar if not 100% yet
-    for (int i = progress; i <= 100; i += quantum) {
-	std::cout << '#';
-    }
-    std::cout << std::endl;
-}
+    void update(const double percentage)
+	{
+	    if ((percentage*100) >= progress) {
+		progress += quantum;
+		outstream << '#' << std::flush;
+	    }
+	}
 
-// print out progress bar percentage indicator
-void ProgressBar::printProgressHeading() const
-{
-    std::cout << "0---10---20---30---40---50---60---70---80---90--100"
-	// << "|----|----|----|----|----|----|----|----|----|----|"
-	      << std::endl;
-}
+};
 
+#endif
 
-// progress bar display
-void ProgressBar::update(const double percentage)
-{
-    if ((percentage*100) >= progress) {
-	progress += quantum;
-	std::cout << '#' << std::flush;
-    }
-}

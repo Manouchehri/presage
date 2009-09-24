@@ -24,8 +24,7 @@
 SUBDIRS =	gtk
 
 noinst_LTLIBRARIES =	libtools.la
-libtools_la_SOURCES =	progress.cpp progress.h \
-			ngram.cpp ngram.h                 
+libtools_la_SOURCES =	ngram.cpp ngram.h                 
 
 bin_PROGRAMS =		text2ngram \
 			presage_demo_text \
