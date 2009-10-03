@@ -6,8 +6,6 @@ The Presage project
 TODO list
 ---------
 
-* sort out progress template class
-
 * make predictive plugins support filters and write related tests
 
 * Prompter:

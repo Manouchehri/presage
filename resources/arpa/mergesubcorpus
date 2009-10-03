@@ -1,0 +1,38 @@
+#!/bin/sh
+
+##########
+#  Presage, an extensible predictive text entry system
+#  ------------------------------------------------------
+#
+#  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+#  Copyright (C) 2008  Tiziano D'Albis
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License along
+#  with this program; if not, write to the Free Software Foundation, Inc.,
+#  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+# this script receives as input a file listing all the text inside the
+# corpus partition (one per line).  it requires that for each line of
+# the input file the the txt have been generated from the xml and
+# named like filename.xml.txt this script merges all these txt files
+# performing also these post-processing operations:
+# - substituite with a space any character that does not belong to the
+#   english alphabet (26 letters)
+# - convert all characters to lowecase
+
+rm -f $1_text.txt
+
+while read line
+do
+	 cat $line.txt | sed 's/[^a-zA-Z]/ /g' | tr '[:upper:]' '[:lower:]' >> $1_text.txt
+done < $1

@@ -25,6 +25,9 @@
 # name and the localstatedir as arguments and writes to $OUTPUT file,
 # replacing all tokens (in the form of ::TOKEN::) in $TEMPLATE.
 
+# exit on error
+set -e
+
 if [ $# -lt 3 ];
 then
     echo "Usage: $0 template output localstatedir"

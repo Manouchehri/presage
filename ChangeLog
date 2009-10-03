@@ -1,3 +1,15 @@
+2009-10-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/profiles/presage.xml.template,
+	resources/profiles/generate_presage_config.sh, resources/arpa,
+	resources/arpa/convcorpus, resources/arpa/xml2txt,
+	resources/arpa/bnc.arpa, resources/arpa/mergesubcorpus,
+	resources/arpa/subcorpus, resources/arpa/corpuscats,
+	resources/arpa/bnc.vocab, resources/arpa/createlm,
+	resources/arpa/README, resources/arpa/xml2cats: added statistical
+	language model generated from the British National Corpus with
+	CMU-SLM toolkit.
+
 2009-09-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/progress.cpp, src/tools/progress.h,
