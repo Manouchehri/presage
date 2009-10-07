@@ -28,15 +28,16 @@
 # exit on error
 set -e
 
-if [ $# -lt 3 ];
+if [ $# -lt 4 ];
 then
-    echo "Usage: $0 template output localstatedir"
+    echo "Usage: $0 template output localstatedir pkgdatadir"
     exit 1
 fi
 
 TEMPLATE=$1
 OUTPUT=$2
 LOCALSTATEDIR=$3
+PACKAGEDATADIR=$4
 
 # Determining whether LOCALSTATEDIR is in a format which will be
 # understood by SQLite on Cygwin, whereby SQLite will not be
@@ -56,4 +57,7 @@ CYGWIN*)
 esac
 
 # Replace the token in $TEMPLATE and write result to $OUTPUT
-sed -e "s|::LOCALSTATEDIR::|${LOCALSTATEDIR}|" ${TEMPLATE} > ${OUTPUT}
+sed -e "
+s|::LOCALSTATEDIR::|${LOCALSTATEDIR}|
+s|::PACKAGEDATADIR::|${PACKAGEDATADIR}|
+" ${TEMPLATE} > ${OUTPUT}

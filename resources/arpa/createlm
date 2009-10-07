@@ -21,7 +21,18 @@
 #  with this program; if not, write to the Free Software Foundation, Inc.,
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-cat $1 | text2wfreq | wfreq2vocab -top 20000 > bnc.vocab
-cat $1 | text2idngram -n 3 -vocab bnc.vocab -temp . > bnc.idngram
-idngram2lm -idngram bnc.idngram -vocab bnc.vocab -arpa bnc.arpa 
+set -e
+
+if [ $# -lt 2 ]
+then
+    echo "Usage: $0 input output"
+    exit 1
+fi
+
+INPUT=$1
+OUTPUT=$2
+
+cat $INPUT | text2wfreq | wfreq2vocab -top 20000 > $OUTPUT.vocab
+cat $INPUT | text2idngram -n 3 -vocab $OUTPUT.vocab -temp . > $OUTPUT.idngram
+idngram2lm -idngram $OUTPUT.idngram -vocab $OUTPUT.vocab -arpa $OUTPUT.arpa 
 

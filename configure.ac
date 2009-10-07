@@ -260,7 +260,25 @@ then
 else
 	build_gtk_presage_mate=no
 fi
-AM_CONDITIONAL(BUILD_GTK_PRESAGE_MATE, test "x$build_gtk_presage_mate" = "xyes")
+AM_CONDITIONAL([BUILD_GTK_PRESAGE_MATE], [test "x$build_gtk_presage_mate" = "xyes"])
+
+
+dnl ===================================================
+dnl Checks for CMU-Statistical Language Modelling tools
+dnl ===================================================
+AC_CHECK_PROG([HAVE_TEXT2WFREQ], [text2wfreq], [yes], [no])
+AC_CHECK_PROG([HAVE_WFREQ2VOCAB], [wfreq2vocab], [yes], [no])
+AC_CHECK_PROG([HAVE_IDNGRAM2LM], [idngram2lm], [yes], [no])
+if test "x$HAVE_TEXT2WFREQ" = "xyes" -a \
+        "x$HAVE_WFREQ2VOCAB" = "xyes" -a \
+        "x$HAVE_IDNGRAM2LM" = "xyes"
+then
+    build_arpa_ngram_resources=yes
+else
+    build_arpa_ngram_resources=no
+    AC_MSG_NOTICE([CMU-SLM tools not found. ARPA ngram language model will not be built.])
+fi
+AM_CONDITIONAL([BUILD_ARPA_NGRAM], [test "x$build_arpa_ngram_resources" = "xyes"])
 
 
 ############################
@@ -292,6 +310,7 @@ AC_OUTPUT([
 	test/tools/Makefile
 	test/integration/Makefile
 	resources/Makefile
+	resources/arpa/Makefile
 	resources/profiles/Makefile
 	bindings/Makefile
 	bindings/python/setup.py
@@ -343,12 +362,17 @@ AC_MSG_RESULT([
     Smoothed count: ............. yes
     Dictionary: ................. yes
     Deja-vu: .................... yes
+    ARPA: ....................... yes
 
 
   Additional applications:
 
     Presage prompter: ........... ${build_python_binding}
     GTK+ presage mate: .......... ${build_gtk_presage_mate}
+
+
+  Additional resources:
+    ARPA format ngram: .......... ${build_arpa_ngram_resources}
 
 
   Building:

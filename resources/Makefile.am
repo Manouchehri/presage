@@ -21,7 +21,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	profiles
+SUBDIRS =	arpa profiles
 
 EXTRA_DIST =	the_picture_of_dorian_gray.txt  \
 		la_coscienza_di_zeno.txt        \

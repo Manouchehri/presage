@@ -38,8 +38,7 @@ presage.xml:	Makefile presage.xml.template generate_presage_config.sh
 			presage.xml "$$NATIVE_LOCALSTATEDIR\\\\lib\\\\presage"; \
 	  ;; \
 	  *) \
-		${srcdir}/generate_presage_config.sh ${srcdir}/presage.xml.template \
-			presage.xml ${localstatedir}/lib/presage; \
+		${srcdir}/generate_presage_config.sh ${srcdir}/presage.xml.template presage.xml ${localstatedir}/lib/presage ${pkgdatadir}; \
 	  ;; \
 	esac;
 

@@ -1,3 +1,12 @@
+2009-10-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac, resources/profiles/presage.xml.template,
+	resources/profiles/Makefile.am,
+	resources/profiles/generate_presage_config.sh,
+	resources/arpa/createlm, resources/Makefile.am: integrated arpa
+	format ngram into package and automate build of arpa format ngram
+	database when CMU-SLM tools are available.
+
 2009-10-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources/profiles/presage.xml.template,
