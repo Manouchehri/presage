@@ -133,16 +133,38 @@ __________________________________
 STEP 5: Let Presage read your mind
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Presage includes a little demonstration program that will read the
-user input and guess what the user intends to type using its
-predictive technology. To start it, type
+Presage includes some demonstration programs that will read the user
+input and guess what the user intends to type using its predictive
+technology. These programs require additional libraries that are not
+needed by the presage library and might not be configured to build,
+depending on the build system installed libraries (except
+presage_demo_text, which has no extra dependencies and is therefore
+always built). To start, type:
 
-  presage_demo
+ * presage_demo_text
 
-or
+   Simple textual program that reads strings from standard input and
+   prints predictions.
 
-  presage_demo_text
 
+ * presage_demo
+
+   Ncurses based demo program similar to presage_demo_text.
+
+
+ * presage_prompter
+
+   Text editor with autocompletion popups displaying predictions and
+   enabling users to quickly and efficiently selecting the correct
+   prediction or requesting more predictions.
+
+
+ * gpresagemate
+
+   X application that monitors all X events and display predictions in
+   its window. When users select the correct prediction, it is sent to
+   the current active X application as if it had been typed
+   in. Requires that XEvIE X extension is enabled.
 
 
 ########/
