@@ -1,5 +1,8 @@
 2009-10-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* debian/changelog, ChangeLog, configure.ac, NEWS: preparing for
+	upcoming release.
+
 	* doc/INSTALL_MinGW_MSYS_dev_env.txt: minor doc update.
 
 	* resources/profiles/Makefile.am,
@@ -9,7 +12,7 @@
 2009-10-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/presage_database_dump.sql.gz: updated website in
-	preparation for 0.7.3 release.
+	preparation for upcoming release.
 
 	* README: updated documentation.
 
