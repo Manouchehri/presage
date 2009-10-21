@@ -1,10 +1,18 @@
+2009-10-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* doc/INSTALL_MinGW_MSYS_dev_env.txt: minor doc update.
+
+	* resources/profiles/Makefile.am,
+	resources/profiles/generate_presage_config.sh: added support for
+	MinGW/MSYS installing into packagedatadir.
+
 2009-10-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/presage_database_dump.sql.gz: updated website in
 	preparation for 0.7.3 release.
 
 	* README: updated documentation.
-	
+
 2009-10-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac, resources/profiles/presage.xml.template,

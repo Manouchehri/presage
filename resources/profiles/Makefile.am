@@ -30,17 +30,7 @@ CLEANFILES =	presage.xml
 # event it had previously been built and then the package reconfigured
 # to install to a different location.
 presage.xml:	Makefile presage.xml.template generate_presage_config.sh
-	@case "`uname`" in \
-	  MINGW*) \
-		NATIVE_LOCALSTATEDIR="`cd ${localstatedir} && pwd -W`"; \
-		NATIVE_LOCALSTATEDIR="`echo $$NATIVE_LOCALSTATEDIR | sed -e 's|/|\\\\\\\\|g'`"; \
-		${srcdir}/generate_presage_config.sh ${srcdir}/presage.xml.template \
-			presage.xml "$$NATIVE_LOCALSTATEDIR\\\\lib\\\\presage"; \
-	  ;; \
-	  *) \
-		${srcdir}/generate_presage_config.sh ${srcdir}/presage.xml.template presage.xml ${localstatedir}/lib/presage ${pkgdatadir}; \
-	  ;; \
-	esac;
+	${srcdir}/generate_presage_config.sh ${srcdir}/presage.xml.template presage.xml ${localstatedir}/lib/presage ${pkgdatadir};
 
 # ${prefix}/etc directory
 sysconf_DATA =	presage.xml

@@ -50,7 +50,14 @@ PACKAGEDATADIR=$4
 #
 case `uname` in
 CYGWIN*)
-    LOCALSTATEDIR=`cygpath -m ${LOCALSTATEDIR}`;
+    LOCALSTATEDIR=`cygpath -m $LOCALSTATEDIR`;
+    PACKAGEDATADIR=`cygpath -m $PACKAGEDATADIR`;
+    ;;
+MINGW*)
+    LOCALSTATEDIR=`cd $LOCALSTATEDIR && pwd -W`;
+    LOCALSTATEDIR=`echo $LOCALSTATEDIR | sed -e 's|/|\\\\\\\\|g'`;
+    PACKAGEDATADIR=`cd $PACKAGEDATADIR && pwd -W`;
+    PACKAGEDATADIR=`echo $PACKAGEDATADIR | sed -e 's|/|\\\\\\\\|g'`;
     ;;
 *)
     ;;

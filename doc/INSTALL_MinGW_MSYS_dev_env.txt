@@ -77,8 +77,8 @@ Start MSYS console
 Extract and configure presage, taking care of specifying where to
 find required binaries (Python and SWIG), headers, and libraries:
 
-  PATH=/c/Python25:/c/SWIG:$PATH \
-  CPPFLAGS="-I/c/SQLite3 -I/c/Python25/include" \
+  PATH=/c/Python26:/c/SWIG:$PATH \
+  CPPFLAGS="-I/c/SQLite3 -I/c/Python26/include" \
   LDFLAGS="-L/c/SQLite3" \
   ./configure --prefix=/c/presage
  
