@@ -266,17 +266,19 @@ AM_CONDITIONAL([BUILD_GTK_PRESAGE_MATE], [test "x$build_gtk_presage_mate" = "xye
 dnl ===================================================
 dnl Checks for CMU-Statistical Language Modelling tools
 dnl ===================================================
-AC_CHECK_PROG([HAVE_TEXT2WFREQ], [text2wfreq], [yes], [no])
-AC_CHECK_PROG([HAVE_WFREQ2VOCAB], [wfreq2vocab], [yes], [no])
-AC_CHECK_PROG([HAVE_IDNGRAM2LM], [idngram2lm], [yes], [no])
-if test "x$HAVE_TEXT2WFREQ" = "xyes" -a \
-        "x$HAVE_WFREQ2VOCAB" = "xyes" -a \
-        "x$HAVE_IDNGRAM2LM" = "xyes"
+AC_PATH_PROG([TEXT2WFREQ], [text2wfreq])
+AC_PATH_PROG([TEXT2IDNGRAM], [text2idngram])
+AC_PATH_PROG([WFREQ2VOCAB], [wfreq2vocab])
+AC_PATH_PROG([IDNGRAM2LM], [idngram2lm])
+if test "$TEXT2WFREQ" -a \
+        "$WFREQ2VOCAB" -a \
+        "$IDNGRAM2LM" -a \
+	"$TEXT2IDNGRAM" 
 then
     build_arpa_ngram_resources=yes
 else
     build_arpa_ngram_resources=no
-    AC_MSG_NOTICE([CMU-SLM tools not found. ARPA ngram language model will not be built.])
+    AC_MSG_NOTICE([CMU-Cambridge SLM tools not found. ARPA ngram language model will not be built.])
 fi
 AM_CONDITIONAL([BUILD_ARPA_NGRAM], [test "x$build_arpa_ngram_resources" = "xyes"])
 

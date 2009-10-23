@@ -1,3 +1,10 @@
+2009-10-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* README: updated optional components list.
+
+	* configure.ac, resources/arpa/Makefile.am: fixed sample arpa
+	database generation on MinGW/MSYS.
+
 2009-10-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/changelog, ChangeLog, configure.ac, NEWS: preparing for

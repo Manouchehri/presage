@@ -63,6 +63,8 @@ Optional:
 
 - GNOME development package. On Debian systems, install gnome-devel.
 
+- CMU-Cambridge Statistical Language Modeling toolkit.
+
 
 _______________________
 STEP 0: Getting Presage

@@ -30,22 +30,22 @@ BUILT_SOURCES =	\
 	arpa_it.arpa 
 
 arpa_en.vocab:	../the_picture_of_dorian_gray.txt
-	text2wfreq < $< | wfreq2vocab -top 20000 > $@
+	$(TEXT2WFREQ) < $< | $(WFREQ2VOCAB) -top 20000 > $@
 
 arpa_en.idngram:	 ../the_picture_of_dorian_gray.txt arpa_en.vocab
-	text2idngram -n 3 -vocab arpa_en.vocab -temp . < $< > $@
+	$(TEXT2IDNGRAM) -n 3 -vocab arpa_en.vocab -temp . < $< > $@
 
 arpa_en.arpa:	arpa_en.idngram arpa_en.vocab
-	idngram2lm -idngram arpa_en.idngram -vocab arpa_en.vocab -arpa arpa_en.arpa 
+	$(IDNGRAM2LM) -idngram arpa_en.idngram -vocab arpa_en.vocab -arpa arpa_en.arpa 
 
 arpa_it.vocab:	../the_picture_of_dorian_gray.txt
-	text2wfreq < $< | wfreq2vocab -top 20000 > $@
+	$(TEXT2WFREQ) < $< | $(WFREQ2VOCAB) -top 20000 > $@
 
 arpa_it.idngram:	 ../the_picture_of_dorian_gray.txt arpa_it.vocab
-	text2idngram -n 3 -vocab arpa_it.vocab -temp . < $< > $@
+	$(TEXT2IDNGRAM) -n 3 -vocab arpa_it.vocab -temp . < $< > $@
 
 arpa_it.arpa:	arpa_it.idngram arpa_it.vocab
-	idngram2lm -idngram arpa_it.idngram -vocab arpa_it.vocab -arpa arpa_it.arpa 
+	$(IDNGRAM2LM) -idngram arpa_it.idngram -vocab arpa_it.vocab -arpa arpa_it.arpa 
 
 # ${prefix}/share/${package-name} directory
 pkgdata_DATA =	arpa_en.arpa \
