@@ -1,3 +1,14 @@
+2009-12-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/*: moved GTK applications from src/tools/gtk directory
+	to apps/gtk directory
+
+	* apps/python/pypresagemate*: added new pypresagemate application
+	contributed by John Hills.
+
+	* configure.ac, Makefile.am: trivial changes to reflect directory
+	layout changes.
+	
 2009-11-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* presage-0.7.3: released.

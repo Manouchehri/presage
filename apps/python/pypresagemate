@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# use xev to discover the keycodes for your system
+
+xmodmap -e "keycode 67 = F13"
+xmodmap -e "keycode 68 = F14"
+xmodmap -e "keycode 69 = F15"
+xmodmap -e "keycode 70 = F16"
+xmodmap -e "keycode 71 = F17"
+xmodmap -e "keycode 72 = F18"
+xmodmap -e "keycode 73 = F19"
+xmodmap -e "keycode 74 = F20"
+xmodmap -e "keycode 75 = F21"
+xmodmap -e "keycode 76 = F22"
+
+scriptdir=`dirname $0`
+$scriptdir/pypresagemate.py
+
+xmodmap -e "keycode 67 = F1 XF86_Switch_VT_1 F1 XF86_Switch_VT_1 F1 XF86_Switch_VT_1"
+xmodmap -e "keycode 68 = F2 XF86_Switch_VT_2 F2 XF86_Switch_VT_2 F2 XF86_Switch_VT_2"
+xmodmap -e "keycode 69 = F3 XF86_Switch_VT_3 F3 XF86_Switch_VT_3 F3 XF86_Switch_VT_3"
+xmodmap -e "keycode 70 = F4 XF86_Switch_VT_4 F4 XF86_Switch_VT_4 F4 XF86_Switch_VT_4"
+xmodmap -e "keycode 71 = F5 XF86_Switch_VT_5 F5 XF86_Switch_VT_5 F5 XF86_Switch_VT_5"
+xmodmap -e "keycode 72 = F6 XF86_Switch_VT_6 F6 XF86_Switch_VT_6 F6 XF86_Switch_VT_6"
+xmodmap -e "keycode 73 = F7 XF86_Switch_VT_7 F7 XF86_Switch_VT_7 F7 XF86_Switch_VT_7"
+xmodmap -e "keycode 74 = F8 XF86_Switch_VT_8 F8 XF86_Switch_VT_8 F8 XF86_Switch_VT_8"
+xmodmap -e "keycode 75 = F9 XF86_Switch_VT_9 F9 XF86_Switch_VT_9 F9 XF86_Switch_VT_9"
+xmodmap -e "keycode 76 = F10 XF86_Switch_VT_10 F10 XF86_Switch_VT_10 F10 XF86_Switch_VT_10"

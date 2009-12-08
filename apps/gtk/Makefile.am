@@ -27,7 +27,7 @@ bin_PROGRAMS =		gpresagemate
 
 gpresagemate_SOURCES = 	gpresagemate.cpp
 gpresagemate_CPPFLAGS =	$(GNOME_CFLAGS) -I$(top_srcdir)/src/lib
-gpresagemate_LDADD = 	$(GNOME_LIBS) -lXevie ../../lib/libpresage.la
+gpresagemate_LDADD = 	$(GNOME_LIBS) -lXevie ../../src/lib/libpresage.la
 
 # if HAVE_HELP2MAN
 # gpresagemate.1:	gpresagemate.cpp $(top_srcdir)/configure.ac

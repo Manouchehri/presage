@@ -300,7 +300,6 @@ AC_OUTPUT([
 	src/lib/tinyxml/Makefile
 	src/lib/plugins/Makefile
 	src/tools/Makefile
-	src/tools/gtk/Makefile
 	test/Makefile
 	test/lib/Makefile
 	test/lib/core/Makefile
@@ -317,6 +316,9 @@ AC_OUTPUT([
 	bindings/Makefile
 	bindings/python/setup.py
 	bindings/python/Makefile
+	apps/Makefile
+	apps/gtk/Makefile
+	apps/python/Makefile
 	doc/Doxyfile
 	doc/Makefile
 	setup.py

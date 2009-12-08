@@ -21,7 +21,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	src test resources bindings doc
+SUBDIRS =	src test resources bindings apps doc
 
 BUILT_SOURCES =	dirs.h
 CLEANFILES =	dirs.h
