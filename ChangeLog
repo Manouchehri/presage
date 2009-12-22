@@ -1,3 +1,9 @@
+2009-12-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/soothie_theme.tar.gz, website/presage_theme.tar.gz,
+	website/README, website/presage_database_dump.sql.gz: website
+	update and redesign.
+
 2009-12-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/*: moved GTK applications from src/tools/gtk directory
