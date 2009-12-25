@@ -2,16 +2,16 @@
 
 # use xev to discover the keycodes for your system
 
-xmodmap -e "keycode 67 = F13"
-xmodmap -e "keycode 68 = F14"
-xmodmap -e "keycode 69 = F15"
-xmodmap -e "keycode 70 = F16"
-xmodmap -e "keycode 71 = F17"
-xmodmap -e "keycode 72 = F18"
-xmodmap -e "keycode 73 = F19"
-xmodmap -e "keycode 74 = F20"
-xmodmap -e "keycode 75 = F21"
-xmodmap -e "keycode 76 = F22"
+xmodmap -e "keycode 67 = F25"
+xmodmap -e "keycode 68 = F26"
+xmodmap -e "keycode 69 = F27"
+xmodmap -e "keycode 70 = F28"
+xmodmap -e "keycode 71 = F29"
+xmodmap -e "keycode 72 = F30"
+xmodmap -e "keycode 73 = F31"
+xmodmap -e "keycode 74 = F32"
+xmodmap -e "keycode 75 = F33"
+xmodmap -e "keycode 76 = F34"
 
 scriptdir=`dirname $0`
 $scriptdir/pypresagemate.py

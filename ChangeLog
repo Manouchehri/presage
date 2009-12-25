@@ -1,3 +1,9 @@
+2009-12-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pypresagemate, apps/python/pypresagemate.py:
+	applying patch by John Hills, remapped function keys and auto
+	capitalize word "I"
+
 2009-12-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/soothie_theme.tar.gz, website/presage_theme.tar.gz,

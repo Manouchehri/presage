@@ -105,13 +105,16 @@ def process_event(event):
         ignore_keys -= 1
   
     elif event.event_string[0] == "F":
-      # -13 is the function key offset I use F13-22 (remapped to the F1-10 keys)
-      f_key = int(event.event_string[1:]) - 13
+      # -25 is the function key offset, I use F25-34 remapped to the F1-10 keys
+      f_key = int(event.event_string[1:]) - 25
          
       if len(prediction) > f_key:
         
         predicted_word = prediction[f_key]
                 
+        if predicted_word == "i":
+          predicted_word = predicted_word.upper()
+          
         for ch in predicted_word[char_index:] + ' ':
           keyval = gtk.gdk.unicode_to_keyval(ord(ch))
           reg.generateKeyboardEvent(keyval, None, pyatspi.KEY_SYM)
@@ -132,6 +135,8 @@ def update_gui(prediction):
   global label
   prediction_string = str()
   for index, word in enumerate(prediction):
+    if word == "i":
+      word = word.upper()
     pred = 'F' + str(index + 1) + '  ',  word + '\n'
     prediction_string += ''.join(pred)
       
