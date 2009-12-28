@@ -490,11 +490,21 @@ void SqliteDatabaseConnectorTest::assertDatabaseDumpEqualsBenchmark(std::strings
     //benchmark.seekg(0);
     //database_dump_stream.seekg(0);
 
+    // remove PRAGMAs
+    std::string buffer;
+    std::stringstream stripped_database_dump_stream;
+    while (getline(database_dump_stream, buffer)) {
+        // if buffer does not contain substring "PRAGMA"
+        if (buffer.find("PRAGMA") == std::string::npos) {
+            stripped_database_dump_stream << buffer << std::endl;
+        }
+    }
+
     // assert streams contain same characters
     std::string actual;
     std::string expected;
     bool        equal = true;;
-    while (getline(database_dump_stream, actual)
+    while (getline(stripped_database_dump_stream, actual)
 	   && getline(benchmark, expected)) {
         // remove " and ' from strings, because different versions of
         // sqlite insert either double quotes or single quotes or no

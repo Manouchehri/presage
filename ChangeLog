@@ -1,3 +1,8 @@
+2009-12-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/dbconnector/sqliteDatabaseConnectorTest.cpp: fixed
+	tests on Windows with latest Cygwin release (1.7.1).
+
 2009-12-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/pypresagemate, apps/python/pypresagemate.py:
