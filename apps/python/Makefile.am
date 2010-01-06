@@ -25,7 +25,7 @@ if HAVE_SWIG
 if HAVE_PYTHON
 if ENABLE_PYTHON_BINDING
 
-dist_bin_SCRIPTS = pypresagemate pypresagemate.py
+dist_bin_SCRIPTS = pypresagemate.py
 
 CLEANFILES = $(dist_bin_SCRIPTS)
 

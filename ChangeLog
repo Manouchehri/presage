@@ -1,3 +1,8 @@
+2010-01-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pypresagemate.py: remap function keys keycode ->
+	keysym in pure python using Xlib module.
+
 2009-12-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/core/dbconnector/sqliteDatabaseConnectorTest.cpp: fixed

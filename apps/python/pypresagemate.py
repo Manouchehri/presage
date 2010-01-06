@@ -70,7 +70,9 @@ accordingly).
 import ConfigParser
 import os
 import pango
-
+import atexit
+import Xlib
+import Xlib.display
 
 def process_event(event):
   global char_index 
@@ -108,7 +110,7 @@ def process_event(event):
       # -25 is the function key offset, I use F25-34 remapped to the F1-10 keys
       f_key = int(event.event_string[1:]) - 25
          
-      if len(prediction) > f_key:
+      if (f_key >= 0) & (len(prediction) > f_key):
         
         predicted_word = prediction[f_key]
                 
@@ -144,12 +146,25 @@ def update_gui(prediction):
 
 
 def delete_event(widget, event, data=None):
+  
+  remap_keys(False)
+  
   position = window.get_position()
   set_position_config(position[0], position[1])
   gtk.main_quit()
   exit()
   return gtk.FALSE
 
+def frame_event(window, event, data=None):
+ 
+  state = event.new_window_state
+  if state & gtk.gdk.WINDOW_STATE_ICONIFIED:
+    # re-map F1-10 to F1-10 when the window is iconified
+    remap_keys(False)
+  else:
+    # re-map F1-10 to F25-34 when the window is uniconified
+    remap_keys(True)
+   
 def get_config():
 
   writeconfig_flag = False
@@ -184,9 +199,6 @@ def get_config():
     finally:
       configfile.close()
 
-    #with open(os.path.expanduser('~/.pypresagematerc'), 'wb') as configfile:
-    #  config.write(configfile)
-
   return config
   
 def set_position_config(x, y):
@@ -200,8 +212,58 @@ def set_position_config(x, y):
   finally:
     configfile.close()
 
-  #with open(os.path.expanduser('~/.pypresagematerc'), 'wb') as configfile:
-  #  config.write(configfile)
+
+
+def remap_keys(remap):
+  """ Remap keycode -> keysym for function keys
+
+  The keycode -> keysym mapping is so that the keycode generated
+  when the F1 key is pressed sends the F25 keysym. But to do that you
+  need to know the keycodes for F1-10, for Linux on x86 the keycode for
+  F1 is 67 but for other platforms it could be different. So the code
+  looks up the keycode mapped to F1 keysym if that is non zero (i.e. F1
+  is mapped) I map that keycode to F1 or F25 as required, if F1 is not
+  mapped I lookup the keycode for F25 and if that is non zero I map
+  that keycode to F1 or F25 as required. If F1 and F25 are not mapped
+  to any keycode I use 67 as the keycode for the F1 key. The code
+  assumes that the keycodes for F1-10 are sequential which may not be
+  true for all platforms. A more robust solution may be found by
+  accessing the keyboard layout somehow but I haven't had time to look
+  yet.
+  """
+  
+  display = Xlib.display.Display()
+  
+  # only keycodes 8 to 255 are defined
+  first_keycode = 8
+  keymaps_orig = display.get_keyboard_mapping(first_keycode, 255 - first_keycode)
+  keymaps = list(keymaps_orig)
+
+  if remap == True: 
+    keysym = 65494
+  else:
+    keysym = 65470
+
+  keycode_F1 = display.keysym_to_keycode(65470)
+  keycode_F25 = display.keysym_to_keycode(65494)
+  
+  # set first_fkeycode to a sensible default incase F1 and F25 are not mapped
+  first_fkeycode = 67
+  
+  if keycode_F1 > 0:
+    first_fkeycode = keycode_F1
+  elif keycode_F25 > 0:
+    first_fkeycode = keycode_F25
+    
+  for i in range(0, 10):
+
+    keymaps[(i + first_fkeycode - first_keycode)][0] = keysym + i
+    keymaps[(i + first_fkeycode - first_keycode)][2] = keysym + i
+    keymaps[(i + first_fkeycode - first_keycode)][4] = keysym + i
+    
+  display.change_keyboard_mapping(first_keycode, keymaps, onerror = None)
+  display.sync()
+  display.close()
 
   
 config = get_config()
@@ -221,6 +283,7 @@ reg.registerKeystrokeListener(process_event, mask=pyatspi.allModifiers())
 
 window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 window.connect("delete_event", delete_event)
+window.connect("window-state-event", frame_event)
 
 window.set_keep_above(True)
 #window.set_decorated(False)
@@ -239,5 +302,11 @@ label.modify_font(font_desc)
 update_gui(prediction)
 window.add(label)
 window.show_all()
+
+# remap keys if program closes other than by closing gtk
+atexit.register(remap_keys, False)
+
+remap_keys(True)
+
 gtk.main()
 reg.start()
