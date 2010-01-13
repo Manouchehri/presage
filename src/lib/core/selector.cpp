@@ -72,7 +72,10 @@ std::vector<std::string> Selector::select( Prediction p )
 	
     // check whether user has not moved on to a new word
     if (contextTracker->contextChange()) {
+	logger << DEBUG << "Context change detected." << endl;
 	clearSuggestedWords();
+    } else {
+	logger << DEBUG << "No context change detected." << endl;
     }
 
     // filter out suggestions that do not satisfy repetition constraint
@@ -135,6 +138,14 @@ void Selector::updateSuggestedWords( const std::vector<std::string>& v )
 	suggestedWords.insert( *i );
 	i++;
     }
+
+    logger << DEBUG << "Suggested words: ";
+    for (StringSet::const_iterator it = suggestedWords.begin();
+	 it != suggestedWords.end();
+	 it++) {
+	logger << *it << ' ';
+    }
+    logger << endl;
 }
 
 
@@ -162,10 +173,11 @@ void Selector::repetitionFilter( std::vector<std::string>& v )
     for( std::vector<std::string>::iterator i = v.begin();
 	 i != v.end();
 	 i++ ) {
-	logger << DEBUG << "Processing repetition filter on token: " << *i << endl;
 	if( suggestedWords.find( *i ) == suggestedWords.end() ) {
 	    temp.push_back( *i );
 	    logger << DEBUG << "Token passed repetition filter: " << *i << endl;
+	} else {
+	    logger << DEBUG << "Token failed repetition filter: " << *i << endl;
 	}
     }
 

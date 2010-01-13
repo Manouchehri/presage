@@ -41,6 +41,8 @@ public:
 
 private:
     Configuration*  config;
+    std::stringstream* stream;
+    PresageCallback* callback;
     ContextTracker* ct;
     PluginRegistry* pluginRegistry;
 

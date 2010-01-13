@@ -76,7 +76,7 @@ Prediction DictionaryPlugin::predict(const size_t max_partial_predictions_size, 
     return result;
 }
 
-void DictionaryPlugin::learn()
+void DictionaryPlugin::learn(const std::vector<std::string>& change)
 {
     std::cout << "DictionaryPlugin::learn() method called" << std::endl;
     std::cout << "DictionaryPlugin::learn() method exited" << std::endl;

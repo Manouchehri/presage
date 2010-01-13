@@ -23,6 +23,7 @@
 
 
 #include "recencyPluginTest.h"
+#include "../common/stringstreamPresageCallback.h"
 
 #include "core/pluginRegistry.h"
 #include <math.h>  // for exp()
@@ -42,7 +43,7 @@ void RecencyPluginTest::setUp()
     config = new Configuration();
     // set context tracker config variables
     config->set(Variable("Presage.ContextTracker.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.ContextTracker.MAX_BUFFER_SIZE"), Value("1024"));
+    config->set(Variable("Presage.ContextTracker.SLIDING_WINDOW_SIZE"), Value("80"));
     // set plugin registry config variables
     config->set(Variable("Presage.PluginRegistry.LOGGER"), Value("ERROR"));
     config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value(""));
@@ -53,14 +54,18 @@ void RecencyPluginTest::setUp()
     config->set(CUTOFF, "20");
 
     pluginRegistry = new PluginRegistry(config);
-    ct = new ContextTracker(config, pluginRegistry);
+    stream = new std::stringstream();
+    callback = new StringstreamPresageCallback(*stream);
+    ct = new ContextTracker(config, pluginRegistry, callback);
 }
 
 void RecencyPluginTest::tearDown()
 {
     //std::cerr << "RecencyPluginTest::tearDown()" << std::endl;
-
+    
     delete ct;
+    delete callback;
+    delete stream;
     delete pluginRegistry;
     delete config;
 }
@@ -71,7 +76,7 @@ void RecencyPluginTest::testMaxPartialPredictionSize()
 
     RecencyPlugin* plugin = new RecencyPlugin(config, ct);
 
-    ct->update("foo foobar foobaz foo");
+    *stream << "foo foobar foobaz foo";
 
     for (size_t i = 1; i <= 3; i++) {
         Prediction prediction = plugin->predict(i, 0);
@@ -86,7 +91,7 @@ void RecencyPluginTest::testCutoffThreshold()
 {
     std::cerr << "RecencyPluginTest::testCutoffThreshold()" << std::endl;
 
-    ct->update("foo bar foobar baz f");
+    *stream << "foo bar foobar baz f";
 
     {
 	config->set(CUTOFF, "0");

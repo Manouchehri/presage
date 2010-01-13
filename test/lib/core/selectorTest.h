@@ -31,7 +31,7 @@
 #include "core/pluginRegistry.h"
 #include "core/selector.h"
 
-#include <tokenizer/testStringSuite.h>
+#include "../common/testStringSuite.h"
 
 class SelectorTest : public CppUnit::TestFixture { 
 public:
@@ -109,6 +109,8 @@ private:
     Profile*         profile;
     Configuration*   configuration;
     PluginRegistry*  pluginRegistry;
+    std::stringstream* strstream;
+    PresageCallback* callback;
     ContextTracker*  contextTracker;
     Selector*        selector;
 

@@ -23,6 +23,7 @@
 
 
 #include "selectorTest.h"
+#include "../common/stringstreamPresageCallback.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( SelectorTest );
 
@@ -386,7 +387,9 @@ void SelectorTest::setUp()
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
     pluginRegistry = new PluginRegistry(configuration);
-    contextTracker  = new ContextTracker(configuration, pluginRegistry);
+    strstream = new std::stringstream();
+    callback = new StringstreamPresageCallback(*strstream);
+    contextTracker  = new ContextTracker(configuration, pluginRegistry, callback);
     selector = new Selector(configuration, contextTracker);
 }
 
@@ -394,9 +397,14 @@ void SelectorTest::tearDown()
 {
     delete testStringSuite;
     delete tds_S6_NR_T0;
+    delete tds_S6_R_T0;
+    delete tds_S6_NR_T3;
+    delete tds_S6_R_T3;
 
     delete selector;
     delete contextTracker;
+    delete strstream;
+    delete callback;
     delete profile;
     delete profileManager;
 }
@@ -404,8 +412,9 @@ void SelectorTest::tearDown()
 void SelectorTest::testSelect(TestDataSuite* tds)
 {
     while (tds->hasMoreTestData()) {
-	std::cerr << "Updating with " << tds->getUpdateString() << std::endl;
-	contextTracker->update(tds->getUpdateString());
+	std::cerr << "Updating strstream: " << strstream->str() << '|' << std::endl
+		  << " with: " << tds->getUpdateString() << '|' << std::endl;
+	*strstream << tds->getUpdateString();
 	std::vector<std::string> selectedTokens;
 	selectedTokens = selector->select(tds->getInputPrediction());
 
@@ -424,6 +433,7 @@ void SelectorTest::testSelect(TestDataSuite* tds)
 	    actual_it++;
 	}
 
+	contextTracker->update();
 	tds->nextTestData();
     }
 }

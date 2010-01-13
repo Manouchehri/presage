@@ -28,15 +28,16 @@ TESTS =		contextTrackerTestRunner
 check_PROGRAMS = $(TESTS)
 
 contextTrackerTestRunner_SOURCES =	../coreTestRunner.cpp \
-					../tokenizer/testStringSuite.h \
-					../tokenizer/testStringSuite.cpp \
+					contextChangeDetectorTest.h \
+					contextChangeDetectorTest.cpp \
 					contextTrackerTest.h \
-					contextTrackerTest.cpp
+					contextTrackerTest.cpp 
 contextTrackerTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 contextTrackerTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 contextTrackerTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 contextTrackerTestRunner_LIBS =		-ldl
-contextTrackerTestRunner_LDADD =	$(top_builddir)/src/lib/libpresage.la
+contextTrackerTestRunner_LDADD =	$(top_builddir)/src/lib/libpresage.la \
+					../../common/libcommon.la
 
 DEPENDENCIES =	libpresage.la
 

@@ -30,14 +30,14 @@
 #include "core/selector.h"
 #include "core/predictorActivator.h"
 
-Presage::Presage()
+Presage::Presage(PresageCallback* callback)
 {
     profileManager = new ProfileManager();
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
 
     pluginRegistry = new PluginRegistry(configuration);
-    contextTracker = new ContextTracker(configuration, pluginRegistry);
+    contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
     predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
     selector = new Selector(configuration, contextTracker);
 
@@ -47,14 +47,14 @@ Presage::Presage()
     //plump.discoverPlugins();
 }
 
-Presage::Presage(const std::string config_filename)
+Presage::Presage(PresageCallback* callback, const std::string config_filename)
 {
     profileManager = new ProfileManager(config_filename);
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
 
     pluginRegistry = new PluginRegistry(configuration);
-    contextTracker = new ContextTracker(configuration, pluginRegistry);
+    contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
     predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
     selector = new Selector(configuration, contextTracker);
 }
@@ -71,11 +71,9 @@ Presage::~Presage()
     delete profileManager;
 }
 
-std::vector<std::string> Presage::predict(std::string s)
+std::vector<std::string> Presage::predict()
 {
     std::vector<std::string> result;
-
-    contextTracker->update (s);
 
     unsigned int multiplier = 1;
     Prediction prediction = predictorActivator->predict(multiplier++, 0);
@@ -93,9 +91,10 @@ std::vector<std::string> Presage::predict(std::string s)
 	previous_prediction = prediction;
     }
 
+    contextTracker->update();
+
     return result;
 }
-
 
 std::multimap<double, std::string> Presage::predict(std::vector<std::string> filter)
 {
@@ -144,13 +143,12 @@ std::multimap<double, std::string> Presage::predict(std::vector<std::string> fil
     return result;
 }
 
-void Presage::update(std::string s)
+PresageCallback* Presage::callback(PresageCallback* callback)
 {
-    contextTracker->update (s);
-    selector->update ();
+    return const_cast<PresageCallback*>(contextTracker->callback(callback));
 }
 
-void Presage::complete(const std::string completion)
+std::string Presage::completion(const std::string str)
 {
     // There are two types of completions: normal and erasing.
     // normal_completion  = prefix + remainder
@@ -166,19 +164,20 @@ void Presage::complete(const std::string completion)
     // by abbreviation expansion predictor to erase abbreviation from
     // stream)
     //
-    std::string::size_type offset = completion.find_first_not_of('\b');
+    std::string result;
+
+    std::string::size_type offset = str.find_first_not_of('\b');
     if (offset == 0) {
         // normal completion,
         // ensure that current prefix is a substring of completion
-        // token and update with remainder
+        // token and set result
         //
-        if (contextTracker->isCompletionValid(completion)) {
+        if (contextTracker->isCompletionValid(str)) {
             std::string prefix = contextTracker->getPrefix();
-            update(completion.substr(prefix.size()));
-
+	    result = str.substr(prefix.size());
         } else {
-            std::string message = "[Presage] Error: completion '";
-	    message += completion;
+            std::string message = "[Presage] Error: token '";
+	    message += str;
 	    message += "' does not match prefix: ";
 	    message += contextTracker->getPrefix();
 	    throw PresageException(message);
@@ -187,8 +186,13 @@ void Presage::complete(const std::string completion)
         // erasing completion,
         // pass it to tracker in its entirety
         //
-        update(completion);
+        result = str;
     }
+
+    // if (append_trailing_space_is_on()) // TODO: make this configurable
+    result += ' ';
+
+    return result;
 }
 
 std::string Presage::context() const
@@ -211,7 +215,7 @@ std::string Presage::config(const std::string variable) const
     return configuration->get(variable);
 }
 
-void Presage::config(const std::string variable, const std::string value)
+void Presage::config(const std::string variable, const std::string value) const
 {
     configuration->set(variable, value);
 }

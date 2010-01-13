@@ -25,10 +25,6 @@
 #ifndef PRESAGE_EXCEPTION
 #define PRESAGE_EXCEPTION
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <exception>
 #include <string>
 

@@ -267,9 +267,9 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
 }
 
 
-void SmoothedNgramPlugin::learn()
+void SmoothedNgramPlugin::learn(const std::vector<std::string>& change)
 {
-    logger << DEBUG << "learn()" << endl;
+    logger << INFO << "learn()" << endl;
 
     bool wanna_learn = false;
     try {
@@ -284,33 +284,65 @@ void SmoothedNgramPlugin::learn()
 	// n-gram cardinality (i.e. what is the n in n-gram?)
 	int cardinality = deltas.size();
 
-	Ngram ngram;
 	std::string token;
-	for (int i = 1; i < cardinality + 1; i++) {
-	    token = contextTracker->getToken(i);
-	    ngram.insert(ngram.begin(), token);
+	for (int curr_cardinality = 1;
+	     curr_cardinality < cardinality + 1;
+	     curr_cardinality++) {
 
-	    logger << DEBUG << "Considering to learn ngram: |";
-	    for (size_t j = 0; j < ngram.size(); j++) {
-		logger << DEBUG << ngram[j] << '|';
-	    }
-	    logger << DEBUG << endl;
+	    // idx walks the change vector back to front
+	    for (std::vector<std::string>::const_reverse_iterator idx = change.rbegin();
+		 idx != change.rend();
+		 idx++)
+	    {
+		Ngram ngram;
 
-	    if (ngram.end() == find(ngram.begin(), ngram.end(), "")) {
-		// only learn ngram if it doesn't contain empty strings
-		db->beginTransaction();
+		// try to fill in the ngram to be learnt with change
+		// tokens first
+		for (std::vector<std::string>::const_reverse_iterator inner_idx = idx;
+		     inner_idx != change.rend() && ngram.size() < curr_cardinality;
+		     inner_idx++)
+		{
+		    ngram.insert(ngram.begin(), *inner_idx);
+		}
 
-		db->incrementNgramCount(ngram);
-		check_learn_consistency(ngram);
+		// then use past stream if ngram not filled in yet
+		for (int tk_idx = 1;
+		     ngram.size() < curr_cardinality;
+		     tk_idx++)
+		{		     
+		    // ContextTracker already sees latest tokens that
+		    // we need to learn, hence we need to look at the
+		    // sliding window and obtain tokens from there.
+		    //
+		    // getSlidingWindowToken returns tokens from
+		    // stream tied to sliding window from context
+		    // change detector
 
-		db->endTransaction();
-		logger << DEBUG << "Committed ngram update to database" << endl;
+		    ngram.insert(ngram.begin(), contextTracker->getSlidingWindowToken(tk_idx));
+		}
 
-	    } else {
-		logger << DEBUG << "Discarded ngram" << endl;
+		// now we have built the ngram we have to learn
+		logger << INFO << "Considering to learn ngram: |";
+		for (size_t j = 0; j < ngram.size(); j++) {
+		    logger << INFO << ngram[j] << '|';
+		}
+		logger << INFO << endl;
+		
+		if (ngram.end() == find(ngram.begin(), ngram.end(), "")) {
+		    // only learn ngram if it doesn't contain empty strings
+		    db->beginTransaction();
+		    
+		    db->incrementNgramCount(ngram);
+		    check_learn_consistency(ngram);
+		    
+		    db->endTransaction();
+		    logger << INFO << "Committed ngram update to database" << endl;
+		    
+		} else {
+		    logger << INFO << "Discarded ngram" << endl;
+		}
 	    }
 	}
-
     }
 
     logger << DEBUG << "end learn()" << endl;

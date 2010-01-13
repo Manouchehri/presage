@@ -27,6 +27,8 @@
 
 #include "presage.h"
 
+#include <sstream>
+
 /** Evaluates how good Presage is at doing its job (in other words, its ability to reduce keystrokes the user is required to type).
  *
  * Simulator computes the KSR (Keystrokes Savings Rate) obtained by
@@ -49,11 +51,13 @@
  */
 class Simulator {
 public:
-    Simulator(const std::string = "");
+    Simulator(PresageCallback* callback,
+	      std::stringstream& sstream,
+	      const std::string = "");
     ~Simulator();
 	
     void simulate(std::string);
-    void reset();
+//    void reset();
     void results() const;
     int getKi() const;
     int getKs() const;
@@ -79,6 +83,8 @@ private:
     int kn;
 
     bool silent_mode;
+
+    std::stringstream& m_sstream;
 };
 
 

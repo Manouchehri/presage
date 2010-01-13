@@ -63,7 +63,7 @@ public:
      */
     virtual Prediction predict(const size_t size, const char** filter) const = 0;
 
-    virtual void learn() = 0;
+    virtual void learn(const std::vector<std::string>& change) = 0;
     virtual void extract() = 0;
     virtual void train() = 0;
 

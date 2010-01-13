@@ -35,6 +35,9 @@
 #include <vector>
 #include <assert.h>
 
+#include "presageCallback.h"
+#include "contextChangeDetector.h"
+
 #include "core/tokenizer/reverseTokenizer.h"
 #include "core/charsets.h"
 #include "core/configuration.h"
@@ -151,25 +154,26 @@ class ContextTracker {
 public:
     ContextTracker(Configuration* config,
 		   PluginRegistry* pluginRegistry,
+		   PresageCallback* callback,
 		   const char[]=DEFAULT_WORD_CHARS,
                    const char[]=DEFAULT_SEPARATOR_CHARS,
                    const char[]=DEFAULT_BLANKSPACE_CHARS,
                    const char[]=DEFAULT_CONTROL_CHARS );
     ~ContextTracker();
 
-    void update(std::string);
+    const PresageCallback* callback(const PresageCallback* callback);
 
-    bool contextChange() const;
+    bool contextChange();
 
-    std::string getPrefix();
-    std::string getToken (const int);
+    std::string getPrefix() const;
+    std::string getToken (const int) const;
 
-    //vector<string> getTokens(const int,const int) const;
+    std::string getSlidingWindowToken(const int index) const;
 
     std::string getFutureStream() const;
     std::string getPastStream  () const;
 
-    bool isCompletionValid(const std::string&);
+    bool isCompletionValid(const std::string&) const;
 
     //eliminate after testing phase
     std::string getWordChars()       const;
@@ -179,40 +183,17 @@ public:
 
     std::string toString() const;
 
-    /** REVISIT: is this method really needed?
-     */
-    int  getMaxBufferSize() const;
-    /** REVISIT: is this method really needed?
-     */
-    void setMaxBufferSize(const int);
+    void update();
 
 private:
-    void update(int character);
-    bool update_context_change();
-
-#ifdef USE_STRINGSTREAM
-    std::stringstream pastStream;
-    std::stringstream futureStream;
-#else
-    std::string pastStream;
-    std::string futureStream;
-#endif
-
     std::string wordChars;
     std::string separatorChars;
     std::string blankspaceChars;
     std::string controlChars;
 
-    bool contextChanged;
-    std::string previous_prefix;
-
     // REVISIT: this was removed since a tokenizer is created with
     // each method invocation that needs it
     //ReverseTokenizer tokenizer;
-
-    /** REVISIT: is this really needed?
-     */
-    int MAX_BUFFER_SIZE;
 
     // utility functions
     bool isWordChar      (const char) const;
@@ -220,18 +201,12 @@ private:
     bool isControlChar   (const char) const;
     bool isBlankspaceChar(const char) const;
 
+    const PresageCallback* context_tracker_callback;
     PluginRegistry* pluginRegistry;
+    ContextChangeDetector* contextChangeDetector;
     Logger<char> logger;
+    
 
 };
-
-/*
- * Punctuation characters: should they be treated as separators or
- * blankspaces? Should they be considered as first-class tokens?
- * Certainly syntactic predictive plugins would benefit from having
- * punctuation as tokens.
- *
- */
-
 
 #endif // PRESAGE_CONTEXTTRACKER

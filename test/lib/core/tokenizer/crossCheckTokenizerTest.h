@@ -27,7 +27,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "testStringSuite.h"
+#include "../../common/testStringSuite.h"
 #include "core/tokenizer/forwardTokenizer.h"
 #include "core/tokenizer/reverseTokenizer.h"
 

@@ -23,6 +23,7 @@
 
 
 #include "newSmoothedNgramPluginTest.h"
+#include "../common/stringstreamPresageCallback.h"
 
 #include "core/pluginRegistry.h"
 
@@ -46,7 +47,7 @@ void NewSmoothedNgramPluginTest::setUp()
     config = new Configuration();
     // set context tracker config variables
     config->set(Variable("Presage.ContextTracker.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.ContextTracker.MAX_BUFFER_SIZE"), Value("1024"));
+    config->set(Variable("Presage.ContextTracker.SLIDING_WINDOW_SIZE"), Value("80"));
     // set plugin registry config variables
     config->set(Variable("Presage.PluginRegistry.LOGGER"), Value("ERROR"));
     config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value("SmoothedNgramPlugin"));
@@ -58,13 +59,15 @@ void NewSmoothedNgramPluginTest::setUp()
     config->set(Variable("Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER"), "ERROR");
 
     pluginRegistry = new PluginRegistry(config);
-
-    ct = new ContextTracker(config, pluginRegistry);
+    stream = new std::stringstream();
+    callback = new StringstreamPresageCallback(*stream);
+    ct = new ContextTracker(config, pluginRegistry, callback);
 }
 
 void NewSmoothedNgramPluginTest::tearDown()
 {
     delete ct;
+    delete callback;
     delete pluginRegistry;
     delete config;
 
@@ -77,32 +80,37 @@ void NewSmoothedNgramPluginTest::testLearning()
     Plugin* plugin = pluginRegistry->iterator().next();
 
     {
-	ct->update("f");
+	*stream << "f";
+	ct->update();
 	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
     }
 
     {
-	ct->update("o");
+	*stream << "o";
+	ct->update();
 	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
     }
 
     {
-	ct->update("o ");
+	*stream << "o ";
+	ct->update();
 	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(1), actual.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(0).getWord());
+	ct->update();
     }
 
     {
-	ct->update("bar");
+	*stream << "bar";
+	ct->update();
 	Prediction actual = plugin->predict(SIZE, 0);
-	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
     }
 
     {
-	ct->update(" ");
+	*stream << " ";
+	ct->update();
 	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), actual.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(0).getWord());
@@ -110,7 +118,8 @@ void NewSmoothedNgramPluginTest::testLearning()
     }
 
     {
-	ct->update("foobar ");
+	*stream << "foobar ";
+	ct->update();
 	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), actual.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("foobar"), actual.getSuggestion(0).getWord());
@@ -119,19 +128,20 @@ void NewSmoothedNgramPluginTest::testLearning()
     }
 
     {
-	ct->update("f");
+	*stream << "f";
+	ct->update();
 	Prediction actual = plugin->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), actual.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("foobar"), actual.getSuggestion(0).getWord());
 	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(1).getWord());
     }
 }
+
 void NewSmoothedNgramPluginTest::testFilter()
 {
     // get pointer to plugin
     Plugin* plugin = pluginRegistry->iterator().next();
 
-    /*
     std::vector<std::string> change;
     change.push_back("foo");
     change.push_back("bar");
@@ -142,9 +152,15 @@ void NewSmoothedNgramPluginTest::testFilter()
     change.push_back("roo");
     change.push_back("rar");
     change.push_back("roobar");
-    */
 
-    ct->update("foo bar foobar foz baz fozbaz roo rar roobar ");
+    // Learn some context so that we have data to create non-empty
+    // predictions
+    // 
+    plugin->learn(change);
+
+    // Alternatively, plugin could have learnt thus...
+    //    *stream << "foo bar foobar foz baz fozbaz roo rar roobar ";
+    //    ct->update();
 
     {
 	Prediction actual = plugin->predict(SIZE, 0);

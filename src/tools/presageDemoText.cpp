@@ -24,6 +24,10 @@
 
 #include "presage.h"
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #ifdef HAVE_STDLIB_H
 # include <stdlib.h>
 #endif
@@ -49,8 +53,10 @@ int main(int argc, char** argv)
     parseCommandLineArgs(argc, argv);
     disclaimer();
 
-    // magic start here...
-    Presage presage(config);
+    // magic starts here...
+    LegacyPresageCallback callback;
+    Presage presage(&callback, config);
+
 
     if (suggestions) {
 	// problem with this is that even if I implemented the
@@ -95,10 +101,11 @@ int main(int argc, char** argv)
         std::cout << "> ";                       // prompt the user
         std::cin.getline (buffer, BUFFER_SIZE);  // read in string (if any)
 
+	callback.update(buffer);  // update internal buffer
         print_prediction(
-            presage.predict(buffer)  // request new prediction
+            presage.predict()      // request new prediction
 	    );
-        std::cout << "-- Context: " << presage.context() << std::endl;
+        std::cout << "-- Context: " << presage.context() << '|' << std::endl;
         if (presage.context_change()) {
             std::cout << "-- Context changed" << std::endl;
         }

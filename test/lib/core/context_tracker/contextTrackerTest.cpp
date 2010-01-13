@@ -23,6 +23,7 @@
 
 
 #include "contextTrackerTest.h"
+#include "../../common/stringstreamPresageCallback.h"
 
 #include <string>
 #include <assert.h>
@@ -54,38 +55,15 @@ void ContextTrackerTest::tearDown()
 void ContextTrackerTest::testConstructor()
 {}
 
-void ContextTrackerTest::testUpdate()
-{
-    std::cerr << "ContextTrackerTest::testUpdate()" << std::endl;
-
-    ContextTracker hT(configuration, pluginRegistry);
-    hT.update("foo");
-    hT.update(" ");
-    hT.update("bar ");
-    hT.update("foobar");
-
-    const std::string expected = "foo bar foobar";
-
-    CPPUNIT_ASSERT_EQUAL(expected, hT.getPastStream());
-    CPPUNIT_ASSERT(hT.getFutureStream() == "");
-
-    for (int i = expected.size() - 1; i >= 0; i--) {
-	hT.update("\b");
-	CPPUNIT_ASSERT_EQUAL(expected.substr(0, i), hT.getPastStream());
-	CPPUNIT_ASSERT(hT.getFutureStream() == "");
-    }
-    hT.update("\b");
-    CPPUNIT_ASSERT_EQUAL(std::string(""), hT.getPastStream());
-    CPPUNIT_ASSERT(hT.getFutureStream() == "");    
-}
-
 void ContextTrackerTest::testGetPrefix()
 {
     std::cerr << "ContextTrackerTest::testGetPrefix()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	ContextTracker hT(configuration, pluginRegistry);
-	hT.update(testStringSuite->currentTestString()->getstr());
+	std::stringstream buffer;
+	StringstreamPresageCallback callback(buffer);
+	ContextTracker hT(configuration, pluginRegistry, &callback);
+	buffer << testStringSuite->currentTestString()->getstr();
 
 	assert(testStringSuite->currentTestString() != 0);
 	std::cerr << "Test getting prefix from string: "
@@ -111,8 +89,10 @@ void ContextTrackerTest::testGetToken()
     std::cerr << "ContextTrackerTest::testGetToken()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	ContextTracker hT(configuration, pluginRegistry);
-	hT.update(testStringSuite->currentTestString()->getstr());
+	std::stringstream buffer;
+	StringstreamPresageCallback callback(buffer);
+	ContextTracker hT(configuration, pluginRegistry, &callback);
+	buffer << testStringSuite->currentTestString()->getstr();
 
 	assert(testStringSuite->currentTestString() != 0);
 	std::cerr << "pastStream: " << hT.getPastStream() << std::endl;
@@ -142,13 +122,15 @@ void ContextTrackerTest::testGetPastStream()
     std::cerr << "ContextTrackerTest::testGetPastBuffer()" << std::endl;
 
     while (testStringSuite->hasMoreTestStrings()) {
-	ContextTracker hT(configuration, pluginRegistry);
+	std::stringstream buffer;
+	StringstreamPresageCallback callback(buffer);
+	ContextTracker hT(configuration, pluginRegistry, &callback);
 	std::string str = testStringSuite->currentTestString()->getstr();
 	std::string partial_str;
         for (size_t i = 0; i < str.size(); i++) {
 	    std::string strchar;
 	    strchar.push_back(str[i]);
-	    hT.update(strchar);
+	    buffer << strchar;
 	    partial_str.push_back(str[i]);
 
             CPPUNIT_ASSERT_EQUAL( partial_str, hT.getPastStream() );
@@ -161,69 +143,78 @@ void ContextTrackerTest::testGetPastStream()
 void ContextTrackerTest::testToString()
 {}
 
-void ContextTrackerTest::testGetMaxBufferSize()
-{}
-
-void ContextTrackerTest::testSetMaxBufferSize()
-{}
-
 void ContextTrackerTest::testContextChange()
 {
-    ContextTracker* contextTracker = new ContextTracker(configuration, pluginRegistry);
+    std::stringstream buffer;
+    PresageCallback* callback = new StringstreamPresageCallback(buffer);
+    ContextTracker* contextTracker = new ContextTracker(configuration,
+							pluginRegistry, 
+							callback);
 
     const std::string line   = "foo bar foobar, foo   bar! Foobar foo bar... foobar. ";
-    const std::string change = "00010001000000100001000001000000010001000100000000010";
+    const std::string change = "10010001000000100001000001000000010001000100000000010";
 
     for (size_t i = 0; i < line.size(); i++) {
 	std::string temp;
 	temp.push_back(line[i]);
-	contextTracker->update (temp);
+	buffer << temp;
 
 	bool expected = (change[i] == '0' ? false : true);
 	
 	std::cerr << "contextChange: " << expected
 		  << " - context: " << contextTracker->getPastStream() << '|' << std::endl;
-	CPPUNIT_ASSERT_EQUAL(expected, contextTracker->contextChange());
+
+	std::stringstream ss;
+	ss << "Error detected at: " << line.substr(0, i) << '|';
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(ss.str().c_str(), expected, contextTracker->contextChange());
+	contextTracker->update();
     }
 
     delete contextTracker;
+    delete callback;
 }
 
 void ContextTrackerTest::testCumulativeContextChange()
 {
-    ContextTracker* contextTracker = new ContextTracker(configuration, pluginRegistry);
+    std::stringstream buffer;
+    PresageCallback* callback = new StringstreamPresageCallback(buffer);
+    ContextTracker* contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
 
     const char* TRUE = "true";
     const char* FALSE = "false";
     const char* dataSuite[] = {
-	"f", FALSE,
-	"o", FALSE,
-	"o", FALSE,
-	" ", TRUE,
-	"ba", FALSE,
-	"r", FALSE,
-	" ", TRUE,
-	"foo", FALSE,
-	"bar ", TRUE,
-	"foo ", TRUE,
-	"b", FALSE,
-	"ar ", TRUE,
-	"foobar ", TRUE,
+	"f", TRUE,         // f|
+	"o", FALSE,        // fo|
+	"o", FALSE,        // foo|
+	" ", TRUE,         // foo |
+	"ba", FALSE,       // foo ba|
+	"r", FALSE,        // foo bar|
+	" ", TRUE,         // foo bar |
+	"foo", FALSE,      // foo bar foo|
+	"bar ", TRUE,      // foo bar foobar |
+	"foo ", TRUE,      // foo bar foobar foo |
+	"b", FALSE,        // foo bar foobar foo b|
+	"ar ", TRUE,       // foo bar foobar foo bar |
+	"foobar ", TRUE,   // foo bar foobar foo bar foobar |
 	0, 0
     };
     
     int i = 0;
     while (dataSuite[i] != 0 && dataSuite[i+1] != 0) {
-	contextTracker->update (dataSuite[i]);
+	buffer << dataSuite[i];
 
 	bool expected = (dataSuite[i+1] == FALSE ? false : true);
 
-	std::cerr << "cumulativeContextChange: " << expected
-		  << " - context: " << contextTracker->getPastStream() << '|' << std::endl;
-	CPPUNIT_ASSERT_EQUAL(expected, contextTracker->contextChange());
+	std::stringstream ss;
+	ss << "cumulativeContextChange: " << expected
+	   << " - context: " << contextTracker->getPastStream() << '|' << std::endl;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(ss.str().c_str(), expected, contextTracker->contextChange());
+	contextTracker->update();
 
 	i += 2;
     }
 
     delete contextTracker;
+
+    std::cerr << "ContextTrackerTest::testCumulativeContextChange() completed" << std::endl;
 }

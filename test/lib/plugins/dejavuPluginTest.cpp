@@ -23,6 +23,7 @@
 
 
 #include "dejavuPluginTest.h"
+#include "../common/stringstreamPresageCallback.h"
 
 #include "core/pluginRegistry.h"
 #include <math.h>  // for exp()
@@ -41,7 +42,7 @@ void DejavuPluginTest::setUp()
     config = new Configuration();
     // set context tracker config variables
     config->set(Variable("Presage.ContextTracker.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.ContextTracker.MAX_BUFFER_SIZE"), Value("1024"));
+    config->set(Variable("Presage.ContextTracker.SLIDING_WINDOW_SIZE"), Value("80"));
     // set plugin registry config variables
     config->set(Variable("Presage.PluginRegistry.LOGGER"), Value("ERROR"));
     config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value("DejavuPlugin"));
@@ -51,8 +52,9 @@ void DejavuPluginTest::setUp()
     config->set(MEMORY,  MEMORY_FILENAME);
 
     pluginRegistry = new PluginRegistry(config);
-
-    ct = new ContextTracker(config, pluginRegistry);
+    stream = new std::stringstream();
+    callback = new StringstreamPresageCallback(*stream);
+    ct = new ContextTracker(config, pluginRegistry, callback);
 
     remove(MEMORY_FILENAME);
 }
@@ -60,6 +62,9 @@ void DejavuPluginTest::setUp()
 void DejavuPluginTest::tearDown()
 {
     delete ct;
+    delete callback;
+    delete stream;
+    delete pluginRegistry;
     delete config;
 
     remove(MEMORY_FILENAME);
@@ -67,72 +72,84 @@ void DejavuPluginTest::tearDown()
 
 void DejavuPluginTest::testPredict()
 {
-    ct->update("polly wants a cracker ");
+    *stream << "polly wants a cracker ";
+    ct->update();
 
     // get pointer to dejavu plugin
     Plugin* plugin = pluginRegistry->iterator().next();
     
     {
-	ct->update("polly ");
+	*stream << "polly ";
 	Prediction expected;
 	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
+	ct->update();
     }
 
     {
-	ct->update("wants ");
+	*stream << "wants ";
 	Prediction expected;
 	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
+	ct->update();
     }
 
     {
-	ct->update("a ");
+	*stream << "a ";
 	Prediction expected;
 	expected.addSuggestion(Suggestion("cracker", 1.0));
 	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
+	ct->update();
     }
 
-    ct->update("soda ");
+    *stream << "soda ";
+    ct->update();
 
     {
-	ct->update("polly ");
+	*stream << "polly ";
 	Prediction expected;
 	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
+	ct->update();
     }
 
     {
-	ct->update("wants ");
+	*stream << "wants ";
 	Prediction expected;
 	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
+	ct->update();
     }
 
     {
-	ct->update("a ");
+	*stream << "a ";
 	Prediction expected;
 	expected.addSuggestion(Suggestion("cracker", 1.0));
 	expected.addSuggestion(Suggestion("soda",    1.0));
 	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
+	ct->update();
     }
 
-    ct->update("cake ");
+    *stream << "cake ";
+    ct->update();
 
     {
-	ct->update("polly ");
+	*stream << "polly ";
 	Prediction expected;
 	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
+	ct->update();
     }
 
     {
-	ct->update("wants ");
+	*stream << "wants ";
 	Prediction expected;
 	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
+	ct->update();
     }
 
     {
-	ct->update("a ");
+	*stream << "a ";
 	Prediction expected;
 	expected.addSuggestion(Suggestion("cake",    1.0));
 	expected.addSuggestion(Suggestion("cracker", 1.0));
 	expected.addSuggestion(Suggestion("soda",    1.0));
 	CPPUNIT_ASSERT_EQUAL(expected, plugin->predict(SIZE, 0));
+	ct->update();
     }
 }

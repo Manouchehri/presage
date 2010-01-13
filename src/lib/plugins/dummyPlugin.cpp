@@ -70,7 +70,7 @@ Prediction DummyPlugin::predict(const size_t max_partial_predictions_size, const
     return result;
 }
 
-void DummyPlugin::learn()
+void DummyPlugin::learn(const std::vector<std::string>& change)
 {
     std::cout << "DummyPlugin::learn() method called" << std::endl;
     std::cout << "DummyPlugin::learn() method exited" << std::endl;

@@ -9,11 +9,10 @@
     </PluginRegistry>
     <ContextTracker>
 	<LOGGER>ERROR</LOGGER>
-        <!-- MAX_BUFFER_SIZE
-          * currently not used
-          * likely to be removed
+        <!-- SLIDING_WINDOW_SIZE
+          Size of buffer used by context tracker to detect context changes
         -->
-        <MAX_BUFFER_SIZE>1024</MAX_BUFFER_SIZE>
+        <SLIDING_WINDOW_SIZE>80</SLIDING_WINDOW_SIZE>
     </ContextTracker>
     <Selector>
 	<LOGGER>ERROR</LOGGER>
@@ -75,9 +74,9 @@
             <CUTOFF_THRESHOLD>20</CUTOFF_THRESHOLD>
 	</RecencyPlugin>
 	<DictionaryPlugin>
-	    <DICTIONARY>/usr/share/dict/american-english</DICTIONARY>
+	    <DICTIONARY>/usr/share/dict/words</DICTIONARY>
             <!-- fixed probability assigned to prediction -->
-            <PROBABILITY>0.0001</PROBABILITY>
+            <PROBABILITY>0.000001</PROBABILITY>
 	</DictionaryPlugin>
         <AbbreviationExpansionPlugin>
             <LOGGER>ERROR</LOGGER>

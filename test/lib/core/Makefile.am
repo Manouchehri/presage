@@ -34,8 +34,6 @@ check_PROGRAMS = $(TESTS)
 coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				suggestionTest.h suggestionTest.cpp         \
 				predictionTest.h predictionTest.cpp         \
-				tokenizer/testStringSuite.h                 \
-				tokenizer/testStringSuite.cpp               \
 				selectorTest.h selectorTest.cpp             \
 				profileTest.h profileTest.cpp               \
 				profileManagerTest.h profileManagerTest.cpp \
@@ -50,7 +48,8 @@ coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 coreTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 coreTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 coreTestRunner_LIBS =		-ldl
-coreTestRunner_LDADD =		$(top_builddir)/src/lib/libpresage.la
+coreTestRunner_LDADD =		$(top_builddir)/src/lib/libpresage.la \
+				../common/libcommon.la
 
 
 # Temporarily disabled

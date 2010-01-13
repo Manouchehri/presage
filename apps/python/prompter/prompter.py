@@ -416,7 +416,7 @@ The Presage project aims to provide an intelligent predictive text entry platfor
 
 Think of Presage as the predictive backend that sits behind a shiny user interface and does all the predictive heavy lifting.
 '''
-      website = 'http://soothsayer.sourceforge.net/'
+      website = 'http://presage.sourceforge.net/'
       devs = ["Matteo Vescovi"]
       license = '''This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -493,10 +493,27 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
       self.Bind(wx.stc.EVT_STC_MODIFIED, self.OnModified)
 
+      class PrompterPresageCallback(presage.PresageCallback):
+         def __init__(self, edtr):
+            presage.PresageCallback.__init__(self)
+            self.editor = edtr
+
+         def get_past_stream(self):
+            result = self.editor.GetTextRange(0,
+                                              self.editor.GetCurrentPos())
+            return str(result)
+
+         def get_future_stream(self):
+            result = self.editor.GetTextRange(self.editor.GetCurrentPos(),
+                                              self.editor.GetTextLength())
+            return str(result)
+
+      callback = PrompterPresageCallback(self).__disown__()
+
       if config:
-         self.prsg = presage.Presage(config)
+         self.prsg = presage.Presage(callback, config)
       else:
-         self.prsg = presage.Presage()
+         self.prsg = presage.Presage(callback)
 
       if suggestions:
          self.prsg.config('Presage.Selector.SUGGESTIONS', suggestions)
@@ -540,7 +557,6 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
             pass
          else:
             self.AddText(key)
-            self.prsg.update(key.encode('utf-8'))
 
          self.__ShowPrediction()
 
@@ -549,7 +565,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
    def __ShowPrediction(self, string = ''):
       print "------------ __ShowPrediction()"
-      self.prediction = self.prsg.predict(string)
+      self.prediction = self.prsg.predict()
       if self.function_keys_enabled:
          self.prediction = self.__PrependFunctionLabel(self.prediction)
       self.suggestions = self.separator.join(self.prediction);
@@ -591,9 +607,6 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
                   # swap whitespace and current char
                   self.SetSelection(prev_pos, curr_pos)
                   self.ReplaceSelection(char + ' ')
-
-                  # update prsg
-                  self.prsg.update('\b' + char.encode('utf-8') + ' ')
 
                   return True
 
@@ -643,12 +656,14 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       print "Prefix length: " + str(prefix_length)
       print "To be added:   " + completion[prefix_length:]
 
-      self.prsg.complete(completion.encode('utf-8'))
+      # no need to call complete, using callbacks
+      #self.prsg.complete(completion.encode('utf-8'))
       self.AddText(completion[prefix_length:])
 
       if self.append_whitespace_on_completion:
          self.AddText(' ')
-         self.prsg.update(' ')
+         # no need to update, using callbacks
+         #self.prsg.update(' ')
 
       # schedule showing of prediction after current and pending events
       # are dealt with (thanks to Robin Dunn for pointing this out)

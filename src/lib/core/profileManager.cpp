@@ -250,11 +250,11 @@ void ProfileManager::buildProfile(const std::string p)
             assert( node );
         }
 
-        element = module->InsertEndChild( TiXmlElement( "MAX_BUFFER_SIZE" ) );
+        element = module->InsertEndChild( TiXmlElement( "SLIDING_WINDOW_SIZE" ) );
         assert( element );
         if( element ) {
             std::ostringstream ss;
-            ss << DEFAULT_MAX_BUFFER_SIZE;
+            ss << DEFAULT_SLIDING_WINDOW_SIZE;
             node = element->InsertEndChild(TiXmlText( ss.str().c_str() ));
             assert( node );
         }

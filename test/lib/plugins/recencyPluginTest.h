@@ -43,6 +43,8 @@ public:
 private:
     Configuration*  config;
     PluginRegistry* pluginRegistry;
+    std::stringstream* stream;
+    PresageCallback* callback;
     ContextTracker* ct;
 
     static const int SIZE;

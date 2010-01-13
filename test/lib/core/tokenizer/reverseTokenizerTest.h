@@ -28,7 +28,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "core/tokenizer/reverseTokenizer.h"
-#include "testStringSuite.h"
+#include "../../common/testStringSuite.h"
 
 class ReverseTokenizerTest : public CppUnit::TestFixture { 
 public:

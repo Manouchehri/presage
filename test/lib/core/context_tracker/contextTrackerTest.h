@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_HISTORYTRACKERTEST
-#define PRESAGE_HISTORYTRACKERTEST
+#ifndef PRESAGE_CONTEXTTRACKERTEST
+#define PRESAGE_CONTEXTTRACKERTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
@@ -31,7 +31,7 @@
 #include "core/context_tracker/contextTracker.h"
 #include "core/pluginRegistry.h"
 
-#include "../tokenizer/testStringSuite.h"
+#include "../../common/testStringSuite.h"
 
 class ContextTrackerTest : public CppUnit::TestFixture { 
 public:
@@ -39,7 +39,6 @@ public:
     void tearDown();
     
     void testConstructor();
-    void testUpdate();
     void testGetPrefix();
     void testGetToken();
 
@@ -47,9 +46,6 @@ public:
     void testGetPastStream();
 
     void testToString();
-
-    void testGetMaxBufferSize();
-    void testSetMaxBufferSize();
 
     void testContextChange();
     void testCumulativeContextChange();
@@ -65,17 +61,15 @@ private:
     
     CPPUNIT_TEST_SUITE( ContextTrackerTest );
     CPPUNIT_TEST( testConstructor          );
-    CPPUNIT_TEST( testUpdate               );
     CPPUNIT_TEST( testGetPrefix            );
     CPPUNIT_TEST( testGetToken             );
     CPPUNIT_TEST( testGetFutureStream      );
     CPPUNIT_TEST( testGetPastStream        );
     CPPUNIT_TEST( testToString             );
-    CPPUNIT_TEST( testGetMaxBufferSize     );
-    CPPUNIT_TEST( testSetMaxBufferSize     );
     CPPUNIT_TEST( testContextChange        );
     CPPUNIT_TEST( testCumulativeContextChange );
     CPPUNIT_TEST_SUITE_END();
+
 };
 
-#endif // PRESAGE_HISTORYTRACKERTEST
+#endif // PRESAGE_CONTEXTTRACKERTEST

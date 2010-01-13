@@ -23,7 +23,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 
 AC_INIT([presage],
-	[0.7.3],
+	[0.8b],
 	[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 
@@ -34,6 +34,9 @@ dnl Checks for programs.
 AC_PROG_INSTALL
 AC_PROG_CXX
 AC_PROG_CXXCPP
+AC_PROG_CC
+AC_PROG_CPP
+AM_PROG_CC_C_O
 
 dnl ==================
 dnl Checks for libtool
@@ -230,38 +233,70 @@ fi
 AM_CONDITIONAL([HAVE_HELP2MAN], [test "x$HAVE_HELP2MAN" = "xyes"])
 
 
-dnl =======================
-dnl Checks GTK presage mate
-dnl =======================
+dnl ====================
+dnl Checks for GTK tools
+dnl ====================
 AC_ARG_ENABLE([gpresagemate],
         AS_HELP_STRING([--disable-gpresagemate],[build gpresagemate (default: enabled)]),
         [enable_gpresagemate=$enableval],
         [enable_gpresagemate=yes])
 
+AC_ARG_ENABLE([gprompter],
+        AS_HELP_STRING([--disable-gprompter],[build gprompter (default: enabled)]),
+        [enable_gprompter=$enableval],
+        [enable_gprompter=yes])
+
 if test "x$enable_gpresagemate" = "xyes"
 then
-	build_gtk_presage_mate=yes
 	AC_CHECK_HEADERS([X11/Xlib.h X11/Xproto.h X11/X.h X11/Xutil.h X11/keysymdef.h pthread.h],
-	                 [],
-	                 [build_gtk_presage_mate=no],
+	                 [have_x11_headers=yes],
+	                 [have_x11_headers=no],
 	                 [])
 	AC_CHECK_HEADERS([X11/extensions/Xevie.h],
-                         [],
-                         [build_gtk_presage_mate=no],
+                         [have_x11_extension_xevie=yes],
+                         [have_x11_extension_xevie=no],
 	                 [[#if HAVE_X11_XLIB_H
 	                   # include <X11/Xlib.h>
 	                   #endif]])
+fi
+
+if test "x$enable_gpresagemate" = "xyes" -o "x$enable_gprompter" = "xyes"
+then
 	PKG_CHECK_MODULES([GNOME],
 	                  [gtk+-2.0],
-	                  [],
-	                  [build_gtk_presage_mate=no])
+	                  [have_gtk=yes],
+	                  [have_gtk=no])
 	AC_SUBST([GNOME_CFLAGS])
 	AC_SUBST([GNOME_LIBS])
+	PKG_CHECK_MODULES([GTHREAD],
+			  [gthread-2.0],
+			  [have_gthread=yes],
+			  [have_gthread=no])
+	AC_SUBST([GTHREAD_CFLAGS])
+	AC_SUBST([GTHREAD_LIBS])
+fi
+
+if test "x$enable_gpresagemate" = "xyes" -a \
+   	"x$have_x11_headers" = "xyes" -a \
+   	"x$have_x11_extension_xevie" = "xyes" -a \
+	"x$have_gtk" = "xyes" -a \
+	"x$have_gthread" = "xyes"
+then
+	build_gtk_presage_mate=yes
 else
 	build_gtk_presage_mate=no
 fi
 AM_CONDITIONAL([BUILD_GTK_PRESAGE_MATE], [test "x$build_gtk_presage_mate" = "xyes"])
 
+if test "x$enable_gprompter" = "xyes" -a \
+   	"x$have_gtk" = "xyes" -a \
+	"x$have_gthread" = "xyes"
+then
+	build_gtk_prompter=yes
+else
+	build_gtk_prompter=no
+fi
+AM_CONDITIONAL(BUILD_GTK_PROMPTER, test "x$build_gtk_prompter" = "xyes")
 
 dnl ===================================================
 dnl Checks for CMU-Statistical Language Modelling tools
@@ -302,6 +337,7 @@ AC_OUTPUT([
 	src/tools/Makefile
 	test/Makefile
 	test/lib/Makefile
+	test/lib/common/Makefile
 	test/lib/core/Makefile
 	test/lib/core/tokenizer/Makefile
 	test/lib/core/context_tracker/Makefile
@@ -318,12 +354,15 @@ AC_OUTPUT([
 	bindings/python/Makefile
 	apps/Makefile
 	apps/gtk/Makefile
+	apps/gtk/gpresagemate/Makefile
+	apps/gtk/gprompter/Makefile
 	apps/python/Makefile
+	apps/python/presage_prompter
+	apps/python/setup.py
 	doc/Doxyfile
 	doc/Makefile
 	setup.py
 	bindings/python/presage_python_demo
-	bindings/python/presage_prompter
 ])
 
 if test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue"
@@ -373,6 +412,7 @@ AC_MSG_RESULT([
 
     Presage prompter: ........... ${build_python_binding}
     GTK+ presage mate: .......... ${build_gtk_presage_mate}
+    GTK+ prompter: .............. ${build_gtk_prompter}
 
 
   Additional resources:

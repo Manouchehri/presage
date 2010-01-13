@@ -471,7 +471,7 @@ float ARPAPlugin::computeBigramBackoff(int wd1, int wd2) const
 
 
 
-void ARPAPlugin::learn()
+void ARPAPlugin::learn(const std::vector<std::string>& change)
 {
   logger << DEBUG << "learn() method called" << endl;
   logger << DEBUG << "learn() method exited" << endl;

@@ -18,16 +18,20 @@
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-                                                                             *
-                                                                **********(*)*/
+    *
+    **********(*)*/
 
 
 #include "contextTracker.h"
 #include "core/utility.h"
 #include "core/pluginRegistry.h"
+#include "core/tokenizer/forwardTokenizer.h"
+
+#include <stdlib.h>  // for atoi()
 
 ContextTracker::ContextTracker(Configuration* config,
 			       PluginRegistry* registry,
+			       PresageCallback* callback,
 			       const char wChars[],
 			       const char tChars[],
 			       const char bChars[],
@@ -37,15 +41,19 @@ ContextTracker::ContextTracker(Configuration* config,
       blankspaceChars(bChars),
       controlChars   (cChars),
       pluginRegistry (registry),
-      logger("ContextTracker", std::cerr)
-    //tokenizer      (pastStream, blankspaceChars, separatorChars)
+      logger         ("ContextTracker", std::cerr)
+      //tokenizer      (pastStream, blankspaceChars, separatorChars)
 {
-    //pastStream.clear();
-    //pastStream.seekg(0, std::ios::beg);
-    //pastStream.seekp(0, std::ios::end);
-#ifdef USE_STRINGSTREAM
-    assert(pastStream.good());
-#endif
+    if (callback) {
+	context_tracker_callback = callback;
+    } else {
+	throw new PresageException("Invalid callback object");
+    }
+
+    contextChangeDetector = new ContextChangeDetector(wordChars,
+						      separatorChars,
+						      blankspaceChars,
+						      controlChars);
 
     // set pointer to this context tracker in plugin registry so that
     // plugins can be constructed when next iterator is requested
@@ -65,296 +73,112 @@ ContextTracker::ContextTracker(Configuration* config,
 	logger << INFO << "LOGGER: " << value << endl;
 	delete variable;
 
-	variable = new Variable("Presage.ContextTracker.MAX_BUFFER_SIZE");
+	variable = new Variable("Presage.ContextTracker.SLIDING_WINDOW_SIZE");
 	value = config->get(*variable);
-	logger << INFO << "MAX_BUFFER_SIZE: " << value << endl;
-	setMaxBufferSize(toInt(value));
+	logger << INFO << "SLIDING_WINDOWS_SIZE: " << value << endl;
+	contextChangeDetector->set_sliding_window_size(value);
 	delete variable;
 
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
 
-    contextChanged = true;
 }
 
 ContextTracker::~ContextTracker()
 {
+    delete contextChangeDetector;
 }
 
-void ContextTracker::update(std::string s)
+const PresageCallback* ContextTracker::callback(const PresageCallback* new_callback)
 {
-    if (s.empty()) {
-        update_context_change();
-    } else {
-        // process each char in string s individually
-        for (size_t i=0; i < s.size(); i++) {
-            update(s[i]);
-
-            logger << DEBUG << "update(): contextTracker-getPrefix(): " << getPrefix() << endl;
-            logger << DEBUG << "update(): contextTracker-getToken(1): " << getToken(1) << endl;
-            logger << DEBUG << "update(): previous_prefix           : " << previous_prefix << endl;
-
-            if (update_context_change()) {
-                // context change occured, time to learn
-                PluginRegistry::Iterator it = pluginRegistry->iterator();
-                Plugin* plugin = 0;
-
-                while (it.hasNext()) {
-                    plugin = it.next();
-                    plugin->learn();
-                }
-            }
-        }
+    const PresageCallback* result = context_tracker_callback;
+    if (new_callback) {
+	context_tracker_callback = new_callback;
     }
-}
-
-bool ContextTracker::update_context_change()
-{
-    contextChanged = true;
-
-    logger << DEBUG << "update_context_change(): current previous_prefix: " << previous_prefix << endl;
-
-    if (!getPrefix().empty()) {
-	logger << DEBUG << "update_context_change(): Prefix not empty" << endl;
-	// if current prefix is not null
-	std::string::size_type loc = getPrefix().find(previous_prefix, 0);
-	if (loc == 0) {
-	    // if current prefix does not contain the previous prefix
-	    // at the beginning of the string, the context has not
-	    // changed
-	    //
-	    logger << DEBUG << "update_context_change(): Found previous prefix in current prefix, no context change" << endl;
-	    contextChanged = false;
-	}
-
-// TODO: if this code block is uncommented, context changes do not
-// occur when separator or blankspace chars are entered. However, this
-// code intriduces a bug that can be reproduced by entering the
-// following text blocks 'foo ' 'bar ' 'foo' 'bar '. The last entered
-// block should cause a context change, but it does not.
-//
-
-    } else {
-	// if prefix is empty, handle especially since empty string is
-	// always found in any other string
-        //
-	logger << DEBUG << "update_context_change(): Prefix empty" << endl;
-        if (previous_prefix.empty()) {
-            logger << DEBUG << "update_context_change(): previous_prefix empty, no context change" << endl;
-            contextChanged = false;
-        }
-    }
-
-    previous_prefix = getPrefix();
-
-    logger << DEBUG << "update_context_change(): updated previous_prefix: " << previous_prefix << endl;
-    logger << DEBUG << "update_context_change(): context changed: " << contextChanged  << endl;
-
-    return contextChanged;
-}
-
-void ContextTracker::update(int character)
-{
-    //DEBUG
-    //std::cout << "s[i] = " << static_cast<int>(s[i]) << std::endl;
-    //std::cout << "s[i] " << (isControlChar( s[i] )?"":"non")
-    //          << " e' un carattere di controllo." << std::endl;
-
-    if (isControlChar(character)) {
-	//if s is a control character, take the appropriate action
-	logger << DEBUG << "updating controlChar: " << character << endl;
-
-// REVISIT ////
-
-// Temporarily disabling control chars
-
-//            //UP_ARROW
-//            // up_arrow key press messes things up! There's
-//            // currently no way of knowing where the cursors ends
-//            // up, so we're better off clearing our history up and
-//            // hoping that doesn't modify an existing word but
-//            // starts a new one.
-//            if ( character == UP_ARROW ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }
-//
-//            //LEFT_ARROW
-//            // left_arrow key press causes last char of pastBuffer
-//            // to be erased from pastBuffer and inserted at the
-//            // beginning of futureBuffer
-//            if ( character == LEFT_ARROW && !pastBuffer.empty() ) {
-//
-//                char p = pastBuffer[pastBuffer.size()-1];
-//                futureBuffer.insert( futureBuffer.begin(), p );
-//                pastBuffer.erase( pastBuffer.end()-1 );
-//
-//            }
-//
-//            //DOWN_ARROW
-//            // see up_arrow
-//            if ( character == DOWN_ARROW ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }
-//
-//            //RIGHT_ARROW
-//            // right_arrow key press causes first char of
-//            // futureBuffer to be erased from futureBuffer and
-//            // inserted at the end of pastBuffer
-//            if ( character == RIGHT_ARROW && !futureBuffer.empty() ) {
-//
-//                char p = futureBuffer[0];
-//                pastBuffer.insert( pastBuffer.end(), p );
-//                futureBuffer.erase( futureBuffer.begin() );
-//
-//            }
-//
-//            //END
-//            // end key press causes string futureBuffer to be
-//            // appended to pastBuffer and to be cleared
-//            if ( character == END && !futureBuffer.empty() ) {
-//
-//                pastBuffer.append( futureBuffer );
-//                futureBuffer.clear();
-//
-//            }
-//
-//            //HOME
-//            // see up_arrow
-//            if ( character == HOME ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }
-//
-	//BACKSPACE
-	// backspace key press causes the last character of
-	// pastBuffer to be erased
-	if (character == BACKSPACE &&
-#ifdef USE_STRINGSTREAM
-	    !pastStream.str().empty()
-#else
-	    !pastStream.empty()
-#endif
-	    ) {
-	    // WARNING: this is bound to be very inefficient!
-	    // TODO: provide a better implementation.
-	    //
-#ifdef USE_STRINGSTREAM
-	    logger << DEBUG << "pastStream before: " << pastStream.str() << endl;
-	    std::string temp = pastStream.str();
-	    temp.erase(temp.end() - 1);
-	    pastStream.str(temp);
-	    pastStream.seekg(0, std::ios::end);
-	    logger << DEBUG << "pastStream after : " << pastStream.str() << endl;
-#else
-	    logger << DEBUG << "pastStream before: " << pastStream << endl;
-	    pastStream.erase(pastStream.end() - 1);
-	    logger << DEBUG << "pastStream before: " << pastStream << endl;
-#endif
-	}
-
-//            //DELETE
-//            // delete key press causes the first character of
-//            // futureBuffer to be erased
-//            if ( character == DELETE && !futureBuffer.empty() ) {
-//
-//                futureBuffer.erase( futureBuffer.begin(),
-//                                    futureBuffer.begin()+1 );
-//
-//            }
-//
-//            //PAGE_UP
-//            // see up_arrow
-//            if ( character == PAGE_UP ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }
-//
-//            //PAGE_DOWN
-//            // see up_arrow
-//            if ( character == PAGE_DOWN ) {
-//
-//                pastBuffer.clear();
-//                futureBuffer.clear();
-//
-//            }
-
-    } else {
-	logger << DEBUG << "updating wordChar/separatorChar/blankspaceChar: " << character << endl;
-#ifdef USE_STRINGSTREAM
-	assert(pastStream.good());
-	pastStream.put(character);
-	assert(pastStream.good());
-#else
-	pastStream.push_back(character);
-#endif
-    }
-
-#ifdef USE_STRINGSTREAM
-    logger << DEBUG << "pastStream: " << pastStream.str() << endl;
-#else
-    logger << DEBUG << "pastStream: " << pastStream << endl;
-#endif
+    return result;
 }
 
 /** Returns true if a context change occured.
  *
- * A context change occurs when the word the system is trying to
- * predict changes to a new word. This can occur when:
- *
- * - the word was correctly predicted and a new word becomes the
- *   current word
- * - the word is changed by the user, by deleting its characters
- *
  */
-bool ContextTracker::contextChange() const
+bool ContextTracker::contextChange()
 {
-    return contextChanged;
+    return contextChangeDetector->context_change(getPastStream());
 }
 
-std::string ContextTracker::getPrefix()
+void ContextTracker::update()
 {
-//    ReverseTokenizer tokenizer(pastStream, blankspaceChars, separatorChars);
-//
-//    //DEBUG
-//    //std::cerr << "ContextTracker::getPrefix()" << std::endl;
-//    //std::cerr << "tokenizer.streamToString() " << tokenizer.streamToString() << std::endl;
-//    //std::cerr << "stream: " << pastStream.str() << std::endl;
-//
-//    if (tokenizer.hasMoreTokens()) {
-//        return tokenizer.nextToken();
-//    } else {
-//        return "";
-//    }
+    std::stringstream change;
 
-//    ForwardTokenizer tokenizer(pastStream, blankspaceChars, separatorChars);
-//    std::string result;
-//    while (tokenizer.hasMoreTokens()) {
-//	result = tokenizer.nextToken();
-//    }
-//    return result;
+    // prepend partially entered token to change if exists, need to
+    // look into sliding_window to get previously partially entered
+    // token if it exists
+    std::stringstream sliding_window_stream;
+    sliding_window_stream << contextChangeDetector->get_sliding_window();
+    ReverseTokenizer rTok(sliding_window_stream,
+			  blankspaceChars,
+			  separatorChars);
+    std::string first_token = rTok.nextToken();
+    if (!first_token.empty()) {
+	change << first_token;
+    }
 
+    logger << DEBUG << "update(): getPastStream(): " << getPastStream() << endl;
+
+    // append change detected by context change detector
+    change << contextChangeDetector->change(getPastStream());
+
+    logger << INFO << "update(): change: " << change.str() << endl;
+
+    // split change up into tokens
+    std::vector<std::string> change_tokens;
+    ForwardTokenizer tok(change,
+			 blankspaceChars,
+			 separatorChars);
+    logger << INFO << "update(): tokenized change: ";
+    while (tok.hasMoreTokens()) {
+	std::string token = tok.nextToken();
+	change_tokens.push_back(token);
+	logger << INFO << token << ':';
+    }
+    logger << INFO << endl;
+
+    if (! change_tokens.empty()) {
+	// remove prefix (partially entered token or empty token)
+	change_tokens.pop_back();
+    }
+
+    logger << INFO << "update(): change tokens: ";
+    for (std::vector<std::string>::const_iterator it = change_tokens.begin();
+	 it != change_tokens.end();
+	 it++) {
+	logger << INFO << *it << ':';
+    }
+    logger << INFO << endl;
+
+    // time to learn
+    PluginRegistry::Iterator it = pluginRegistry->iterator();
+    Plugin* plugin = 0;
+
+    while (it.hasNext()) {
+	plugin = it.next();
+	plugin->learn(change_tokens);
+    }
+
+    // update sliding window
+    contextChangeDetector->update_sliding_window(getPastStream());
+}
+
+std::string ContextTracker::getPrefix() const
+{
     return getToken(0);
 }
 
-std::string ContextTracker::getToken(const int index)
+std::string ContextTracker::getToken(const int index) const
 {
-#ifdef USE_STRINGSTREAM
-    ReverseTokenizer tokenizer(pastStream, blankspaceChars, separatorChars);
-#else
-    std::stringstream pastStringStream(pastStream);
+    std::stringstream pastStringStream(context_tracker_callback->get_past_stream());
     ReverseTokenizer tokenizer(pastStringStream, blankspaceChars, separatorChars);
-#endif
 
     std::string token;
     int i = 0;
@@ -389,34 +213,41 @@ std::string ContextTracker::getToken(const int index)
 //    return result;
 }
 
-//vector<string> ContextTracker::getTokens(const int i, const int j) const
-//{}
+std::string ContextTracker::getSlidingWindowToken(const int index) const
+{
+    std::stringstream slidingWindowStream(contextChangeDetector->get_sliding_window());
+    ReverseTokenizer tokenizer(slidingWindowStream, blankspaceChars, separatorChars);
+
+    std::string token;
+    int i = 0;
+    while (tokenizer.hasMoreTokens() && i <= index) {
+        token = tokenizer.nextToken();
+        i++;
+    }
+    if (i <= index) {
+	// in case the index points too far back
+	token = "";
+    }
+    return token;
+}
 
 std::string ContextTracker::getFutureStream() const
 {
-#ifdef USE_STRINGSTREAM
-    return futureStream.str();
-#else
-    return futureStream;
-#endif
+    return context_tracker_callback->get_future_stream();
 }
 
 std::string ContextTracker::getPastStream() const
 {
-#ifdef USE_STRINGSTREAM
-    return pastStream.str();
-#else
-    return pastStream;
-#endif
+    std::string result = context_tracker_callback->get_past_stream();
+    return result;
 }
 
-bool ContextTracker::isCompletionValid(const std::string& completion)
+bool ContextTracker::isCompletionValid(const std::string& completion) const
 {
     bool result = false;
 
     std::string prefix = getPrefix();
-    // no need to be case sensitive
-    prefix = strtolower(prefix);
+    prefix = strtolower(prefix);  // no need to be case sensitive
     if (completion.find(prefix) == 0) {
         result = true;
     }
@@ -478,20 +309,5 @@ std::string ContextTracker::getControlChars() const
 
 std::string ContextTracker::toString() const
 {
-#ifdef USE_STRINGSTREAM
-    return pastStream.str() + "<|>" + futureStream.str() + "\n";
-#else
-    return pastStream + "<|>" + futureStream + "\n";
-#endif
-}
-
-int ContextTracker::getMaxBufferSize() const
-{
-    return MAX_BUFFER_SIZE;
-}
-
-void ContextTracker::setMaxBufferSize( const int size )
-{
-    if( size > 0 )
-        MAX_BUFFER_SIZE = size;
+    return context_tracker_callback->get_past_stream() + "<|>" + context_tracker_callback->get_future_stream() + "\n";
 }

@@ -37,6 +37,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "core/charsets.h"
 #include "core/tokenizer/forwardTokenizer.h"
@@ -51,6 +52,27 @@ void printVersion();
 bool silent_mode = false;
 bool case_insensitive = false;
 std::string config;
+
+// Simple callback class, stores past context stream in a stringstream
+// passed in at construction time.
+// 
+// getPastStream() returns a string of size() up to 'width'.
+// getFutureStream() return an empty string.
+// 
+class SimulatorPresageCallback
+    : public PresageCallback 
+{
+public:
+    SimulatorPresageCallback(std::stringstream& sstream) : m_sstream(sstream) { }
+    ~SimulatorPresageCallback() { };
+    
+    std::string get_past_stream() const { return m_sstream.str(); }
+    std::string get_future_stream() const { return m_empty; }
+
+private:
+    std::stringstream& m_sstream;
+    const std::string m_empty;
+};
 
 int main(int argc, char* argv[])
 {
@@ -68,8 +90,9 @@ int main(int argc, char* argv[])
 	std::cerr << "\aError: could not open file " << argv[ optind ] << std::endl;
 	return 1;
     }
-
-    Simulator simulator(config);
+    
+    std::stringstream sstream;    // stringstream to hold past context stream
+    Simulator simulator(new SimulatorPresageCallback(sstream), sstream, config);
     simulator.silentMode(silent_mode);
 
     ForwardTokenizer tokenizer(infile,

@@ -22,16 +22,20 @@
                                                                 **********(*)*/
 
 
-#include <iostream>
 #include "plugins/dummyPlugin.h"
 #include "core/context_tracker/contextTracker.h"
+#include "../common/stringstreamPresageCallback.h"
+
+#include <iostream>
 #include <vector>
 #include <string>
 
 int main()
 {
 	Configuration mock_config;
-	ContextTracker contextTracker(&mock_config, 0);
+	std::stringstream stream;
+	StringstreamPresageCallback callback(stream);
+	ContextTracker contextTracker(&mock_config, 0, &callback);
 	DummyPlugin dummyPlugin(&mock_config, &contextTracker);
 	Plugin* pluginPtr = &dummyPlugin;
 	
@@ -40,7 +44,8 @@ int main()
 		  << " test driver program"
 		  << std::endl;
 
-	dummyPlugin.learn();
+	std::vector<std::string> change;
+	dummyPlugin.learn(change);
 	dummyPlugin.extract();
 	dummyPlugin.train();
 
@@ -48,7 +53,7 @@ int main()
 
 	std::cout << "Now testing polymorphic behaviour..." << std::endl;
 
-	pluginPtr->learn();
+	pluginPtr->learn(change);
 	pluginPtr->extract();
 	pluginPtr->train();
 	std::cout << pluginPtr->predict(100, 0);

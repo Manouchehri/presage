@@ -23,10 +23,15 @@
 
 SUBDIRS = 			tinyxml core simulator plugins #plump
 
-include_HEADERS =		presage.h presageException.h
+include_HEADERS =		presage.h \
+				presageException.h \
+				presageCallback.h 
 
 lib_LTLIBRARIES = 		libpresage.la
-libpresage_la_SOURCES = 	presage.cpp presage.h presageException.h
+libpresage_la_SOURCES = 	presage.cpp \
+				presage.h \
+				presageException.h \
+				presageCallback.h 
 libpresage_la_LIBADD =		core/libcore.la \
 				tinyxml/libtinyxml.la \
 				simulator/libsimulator.la \
@@ -47,4 +52,4 @@ libpresage_la_LIBADD =		core/libcore.la \
 #				plump/src/libplump.la 
 
 libpresage_la_LDFLAGS =		-no-undefined \
-				-version-info 0:0:0 
+				-version-info 1:0:0 

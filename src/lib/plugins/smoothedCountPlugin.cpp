@@ -231,7 +231,7 @@ Prediction SmoothedCountPlugin::predict(const size_t max_partial_predictions_siz
 }
 
 
-void SmoothedCountPlugin::learn()
+void SmoothedCountPlugin::learn(const std::vector<std::string>& change)
 {
     logger << DEBUG << "learn() method called" << endl;
     logger << DEBUG << "learn() method exited" << endl;

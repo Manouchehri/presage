@@ -30,6 +30,7 @@
 
 ContextTracker::ContextTracker(Configuration* config,
 			       PluginRegistry* pluginRegistry,
+			       PresageCallback* callback,
 			       const char wc[],
 			       const char sc[],
 			       const char bc[],
@@ -45,15 +46,15 @@ ContextTracker::ContextTracker(Configuration* config,
 ContextTracker::~ContextTracker()
 {}
 
-void ContextTracker::update(std::string update)
+void ContextTracker::update()
 {}
 
-std::string ContextTracker::getPrefix()
+std::string ContextTracker::getPrefix() const
 {
     return wordChars;
 }
 
-std::string ContextTracker::getToken(const int index)
+std::string ContextTracker::getToken(const int index) const
 { 
     std::string result;
     switch (index) {
@@ -71,6 +72,9 @@ std::string ContextTracker::getToken(const int index)
     }
     return result;
 }
+
+std::string ContextTracker::getSlidingWindowToken(const int index) const
+{ std::string result; return result; }
 
 std::string ContextTracker::getFutureStream() const
 { std::string result; return result; }
@@ -92,12 +96,6 @@ std::string ContextTracker::getControlChars()    const
 
 std::string ContextTracker::toString() const
 { std::string result; return result; }
-
-int  ContextTracker::getMaxBufferSize() const
-{ int result = 0; return result; }
-
-void ContextTracker::setMaxBufferSize(const int)
-{}
 
 bool ContextTracker::isWordChar      (const char) const
 { return true; }

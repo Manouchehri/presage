@@ -29,14 +29,17 @@
 # python runme.py
 
 
-%module presage
+%module(directors="1") presage
 
 %include "std_vector.i"
 %include "std_string.i"
 
+%feature("director") PresageCallback;
+
 %{
 #include "presage.h"
 #include "presageException.h"
+#include "presageCallback.h"
 %}
 
 namespace std {
@@ -46,3 +49,4 @@ namespace std {
 /* Let's just grab the original header file here */
 %include "presage.h"
 %include "presageException.h"
+%include "presageCallback.h"

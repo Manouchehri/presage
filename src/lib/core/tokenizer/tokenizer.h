@@ -158,5 +158,3 @@ private:
 };
 
 #endif // PRESAGE_TOKENIZER
-
-

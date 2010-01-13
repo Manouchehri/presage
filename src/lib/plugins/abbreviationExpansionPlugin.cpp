@@ -89,7 +89,7 @@ Prediction AbbreviationExpansionPlugin::predict(const size_t max_partial_predict
     return result;
 }
 
-void AbbreviationExpansionPlugin::learn()
+void AbbreviationExpansionPlugin::learn(const std::vector<std::string>& change)
 {}
 
 void AbbreviationExpansionPlugin::extract()

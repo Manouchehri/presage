@@ -97,6 +97,7 @@ def parse_cmd_line_args():
 def main():
         try:
 	        import presage
+
         except ImportError, e:
                 print '''
 Error: failed to import module presage.
@@ -113,11 +114,26 @@ accordingly).
                 sys.exit(1)
 
 	try:
+		# Define and create PresageCallback object
+		class DemoCallback(presage.PresageCallback):
+			def __init__(self):
+				presage.PresageCallback.__init__(self)
+				self.buffer = ''
+
+			def get_past_stream(self):
+				return self.buffer
+			
+			def get_future_stream(self):
+				return ''
+
+		# Presage owns callback, so we create it and disown it
+		callback = DemoCallback().__disown__()
+
 		# Create Presage object
 		if config:
-			prsg = presage.Presage(config)
+			prsg = presage.Presage(callback, config)
 		else:
-			prsg = presage.Presage()
+			prsg = presage.Presage(callback)
 		
 		if suggestions:
 			prsg.config('Presage.Selector.SUGGESTIONS', suggestions)
@@ -126,10 +142,12 @@ accordingly).
 		str = None
 		while str != "":
 			str = raw_input(">  ")
-			print prsg.predict(str)
+			callback.buffer += str
+			print prsg.predict()
 		
 	        # Destroy Presage object
 		del prsg
+
 	except presage.PresageException,ex:
 		print ex.what()
 		sys.exit(1)

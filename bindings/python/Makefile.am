@@ -25,18 +25,17 @@ if HAVE_SWIG
 if HAVE_PYTHON
 if ENABLE_PYTHON_BINDING
 
-PRESAGE_INTERFACE =	../../src/lib/presage.h ../../src/lib/presageException.h
+PRESAGE_INTERFACE =	../../src/lib/presage.h \
+			../../src/lib/presageException.h \
+			../../src/lib/presageCallback.h 
 SWIG_INTERFACE =	../presage.i
 
-BUILT_SOURCES =		presage_wrap.cpp presage.py
-CLEANFILES =		presage_wrap.cpp presage.py
+BUILT_SOURCES =		presage_wrap.cpp presage_wrap.h presage.py
+CLEANFILES =		presage_wrap.cpp presage_wrap.h presage.py
 
-EXTRA_DIST =	presage_python_demo \
-		presage_prompter \
-		prompter/__init__.py \
-		prompter/prompter.py
+EXTRA_DIST =	presage_python_demo
 
-all-local:	presage_wrap.cpp presage.py
+all-local:	presage_wrap.cpp presage_wrap.h presage.py
 	@case "`uname`" in \
 	  MINGW*) \
 		$(PYTHON) setup.py build --compiler=mingw32 \
@@ -88,12 +87,7 @@ presage_python_demo.1:	presage_python_demo.in $(top_srcdir)/configure.ac
 	chmod u+x ./presage_python_demo
 	help2man --output=$@ --name="presage demo program (Python)" ./presage_python_demo
 
-presage_prompter.1:	presage_prompter.in $(top_srcdir)/configure.ac
-	chmod u+x ./presage_prompter
-	help2man --output=$@ --name="Prompter, the intelligent mind reader" ./presage_prompter
-
-dist_man_MANS =	presage_python_demo.1 \
-		presage_prompter.1
+dist_man_MANS =	presage_python_demo.1
 
 endif 
 

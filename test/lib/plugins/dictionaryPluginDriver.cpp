@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include "plugins/dictionaryPlugin.h"
+#include "../common/stringstreamPresageCallback.h"
 
 int main()
 {
@@ -31,7 +32,9 @@ int main()
     // are made, this will fail to build.
     // TODO: transform this into a unit test.
 	Configuration mock_config;
-	ContextTracker contextTracker(&mock_config, 0);
+	std::stringstream stream;
+	StringstreamPresageCallback callback(stream);
+	ContextTracker contextTracker(&mock_config, 0, &callback);
 	DictionaryPlugin plugin(&mock_config, &contextTracker);
 
 	std::string prefix;
@@ -39,7 +42,7 @@ int main()
 	std::cout << "Insert prefix: ";
 	std::cin >> prefix;
 
-	contextTracker.update( prefix );
+	stream << prefix;
 	
 	std::cout << plugin.predict(100, 0);
 

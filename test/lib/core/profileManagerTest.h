@@ -46,14 +46,16 @@ public:
 private:
     void testProfile();
 
-    ProfileManager* profileManager;
-    Profile*        profile;
-    Configuration*  configuration;
+    ProfileManager*     profileManager;
+    Profile*            profile;
+    Configuration*      configuration;
 
-    PluginRegistry* pluginRegistry;
-    ContextTracker* contextTracker;
+    PluginRegistry*     pluginRegistry;
+    std::stringstream*  stream;
+    PresageCallback*    callback;
+    ContextTracker*     contextTracker;
     PredictorActivator* predictorActivator;
-    Selector*       selector;
+    Selector*           selector;
     
     CPPUNIT_TEST_SUITE( ProfileManagerTest );
     CPPUNIT_TEST( testDefaultProfile       );

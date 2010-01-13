@@ -26,9 +26,12 @@
 
 #include <iostream>
 
-Simulator::Simulator(const std::string config)
+Simulator::Simulator(PresageCallback* callback,
+		     std::stringstream& sstream,
+		     const std::string config)
+    : m_sstream(sstream)
 {
-    presagePtr = new Presage(config);
+    presagePtr = new Presage(callback, config);
 
     autoSpace = true;
 	
@@ -52,7 +55,7 @@ void Simulator::simulate( std::string str )
     // Presage predicts a word even when the prefix
     // is a null string. This initial call to the predict
     // method simulates this condition.
-    bool hit = find (presagePtr->predict (""), str);
+    bool hit = find (presagePtr->predict(), str);
 
     // If the correct predicted word is returned, then
     // we've got a hit! If this happens when the prefix is
@@ -63,7 +66,8 @@ void Simulator::simulate( std::string str )
     if (hit) {
 	kn += str.size() + 1; 
 	ks++;
-	presagePtr->update (str + " ");
+	//presagePtr->update (str + " ");
+	m_sstream << str << ' ';
 	if( !autoSpace ) {
 	    ki++;
 	}
@@ -72,14 +76,15 @@ void Simulator::simulate( std::string str )
 	// let's guess again until we get a hit or we
 	// run out of characters that make up the current
 	// word we're trying to predict.
-	std::string::iterator i = str.begin();
+	std::string::size_type i = 0;
 
-	while( i != str.end() && !hit ) {
+	while( i < str.size() && !hit ) {
 			
 	    // predict using new keystroke
             std::string up;
-            up += *i;
-	    hit = find(presagePtr->predict(up), str);
+            up += str[i];
+	    m_sstream << up;
+	    hit = find(presagePtr->predict(), str);
 
 	    // simulate character keystroke
 	    ki++;
@@ -93,8 +98,10 @@ void Simulator::simulate( std::string str )
 	// of its characters to feed to Presage.
 	if( hit ) {
 
-            presagePtr->complete(str);
-	    presagePtr->update(" ");
+//          presagePtr->complete(str);
+//	    presagePtr->update(" ");
+	    m_sstream << str.substr(i) << ' '; // THIS SHOULD REALLY BE STRING REMAINDER!!!
+
 	    kn += str.size() + 1;
 	    ki++;
 
@@ -115,9 +122,10 @@ void Simulator::simulate( std::string str )
 	    // space is equivalent (supposing selecting
 	    // the prediction counts as one keystroke).
 	    // We'll simulate entering a whitespace.
-	    if( i == str.end() ) {
+	    if( i == str.size() ) {
 
-		presagePtr->update( " " );
+//		presagePtr->update( " " );
+		m_sstream << ' ';
 		ki++;
 		kn += str.size() + 1;
 
@@ -129,9 +137,10 @@ void Simulator::simulate( std::string str )
 		// the remainder of the string we
 		// didn't use and take care of our
 		// trailing whitespace.
-		std::string suffix;
-		suffix.insert( suffix.begin(), i, str.end() );
-		presagePtr->update( suffix + " " );
+//		std::string suffix;
+//		suffix.insert( suffix.begin(), i, str.end() );
+//		presagePtr->update( suffix + " " );
+		m_sstream << str.substr(i) << ' ';
 		if( !autoSpace ) {
 		    ki++;
 		}
@@ -141,15 +150,15 @@ void Simulator::simulate( std::string str )
 }
 
 
-void Simulator::reset()
-{
-    delete presagePtr;
-    presagePtr = new Presage;
-
-    ki = 0;
-    ks = 1;
-    kn = 0;
-}
+// void Simulator::reset()
+// {
+//     delete presagePtr;
+//     presagePtr = new Presage;
+// 
+//     ki = 0;
+//     ks = 1;
+//     kn = 0;
+// }
 
 
 void Simulator::results() const

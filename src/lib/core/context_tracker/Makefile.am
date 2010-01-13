@@ -26,6 +26,8 @@ noinst_LTLIBRARIES = \
 
 libcontexttracker_la_SOURCES = \
 	contextTracker.cpp \
-	contextTracker.h 
+	contextTracker.h \
+	contextChangeDetector.cpp \
+	contextChangeDetector.h 
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib

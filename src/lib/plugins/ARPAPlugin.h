@@ -116,7 +116,7 @@ public:
 
     virtual Prediction predict(const size_t size, const char** filter) const;
 
-    virtual void learn();
+    virtual void learn(const std::vector<std::string>& change);
     virtual void extract();
     virtual void train();
 
@@ -162,4 +162,4 @@ private:
 
 };
 
-#endif // PRESAGE_SMOOTHEDNGRAMPLUGIN
+#endif // PRESAGE_ARPAPLUGIN

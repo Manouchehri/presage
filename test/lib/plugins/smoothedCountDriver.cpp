@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include "plugins/smoothedCountPlugin.h"
+#include "../common/stringstreamPresageCallback.h"
 
 int main()
 {
@@ -31,7 +32,9 @@ int main()
     // are made, this will fail to build.
     // TODO: transform this into a unit test.
 	Configuration mock_config;
-	ContextTracker contextTracker(&mock_config, 0);
+	std::stringstream stream;
+	StringstreamPresageCallback callback(stream);
+	ContextTracker contextTracker(&mock_config, 0, &callback);
 	SmoothedCountPlugin plugin(&mock_config, &contextTracker);
 
 	const int SIZE = 80;
@@ -40,7 +43,7 @@ int main()
 	std::cout << "Insert string: ";
 	std::cin.getline( historyBuffer, SIZE );
 
-	contextTracker.update( historyBuffer );
+	stream << historyBuffer;
 	
 	std::cout << plugin.predict(100, 0);
 

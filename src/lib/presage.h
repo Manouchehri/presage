@@ -25,16 +25,11 @@
 #ifndef PRESAGE
 #define PRESAGE
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include <string>
 #include <vector>
 #include <map>
 
-#include "presageException.h"
-
+// Forward declarations, not part of presage API
 class Configuration;
 class ProfileManager;
 class Profile;
@@ -43,18 +38,34 @@ class PluginRegistry;
 class PredictorActivator;
 class Selector;
 
+/*
+ * Presage public API starts here
+ */
+#include "presageException.h"
+#include "presageCallback.h"
+
 /** \brief Presage, the intelligent predictive text entry platform.
  */
 class Presage {
   public:
     /** Creates and initializes presage.
+     *
+     * \param callback is a user-supplied implementation of PresageCallback interface
+     * 
+     * Presage does not take ownership of the callback object.
      */
-    Presage();
+    Presage(PresageCallback* callback);
+
 
     /** Creates and initializes presage with supplied configuration.
+     *
+     * \param callback is a user-supplied implementation of PresageCallback interface
      * \param config path to configuration file
+     *
+     * Presage does not take ownership of the callback object.
      */
-    Presage(const std::string config);
+    Presage(PresageCallback* callback, const std::string config);
+
 
     /** Destroys presage.
      */
@@ -74,11 +85,10 @@ class Presage {
      * This method returns a prediction based on the current
      * context. The prediction is a std::vector of std::string's.
      *
-     * \param str user entered text
      * \return prediction
      *
      */
-    std::vector<std::string> predict(std::string str);
+    std::vector<std::string> predict();
 
     /** \brief Obtains a prediction that matches the supplied token
      *         filter.
@@ -94,24 +104,24 @@ class Presage {
      */
     std::multimap<double, std::string> predict(std::vector<std::string> filter);
 
-    /** \brief Notifies presage that new text was entered.
+    /** \brief Callback getter/setter.
      *
-     * Notifies presage that new text was entered, without
-     * requesting a new prediction to be generated.
-     *
-     * \param str user entered text
+     * \param pointer to new callback to be used by presage (pass a null pointer to obtain callback to current callback without modifying it)
+     * \return pointer to previously used callback
      */
-    void update(std::string str);
+    PresageCallback* callback(PresageCallback* callback);
 
-    /** \brief Informs presage that a prediction was successful.
+    /** \brief Request presage to return the completion string for the given predicted token.
      *
-     * Informs presage that a prediction was successful. The
-     * successful prediction is passed in as argument. Presage
-     * updates its internal tracker with the successful prediction.
+     * Requests presage to return the completion string. The
+     * completion string is defined as the string which, when appended
+     * to the current prefix, forms the token passed as the str
+     * argument.
      *
-     * \param str successful prediction
+     * \param str successful prediction, for which a completion string is requested
+     * \return completion string
      */
-    void complete(std::string str);
+    std::string completion(std::string str);
 
     /** \brief Returns the text entered so far.
      *
@@ -148,7 +158,11 @@ class Presage {
      * from the configuration file in use.
      *
      */
-    void config(const std::string variable, const std::string value);
+    void config(const std::string variable, const std::string value) const;
+
+    /*
+     * Presage public API ends here
+     */
 
   private:
     ProfileManager*     profileManager;

@@ -115,10 +115,14 @@ Prediction DejavuPlugin::predict(const size_t max_partial_predictions_size, cons
     return result;
 }
 
-void DejavuPlugin::learn()
+void DejavuPlugin::learn(const std::vector<std::string>& change)
 {
-    if (contextTracker->contextChange()) {
-	std::string new_token = contextTracker->getToken(1);
+    // loop through all tokens in change vector
+    for (std::vector<std::string>::const_iterator it = change.begin();
+	 it != change.end();
+	 it++)
+    {
+	std::string new_token = *it;
 	logger << INFO << "Commiting new token to memory: " << new_token << endl;
 	std::ofstream memory_file(memory.c_str(), std::ios::app);
 	if (!memory_file) {

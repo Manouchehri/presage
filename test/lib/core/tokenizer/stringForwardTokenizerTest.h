@@ -28,7 +28,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "core/tokenizer/stringForwardTokenizer.h"
-#include "testStringSuite.h"
+#include "../../common/testStringSuite.h"
 
 class StringForwardTokenizerTest : public CppUnit::TestFixture { 
 public:

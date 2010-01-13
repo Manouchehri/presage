@@ -122,7 +122,7 @@ Prediction RecencyPlugin::predict(const size_t max, const char** filter) const
     return result;
 }
 
-void RecencyPlugin::learn()
+void RecencyPlugin::learn(const std::vector<std::string>& change)
 {}
 
 void RecencyPlugin::extract()

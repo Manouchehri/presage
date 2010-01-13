@@ -24,6 +24,10 @@
 
 #include "presage.h"
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 /* Solaris 10 needs to have NOMACROS defined to avoid conflict between
    curses and standard template library code.
  */
@@ -47,6 +51,8 @@
 
 const char PROGRAM_NAME[] = "presage_demo";
 
+// prototypes
+//
 void parseCommandLineArgs(int argc, char** argv);
 void printUsage();
 void printVersion();
@@ -59,8 +65,36 @@ void draw_function_keys(WINDOW*);
 void draw_previous_suggestions(std::vector<std::string>, bool, const int, int);
 size_t getGreatestSuggestionLength(std::vector< std::string > suggestions);
 
-std::string suggestions;
-std::string config;
+// globals
+std::string       suggestions;
+std::string       config;
+std::stringstream buffer;    // text buffer, a real application would
+			     // use something a little more
+			     // sophisticated than a stringstream
+
+/** Callback object for presage demo application.
+ *  
+ * We need to provide a callback class to allow presage to query the
+ * application's text buffer. In a real world application, this would
+ * fetch the text from whatever object stores the text composition
+ * (i.e. a GUI widget in a graphical interface)
+ *
+ * For the purpose of this demonstration program, the callback class
+ * will retrieve contextual data from a standard stringstream object.
+ *
+ */
+class PresageDemoCallback : public PresageCallback {
+public:
+    PresageDemoCallback(std::stringstream& buffer) : m_buffer(buffer) { }
+
+    std::string get_past_stream() const { return m_buffer.str(); }
+    std::string get_future_stream() const { return empty; }
+
+private:
+    std::stringstream& m_buffer;
+    const std::string empty;
+
+};
 
 /** Demo program using curses.
  *
@@ -82,7 +116,8 @@ int main(int argc, char** argv)
     parseCommandLineArgs(argc, argv);
 
     // magic starts here
-    Presage presage(config);
+    PresageCallback* callback = new PresageDemoCallback(buffer); 
+    Presage presage(callback, config);
 
     // configuration variable may be read and written programmatically
     if (suggestions.empty()) {
@@ -130,7 +165,7 @@ int main(int argc, char** argv)
 
 
     std::vector<std::string> words;
-    size_t c = ' ';
+    int c = ' ';
     do {
 	size_t size = words.size();
 	if ((KEY_F0 < c) && (c <= KEY_F(size)) && (c - KEY_F0 <= size)) {
@@ -142,17 +177,16 @@ int main(int argc, char** argv)
             clrtoeol();
 	    move(LINES, COLS);
 
-	    // inform presage that the prediction was successful.
-	    presage.complete(words[c - KEY_F0 - 1]);
+	    // update buffer with prediction completion
+	    buffer << presage.completion(words[c - KEY_F0 - 1]);
 	    // ask presage to predict next token
-	    words = presage.predict(" ");
+	    words = presage.predict();
 
 	} else {
 	    // prediction unsuccessful. get next character from user
 	    // and elaborate a new prediction.
-            std::string str;
-            str += c;
-	    words = presage.predict(str);
+	    buffer << static_cast<char>(c);
+	    words = presage.predict();
 
 	    // refresh curses screen
 	    refresh();

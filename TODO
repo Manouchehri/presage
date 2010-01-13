@@ -6,17 +6,17 @@ The Presage project
 TODO list
 ---------
 
-* make predictive plugins support filters and write related tests
 
-* Prompter:
-** paste and cut do not update context tracker, neither does opening a
-   file.
+GUI apps:
+* gprompter
+** gray in and out redo and undo menu items
+* prompter:
 ** add icon to about box
 ** toolbar icon size
 ** autocomp max height
 
-
 Absolute first:
+ - make predictive plugins support filters and write related tests
  - make all components aware of configuration variable runtime changes
  - implement logger level inheritance from parent module
  - SqliteDatabaseConnector callback: had to disable logging there because
@@ -45,7 +45,7 @@ Architectural restructure:
    predictions. Combiner object would know how to retrieve its config
    values and which Strategy to create and use.
 
-- registry [done]:
+- registry [DONE]:
 
   Predictor class functionality should be split up. There should be
   one PluginRegitry class which holds the active plugins and whose

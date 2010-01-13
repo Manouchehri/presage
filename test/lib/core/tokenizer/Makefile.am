@@ -28,8 +28,6 @@ TESTS =			tokenizerTestRunner
 check_PROGRAMS =	$(TESTS)
 
 tokenizerTestRunner_SOURCES =	tokenizerTestRunner.cpp        \
-				testStringSuite.h              \
-				testStringSuite.cpp            \
 				forwardTokenizerTest.h         \
 				forwardTokenizerTest.cpp       \
 				reverseTokenizerTest.h         \
@@ -41,7 +39,8 @@ tokenizerTestRunner_SOURCES =	tokenizerTestRunner.cpp        \
 tokenizerTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 tokenizerTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 tokenizerTestRunner_LIBS =	-ldl
-tokenizerTestRunner_LDADD =	$(top_builddir)/src/lib/core/tokenizer/libtokenizer.la
+tokenizerTestRunner_LDADD =	$(top_builddir)/src/lib/core/tokenizer/libtokenizer.la \
+				../../common/libcommon.la
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib
 

@@ -22,7 +22,9 @@
                                                                 **********(*)*/
 
 
-#include <profileManagerTest.h>
+#include "profileManagerTest.h"
+#include "../common/stringstreamPresageCallback.h"
+
 #include <fstream>
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ProfileManagerTest );
@@ -31,10 +33,14 @@ void ProfileManagerTest::setUp()
 {
     profileManager = new ProfileManager();
     profile        = 0;
-    
+    configuration  = 0;
+
+    pluginRegistry = 0;
+    stream         = 0;
+    callback       = 0;
     contextTracker = 0;
     selector       = 0;
-    predictorActivator      = 0;
+    predictorActivator = 0;
 }
 
 void ProfileManagerTest::tearDown()
@@ -42,6 +48,8 @@ void ProfileManagerTest::tearDown()
     delete predictorActivator;
     delete selector;
     delete contextTracker;
+    delete callback;
+    delete stream;
 
     delete profile;
     delete profileManager;
@@ -56,7 +64,8 @@ void ProfileManagerTest::testDefaultProfile()
     configuration = profile->get_configuration();
     pluginRegistry = new PluginRegistry(configuration);
 
-    contextTracker = new ContextTracker(configuration, pluginRegistry);
+    callback = new StringstreamPresageCallback(*stream);
+    contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
     selector = new Selector(configuration, contextTracker);
     predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
 
@@ -92,8 +101,7 @@ void ProfileManagerTest::testNonExistantProfile()
 void ProfileManagerTest::testProfile()
 {
     // test init contextTracker
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_MAX_BUFFER_SIZE,
-			 contextTracker->getMaxBufferSize());
+
 
     // test init predictorActivator
     CPPUNIT_ASSERT_EQUAL(DEFAULT_PREDICT_TIME,

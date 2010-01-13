@@ -80,6 +80,8 @@ def process_event(event):
   global prsg
   global prediction
   global ignore_keys
+
+  print event
   
   if (event.type == pyatspi.KEY_PRESS) & (event.is_text == True):
     #print event
@@ -88,21 +90,24 @@ def process_event(event):
   
       if ignore_keys == 0:
         char_index += 1
-        prediction = prsg.predict(event.event_string)
+        callback.buffer += event.event_string
+        prediction = prsg.predict()
       else:
         ignore_keys -= 1
 	
     elif event.event_string.lower() == "space":
       char_index = 0
       if ignore_keys == 0:
-        prediction = prsg.predict(' ')
+        callback.buffer += ' '
+        prediction = prsg.predict()
       else:
         ignore_keys -= 1
 	
     elif event.event_string.lower() == "return":
       char_index = 0
       if ignore_keys == 0:
-        prediction = prsg.predict('\n')
+        callback.buffer = '\n'
+        prediction = prsg.predict()
       else:
         ignore_keys -= 1
   
@@ -113,20 +118,25 @@ def process_event(event):
       if (f_key >= 0) & (len(prediction) > f_key):
         
         predicted_word = prediction[f_key]
-                
+
         if predicted_word == "i":
           predicted_word = predicted_word.upper()
-          
-        for ch in predicted_word[char_index:] + ' ':
+
+        completion = prsg.completion(predicted_word)
+        
+        print 'Prediction: ' + predicted_word
+        print 'Completion: ' + completion
+
+        for ch in completion:
           keyval = gtk.gdk.unicode_to_keyval(ord(ch))
           reg.generateKeyboardEvent(keyval, None, pyatspi.KEY_SYM)
 
-        prsg.complete(prediction[f_key])
-       
-        prediction = prsg.predict(' ')
+        callback.buffer += completion
+
+        prediction = prsg.predict()
         
         # theres no way to consume keypresses so we ignore the keypress we have added
-        ignore_keys = len(predicted_word[char_index:] + ' ')
+        ignore_keys = len(completion)
         char_index = 0
         
     if ignore_keys == 0:
@@ -276,8 +286,23 @@ char_index = 0
    
 reg = pyatspi.Registry
 
-prsg = presage.Presage()
-prediction = prsg.predict('')
+# Define and create PresageCallback object
+class SimpleCallback(presage.PresageCallback):
+   def __init__(self):
+      presage.PresageCallback.__init__(self)
+      self.buffer = ''
+   
+   def get_past_stream(self):
+      return self.buffer
+   
+   def get_future_stream(self):
+      return ''
+
+# Presage owns callback, so we create it and disown it
+callback = SimpleCallback().__disown__()
+
+prsg = presage.Presage(callback)
+prediction = prsg.predict()
 
 reg.registerKeystrokeListener(process_event, mask=pyatspi.allModifiers())
 
