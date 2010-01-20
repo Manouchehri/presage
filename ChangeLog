@@ -1,3 +1,10 @@
+2010-01-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pypresagemate.py: committed patch submitted by John
+	Hills to add a right click menu with 'About', 'Preferences' and
+	'Close' entries. The preferences entry doesn't do anything
+	functional yet though.
+
 2010-01-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,

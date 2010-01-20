@@ -155,7 +155,7 @@ def update_gui(prediction):
   label.set_text(prediction_string)
 
 
-def delete_event(widget, event, data=None):
+def quit_app(widget):
   
   remap_keys(False)
   
@@ -164,6 +164,9 @@ def delete_event(widget, event, data=None):
   gtk.main_quit()
   exit()
   return gtk.FALSE
+
+def delete_event(widget, event, data=None):
+  quit_app(widget)
 
 def frame_event(window, event, data=None):
  
@@ -275,6 +278,88 @@ def remap_keys(remap):
   display.sync()
   display.close()
 
+def popup_menu(widget, event):
+  if event.button == 3:
+    menu.popup(None, None, None, event.button, event.time) 
+    return True
+  return False
+ 
+def apply_preferences(widget):
+  print "apply"
+  
+def close_preferences(widget):
+  print "close"
+    
+def preferences(widget):
+  preferences = gtk.Window(gtk.WINDOW_TOPLEVEL)
+  preferences.set_title("pypresagemate preferences")
+  preferences.set_type_hint(gtk.gdk.WINDOW_TYPE_HINT_DIALOG)
+  
+  preferences_box = gtk.VBox()
+  
+  notebook = gtk.Notebook()
+  notebook.set_tab_pos(gtk.POS_TOP)
+  
+  appearance_frame = gtk.Frame()
+  appearance_tab = gtk.Label("Appearance")
+  notebook.append_page(appearance_frame, appearance_tab)
+
+  appearance_placeholder = gtk.Label("\n\nFont configuration\n\n")
+  appearance_frame.add(appearance_placeholder)
+
+  presage_frame = gtk.Frame()
+  presage_tab = gtk.Label("Presage")
+  notebook.append_page(presage_frame, presage_tab)
+
+  presage_placeholder = gtk.Label("\n\nPresage library configuration\n\n")
+  presage_frame.add(presage_placeholder)
+
+  preferences_box.add(notebook)
+  
+  preferences_buttons = gtk.HButtonBox()
+  
+  apply_button = gtk.Button("Apply")
+  apply_button.connect("clicked", apply_preferences)
+
+  close_button = gtk.Button("Close")
+  close_button.connect("clicked", close_preferences)
+
+  preferences_buttons.add(apply_button) 
+  preferences_buttons.add(close_button)
+  preferences_box.add(preferences_buttons)
+  
+  preferences.add(preferences_box)
+  preferences.show_all()
+    
+def about(widget):
+  comments = '''pypresagemate is a universal predictive text companion.
+pypresagemate is powered by presage, an intelligent predictive text entry system.
+'''
+  license = '''This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+'''
+  
+  about = gtk.AboutDialog()
+  about.set_program_name('pypresagemate')
+  about.set_version("0.1")
+  about.set_copyright("(c) Matteo Vescovi\n(c) John Hills")
+  about.set_website("http://presage.sourceforge.net/")
+  about.set_comments(comments)
+  if os.path.isfile("/usr/local/share/presage/presage.png"):
+    about.set_logo(gtk.gdk.pixbuf_new_from_file("/usr/local/share/presage/presage.png"))
+  about.run()
+  about.destroy()
   
 config = get_config()
 pangofont = config.get('Config', 'pangofont')
@@ -307,7 +392,7 @@ prediction = prsg.predict()
 reg.registerKeystrokeListener(process_event, mask=pyatspi.allModifiers())
 
 window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-window.connect("delete_event", delete_event)
+window.connect("delete-event", delete_event)
 window.connect("window-state-event", frame_event)
 
 window.set_keep_above(True)
@@ -323,6 +408,23 @@ label.set_width_chars(20)
 
 font_desc = pango.FontDescription(pangofont)
 label.modify_font(font_desc)
+
+window.connect("button-press-event", popup_menu)
+window.add_events(gtk.gdk.BUTTON_PRESS_MASK)
+
+menu = gtk.Menu()
+menu_item1 = gtk.MenuItem('About')
+menu_item2 = gtk.MenuItem('Preferences')
+menu_item3 = gtk.MenuItem('Quit')
+menu.append(menu_item1)
+menu.append(menu_item2)
+menu.append(menu_item3)
+
+menu_item1.connect("activate", about)
+menu_item2.connect("activate", preferences)
+menu_item3.connect("activate", quit_app)
+
+menu.show_all()
 
 update_gui(prediction)
 window.add(label)
