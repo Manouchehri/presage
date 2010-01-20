@@ -1,3 +1,9 @@
+2010-01-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp, resources/Makefile.am,
+	resources/presage.png: added logo image to about dialog in
+	gprompter application.
+	
 2010-01-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/pypresagemate.py: committed patch submitted by John

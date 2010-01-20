@@ -39,6 +39,8 @@
 
 #include "presage.h"
 
+#include "dirs.h"
+
 
 char* glob_filename;
 int   glob_function_keys_mode;
@@ -779,6 +781,9 @@ static void on_menu_help_about( GtkWidget* widget,
     static const gchar* website = 
       "http://presage.sourceforge.net";
 
+    static const gchar* logo_image_full_filename = pkgdatadir "/presage.png";
+    static GdkPixbuf* logo = gdk_pixbuf_new_from_file (logo_image_full_filename, NULL);
+
     gtk_show_about_dialog (NULL, 
 			   "artists", authors,
 			   "authors", authors,
@@ -786,6 +791,7 @@ static void on_menu_help_about( GtkWidget* widget,
 			   "copyright", copyright,
 			   "documenters", authors,
 			   "program-name", program_name,
+			   "logo", logo,
 			   "title", title,
 			   "license", license,
 			   "version", VERSION,

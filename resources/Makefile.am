@@ -53,3 +53,5 @@ resources_DATA =	database_en.db \
 # Required to make distcheck happy.
 DISTCLEANFILES =	database_en.db \
 			database_it.db
+
+dist_pkgdata_DATA =	presage.png
