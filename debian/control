@@ -89,7 +89,7 @@ Description: intelligent predictive text entry platform (documentation)
  This package contains the documentation for presage in HTML and
  LaTeX format.
 
-Package: libpresage0
+Package: libpresage1
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}
@@ -114,7 +114,7 @@ Package: libpresage-dev
 Section: libdevel
 Suggests: presage-doc
 Architecture: any
-Depends: libpresage0 (= ${binary:Version}), libc6-dev
+Depends: libpresage1 (= ${binary:Version}), libc6-dev
 Description: intelligent predictive text entry platform (development files)
  Presage is an intelligent predictive text entry platform.
  .
