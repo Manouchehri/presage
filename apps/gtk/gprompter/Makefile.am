@@ -211,12 +211,12 @@ gprompter_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) \
 			../../../src/lib/libpresage.la \
 			libscintilla.la
 
-# if HAVE_HELP2MAN
-# gprompter.1:	gprompter.cpp $(top_srcdir)/configure.ac
-# 	$(MAKE) $(AM_MAKEFLAGS) gprompter$(EXEEXT)
-# 	help2man --output=$@ --name="GTK presage mate" ./gprompter$(EXEEXT)
-# 
-# dist_man_MANS =	gprompter.1
-# endif
+if HAVE_HELP2MAN
+gprompter.1:	gprompter.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) gprompter$(EXEEXT)
+	help2man --output=$@ --name="gprompter" ./gprompter$(EXEEXT)
+
+dist_man_MANS =	gprompter.1
+endif
 
 endif

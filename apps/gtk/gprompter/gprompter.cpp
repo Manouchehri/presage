@@ -37,6 +37,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <getopt.h>
+
 #include "presage.h"
 
 #include "dirs.h"
@@ -44,6 +46,9 @@
 
 char* glob_filename;
 int   glob_function_keys_mode;
+
+#define PROGRAM_NAME "gprompter"
+
 
 // TODO: reuse previously allocated char* buffer
 class ScintillaPresageCallback
@@ -921,12 +926,83 @@ static GtkWidget* create_menu_bar(GtkWidget* window, ScintillaObject* scintilla)
   return menubar;
 }
 
+
+void print_version()
+{
+    printf (
+	PROGRAM_NAME " (" PACKAGE ") version " VERSION "\n"
+	"Copyright (C) 2009 Matteo Vescovi.\n"
+	"This is free software; see the source for copying conditions.  There is NO\n"
+	"warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE,\n"
+	"to the extent permitted by law.\n"
+	);
+}
+
+void print_usage()
+{
+    printf (
+	"Usage: " PROGRAM_NAME " [OPTION]...\n"
+	"\n"
+	"Gprompter is a cross-platform predictive text editor.\n"
+	"Gprompter displays predictions in a contextual pop-up box as each letter is typed.\n"
+	"Predictions can be easily selected and inserted in the document.\n"
+	"\n"
+	"  -h, --help           display this help and exit\n"
+	"  -v, --version        output version information and exit\n"
+	"\n"
+	"Direct your bug reports to: " PACKAGE_BUGREPORT "\n"
+	);
+}
+
+void parse_cmd_line_args(int argc, char* argv[])
+{
+    int next_option;
+
+    // getopt structures
+    const char* const short_options = "hv";
+
+    const struct option long_options[] = {
+	{ "help",         no_argument,       0, 'h' },
+	{ "version",      no_argument,       0, 'v' },
+	{ 0, 0, 0, 0 }
+    };
+
+    do {
+        next_option = getopt_long (argc, argv, 
+                                   short_options, long_options, NULL);
+
+        switch( next_option ) {
+	case 'h': // --help or -h option
+	    print_usage();
+	    exit (0);
+	    break;
+	case 'v': // --version or -v option
+	    print_version();
+	    exit (0);
+	    break;
+	case '?': // unknown option
+	    print_usage();
+	    exit (0);
+	    break;
+	case -1:
+	    break;
+	default:
+	    abort();
+	    break;
+	}
+
+    } while( next_option != -1 );
+}
+
+
 int main(int argc, char **argv) {
    GtkWidget* window;
    GtkWidget* vbox;
    GtkWidget* menubar;
    GtkWidget* editor;
    ScintillaObject* sci;
+
+   parse_cmd_line_args (argc, argv);
 
    /* init globals */
    glob_filename = NULL;

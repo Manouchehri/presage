@@ -1,3 +1,10 @@
+2010-01-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: added -h and -v command line
+	options.
+
+	* apps/gtk/gprompter/Makefile.am: generate man page with help2man.
+
 2010-01-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.cpp, resources/Makefile.am,
