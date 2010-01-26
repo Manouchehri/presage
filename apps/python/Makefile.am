@@ -31,8 +31,8 @@ dist_bin_SCRIPTS = pypresagemate.py
 
 CLEANFILES = $(dist_bin_SCRIPTS)
 
-# presage_prompter delegates to setup.py
-EXTRA_DIST =	presage_prompter \
+# pyprompter delegates to setup.py
+EXTRA_DIST =	pyprompter \
 		prompter/__init__.py \
 		prompter/prompter.py
 
@@ -73,7 +73,7 @@ install-exec-local:
 #
 uninstall-local:
 	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/prompter
-	rm -f $(DESTDIR)$(bindir)/presage_prompter
+	rm -f $(DESTDIR)$(bindir)/pyprompter
 
 clean-local:
 	$(PYTHON) setup.py clean --all
@@ -81,11 +81,11 @@ clean-local:
 
 if HAVE_HELP2MAN
 
-presage_prompter.1:	presage_prompter.in $(top_srcdir)/configure.ac
-	chmod u+x ./presage_prompter
-	help2man --output=$@ --name="Prompter, the intelligent mind reader" ./presage_prompter
+pyprompter.1:	pyprompter.in $(top_srcdir)/configure.ac
+	chmod u+x ./pyprompter
+	help2man --output=$@ --name="pyprompter, the intelligent predictive text editor" ./pyprompter
 
-dist_man_MANS =	presage_prompter.1
+dist_man_MANS =	pyprompter.1
 
 endif
 

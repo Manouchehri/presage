@@ -32,5 +32,5 @@ setup(name='@PACKAGE_NAME@',
       url='http://presage.sourceforge.net/',
       package_dir={'prompter': '@top_srcdir@/apps/python/prompter'},
       packages=['prompter'],
-      scripts=['presage_prompter'],
+      scripts=['pyprompter'],
       )

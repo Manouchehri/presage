@@ -1,3 +1,10 @@
+2010-01-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* setup.py.in, apps/python/presage_prompter.in,
+	apps/python/pyprompter.in, apps/python/Makefile.am,
+	apps/python/setup.py.in, configure.ac: renamed presage_prompter to
+	pyprompter.
+
 2010-01-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.cpp: added -h and -v command line

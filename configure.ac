@@ -357,7 +357,7 @@ AC_OUTPUT([
 	apps/gtk/gpresagemate/Makefile
 	apps/gtk/gprompter/Makefile
 	apps/python/Makefile
-	apps/python/presage_prompter
+	apps/python/pyprompter
 	apps/python/setup.py
 	doc/Doxyfile
 	doc/Makefile
