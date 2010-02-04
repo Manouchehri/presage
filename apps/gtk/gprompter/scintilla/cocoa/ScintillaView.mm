@@ -19,6 +19,8 @@ static NSCursor* waitCursor;
 // The scintilla indicator used for keyboard input.
 #define INPUT_INDICATOR INDIC_MAX - 1
 
+NSString *SCIUpdateUINotification = @"SCIUpdateUI";
+
 @implementation InnerView
 
 @synthesize owner = mOwner;
@@ -32,7 +34,7 @@ static NSCursor* waitCursor;
   if (self != nil)
   {
     // Some initialization for our view.
-    mCurrentCursor = [NSCursor arrowCursor];
+    mCurrentCursor = [[NSCursor arrowCursor] retain];
     mCurrentTrackingRect = 0;
     mMarkedTextRange = NSMakeRange(NSNotFound, 0);
     
@@ -69,6 +71,7 @@ static NSCursor* waitCursor;
  */
 - (void) setCursor: (Window::Cursor) cursor
 {
+  [mCurrentCursor autorelease];
   switch (cursor)
   {
     case Window::cursorText:
@@ -94,6 +97,8 @@ static NSCursor* waitCursor;
       mCurrentCursor = [NSCursor arrowCursor];
       break;
   }
+  
+  [mCurrentCursor retain];
   
   // Trigger recreation of the cursor rectangle(s).
   [[self window] invalidateCursorRectsForView: self];
@@ -529,6 +534,14 @@ static NSCursor* waitCursor;
   mOwner.backend->Redo();
 }
 
+//--------------------------------------------------------------------------------------------------
+
+- (void) dealloc
+{
+  [mCurrentCursor release];
+  [super dealloc];
+}
+
 @end
 
 //--------------------------------------------------------------------------------------------------
@@ -556,11 +569,11 @@ static NSCursor* waitCursor;
     
     NSString* path = [bundle pathForResource: @"mac_cursor_busy" ofType: @"png" inDirectory: nil];
     NSImage* image = [[[NSImage alloc] initWithContentsOfFile: path] autorelease];
-    waitCursor = [[[NSCursor alloc] initWithImage: image hotSpot: NSMakePoint(2, 2)] retain];
+    waitCursor = [[NSCursor alloc] initWithImage: image hotSpot: NSMakePoint(2, 2)];
     
     path = [bundle pathForResource: @"mac_cursor_flipped" ofType: @"png" inDirectory: nil];
     image = [[[NSImage alloc] initWithContentsOfFile: path] autorelease];
-    reverseArrowCursor = [[[NSCursor alloc] initWithImage: image hotSpot: NSMakePoint(12, 2)] retain];
+    reverseArrowCursor = [[NSCursor alloc] initWithImage: image hotSpot: NSMakePoint(12, 2)];
   }
 }
 
@@ -627,32 +640,41 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
       switch (scn->nmhdr.code)
       {
         case SCN_MARGINCLICK:
+        {
           if (scn->margin == 2)
           {
             // Click on the folder margin. Toggle the current line if possible.
             int line = [editor getGeneralProperty: SCI_LINEFROMPOSITION parameter: scn->position];
             [editor setGeneralProperty: SCI_TOGGLEFOLD parameter: line value: 0];
-          };
+          }
           break;
+          };
         case SCN_MODIFIED:
+        {
           // Decide depending on the modification type what to do.
           // There can be more than one modification carried by one notification.
           if (scn->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT))
             [editor sendNotification: NSTextDidChangeNotification];
           break;
+        }
         case SCN_ZOOM:
+        {
           // A zoom change happend. Notify info bar if there is one.
           float zoom = [editor getGeneralProperty: SCI_GETZOOM parameter: 0];
           int fontSize = [editor getGeneralProperty: SCI_STYLEGETSIZE parameter: STYLE_DEFAULT];
           float factor = (zoom / fontSize) + 1;
           [editor->mInfoBar notify: IBNZoomChanged message: nil location: NSZeroPoint value: factor];
           break;
+        }
         case SCN_UPDATEUI:
+        {
           // Triggered whenever changes in the UI state need to be reflected.
           // These can be: caret changes, selection changes etc.
           NSPoint caretPosition = editor->mBackend->GetCaretPosition();
           [editor->mInfoBar notify: IBNCaretChanged message: nil location: caretPosition value: 0];
+          [editor sendNotification: SCIUpdateUINotification];
           break;
+      }
       }
       break;
     }
@@ -722,9 +744,6 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
 
 //--------------------------------------------------------------------------------------------------
 
-/**
- * Release the backend.
- */
 - (void) dealloc
 {
   [mInfoBar release];
@@ -969,6 +988,42 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
 
 /**
  * Getter for the current text in raw form (no formatting information included).
+ * If there is no text available an empty string is returned.
+ */
+- (NSString*) selectedString
+{
+  NSString *result = nil;
+  
+  char *buffer(0);
+  const int length = mBackend->WndProc(SCI_GETSELTEXT, 0, 0);
+  if (length > 0)
+  {
+    buffer = new char[length + 1];
+    try
+    {
+      mBackend->WndProc(SCI_GETSELTEXT, length + 1, (sptr_t) buffer);
+      mBackend->WndProc(SCI_SETSAVEPOINT, 0, 0);
+      
+      result = [NSString stringWithUTF8String: buffer];
+      delete[] buffer;
+    }
+    catch (...)
+    {
+      delete[] buffer;
+      buffer = 0;
+    }
+  }
+  else
+    result = [NSString stringWithUTF8String: ""];
+  
+  return result;
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
+ * Getter for the current text in raw form (no formatting information included).
+ * If there is no text available an empty string is returned.
  */
 - (NSString*) string
 {
@@ -993,15 +1048,10 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
       buffer = 0;
     }
   }
+  else
+    result = [NSString stringWithUTF8String: ""];
   
   return result;
-}
-
-//--------------------------------------------------------------------------------------------------
-
-- (void) setEditable: (BOOL) editable
-{
-  mBackend->WndProc(SCI_SETREADONLY, editable ? 0 : 1, 0);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1013,6 +1063,13 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
 {
   const char* text = [aString UTF8String];
   mBackend->WndProc(SCI_SETTEXT, 0, (long) text);
+}
+
+//--------------------------------------------------------------------------------------------------
+
+- (void) setEditable: (BOOL) editable
+{
+  mBackend->WndProc(SCI_SETREADONLY, editable ? 0 : 1, 0);
 }
 
 //--------------------------------------------------------------------------------------------------

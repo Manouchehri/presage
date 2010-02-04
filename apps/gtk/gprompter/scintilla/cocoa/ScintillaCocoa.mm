@@ -101,7 +101,7 @@ static const KeyToCommand macMapDefault[] =
   {SCK_BACK,      SCI_ALT,    SCI_UNDO},
   {SCK_BACK,      SCI_CSHIFT, SCI_DELLINELEFT},
   {'z',           SCI_CMD,    SCI_UNDO},
-  {'y',           SCI_CMD,    SCI_REDO},
+  {'z',           SCI_SCMD,   SCI_REDO},
   {'x',           SCI_CMD,    SCI_CUT},
   {'c',           SCI_CMD,    SCI_COPY},
   {'v',           SCI_CMD,    SCI_PASTE},
@@ -137,7 +137,7 @@ static const KeyToCommand macMapDefault[] =
     // Get the default notification queue for the thread which created the instance (usually the
     // main thread). We need that later for idle event processing.
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter]; 
-    notificationQueue = [[NSNotificationQueue alloc] initWithNotificationCenter: center];
+    notificationQueue = [[[NSNotificationQueue alloc] initWithNotificationCenter: center] autorelease];
     [center addObserver: self selector: @selector(idleTriggered:) name: @"Idle" object: nil]; 
   }
   return self;

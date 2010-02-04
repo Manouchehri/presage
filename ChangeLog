@@ -1,3 +1,8 @@
+2010-02-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*, apps/gtk/gprompter/Makefile.am:
+	updated to latest scintilla 2.0.2 release.
+
 2010-01-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* setup.py.in, apps/python/presage_prompter.in,
@@ -17,7 +22,7 @@
 	* apps/gtk/gprompter/gprompter.cpp, resources/Makefile.am,
 	resources/presage.png: added logo image to about dialog in
 	gprompter application.
-	
+
 2010-01-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/pypresagemate.py: committed patch submitted by John

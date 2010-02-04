@@ -101,6 +101,7 @@ scintilla/src/LexLisp.cxx \
 scintilla/src/LexLout.cxx \
 scintilla/src/LexLua.cxx \
 scintilla/src/LexMagik.cxx \
+scintilla/src/LexMarkdown.cxx \
 scintilla/src/LexMatlab.cxx \
 scintilla/src/LexMetapost.cxx \
 scintilla/src/LexMMIXAL.cxx \

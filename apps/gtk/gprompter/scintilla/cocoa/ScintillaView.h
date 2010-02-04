@@ -19,6 +19,8 @@
 
 @class ScintillaView;
 
+extern NSString *SCIUpdateUINotification;
+
 /**
  * InnerView is the Cocoa interface to the Scintilla backend. It handles text input and
  * provides a canvas for painting the output.
@@ -37,6 +39,7 @@
   int mLastPosition;
 }
 
+- (void) dealloc;
 - (void) removeMarkedText;
 - (void) setCursor: (Scintilla::Window::Cursor) cursor;
 
@@ -83,6 +86,9 @@
 - (NSString*) string;
 - (void) setString: (NSString*) aString;
 - (void) setEditable: (BOOL) editable;
+- (NSRange) selectedRange;
+
+- (NSString*) selectedString;
 
 // Native call through to the backend.
 + (sptr_t) directCall: (ScintillaView*) sender message: (unsigned int) message wParam: (uptr_t) wParam
