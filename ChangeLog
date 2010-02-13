@@ -1,3 +1,8 @@
+2010-02-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pypresagemate.py: committed patch submitted by John
+	Hills to add suggestions number config.
+
 2010-02-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*, apps/gtk/gprompter/Makefile.am:

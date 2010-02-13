@@ -76,15 +76,10 @@ import Xlib.display
 
 def process_event(event):
   global char_index 
-  global reg
-  global prsg
   global prediction
   global ignore_keys
 
-  print event
-  
   if (event.type == pyatspi.KEY_PRESS) & (event.is_text == True):
-    #print event
     
     if (len(event.event_string) == 1) & (event.event_string.isalpha() == True):
   
@@ -144,7 +139,7 @@ def process_event(event):
  
  
 def update_gui(prediction):
-  global label
+  
   prediction_string = str()
   for index, word in enumerate(prediction):
     if word == "i":
@@ -152,7 +147,8 @@ def update_gui(prediction):
     pred = 'F' + str(index + 1) + '  ',  word + '\n'
     prediction_string += ''.join(pred)
       
-  label.set_text(prediction_string)
+  "Set label text omitting the last \n"
+  label.set_text(prediction_string[0:(len(prediction_string) - 1)])
 
 
 def quit_app(widget):
@@ -268,7 +264,7 @@ def remap_keys(remap):
   elif keycode_F25 > 0:
     first_fkeycode = keycode_F25
     
-  for i in range(0, 10):
+  for i in range(0, int(number_of_suggestions)):
 
     keymaps[(i + first_fkeycode - first_keycode)][0] = keysym + i
     keymaps[(i + first_fkeycode - first_keycode)][2] = keysym + i
@@ -287,8 +283,17 @@ def popup_menu(widget, event):
 def apply_preferences(widget):
   print "apply"
   
+  
 def close_preferences(widget):
   print "close"
+    
+def update_no_selections(widget):
+  global number_of_suggestions
+  
+  number_of_suggestions = int(widget.get_value())
+  prsg.config("Presage.Selector.SUGGESTIONS", str(number_of_suggestions))
+  remap_keys(True)
+  
     
 def preferences(widget):
   preferences = gtk.Window(gtk.WINDOW_TOPLEVEL)
@@ -304,7 +309,7 @@ def preferences(widget):
   appearance_tab = gtk.Label("Appearance")
   notebook.append_page(appearance_frame, appearance_tab)
 
-  appearance_placeholder = gtk.Label("\n\nFont configuration\n\n")
+  appearance_placeholder = gtk.Label("\n\nconfiguration\nplaceholder\n\n")
   appearance_frame.add(appearance_placeholder)
 
   presage_frame = gtk.Frame()
@@ -312,7 +317,10 @@ def preferences(widget):
   notebook.append_page(presage_frame, presage_tab)
 
   presage_placeholder = gtk.Label("\n\nPresage library configuration\n\n")
-  presage_frame.add(presage_placeholder)
+  adj = gtk.Adjustment(float(number_of_suggestions), 3, 10, 1, 0, 0)
+  no_of_selections = gtk.SpinButton(adj, 0, 0)
+  no_of_selections.connect("output", update_no_selections)
+  presage_frame.add(no_of_selections)
 
   preferences_box.add(notebook)
   
@@ -387,6 +395,13 @@ class SimpleCallback(presage.PresageCallback):
 callback = SimpleCallback().__disown__()
 
 prsg = presage.Presage(callback)
+
+number_of_suggestions = prsg.config("Presage.Selector.SUGGESTIONS")
+"limit suggestions to 10 as that should be enough for anybody :-)"
+if int(number_of_suggestions) > int(10):
+  number_of_suggestions = 10
+  prsg.config("Presage.Selector.SUGGESTIONS", "10")
+
 prediction = prsg.predict()
 
 reg.registerKeystrokeListener(process_event, mask=pyatspi.allModifiers())
@@ -432,8 +447,6 @@ window.show_all()
 
 # remap keys if program closes other than by closing gtk
 atexit.register(remap_keys, False)
-
-remap_keys(True)
 
 gtk.main()
 reg.start()
