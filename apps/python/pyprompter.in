@@ -24,7 +24,7 @@ import sys
 import getopt
 import os
 
-PROGRAM_NAME = 'presage_prompter'
+PROGRAM_NAME = 'pyprompter'
 config = None
 suggestions = None
 

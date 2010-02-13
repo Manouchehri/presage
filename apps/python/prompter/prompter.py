@@ -62,7 +62,7 @@ class Prompter(wx.App):
       wx.App.__init__(self, redirect)
 
    def OnInit(self):
-      self.frame = PrompterFrame(parent=None, id=-1, title='Prompter', version=self.version, config=self.config, suggestions=self.suggestions)
+      self.frame = PrompterFrame(parent=None, id=-1, title='pyprompter', version=self.version, config=self.config, suggestions=self.suggestions)
       self.SetTopWindow(self.frame)
       return True
 
@@ -76,8 +76,6 @@ class PrompterFrame(wx.Frame):
    def __init__(self, parent, id, title, version, config, suggestions):
       wx.Frame.__init__(self, parent, id, title)
       self.version = version
-
-      self.__ShowAboutDialogBox()
 
       self.editor = PrompterEditor(self, config, suggestions)
 
@@ -400,7 +398,7 @@ class PrompterFrame(wx.Frame):
 
    def OnHelpMenuContents(self, event):
       message = "Sorry, help not written yet."
-      dialog = wx.MessageDialog(self, message, "Prompter Help", wx.OK)
+      dialog = wx.MessageDialog(self, message, "pyprompter help", wx.OK)
       dialog.ShowModal()
       dialog.Destroy()
 
@@ -408,7 +406,7 @@ class PrompterFrame(wx.Frame):
       self.__ShowAboutDialogBox()
 
    def __ShowAboutDialogBox(self):
-      name = 'Prompter'
+      name = 'pyprompter'
       version = self.version
       copyright = '(C) 2008 Matteo Vescovi'
       description = '''This program is intended as a demonstration of Presage ONLY.
@@ -459,7 +457,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
                    + description + '\n' \
                    + website
          
-         dialog = wx.MessageDialog(self, message, "About Prompter", wx.OK)
+         dialog = wx.MessageDialog(self, message, "About pyprompter", wx.OK)
          dialog.ShowModal()
          dialog.Destroy()
 

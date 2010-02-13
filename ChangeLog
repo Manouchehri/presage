@@ -1,5 +1,8 @@
 2010-02-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/python/pyprompter.in, apps/python/prompter/prompter.py:
+	fixed apps names, removed about dialog pop-up on start-up.
+
 	* apps/python/pypresagemate.py: committed patch submitted by John
 	Hills to add suggestions number config.
 
