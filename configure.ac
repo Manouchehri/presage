@@ -410,7 +410,7 @@ AC_MSG_RESULT([
 
   Additional applications:
 
-    Presage prompter: ........... ${build_python_binding}
+    wxPython prompter: .......... ${build_python_binding}
     GTK+ presage mate: .......... ${build_gtk_presage_mate}
     GTK+ prompter: .............. ${build_gtk_prompter}
 
