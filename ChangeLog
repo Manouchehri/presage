@@ -1,5 +1,8 @@
 2010-02-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/gtk/gprompter/Makefile.am: build scintilla GTK widget with
+	G_THREADS_IMPL_NONE define to work around bug on Windows XP.
+
 	* apps/python/pyprompter.in, apps/python/prompter/prompter.py:
 	fixed apps names, removed about dialog pop-up on start-up.
 
