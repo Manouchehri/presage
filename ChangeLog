@@ -1,3 +1,9 @@
+2010-02-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_database_dump.sql.gz,
+	website/presage_files.tar.gz, website/README: created website
+	applications page with screenshots.
+
 2010-02-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/Makefile.am: build scintilla GTK widget with
