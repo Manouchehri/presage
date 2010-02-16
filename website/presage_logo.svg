@@ -2,7 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -12,11 +12,20 @@
    height="1052.3622047"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.44.1"
+   inkscape:version="0.46"
    sodipodi:docbase="/home/matt"
-   sodipodi:docname="presage_logo.svg">
+   sodipodi:docname="presage_logo.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
-     id="defs4" />
+     id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2445" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,15 +36,16 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.3532895"
-     inkscape:cx="284.7169"
+     inkscape:zoom="1"
+     inkscape:cx="159.2169"
      inkscape:cy="545.48607"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     inkscape:window-width="1273"
-     inkscape:window-height="716"
+     inkscape:window-width="1272"
+     inkscape:window-height="720"
      inkscape:window-x="0"
-     inkscape:window-y="25" />
+     inkscape:window-y="25"
+     showgrid="false" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -62,12 +72,12 @@
        d="M 320 289.50504 A 108.57143 108.57143 0 1 1  102.85715,289.50504 A 108.57143 108.57143 0 1 1  320 289.50504 z"
        transform="translate(157.1429,217.1429)" />
     <rect
-       style="fill:#59739b;fill-opacity:1;stroke:white;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#59739b;fill-opacity:1;stroke:#ffffff;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect2766"
        width="128.57143"
        height="45.714287"
        x="178.64691"
-       y="484.52319" />
+       y="483.8858" />
     <rect
        y="417.38315"
        x="179.07185"
@@ -83,11 +93,11 @@
        x="178.64691"
        y="550.38849" />
     <rect
-       y="481.97357"
+       y="483.7908"
        x="406.8381"
        height="45.714287"
        width="128.57143"
        id="rect2772"
-       style="fill:#59739b;fill-opacity:1;stroke:white;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#59739b;fill-opacity:1;stroke:#ffffff;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>
