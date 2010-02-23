@@ -1,3 +1,9 @@
+2010-02-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/changelog, website/presage_database_dump.sql.gz,
+	website/presage_files.tar.gz, configure.ac, NEWS: preparing for
+	upcoming release.
+
 2010-02-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/presage_logo.svg: slight modification to presage logo.
