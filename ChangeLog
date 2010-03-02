@@ -1,5 +1,10 @@
 2010-02-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/gtk/gprompter/gprompter.cpp: fixed minor bug that triggered
+	a compilation problem.
+
+2010-02-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* presage-0.8: released.
 	
 	* debian/changelog, website/presage_database_dump.sql.gz,

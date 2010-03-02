@@ -224,7 +224,7 @@ static void on_user_list_selection(SCNotification* nt, ScintillaObject* scintill
     if (glob_function_keys_mode)
     {
 	// strip function key from selection
-	char* separator;
+	const char* separator;
 
 	separator = strchr (nt->text, ' ');
 	if (NULL == separator)
