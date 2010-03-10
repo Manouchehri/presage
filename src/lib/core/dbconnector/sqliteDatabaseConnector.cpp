@@ -134,13 +134,20 @@ int SqliteDatabaseConnector::callback(
 {
     NgramTable& query_result = *static_cast<NgramTable*>(pArg);
 
-    //logger << DEBUG << "building ngram: ";
+    //std::cerr << "building ngram: ";
     Ngram ngram;
     for (int i = 0; i < argc; i++) {
-	ngram.push_back(argv[i]);
-	//logger << DEBUG << "(" << columnNames[i] << ":" << argv[i] << ")" << '\t';
+	if (argv[i] != NULL) {
+	    //std::cerr << "(" << columnNames[i] << ":" << argv[i] << ")" << '\t';
+	    ngram.push_back(argv[i]);
+	}
+	else
+	{
+	    //std::cerr << "argv[" << i << "] is NULL" << std::endl;
+	    ngram.push_back(""); // empty string to represent NULL value
+	}
     }
-    //logger << DEBUG << endl;
+    //std::cerr << std::endl;
 
     query_result.push_back(ngram);
 

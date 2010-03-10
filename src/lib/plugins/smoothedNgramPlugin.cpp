@@ -226,6 +226,9 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
     // compute smoothed probabilities for all candidates
     //
     db->beginTransaction();
+    // getUnigramCountsSum is an expensive SQL query
+    // caching it here saves much time later inside the loop
+    int unigrams_counts_sum = db->getUnigramCountsSum(); 
     for (size_t j = 0; (j < prefixCompletionCandidates.size() && j < max_partial_prediction_size); j++) {
         // store w_i candidate at end of tokens
         tokens[cardinality - 1] = prefixCompletionCandidates[j];
@@ -236,7 +239,8 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
 	double probability = 0;
 	for (int k = 0; k < cardinality; k++) {
 	    double numerator = count(tokens, 0, k+1);
-	    double denominator = count(tokens, -1, k);
+	    // reuse cached unigrams_counts_sum to speed things up
+	    double denominator = (k == 0 ? unigrams_counts_sum : count(tokens, -1, k));
 	    double frequency = ((denominator > 0) ? (numerator / denominator) : 0);
 	    probability += deltas[k] * frequency;
 
