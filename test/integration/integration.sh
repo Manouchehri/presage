@@ -26,7 +26,7 @@
 #
 
 TEXT2NGRAM=../../src/tools/text2ngram
-SIMULATOR="time ../../src/tools/presage_simulator"
+SIMULATOR=../../src/tools/presage_simulator
 
 TRAINING_CORPUS=${srcdir}/../../COPYING
 CONTROL_CORPUS=`basename ${TRAINING_CORPUS}_excerpt.txt`
