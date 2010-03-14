@@ -25,6 +25,7 @@
 #ifndef PRESAGE_PROFILE
 #define PRESAGE_PROFILE
 
+#include <vector>
 #include <string>
 #include <map>
 
@@ -84,7 +85,7 @@ public:
 
 private:
     void init_configuration(Configuration* config, TiXmlDocument* node);
-    void visit_node(Configuration* config, TiXmlNode* node, Variable variable);
+    void visit_node(Configuration* config, TiXmlNode* node, std::vector<std::string> variable);
 
     TiXmlDocument* profile;
 };

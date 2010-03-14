@@ -22,36 +22,35 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_VARIABLE
-#define PRESAGE_VARIABLE
+#include "observable.h"
 
-#include <string>
-#include <vector>
+Observable::~Observable ()
+{
+
+}
+  
+void Observable::attach (Observer* observer)
+{
+  observers.push_back (observer);
+}
+
+void Observable::detach (Observer* observer)
+{
+  observers.remove (observer);
+}
+
+void Observable::notify ()
+{
+  for (std::list <Observer*>::iterator it = observers.begin ();
+       it != observers.end ();
+       it++) {
+    (*it)->update (this);
+  }
+}
+
+Observable::Observable ()
+{
+  // complete
+}
 
 
-class Variable {
-public:
-    Variable(const char* variable);
-    Variable(const std::string& variable);
-    Variable(const std::vector<std::string>& variable);
-    ~Variable();
-    
-    std::string              string()   const;
-    std::vector<std::string> variable() const;
-
-    size_t size() const { return m_variable.size(); }
-
-    bool operator<(const Variable& other) const { return (string() < other.string()); }
-//    bool operator>(const Variable& other) const { return (string() > other.string()); }
-//    bool operator==(const Variable& other) const { return !((*this) < other) && !((*this) > other); }
-
-
-private:
-    std::vector<std::string> string_to_variable(const std::string& str) const;
-    std::string variable_to_string(const std::vector<std::string>& var) const;
-    
-    std::vector<std::string> m_variable;
-    
-};
-
-#endif // PRESAGE_VARIABLE

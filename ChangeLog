@@ -1,12 +1,20 @@
-2010-03-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+2010-03-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileTest.cpp, src/lib/core/profile.*,
+	src/lib/core/variable.*, src/lib/core/observable.*,
+	src/lib/core/observer.*, src/lib/core/profile.cpp,
+	src/lib/core/Makefile.am: initial changes to implement observer
+	pattern for configuration variable changes notifications.
+
+2010-03-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/smoothedNgramPlugin.cpp: performance improvement
 	in smoothed n-gram predictor, moved expensive sqlite query outside
 	loop to speed up runtime execution by a factor greater than 5.
-	
+
 	* src/lib/core/dbconnector/sqliteDatabaseConnector.cpp: fixed
 	logic error in sqlite query callback function.
-	
+
 2010-03-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/smoothedNgramPlugin.cpp: fixed leak and logic

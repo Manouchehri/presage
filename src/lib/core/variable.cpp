@@ -26,12 +26,6 @@
 
 #include <iostream>
 
-// REVISIT: maybe remove this ctr?
-Variable::Variable()
-{
-    // nothing to do
-}
-
 Variable::Variable(const char* variable)
 {
     m_variable = string_to_variable(variable);

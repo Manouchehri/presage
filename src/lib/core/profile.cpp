@@ -46,14 +46,14 @@ Configuration* Profile::get_configuration()
 
 void Profile::init_configuration(Configuration* config, TiXmlDocument* root)
 {
-    Variable variable;
+    std::vector<std::string> variable;
 
     visit_node(config, root, variable);
 }
 
 void Profile::visit_node(Configuration* configuration,
 			 TiXmlNode* node,
-			 Variable variable)
+			 std::vector<std::string> variable)
 {
     if (node) {
 	// visit the node only if it is one

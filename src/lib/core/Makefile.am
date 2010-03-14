@@ -38,6 +38,10 @@ libcore_la_SOURCES =	\
 	utility.h \
 	iso8859_1.h \
 	charsets.h \
+	observable.cpp \
+	observable.h \
+	observer.cpp \
+	observer.h \
 	predictorActivator.cpp \
 	predictorActivator.h \
 	combiner.h \

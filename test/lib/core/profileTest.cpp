@@ -87,7 +87,7 @@ void ProfileTest::testGetNonExistantConfig()
 {
     std::cout << "void ProfileTest::testGetNonExistantConfig()" << std::endl;
 
-    Variable* var = new Variable();
+    Variable* var = new Variable("");
     CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
     delete var;
 
