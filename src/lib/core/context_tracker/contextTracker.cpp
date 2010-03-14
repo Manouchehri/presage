@@ -29,6 +29,9 @@
 
 #include <stdlib.h>  // for atoi()
 
+const char* ContextTracker::LOGGER = "Presage.ContextTracker.LOGGER";
+const char* ContextTracker::SLIDING_WINDOW_SIZE = "Presage.ContextTracker.SLIDING_WINDOW_SIZE";
+
 ContextTracker::ContextTracker(Configuration* config,
 			       PluginRegistry* registry,
 			       PresageCallback* callback,
@@ -62,27 +65,18 @@ ContextTracker::ContextTracker(Configuration* config,
 	pluginRegistry->setContextTracker(this);
     }
 
-    // read config values
-    Variable* variable;
-    Value value;
+    // read config values and subscribe to notifications
+    Variable* var = config->find (LOGGER);
+    std::string value = var->get_value ();
+    logger << setlevel (value);
+    logger << INFO << "LOGGER: " << value << endl;
+    var->attach (this);
 
-    try {
-	variable = new Variable("Presage.ContextTracker.LOGGER");
-	value = config->get(*variable);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-	delete variable;
-
-	variable = new Variable("Presage.ContextTracker.SLIDING_WINDOW_SIZE");
-	value = config->get(*variable);
-	logger << INFO << "SLIDING_WINDOWS_SIZE: " << value << endl;
-	contextChangeDetector->set_sliding_window_size(value);
-	delete variable;
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
+    var = config->find (SLIDING_WINDOW_SIZE);
+    value = var->get_value ();
+    contextChangeDetector->set_sliding_window_size (value);
+    logger << INFO << "SLIDING_WINDOWS_SIZE: " << value << endl;
+    var->attach (this);
 }
 
 ContextTracker::~ContextTracker()

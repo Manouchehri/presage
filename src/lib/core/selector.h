@@ -89,9 +89,9 @@ public:
     bool repeat_suggestions() const;
     unsigned int greedy_suggestion_threshold() const;
 
-    static const Variable SUGGESTIONS;
-    static const Variable REPEAT_SUGGESTIONS;
-    static const Variable GREEDY_SUGGESTION_THRESHOLD;
+    static const char* SUGGESTIONS;
+    static const char* REPEAT_SUGGESTIONS;
+    static const char* GREEDY_SUGGESTION_THRESHOLD;
 
 private:
 

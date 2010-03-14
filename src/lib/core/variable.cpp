@@ -45,7 +45,17 @@ Variable::~Variable()
 {
     // nothing to do
 }
-    
+
+std::string Variable::get_value () const
+{
+    return m_value;
+}
+
+void Variable::set_value (std::string value)
+{
+    m_value = value;
+}
+
 std::string Variable::string() const
 {
     return variable_to_string(m_variable);

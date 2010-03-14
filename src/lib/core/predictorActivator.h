@@ -65,7 +65,7 @@
  * refer to my thesis for a list of possible conbination strategies.
  *
  */
-class PredictorActivator {
+class PredictorActivator : public Observer {
   public:
 //PLUMP    PredictorActivator(HistoryTracker&,
 //PLUMP              plump::Plump&);
@@ -154,6 +154,11 @@ class PredictorActivator {
     void setCombinationPolicy(const std::string policy);
 
   private:
+    static const char* LOGGER;
+    static const char* PREDICT_TIME;
+    static const char* MAX_PARTIAL_PREDICTION_SIZE;
+    static const char* COMBINATION_POLICY;
+
     // PLUMP
     //plump::Plump& plump;
 
@@ -175,7 +180,7 @@ class PredictorActivator {
 
     std::vector<Prediction> predictions; // predictions computed by each plugin are returned here
 
-    int PREDICT_TIME;
+    int predict_time;
 
 };
 

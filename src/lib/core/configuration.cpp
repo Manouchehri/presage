@@ -28,7 +28,7 @@
 
 Configuration::Configuration()
 {
-    configuration = new std::map<Variable, Value>();
+    configuration = new std::set<Variable>();
 }
 
 Configuration::~Configuration()
@@ -36,43 +36,43 @@ Configuration::~Configuration()
     delete configuration;
 }
     
-Value Configuration::get(const Variable& variable) const
+Variable* Configuration::find(const std::string& variable) const
 {
-    std::string message;
-    if (variable.size() > 0) {
-        // non empty variable, search for it in the config
-        std::map<Variable, Value>::const_iterator it = configuration->find(variable);
-        if (it != configuration->end()) {
-            return it->second;
-        }
-
+    std::set<Variable*>::const_iterator it = configuration->find(variable);
+    if (it == configuration->end()) {
         // variable not found, create exception message
-        message = "[Configuration] Cannot find variable "
+        std::string message = "[Configuration] Cannot find variable "
             + variable.string();
         
-    } else {
-        message = "[Configuration] Empty variable";
+	// if we get here, variable was not found in the configuration,
+	// hence we have a right to complain
+	throw ConfigurationException(message);
     }
-    
-    // if we get here, variable was not found in the configuration,
-    // hence we have a right to complain
-    throw ConfigurationException(message);
+
+    return it;
 }
 
-Value Configuration::operator[](const Variable& variable) const
+Variable* Configuration::operator[](const std::string& variable) const
 {
-    return get(variable);
+    return find(variable);
 }
 
-void Configuration::set(const Variable& variable, const Value& value)
+void Configuration::insert(const std::string& variable, 
+			   const std::string& value)
 {
-    (*configuration)[variable] = value;
+    Variable* var = new Variable(variable);
+    var->set_value (value);
+    configuration->insert(var);
 }
 
-//void Configuration::operator[](const Variable& variable)
-//{
-//    //set(variable, value);
-//}
+void Configuration::remove(const std::string& variable)
+{
+    std::set<Variable*>::iterator it = configuration->find(variable);
+    if (it != configuration->end()) {
+        delete *it;
+	configuration->erase (it);
+    }
+}
 
 void Configuration::print() const
 {

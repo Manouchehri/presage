@@ -150,7 +150,7 @@ class PluginRegistry;
  *
  *
  */
-class ContextTracker {
+class ContextTracker : public Observer {
 public:
     ContextTracker(Configuration* config,
 		   PluginRegistry* pluginRegistry,
@@ -186,6 +186,9 @@ public:
     void update();
 
 private:
+    static const char* LOGGER;
+    static const char* SLIDING_WINDOW_SIZE;
+
     std::string wordChars;
     std::string separatorChars;
     std::string blankspaceChars;

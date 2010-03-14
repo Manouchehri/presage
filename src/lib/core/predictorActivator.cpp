@@ -25,6 +25,11 @@
 #include "core/predictorActivator.h"
 #include "core/utility.h"
 
+const char* PredictorActivator::LOGGER = "Presage.PredictorActivator.LOGGER";
+const char* PredictorActivator::PREDICT_TIME = "Presage.PredictorActivator.PREDICT_TIME";
+const char* PredictorActivator::MAX_PARTIAL_PREDICTION_SIZE = "Presage.PredictorActivator.MAX_PARTIAL_PREDICTION_SIZE";
+const char* PredictorActivator::COMBINATION_POLICY = "Presage.PredictorActivator.COMBINATION_POLICY";
+
 PredictorActivator::PredictorActivator(Configuration* configuration,
 		     PluginRegistry* registry,
 		     ContextTracker* ct)
@@ -35,38 +40,30 @@ PredictorActivator::PredictorActivator(Configuration* configuration,
 {
     combiner = 0;
 
-    // read config values
-    Variable* variable;
-    Value value;
+    // read config values and subscribe to notifications
+    Variable* var = config->find (LOGGER);
+    std::string value = var->get_value ();
+    logger << setlevel (value);
+    logger << INFO << "LOGGER: " << value << endl;
+    var->attach (this);
 
-    try {
-	variable = new Variable("Presage.PredictorActivator.LOGGER");
-	value = config->get(*variable);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-	delete variable;
+    var = config->find (PREDICT_TIME);
+    value = var->get_value ();
+    setPredictTime (toInt (value));
+    logger << INFO << "PREDICT_TIME: " << value << endl;
+    var->attach (this);
 
-	variable = new Variable("Presage.PredictorActivator.PREDICT_TIME");
-	value = config->get(*variable);
-	logger << INFO << "PREDICT_TIME: " << value << endl;
-	setPredictTime(toInt(value));
-	delete variable;
+    var = config->find (MAX_PARTIAL_PREDICTION_SIZE);
+    value = var->get_value ();
+    max_partial_prediction_size = toInt(value);
+    logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
+    var->attach (this);
 
-	variable = new Variable("Presage.PredictorActivator.MAX_PARTIAL_PREDICTION_SIZE");
-	value = config->get(*variable);
-	logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
-	max_partial_prediction_size = toInt(value);
-	delete variable;
-
-	variable = new Variable("Presage.PredictorActivator.COMBINATION_POLICY");
-	value = config->get(*variable);
-	logger << INFO << "COMBINATION_POLICY: " << value << endl;
-	setCombinationPolicy(value);
-	delete variable;
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
-    }
+    var = config->find (COMBINATION_POLICY);
+    value = var->get_value ();
+    setCombinationPolicy(value);
+    logger << INFO << "COMBINATION_POLICY: " << value << endl;
+    var->attach (this);
 }
 
 
@@ -126,7 +123,7 @@ bool PredictorActivator::setPredictTime( const int predictTime )
         return false;
     } else {
 	logger << INFO << "Setting PREDICT_TIME to " << predictTime << endl;
-        PREDICT_TIME = predictTime;
+        predict_time = predictTime;
         return true;
     }
 }
@@ -134,7 +131,7 @@ bool PredictorActivator::setPredictTime( const int predictTime )
 
 int PredictorActivator::getPredictTime() const
 {
-    return PREDICT_TIME;
+    return predict_time;
 }
 
 

@@ -25,9 +25,9 @@
 #include "selector.h"
 #include "utility.h"
 
-const Variable Selector::SUGGESTIONS = Variable("Presage.Selector.SUGGESTIONS");
-const Variable Selector::REPEAT_SUGGESTIONS = Variable("Presage.Selector.REPEAT_SUGGESTIONS");
-const Variable Selector::GREEDY_SUGGESTION_THRESHOLD = Variable("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD");
+const char* Selector::SUGGESTIONS = "Presage.Selector.SUGGESTIONS";
+const char* Selector::REPEAT_SUGGESTIONS = "Presage.Selector.REPEAT_SUGGESTIONS";
+const char* Selector::GREEDY_SUGGESTION_THRESHOLD = "Presage.Selector.GREEDY_SUGGESTION_THRESHOLD";
 
 
 Selector::Selector(Configuration* configuration, ContextTracker* ct)

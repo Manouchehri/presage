@@ -25,12 +25,10 @@
 #ifndef PRESAGE_CONFIGURATION
 #define PRESAGE_CONFIGURATION
 
-#include <map>
+#include <set>
 
 #include "core/variable.h"
 #include "presageException.h"
-
-typedef std::string Value;
 
 /** Configuration allows to query and modify all presage runtime configuration variables.
  *
@@ -40,11 +38,11 @@ public:
     Configuration();
     ~Configuration();
 
-    Value get(const Variable& variable) const;
-    void set(const Variable& variable, const Value& value);
+    Variable* find (const std::string& variable) const;
+    void insert (const std::string& variable, const std::string& value);
+    void remove (const std::string& variable);
 
-    Value operator[](const Variable& variable) const;
-    //Value& operator[](const Variable& variable);
+    Variable& operator[](const std::string& variable) const;
 
     void print() const;
 
@@ -59,7 +57,7 @@ public:
     };
 
 private:
-    std::map<Variable, Value>* configuration;
+    std::set<Variable*>* configuration;
 
 };
 
