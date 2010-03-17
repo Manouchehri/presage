@@ -57,29 +57,29 @@ void ProfileTest::testGetConfig()
 {
     Variable* var;
     
-    var = new Variable("Presage.ContextTracker.MAX_BUFFER_SIZE");
-    CPPUNIT_ASSERT(configuration->get(*var) == "1024");
+    var = configuration->find ("Presage.ContextTracker.MAX_BUFFER_SIZE");
+    CPPUNIT_ASSERT(var->get_value() == "1024");
     delete var;
 
-    var = new Variable("Presage.Selector.SUGGESTIONS");
-    CPPUNIT_ASSERT(configuration->get(*var) == "6");
+    var = configuration->find ("Presage.Selector.SUGGESTIONS");
+    CPPUNIT_ASSERT(var->get_value() == "6");
     delete var;
 
-    var = new Variable("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD");
-    CPPUNIT_ASSERT(configuration->get(*var) == "0");
+    var = configuration->find ("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD");
+    CPPUNIT_ASSERT(var->get_value() == "0");
     delete var;
 
 
-    var = new Variable("Presage.Selector.REPEAT_SUGGESTIONS");
-    CPPUNIT_ASSERT(configuration->get(*var) == "no");
+    var = configuration->find ("Presage.Selector.REPEAT_SUGGESTIONS");
+    CPPUNIT_ASSERT(var->get_value() == "no");
     delete var;
     
-    var = new Variable("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
-    CPPUNIT_ASSERT(configuration->get(*var) == "database_en.db");
+    var = configuration->find ("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
+    CPPUNIT_ASSERT(var->get_value() == "database_en.db");
     delete var;
 
-    var = new Variable("Presage.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
-    CPPUNIT_ASSERT(configuration->get(*var) == "40");
+    var = configuration->find ("Presage.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
+    CPPUNIT_ASSERT(var->get_value() == "40");
     delete var;
 }
 
@@ -87,15 +87,9 @@ void ProfileTest::testGetNonExistantConfig()
 {
     std::cout << "void ProfileTest::testGetNonExistantConfig()" << std::endl;
 
-    Variable* var = new Variable("");
-    CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
-    delete var;
+    CPPUNIT_ASSERT_THROW(configuration->find (""), Configuration::ConfigurationException);
 
-    var = new Variable("foo");
-    CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
-    delete var;
+    CPPUNIT_ASSERT_THROW(configuration->find ("foo"), Configuration::ConfigurationException);
 
-    var = new Variable("bar");
-    CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
-    delete var;
+    CPPUNIT_ASSERT_THROW(configuration->find ("bar"), Configuration::ConfigurationException);
 }

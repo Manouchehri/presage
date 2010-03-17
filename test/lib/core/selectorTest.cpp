@@ -442,9 +442,9 @@ void SelectorTest::testSelect_S6_R_T0()
 {
     std::cerr << "SelectorTest::testSelect_S6_R_T0()" << std::endl;
 
-    configuration->set(Selector::SUGGESTIONS, "6");
-    configuration->set(Selector::REPEAT_SUGGESTIONS, "true");
-    configuration->set(Selector::GREEDY_SUGGESTION_THRESHOLD, "0");
+    configuration->find (Selector::SUGGESTIONS)->set_value ("6");
+    configuration->find (Selector::REPEAT_SUGGESTIONS)->set_value ("true");
+    configuration->find (Selector::GREEDY_SUGGESTION_THRESHOLD)->set_value ("0");
 
     testSelect(tds_S6_R_T0);
 }
@@ -453,9 +453,9 @@ void SelectorTest::testSelect_S6_NR_T0()
 {
     std::cerr << "SelectorTest::testSelect_S6_NR_T0()" << std::endl;
 
-    configuration->set(Selector::SUGGESTIONS, "6");
-    configuration->set(Selector::REPEAT_SUGGESTIONS, "false");
-    configuration->set(Selector::GREEDY_SUGGESTION_THRESHOLD, "0");
+    configuration->find (Selector::SUGGESTIONS)->set_value ("6");
+    configuration->find (Selector::REPEAT_SUGGESTIONS)->set_value ("false");
+    configuration->find (Selector::GREEDY_SUGGESTION_THRESHOLD)->set_value ("0");
 
     testSelect(tds_S6_NR_T0);
 }
@@ -464,9 +464,9 @@ void SelectorTest::testSelect_S6_R_T3()
 {
     std::cerr << "SelectorTest::testSelect_S6_R_T3()" << std::endl;
 
-    configuration->set(Selector::SUGGESTIONS, "6");
-    configuration->set(Selector::REPEAT_SUGGESTIONS, "true");
-    configuration->set(Selector::GREEDY_SUGGESTION_THRESHOLD, "3");
+    configuration->find (Selector::SUGGESTIONS)->set_value ("6");
+    configuration->find (Selector::REPEAT_SUGGESTIONS)->set_value ("true");
+    configuration->find (Selector::GREEDY_SUGGESTION_THRESHOLD)->set_value ("3");
 
     testSelect(tds_S6_R_T3);
 }
@@ -475,9 +475,9 @@ void SelectorTest::testSelect_S6_NR_T3()
 {
     std::cerr << "SelectorTest::testSelect_S6_NR_T3()" << std::endl;
 
-    configuration->set(Selector::SUGGESTIONS, "6");
-    configuration->set(Selector::REPEAT_SUGGESTIONS, "false");
-    configuration->set(Selector::GREEDY_SUGGESTION_THRESHOLD, "3");
+    configuration->find (Selector::SUGGESTIONS)->set_value ("6");
+    configuration->find (Selector::REPEAT_SUGGESTIONS)->set_value ("false");
+    configuration->find (Selector::GREEDY_SUGGESTION_THRESHOLD)->set_value ("3");
 
     testSelect(tds_S6_NR_T3);
 }

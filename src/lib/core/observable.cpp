@@ -24,6 +24,8 @@
 
 #include "observable.h"
 
+#include <iostream>
+
 Observable::~Observable ()
 {
 
@@ -44,6 +46,7 @@ void Observable::notify ()
   for (std::list <Observer*>::iterator it = observers.begin ();
        it != observers.end ();
        it++) {
+    //std::cerr << "notify() observable: " << *it << std::endl;
     (*it)->update (this);
   }
 }

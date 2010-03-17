@@ -111,11 +111,11 @@ void ProfileManagerTest::testProfile()
 
     // test init selector
     CPPUNIT_ASSERT_EQUAL(DEFAULT_SUGGESTIONS,
-			 selector->suggestions());
+			 selector->get_suggestions());
     CPPUNIT_ASSERT_EQUAL(DEFAULT_REPEAT_SUGGESTION,
-			 selector->repeat_suggestions());
+			 selector->get_repeat_suggestions());
     CPPUNIT_ASSERT_EQUAL(DEFAULT_GREEDY_SUGGESTION_THRESHOLD,
-			 selector->greedy_suggestion_threshold());
+			 selector->get_greedy_suggestion_threshold());
 }
 
 void ProfileManagerTest::testCustomProfile()
@@ -138,9 +138,7 @@ void ProfileManagerTest::testCustomProfile()
     profile = profileManager->getProfile();
     configuration = profile->get_configuration();
 
-    Variable variable("Presage.Custom");
-
-    Value value = configuration->get(variable);
+    Value value = configuration->find ("Presage.Custom")->get_value ();
 
     CPPUNIT_ASSERT_EQUAL(std::string("CUSTOM"), value);
 

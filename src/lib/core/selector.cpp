@@ -49,6 +49,18 @@ Selector::Selector(Configuration* configuration, ContextTracker* ct)
     logger << INFO << "SUGGESTIONS: " << value << endl;
     var->attach (this);
 
+    var = config->find (REPEAT_SUGGESTIONS);
+    value = var->get_value ();
+    set_repeat_suggestions (value);
+    logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
+    var->attach (this);
+
+    var = config->find (GREEDY_SUGGESTION_THRESHOLD);
+    value = var->get_value ();
+    set_greedy_suggestion_threshold (value);
+    logger << INFO << "SUGGESTIONS: " << value << endl;
+    var->attach (this);
+
     // set prefix
     previous_prefix = contextTracker->getPrefix();
 }
@@ -256,7 +268,34 @@ void Selector::set_greedy_suggestion_threshold(const std::string& value)
     greedy_suggestion_threshold = result;
 }
 
-int Selector::get_suggestions () const
+size_t Selector::get_suggestions () const
 {
     return suggestions;
+}
+
+bool Selector::get_repeat_suggestions () const
+{
+    return repeat_suggestions;
+}
+
+size_t Selector::get_greedy_suggestion_threshold () const
+{
+    return greedy_suggestion_threshold;
+}
+
+void Selector::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+    
+    std::cerr << "update() called: " << var->string() << std::endl;
+    
+    typedef void (Selector::* mbr_ptr_func_t)(const std::string&);
+    std::map<std::string, mbr_ptr_func_t> func_map;
+    
+    func_map[LOGGER] = 0;
+    func_map[SUGGESTIONS] = & Selector::set_suggestions;
+    func_map[REPEAT_SUGGESTIONS] = & Selector::set_repeat_suggestions;
+    func_map[GREEDY_SUGGESTION_THRESHOLD] = & Selector::set_greedy_suggestion_threshold;
+
+    ((this)->*(func_map[var->string()])) (var->get_value ());
 }

@@ -1,5 +1,14 @@
 2010-03-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* test/lib/core/profileTest.cpp,
+	test/lib/core/configurationTest.cpp,
+	test/lib/core/selectorTest.cpp,
+	test/lib/core/pluginRegistryTest.cpp,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/profileManager.h, src/lib/core/variable.cpp,
+	src/lib/core/selector.*, src/lib/core/observable.cpp: fixed tests
+	and started implemented update method of observable classes.
+
 	* src/lib/plugins/ARPAPlugin.*, src/lib/plugins/dejavuPlugin.*,
 	src/lib/plugins/recencyPlugin.*,
 	src/lib/plugins/abbreviationExpansionPlugin.*,
