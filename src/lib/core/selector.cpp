@@ -46,7 +46,7 @@ Selector::Selector(Configuration* configuration, ContextTracker* ct)
     var = config->find (SUGGESTIONS);
     value = var->get_value ();
     set_suggestions (value);
-    logger << INFO << "LOGGER: " << value << endl;
+    logger << INFO << "SUGGESTIONS: " << value << endl;
     var->attach (this);
 
     // set prefix
@@ -254,4 +254,9 @@ void Selector::set_greedy_suggestion_threshold(const std::string& value)
     }
 
     greedy_suggestion_threshold = result;
+}
+
+int Selector::get_suggestions () const
+{
+    return suggestions;
 }

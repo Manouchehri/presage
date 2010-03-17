@@ -26,8 +26,8 @@
 
 #include <assert.h>
 
-const Variable DictionaryPlugin::DICTIONARY  = "Presage.Plugins.DictionaryPlugin.DICTIONARY";
-const Variable DictionaryPlugin::PROBABILITY = "Presage.Plugins.DictionaryPlugin.PROBABILITY";
+const char* DictionaryPlugin::DICTIONARY  = "Presage.Plugins.DictionaryPlugin.DICTIONARY";
+const char* DictionaryPlugin::PROBABILITY = "Presage.Plugins.DictionaryPlugin.PROBABILITY";
 
 DictionaryPlugin::DictionaryPlugin(Configuration* config, ContextTracker* ht)
     : Plugin(config,
@@ -36,9 +36,16 @@ DictionaryPlugin::DictionaryPlugin(Configuration* config, ContextTracker* ht)
 	     "DictionaryPlugin, dictionary lookup",
 	     "DictionaryPlugin, a dictionary based plugin that generates a prediction by extracting tokens that start with the current prefix from a given dictionary")
 {
-    // might throw ConfigurationException
-    dictionary_path = config->get(DICTIONARY);
-    probability     = toDouble(config->get(PROBABILITY));
+    // read config values and subscribe to notifications
+    Variable* var = config->find (DICTIONARY);
+    std::string value = var->get_value ();
+    dictionary_path = value;
+    var->attach (this);
+
+    var = config->find (PROBABILITY);
+    value = var->get_value ();
+    probability = toDouble (value);
+    var->attach (this);
 }
 
 DictionaryPlugin::~DictionaryPlugin()

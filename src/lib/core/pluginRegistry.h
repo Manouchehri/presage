@@ -43,10 +43,12 @@ class ContextTracker;
  * plump.
  * 
  */
-class PluginRegistry {
+class PluginRegistry : public Observer {
   public:
     PluginRegistry(Configuration* config);
     ~PluginRegistry();
+
+    virtual void update (const Observable* variable) { /* incomplete */ };
 
     class Iterator {
     public:
@@ -87,8 +89,8 @@ class PluginRegistry {
     std::string          plugins_list;
     std::vector<Plugin*> plugins;        // active Plugins
 
-    static const Variable LOGGER;
-    static const Variable PLUGINS;
+    static const char* LOGGER;
+    static const char* PLUGINS;
 };
 
 #endif // PRESAGE_PLUGINREGISTRY

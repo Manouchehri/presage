@@ -61,7 +61,7 @@
  * eigenfunction).
  *
  */
-class RecencyPlugin : public Plugin {
+class RecencyPlugin : public Plugin, public Observer {
 public:
     RecencyPlugin(Configuration*, ContextTracker*);
     ~RecencyPlugin();
@@ -72,12 +72,17 @@ public:
     virtual void extract();
     virtual void train();
 
-private:
+    virtual void update (const Observable* variable) { /* incomplete */ };
 
-    static const Variable LOGGER;
-    static const Variable LAMBDA;
-    static const Variable N_0;
-    static const Variable CUTOFF_THRESHOLD;
+private:
+    void setLambda          (const std::string& value);
+    void setN_0             (const std::string& value);
+    void setCutoffThreshold (const std::string& value);
+
+    static const char* LOGGER;
+    static const char* LAMBDA;
+    static const char* N_0;
+    static const char* CUTOFF_THRESHOLD;
     
     double lambda;
     double n_0;

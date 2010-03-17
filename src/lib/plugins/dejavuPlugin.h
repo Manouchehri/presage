@@ -39,7 +39,7 @@
  * learning plugins to work within the presage framework.
  *
  */
-class DejavuPlugin : public Plugin {
+class DejavuPlugin : public Plugin, public Observer {
 public:
     DejavuPlugin(Configuration*, ContextTracker*);
     ~DejavuPlugin();
@@ -50,15 +50,20 @@ public:
     virtual void extract();
     virtual void train();
 
+    virtual void update (const Observable* variable) { /* incomplete */ };
+
 private:
     bool init_memory_trigger(std::list<std::string>&) const;
     bool match(const std::list<std::string>&, const std::list<std::string>&) const;
     bool init_rolling_window(std::list<std::string>&, std::ifstream&) const;
     void update_rolling_window(std::list<std::string>&, const std::string&) const;
 
-    static const Variable LOGGER;
-    static const Variable MEMORY;
-    static const Variable TRIGGER;
+    void setMemory  (const std::string& filename);
+    void setTrigger (const std::string& number);
+
+    static const char* LOGGER;
+    static const char* MEMORY;
+    static const char* TRIGGER;
 
     std::string memory;
     int trigger;

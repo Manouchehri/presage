@@ -73,6 +73,8 @@ public:
     Profile* getProfile();
     
 private:
+    static const char* LOGGER;
+
     std::string get_user_home_dir() const;
     
     /** Cache log message until logger level is read from configuration.

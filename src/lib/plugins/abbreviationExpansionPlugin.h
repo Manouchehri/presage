@@ -41,7 +41,7 @@
  * per line.
  *
  */
-class AbbreviationExpansionPlugin : public Plugin {
+class AbbreviationExpansionPlugin : public Plugin, public Observer {
 public:
     AbbreviationExpansionPlugin(Configuration*, ContextTracker*);
     ~AbbreviationExpansionPlugin();
@@ -52,10 +52,13 @@ public:
     virtual void extract();
     virtual void train();
 
-private:
-    static const Variable LOGGER;
-    static const Variable ABBREVIATIONS;
+    virtual void update (const Observable* variable) { /* incomplete */ };
 
+private:
+    static const char* LOGGER;
+    static const char* ABBREVIATIONS;
+
+    void setAbbreviations (const std::string& filename);
     void cacheAbbreviationsExpansions();
     
     std::string abbreviations;

@@ -27,10 +27,10 @@
 #include <math.h>  // for exp()
 
 // RecencyPlugin config variables
-const Variable RecencyPlugin::LOGGER           = "Presage.Plugins.RecencyPlugin.LOGGER";
-const Variable RecencyPlugin::LAMBDA           = "Presage.Plugins.RecencyPlugin.LAMBDA";
-const Variable RecencyPlugin::N_0              = "Presage.Plugins.RecencyPlugin.N_0";
-const Variable RecencyPlugin::CUTOFF_THRESHOLD = "Presage.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
+const char* RecencyPlugin::LOGGER           = "Presage.Plugins.RecencyPlugin.LOGGER";
+const char* RecencyPlugin::LAMBDA           = "Presage.Plugins.RecencyPlugin.LAMBDA";
+const char* RecencyPlugin::N_0              = "Presage.Plugins.RecencyPlugin.N_0";
+const char* RecencyPlugin::CUTOFF_THRESHOLD = "Presage.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
 
 RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
@@ -44,28 +44,37 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
     n_0 = 1;
     cutoff_threshold = 20;
 
-    // read values from config
+    // read config values and subscribe to notifications
+    Variable* var = 0;
+    std::string value;
+
     try {
-	Value value = config->get(LOGGER);
-	logger << setlevel(value);
+        var = config->find (LOGGER);
+	value = var->get_value ();
+	logger << setlevel (value);
 	logger << INFO << "LOGGER: " << value << endl;
+	var->attach (this);
+
     } catch (Configuration::ConfigurationException ex) {
 	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
     }
 
     try {
-	Value value = config->get(LAMBDA);
-	lambda = toDouble(value);
-	logger << INFO << "LAMBDA: " << value << endl;
-	
-	value = config->get(N_0);
-	n_0 = toDouble(value);
-	logger << INFO << "N_0: " << value << endl;
-	
-	value = config->get(CUTOFF_THRESHOLD);
-	cutoff_threshold = toInt(value);
-	logger << INFO << "CUTOFF_THRESHOLD: " << value << endl;
+        var = config->find (LAMBDA);
+	value = var->get_value ();
+	setLambda (value);
+	var->attach (this);
 
+        var = config->find (N_0);
+	value = var->get_value ();
+	setN_0 (value);
+	var->attach (this);
+	
+        var = config->find (CUTOFF_THRESHOLD);
+	value = var->get_value ();
+	setCutoffThreshold (value);
+	var->attach (this);
+	
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
 	throw PresageException("Unable to init " + name + " predictive plugin.");
@@ -78,6 +87,26 @@ RecencyPlugin::~RecencyPlugin()
 {
 
 }
+
+void RecencyPlugin::setLambda (const std::string& value)
+{
+    lambda = toDouble(value);
+    logger << INFO << "LAMBDA: " << value << endl;
+}
+
+void RecencyPlugin::setN_0 (const std::string& value)
+{
+    n_0 = toDouble (value);
+    logger << INFO << "N_0: " << value << endl;
+}
+
+
+void RecencyPlugin::setCutoffThreshold (const std::string& value)
+{
+    cutoff_threshold = toInt (value);
+    logger << INFO << "CUTOFF_THRESHOLD: " << value << endl;
+}
+
 
 Prediction RecencyPlugin::predict(const size_t max, const char** filter) const
 {

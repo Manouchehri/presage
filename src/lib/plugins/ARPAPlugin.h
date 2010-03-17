@@ -108,7 +108,7 @@ class BigramKey
 /** Smoothed n-gram statistical plugin.
  *
  */
-class ARPAPlugin : public Plugin {
+class ARPAPlugin : public Plugin, public Observer {
 
 public:
     ARPAPlugin(Configuration*, ContextTracker*);
@@ -120,11 +120,13 @@ public:
     virtual void extract();
     virtual void train();
 
+    virtual void update (const Observable* variable) { /* incomplete */ };
+
 private:
-    static const Variable LOGGER;
-    static const Variable ARPAFILENAME;
-    static const Variable VOCABFILENAME;
-    static const Variable TIMEOUT;
+    static const char* LOGGER;
+    static const char* ARPAFILENAME;
+    static const char* VOCABFILENAME;
+    static const char* TIMEOUT;
 
     std::string arpaFilename;
     std::string vocabFilename;

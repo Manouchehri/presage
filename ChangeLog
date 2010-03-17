@@ -1,3 +1,17 @@
+2010-03-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/ARPAPlugin.*, src/lib/plugins/dejavuPlugin.*,
+	src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/abbreviationExpansionPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/smoothedNgramPlugin.*,
+	src/lib/plugins/dictionaryPlugin.*, src/lib/presage.cpp,
+	src/lib/core/profileManager.*, src/lib/core/predictorActivator.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/selector.*, src/lib/core/pluginRegistry.*,
+	src/lib/core/observer.h: more changes for configuration variable
+	notifications.
+
 2010-03-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/configuration.*, src/lib/core/variable.*,

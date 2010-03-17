@@ -153,6 +153,8 @@ class PredictorActivator : public Observer {
      */
     void setCombinationPolicy(const std::string policy);
 
+    virtual void update (const Observable* variable) { /* incomplete */ };
+
   private:
     static const char* LOGGER;
     static const char* PREDICT_TIME;

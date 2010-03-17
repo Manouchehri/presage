@@ -80,7 +80,7 @@ std::vector<std::string> Presage::predict()
     result = selector->select(prediction);
 
     Prediction previous_prediction = prediction;
-    while ((result.size() < (selector->suggestions()))
+    while ((result.size() < (selector->get_suggestions()))
 	   && (prediction = predictorActivator->predict(multiplier++, 0)).size() > previous_prediction.size()) {
 	// while the number of predicted tokens is lower than desired,
 	// search harder (i.e. higher multiplier) for a prediction of
@@ -118,7 +118,7 @@ std::multimap<double, std::string> Presage::predict(std::vector<std::string> fil
     selection = selector->select(prediction);
 
     Prediction previous_prediction = prediction;
-    while ((selection.size() < (selector->suggestions()))
+    while ((selection.size() < (selector->get_suggestions()))
 	   && (prediction = predictorActivator->predict(multiplier++, internal_filter)).size() > previous_prediction.size()) {
 	// while the number of predicted tokens is lower than desired,
 	// search harder (i.e. higher multiplier) for a prediction of
@@ -212,10 +212,10 @@ std::string Presage::prefix() const
 
 std::string Presage::config(const std::string variable) const
 {
-    return configuration->get(variable);
+    return configuration->find (variable)->get_value ();
 }
 
 void Presage::config(const std::string variable, const std::string value) const
 {
-    configuration->set(variable, value);
+    configuration->find (variable)->set_value (value);
 }

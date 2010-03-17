@@ -89,10 +89,14 @@ public:
     void set_repeat_suggestions(const std::string& value);
     void set_greedy_suggestion_threshold(const std::string& value);
 
+    int get_suggestions () const;
+
     static const char* LOGGER;
     static const char* SUGGESTIONS;
     static const char* REPEAT_SUGGESTIONS;
     static const char* GREEDY_SUGGESTION_THRESHOLD;
+
+    virtual void update (const Observable* variable) { /* incomplete */ };
 
 private:
     int suggestions;

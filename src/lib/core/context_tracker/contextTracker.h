@@ -185,6 +185,8 @@ public:
 
     void update();
 
+    virtual void update (const Observable* variable) { /* incomplete */ };
+
 private:
     static const char* LOGGER;
     static const char* SLIDING_WINDOW_SIZE;

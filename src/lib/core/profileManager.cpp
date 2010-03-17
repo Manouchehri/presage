@@ -40,6 +40,8 @@
 # include <stdlib.h>
 #endif
 
+const char* ProfileManager::LOGGER = "Presage.ProfileManager.LOGGER";
+
 /** Constructor.
  *
  * Initialises other modules.
@@ -443,7 +445,7 @@ void ProfileManager::refresh_config(Profile* profile)
 {
     Configuration* config = profile->get_configuration();
     try {
-	logger << setlevel(config->get(Variable("Presage.ProfileManager.LOGGER")));
+        logger << setlevel(config->find (LOGGER)->get_value());
     } catch (Configuration::ConfigurationException& ex) {
 	// if no config is available, turn on full logging for profile
 	// manager

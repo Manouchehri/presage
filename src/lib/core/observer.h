@@ -33,11 +33,11 @@ class Observable;
 
 class Observer {
  public:
-  virtual ~Observer ();
+  virtual ~Observer () { };
   virtual void update (const Observable* changed_observable) = 0;
 
  protected:
-  Observer ();
+  Observer () { };
 
 };
 

@@ -28,11 +28,11 @@
 # include <string.h>
 #endif
 
-const Variable SmoothedCountPlugin::LOGGER         = "Presage.Plugins.SmoothedCountPlugin.LOGGER";
-const Variable SmoothedCountPlugin::UNIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.UNIGRAM_WEIGHT";
-const Variable SmoothedCountPlugin::BIGRAM_WEIGHT  = "Presage.Plugins.SmoothedCountPlugin.BIGRAM_WEIGHT";
-const Variable SmoothedCountPlugin::TRIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.TRIGRAM_WEIGHT";
-const Variable SmoothedCountPlugin::DBFILENAME     = "Presage.Plugins.SmoothedCountPlugin.DBFILENAME";
+const char* SmoothedCountPlugin::LOGGER         = "Presage.Plugins.SmoothedCountPlugin.LOGGER";
+const char* SmoothedCountPlugin::UNIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.UNIGRAM_WEIGHT";
+const char* SmoothedCountPlugin::BIGRAM_WEIGHT  = "Presage.Plugins.SmoothedCountPlugin.BIGRAM_WEIGHT";
+const char* SmoothedCountPlugin::TRIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.TRIGRAM_WEIGHT";
+const char* SmoothedCountPlugin::DBFILENAME     = "Presage.Plugins.SmoothedCountPlugin.DBFILENAME";
 
 SmoothedCountPlugin::SmoothedCountPlugin(Configuration* config, ContextTracker* ct)
 	: Plugin(config,
@@ -42,28 +42,41 @@ SmoothedCountPlugin::SmoothedCountPlugin(Configuration* config, ContextTracker* 
 		 "SmoothedCountPlugin, long description." )
 {
 
-    Value value;
+    // read config values and subscribe to notifications
+    Variable* var = 0;
+    std::string value;
 
     try {
-	value = config->get(LOGGER);
-	logger << setlevel(value);
+        var = config->find (LOGGER);
+	value = var->get_value ();
+	logger << setlevel (value);
 	logger << INFO << "LOGGER: " << value << endl;
+	var->attach (this);
+
     } catch (Configuration::ConfigurationException ex) {
 	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
     }
 
     try {
-	value = config->get(UNIGRAM_WEIGHT);
-	unigram_weight = toDouble(value);
+        var = config->find (UNIGRAM_WEIGHT);
+	value = var->get_value ();
+	unigram_weight = toDouble (value);
+	var->attach (this);
 	
-	value = config->get(BIGRAM_WEIGHT);
-	bigram_weight = toDouble(value);
-	
-	value = config->get(TRIGRAM_WEIGHT);
-	trigram_weight = toDouble(value);
-	
-	value = config->get(DBFILENAME);
+        var = config->find (BIGRAM_WEIGHT);
+	value = var->get_value ();
+	bigram_weight = toDouble (value);
+	var->attach (this);
+
+        var = config->find (TRIGRAM_WEIGHT);
+	value = var->get_value ();
+	trigram_weight = toDouble (value);
+	var->attach (this);
+
+        var = config->find (DBFILENAME);
+	value = var->get_value ();
 	dbfilename = value;
+	var->attach (this);
 
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;

@@ -26,8 +26,8 @@
 #include <fstream>
 
 
-const Variable AbbreviationExpansionPlugin::LOGGER        = "Presage.Plugins.AbbreviationExpansionPlugin.LOGGER";
-const Variable AbbreviationExpansionPlugin::ABBREVIATIONS = "Presage.Plugins.AbbreviationExpansionPlugin.ABBREVIATIONS";
+const char* AbbreviationExpansionPlugin::LOGGER        = "Presage.Plugins.AbbreviationExpansionPlugin.LOGGER";
+const char* AbbreviationExpansionPlugin::ABBREVIATIONS = "Presage.Plugins.AbbreviationExpansionPlugin.ABBREVIATIONS";
 
 AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
@@ -37,30 +37,46 @@ AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Configuration* config, 
              "AbbreviationExpansionPlugin maps abbreviations to the corresponding fully expanded token (i.e. word or phrase).\n\nThe mapping between abbreviations and expansions is stored in the file specified by the plugin configuration section.\n\nThe format for the abbreviation-expansion database is a simple tab separated text file format, with each abbreviation-expansion pair per line."
     )
 {
-    Value value;
+    // read config values and subscribe to notifications
+    Variable* var = 0;
+    std::string value;
 
     try {
-	value = config->get(LOGGER);
-	logger << setlevel(value);
-        logger << INFO << "LOGGER:" << value << endl;
+        var = config->find (LOGGER);
+	value = var->get_value ();
+	logger << setlevel (value);
+	logger << INFO << "LOGGER: " << value << endl;
+	var->attach (this);
+
     } catch (Configuration::ConfigurationException ex) {
 	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
     }
 
     try {
-	value = config->get(ABBREVIATIONS);
-        logger << INFO << "ABBREVIATIONS:" << value << endl;
-        abbreviations = value;
+        var = config->find (ABBREVIATIONS);
+	value = var->get_value ();
+	setAbbreviations (value);
+	var->attach (this);
+
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
 	throw PresageException("Unable to init " + name + " predictive plugin.");
     }
-
-    cacheAbbreviationsExpansions();
 }
 
 AbbreviationExpansionPlugin::~AbbreviationExpansionPlugin()
-{}
+{
+    // complete
+}
+
+
+void AbbreviationExpansionPlugin::setAbbreviations (const std::string& filename)
+{
+    abbreviations = filename;
+    logger << INFO << "ABBREVIATIONS:" << abbreviations << endl;
+
+    cacheAbbreviationsExpansions();
+}
 
 
 Prediction AbbreviationExpansionPlugin::predict(const size_t max_partial_predictions_size, const char** filter) const

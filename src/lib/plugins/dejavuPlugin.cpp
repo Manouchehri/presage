@@ -25,9 +25,9 @@
 
 #include <algorithm>
 
-const Variable DejavuPlugin::LOGGER = "Presage.Plugins.DejavuPlugin.LOGGER";
-const Variable DejavuPlugin::MEMORY = "Presage.Plugins.DejavuPlugin.MEMORY";
-const Variable DejavuPlugin::TRIGGER = "Presage.Plugins.DejavuPlugin.TRIGGER";
+const char* DejavuPlugin::LOGGER = "Presage.Plugins.DejavuPlugin.LOGGER";
+const char* DejavuPlugin::MEMORY = "Presage.Plugins.DejavuPlugin.MEMORY";
+const char* DejavuPlugin::TRIGGER = "Presage.Plugins.DejavuPlugin.TRIGGER";
 
 /*
  * Implementation idea: plugin remembers previously entered text (by
@@ -45,24 +45,31 @@ DejavuPlugin::DejavuPlugin(Configuration* config, ContextTracker* ct)
 	     "DejavuPlugin is a parrot plugin.\n"
 	     "It always returns what it has heard before.\n")
 {
-    // read values from config
+    // read config values and subscribe to notifications
+    Variable* var = 0;
+    std::string value;
+
     try {
-	Value value = config->get(LOGGER);
-	logger << setlevel(value);
+        var = config->find (LOGGER);
+	value = var->get_value ();
+	logger << setlevel (value);
 	logger << INFO << "LOGGER: " << value << endl;
-	
+	var->attach (this);
+
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
     }
 
     try {
-	Value value = config->get(MEMORY);
-	memory = value;
-	logger << INFO << "MEMORY: " << value << endl;
+        var = config->find (MEMORY);
+	value = var->get_value ();
+	setMemory (value);
+	var->attach (this);
 
-	value = config->get(TRIGGER);
-	trigger = toInt(value);
-	logger << INFO << "TRIGGER: " << value << endl;
+        var = config->find (TRIGGER);
+	value = var->get_value ();
+	setTrigger (value);
+	var->attach (this);
 
     } catch (Configuration::ConfigurationException ex) {
 	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
@@ -72,6 +79,18 @@ DejavuPlugin::DejavuPlugin(Configuration* config, ContextTracker* ct)
 
 DejavuPlugin::~DejavuPlugin()
 {}
+
+void DejavuPlugin::setMemory (const std::string& filename)
+{
+    memory = filename;
+    logger << INFO << "MEMORY: " << filename << endl;
+}
+
+void DejavuPlugin::setTrigger (const std::string& number)
+{
+    trigger = toInt (number);
+    logger << INFO << "TRIGGER: " << number << endl;
+}
 
 Prediction DejavuPlugin::predict(const size_t max_partial_predictions_size, const char** filter) const
 {
