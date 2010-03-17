@@ -75,7 +75,7 @@ void Profile::visit_node(Configuration* configuration,
 	    const char* text = element->GetText();
 	    if (text) {
 		//(*configuration)[variable] = text;
-		configuration->set(variable, text);
+	      configuration->insert (Variable::vector_to_string(variable), text);
 
 		//std::cout << variable.string() << " = " << text << std::endl;
 	    }

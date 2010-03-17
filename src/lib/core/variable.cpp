@@ -28,12 +28,12 @@
 
 Variable::Variable(const char* variable)
 {
-    m_variable = string_to_variable(variable);
+    m_variable = string_to_vector(variable);
 }
 
 Variable::Variable(const std::string& variable)
 {
-    m_variable = string_to_variable(variable);
+    m_variable = string_to_vector(variable);
 }
 
 Variable::Variable(const std::vector<std::string>& variable)
@@ -58,7 +58,7 @@ void Variable::set_value (std::string value)
 
 std::string Variable::string() const
 {
-    return variable_to_string(m_variable);
+    return vector_to_string(m_variable);
 }
 
 std::vector<std::string> Variable::variable() const
@@ -74,7 +74,7 @@ std::vector<std::string> Variable::variable() const
  * |foo|bar|foobar|
  *
  */
-std::vector<std::string> Variable::string_to_variable(const std::string& str) const
+std::vector<std::string> Variable::string_to_vector(const std::string& str)
 {
     const char SEPARATOR = '.';
     
@@ -107,7 +107,7 @@ std::vector<std::string> Variable::string_to_variable(const std::string& str) co
 */
 
     // DEBUG
-    // std::cout << "string_to_variable():" << std::endl
+    // std::cout << "string_to_vector():" << std::endl
     // 	      << "string  : " << str << std::endl
     // 	      << "variable: ";
     // for (size_t i = 0; i < result.size(); i++) {
@@ -123,7 +123,7 @@ std::vector<std::string> Variable::string_to_variable(const std::string& str) co
     return result;
 }
 
-std::string Variable::variable_to_string(const std::vector<std::string>& variable) const
+std::string Variable::vector_to_string(const std::vector<std::string>& variable)
 {
     std::string result;
     for (size_t i = 0; i < variable.size(); i++) {
@@ -134,7 +134,7 @@ std::string Variable::variable_to_string(const std::vector<std::string>& variabl
     }
 
     // DEBUG
-    // std::cout << "variable_to_string():" << std::endl
+    // std::cout << "vector_to_string():" << std::endl
     // 	      << "variable: ";
     // for (size_t i = 0; i < variable.size(); i++) {
     // 	std::cout << variable[i];

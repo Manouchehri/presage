@@ -47,9 +47,10 @@ public:
 
     bool operator<(const Variable& other) const { return (string() < other.string()); }
 
+    static std::vector<std::string> string_to_vector(const std::string& str);
+    static std::string vector_to_string(const std::vector<std::string>& var);
+
 private:
-    std::vector<std::string> string_to_variable(const std::string& str) const;
-    std::string variable_to_string(const std::vector<std::string>& var) const;
     
     std::vector<std::string> m_variable;
     std::string m_value;

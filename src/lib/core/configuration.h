@@ -25,7 +25,7 @@
 #ifndef PRESAGE_CONFIGURATION
 #define PRESAGE_CONFIGURATION
 
-#include <set>
+#include <map>
 
 #include "core/variable.h"
 #include "presageException.h"
@@ -42,7 +42,7 @@ public:
     void insert (const std::string& variable, const std::string& value);
     void remove (const std::string& variable);
 
-    Variable& operator[](const std::string& variable) const;
+    Variable* operator[](const std::string& variable) const;
 
     void print() const;
 
@@ -57,7 +57,7 @@ public:
     };
 
 private:
-    std::set<Variable*>* configuration;
+    std::map<std::string, Variable*>* configuration;
 
 };
 

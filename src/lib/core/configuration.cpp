@@ -28,7 +28,7 @@
 
 Configuration::Configuration()
 {
-    configuration = new std::set<Variable>();
+    configuration = new std::map<std::string, Variable*>();
 }
 
 Configuration::~Configuration()
@@ -38,18 +38,17 @@ Configuration::~Configuration()
     
 Variable* Configuration::find(const std::string& variable) const
 {
-    std::set<Variable*>::const_iterator it = configuration->find(variable);
+    std::map<std::string, Variable*>::const_iterator it = configuration->find (variable);
     if (it == configuration->end()) {
         // variable not found, create exception message
-        std::string message = "[Configuration] Cannot find variable "
-            + variable.string();
+        std::string message = "[Configuration] Cannot find variable " + variable;
         
 	// if we get here, variable was not found in the configuration,
 	// hence we have a right to complain
 	throw ConfigurationException(message);
     }
 
-    return it;
+    return it->second;
 }
 
 Variable* Configuration::operator[](const std::string& variable) const
@@ -62,14 +61,14 @@ void Configuration::insert(const std::string& variable,
 {
     Variable* var = new Variable(variable);
     var->set_value (value);
-    configuration->insert(var);
+    configuration->insert (std::pair<std::string, Variable*>(variable, var));
 }
 
 void Configuration::remove(const std::string& variable)
 {
-    std::set<Variable*>::iterator it = configuration->find(variable);
+    std::map<std::string, Variable*>::iterator it = configuration->find (variable);
     if (it != configuration->end()) {
-        delete *it;
+        delete it->second;
 	configuration->erase (it);
     }
 }
@@ -77,14 +76,14 @@ void Configuration::remove(const std::string& variable)
 void Configuration::print() const
 {
     // iterate map
-    for (std::map<Variable, Value>::const_iterator map_it = configuration->begin();
-	 map_it != configuration->end();
+    for (std::map<std::string, Variable*>::const_iterator map_it = configuration->begin ();
+	 map_it != configuration->end ();
 	 map_it++) {
 
 	// variable
-	std::cout << map_it->first.string();
+	std::cout << map_it->first;
 
 	// value
-	std::cout << " = " << map_it->second << std::endl;
+	std::cout << " = " << map_it->second->get_value () << std::endl;
     }
 }

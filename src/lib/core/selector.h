@@ -76,7 +76,7 @@ typedef	std::set< std::string, std::less<std::string> > StringSet;
  * "automatically" would be suggested, while "automatic" would not.
  *
  */
-class Selector {
+class Selector : public Observer {
 public:
     Selector(Configuration*, ContextTracker*);
     ~Selector();
@@ -85,15 +85,19 @@ public:
 
     void update();
 
-    size_t suggestions() const;
-    bool repeat_suggestions() const;
-    unsigned int greedy_suggestion_threshold() const;
+    void set_suggestions(const std::string& value);
+    void set_repeat_suggestions(const std::string& value);
+    void set_greedy_suggestion_threshold(const std::string& value);
 
+    static const char* LOGGER;
     static const char* SUGGESTIONS;
     static const char* REPEAT_SUGGESTIONS;
     static const char* GREEDY_SUGGESTION_THRESHOLD;
 
 private:
+    int suggestions;
+    bool repeat_suggestions;
+    int greedy_suggestion_threshold;
 
     void updateSuggestedWords( const std::vector<std::string>& );
     void clearSuggestedWords();

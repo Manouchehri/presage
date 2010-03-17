@@ -1,3 +1,9 @@
+2010-03-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/configuration.*, src/lib/core/variable.*,
+	src/lib/core/selector.*, src/lib/core/profile.*: more changes for
+	configuration variable changes notifications.
+
 2010-03-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/configuration.*, src/lib/core/predictorActivator.*,

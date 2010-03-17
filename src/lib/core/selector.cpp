@@ -29,26 +29,25 @@ const char* Selector::SUGGESTIONS = "Presage.Selector.SUGGESTIONS";
 const char* Selector::REPEAT_SUGGESTIONS = "Presage.Selector.REPEAT_SUGGESTIONS";
 const char* Selector::GREEDY_SUGGESTION_THRESHOLD = "Presage.Selector.GREEDY_SUGGESTION_THRESHOLD";
 
+const char* Selector::LOGGER = "Presage.Selector.LOGGER";
 
 Selector::Selector(Configuration* configuration, ContextTracker* ct)
     : contextTracker(ct),
       config(configuration),
       logger("Selector", std::cerr)
 {
-    // read config values
-    Variable* variable;
-    Value value;
+    // read config values and subscribe to notifications
+    Variable* var = config->find (LOGGER);
+    std::string value = var->get_value ();
+    logger << setlevel (value);
+    logger << INFO << "LOGGER: " << value << endl;
+    var->attach (this);
 
-    try {
-	variable = new Variable("Presage.Selector.LOGGER");
-	value = config->get(*variable);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-	delete variable;
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
-    }
+    var = config->find (SUGGESTIONS);
+    value = var->get_value ();
+    set_suggestions (value);
+    logger << INFO << "LOGGER: " << value << endl;
+    var->attach (this);
 
     // set prefix
     previous_prefix = contextTracker->getPrefix();
@@ -79,17 +78,17 @@ std::vector<std::string> Selector::select( Prediction p )
     }
 
     // filter out suggestions that do not satisfy repetition constraint
-    if( !repeat_suggestions() )
+    if( !repeat_suggestions )
 	repetitionFilter( result );
 
     // filter out suggestions that do not satisfy threshold constraint
-    if( greedy_suggestion_threshold() > 0 )
+    if( greedy_suggestion_threshold > 0 )
 	thresholdFilter( result );
 
     // build result
 	
     // check that we have enough selected words
-    if( result.size() < static_cast<unsigned int>(suggestions()) ) {
+    if( result.size() < static_cast<unsigned int>(suggestions) ) {
 	// Job's not done, got to get a bigger Prediction
 	// we should invoke predict() to get more Suggestions
 
@@ -105,7 +104,7 @@ std::vector<std::string> Selector::select( Prediction p )
 		
     } else {
 	// erase the requested number of words
-	result.erase( result.begin() + suggestions(), result.end() );
+	result.erase( result.begin() + suggestions, result.end() );
     }
 
     // update suggested words set
@@ -193,15 +192,15 @@ void Selector::repetitionFilter( std::vector<std::string>& v )
  */
 void Selector::thresholdFilter( std::vector<std::string>& v )
 {
-    assert( greedy_suggestion_threshold() >= 0 );
+    assert( greedy_suggestion_threshold >= 0 );
 
     // zero threshold indicates feature is disabled
-    if( greedy_suggestion_threshold() != 0 ) {
+    if( greedy_suggestion_threshold != 0 ) {
 		
 	int length = contextTracker->getPrefix().size();
 	std::vector<std::string>::iterator i = v.begin();
 	while (i != v.end()) {
-	    if( (i->size()-length) < greedy_suggestion_threshold()) {
+	    if( (i->size()-length) < greedy_suggestion_threshold) {
 		logger << INFO << "Removing token: " << *i << endl;
 		v.erase( i );
 	    } else {
@@ -212,12 +211,11 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
 }
 
 
-/** Get SUGGESTIONS option.
+/** Set SUGGESTIONS option.
  *
  */
-size_t Selector::suggestions() const
+void Selector::set_suggestions(const std::string& value)
 {
-    Value value = config->get(Variable("Presage.Selector.SUGGESTIONS"));
     logger << INFO << "SUGGESTIONS: " << value << endl;
     int result = toInt(value);
     if (result < 0) {
@@ -225,28 +223,28 @@ size_t Selector::suggestions() const
 	// REVISIT: throw exception
 	abort();
     }
-    return result;
+
+    suggestions = result;
 }
 
 
-/** Get REPEAT_SUGGESTION option.
+/** Set REPEAT_SUGGESTION option.
  *
  */
-bool Selector::repeat_suggestions() const
+void Selector::set_repeat_suggestions(const std::string& value)
 {
-    Value value = config->get(Variable("Presage.Selector.REPEAT_SUGGESTIONS"));
     logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
     bool result = isYes(value);
-    return result;
+
+    repeat_suggestions = result;
 }
 
 
-/** Get SUGGESTION_THRESHOLD option.
+/** Set SUGGESTION_THRESHOLD option.
  *
  */
-unsigned int Selector::greedy_suggestion_threshold() const
+void Selector::set_greedy_suggestion_threshold(const std::string& value)
 {
-    Value value = config->get(Variable("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD"));
     logger << INFO << "GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
     int result = toInt(value);
     if( result < 0 ) {
@@ -254,5 +252,6 @@ unsigned int Selector::greedy_suggestion_threshold() const
 	// REVISIT: throw exception
 	abort();
     }
-    return result;
+
+    greedy_suggestion_threshold = result;
 }
