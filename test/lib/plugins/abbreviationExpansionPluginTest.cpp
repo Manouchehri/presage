@@ -79,8 +79,8 @@ Configuration* AbbreviationExpansionPluginTest::prepareConfiguration(const char*
     std::cerr << "AbbreviationExpansionPluginTest::prepareConfigMap" << std::endl;
 
     Configuration* result = new Configuration();
-    result->set(Variable("Presage.Plugins.AbbreviationExpansionPlugin.LOGGER"), "ALL");
-    result->set(Variable("Presage.Plugins.AbbreviationExpansionPlugin.ABBREVIATIONS"), config[0]);
+    result->insert ("Presage.Plugins.AbbreviationExpansionPlugin.LOGGER", "ALL");
+    result->insert ("Presage.Plugins.AbbreviationExpansionPlugin.ABBREVIATIONS", config[0]);
 
     return result;
 }

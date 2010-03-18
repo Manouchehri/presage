@@ -47,6 +47,10 @@ pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp \
 				$(top_srcdir)/src/lib/core/configuration.cpp \
 				$(top_srcdir)/src/lib/presageException.h \
 				$(top_srcdir)/src/lib/core/presageException.cpp	\
+				$(top_srcdir)/src/lib/core/observable.h \
+				$(top_srcdir)/src/lib/core/observable.cpp \
+				$(top_srcdir)/src/lib/core/observer.h \
+				$(top_srcdir)/src/lib/core/observer.cpp \
 				smoothedNgramPluginTest.h \
 				smoothedNgramPluginTest.cpp \
 				$(top_srcdir)/src/lib/plugins/smoothedNgramPlugin.cpp \

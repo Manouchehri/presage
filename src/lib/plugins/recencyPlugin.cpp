@@ -39,6 +39,12 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
              "RecencyPlugin, a statistical recency promotion plugin",
              "RecencyPlugin, based on a recency promotion principle, generates predictions by assigning exponentially decaying probability values to previously encountered tokens. Tokens are assigned a probability value that decays exponentially with their distance from the current token, thereby promoting context recency." )
 {
+    // build notification dispatch map
+    dispatch_map[LOGGER]           = & RecencyPlugin::set_logger;
+    dispatch_map[LAMBDA]           = & RecencyPlugin::set_lambda;
+    dispatch_map[N_0]              = & RecencyPlugin::set_n_0;
+    dispatch_map[CUTOFF_THRESHOLD] = & RecencyPlugin::set_cutoff_threshold;
+
     // init default values
     lambda = 1;
     n_0 = 1;
@@ -51,8 +57,7 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
     try {
         var = config->find (LOGGER);
 	value = var->get_value ();
-	logger << setlevel (value);
-	logger << INFO << "LOGGER: " << value << endl;
+	set_logger (value);
 	var->attach (this);
 
     } catch (Configuration::ConfigurationException ex) {
@@ -62,17 +67,17 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
     try {
         var = config->find (LAMBDA);
 	value = var->get_value ();
-	setLambda (value);
+	set_lambda (value);
 	var->attach (this);
 
         var = config->find (N_0);
 	value = var->get_value ();
-	setN_0 (value);
+	set_n_0 (value);
 	var->attach (this);
 	
         var = config->find (CUTOFF_THRESHOLD);
 	value = var->get_value ();
-	setCutoffThreshold (value);
+	set_cutoff_threshold (value);
 	var->attach (this);
 	
     } catch (Configuration::ConfigurationException ex) {
@@ -88,20 +93,26 @@ RecencyPlugin::~RecencyPlugin()
 
 }
 
-void RecencyPlugin::setLambda (const std::string& value)
+void RecencyPlugin::set_logger (const std::string& value)
+{
+    logger << setlevel (value);
+    logger << INFO << "LOGGER: " << value << endl;
+}
+
+void RecencyPlugin::set_lambda (const std::string& value)
 {
     lambda = toDouble(value);
     logger << INFO << "LAMBDA: " << value << endl;
 }
 
-void RecencyPlugin::setN_0 (const std::string& value)
+void RecencyPlugin::set_n_0 (const std::string& value)
 {
     n_0 = toDouble (value);
     logger << INFO << "N_0: " << value << endl;
 }
 
 
-void RecencyPlugin::setCutoffThreshold (const std::string& value)
+void RecencyPlugin::set_cutoff_threshold (const std::string& value)
 {
     cutoff_threshold = toInt (value);
     logger << INFO << "CUTOFF_THRESHOLD: " << value << endl;
@@ -159,3 +170,15 @@ void RecencyPlugin::extract()
 
 void RecencyPlugin::train()
 {}
+
+void RecencyPlugin::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+
+    mbr_func_ptr_t handler_ptr = dispatch_map[var->string()];
+    if (handler_ptr) {
+        ((this)->*(handler_ptr)) (var->get_value ());
+    } else {
+        logger << ERROR << "unable to handle notification from observable: " << var->string() << " - " << var->get_value() << endl;
+    }
+}

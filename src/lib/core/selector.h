@@ -85,6 +85,7 @@ public:
 
     void update();
 
+    void set_logger(const std::string& value);
     void set_suggestions(const std::string& value);
     void set_repeat_suggestions(const std::string& value);
     void set_greedy_suggestion_threshold(const std::string& value);
@@ -101,6 +102,10 @@ public:
     virtual void update (const Observable* variable);
 
 private:
+    // handle observable notifications
+    typedef void (Selector::* mbr_func_ptr_t)(const std::string&);
+    std::map<std::string, mbr_func_ptr_t> dispatch_map;
+
     size_t suggestions;
     bool repeat_suggestions;
     size_t greedy_suggestion_threshold;

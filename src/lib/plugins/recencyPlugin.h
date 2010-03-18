@@ -72,12 +72,16 @@ public:
     virtual void extract();
     virtual void train();
 
-    virtual void update (const Observable* variable) { /* incomplete */ };
+    virtual void update (const Observable* variable);
 
 private:
-    void setLambda          (const std::string& value);
-    void setN_0             (const std::string& value);
-    void setCutoffThreshold (const std::string& value);
+    typedef void (RecencyPlugin::* mbr_func_ptr_t) (const std::string& value);
+    std::map<std::string, mbr_func_ptr_t> dispatch_map;
+
+    void set_logger           (const std::string& value);
+    void set_lambda           (const std::string& value);
+    void set_n_0              (const std::string& value);
+    void set_cutoff_threshold (const std::string& value);
 
     static const char* LOGGER;
     static const char* LAMBDA;

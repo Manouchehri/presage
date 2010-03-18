@@ -1,3 +1,16 @@
+2010-03-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/abbreviationExpansionPluginTest.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.cpp,
+	test/lib/plugins/Makefile.am,
+	test/lib/plugins/dejavuPluginTest.cpp,
+	test/lib/core/profileTest.cpp, src/lib/plugins/recencyPlugin.*,
+	src/lib/core/configuration.cpp, src/lib/core/selector.*: fixed
+	test compilation problems and implemented some notification update
+	handling code.
+
 2010-03-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/core/profileTest.cpp,

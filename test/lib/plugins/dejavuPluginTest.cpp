@@ -41,15 +41,15 @@ void DejavuPluginTest::setUp()
 {
     config = new Configuration();
     // set context tracker config variables
-    config->set(Variable("Presage.ContextTracker.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.ContextTracker.SLIDING_WINDOW_SIZE"), Value("80"));
+    config->insert ("Presage.ContextTracker.LOGGER", "ERROR");
+    config->insert ("Presage.ContextTracker.SLIDING_WINDOW_SIZE", "80");
     // set plugin registry config variables
-    config->set(Variable("Presage.PluginRegistry.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value("DejavuPlugin"));
+    config->insert ("Presage.PluginRegistry.LOGGER", "ERROR");
+    config->insert ("Presage.PluginRegistry.PLUGINS", "DejavuPlugin");
     // set dejavu plugin config variables
-    config->set(LOGGER,  "ALL");
-    config->set(TRIGGER, "3");
-    config->set(MEMORY,  MEMORY_FILENAME);
+    config->insert (LOGGER,  "ALL");
+    config->insert (TRIGGER, "3");
+    config->insert (MEMORY,  MEMORY_FILENAME);
 
     pluginRegistry = new PluginRegistry(config);
     stream = new std::stringstream();

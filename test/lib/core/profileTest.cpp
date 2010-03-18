@@ -59,28 +59,21 @@ void ProfileTest::testGetConfig()
     
     var = configuration->find ("Presage.ContextTracker.MAX_BUFFER_SIZE");
     CPPUNIT_ASSERT(var->get_value() == "1024");
-    delete var;
 
     var = configuration->find ("Presage.Selector.SUGGESTIONS");
     CPPUNIT_ASSERT(var->get_value() == "6");
-    delete var;
 
     var = configuration->find ("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD");
     CPPUNIT_ASSERT(var->get_value() == "0");
-    delete var;
-
 
     var = configuration->find ("Presage.Selector.REPEAT_SUGGESTIONS");
     CPPUNIT_ASSERT(var->get_value() == "no");
-    delete var;
     
     var = configuration->find ("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
     CPPUNIT_ASSERT(var->get_value() == "database_en.db");
-    delete var;
 
     var = configuration->find ("Presage.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
     CPPUNIT_ASSERT(var->get_value() == "40");
-    delete var;
 }
 
 void ProfileTest::testGetNonExistantConfig()

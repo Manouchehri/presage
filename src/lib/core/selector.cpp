@@ -36,11 +36,16 @@ Selector::Selector(Configuration* configuration, ContextTracker* ct)
       config(configuration),
       logger("Selector", std::cerr)
 {
+    // build notification dispatch map
+    dispatch_map[LOGGER] = & Selector::set_logger;
+    dispatch_map[SUGGESTIONS] = & Selector::set_suggestions;
+    dispatch_map[REPEAT_SUGGESTIONS] = & Selector::set_repeat_suggestions;
+    dispatch_map[GREEDY_SUGGESTION_THRESHOLD] = & Selector::set_greedy_suggestion_threshold;
+
     // read config values and subscribe to notifications
     Variable* var = config->find (LOGGER);
     std::string value = var->get_value ();
-    logger << setlevel (value);
-    logger << INFO << "LOGGER: " << value << endl;
+    set_logger (value);
     var->attach (this);
 
     var = config->find (SUGGESTIONS);
@@ -223,6 +228,16 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
 }
 
 
+/** Set LOGGER option.
+ *
+ */
+void Selector::set_logger (const std::string& value)
+{
+    logger << setlevel (value);
+    logger << INFO << "LOGGER: " << value << endl;
+}
+
+
 /** Set SUGGESTIONS option.
  *
  */
@@ -287,15 +302,12 @@ void Selector::update (const Observable* variable)
 {
     Variable* var = (Variable*) variable;
     
-    std::cerr << "update() called: " << var->string() << std::endl;
-    
-    typedef void (Selector::* mbr_ptr_func_t)(const std::string&);
-    std::map<std::string, mbr_ptr_func_t> func_map;
-    
-    func_map[LOGGER] = 0;
-    func_map[SUGGESTIONS] = & Selector::set_suggestions;
-    func_map[REPEAT_SUGGESTIONS] = & Selector::set_repeat_suggestions;
-    func_map[GREEDY_SUGGESTION_THRESHOLD] = & Selector::set_greedy_suggestion_threshold;
+    logger << DEBUG << "update(" << var->string() << ") called" << endl;
 
-    ((this)->*(func_map[var->string()])) (var->get_value ());
+    mbr_func_ptr_t handler_ptr = dispatch_map[var->string()];
+    if (handler_ptr) {
+        ((this)->*(handler_ptr)) (var->get_value ());
+    } else {
+        logger << ERROR << "unable to handle notification from observable: " << var->string() << " - " << var->get_value() << endl;
+    }
 }
