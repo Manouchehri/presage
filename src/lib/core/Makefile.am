@@ -42,6 +42,8 @@ libcore_la_SOURCES =	\
 	observable.h \
 	observer.cpp \
 	observer.h \
+	dispatcher.h \
+	dispatcher.cpp \
 	predictorActivator.cpp \
 	predictorActivator.h \
 	combiner.h \

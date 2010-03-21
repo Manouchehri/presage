@@ -37,60 +37,23 @@ RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
 	     ct,
              "RecencyPlugin",
              "RecencyPlugin, a statistical recency promotion plugin",
-             "RecencyPlugin, based on a recency promotion principle, generates predictions by assigning exponentially decaying probability values to previously encountered tokens. Tokens are assigned a probability value that decays exponentially with their distance from the current token, thereby promoting context recency." )
+             "RecencyPlugin, based on a recency promotion principle, generates predictions by assigning exponentially decaying probability values to previously encountered tokens. Tokens are assigned a probability value that decays exponentially with their distance from the current token, thereby promoting context recency." ),
+      dispatcher (this)
 {
-    // build notification dispatch map
-    dispatch_map[LOGGER]           = & RecencyPlugin::set_logger;
-    dispatch_map[LAMBDA]           = & RecencyPlugin::set_lambda;
-    dispatch_map[N_0]              = & RecencyPlugin::set_n_0;
-    dispatch_map[CUTOFF_THRESHOLD] = & RecencyPlugin::set_cutoff_threshold;
-
     // init default values
     lambda = 1;
     n_0 = 1;
     cutoff_threshold = 20;
 
-    // read config values and subscribe to notifications
-    Variable* var = 0;
-    std::string value;
-
-    try {
-        var = config->find (LOGGER);
-	value = var->get_value ();
-	set_logger (value);
-	var->attach (this);
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
-    try {
-        var = config->find (LAMBDA);
-	value = var->get_value ();
-	set_lambda (value);
-	var->attach (this);
-
-        var = config->find (N_0);
-	value = var->get_value ();
-	set_n_0 (value);
-	var->attach (this);
-	
-        var = config->find (CUTOFF_THRESHOLD);
-	value = var->get_value ();
-	set_cutoff_threshold (value);
-	var->attach (this);
-	
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
-	throw PresageException("Unable to init " + name + " predictive plugin.");
-    }
-    
-
+    dispatcher.map(config->find (LOGGER),            &RecencyPlugin::set_logger);
+    dispatcher.map(config->find (LAMBDA),            &RecencyPlugin::set_lambda);
+    dispatcher.map(config->find (N_0),               &RecencyPlugin::set_n_0);
+    dispatcher.map(config->find (CUTOFF_THRESHOLD),  &RecencyPlugin::set_cutoff_threshold);
 }
 
 RecencyPlugin::~RecencyPlugin()
 {
-
+    // complete
 }
 
 void RecencyPlugin::set_logger (const std::string& value)
@@ -175,10 +138,6 @@ void RecencyPlugin::update (const Observable* variable)
 {
     Variable* var = (Variable*) variable;
 
-    mbr_func_ptr_t handler_ptr = dispatch_map[var->string()];
-    if (handler_ptr) {
-        ((this)->*(handler_ptr)) (var->get_value ());
-    } else {
-        logger << ERROR << "unable to handle notification from observable: " << var->string() << " - " << var->get_value() << endl;
-    }
+    logger << DEBUG << "About to invoke dispatcher: " << var->string() << " - " << var->get_value() << endl;
+    dispatcher.dispatch (var);
 }

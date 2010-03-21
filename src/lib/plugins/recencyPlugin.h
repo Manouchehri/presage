@@ -27,7 +27,7 @@
 
 #include "plugins/plugin.h"
 #include "core/logger.h"
-
+#include "core/dispatcher.h"
 
 /** Recency plugin, a recency promotion statistical plugin.
  *
@@ -75,8 +75,8 @@ public:
     virtual void update (const Observable* variable);
 
 private:
-    typedef void (RecencyPlugin::* mbr_func_ptr_t) (const std::string& value);
-    std::map<std::string, mbr_func_ptr_t> dispatch_map;
+//    typedef void (RecencyPlugin::* mbr_func_ptr_t) (const std::string& value);
+//    std::map<std::string, mbr_func_ptr_t> dispatch_map;
 
     void set_logger           (const std::string& value);
     void set_lambda           (const std::string& value);
@@ -91,6 +91,8 @@ private:
     double lambda;
     double n_0;
     size_t cutoff_threshold;
+
+    Dispatcher<RecencyPlugin> dispatcher;
 
 };
 

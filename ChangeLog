@@ -1,3 +1,11 @@
+2010-03-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/dejavuPlugin.*, src/lib/plugins/recencyPlugin.*,
+	src/lib/core/dispatcher.*, src/lib/core/Makefile.am: created
+	dispatcher class to handle dispatching of notifications from
+	observable to member functions and attachment/detachment from
+	notifications.
+
 2010-03-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,

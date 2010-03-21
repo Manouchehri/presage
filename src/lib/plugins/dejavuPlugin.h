@@ -30,6 +30,8 @@
 #include <string>
 #include <fstream>
 
+#include "core/dispatcher.h"
+
 /** Dejavu plugin learns and reproduces previously seen text tokens, once its memory is triggered by a known token sequence.
  *   
  * Dejavu plugin is able to learn and then later reproduce previously
@@ -50,16 +52,20 @@ public:
     virtual void extract();
     virtual void train();
 
-    virtual void update (const Observable* variable) { /* incomplete */ };
+    virtual void update (const Observable* variable);
 
 private:
+    typedef void (DejavuPlugin::* mbr_func_ptr_t) (const std::string& value);
+    std::map<std::string, mbr_func_ptr_t> dispatch_map;
+
     bool init_memory_trigger(std::list<std::string>&) const;
     bool match(const std::list<std::string>&, const std::list<std::string>&) const;
     bool init_rolling_window(std::list<std::string>&, std::ifstream&) const;
     void update_rolling_window(std::list<std::string>&, const std::string&) const;
 
-    void setMemory  (const std::string& filename);
-    void setTrigger (const std::string& number);
+    void set_logger  (const std::string& loglevel);
+    void set_memory  (const std::string& filename);
+    void set_trigger (const std::string& number);
 
     static const char* LOGGER;
     static const char* MEMORY;
@@ -67,7 +73,8 @@ private:
 
     std::string memory;
     int trigger;
-	
+
+    Dispatcher<DejavuPlugin> dispatcher;
 };
 
 #endif // SOOTH_DEJAVUPLUGIN
