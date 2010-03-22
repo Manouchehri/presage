@@ -36,19 +36,6 @@
 #include <stdio.h> // for int remove( const char* ) to remove files/dirs
 
 
-const char DEFAULT_PROFILE_FILENAME[] = "presage.xml";
-
-const std::string  DEFAULT_LOGGER_LEVEL                = "DEBUG";
-const int          DEFAULT_PREDICT_TIME                = 1000;
-const int          DEFAULT_MAX_PARTIAL_PREDICTION_SIZE = 100;
-const std::string  DEFAULT_COMBINATION_POLICY          = "Meritocracy";
-const std::string  DEFAULT_PREDICTIVE_PLUGINS          = "";
-const int          DEFAULT_SLIDING_WINDOW_SIZE         = 80;
-const size_t       DEFAULT_SUGGESTIONS                 = 6;
-const bool         DEFAULT_REPEAT_SUGGESTION           = false;
-const size_t       DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
-const std::string  DEFAULT_PLUGINS                     = "";
-
 /** Juggles configuration files and presage system initialization.
  *
  * The idea is that ProfileManager loads up an xml file containing
@@ -72,6 +59,18 @@ public:
     bool saveProfile() const;
     Profile* getProfile();
     
+    static const char*        DEFAULT_PROFILE_FILENAME;
+    static const std::string  DEFAULT_LOGGER_LEVEL;
+    static const int          DEFAULT_PREDICT_TIME;
+    static const int          DEFAULT_MAX_PARTIAL_PREDICTION_SIZE;
+    static const std::string  DEFAULT_COMBINATION_POLICY;
+    static const std::string  DEFAULT_PREDICTIVE_PLUGINS;
+    static const int          DEFAULT_SLIDING_WINDOW_SIZE;
+    static const size_t       DEFAULT_SUGGESTIONS;
+    static const bool         DEFAULT_REPEAT_SUGGESTION;
+    static const size_t       DEFAULT_GREEDY_SUGGESTION_THRESHOLD;
+    static const std::string  DEFAULT_PLUGINS;
+
 private:
     static const char* LOGGER;
 

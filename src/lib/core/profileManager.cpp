@@ -40,7 +40,19 @@
 # include <stdlib.h>
 #endif
 
-const char* ProfileManager::LOGGER = "Presage.ProfileManager.LOGGER";
+const char*        ProfileManager::LOGGER = "Presage.ProfileManager.LOGGER";
+
+const char*        ProfileManager::DEFAULT_PROFILE_FILENAME            = "presage.xml";
+const std::string  ProfileManager::DEFAULT_LOGGER_LEVEL                = "DEBUG";
+const int          ProfileManager::DEFAULT_PREDICT_TIME                = 1000;
+const int          ProfileManager::DEFAULT_MAX_PARTIAL_PREDICTION_SIZE = 100;
+const std::string  ProfileManager::DEFAULT_COMBINATION_POLICY          = "Meritocracy";
+const std::string  ProfileManager::DEFAULT_PREDICTIVE_PLUGINS          = "";
+const int          ProfileManager::DEFAULT_SLIDING_WINDOW_SIZE         = 80;
+const size_t       ProfileManager::DEFAULT_SUGGESTIONS                 = 6;
+const bool         ProfileManager::DEFAULT_REPEAT_SUGGESTION           = false;
+const size_t       ProfileManager::DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
+const std::string  ProfileManager::DEFAULT_PLUGINS                     = "";
 
 /** Constructor.
  *

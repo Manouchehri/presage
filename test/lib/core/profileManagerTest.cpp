@@ -104,17 +104,17 @@ void ProfileManagerTest::testProfile()
 
 
     // test init predictorActivator
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_PREDICT_TIME,
+    CPPUNIT_ASSERT_EQUAL(ProfileManager::DEFAULT_PREDICT_TIME,
 			 predictorActivator->getPredictTime());
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_COMBINATION_POLICY,
+    CPPUNIT_ASSERT_EQUAL(ProfileManager::DEFAULT_COMBINATION_POLICY,
 			 predictorActivator->getCombinationPolicy());
 
     // test init selector
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_SUGGESTIONS,
+    CPPUNIT_ASSERT_EQUAL(ProfileManager::DEFAULT_SUGGESTIONS,
 			 selector->get_suggestions());
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_REPEAT_SUGGESTION,
+    CPPUNIT_ASSERT_EQUAL(ProfileManager::DEFAULT_REPEAT_SUGGESTION,
 			 selector->get_repeat_suggestions());
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_GREEDY_SUGGESTION_THRESHOLD,
+    CPPUNIT_ASSERT_EQUAL(ProfileManager::DEFAULT_GREEDY_SUGGESTION_THRESHOLD,
 			 selector->get_greedy_suggestion_threshold());
 }
 

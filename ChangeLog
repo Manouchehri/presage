@@ -15,8 +15,10 @@
 	src/lib/core/context_tracker/Makefile.am, src/lib/core/selector.*,
 	src/lib/core/suggestion.h, src/lib/core/configuration.h,
 	src/lib/core/pluginRegistry.h, src/lib/presage.h,
-	src/lib/core/predictorActivator.*: implemented dispatcher logic
-	for components.
+	src/lib/core/predictorActivator.*,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/profileManager.*: implemented dispatcher logic for
+	components.
 
 	* src/tools/presageDemoText.cpp, src/tools/presageDemo.cpp,
 	apps/gtk/gpresagemate/gpresagemate.cpp: minor fixes for
