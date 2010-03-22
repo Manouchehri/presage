@@ -55,12 +55,6 @@ DejavuPlugin::DejavuPlugin(Configuration* config, ContextTracker* ct)
 DejavuPlugin::~DejavuPlugin()
 {}
 
-void DejavuPlugin::set_logger (const std::string& loglevel)
-{
-    logger << setlevel (loglevel);
-    logger << INFO << "LOGGER: " << loglevel << endl;
-}
-
 void DejavuPlugin::set_memory (const std::string& filename)
 {
     memory = filename;

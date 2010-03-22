@@ -35,33 +35,12 @@ AbbreviationExpansionPlugin::AbbreviationExpansionPlugin(Configuration* config, 
              "AbbreviationExpansionPlugin",
              "AbbreviationExpansionPlugin, maps abbreviations to the corresponding fully expanded token.",
              "AbbreviationExpansionPlugin maps abbreviations to the corresponding fully expanded token (i.e. word or phrase).\n\nThe mapping between abbreviations and expansions is stored in the file specified by the plugin configuration section.\n\nThe format for the abbreviation-expansion database is a simple tab separated text file format, with each abbreviation-expansion pair per line."
-    )
+	     ),
+      dispatcher (this)
 {
-    // read config values and subscribe to notifications
-    Variable* var = 0;
-    std::string value;
-
-    try {
-        var = config->find (LOGGER);
-	value = var->get_value ();
-	logger << setlevel (value);
-	logger << INFO << "LOGGER: " << value << endl;
-	var->attach (this);
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
-    try {
-        var = config->find (ABBREVIATIONS);
-	value = var->get_value ();
-	setAbbreviations (value);
-	var->attach (this);
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
-	throw PresageException("Unable to init " + name + " predictive plugin.");
-    }
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & AbbreviationExpansionPlugin::set_logger);
+    dispatcher.map (config->find (ABBREVIATIONS), & AbbreviationExpansionPlugin::set_abbreviations);
 }
 
 AbbreviationExpansionPlugin::~AbbreviationExpansionPlugin()
@@ -70,7 +49,7 @@ AbbreviationExpansionPlugin::~AbbreviationExpansionPlugin()
 }
 
 
-void AbbreviationExpansionPlugin::setAbbreviations (const std::string& filename)
+void AbbreviationExpansionPlugin::set_abbreviations (const std::string& filename)
 {
     abbreviations = filename;
     logger << INFO << "ABBREVIATIONS:" << abbreviations << endl;
@@ -147,3 +126,12 @@ void AbbreviationExpansionPlugin::cacheAbbreviationsExpansions()
         abbr_file.close();
     }
 }
+
+void AbbreviationExpansionPlugin::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+
+    logger << DEBUG << "About to invoke dispatcher: " << var->string() << " - " << var->get_value() << endl;
+    dispatcher.dispatch (var);
+}
+

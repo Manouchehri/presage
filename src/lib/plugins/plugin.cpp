@@ -83,6 +83,13 @@ const std::string Plugin::getLongDescription() const
 	return longDescription;
 }
 
+
+void Plugin::set_logger (const std::string& level)
+{
+    logger << setlevel (level);
+    logger << INFO << "LOGGER: " << level << endl;
+}
+
 /*
 void Plugin::setLibFilename(const std::string s)
 {

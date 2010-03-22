@@ -39,6 +39,7 @@
 #include "core/context_tracker/contextTracker.h"
 #include "core/prediction.h"
 #include "core/logger.h"
+#include "core/dispatcher.h"
 
 #include "core/combiner.h"
 #include "core/meritocracyCombiner.h"
@@ -128,7 +129,7 @@ class PredictorActivator : public Observer {
      * @param predictTime expressed in milliseconds
      * @return true if the supplied value is valid, false otherwise
      */
-    bool setPredictTime(const int predictTime);
+    void setPredictTime(const std::string& predictTime);
 
      /** Gets COMBINATION_METHOD option value.
       *
@@ -151,9 +152,21 @@ class PredictorActivator : public Observer {
      *
      * @param policy combination policy
      */
-    void setCombinationPolicy(const std::string policy);
+    void setCombinationPolicy(const std::string& policy);
 
-    virtual void update (const Observable* variable) { /* incomplete */ };
+    /** Sets maximum partial prediction size.
+     *
+     * @param size maximum partial prediction size
+     */
+    void setMaxPartialPredictionSize (const std::string& size);
+
+    /** Sets logger level.
+     *
+     * @param level logger level
+     */
+    void setLogger (const std::string& level);
+
+    virtual void update (const Observable* variable);
 
   private:
     static const char* LOGGER;
@@ -184,6 +197,7 @@ class PredictorActivator : public Observer {
 
     int predict_time;
 
+    Dispatcher<PredictorActivator> dispatcher;
 };
 
 #endif // PRESAGE_PREDICTORACTIVATOR

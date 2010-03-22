@@ -26,6 +26,7 @@
 #define PRESAGE_SMOOTHEDCOUNTPLUGIN
 
 #include "plugins/plugin.h"
+#include "core/dispatcher.h"
 
 #include <assert.h>
 #include <stdlib.h>    // double atof( const char* )
@@ -52,7 +53,12 @@ public:
     virtual void extract();
     virtual void train();
 
-    virtual void update (const Observable* variable) { /* incomplete */ };
+    virtual void update (const Observable* variable);
+
+    void set_unigram_weight (const std::string& value);
+    void set_bigram_weight (const std::string& value);
+    void set_trigram_weight (const std::string& value);
+    void set_dbfilename (const std::string& value);
 
 private:
     std::string strtolower( const std::string& ) const;
@@ -75,6 +81,7 @@ private:
     static const char* TRIGRAM_WEIGHT;
     static const char* DBFILENAME;
 
+    Dispatcher<SmoothedCountPlugin> dispatcher;
 };
 
 

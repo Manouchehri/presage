@@ -63,7 +63,6 @@ private:
     bool init_rolling_window(std::list<std::string>&, std::ifstream&) const;
     void update_rolling_window(std::list<std::string>&, const std::string&) const;
 
-    void set_logger  (const std::string& loglevel);
     void set_memory  (const std::string& filename);
     void set_trigger (const std::string& number);
 

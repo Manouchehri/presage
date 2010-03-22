@@ -27,8 +27,8 @@
 
 #include <map>
 
-#include "core/variable.h"
-#include "presageException.h"
+#include "variable.h"
+#include "../presageException.h"
 
 /** Configuration allows to query and modify all presage runtime configuration variables.
  *

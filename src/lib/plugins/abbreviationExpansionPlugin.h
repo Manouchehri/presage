@@ -26,6 +26,7 @@
 #define PRESAGE_ABBREVIATIONEXPANSIONPLUGIN
 
 #include "plugins/plugin.h"
+#include "core/dispatcher.h"
 
 
 /** Abbreviation expansion plugin.
@@ -52,17 +53,19 @@ public:
     virtual void extract();
     virtual void train();
 
-    virtual void update (const Observable* variable) { /* incomplete */ };
+    virtual void update (const Observable* variable);
 
 private:
     static const char* LOGGER;
     static const char* ABBREVIATIONS;
 
-    void setAbbreviations (const std::string& filename);
+    void set_abbreviations (const std::string& filename);
     void cacheAbbreviationsExpansions();
     
     std::string abbreviations;
     std::map< std::string, std::string> cache;
+
+    Dispatcher<AbbreviationExpansionPlugin> dispatcher;
 };
 
 #endif // PRESAGE_ABBREVIATIONEXPANSIONPLUGIN

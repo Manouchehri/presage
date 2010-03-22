@@ -39,49 +39,17 @@ SmoothedCountPlugin::SmoothedCountPlugin(Configuration* config, ContextTracker* 
 		 ct,
 		 "SmoothedCountPlugin",
 		 "SmoothedCountPlugin, a linear interpolating unigram bigram trigram plugin",
-		 "SmoothedCountPlugin, long description." )
+		 "SmoothedCountPlugin, long description." 
+		 ),
+	  dispatcher (this)
 {
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & SmoothedCountPlugin::set_logger);
+    dispatcher.map (config->find (UNIGRAM_WEIGHT), & SmoothedCountPlugin::set_unigram_weight);
+    dispatcher.map (config->find (BIGRAM_WEIGHT), & SmoothedCountPlugin::set_bigram_weight);
+    dispatcher.map (config->find (TRIGRAM_WEIGHT), & SmoothedCountPlugin::set_trigram_weight);
+    dispatcher.map (config->find (DBFILENAME), & SmoothedCountPlugin::set_dbfilename);
 
-    // read config values and subscribe to notifications
-    Variable* var = 0;
-    std::string value;
-
-    try {
-        var = config->find (LOGGER);
-	value = var->get_value ();
-	logger << setlevel (value);
-	logger << INFO << "LOGGER: " << value << endl;
-	var->attach (this);
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
-    try {
-        var = config->find (UNIGRAM_WEIGHT);
-	value = var->get_value ();
-	unigram_weight = toDouble (value);
-	var->attach (this);
-	
-        var = config->find (BIGRAM_WEIGHT);
-	value = var->get_value ();
-	bigram_weight = toDouble (value);
-	var->attach (this);
-
-        var = config->find (TRIGRAM_WEIGHT);
-	value = var->get_value ();
-	trigram_weight = toDouble (value);
-	var->attach (this);
-
-        var = config->find (DBFILENAME);
-	value = var->get_value ();
-	dbfilename = value;
-	var->attach (this);
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
-	throw PresageException("Unable to init " + name + " predictive plugin.");
-    }
 
     // open database
 #if defined(HAVE_SQLITE3_H)
@@ -104,6 +72,30 @@ SmoothedCountPlugin::~SmoothedCountPlugin()
 #endif
 }
 
+
+void SmoothedCountPlugin::set_unigram_weight (const std::string& value)
+{
+    unigram_weight = toDouble (value);
+    logger << INFO << "UNIGRAM_WEIGHT: " << value << endl;
+}
+
+void SmoothedCountPlugin::set_bigram_weight (const std::string& value)
+{
+    bigram_weight = toDouble (value);
+    logger << INFO << "BIGRAM_WEIGHT: " << value << endl;
+}
+
+void SmoothedCountPlugin::set_trigram_weight (const std::string& value)
+{
+    trigram_weight = toDouble (value);
+    logger << INFO << "TRIGRAM_WEIGHT: " << value << endl;
+}
+
+void SmoothedCountPlugin::set_dbfilename (const std::string& value)
+{
+    dbfilename = value;
+    logger << INFO << "DBFILENAME: " << value << endl;
+}
 
 
 Prediction SmoothedCountPlugin::predict(const size_t max_partial_predictions_size, const char** filter) const
@@ -333,4 +325,12 @@ int buildPrediction( void* callbackDataPtr,
 		}
 	}
 	return 0;
+}
+
+void SmoothedCountPlugin::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+
+    logger << DEBUG << "About to invoke dispatcher: " << var->string() << " - " << var->get_value() << endl;
+    dispatcher.dispatch (var);
 }

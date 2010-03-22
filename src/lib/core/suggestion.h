@@ -33,7 +33,7 @@
 #include <sstream>
 #include <string>
 
-#include "presageException.h"
+#include "../presageException.h"
 
 /** Suggestion
  * 

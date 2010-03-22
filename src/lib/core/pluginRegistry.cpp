@@ -45,20 +45,12 @@ const char* PluginRegistry::PLUGINS = "Presage.PluginRegistry.PLUGINS";
 PluginRegistry::PluginRegistry(Configuration* configuration)
     : config(configuration),
       contextTracker(0),
-      logger("PluginRegistry", std::cerr)
+      logger("PluginRegistry", std::cerr),
+      dispatcher(this)
 {
-    // read config values and subscribe to notifications
-    Variable* var = config->find (LOGGER);
-    std::string value = var->get_value ();
-    logger << setlevel (value);
-    logger << INFO << "LOGGER: " << value << endl;
-    var->attach (this);
-
-    var = config->find (PLUGINS);
-    value = var->get_value ();
-    setPlugins (value);
-    logger << INFO << "PLUGINS: " << value << endl;
-    var->attach (this);
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & PluginRegistry::setLogger);
+    dispatcher.map (config->find (PLUGINS), & PluginRegistry::setPlugins);
 }
 
 
@@ -66,6 +58,13 @@ PluginRegistry::~PluginRegistry()
 {
     removePlugins();
 }
+
+void PluginRegistry::setLogger (const std::string& value)
+{
+    logger << setlevel (value);
+    logger << INFO << "LOGGER: " << value << endl;
+}
+
 
 void PluginRegistry::setContextTracker(ContextTracker* ct) {
     if (contextTracker != ct) {
@@ -78,6 +77,7 @@ void PluginRegistry::setContextTracker(ContextTracker* ct) {
 void PluginRegistry::setPlugins(const std::string& pluginList)
 {
     plugins_list = pluginList;
+    logger << INFO << "PLUGINS: " << plugins_list << endl;
 
     if (contextTracker) {
 	// plugins need tracker, only initialize them if available
@@ -169,4 +169,13 @@ Plugin* PluginRegistry::Iterator::next()
     Plugin* result = *iter_curr;
     iter_curr++;
     return result;
+}
+
+void PluginRegistry::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+    
+    logger << DEBUG << "About to invoke dispatcher: " << var->string() << " - " << var->get_value() << endl;
+
+    dispatcher.dispatch (var);
 }

@@ -56,12 +56,6 @@ RecencyPlugin::~RecencyPlugin()
     // complete
 }
 
-void RecencyPlugin::set_logger (const std::string& value)
-{
-    logger << setlevel (value);
-    logger << INFO << "LOGGER: " << value << endl;
-}
-
 void RecencyPlugin::set_lambda (const std::string& value)
 {
     lambda = toDouble(value);

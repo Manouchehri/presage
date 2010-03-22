@@ -106,7 +106,7 @@ class Presage {
 
     /** \brief Callback getter/setter.
      *
-     * \param pointer to new callback to be used by presage (pass a null pointer to obtain callback to current callback without modifying it)
+     * \param callback to be used by presage (pass a null pointer to obtain callback to current callback without modifying it)
      * \return pointer to previously used callback
      */
     PresageCallback* callback(PresageCallback* callback);

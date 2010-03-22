@@ -28,9 +28,9 @@
 //PLUMP
 //#include "plump/src/pluginInterface.h"
 
-#include "core/prediction.h"
-#include "core/context_tracker/contextTracker.h"
-#include "core/configuration.h"
+#include "../core/prediction.h"
+#include "../core/context_tracker/contextTracker.h"
+#include "../core/configuration.h"
 
 #include <string>
 #include <vector>
@@ -70,6 +70,8 @@ public:
     const std::string getName() const;
     const std::string getShortDescription() const;
     const std::string getLongDescription() const;
+
+    virtual void set_logger (const std::string& level);
 
     /*
       void setLibFilename( const std::string );

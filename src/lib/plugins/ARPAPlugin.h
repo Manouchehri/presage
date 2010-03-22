@@ -29,6 +29,7 @@
 #include "core/utility.h"    // strtolower
 #include "core/logger.h"
 #include "core/progress.h"
+#include "core/dispatcher.h"
 
 #include <assert.h>
 #include <fstream>
@@ -120,7 +121,11 @@ public:
     virtual void extract();
     virtual void train();
 
-    virtual void update (const Observable* variable) { /* incomplete */ };
+    virtual void update (const Observable* variable);
+
+    void set_vocab_filename (const std::string& value);
+    void set_arpa_filename (const std::string& value);
+    void set_timeout (const std::string& value);
 
 private:
     static const char* LOGGER;
@@ -162,6 +167,7 @@ private:
     ProgressBar<char>* bigramProg;
     ProgressBar<char>* trigramProg;
 
+    Dispatcher<ARPAPlugin> dispatcher;
 };
 
 #endif // PRESAGE_ARPAPLUGIN

@@ -26,6 +26,8 @@
 #define PRESAGE_DICTIONARYPLUGIN
 
 #include "plugins/plugin.h"
+#include "core/dispatcher.h"
+
 #include <fstream>
 
 
@@ -46,15 +48,20 @@ public:
     virtual void extract();
     virtual void train();
 
-    virtual void update (const Observable* variable) { /* temporary */ };
+    virtual void update (const Observable* variable);
+
+    void set_dictionary (const std::string& value);
+    void set_probability (const std::string& value);
 
 private:
+    static const char* LOGGER;
     static const char* DICTIONARY;
     static const char* PROBABILITY;
 
     std::string dictionary_path;
     double probability;
 
+    Dispatcher<DictionaryPlugin> dispatcher;
 };
 
 #endif // PRESAGE_DICTIONARYPLUGIN

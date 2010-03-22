@@ -25,8 +25,8 @@
 #ifndef PRESAGE_PLUGINREGISTRY
 #define PRESAGE_PLUGINREGISTRY
 
-
-#include "plugins/plugin.h"
+#include "dispatcher.h"
+#include "../plugins/plugin.h"
 
 class ContextTracker;
 
@@ -48,7 +48,7 @@ class PluginRegistry : public Observer {
     PluginRegistry(Configuration* config);
     ~PluginRegistry();
 
-    virtual void update (const Observable* variable) { /* incomplete */ };
+    virtual void update (const Observable* variable);
 
     class Iterator {
     public:
@@ -78,6 +78,7 @@ class PluginRegistry : public Observer {
     };
 
   private:
+    void setLogger (const std::string& level);
     void setPlugins(const std::string& plugin_list);
     void addPlugin(const std::string& plugin_name);
     void removePlugins();
@@ -91,6 +92,8 @@ class PluginRegistry : public Observer {
 
     static const char* LOGGER;
     static const char* PLUGINS;
+
+    Dispatcher<PluginRegistry> dispatcher;
 };
 
 #endif // PRESAGE_PLUGINREGISTRY

@@ -78,7 +78,6 @@ private:
 //    typedef void (RecencyPlugin::* mbr_func_ptr_t) (const std::string& value);
 //    std::map<std::string, mbr_func_ptr_t> dispatch_map;
 
-    void set_logger           (const std::string& value);
     void set_lambda           (const std::string& value);
     void set_n_0              (const std::string& value);
     void set_cutoff_threshold (const std::string& value);

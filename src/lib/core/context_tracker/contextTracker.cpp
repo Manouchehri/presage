@@ -23,9 +23,9 @@
 
 
 #include "contextTracker.h"
-#include "core/utility.h"
-#include "core/pluginRegistry.h"
-#include "core/tokenizer/forwardTokenizer.h"
+#include "../utility.h"
+#include "../pluginRegistry.h"
+#include "../tokenizer/forwardTokenizer.h"
 
 #include <stdlib.h>  // for atoi()
 
@@ -44,8 +44,9 @@ ContextTracker::ContextTracker(Configuration* config,
       blankspaceChars(bChars),
       controlChars   (cChars),
       pluginRegistry (registry),
-      logger         ("ContextTracker", std::cerr)
-      //tokenizer      (pastStream, blankspaceChars, separatorChars)
+      logger         ("ContextTracker", std::cerr),
+      //tokenizer      (pastStream, blankspaceChars, separatorChars),
+      dispatcher     (this)
 {
     if (callback) {
 	context_tracker_callback = callback;
@@ -65,23 +66,27 @@ ContextTracker::ContextTracker(Configuration* config,
 	pluginRegistry->setContextTracker(this);
     }
 
-    // read config values and subscribe to notifications
-    Variable* var = config->find (LOGGER);
-    std::string value = var->get_value ();
-    logger << setlevel (value);
-    logger << INFO << "LOGGER: " << value << endl;
-    var->attach (this);
+    // build dispatch map
+    dispatcher.map (config->find (LOGGER), & ContextTracker::set_logger);
+    dispatcher.map (config->find (SLIDING_WINDOW_SIZE), & ContextTracker::set_sliding_window_size);
 
-    var = config->find (SLIDING_WINDOW_SIZE);
-    value = var->get_value ();
-    contextChangeDetector->set_sliding_window_size (value);
-    logger << INFO << "SLIDING_WINDOWS_SIZE: " << value << endl;
-    var->attach (this);
 }
 
 ContextTracker::~ContextTracker()
 {
     delete contextChangeDetector;
+}
+
+void ContextTracker::set_logger (const std::string& value)
+{
+    logger << setlevel (value);
+    logger << INFO << "LOGGER: " << value << endl;
+}
+
+void ContextTracker::set_sliding_window_size (const std::string& value)
+{
+    contextChangeDetector->set_sliding_window_size (value);
+    logger << INFO << "SLIDING_WINDOWS_SIZE: " << value << endl;
 }
 
 const PresageCallback* ContextTracker::callback(const PresageCallback* new_callback)
@@ -304,4 +309,14 @@ std::string ContextTracker::getControlChars() const
 std::string ContextTracker::toString() const
 {
     return context_tracker_callback->get_past_stream() + "<|>" + context_tracker_callback->get_future_stream() + "\n";
+}
+
+void ContextTracker::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+    
+    logger << DEBUG << "Notification received: "
+	   << var->string() << " - " << var->get_value () << endl;
+
+    dispatcher.dispatch (var);
 }

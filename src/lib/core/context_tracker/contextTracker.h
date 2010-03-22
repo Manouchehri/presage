@@ -35,13 +35,15 @@
 #include <vector>
 #include <assert.h>
 
-#include "presageCallback.h"
 #include "contextChangeDetector.h"
 
-#include "core/tokenizer/reverseTokenizer.h"
-#include "core/charsets.h"
-#include "core/configuration.h"
-#include "core/logger.h"
+#include "../tokenizer/reverseTokenizer.h"
+#include "../charsets.h"
+#include "../configuration.h"
+#include "../logger.h"
+#include "../dispatcher.h"
+
+#include "../../presageCallback.h"
 
 class PluginRegistry;
 
@@ -185,7 +187,10 @@ public:
 
     void update();
 
-    virtual void update (const Observable* variable) { /* incomplete */ };
+    virtual void update (const Observable* variable);
+
+    void set_logger (const std::string& value);
+    void set_sliding_window_size (const std::string& value);
 
 private:
     static const char* LOGGER;
@@ -211,7 +216,7 @@ private:
     ContextChangeDetector* contextChangeDetector;
     Logger<char> logger;
     
-
+    Dispatcher<ContextTracker> dispatcher;
 };
 
 #endif // PRESAGE_CONTEXTTRACKER

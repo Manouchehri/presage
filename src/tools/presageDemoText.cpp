@@ -39,54 +39,26 @@
 
 const char PROGRAM_NAME[] = "presage_demo_text";
 
-void disclaimer();
-void parseCommandLineArgs(int argc, char** argv);
-void printVersion();
-void printUsage();
-void print_prediction(std::vector<std::string>);
+void disclaimer ();
+void parse_cmd_line_args (int argc, char** argv);
+void print_version ();
+void print_usage ();
+void print_prediction (const std::vector<std::string>&);
 
 std::string config;
 int suggestions = 0;
 
 int main(int argc, char** argv)
 {
-    parseCommandLineArgs(argc, argv);
-    disclaimer();
+    parse_cmd_line_args (argc, argv);
+    disclaimer ();
 
     // magic starts here...
     LegacyPresageCallback callback;
-    Presage presage(&callback, config);
+    Presage presage (&callback, config);
 
 
     if (suggestions) {
-	// problem with this is that even if I implemented the
-	// config() method in Presage class, it still would not
-	// work because components read config values at construction
-	// time. Which means that for this to work the Selector would
-	// have to be destroyed and recreated (which would imply
-	// losing current state) or would have to have an init()
-	// method which re-reads the config from config.
-	// 
-	// Presage class could be made smart by only re-init()'ing
-	// only the affected module by looking at the
-	// Presage.Selector part of the configuration variable.
-	//
-	// All this logic probably belongs to a Configuration class,
-	// which could do the mapping between variable stem and
-	// component. So, Presage::config() would result in a
-	// Configuration::update() call, which would update the
-	// internal representation of the configuration value and then
-	// invoke on the init() method of the affected component
-	// (where a component is for example Selector).
-	//
-
-	// A much easier and cleaner solution would be that each
-	// component avoids caching configuration variables and always
-	// ask a Configuration class for the value associated to a
-	// variable each time it needs it. This way configuration can
-	// be programmatically changed on-the-fly.
-	//
-
 	// convert int to string using a stringstream
 	std::stringstream ss;
 	ss << suggestions;
@@ -101,10 +73,10 @@ int main(int argc, char** argv)
         std::cout << "> ";                       // prompt the user
         std::cin.getline (buffer, BUFFER_SIZE);  // read in string (if any)
 
-	callback.update(buffer);  // update internal buffer
+	callback.update(buffer);                 // update internal buffer
         print_prediction(
-            presage.predict()      // request new prediction
-	    );
+			 presage.predict()       // request new prediction
+			 );
         std::cout << "-- Context: " << presage.context() << '|' << std::endl;
         if (presage.context_change()) {
             std::cout << "-- Context changed" << std::endl;
@@ -115,7 +87,7 @@ int main(int argc, char** argv)
 }
 
 
-void disclaimer()
+void disclaimer ()
 {
     std::cout <<
         "Presage Textual Demo\n"
@@ -130,7 +102,7 @@ void disclaimer()
         "\n" << std::endl;
 }
 
-void parseCommandLineArgs(int argc, char* argv[])
+void parse_cmd_line_args (int argc, char* argv[])
 {
     int next_option;
 
@@ -157,36 +129,37 @@ void parseCommandLineArgs(int argc, char* argv[])
 	    suggestions = atoi(optarg);
 	    break;
 	case 'h': // --help or -h option
-	    printUsage();
+	    print_usage ();
 	    exit (0);
 	    break;
 	case 'v': // --version or -v option
-	    printVersion();
+	    print_version ();
 	    exit (0);
 	    break;
 	case '?': // unknown option
-	    printUsage();
+	    print_usage();
 	    exit (0);
 	    break;
 	case -1:
 	    break;
 	default:
-	    abort();
+	    abort ();
 	    break;
 	}
 
-    } while( next_option != -1 );
+    } while (next_option != -1);
 }
 
-void print_prediction(std::vector<std::string> words)
+void print_prediction (const std::vector<std::string>& words)
 {
     for( std::vector<std::string>::const_iterator i = words.begin();
          i != words.end();
-         i++ )
+         i++ ) {
         std::cout << *i << std::endl;
+    }
 }
 
-void printVersion()
+void print_version ()
 {
     std::cout << PROGRAM_NAME << " (" << PACKAGE << ") version " << VERSION << std::endl
               << "Copyright (C) 2004 Matteo Vescovi." << std::endl
@@ -195,7 +168,7 @@ void printVersion()
               << "to the extent permitted by law." << std::endl;
 }
 
-void printUsage()
+void print_usage ()
 {
     std::cout << "Usage: " << PROGRAM_NAME << " [OPTION]..." << std::endl
               << std::endl

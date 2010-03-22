@@ -26,6 +26,7 @@
 
 #include <assert.h>
 
+const char* DictionaryPlugin::LOGGER  = "Presage.Plugins.DictionaryPlugin.LOGGER";
 const char* DictionaryPlugin::DICTIONARY  = "Presage.Plugins.DictionaryPlugin.DICTIONARY";
 const char* DictionaryPlugin::PROBABILITY = "Presage.Plugins.DictionaryPlugin.PROBABILITY";
 
@@ -34,23 +35,32 @@ DictionaryPlugin::DictionaryPlugin(Configuration* config, ContextTracker* ht)
 	     ht,
 	     "DictionaryPlugin",
 	     "DictionaryPlugin, dictionary lookup",
-	     "DictionaryPlugin, a dictionary based plugin that generates a prediction by extracting tokens that start with the current prefix from a given dictionary")
+	     "DictionaryPlugin, a dictionary based plugin that generates a prediction by extracting tokens that start with the current prefix from a given dictionary"
+	     ),
+      dispatcher (this)
 {
-    // read config values and subscribe to notifications
-    Variable* var = config->find (DICTIONARY);
-    std::string value = var->get_value ();
-    dictionary_path = value;
-    var->attach (this);
-
-    var = config->find (PROBABILITY);
-    value = var->get_value ();
-    probability = toDouble (value);
-    var->attach (this);
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & DictionaryPlugin::set_logger);
+    dispatcher.map (config->find (DICTIONARY), & DictionaryPlugin::set_dictionary);
+    dispatcher.map (config->find (PROBABILITY), & DictionaryPlugin::set_probability);
 }
 
 DictionaryPlugin::~DictionaryPlugin()
 {
     // intentionally empty
+}
+
+void DictionaryPlugin::set_dictionary (const std::string& value)
+{
+    dictionary_path = value;
+    logger << INFO << "DICTIONARY: " << value << endl;
+}
+
+
+void DictionaryPlugin::set_probability (const std::string& value)
+{
+    probability = toDouble (value);
+    logger << INFO << "PROBABILITY: " << value << endl;
 }
 
 Prediction DictionaryPlugin::predict(const size_t max_partial_predictions_size, const char** filter) const
@@ -99,4 +109,11 @@ void DictionaryPlugin::train()
 {
     std::cout << "DictionaryPlugin::train() method called" << std::endl;
     std::cout << "DictionaryPlugin::train() method exited" << std::endl;
+}
+
+void DictionaryPlugin::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+
+    dispatcher.dispatch (var);
 }

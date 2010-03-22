@@ -137,6 +137,7 @@ Configuration* SmoothedNgramPluginTest::prepareConfiguration(const char* config[
     configuration->insert ("Presage.Plugins.SmoothedNgramPlugin.DELTAS", config[0]);
     configuration->insert ("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME", config[1]);
     configuration->insert ("Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER", "ERROR");
+    configuration->insert ("Presage.Plugins.SmoothedNgramPlugin.LEARN", "FALSE");
     
     return configuration;
 }
@@ -152,7 +153,7 @@ void SmoothedNgramPluginTest::assertCorrectPrediction(const char** config,
 
     CPPUNIT_ASSERT_EQUAL(expected_prediction_size, prediction.size());
     
-    for (int i = 0; i < expected_prediction_size; i++) {
+    for (size_t i = 0; i < expected_prediction_size; i++) {
 	CPPUNIT_ASSERT_EQUAL(expected_prediction_words[i], prediction.getSuggestion(i).getWord());
     }
 }

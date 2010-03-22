@@ -1,3 +1,27 @@
+2010-03-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/pluginsTestMockObjects.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.cpp,
+	src/lib/plugins/plugin.*, src/lib/plugins/ARPAPlugin.*,
+	src/lib/plugins/dejavuPlugin.*, src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/abbreviationExpansionPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/dictionaryPlugin.*,
+	src/lib/plugins/smoothedNgramPlugin.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/context_tracker/contextChangeDetector.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/context_tracker/Makefile.am, src/lib/core/selector.*,
+	src/lib/core/suggestion.h, src/lib/core/configuration.h,
+	src/lib/core/pluginRegistry.h, src/lib/presage.h,
+	src/lib/core/predictorActivator.*: implemented dispatcher logic
+	for components.
+
+	* src/tools/presageDemoText.cpp, src/tools/presageDemo.cpp,
+	apps/gtk/gpresagemate/gpresagemate.cpp: minor fixes for
+	compilation warnings.
+
 2010-03-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/dejavuPlugin.*, src/lib/plugins/recencyPlugin.*,

@@ -39,37 +39,15 @@ SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* 
              "SmoothedNgramPlugin",
              "SmoothedNgramPlugin, a linear interpolating n-gram plugin",
              "SmoothedNgramPlugin, long description." ),
-      db (0)
+      db (0),
+      dispatcher (this)
 {
-    // read config values and subscribe to notifications
-    Variable* var = 0;
-    std::string value;
-
-    var = config->find (LOGGER);
-    value = var->get_value ();
-    logger << setlevel (value);
-    logger << INFO << "LOGGER: " << value << endl;
-    var->attach (this);
-    
-    var = config->find (DATABASE_LOGGER);
-    value = var->get_value ();
-    setDatabaseLoggerLevel (value);
-    var->attach (this);
-
-    var = config->find (DBFILENAME);
-    value = var->get_value ();
-    setDbfilename (value);
-    var->attach (this);
-
-    var = config->find (DELTAS);
-    value = var->get_value ();
-    setDeltas (value);
-    var->attach (this);
-
-    var = config->find (LEARN);
-    value = var->get_value ();
-    setWannaLearn (value);
-    var->attach (this);
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & SmoothedNgramPlugin::set_logger);
+    dispatcher.map (config->find (DATABASE_LOGGER), & SmoothedNgramPlugin::set_database_logger_level);
+    dispatcher.map (config->find (DBFILENAME), & SmoothedNgramPlugin::set_dbfilename);
+    dispatcher.map (config->find (DELTAS), & SmoothedNgramPlugin::set_deltas);
+    dispatcher.map (config->find (LEARN), & SmoothedNgramPlugin::set_learn);
 }
 
 
@@ -80,7 +58,7 @@ SmoothedNgramPlugin::~SmoothedNgramPlugin()
 }
 
 
-void SmoothedNgramPlugin::setDbfilename (const std::string& filename)
+void SmoothedNgramPlugin::set_dbfilename (const std::string& filename)
 {
     dbfilename = filename;
     logger << INFO << "DBFILENAME: " << filename << endl;
@@ -98,13 +76,13 @@ void SmoothedNgramPlugin::setDbfilename (const std::string& filename)
 }
 
 
-void SmoothedNgramPlugin::setDatabaseLoggerLevel (const std::string& value)
+void SmoothedNgramPlugin::set_database_logger_level (const std::string& value)
 {
     dbloglevel = value;
 }
 
 
-void SmoothedNgramPlugin::setDeltas (const std::string& value)
+void SmoothedNgramPlugin::set_deltas (const std::string& value)
 {
     std::stringstream ss_deltas(value);
     std::string delta;
@@ -116,7 +94,7 @@ void SmoothedNgramPlugin::setDeltas (const std::string& value)
 }
 
 
-void SmoothedNgramPlugin::setWannaLearn (const std::string& value)
+void SmoothedNgramPlugin::set_learn (const std::string& value)
 {
     wanna_learn = isTrue (value);
 }
@@ -314,10 +292,10 @@ void SmoothedNgramPlugin::learn(const std::vector<std::string>& change)
 	// learning is turned on
 
 	// n-gram cardinality (i.e. what is the n in n-gram?)
-	int cardinality = deltas.size();
+	size_t cardinality = deltas.size();
 
 	std::string token;
-	for (int curr_cardinality = 1;
+	for (size_t curr_cardinality = 1;
 	     curr_cardinality < cardinality + 1;
 	     curr_cardinality++) {
 
@@ -427,4 +405,12 @@ void SmoothedNgramPlugin::train()
 {
     logger << DEBUG << "train() method called" << endl;
     logger << DEBUG << "train() method exited" << endl;
+}
+
+void SmoothedNgramPlugin::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+
+    logger << DEBUG << "About to invoke dispatcher: " << var->string() << " - " << var->get_value() << endl;
+    dispatcher.dispatch (var);
 }

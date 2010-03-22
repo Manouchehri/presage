@@ -135,7 +135,6 @@ void get_prediction( unsigned int key,
     std::string prediction;
     static std::vector< std::string > predictions;
     char disp_string_c[BUFSIZ];
-    char str[BUFSIZ];
     
     append_string[0] = 0;
  	

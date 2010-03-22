@@ -28,6 +28,7 @@
 #include "plugins/plugin.h"
 #include "core/utility.h"    // strtolower
 #include "core/logger.h"
+#include "core/dispatcher.h"
 
 #include <assert.h>
 
@@ -56,7 +57,7 @@ public:
     virtual void extract();
     virtual void train();
 
-    virtual void update (const Observable* variable) { /* temporary */ };
+    virtual void update (const Observable* variable);
 
 private:
     static const char* LOGGER;
@@ -68,10 +69,10 @@ private:
     unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
     void check_learn_consistency(const Ngram& name) const;
 
-    void setDbfilename (const std::string& filename);
-    void setDeltas (const std::string& deltas);
-    void setDatabaseLoggerLevel (const std::string& value);
-    void setWannaLearn (const std::string& deltas);
+    void set_dbfilename (const std::string& filename);
+    void set_deltas (const std::string& deltas);
+    void set_database_logger_level (const std::string& value);
+    void set_learn (const std::string& deltas);
 
     DatabaseConnector*  db;
     std::string         dbfilename;
@@ -79,6 +80,7 @@ private:
     std::vector<double> deltas;
     bool                wanna_learn;
 
+    Dispatcher<SmoothedNgramPlugin> dispatcher;
 };
 
 #endif // PRESAGE_SMOOTHEDNGRAMPLUGIN

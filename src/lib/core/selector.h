@@ -29,10 +29,11 @@
 #include "config.h"
 #endif
 
-#include "core/suggestion.h"
-#include "core/prediction.h"
-#include "core/context_tracker/contextTracker.h"
-#include "core/logger.h"
+#include "suggestion.h"
+#include "prediction.h"
+#include "context_tracker/contextTracker.h"
+#include "logger.h"
+#include "dispatcher.h"
 
 #include <string>
 #include <vector>
@@ -123,6 +124,8 @@ private:
     ContextTracker* contextTracker;
     Configuration*  config;
     Logger<char> logger;
+
+    Dispatcher<Selector> dispatcher;
 };
 
 

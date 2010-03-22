@@ -34,37 +34,14 @@ const char* Selector::LOGGER = "Presage.Selector.LOGGER";
 Selector::Selector(Configuration* configuration, ContextTracker* ct)
     : contextTracker(ct),
       config(configuration),
-      logger("Selector", std::cerr)
+      logger("Selector", std::cerr),
+      dispatcher(this)
 {
     // build notification dispatch map
-    dispatch_map[LOGGER] = & Selector::set_logger;
-    dispatch_map[SUGGESTIONS] = & Selector::set_suggestions;
-    dispatch_map[REPEAT_SUGGESTIONS] = & Selector::set_repeat_suggestions;
-    dispatch_map[GREEDY_SUGGESTION_THRESHOLD] = & Selector::set_greedy_suggestion_threshold;
-
-    // read config values and subscribe to notifications
-    Variable* var = config->find (LOGGER);
-    std::string value = var->get_value ();
-    set_logger (value);
-    var->attach (this);
-
-    var = config->find (SUGGESTIONS);
-    value = var->get_value ();
-    set_suggestions (value);
-    logger << INFO << "SUGGESTIONS: " << value << endl;
-    var->attach (this);
-
-    var = config->find (REPEAT_SUGGESTIONS);
-    value = var->get_value ();
-    set_repeat_suggestions (value);
-    logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
-    var->attach (this);
-
-    var = config->find (GREEDY_SUGGESTION_THRESHOLD);
-    value = var->get_value ();
-    set_greedy_suggestion_threshold (value);
-    logger << INFO << "SUGGESTIONS: " << value << endl;
-    var->attach (this);
+    dispatcher.map (config->find (LOGGER), & Selector::set_logger);
+    dispatcher.map (config->find (SUGGESTIONS), & Selector::set_suggestions);
+    dispatcher.map (config->find (REPEAT_SUGGESTIONS), & Selector::set_repeat_suggestions);
+    dispatcher.map (config->find (GREEDY_SUGGESTION_THRESHOLD), & Selector::set_greedy_suggestion_threshold);
 
     // set prefix
     previous_prefix = contextTracker->getPrefix();
@@ -304,10 +281,5 @@ void Selector::update (const Observable* variable)
     
     logger << DEBUG << "update(" << var->string() << ") called" << endl;
 
-    mbr_func_ptr_t handler_ptr = dispatch_map[var->string()];
-    if (handler_ptr) {
-        ((this)->*(handler_ptr)) (var->get_value ());
-    } else {
-        logger << ERROR << "unable to handle notification from observable: " << var->string() << " - " << var->get_value() << endl;
-    }
+    dispatcher.dispatch (var);
 }
