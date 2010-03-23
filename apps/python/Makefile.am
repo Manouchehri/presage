@@ -29,8 +29,6 @@ if ENABLE_PYTHON_BINDING
 # pypresagemate uses autotools
 dist_bin_SCRIPTS = pypresagemate.py
 
-CLEANFILES = $(dist_bin_SCRIPTS)
-
 # pyprompter delegates to setup.py
 EXTRA_DIST =	pyprompter \
 		prompter/__init__.py \
