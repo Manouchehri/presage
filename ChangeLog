@@ -1,3 +1,12 @@
+2010-03-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/Makefile.am: fixed incorrect removal of
+	pypresagemate.py bug
+
+	* apps/gtk/gprompter/gprompter.cpp,
+	apps/gtk/gpresagemate/gpresagemate.cpp: removed compilation
+	warnings.
+
 2010-03-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/plugins/pluginsTestMockObjects.cpp,

@@ -119,7 +119,7 @@ static KeySym get_keysym (XEvent *ev) {
     printf ("        State: %x KeyCode: %x\n", key_ev->state & ShiftMask, key_ev->keycode);
     char_count = XLookupString(key_ev, buffer, bufsize, &key, &compose);
     buffer[char_count] = '\0';
-    printf ("        Char Count: %d KeySym: %x char: |%c|\n", char_count, key, buffer[0]);
+    printf ("        Char Count: %d KeySym: %lu char: |%c|\n", char_count, key, buffer[0]);
 
     return key; 
 }

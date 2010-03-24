@@ -668,7 +668,7 @@ static void on_menu_view_larger_text_size( GtkWidget* widget,
 					  STYLE_DEFAULT,
 					  0);
     
-    g_print ("text size: %d\n", size);
+    g_print ("text size: %lu\n", size);
 
     scintilla_send_message (scintilla,
 			    SCI_STYLESETSIZE,
@@ -691,7 +691,7 @@ static void on_menu_view_smaller_text_size( GtkWidget* widget,
 					  STYLE_DEFAULT,
 					  0);
     
-    g_print ("text size: %d\n", size);
+    g_print ("text size: %lu\n", size);
 
     if (size > 1)
     {
