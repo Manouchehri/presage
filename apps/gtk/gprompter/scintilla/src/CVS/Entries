@@ -1,7 +1,6 @@
 /AutoComplete.cxx/1.24/Tue Jul 21 09:05:43 2009//
 /AutoComplete.h/1.16/Fri Jun  1 00:57:23 2007//
 /CallTip.cxx/1.28/Tue Jan 19 02:23:08 2010//
-/CallTip.h/1.12/Fri Jun  1 00:57:23 2007//
 /CellBuffer.cxx/1.59/Tue Jan 19 02:26:06 2010//
 /CellBuffer.h/1.28/Wed Jun 24 10:16:11 2009//
 /CharClassify.cxx/1.3/Tue Jul 21 09:18:30 2009//
@@ -14,9 +13,6 @@
 /Document.cxx/1.140/Tue Jan 19 02:30:56 2010//
 /Document.h/1.77/Fri Jul 10 04:24:45 2009//
 /DocumentAccessor.cxx/1.24/Fri Jul 27 01:52:48 2007//
-/DocumentAccessor.h/1.16/Tue Jul 21 09:05:43 2009//
-/Editor.cxx/1.501/Thu Jan 21 12:57:34 2010//
-/Editor.h/1.151/Tue Oct 27 00:02:12 2009//
 /ExternalLexer.cxx/1.7/Tue Jul 21 08:29:51 2009//
 /ExternalLexer.h/1.5/Tue Jan 19 02:42:00 2010//
 /FontQuality.h/1.1/Mon Nov  2 04:51:51 2009//
@@ -49,7 +45,6 @@
 /LexD.cxx/1.6/Wed May 27 00:43:34 2009//
 /LexEScript.cxx/1.4/Fri Jan 23 23:08:37 2009//
 /LexEiffel.cxx/1.12/Fri Jun  1 00:57:24 2007//
-/LexErlang.cxx/1.2/Fri Jun  1 00:57:24 2007//
 /LexFlagship.cxx/1.2/Fri Jun  1 00:57:24 2007//
 /LexForth.cxx/1.4/Tue Jun 16 12:49:37 2009//
 /LexFortran.cxx/1.9/Thu Jan  1 01:36:37 2009//
@@ -84,7 +79,6 @@
 /LexPowerPro.cxx/1.2/Fri Apr 24 02:28:05 2009//
 /LexPowerShell.cxx/1.2/Mon Feb 25 00:37:37 2008//
 /LexProgress.cxx/1.7/Wed Jan 20 23:04:40 2010//
-/LexPython.cxx/1.53/Sun Jul  5 00:28:28 2009//
 /LexR.cxx/1.3/Thu Nov 15 10:24:41 2007//
 /LexRebol.cxx/1.2/Fri Jun  1 00:57:25 2007//
 /LexRuby.cxx/1.15/Tue Dec 23 23:52:01 2008//
@@ -109,7 +103,7 @@
 /Partitioning.h/1.4/Wed Jun 24 10:16:12 2009//
 /PerLine.cxx/1.6/Sat Jan 16 23:41:47 2010//
 /PerLine.h/1.4/Wed Jun 10 10:54:57 2009//
-/PositionCache.cxx/1.16/Wed Aug 26 10:48:18 2009//
+/PositionCache.cxx/1.17/Tue Jan 26 22:25:03 2010//
 /PositionCache.h/1.9/Wed Aug 26 10:48:18 2009//
 /PropSet.cxx/1.78/Thu Aug 13 03:04:47 2009//
 /PropSetSimple.h/1.1/Tue Jul 21 08:55:42 2009//
@@ -120,9 +114,6 @@
 /SVector.h/1.9/Sun Jul 12 23:31:36 2009//
 /SciTE.properties/1.4/Thu Apr  2 02:32:47 2009//
 /ScintillaBase.cxx/1.98/Tue Oct 27 00:03:30 2009//
-/ScintillaBase.h/1.35/Sun Oct 18 21:05:35 2009//
-/Selection.cxx/1.12/Sun Oct 11 05:45:27 2009//
-/Selection.h/1.11/Sun Oct 11 05:45:27 2009//
 /SplitVector.h/1.8/Wed Apr  1 10:33:46 2009//
 /Style.cxx/1.21/Mon Nov  2 04:51:51 2009//
 /Style.h/1.16/Mon Nov  2 04:51:51 2009//
@@ -135,4 +126,13 @@
 /WindowAccessor.cxx/1.17/Wed May 27 02:53:32 2009//
 /XPM.cxx/1.8/Fri Jun  1 00:57:26 2007//
 /XPM.h/1.4/Wed May  6 11:00:26 2009//
+/CallTip.h/1.13/Thu Jan 28 04:51:03 2010//
+/DocumentAccessor.h/1.17/Thu Jan 28 04:51:03 2010//
+/ScintillaBase.h/1.36/Thu Jan 28 04:51:03 2010//
+/Editor.cxx/1.508/Fri Feb 12 11:18:49 2010//
+/Editor.h/1.153/Fri Feb 12 11:18:49 2010//
+/LexPython.cxx/1.54/Fri Feb 12 11:18:50 2010//
+/Selection.cxx/1.13/Fri Feb 12 11:18:50 2010//
+/Selection.h/1.12/Fri Feb 12 11:18:50 2010//
+/LexErlang.cxx/1.3/Fri Feb 12 11:18:50 2010//
 D

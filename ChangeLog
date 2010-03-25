@@ -1,3 +1,8 @@
+2010-03-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla
+	2.0.3 release.
+
 2010-03-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/Makefile.am: fixed incorrect removal of
@@ -12,10 +17,10 @@
 	* src/lib/plugins/smoothedNgramPlugin.cpp: performance improvement
 	in smoothed n-gram predictor, moved expensive sqlite query outside
 	loop to speed up runtime execution by a factor greater than 5.
-	
+
 	* src/lib/core/dbconnector/sqliteDatabaseConnector.cpp: fixed
 	logic error in sqlite query callback function.
-	
+
 2010-03-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/smoothedNgramPlugin.cpp: fixed leak and logic
