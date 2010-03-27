@@ -32,8 +32,7 @@
 #include "tinyxml/tinyxml.h"
 
 typedef std::string Value;
-#include "core/variable.h"
-#include "core/configuration.h"
+#include "configuration.h"
 #include "presageException.h"
 
 /** Profile provides access to the active profile configuration variables.
@@ -58,7 +57,7 @@ public:
      *
      * \param xmlProfileDoc Profile takes ownership of the configuration object.
      */
-    Profile(TiXmlDocument* xmlProfileDoc);
+    Profile(const std::string& filename);
 
     /** Profile destructor.
      *
@@ -71,7 +70,7 @@ public:
      *
      * \return configuration object
      */
-    Configuration* get_configuration();
+    void read_into_configuration(Configuration* configuration);
 
     class ProfileException : public PresageException {
     public:
@@ -87,7 +86,7 @@ private:
     void init_configuration(Configuration* config, TiXmlDocument* node);
     void visit_node(Configuration* config, TiXmlNode* node, std::vector<std::string> variable);
 
-    TiXmlDocument* profile;
+    TiXmlDocument* xmlProfileDoc;
 };
 
 #endif // PRESAGE_PROFILE

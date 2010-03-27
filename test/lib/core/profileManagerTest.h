@@ -40,7 +40,6 @@ public:
     void tearDown();
     
     void testDefaultProfile();
-    void testNonExistantProfile();
     void testCustomProfile();
 
 private:
@@ -59,7 +58,6 @@ private:
     
     CPPUNIT_TEST_SUITE( ProfileManagerTest );
     CPPUNIT_TEST( testDefaultProfile       );
-    CPPUNIT_TEST( testNonExistantProfile   );
     CPPUNIT_TEST( testCustomProfile        );
     CPPUNIT_TEST_SUITE_END();
 };

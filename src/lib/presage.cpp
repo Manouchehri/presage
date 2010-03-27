@@ -33,8 +33,7 @@
 Presage::Presage(PresageCallback* callback)
 {
     profileManager = new ProfileManager();
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
+    configuration = profileManager->get_configuration();
 
     pluginRegistry = new PluginRegistry(configuration);
     contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
@@ -50,8 +49,7 @@ Presage::Presage(PresageCallback* callback)
 Presage::Presage(PresageCallback* callback, const std::string config_filename)
 {
     profileManager = new ProfileManager(config_filename);
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
+    configuration = profileManager->get_configuration();
 
     pluginRegistry = new PluginRegistry(configuration);
     contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
@@ -67,7 +65,6 @@ Presage::~Presage()
     delete pluginRegistry;
 
     delete configuration;
-    delete profile;
     delete profileManager;
 }
 

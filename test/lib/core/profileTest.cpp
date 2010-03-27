@@ -32,25 +32,18 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ProfileTest );
 
 void ProfileTest::setUp()
 {
-    profileXmlDoc = new TiXmlDocument;
-    CPPUNIT_ASSERT(profileXmlDoc);
-    
-    bool readOk = false;
     std::string profileFile = 
 	static_cast<std::string>(getenv("srcdir"))
 	+ '/' + "profileTest.xml";
-    readOk = profileXmlDoc->LoadFile(profileFile.c_str());
-    CPPUNIT_ASSERT(readOk);
-
-    profile = new Profile(profileXmlDoc);
-    configuration = profile->get_configuration();
+    profile = new Profile(profileFile);
+    configuration = new Configuration();
+    profile->read_into_configuration(configuration);
 }
 
 void ProfileTest::tearDown()
 {
     delete configuration;
     delete profile;
-    delete profileXmlDoc;
 }
 
 void ProfileTest::testGetConfig()
@@ -85,4 +78,17 @@ void ProfileTest::testGetNonExistantConfig()
     CPPUNIT_ASSERT_THROW(configuration->find ("foo"), Configuration::ConfigurationException);
 
     CPPUNIT_ASSERT_THROW(configuration->find ("bar"), Configuration::ConfigurationException);
+}
+
+void ProfileTest::testNonExistantProfile()
+{
+    std::cout << "ProfileTest::testNonExistantProfile()" << std::endl;
+
+    // hopefully a file with the following name will not exists
+    const std::string wacky_profile("this_IS_a_wAckY_profileName.xml");
+
+    Profile* local_profile = new Profile (wacky_profile);
+    Configuration* local_config = new Configuration ();
+
+    CPPUNIT_ASSERT_NO_THROW( local_profile->read_into_configuration (local_config) );
 }

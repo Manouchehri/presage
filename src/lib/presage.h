@@ -166,7 +166,6 @@ class Presage {
 
   private:
     ProfileManager*     profileManager;
-    Profile*            profile;
     Configuration*      configuration;
     PluginRegistry*     pluginRegistry;
     ContextTracker*     contextTracker;

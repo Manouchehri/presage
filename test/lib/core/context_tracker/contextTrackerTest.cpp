@@ -36,8 +36,7 @@ void ContextTrackerTest::setUp()
 
     profileManager = new ProfileManager();
     profileManager->buildProfile();
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
+    configuration = profileManager->get_configuration();
     pluginRegistry = new PluginRegistry(configuration);
 }
 
@@ -46,8 +45,6 @@ void ContextTrackerTest::tearDown()
     delete testStringSuite;
 
     delete pluginRegistry;
-    delete configuration;
-    delete profile;
     delete profileManager;
 }
 

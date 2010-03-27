@@ -383,9 +383,7 @@ void SelectorTest::setUp()
     tds_S6_R_T3 = new TestDataSuite_S6_R_T3();
 
     profileManager = new ProfileManager();
-    profileManager->buildProfile();
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
+    configuration = profileManager->get_configuration();
     pluginRegistry = new PluginRegistry(configuration);
     strstream = new std::stringstream();
     callback = new StringstreamPresageCallback(*strstream);

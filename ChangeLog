@@ -1,3 +1,19 @@
+2010-03-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileManagerTest.h,
+	test/lib/core/profileTest.cpp, test/lib/core/profileTest.h,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.h,
+	test/lib/core/selectorTest.cpp,
+	test/lib/core/profileManagerTest.cpp, src/lib/presage.cpp,
+	src/lib/core/profileManager.h, src/lib/core/profile.h,
+	src/lib/core/configuration.cpp, src/lib/core/profileManager.cpp,
+	src/lib/core/profile.cpp, src/lib/presage.h: modified profile
+	manager and related classes so that presage configuration is
+	read from the following XML files: /etc/presage.xml,
+	<sysconfdir>/presage.xml, ~/.presage.xml and optionally supplied
+	xml file.
+
 2010-03-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/Makefile.am: fixed incorrect removal of

@@ -25,23 +25,46 @@
 #include "core/profile.h"
 
 #include <iostream>
+#include <sstream>
 
-Profile::Profile(TiXmlDocument* profileDoc)
+Profile::Profile(const std::string& profile_file)
 {
-    profile = profileDoc;
+    xmlProfileDoc = new TiXmlDocument();
+    assert( xmlProfileDoc );
+
+    bool readOk = xmlProfileDoc->LoadFile (profile_file.c_str());
+    
+    std::stringstream message;
+    if (readOk) {
+	// logger has not been init'd with configuration, because no
+	// profile is known yet, hence caching this logging item,
+	// which will be flushed when configuration is finally read in
+	//
+	message << "Loaded profile: " << profile_file;
+
+	//cache_log_message(logger.NOTICE, message.str());
+	std::cerr << message << std::endl;
+
+    } else {
+	// logger has not been init'd with configuration, because no
+	// profile is known yet, hence caching this logging item,
+	// which will be flushed when configuration is finally read in
+	//
+	message << "Failed to load profile: " << profile_file;
+
+	//cache_log_message(logger.NOTICE, message.str());
+	std::cerr << message << std::endl;
+    }
 }
 
 Profile::~Profile()
 {
+    delete xmlProfileDoc;
 }
 
-Configuration* Profile::get_configuration()
+void Profile::read_into_configuration(Configuration* config)
 {
-    Configuration* config = new Configuration();
-
-    init_configuration(config, profile);
-
-    return config;
+    init_configuration(config, xmlProfileDoc);
 }
 
 void Profile::init_configuration(Configuration* config, TiXmlDocument* root)
@@ -85,20 +108,3 @@ void Profile::visit_node(Configuration* configuration,
 	visit_node(configuration, node->FirstChild(), variable);
     }
 }
-
-// Value Profile::getConfig(const Variable& variable)
-// {
-//     try {
-// 	return configuration->get(variable);
-//     } catch (Configuration::ConfigurationException& ex) {
-// 	std::cerr << "caught ConfigurationException" << std::endl;
-// 	
-// 	// uncomment next throw statement to fix tests,
-// 	// but more needs to be done to get everything ready for 
-// 	// committing...
-// 	//
-// 	throw Profile::ProfileException(ex.what());
-//     } catch (...) {
-// 	std::cerr << "caught exception" << std::endl;
-//     }
-// }

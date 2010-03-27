@@ -62,12 +62,11 @@ const std::string  ProfileManager::DEFAULT_PLUGINS                     = "";
 ProfileManager::ProfileManager(const std::string profilename)
     : logger("ProfileManager", std::cerr)
 {
-    xmlProfileDoc = 0;
-    if (profilename.empty()) {
-        loadDefaultProfile();
-    } else {
-        loadProfile(profilename);
-    }
+    init_profiles (profilename);
+
+    configuration = new Configuration();
+
+    read_profiles_into_configuration ();
 }
 
 
@@ -77,7 +76,35 @@ ProfileManager::ProfileManager(const std::string profilename)
 ProfileManager::~ProfileManager()
 {
     flush_cached_log_messages();
-    delete xmlProfileDoc;
+
+    delete configuration;
+}
+
+
+void ProfileManager::read_profiles_into_configuration ()
+{
+    for (std::list<std::string>::const_iterator it = profiles.begin();
+	 it != profiles.end();
+	 it++ ) {
+        Profile* profile = new Profile (*it);
+	profile->read_into_configuration (configuration);
+	delete profile;
+    }
+}
+
+
+void ProfileManager::init_profiles (const std::string& profilename)
+{
+    // system etc directory
+    profiles.push_back (static_cast<std::string>("/etc") + '/' + DEFAULT_PROFILE_FILENAME);
+    // installation config directory
+    profiles.push_back (static_cast<std::string>(sysconfdir) + '/' + DEFAULT_PROFILE_FILENAME);
+    // home dir dotfile
+    profiles.push_back (get_user_home_dir() + '/' + '.' + DEFAULT_PROFILE_FILENAME);
+    // user specified profile (if any)
+    if (! profilename.empty()) {
+        profiles.push_back (profilename);
+    }
 }
 
 
@@ -113,102 +140,24 @@ std::string ProfileManager::get_user_home_dir() const
     return result;
 }
 
-/** Load and parse the default user/system profile.
- *
- * Load default profile in the following order:
- * - ~/.presage.xml
- * - sysconfdir/presage.xml
- *
- * If no profile is found, a default profile is built and used.
- *
- * @return true if profile is found and successfully loaded, false
- * otherwise.
- *
- */
-bool ProfileManager::loadDefaultProfile()
-{
-    const int PROFILE_SEARCH_PATH_SIZE = 2;
-    std::string profile_search_path[PROFILE_SEARCH_PATH_SIZE] = {
-        // home dir dotfile
-        get_user_home_dir() + '/' + '.' + DEFAULT_PROFILE_FILENAME,
-        // installation config directory
-	static_cast<std::string>(sysconfdir) + '/' + DEFAULT_PROFILE_FILENAME
-    };
-
-    bool readOk = false;
-
-    // try looking for profilename in profile dirs
-    int i = 0;
-    while(!readOk && i < PROFILE_SEARCH_PATH_SIZE) {
-        readOk = loadProfile(profile_search_path[i]);
-        i++;
-    }
-
-    if (!readOk) {
-        // handle failure to load profile
-	// highest loglevel, no need to cache this
-        logger << ERROR << "No profiles were found. Using default parameters." << endl;
-        buildProfile();
-    }
-
-    return readOk;
-}
-
-
-/** Load and parse the specified profile.
- *
- * @param profile_file filename of the profile to load
- * @return true if profile is found and successfully loaded, false
- * otherwise.
- *
- */
-bool ProfileManager::loadProfile(const std::string profile_file)
-{
-    // destroy xml profile document to prevent memory leaks.
-    delete xmlProfileDoc;
-
-    xmlProfileDoc = new TiXmlDocument;
-    assert( xmlProfileDoc );
-
-    bool readOk = xmlProfileDoc->LoadFile (profile_file.c_str());
-    
-    std::stringstream message;
-    if (readOk) {
-	// logger has not been init'd with configuration, because no
-	// profile is known yet, hence caching this logging item,
-	// which will be flushed when configuration is finally read in
-	//
-	message << "Using profile '" << profile_file << "'...";
-	cache_log_message(logger.NOTICE, message.str());
-    } else {
-	// logger has not been init'd with configuration, because no
-	// profile is known yet, hence caching this logging item,
-	// which will be flushed when configuration is finally read in
-	//
-	std::stringstream message;
-	message << "Opening profile '" << profile_file << "' attempt failed.";
-	cache_log_message(logger.NOTICE, message.str());
-    }
-
-    return readOk;
-}
 
 /** Write profile to disk.
  *
  * Returns true is file was saved successfully, false otherwise.
  *
  */
-bool ProfileManager::saveProfile() const
+void ProfileManager::saveProfile() const
 {
-    bool saveOk = xmlProfileDoc->SaveFile();
-    return saveOk;
+  // TODO
+  //bool saveOk = xmlProfileDoc->SaveFile();
+  //return saveOk;
 }
 
 
 /** Create new profile with default values.
  *
  */
-void ProfileManager::buildProfile(const std::string p)
+TiXmlDocument* ProfileManager::buildProfile(const std::string p)
 {
     TiXmlNode* root;
     TiXmlNode* node;
@@ -217,8 +166,7 @@ void ProfileManager::buildProfile(const std::string p)
 	
 
     // Create document
-    delete xmlProfileDoc;
-    xmlProfileDoc = new TiXmlDocument(p.c_str());
+    TiXmlDocument* xmlProfileDoc = new TiXmlDocument(p.c_str());
 
     // Insert initial mandatory declaration
     node = xmlProfileDoc->InsertEndChild( TiXmlDeclaration( "1.0", "UTF-8", "no" ) );
@@ -417,20 +365,20 @@ void ProfileManager::buildProfile(const std::string p)
     // print out doc for debug purposes
     // result.Print();
 
+    return xmlProfileDoc;
 }
 
 
-Profile* ProfileManager::getProfile()
+Configuration* ProfileManager::get_configuration()
 {
-    Profile* result = new Profile(xmlProfileDoc);
     // since a Profile is being returned, we know we have a valid
     // configuration object. Here, we obtain a temporary Configuration
     // object to read the this ProfileManager configuration.  We could
     // not do this during profile manager construction because no
     // profile was available at that time.
     //
-    refresh_config(result);
-    return result;
+    refresh_config();
+    return configuration;
 }
 
 void ProfileManager::cache_log_message(Logger<char>::Level level, const std::string& message)
@@ -453,17 +401,15 @@ void ProfileManager::flush_cached_log_messages()
     cached_log_messages.clear();
 }
 
-void ProfileManager::refresh_config(Profile* profile)
+void ProfileManager::refresh_config()
 {
-    Configuration* config = profile->get_configuration();
     try {
-        logger << setlevel(config->find (LOGGER)->get_value());
+        logger << setlevel(configuration->find (LOGGER)->get_value());
     } catch (Configuration::ConfigurationException& ex) {
 	// if no config is available, turn on full logging for profile
 	// manager
 	logger << setlevel("ALL");
     }
-    delete config;
 
     flush_cached_log_messages();
 }

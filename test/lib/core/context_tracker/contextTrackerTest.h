@@ -55,7 +55,6 @@ private:
 
     ContextTracker*  contextTracker;
     ProfileManager*  profileManager;
-    Profile*         profile;
     Configuration*   configuration;
     PluginRegistry*  pluginRegistry;
     

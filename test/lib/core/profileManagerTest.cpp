@@ -60,8 +60,7 @@ void ProfileManagerTest::testDefaultProfile()
 
     std::cout << "ProfileManagerTest::testDefaultProfile()" << std::endl;
     profileManager->buildProfile();
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
+    configuration = profileManager->get_configuration();
     pluginRegistry = new PluginRegistry(configuration);
 
     callback = new StringstreamPresageCallback(*stream);
@@ -73,29 +72,6 @@ void ProfileManagerTest::testDefaultProfile()
     testProfile();
     std::cout << "Exiting ProfileManagerTest::testDefaultProfile( ...)" << std::endl;
 
-}
-
-void ProfileManagerTest::testNonExistantProfile()
-{
-    std::cout << "ProfileManagerTest::testNonExistantProfile()" << std::endl;
-
-    // hopefully a file with the following name will not exists
-    const std::string wacky_profile("this_IS_a_wAckY_profileName.xml");
-
-    CPPUNIT_ASSERT( !profileManager->loadProfile(wacky_profile) );
-
-    /* This block of code was commented out because ProfileManager
-     * will not build a default profile when the specified profile
-     * cannot be loaded.
-
-     profile = profileManager->getProfile();
-
-     contextTracker = new ContextTracker(profile);
-     selector = new Selector(profile, contextTracker);
-     predictorActivator = new PredictorActivator(profile, contextTracker);
-
-    testProfile();
-    */
 }
 
 void ProfileManagerTest::testProfile()
@@ -134,9 +110,10 @@ void ProfileManagerTest::testCustomProfile()
                    << "</Presage>\n";
     profile_stream.close();
 
-    profileManager->loadProfile(custom_profile);
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
+    delete profileManager;
+    profileManager = new ProfileManager (custom_profile);
+
+    configuration = profileManager->get_configuration();
 
     Value value = configuration->find ("Presage.Custom")->get_value ();
 

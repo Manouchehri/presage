@@ -38,14 +38,13 @@
 
 /** Juggles configuration files and presage system initialization.
  *
- * The idea is that ProfileManager loads up an xml file containing
- * configuration data and initializes system components according to
- * the config file.
+ * ProfileManager loads up a bunch of xml files containing
+ * configuration data and initializes a configuration object.
  * 
- * If no profile is supplied, load the default profile in the
- * following order:
- *  - ~/.presage.xml
- *  - sysconfdir/presage.xml
+ * 1. write config with data from /etc/presage.xml if it exists
+ * 2. overwrite config with data from  <sysconfdir>/presage.xml if it exists
+ * 3. overwrite config with data from  ~/.presage.xml if it exists
+ * 4. overwrite config with data from profile passed to constructor (if non-empty string)
  *
  */
 class ProfileManager {
@@ -53,11 +52,10 @@ public:
     ProfileManager(const std::string = "");
     ~ProfileManager();
 
-    bool loadDefaultProfile();
-    bool loadProfile(const std::string);
-    void buildProfile(const std::string = DEFAULT_PROFILE_FILENAME);
-    bool saveProfile() const;
-    Profile* getProfile();
+    TiXmlDocument* buildProfile(const std::string = DEFAULT_PROFILE_FILENAME);
+    void saveProfile() const;
+
+    Configuration* get_configuration();
     
     static const char*        DEFAULT_PROFILE_FILENAME;
     static const std::string  DEFAULT_LOGGER_LEVEL;
@@ -74,6 +72,10 @@ public:
 private:
     static const char* LOGGER;
 
+    void init_profiles (const std::string& profilename);
+
+    void read_profiles_into_configuration ();
+
     std::string get_user_home_dir() const;
     
     /** Cache log message until logger level is read from configuration.
@@ -84,7 +86,7 @@ private:
     void flush_cached_log_messages();
     /** Refresh configuration variables
      */
-    void refresh_config(Profile* profile);
+    void refresh_config();
 
     struct CachedLogMessage {
 	// Level is commented out because it gets translated to
@@ -100,8 +102,10 @@ private:
 
     std::list<CachedLogMessage> cached_log_messages;
 
-    TiXmlDocument*  xmlProfileDoc;
-    std::string     profileFile;
+    std::list<std::string> profiles;
+
+    Configuration* configuration;
+
     Logger<char>    logger;
 };
 

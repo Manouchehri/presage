@@ -36,9 +36,9 @@ Configuration::~Configuration()
     for (std::map<std::string, Variable*>::iterator it = configuration->begin();
 	 it != configuration->end();
 	 it++) {
-        //std::cerr << "[Configuration] Deleting variable: " << it->first << '\t' << it->second << std::endl;
+        std::cerr << "[Configuration] Deleting variable: " << it->first << '\t' << it->second << std::endl;
         delete it->second;
-        //std::cerr << "[Configuration] Deleted  variable: " << it->first << std::endl;
+        std::cerr << "[Configuration] Deleted  variable: " << it->first << std::endl;
     }
     delete configuration;
 }
@@ -69,17 +69,17 @@ void Configuration::insert(const std::string& variable,
     std::map<std::string, Variable*>::const_iterator it = configuration->find (variable);
     if (it != configuration->end ()) {
       it->second->set_value (value);
-      //std::cerr << "[Configuration] Modifying existing variable: " << variable << std::endl;
+      std::cerr << "[Configuration] Modifying existing variable: " << variable << std::endl;
 
     } else {
       Variable* var = new Variable (variable);
       var->set_value (value);
       configuration->insert (std::pair<std::string, Variable*> (variable, var));
       
-      //std::cerr << "[Configuration] Adding new variable: " << variable << '\t' << var << std::endl;
+      std::cerr << "[Configuration] Adding new variable: " << variable << '\t' << var << std::endl;
     }
 
-    //std::cerr << "[Configuration] Added variable: " << variable << std::endl;
+    std::cerr << "[Configuration] Added variable: " << variable << std::endl;
 }
 
 void Configuration::remove(const std::string& variable)
