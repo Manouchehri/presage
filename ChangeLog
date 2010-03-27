@@ -1,3 +1,20 @@
+2010-03-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/configurationTest.cpp,
+	test/lib/core/variableTest.cpp, src/lib/plugins/ARPAPlugin.cpp,
+	src/lib/plugins/recencyPlugin.cpp,
+	src/lib/plugins/abbreviationExpansionPlugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp, src/lib/presage.cpp,
+	src/lib/core/profile.h, src/lib/core/configuration.cpp,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/variable.cpp, src/lib/core/pluginRegistry.cpp,
+	src/lib/core/profileManager.cpp, src/lib/core/profile.cpp,
+	src/lib/core/predictorActivator.cpp, src/lib/core/selector.cpp,
+	src/lib/core/variable.h, src/lib/core/dispatcher.h: fixed bug in
+	configuration handling and restored profile manager cached logging
+	functionality.
+
 2010-03-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/core/profileManagerTest.h,

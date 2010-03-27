@@ -72,6 +72,8 @@ public:
      */
     void read_into_configuration(Configuration* configuration);
 
+    bool file_read_ok () const;
+
     class ProfileException : public PresageException {
     public:
 	ProfileException(const std::string& desc) throw() : PresageException(desc) { }
@@ -87,6 +89,7 @@ private:
     void visit_node(Configuration* config, TiXmlNode* node, std::vector<std::string> variable);
 
     TiXmlDocument* xmlProfileDoc;
+    bool xml_profile_read_ok;
 };
 
 #endif // PRESAGE_PROFILE

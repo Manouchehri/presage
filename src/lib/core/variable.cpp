@@ -26,24 +26,37 @@
 
 #include <iostream>
 
-Variable::Variable(const char* variable)
+Variable::Variable(const char* name)
 {
-    m_variable = string_to_vector(variable);
+    m_name = name;
+    m_name_vector = string_to_vector (name);
 }
 
-Variable::Variable(const std::string& variable)
+Variable::Variable(const std::string& name)
 {
-    m_variable = string_to_vector(variable);
+    m_name = name;
+    m_name_vector = string_to_vector(name);
 }
 
-Variable::Variable(const std::vector<std::string>& variable)
+Variable::Variable(const std::vector<std::string>& name)
 {
-    m_variable = variable;
+    m_name = vector_to_string (name);
+    m_name_vector = name;
 }
 
 Variable::~Variable()
 {
     // nothing to do
+}
+
+std::string Variable::get_name () const
+{
+    return m_name;
+}
+
+std::vector<std::string> Variable::get_name_vector () const
+{
+    return m_name_vector;
 }
 
 std::string Variable::get_value () const
@@ -56,16 +69,6 @@ void Variable::set_value (std::string value)
     m_value = value;
     
     notify ();     // notify all observers
-}
-
-std::string Variable::string() const
-{
-    return vector_to_string(m_variable);
-}
-
-std::vector<std::string> Variable::variable() const
-{
-    return m_variable;
 }
 
 /**

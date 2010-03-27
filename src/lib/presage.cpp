@@ -34,7 +34,6 @@ Presage::Presage(PresageCallback* callback)
 {
     profileManager = new ProfileManager();
     configuration = profileManager->get_configuration();
-
     pluginRegistry = new PluginRegistry(configuration);
     contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
     predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
@@ -63,8 +62,6 @@ Presage::~Presage()
     delete predictorActivator;
     delete contextTracker;
     delete pluginRegistry;
-
-    delete configuration;
     delete profileManager;
 }
 

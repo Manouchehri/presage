@@ -316,7 +316,7 @@ void ContextTracker::update (const Observable* variable)
     Variable* var = (Variable*) variable;
     
     logger << DEBUG << "Notification received: "
-	   << var->string() << " - " << var->get_value () << endl;
+	   << var->get_name () << " - " << var->get_value () << endl;
 
     dispatcher.dispatch (var);
 }

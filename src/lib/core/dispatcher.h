@@ -63,7 +63,7 @@ public:
     {
 	var->attach (object);
 	variables.push_back (var);
-	dispatch_map[var->string()] = ptr;
+	dispatch_map[var->get_name ()] = ptr;
 	dispatch (var);
 
 	//std::cerr << "[Dispatcher] mapped " << var->string() << " => " 
@@ -72,12 +72,12 @@ public:
 
     void dispatch (Variable* var) 
     {
-	mbr_func_ptr_t handler_ptr = dispatch_map[var->string()];
+	mbr_func_ptr_t handler_ptr = dispatch_map[var->get_name ()];
 	if (handler_ptr) {
 	    ((object)->*(handler_ptr)) (var->get_value ());
 	} else {
 	    std::cerr << "[Dispatcher] Unable to handle notification from observable: "
-		      << var->string() << " - " << var->get_value() << std::endl;
+		      << var->get_name () << " - " << var->get_value() << std::endl;
 	}
     }
 

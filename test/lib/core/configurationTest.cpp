@@ -45,8 +45,10 @@ void ConfigurationTest::test_get_set()
 	"foo.bar.foobar"
     };
 
-    for (unsigned int i = 0; i < SIZE; i++) {
-        configuration->insert (test_variables[i], test_variables[i]);
-	CPPUNIT_ASSERT(configuration->find (test_variables[i])->get_value ().compare(test_variables[i]) == 0);
+    for (int loop = 0; loop < 3; loop++) {
+        for (unsigned int i = 0; i < SIZE; i++) {
+            configuration->insert (test_variables[i], test_variables[i]);
+            CPPUNIT_ASSERT(configuration->find (test_variables[i])->get_value ().compare(test_variables[i]) == 0);
+        }
     }
 }

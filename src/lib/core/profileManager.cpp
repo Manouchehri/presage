@@ -87,6 +87,28 @@ void ProfileManager::read_profiles_into_configuration ()
 	 it != profiles.end();
 	 it++ ) {
         Profile* profile = new Profile (*it);
+
+	std::string message;
+	if (profile->file_read_ok ()) {
+            // logger has not been init'd with configuration, because no
+	    // profile is known yet, hence caching this logging item,
+            // which will be flushed when configuration is finally read in
+	    //
+	    message = "Loaded profile: " + *it;
+	  
+	    cache_log_message(logger.NOTICE, message);
+	  	  
+	} else {
+	    // logger has not been init'd with configuration, because no
+	    // profile is known yet, hence caching this logging item,
+	    // which will be flushed when configuration is finally read in
+	    //
+	    message = "Failed to load profile: " + *it;
+	  
+	    cache_log_message(logger.NOTICE, message);
+
+	}
+
 	profile->read_into_configuration (configuration);
 	delete profile;
     }

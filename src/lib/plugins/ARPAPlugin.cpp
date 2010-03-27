@@ -478,6 +478,6 @@ void ARPAPlugin::update (const Observable* variable)
 {
   Variable* var = (Variable*) variable;
   
-  logger << DEBUG << "About to invoke dispatcher: " << var->string() << " - " << var->get_value() << endl;
+  logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
   dispatcher.dispatch (var);
 }

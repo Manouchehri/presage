@@ -32,34 +32,17 @@ Profile::Profile(const std::string& profile_file)
     xmlProfileDoc = new TiXmlDocument();
     assert( xmlProfileDoc );
 
-    bool readOk = xmlProfileDoc->LoadFile (profile_file.c_str());
-    
-    std::stringstream message;
-    if (readOk) {
-	// logger has not been init'd with configuration, because no
-	// profile is known yet, hence caching this logging item,
-	// which will be flushed when configuration is finally read in
-	//
-	message << "Loaded profile: " << profile_file;
-
-	//cache_log_message(logger.NOTICE, message.str());
-	std::cerr << message << std::endl;
-
-    } else {
-	// logger has not been init'd with configuration, because no
-	// profile is known yet, hence caching this logging item,
-	// which will be flushed when configuration is finally read in
-	//
-	message << "Failed to load profile: " << profile_file;
-
-	//cache_log_message(logger.NOTICE, message.str());
-	std::cerr << message << std::endl;
-    }
+    xml_profile_read_ok = xmlProfileDoc->LoadFile (profile_file.c_str());
 }
 
 Profile::~Profile()
 {
     delete xmlProfileDoc;
+}
+
+bool Profile::file_read_ok () const
+{
+    return xml_profile_read_ok;
 }
 
 void Profile::read_into_configuration(Configuration* config)
@@ -97,10 +80,9 @@ void Profile::visit_node(Configuration* configuration,
 	    // config variable, so add it to our configuration
 	    const char* text = element->GetText();
 	    if (text) {
-		//(*configuration)[variable] = text;
-	      configuration->insert (Variable::vector_to_string(variable), text);
+                configuration->insert (Variable::vector_to_string(variable), text);
 
-		//std::cout << variable.string() << " = " << text << std::endl;
+		//std::cerr << "[Profile] Inserted variable: " << Variable::vector_to_string(variable) << " = " << text << std::endl;
 	    }
 	}
 

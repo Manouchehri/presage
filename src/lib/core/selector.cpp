@@ -279,7 +279,7 @@ void Selector::update (const Observable* variable)
 {
     Variable* var = (Variable*) variable;
     
-    logger << DEBUG << "update(" << var->string() << ") called" << endl;
+    logger << DEBUG << "update(" << var->get_name () << ") called" << endl;
 
     dispatcher.dispatch (var);
 }
