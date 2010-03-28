@@ -1,3 +1,15 @@
+2010-03-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/profileManager.h, src/lib/core/profile.h,
+	src/lib/core/profileManager.cpp, src/lib/core/profile.cpp,
+	src/lib/core/Makefile.am, src/lib/core/defaultProfile.cpp,
+	src/lib/core/defaultProfile.h: encapsulated default profile into
+	DefaultProfile class, reworked ProfileManager handling of loading
+	configuration data from profile xml files, fixed distcheck.
+
 2010-03-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/core/configurationTest.cpp,

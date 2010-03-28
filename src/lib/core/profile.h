@@ -64,7 +64,7 @@ public:
      * Destructor deallocates the Configuration object passed in costructor.
      *
      */
-    ~Profile();
+    virtual ~Profile();
 
     /** Get configuration associated to profile.
      *
@@ -73,6 +73,8 @@ public:
     void read_into_configuration(Configuration* configuration);
 
     bool file_read_ok () const;
+
+    bool write_to_file () const;
 
     class ProfileException : public PresageException {
     public:
@@ -84,11 +86,12 @@ public:
 
     };
 
-private:
+protected:
     void init_configuration(Configuration* config, TiXmlDocument* node);
     void visit_node(Configuration* config, TiXmlNode* node, std::vector<std::string> variable);
 
     TiXmlDocument* xmlProfileDoc;
+    std::string xml_filename;
     bool xml_profile_read_ok;
 };
 

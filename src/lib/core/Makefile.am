@@ -61,6 +61,8 @@ libcore_la_SOURCES =	\
 	configuration.h \
 	profile.cpp \
 	profile.h \
+	defaultProfile.cpp \
+	defaultProfile.h \
 	profileManager.cpp \
 	profileManager.h \
 	logger.cpp \

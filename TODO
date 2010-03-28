@@ -7,6 +7,8 @@ TODO list
 ---------
 
 
+Make DefaultProfile write out complete default profile, so that we can retire presage.xml.template.
+
 Profile tests
 Configuration changes
 

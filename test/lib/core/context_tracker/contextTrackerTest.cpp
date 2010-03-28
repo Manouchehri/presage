@@ -35,7 +35,6 @@ void ContextTrackerTest::setUp()
     testStringSuite = new TestStringSuite();
 
     profileManager = new ProfileManager();
-    profileManager->buildProfile();
     configuration = profileManager->get_configuration();
     pluginRegistry = new PluginRegistry(configuration);
 }

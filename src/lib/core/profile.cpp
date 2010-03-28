@@ -32,7 +32,9 @@ Profile::Profile(const std::string& profile_file)
     xmlProfileDoc = new TiXmlDocument();
     assert( xmlProfileDoc );
 
-    xml_profile_read_ok = xmlProfileDoc->LoadFile (profile_file.c_str());
+    xml_filename = profile_file;
+
+    xml_profile_read_ok = xmlProfileDoc->LoadFile (xml_filename.c_str());
 }
 
 Profile::~Profile()
@@ -89,4 +91,10 @@ void Profile::visit_node(Configuration* configuration,
 	// then descend down the tree
 	visit_node(configuration, node->FirstChild(), variable);
     }
+}
+
+bool Profile::write_to_file () const
+{
+    //std::cerr << "Saving profile to file: " << xml_filename << std::endl;
+    return xmlProfileDoc->SaveFile(xml_filename.c_str());
 }

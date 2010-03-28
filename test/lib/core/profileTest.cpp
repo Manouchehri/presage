@@ -91,4 +91,7 @@ void ProfileTest::testNonExistantProfile()
     Configuration* local_config = new Configuration ();
 
     CPPUNIT_ASSERT_NO_THROW( local_profile->read_into_configuration (local_config) );
+
+    delete local_config;
+    delete local_profile;
 }

@@ -25,10 +25,11 @@
 #ifndef PRESAGE_PROFILEMANAGER
 #define PRESAGE_PROFILEMANAGER
 
-#include "core/profile.h"
-#include "tinyxml/tinyxml.h"
-#include "core/combiner.h"
-#include "core/logger.h"
+#include "profile.h"
+#include "defaultProfile.h"
+#include "../tinyxml/tinyxml.h"
+#include "combiner.h"
+#include "logger.h"
 
 #include <string>
 #include <list>
@@ -52,31 +53,20 @@ public:
     ProfileManager(const std::string = "");
     ~ProfileManager();
 
-    TiXmlDocument* buildProfile(const std::string = DEFAULT_PROFILE_FILENAME);
-    void saveProfile() const;
+    void save_profile() const;
 
     Configuration* get_configuration();
     
-    static const char*        DEFAULT_PROFILE_FILENAME;
-    static const std::string  DEFAULT_LOGGER_LEVEL;
-    static const int          DEFAULT_PREDICT_TIME;
-    static const int          DEFAULT_MAX_PARTIAL_PREDICTION_SIZE;
-    static const std::string  DEFAULT_COMBINATION_POLICY;
-    static const std::string  DEFAULT_PREDICTIVE_PLUGINS;
-    static const int          DEFAULT_SLIDING_WINDOW_SIZE;
-    static const size_t       DEFAULT_SUGGESTIONS;
-    static const bool         DEFAULT_REPEAT_SUGGESTION;
-    static const size_t       DEFAULT_GREEDY_SUGGESTION_THRESHOLD;
-    static const std::string  DEFAULT_PLUGINS;
-
 private:
     static const char* LOGGER;
 
     void init_profiles (const std::string& profilename);
 
-    void read_profiles_into_configuration ();
+    Profile* create_profile_from_xml (const std::string& filename);
 
     std::string get_user_home_dir() const;
+
+    bool loaded_at_least_one_profile;
     
     /** Cache log message until logger level is read from configuration.
      */
@@ -102,9 +92,8 @@ private:
 
     std::list<CachedLogMessage> cached_log_messages;
 
-    std::list<std::string> profiles;
-
     Configuration* configuration;
+    Profile* rw_profile;           // readable-writable profile
 
     Logger<char>    logger;
 };
