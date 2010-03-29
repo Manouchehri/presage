@@ -30,6 +30,7 @@
 #include "../tinyxml/tinyxml.h"
 #include "combiner.h"
 #include "logger.h"
+#include "dispatcher.h"
 
 #include <string>
 #include <list>
@@ -56,9 +57,12 @@ public:
     void save_profile() const;
 
     Configuration* get_configuration();
+
+    void set_autopersist (const std::string& value);
     
 private:
     static const char* LOGGER;
+    static const char* AUTOPERSIST;
 
     void init_profiles (const std::string& profilename);
 
@@ -92,10 +96,12 @@ private:
 
     std::list<CachedLogMessage> cached_log_messages;
 
-    Configuration* configuration;
+    Configuration* config;
     Profile* rw_profile;           // readable-writable profile
+    bool autopersist_config;
 
     Logger<char>    logger;
+
 };
 
 

@@ -46,6 +46,9 @@ public:
 
     void print() const;
 
+    std::map<std::string, Variable*>::const_iterator begin () const;
+    std::map<std::string, Variable*>::const_iterator end   () const;
+
     class ConfigurationException : public PresageException {
     public:
 	ConfigurationException(const std::string& desc) throw() : PresageException(desc) { }

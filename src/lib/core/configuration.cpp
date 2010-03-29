@@ -68,15 +68,15 @@ void Configuration::insert(const std::string& variable,
 {
     std::map<std::string, Variable*>::const_iterator it = configuration->find (variable);
     if (it != configuration->end ()) {
-      it->second->set_value (value);
-      //std::cerr << "[Configuration] Modifying existing variable: " << variable << std::endl;
+	it->second->set_value (value);
+	//std::cerr << "[Configuration] Modifying existing variable: " << variable << std::endl;
 
     } else {
-      Variable* var = new Variable (variable);
-      var->set_value (value);
-      configuration->insert (std::pair<std::string, Variable*> (variable, var));
+	Variable* var = new Variable (variable);
+	var->set_value (value);
+	configuration->insert (std::pair<std::string, Variable*> (variable, var));
       
-      //std::cerr << "[Configuration] Adding new variable: " << variable << '\t' << var << std::endl;
+	//std::cerr << "[Configuration] Adding new variable: " << variable << '\t' << var << std::endl;
     }
 
     //std::cerr << "[Configuration] Inserted variable: " << variable << std::endl;
@@ -104,4 +104,14 @@ void Configuration::print() const
 	// value
 	std::cout << " = " << map_it->second->get_value () << std::endl;
     }
+}
+
+std::map<std::string, Variable*>::const_iterator Configuration::begin () const
+{
+    return configuration->begin();
+}
+
+std::map<std::string, Variable*>::const_iterator Configuration::end () const
+{
+    return configuration->end();
 }

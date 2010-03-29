@@ -22,10 +22,10 @@
                                                                 **********(*)*/
 
 
-#include "core/profileManager.h"
-#include "core/utility.h"        // isYes isNo isTrue isFalse utility function
+#include "profileManager.h"
+#include "utility.h"        // isYes isNo isTrue isFalse utility function
 #include "dirs.h"                // sysconfdir macro define
-#include "core/configuration.h"
+#include "configuration.h"
 
 #ifdef HAVE_PWD_H
 # include <pwd.h>
@@ -41,6 +41,7 @@
 #endif
 
 const char* ProfileManager::LOGGER = "Presage.ProfileManager.LOGGER";
+const char* ProfileManager::AUTOPERSIST = "Presage.ProfileManager.AUTOPERSIST";
 
 /** Constructor.
  *
@@ -50,9 +51,10 @@ const char* ProfileManager::LOGGER = "Presage.ProfileManager.LOGGER";
 ProfileManager::ProfileManager(const std::string profilename)
     : logger("ProfileManager", std::cerr)
 {
-    configuration = new Configuration();
+    config = new Configuration();
     loaded_at_least_one_profile = false;
     rw_profile = 0;
+    autopersist_config = false;
 
     init_profiles (profilename);
 }
@@ -65,38 +67,41 @@ ProfileManager::~ProfileManager()
 {
     flush_cached_log_messages ();
 
-    save_profile ();
+    set_autopersist (config->find (AUTOPERSIST)->get_value ());
+    if (autopersist_config) {
+	save_profile ();
+    }
 
-    delete configuration;
+    delete config;
 }
 
 
 Profile* ProfileManager::create_profile_from_xml (const std::string& filename)
 {
-        Profile* profile = new Profile (filename);
+    Profile* profile = new Profile (filename);
 
-	std::string message;
-	if (profile->file_read_ok ()) {
-            // logger has not been init'd with configuration, because no
-	    // profile is known yet, hence caching this logging item,
-            // which will be flushed when configuration is finally read in
-	    //
-	    message = "Loaded profile: " + filename;
+    std::string message;
+    if (profile->file_read_ok ()) {
+	// logger has not been init'd with configuration, because no
+	// profile is known yet, hence caching this logging item,
+	// which will be flushed when configuration is finally read in
+	//
+	message = "Loaded profile: " + filename;
 	  
-	    cache_log_message(logger.NOTICE, message);
+	cache_log_message(logger.NOTICE, message);
 	  	  
-	} else {
-	    // logger has not been init'd with configuration, because no
-	    // profile is known yet, hence caching this logging item,
-	    // which will be flushed when configuration is finally read in
-	    //
-	    message = "Failed to load profile: " + filename;
+    } else {
+	// logger has not been init'd with configuration, because no
+	// profile is known yet, hence caching this logging item,
+	// which will be flushed when configuration is finally read in
+	//
+	message = "Failed to load profile: " + filename;
 	  
-	    cache_log_message(logger.NOTICE, message);
+	cache_log_message(logger.NOTICE, message);
 
-	}
+    }
 	
-	return profile;
+    return profile;
 }
 
 
@@ -124,7 +129,7 @@ void ProfileManager::init_profiles (const std::string& profilename)
 	delete profile;
         profile = create_profile_from_xml (*it);
 	loaded_at_least_one_profile = loaded_at_least_one_profile || profile->file_read_ok ();
-	profile->read_into_configuration (configuration);
+	profile->read_into_configuration (config);
     }
 
     // remember last profile as writable profile
@@ -133,7 +138,7 @@ void ProfileManager::init_profiles (const std::string& profilename)
     if (! loaded_at_least_one_profile) {
         // load default profile values
         DefaultProfile default_profile (profiles.back());
-	default_profile.read_into_configuration (configuration);
+	default_profile.read_into_configuration (config);
     }
 }
 
@@ -178,20 +183,12 @@ std::string ProfileManager::get_user_home_dir() const
  */
 void ProfileManager::save_profile() const
 {
+    rw_profile->read_from_configuration (config);
     bool saveOk = rw_profile->write_to_file ();
     if (! saveOk) {
         logger << ERROR << "Failed to save configuration to profile " << endl;
     }
 }
-
-
-/** Create new profile with default values.
- *
- */
-//TiXmlDocument* ProfileManager::buildProfile(const std::string p)
-//{
-//}
-
 
 Configuration* ProfileManager::get_configuration()
 {
@@ -202,7 +199,7 @@ Configuration* ProfileManager::get_configuration()
     // profile was available at that time.
     //
     refresh_config();
-    return configuration;
+    return config;
 }
 
 void ProfileManager::cache_log_message(Logger<char>::Level level, const std::string& message)
@@ -228,7 +225,7 @@ void ProfileManager::flush_cached_log_messages()
 void ProfileManager::refresh_config()
 {
     try {
-        logger << setlevel(configuration->find (LOGGER)->get_value());
+        logger << setlevel(config->find (LOGGER)->get_value());
     } catch (Configuration::ConfigurationException& ex) {
 	// if no config is available, turn on full logging for profile
 	// manager
@@ -236,4 +233,10 @@ void ProfileManager::refresh_config()
     }
 
     flush_cached_log_messages();
+}
+
+void ProfileManager::set_autopersist (const std::string& value)
+{
+    autopersist_config = isTrue (value);
+    logger << INFO << "AUTOPERSIST: " << autopersist_config << endl;
 }

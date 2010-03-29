@@ -36,6 +36,7 @@ const size_t       DefaultProfile::DEFAULT_SUGGESTIONS                 = 6;
 const bool         DefaultProfile::DEFAULT_REPEAT_SUGGESTION           = false;
 const size_t       DefaultProfile::DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
 const std::string  DefaultProfile::DEFAULT_PLUGINS                     = "RecencyPlugin";
+const char*        DefaultProfile::DEFAULT_AUTOPERSIST                 = "false";
 
 DefaultProfile::DefaultProfile (const std::string& filename)
   : Profile (filename)
@@ -201,6 +202,15 @@ void DefaultProfile::build_xml_document (const std::string& filename)
         if( element ) {
             std::ostringstream ss;
             ss << DEFAULT_LOGGER_LEVEL;
+            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
+            assert( node );
+        }
+
+        element = module->InsertEndChild(TiXmlElement("AUTOPERSIST"));
+        assert( element );
+        if( element ) {
+            std::ostringstream ss;
+            ss << DEFAULT_AUTOPERSIST;
             node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
             assert( node );
         }

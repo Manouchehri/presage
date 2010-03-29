@@ -98,3 +98,61 @@ bool Profile::write_to_file () const
     //std::cerr << "Saving profile to file: " << xml_filename << std::endl;
     return xmlProfileDoc->SaveFile(xml_filename.c_str());
 }
+
+void Profile::read_from_configuration (Configuration* configuration)
+{
+    TiXmlNode* node = 0;
+
+    // insert initial mandatory declaration if not present
+    TiXmlNode* decl = 0;
+    for (TiXmlNode* child = xmlProfileDoc->FirstChild();
+	 child && !decl; child = child->NextSibling() ) {
+	decl = child->ToDeclaration ();
+    }
+    if (! decl) {
+	node = xmlProfileDoc->InsertEndChild( TiXmlDeclaration( "1.0", "UTF-8", "no" ) );
+	assert (node);
+    }
+
+    // for each configuration variable in configuration
+    for (std::map<std::string, Variable*>::const_iterator conf_it = configuration->begin();
+	 conf_it != configuration->end();
+	 conf_it ++) {
+
+	// start from root of DOM
+	node = xmlProfileDoc;
+
+	// get the variable name and break it up in its component vector
+	std::string variable_name = conf_it->second->get_name ();
+	std::vector<std::string> variable_name_vector = Variable::string_to_vector (variable_name);
+
+	// for each component in variable name vector
+	for (size_t i = 0; i < variable_name_vector.size(); i++) {
+
+	    // check if component element exists
+	    TiXmlElement* existing = node->FirstChildElement (variable_name_vector[i].c_str());
+	    if (existing) {
+		// carry on with existing component
+		node = existing;
+
+	    } else {
+		// create missing component element and carry on with new component
+		node = node->InsertEndChild (TiXmlElement (variable_name_vector[i].c_str()));
+		assert (node);
+	    }
+	}
+
+	// check if a text node for element exists
+	TiXmlText* text = 0;
+	for(TiXmlNode* child = node->FirstChild(); child && !text; child = child->NextSibling() ) {
+	    text = child->ToText ();
+	}
+	if (text) {
+	    // text child already exists, so remove it to set new value
+	    node->RemoveChild (text);
+	}
+	node = node->InsertEndChild (TiXmlText (conf_it->second->get_value ().c_str ()));
+	assert (node);
+    
+    }
+}

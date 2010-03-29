@@ -1,3 +1,15 @@
+2010-03-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileManagerTest.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/core/profileManager.h, src/lib/core/profile.h,
+	src/lib/core/defaultProfile.cpp, src/lib/core/configuration.cpp,
+	src/lib/core/profileManager.cpp, src/lib/core/profile.cpp,
+	src/lib/core/defaultProfile.h, src/lib/core/configuration.h,
+	resources/profiles/presage.xml.template: implemented method to
+	write configuration to xml profile, added variable to persist
+	current configuration.
+
 2010-03-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/core/profileTest.cpp,

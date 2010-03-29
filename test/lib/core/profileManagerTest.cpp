@@ -31,7 +31,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ProfileManagerTest );
 
 void ProfileManagerTest::setUp()
 {
-    profileManager = new ProfileManager();
+    profileManager = new ProfileManager("non-existant-profile.xml");
     profile        = 0;
     configuration  = 0;
 
@@ -104,6 +104,7 @@ void ProfileManagerTest::testCustomProfile()
                    << "<Presage>\n"
 		   << "    <ProfileManager>\n"
 		   << "         <LOGGER>ERROR</LOGGER>\n"
+		   << "         <AUTOPERSIST>false</AUTOPERSIST>\n"
 		   << "    </ProfileManager>\n"
                    << "    <Custom>CUSTOM</Custom>\n"
                    << "</Presage>\n";

@@ -97,6 +97,7 @@ void SmoothedNgramPlugin::set_deltas (const std::string& value)
 void SmoothedNgramPlugin::set_learn (const std::string& value)
 {
     wanna_learn = isTrue (value);
+    logger << INFO << "LEARN: " << value << endl;
 }
 
 

@@ -66,11 +66,15 @@ public:
      */
     virtual ~Profile();
 
-    /** Get configuration associated to profile.
-     *
-     * \return configuration object
+    /** Writes configuration from XML DOM document into configuration.
+     * 
      */
     void read_into_configuration(Configuration* configuration);
+
+    /* Reads from configuration and writes to XML DOM document.
+     *
+     */
+    void read_from_configuration (Configuration* configuration);
 
     bool file_read_ok () const;
 

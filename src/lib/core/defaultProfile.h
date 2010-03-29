@@ -56,6 +56,7 @@ public:
     static const bool         DEFAULT_REPEAT_SUGGESTION;
     static const size_t       DEFAULT_GREEDY_SUGGESTION_THRESHOLD;
     static const std::string  DEFAULT_PLUGINS;
+    static const char*        DEFAULT_AUTOPERSIST;
 
 private:
 
