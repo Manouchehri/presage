@@ -1,3 +1,19 @@
+2010-03-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/defaultProfile.cpp: enhanced default profile to
+	contain all available configuration variables.
+
+	* src/lib/core/profileManager.cpp: fixed memory leak, load default
+	profile before any other configuration profile.
+
+	* test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.h,
+	test/lib/core/selectorTest.cpp, test/lib/core/selectorTest.h,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	src/lib/core/pluginRegistry.cpp, src/lib/core/pluginRegistry.h:
+	fixed bug in unit tests when no local installation is present.
+
 2010-03-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/core/profileManagerTest.cpp,

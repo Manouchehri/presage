@@ -54,7 +54,6 @@ private:
     TestStringSuite* testStringSuite;
 
     ContextTracker*  contextTracker;
-    ProfileManager*  profileManager;
     Configuration*   configuration;
     PluginRegistry*  pluginRegistry;
     

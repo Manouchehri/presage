@@ -382,8 +382,16 @@ void SelectorTest::setUp()
     tds_S6_NR_T3 = new TestDataSuite_S6_NR_T3();
     tds_S6_R_T3 = new TestDataSuite_S6_R_T3();
 
-    profileManager = new ProfileManager();
-    configuration = profileManager->get_configuration();
+    configuration = new Configuration();
+    configuration->insert (PluginRegistry::LOGGER, "ALL");
+    configuration->insert (PluginRegistry::PLUGINS, "");
+    configuration->insert (ContextTracker::LOGGER, "ALL");
+    configuration->insert (ContextTracker::SLIDING_WINDOW_SIZE, "80");
+    configuration->insert (Selector::LOGGER, "ALL");
+    configuration->insert (Selector::SUGGESTIONS, "6");
+    configuration->insert (Selector::REPEAT_SUGGESTIONS, "no");
+    configuration->insert (Selector::GREEDY_SUGGESTION_THRESHOLD, "0");
+
     pluginRegistry = new PluginRegistry(configuration);
     strstream = new std::stringstream();
     callback = new StringstreamPresageCallback(*strstream);
@@ -403,8 +411,7 @@ void SelectorTest::tearDown()
     delete contextTracker;
     delete strstream;
     delete callback;
-    delete profile;
-    delete profileManager;
+    delete configuration;
 }
 
 void SelectorTest::testSelect(TestDataSuite* tds)

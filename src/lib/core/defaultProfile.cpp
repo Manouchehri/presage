@@ -24,6 +24,8 @@
 
 #include "defaultProfile.h"
 
+#include "dirs.h"
+
 #include <sstream>
 
 const char*        DefaultProfile::DEFAULT_PROFILE_FILENAME            = "presage.xml";
@@ -51,242 +53,111 @@ DefaultProfile::~DefaultProfile()
 
 void DefaultProfile::build_xml_document (const std::string& filename)
 {
-    TiXmlNode* root;
-    TiXmlNode* node;
-    TiXmlNode* module;
-    TiXmlNode* element;
+    const char* xml =
+"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>"
+"<Presage>"
+"    <PluginRegistry>"
+"        <LOGGER>ERROR</LOGGER>"
+"        <!-- PLUGINS"
+"          Space separated list of predictive plugins to use to generate predictions"
+"        -->"
+"        <PLUGINS>AbbreviationExpansionPlugin SmoothedNgramPlugin RecencyPlugin</PLUGINS>"
+"    </PluginRegistry>"
+"    <ContextTracker>"
+"	<LOGGER>ERROR</LOGGER>"
+"        <!-- SLIDING_WINDOW_SIZE"
+"          Size of buffer used by context tracker to detect context changes"
+"        -->"
+"        <SLIDING_WINDOW_SIZE>80</SLIDING_WINDOW_SIZE>"
+"    </ContextTracker>"
+"    <Selector>"
+"	<LOGGER>ERROR</LOGGER>"
+"        <!-- SUGGESTIONS"
+"          Controls how many suggestions are returned in each prediction."
+"        -->"
+"        <SUGGESTIONS>6</SUGGESTIONS>"
+"        <!-- REPEAT_SUGGESTIONS"
+"          Allow the same suggestion to be offered in subsequent"
+"	  predictions, even if no context change has been detected."
+"        -->"
+"        <REPEAT_SUGGESTIONS>no</REPEAT_SUGGESTIONS>"
+"	<!-- GREEDY_SUGGESTION_THRESHOLD"
+"	  Select only tokens whose completion length is greater than"
+"          the specified greedy suggestion threshold."
+"	  i.e. If this option is set to 2 and the current prefix is"
+"               \"cu\", then the word \"cub\" will not offered as a"
+"               suggestion, because the completion's length is only one"
+"               character long. Tokens \"curb\" or \"cube\" or \"cubicle\" or"
+"               \"cucumber\" will however be offered, because these"
+"               words' completions are at least 2 characters long."
+"	-->"
+"        <GREEDY_SUGGESTION_THRESHOLD>0</GREEDY_SUGGESTION_THRESHOLD>"
+"    </Selector>"
+"    <PredictorActivator>"
+"        <LOGGER>ERROR</LOGGER>"
+"        <!-- PREDICT_TIME"
+"          Maximum time allowed for predictive plugins to return their prediction."
+"	-->"
+"        <PREDICT_TIME>1000</PREDICT_TIME>"
+"        <!-- MAX_PARTIAL_PREDICTION_SIZE"
+"          Desired size of each prediction prior to combination phase."
+"        -->"
+"        <MAX_PARTIAL_PREDICTION_SIZE>60</MAX_PARTIAL_PREDICTION_SIZE>"
+"	<!-- COMBINATION_POLICY"
+"	  policy used by predictor to combine predictions returned"
+"	  by the active predictive plugins into one prediction."
+"        -->"
+"        <COMBINATION_POLICY>Meritocracy</COMBINATION_POLICY>"
+"    </PredictorActivator>"
+"    <ProfileManager>"
+"        <LOGGER>ERROR</LOGGER>"
+"        <!-- AUTOPERSIST"
+"	     Automatically saves configuration to active profile."
+"	  -->"
+"	<AUTOPERSIST>false</AUTOPERSIST>"
+"    </ProfileManager>"
+"    <Plugins>"
+"        <SmoothedNgramPlugin>"
+"            <LOGGER>ERROR</LOGGER>"
+"            <DBFILENAME>" localstatedir "/lib/presage/database_en.db</DBFILENAME>"
+"            <!-- $delta_0, $delta_1, ..., $delta_{n-1} -->"
+"            <DELTAS>0.01 0.1 0.89</DELTAS>"
+"            <LEARN>false</LEARN>"
+"            <DatabaseConnector>"
+"                <LOGGER>ERROR</LOGGER>"
+"            </DatabaseConnector>"
+"        </SmoothedNgramPlugin>"
+"	<RecencyPlugin>"
+"            <LOGGER>ERROR</LOGGER>"
+"            <LAMBDA>1</LAMBDA>"
+"            <N_0>1</N_0>"
+"            <CUTOFF_THRESHOLD>20</CUTOFF_THRESHOLD>"
+"	</RecencyPlugin>"
+"	<DictionaryPlugin>"
+"	    <DICTIONARY>/usr/share/dict/words</DICTIONARY>"
+"            <!-- fixed probability assigned to prediction -->"
+"            <PROBABILITY>0.000001</PROBABILITY>"
+"	</DictionaryPlugin>"
+"        <AbbreviationExpansionPlugin>"
+"            <LOGGER>ERROR</LOGGER>"
+"            <ABBREVIATIONS>" localstatedir "/lib/presage/abbreviations_en.txt</ABBREVIATIONS>"
+"        </AbbreviationExpansionPlugin>"
+"        <DejavuPlugin>"
+"            <LOGGER>ERROR</LOGGER>"
+"            <MEMORY>" localstatedir "/lib/presage/dejavu_memory_en.txt</MEMORY>"
+"            <TRIGGER>3</TRIGGER>"
+"        </DejavuPlugin>"
+"	<ARPAPlugin>"
+"	  <LOGGER>ERROR</LOGGER>"
+"	  <ARPAFILENAME>" pkgdatadir "/arpa_en.arpa</ARPAFILENAME>"
+"	  <VOCABFILENAME>" pkgdatadir "/arpa_en.vocab</VOCABFILENAME>"
+"	  <TIMEOUT>100</TIMEOUT>"
+"	</ARPAPlugin>"
+"    </Plugins>"
+"</Presage>";
 
-    // Create document
-    xmlProfileDoc = new TiXmlDocument(filename.c_str());
+  xmlProfileDoc = new TiXmlDocument (filename.c_str ());
 
-    // Insert initial mandatory declaration
-    node = xmlProfileDoc->InsertEndChild( TiXmlDeclaration( "1.0", "UTF-8", "no" ) );
-    assert( node );
+  xmlProfileDoc->Parse (xml);
 
-    // Insert root element
-    root = xmlProfileDoc->InsertEndChild( TiXmlElement( "Presage" ) );
-    assert( root );
-
-    // PluginRegistry module
-    module = root->InsertEndChild( TiXmlElement( "PluginRegistry" ) );
-    assert( module );
-    if( module ) {
-        element = module->InsertEndChild(TiXmlElement("LOGGER"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_LOGGER_LEVEL;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-
-        element = module->InsertEndChild( TiXmlElement( "PLUGINS" ) );
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_PLUGINS;
-            node = element->InsertEndChild(TiXmlText( ss.str().c_str() ));
-            assert( node );
-        }
-    }
-
-    // ContextTracker module
-    module = root->InsertEndChild( TiXmlElement( "ContextTracker" ) );
-    assert( module );
-    if( module ) {
-        element = module->InsertEndChild(TiXmlElement("LOGGER"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_LOGGER_LEVEL;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-
-        element = module->InsertEndChild( TiXmlElement( "SLIDING_WINDOW_SIZE" ) );
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_SLIDING_WINDOW_SIZE;
-            node = element->InsertEndChild(TiXmlText( ss.str().c_str() ));
-            assert( node );
-        }
-    }
-	
-    // Selector module
-    module = root->InsertEndChild( TiXmlElement( "Selector" ) );
-    assert( module );
-    if( module ) {
-        element = module->InsertEndChild(TiXmlElement("LOGGER"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_LOGGER_LEVEL;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-
-        element = module->InsertEndChild(TiXmlElement("SUGGESTIONS"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_SUGGESTIONS;
-            node = element->InsertEndChild(TiXmlText( ss.str().c_str() ));
-            assert( node );
-        }
-		
-        element = module->InsertEndChild( TiXmlElement( "REPEAT_SUGGESTIONS" ) );
-        assert( element );
-        if( element ) {
-            node = element->InsertEndChild( TiXmlText( "no" ) );
-            assert( node );
-        }
-		
-        element = module->InsertEndChild( TiXmlElement( "GREEDY_SUGGESTION_THRESHOLD" ) );
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_GREEDY_SUGGESTION_THRESHOLD;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-    }
-
-    // PredictorActivator module
-    module = root->InsertEndChild( TiXmlElement( "PredictorActivator" ) );
-    assert( module );
-    if( module ) {
-        element = module->InsertEndChild(TiXmlElement("LOGGER"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_LOGGER_LEVEL;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-
-        element = module->InsertEndChild(TiXmlElement("PREDICT_TIME"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_PREDICT_TIME;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-
-        element = module->InsertEndChild(TiXmlElement("MAX_PARTIAL_PREDICTION_SIZE"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_MAX_PARTIAL_PREDICTION_SIZE;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-
-        element = module->InsertEndChild( TiXmlElement( "COMBINATION_POLICY" ) );
-        assert( element );
-        if( element ) {
-            std::stringstream ss;
-            ss << DEFAULT_COMBINATION_POLICY;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-    }
-
-    // ProfileManager module
-    module = root->InsertEndChild( TiXmlElement( "ProfileManager" ) );
-    assert( module );
-    if( module ) {
-        element = module->InsertEndChild(TiXmlElement("LOGGER"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_LOGGER_LEVEL;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-
-        element = module->InsertEndChild(TiXmlElement("AUTOPERSIST"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_AUTOPERSIST;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-    }
-
-    //PLUMP
-    /*
-    // PluginManager module
-    module = root->InsertEndChild( TiXmlElement( "PluginManager" ) );
-    assert( module );
-    if( module ) {
-    element = module->InsertEndChild( TiXmlElement( "PLUGIN_PATH" ) );
-    assert( element );
-    if( element ) {
-    std::stringstream ss;
-    ss << DEFAULT_PLUGIN_PATH;
-    node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-    assert( node );
-    }
-
-    element = module->InsertEndChild( TiXmlElement( "PLUGIN_SUFFIX" ) );
-    assert( element );
-    if( element ) {
-    std::stringstream ss;
-    ss << DEFAULT_PLUGIN_SUFFIX;
-    node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-    assert( node );
-    }
-    }
-    */
-
-    // Plugin modules
-    module = root->InsertEndChild( TiXmlElement( "Plugins" ) );
-    assert( module );
-    if( module ) {
-      
-      module = module->InsertEndChild( TiXmlElement( "RecencyPlugin" ) );
-      assert( module );
-      if( module ) {
-        element = module->InsertEndChild(TiXmlElement("LOGGER"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << DEFAULT_LOGGER_LEVEL;
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }	
-        element = module->InsertEndChild(TiXmlElement("LAMBDA"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << "1";
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-        element = module->InsertEndChild(TiXmlElement("N_0"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << "1";
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-        element = module->InsertEndChild(TiXmlElement("CUTOFF_THRESHOLD"));
-        assert( element );
-        if( element ) {
-            std::ostringstream ss;
-            ss << "20";
-            node = element->InsertEndChild( TiXmlText( ss.str().c_str() ) );
-            assert( node );
-        }
-
-      }
-
-    }
-
-    // print out doc for debug purposes
-    // result.Print();
 }

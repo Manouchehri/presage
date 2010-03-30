@@ -34,8 +34,12 @@ void ContextTrackerTest::setUp()
 {
     testStringSuite = new TestStringSuite();
 
-    profileManager = new ProfileManager();
-    configuration = profileManager->get_configuration();
+    configuration = new Configuration();
+    configuration->insert (PluginRegistry::LOGGER, "ALL");
+    configuration->insert (PluginRegistry::PLUGINS, "");
+    configuration->insert (ContextTracker::LOGGER, "ALL");
+    configuration->insert (ContextTracker::SLIDING_WINDOW_SIZE, "80");
+
     pluginRegistry = new PluginRegistry(configuration);
 }
 
@@ -44,7 +48,7 @@ void ContextTrackerTest::tearDown()
     delete testStringSuite;
 
     delete pluginRegistry;
-    delete profileManager;
+    delete configuration;
 }
 
 

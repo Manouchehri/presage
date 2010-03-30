@@ -73,6 +73,7 @@ ProfileManager::~ProfileManager()
     }
 
     delete config;
+    delete rw_profile;
 }
 
 
@@ -109,6 +110,13 @@ void ProfileManager::init_profiles (const std::string& profilename)
 {
     std::list<std::string> profiles;
 
+    {
+        // load default profile values
+        DefaultProfile default_profile ("");
+	default_profile.read_into_configuration (config);
+    }
+
+
     // system etc directory
     profiles.push_back (static_cast<std::string>("/etc") + '/' + DefaultProfile::DEFAULT_PROFILE_FILENAME);
     // installation config directory
@@ -121,7 +129,7 @@ void ProfileManager::init_profiles (const std::string& profilename)
     }
 
 
-    // read data from each standard profile and write it to configuration
+    // read data from each profile and write it to configuration
     Profile* profile = 0;
     for (std::list<std::string>::const_iterator it = profiles.begin();
 	 it != profiles.end();
@@ -134,12 +142,6 @@ void ProfileManager::init_profiles (const std::string& profilename)
 
     // remember last profile as writable profile
     rw_profile = profile;
-
-    if (! loaded_at_least_one_profile) {
-        // load default profile values
-        DefaultProfile default_profile (profiles.back());
-	default_profile.read_into_configuration (config);
-    }
 }
 
 

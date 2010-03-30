@@ -192,10 +192,10 @@ public:
     void set_logger (const std::string& value);
     void set_sliding_window_size (const std::string& value);
 
-private:
     static const char* LOGGER;
     static const char* SLIDING_WINDOW_SIZE;
 
+private:
     std::string wordChars;
     std::string separatorChars;
     std::string blankspaceChars;

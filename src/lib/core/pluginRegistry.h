@@ -77,6 +77,9 @@ class PluginRegistry : public Observer {
 
     };
 
+    static const char* LOGGER;
+    static const char* PLUGINS;
+
   private:
     void setLogger (const std::string& level);
     void setPlugins(const std::string& plugin_list);
@@ -89,9 +92,6 @@ class PluginRegistry : public Observer {
 
     std::string          plugins_list;
     std::vector<Plugin*> plugins;        // active Plugins
-
-    static const char* LOGGER;
-    static const char* PLUGINS;
 
     Dispatcher<PluginRegistry> dispatcher;
 };

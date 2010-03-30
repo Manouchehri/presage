@@ -60,6 +60,7 @@ void ProfileManagerTest::testDefaultProfile()
 
     std::cout << "ProfileManagerTest::testDefaultProfile()" << std::endl;
     configuration = profileManager->get_configuration();
+    configuration->print ();
     pluginRegistry = new PluginRegistry(configuration);
 
     callback = new StringstreamPresageCallback(*stream);
