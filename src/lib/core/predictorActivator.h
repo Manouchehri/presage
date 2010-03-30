@@ -168,12 +168,12 @@ class PredictorActivator : public Observer {
 
     virtual void update (const Observable* variable);
 
-  private:
     static const char* LOGGER;
     static const char* PREDICT_TIME;
     static const char* MAX_PARTIAL_PREDICTION_SIZE;
     static const char* COMBINATION_POLICY;
 
+  private:
     // PLUMP
     //plump::Plump& plump;
 

@@ -60,10 +60,10 @@ public:
 
     void set_autopersist (const std::string& value);
     
-private:
     static const char* LOGGER;
     static const char* AUTOPERSIST;
 
+private:
     void init_profiles (const std::string& profilename);
 
     Profile* create_profile_from_xml (const std::string& filename);

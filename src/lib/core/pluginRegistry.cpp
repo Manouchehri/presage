@@ -136,8 +136,8 @@ void PluginRegistry::addPlugin(const std::string& pluginName)
 void PluginRegistry::removePlugins()
 {
     for (size_t i = 0; i < plugins.size(); i++) {
-	delete plugins[i];
 	logger << DEBUG << "Removing plugin: " << plugins[i]->getName() << endl;
+	delete plugins[i];
     }
     plugins.clear();
 }

@@ -29,35 +29,21 @@
 
 #include "core/profileManager.h"
 
-#include "core/pluginRegistry.h"
-#include "core/context_tracker/contextTracker.h"
-#include "core/predictorActivator.h"
-#include "core/selector.h"
-
 class ProfileManagerTest : public CppUnit::TestFixture { 
 public:
     void setUp();
     void tearDown();
     
-    void testDefaultProfile();
+    void testProfile();
     void testCustomProfile();
 
 private:
-    void testProfile();
 
     ProfileManager*     profileManager;
-    Profile*            profile;
     Configuration*      configuration;
 
-    PluginRegistry*     pluginRegistry;
-    std::stringstream*  stream;
-    PresageCallback*    callback;
-    ContextTracker*     contextTracker;
-    PredictorActivator* predictorActivator;
-    Selector*           selector;
-    
     CPPUNIT_TEST_SUITE( ProfileManagerTest );
-    CPPUNIT_TEST( testDefaultProfile       );
+    CPPUNIT_TEST( testProfile              );
     CPPUNIT_TEST( testCustomProfile        );
     CPPUNIT_TEST_SUITE_END();
 };

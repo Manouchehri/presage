@@ -25,6 +25,11 @@
 #include "profileManagerTest.h"
 #include "../common/stringstreamPresageCallback.h"
 
+#include "core/pluginRegistry.h"
+#include "core/context_tracker/contextTracker.h"
+#include "core/predictorActivator.h"
+#include "core/selector.h"
+
 #include <fstream>
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ProfileManagerTest );
@@ -32,66 +37,22 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ProfileManagerTest );
 void ProfileManagerTest::setUp()
 {
     profileManager = new ProfileManager("non-existant-profile.xml");
-    profile        = 0;
-    configuration  = 0;
-
-    pluginRegistry = 0;
-    stream         = 0;
-    callback       = 0;
-    contextTracker = 0;
-    selector       = 0;
-    predictorActivator = 0;
+    configuration  = profileManager->get_configuration ();
 }
 
 void ProfileManagerTest::tearDown()
 {
-    delete predictorActivator;
-    delete selector;
-    delete contextTracker;
-    delete callback;
-    delete stream;
-
-    delete profile;
     delete profileManager;
-}
-
-void ProfileManagerTest::testDefaultProfile()
-{
-
-    std::cout << "ProfileManagerTest::testDefaultProfile()" << std::endl;
-    configuration = profileManager->get_configuration();
-    configuration->print ();
-    pluginRegistry = new PluginRegistry(configuration);
-
-    callback = new StringstreamPresageCallback(*stream);
-    contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
-    selector = new Selector(configuration, contextTracker);
-    predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
-
-    std::cout << "ProfileManagerTest: before testProfile()" << std::endl;
-    testProfile();
-    std::cout << "Exiting ProfileManagerTest::testDefaultProfile( ...)" << std::endl;
-
 }
 
 void ProfileManagerTest::testProfile()
 {
-    // test init contextTracker
-
-
-    // test init predictorActivator
-    CPPUNIT_ASSERT_EQUAL(DefaultProfile::DEFAULT_PREDICT_TIME,
-			 predictorActivator->getPredictTime());
-    CPPUNIT_ASSERT_EQUAL(DefaultProfile::DEFAULT_COMBINATION_POLICY,
-			 predictorActivator->getCombinationPolicy());
-
-    // test init selector
-    CPPUNIT_ASSERT_EQUAL(DefaultProfile::DEFAULT_SUGGESTIONS,
-			 selector->get_suggestions());
-    CPPUNIT_ASSERT_EQUAL(DefaultProfile::DEFAULT_REPEAT_SUGGESTION,
-			 selector->get_repeat_suggestions());
-    CPPUNIT_ASSERT_EQUAL(DefaultProfile::DEFAULT_GREEDY_SUGGESTION_THRESHOLD,
-			 selector->get_greedy_suggestion_threshold());
+    // test that some default variables are there in retrieved config
+    CPPUNIT_ASSERT(configuration->find (ProfileManager::LOGGER) != 0);
+    CPPUNIT_ASSERT(configuration->find (PluginRegistry::PLUGINS) != 0);
+    CPPUNIT_ASSERT(configuration->find (ContextTracker::LOGGER) != 0);
+    CPPUNIT_ASSERT(configuration->find (Selector::LOGGER) != 0);
+    CPPUNIT_ASSERT(configuration->find (PredictorActivator::LOGGER) != 0);
 }
 
 void ProfileManagerTest::testCustomProfile()
