@@ -1,5 +1,7 @@
 2010-03-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* presage-0.8.1: released.
+
 	* debian/changelog, website/presage_database_dump.sql.gz,
 	configure.ac, NEWS: preparing for 0.8.1 release.
 
