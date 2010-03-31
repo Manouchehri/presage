@@ -39,34 +39,18 @@
 #include "plugins/recencyPlugin.h"
 #include "plugins/dejavuPlugin.h"
 
-const Variable PluginRegistry::LOGGER  = Variable("Presage.PluginRegistry.LOGGER");
-const Variable PluginRegistry::PLUGINS = Variable("Presage.PluginRegistry.PLUGINS");
+const char* PluginRegistry::LOGGER  = "Presage.PluginRegistry.LOGGER";
+const char* PluginRegistry::PLUGINS = "Presage.PluginRegistry.PLUGINS";
 
 PluginRegistry::PluginRegistry(Configuration* configuration)
     : config(configuration),
       contextTracker(0),
-      logger("PluginRegistry", std::cerr)
+      logger("PluginRegistry", std::cerr),
+      dispatcher(this)
 {
-    // read config values
-    Value value;
-
-    try {
-	value = config->get(LOGGER);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-    } catch (Configuration::ConfigurationException ex) {
-	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
-    try {
-	value = config->get(PLUGINS);
-	logger << INFO << "PLUGINS: " << value << endl;
-	plugins_list = value;
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
-	throw PresageException("");
-    }
-
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & PluginRegistry::setLogger);
+    dispatcher.map (config->find (PLUGINS), & PluginRegistry::setPlugins);
 }
 
 
@@ -75,21 +59,37 @@ PluginRegistry::~PluginRegistry()
     removePlugins();
 }
 
+void PluginRegistry::setLogger (const std::string& value)
+{
+    logger << setlevel (value);
+    logger << INFO << "LOGGER: " << value << endl;
+}
+
+
 void PluginRegistry::setContextTracker(ContextTracker* ct) {
     if (contextTracker != ct) {
 	contextTracker = ct;
-	removePlugins();
-	setPlugins(plugins_list);
+	removePlugins ();
+	setPlugins (plugins_list);
     }
 }
 
 void PluginRegistry::setPlugins(const std::string& pluginList)
 {
-    std::stringstream ss(pluginList);
-    std::string pluginName;
-    while (ss >> pluginName) {
-	logger << INFO << "Initializing predictive plugin: " << pluginName << endl;
-	addPlugin(pluginName);
+    plugins_list = pluginList;
+    logger << INFO << "PLUGINS: " << plugins_list << endl;
+
+    if (contextTracker) {
+	// plugins need tracker, only initialize them if available
+
+        removePlugins();
+
+        std::stringstream ss(plugins_list);
+        std::string plugin;
+	while (ss >> plugin) {
+	    logger << INFO << "Initializing predictive plugin: " << plugin << endl;
+	    addPlugin(plugin);
+	}
     }
 }
 
@@ -136,6 +136,7 @@ void PluginRegistry::addPlugin(const std::string& pluginName)
 void PluginRegistry::removePlugins()
 {
     for (size_t i = 0; i < plugins.size(); i++) {
+	logger << DEBUG << "Removing plugin: " << plugins[i]->getName() << endl;
 	delete plugins[i];
     }
     plugins.clear();
@@ -143,27 +144,6 @@ void PluginRegistry::removePlugins()
 
 PluginRegistry::Iterator PluginRegistry::iterator()
 {
-    // lazily initialize plugins
-    if (contextTracker) {
-	// plugins need tracker, only initialize them if available
-
-	if (plugins_list.empty()) {
-	    // plugins not init'd yet
-	    plugins_list = config->get(PLUGINS);
-	    setPlugins(plugins_list);
-
-	} else {
-	    // plugins init'd before, check whether list changed
-	    std::string new_plugins_list = config->get(PLUGINS);
-	    if (plugins_list != new_plugins_list) {
-		removePlugins();
-		plugins_list = new_plugins_list;
-		setPlugins(plugins_list);
-	    }
-
-	}
-    }
-
     return Iterator(plugins);
 }
 
@@ -190,4 +170,13 @@ Plugin* PluginRegistry::Iterator::next()
     Plugin* result = *iter_curr;
     iter_curr++;
     return result;
+}
+
+void PluginRegistry::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+    
+    logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
+
+    dispatcher.dispatch (var);
 }

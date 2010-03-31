@@ -26,40 +26,49 @@
 
 #include <iostream>
 
-// REVISIT: maybe remove this ctr?
-Variable::Variable()
+Variable::Variable(const char* name)
 {
-    // nothing to do
+    m_name = name;
+    m_name_vector = string_to_vector (name);
 }
 
-Variable::Variable(const char* variable)
+Variable::Variable(const std::string& name)
 {
-    m_variable = string_to_variable(variable);
+    m_name = name;
+    m_name_vector = string_to_vector(name);
 }
 
-Variable::Variable(const std::string& variable)
+Variable::Variable(const std::vector<std::string>& name)
 {
-    m_variable = string_to_variable(variable);
-}
-
-Variable::Variable(const std::vector<std::string>& variable)
-{
-    m_variable = variable;
+    m_name = vector_to_string (name);
+    m_name_vector = name;
 }
 
 Variable::~Variable()
 {
     // nothing to do
 }
-    
-std::string Variable::string() const
+
+std::string Variable::get_name () const
 {
-    return variable_to_string(m_variable);
+    return m_name;
 }
 
-std::vector<std::string> Variable::variable() const
+std::vector<std::string> Variable::get_name_vector () const
 {
-    return m_variable;
+    return m_name_vector;
+}
+
+std::string Variable::get_value () const
+{
+    return m_value;
+}
+
+void Variable::set_value (std::string value)
+{
+    m_value = value;
+    
+    notify ();     // notify all observers
 }
 
 /**
@@ -70,7 +79,7 @@ std::vector<std::string> Variable::variable() const
  * |foo|bar|foobar|
  *
  */
-std::vector<std::string> Variable::string_to_variable(const std::string& str) const
+std::vector<std::string> Variable::string_to_vector(const std::string& str)
 {
     const char SEPARATOR = '.';
     
@@ -103,7 +112,7 @@ std::vector<std::string> Variable::string_to_variable(const std::string& str) co
 */
 
     // DEBUG
-    // std::cout << "string_to_variable():" << std::endl
+    // std::cout << "string_to_vector():" << std::endl
     // 	      << "string  : " << str << std::endl
     // 	      << "variable: ";
     // for (size_t i = 0; i < result.size(); i++) {
@@ -119,7 +128,7 @@ std::vector<std::string> Variable::string_to_variable(const std::string& str) co
     return result;
 }
 
-std::string Variable::variable_to_string(const std::vector<std::string>& variable) const
+std::string Variable::vector_to_string(const std::vector<std::string>& variable)
 {
     std::string result;
     for (size_t i = 0; i < variable.size(); i++) {
@@ -130,7 +139,7 @@ std::string Variable::variable_to_string(const std::vector<std::string>& variabl
     }
 
     // DEBUG
-    // std::cout << "variable_to_string():" << std::endl
+    // std::cout << "vector_to_string():" << std::endl
     // 	      << "variable: ";
     // for (size_t i = 0; i < variable.size(); i++) {
     // 	std::cout << variable[i];

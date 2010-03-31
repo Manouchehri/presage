@@ -27,57 +27,27 @@
 #include <sstream>
 #include <algorithm>
 
-const Variable SmoothedNgramPlugin::LOGGER     = Variable("Presage.Plugins.SmoothedNgramPlugin.LOGGER");
-const Variable SmoothedNgramPlugin::DBFILENAME = Variable("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
-const Variable SmoothedNgramPlugin::DELTAS     = Variable("Presage.Plugins.SmoothedNgramPlugin.DELTAS");
-const Variable SmoothedNgramPlugin::LEARN      = Variable("Presage.Plugins.SmoothedNgramPlugin.LEARN");
-const Variable SmoothedNgramPlugin::DATABASE_LOGGER = Variable("Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER");
+const char* SmoothedNgramPlugin::LOGGER     = "Presage.Plugins.SmoothedNgramPlugin.LOGGER";
+const char* SmoothedNgramPlugin::DBFILENAME = "Presage.Plugins.SmoothedNgramPlugin.DBFILENAME";
+const char* SmoothedNgramPlugin::DELTAS     = "Presage.Plugins.SmoothedNgramPlugin.DELTAS";
+const char* SmoothedNgramPlugin::LEARN      = "Presage.Plugins.SmoothedNgramPlugin.LEARN";
+const char* SmoothedNgramPlugin::DATABASE_LOGGER = "Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER";
 
 SmoothedNgramPlugin::SmoothedNgramPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
 	     ct,
              "SmoothedNgramPlugin",
              "SmoothedNgramPlugin, a linear interpolating n-gram plugin",
-             "SmoothedNgramPlugin, long description." )
+             "SmoothedNgramPlugin, long description." ),
+      db (0),
+      dispatcher (this)
 {
-    Value value;
-
-    try {
-	value = config->get(LOGGER);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-    } catch (Configuration::ConfigurationException ex) {
-	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
-    try {
-	value = config->get(DBFILENAME);
-	logger << INFO << "DBFILENAME: " << value << endl;
-	dbfilename = value;
-
-	value = config->get(DELTAS);
-	logger << INFO << "DELTAS: " << value << endl;
-	std::stringstream ss_deltas(value);
-	std::string delta;
-	while (ss_deltas >> delta) {
-	    logger << DEBUG << "Pushing delta: " << delta << endl;
-	    deltas.push_back(toDouble(delta));
-	}
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
-	throw PresageException("Unable to init " + name + " predictive plugin.");
-    }
-
-    try {
-	value = config->get(DATABASE_LOGGER);
-	// open database connector with logger lever
-	db = new SqliteDatabaseConnector(dbfilename, value);
-    } catch (Configuration::ConfigurationException& ex) {
-        logger << WARN << "ConfigurationException while trying to fetch DatabaseConnector logger level." << endl;
-	// open database connector
-	db = new SqliteDatabaseConnector(dbfilename);
-    }
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & SmoothedNgramPlugin::set_logger);
+    dispatcher.map (config->find (DATABASE_LOGGER), & SmoothedNgramPlugin::set_database_logger_level);
+    dispatcher.map (config->find (DBFILENAME), & SmoothedNgramPlugin::set_dbfilename);
+    dispatcher.map (config->find (DELTAS), & SmoothedNgramPlugin::set_deltas);
+    dispatcher.map (config->find (LEARN), & SmoothedNgramPlugin::set_learn);
 }
 
 
@@ -86,6 +56,50 @@ SmoothedNgramPlugin::~SmoothedNgramPlugin()
 {
     delete db;
 }
+
+
+void SmoothedNgramPlugin::set_dbfilename (const std::string& filename)
+{
+    dbfilename = filename;
+    logger << INFO << "DBFILENAME: " << filename << endl;
+
+    delete db;
+
+    if (dbloglevel.empty ()) {
+	// open database connector
+	db = new SqliteDatabaseConnector(dbfilename);
+
+    } else {
+	// open database connector with logger lever
+	db = new SqliteDatabaseConnector(dbfilename, dbloglevel);
+    }
+}
+
+
+void SmoothedNgramPlugin::set_database_logger_level (const std::string& value)
+{
+    dbloglevel = value;
+}
+
+
+void SmoothedNgramPlugin::set_deltas (const std::string& value)
+{
+    std::stringstream ss_deltas(value);
+    std::string delta;
+    while (ss_deltas >> delta) {
+        logger << DEBUG << "Pushing delta: " << delta << endl;
+	deltas.push_back (toDouble (delta));
+    }
+    logger << INFO << "DELTAS: " << value << endl;
+}
+
+
+void SmoothedNgramPlugin::set_learn (const std::string& value)
+{
+    wanna_learn = isTrue (value);
+    logger << INFO << "LEARN: " << value << endl;
+}
+
 
 /** \brief Builds the required n-gram and returns its count.
  *
@@ -275,21 +289,14 @@ void SmoothedNgramPlugin::learn(const std::vector<std::string>& change)
 {
     logger << INFO << "learn()" << endl;
 
-    bool wanna_learn = false;
-    try {
-	wanna_learn = isTrue(configuration->get(LEARN));
-    } catch (Configuration::ConfigurationException ex) {
-	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
     if (wanna_learn) {
 	// learning is turned on
 
 	// n-gram cardinality (i.e. what is the n in n-gram?)
-	int cardinality = deltas.size();
+	size_t cardinality = deltas.size();
 
 	std::string token;
-	for (int curr_cardinality = 1;
+	for (size_t curr_cardinality = 1;
 	     curr_cardinality < cardinality + 1;
 	     curr_cardinality++) {
 
@@ -399,4 +406,12 @@ void SmoothedNgramPlugin::train()
 {
     logger << DEBUG << "train() method called" << endl;
     logger << DEBUG << "train() method exited" << endl;
+}
+
+void SmoothedNgramPlugin::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+
+    logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
+    dispatcher.dispatch (var);
 }

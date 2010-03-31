@@ -25,48 +25,27 @@
 #include "core/predictorActivator.h"
 #include "core/utility.h"
 
+const char* PredictorActivator::LOGGER = "Presage.PredictorActivator.LOGGER";
+const char* PredictorActivator::PREDICT_TIME = "Presage.PredictorActivator.PREDICT_TIME";
+const char* PredictorActivator::MAX_PARTIAL_PREDICTION_SIZE = "Presage.PredictorActivator.MAX_PARTIAL_PREDICTION_SIZE";
+const char* PredictorActivator::COMBINATION_POLICY = "Presage.PredictorActivator.COMBINATION_POLICY";
+
 PredictorActivator::PredictorActivator(Configuration* configuration,
 		     PluginRegistry* registry,
 		     ContextTracker* ct)
     : config(configuration),
       pluginRegistry(registry),
       contextTracker(ct),
-      logger("PredictorActivator", std::cerr)
+      logger("PredictorActivator", std::cerr),
+      dispatcher(this)
 {
     combiner = 0;
 
-    // read config values
-    Variable* variable;
-    Value value;
-
-    try {
-	variable = new Variable("Presage.PredictorActivator.LOGGER");
-	value = config->get(*variable);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-	delete variable;
-
-	variable = new Variable("Presage.PredictorActivator.PREDICT_TIME");
-	value = config->get(*variable);
-	logger << INFO << "PREDICT_TIME: " << value << endl;
-	setPredictTime(toInt(value));
-	delete variable;
-
-	variable = new Variable("Presage.PredictorActivator.MAX_PARTIAL_PREDICTION_SIZE");
-	value = config->get(*variable);
-	logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << value << endl;
-	max_partial_prediction_size = toInt(value);
-	delete variable;
-
-	variable = new Variable("Presage.PredictorActivator.COMBINATION_POLICY");
-	value = config->get(*variable);
-	logger << INFO << "COMBINATION_POLICY: " << value << endl;
-	setCombinationPolicy(value);
-	delete variable;
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught ConfigurationException: " << ex.what() << endl;
-    }
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & PredictorActivator::setLogger);
+    dispatcher.map (config->find (PREDICT_TIME), & PredictorActivator::setPredictTime);
+    dispatcher.map (config->find (COMBINATION_POLICY), & PredictorActivator::setCombinationPolicy);
+    dispatcher.map (config->find (MAX_PARTIAL_PREDICTION_SIZE), & PredictorActivator::setMaxPartialPredictionSize);
 }
 
 
@@ -115,30 +94,36 @@ Prediction PredictorActivator::predict(unsigned int multiplier, const char** fil
 }
 
 
-bool PredictorActivator::setPredictTime( const int predictTime )
+void PredictorActivator::setLogger (const std::string& value)
 {
+    logger << setlevel (value);
+    logger << INFO << "LOGGER: " << value << endl;
+}
+
+
+void PredictorActivator::setPredictTime (const std::string& value)
+{
+    int result = toInt (value);
     // handle exception where predictTime is less than zero
-    if (predictTime < 0) {
+    if (result < 0) {
         logger << ERROR << "Error: attempted to set PREDICT_TIME option to "
 	       << "a negative integer value. Please make sure that "
 	       << "PREDICT_TIME option is set to a value greater "
 	       << "than or equal to zero.\a" << endl;
-        return false;
     } else {
-	logger << INFO << "Setting PREDICT_TIME to " << predictTime << endl;
-        PREDICT_TIME = predictTime;
-        return true;
+	logger << INFO << "PREDICT_TIME: " << result << endl;
+        predict_time = result;
     }
 }
 
 
 int PredictorActivator::getPredictTime() const
 {
-    return PREDICT_TIME;
+    return predict_time;
 }
 
 
-void PredictorActivator::setCombinationPolicy(const std::string cp)
+void PredictorActivator::setCombinationPolicy(const std::string& cp)
 {
     logger << INFO << "Setting COMBINATION_POLICY to " << cp << endl;
     delete combiner;
@@ -158,4 +143,21 @@ void PredictorActivator::setCombinationPolicy(const std::string cp)
 std::string PredictorActivator::getCombinationPolicy() const
 {
     return combinationPolicy;
+}
+
+
+void PredictorActivator::setMaxPartialPredictionSize (const std::string& size)
+{
+    max_partial_prediction_size = toInt(size);
+    logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << max_partial_prediction_size << endl;
+}
+
+
+void PredictorActivator::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+    
+    logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
+
+    dispatcher.dispatch (var);
 }

@@ -31,7 +31,7 @@
 
 #include <string>
 
-#include "core/configuration.h"
+#include "../configuration.h"
 
 class ContextChangeDetector {
 public:

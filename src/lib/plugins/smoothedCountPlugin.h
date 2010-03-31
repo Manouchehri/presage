@@ -26,6 +26,7 @@
 #define PRESAGE_SMOOTHEDCOUNTPLUGIN
 
 #include "plugins/plugin.h"
+#include "core/dispatcher.h"
 
 #include <assert.h>
 #include <stdlib.h>    // double atof( const char* )
@@ -41,7 +42,7 @@
 /** Smoothed count statistical plugin
  *
  */
-class SmoothedCountPlugin : public Plugin {
+class SmoothedCountPlugin : public Plugin, public Observer {
 public:
     SmoothedCountPlugin(Configuration*, ContextTracker*);
     ~SmoothedCountPlugin();
@@ -51,6 +52,13 @@ public:
     virtual void learn(const std::vector<std::string>& change);
     virtual void extract();
     virtual void train();
+
+    virtual void update (const Observable* variable);
+
+    void set_unigram_weight (const std::string& value);
+    void set_bigram_weight (const std::string& value);
+    void set_trigram_weight (const std::string& value);
+    void set_dbfilename (const std::string& value);
 
 private:
     std::string strtolower( const std::string& ) const;
@@ -67,12 +75,13 @@ private:
     std::string dbfilename;
     int         MAX_PARTIAL_PREDICTION_SIZE;
 
-    static const Variable LOGGER;
-    static const Variable UNIGRAM_WEIGHT;
-    static const Variable BIGRAM_WEIGHT;
-    static const Variable TRIGRAM_WEIGHT;
-    static const Variable DBFILENAME;
+    static const char* LOGGER;
+    static const char* UNIGRAM_WEIGHT;
+    static const char* BIGRAM_WEIGHT;
+    static const char* TRIGRAM_WEIGHT;
+    static const char* DBFILENAME;
 
+    Dispatcher<SmoothedCountPlugin> dispatcher;
 };
 
 

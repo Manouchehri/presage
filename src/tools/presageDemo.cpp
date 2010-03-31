@@ -165,7 +165,7 @@ int main(int argc, char** argv)
 
 
     std::vector<std::string> words;
-    int c = ' ';
+    unsigned int c = ' ';
     do {
 	size_t size = words.size();
 	if ((KEY_F0 < c) && (c <= KEY_F(size)) && (c - KEY_F0 <= size)) {
@@ -199,7 +199,6 @@ int main(int argc, char** argv)
         c = getch();
 
     } while( c != KEY_F(12) );
-
 
     delwin(title_win);
     delwin(context_win);

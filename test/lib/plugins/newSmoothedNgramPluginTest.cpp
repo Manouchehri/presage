@@ -46,17 +46,17 @@ void NewSmoothedNgramPluginTest::setUp()
 
     config = new Configuration();
     // set context tracker config variables
-    config->set(Variable("Presage.ContextTracker.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.ContextTracker.SLIDING_WINDOW_SIZE"), Value("80"));
+    config->insert ("Presage.ContextTracker.LOGGER", "ERROR");
+    config->insert ("Presage.ContextTracker.SLIDING_WINDOW_SIZE", "80");
     // set plugin registry config variables
-    config->set(Variable("Presage.PluginRegistry.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value("SmoothedNgramPlugin"));
+    config->insert ("Presage.PluginRegistry.LOGGER", "ERROR");
+    config->insert ("Presage.PluginRegistry.PLUGINS", "SmoothedNgramPlugin");
     // set plugin config variables
-    config->set(Variable("Presage.Plugins.SmoothedNgramPlugin.LOGGER"), "ALL");
-    config->set(Variable("Presage.Plugins.SmoothedNgramPlugin.DELTAS"), "0.001 0.01 0.889");
-    config->set(Variable("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME"), DATABASE);
-    config->set(Variable("Presage.Plugins.SmoothedNgramPlugin.LEARN"), "true");
-    config->set(Variable("Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER"), "ERROR");
+    config->insert ("Presage.Plugins.SmoothedNgramPlugin.LOGGER", "ALL");
+    config->insert ("Presage.Plugins.SmoothedNgramPlugin.DELTAS", "0.001 0.01 0.889");
+    config->insert ("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME", DATABASE);
+    config->insert ("Presage.Plugins.SmoothedNgramPlugin.LEARN", "true");
+    config->insert ("Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER", "ERROR");
 
     pluginRegistry = new PluginRegistry(config);
     stream = new std::stringstream();

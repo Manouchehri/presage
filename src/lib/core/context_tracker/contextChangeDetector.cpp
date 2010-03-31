@@ -23,7 +23,7 @@
 
 
 #include "contextChangeDetector.h"
-#include "core/tokenizer/reverseTokenizer.h"
+#include "../tokenizer/reverseTokenizer.h"
 
 #include <iostream>
 #include <sstream>

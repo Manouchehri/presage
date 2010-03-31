@@ -25,97 +25,34 @@
 #include "profileManagerTest.h"
 #include "../common/stringstreamPresageCallback.h"
 
+#include "core/pluginRegistry.h"
+#include "core/context_tracker/contextTracker.h"
+#include "core/predictorActivator.h"
+#include "core/selector.h"
+
 #include <fstream>
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ProfileManagerTest );
 
 void ProfileManagerTest::setUp()
 {
-    profileManager = new ProfileManager();
-    profile        = 0;
-    configuration  = 0;
-
-    pluginRegistry = 0;
-    stream         = 0;
-    callback       = 0;
-    contextTracker = 0;
-    selector       = 0;
-    predictorActivator = 0;
+    profileManager = new ProfileManager("non-existant-profile.xml");
+    configuration  = profileManager->get_configuration ();
 }
 
 void ProfileManagerTest::tearDown()
 {
-    delete predictorActivator;
-    delete selector;
-    delete contextTracker;
-    delete callback;
-    delete stream;
-
-    delete profile;
     delete profileManager;
-}
-
-void ProfileManagerTest::testDefaultProfile()
-{
-
-    std::cout << "ProfileManagerTest::testDefaultProfile()" << std::endl;
-    profileManager->buildProfile();
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
-    pluginRegistry = new PluginRegistry(configuration);
-
-    callback = new StringstreamPresageCallback(*stream);
-    contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
-    selector = new Selector(configuration, contextTracker);
-    predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
-
-    std::cout << "ProfileManagerTest: before testProfile()" << std::endl;
-    testProfile();
-    std::cout << "Exiting ProfileManagerTest::testDefaultProfile( ...)" << std::endl;
-
-}
-
-void ProfileManagerTest::testNonExistantProfile()
-{
-    std::cout << "ProfileManagerTest::testNonExistantProfile()" << std::endl;
-
-    // hopefully a file with the following name will not exists
-    const std::string wacky_profile("this_IS_a_wAckY_profileName.xml");
-
-    CPPUNIT_ASSERT( !profileManager->loadProfile(wacky_profile) );
-
-    /* This block of code was commented out because ProfileManager
-     * will not build a default profile when the specified profile
-     * cannot be loaded.
-
-     profile = profileManager->getProfile();
-
-     contextTracker = new ContextTracker(profile);
-     selector = new Selector(profile, contextTracker);
-     predictorActivator = new PredictorActivator(profile, contextTracker);
-
-    testProfile();
-    */
 }
 
 void ProfileManagerTest::testProfile()
 {
-    // test init contextTracker
-
-
-    // test init predictorActivator
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_PREDICT_TIME,
-			 predictorActivator->getPredictTime());
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_COMBINATION_POLICY,
-			 predictorActivator->getCombinationPolicy());
-
-    // test init selector
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_SUGGESTIONS,
-			 selector->suggestions());
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_REPEAT_SUGGESTION,
-			 selector->repeat_suggestions());
-    CPPUNIT_ASSERT_EQUAL(DEFAULT_GREEDY_SUGGESTION_THRESHOLD,
-			 selector->greedy_suggestion_threshold());
+    // test that some default variables are there in retrieved config
+    CPPUNIT_ASSERT(configuration->find (ProfileManager::LOGGER) != 0);
+    CPPUNIT_ASSERT(configuration->find (PluginRegistry::PLUGINS) != 0);
+    CPPUNIT_ASSERT(configuration->find (ContextTracker::LOGGER) != 0);
+    CPPUNIT_ASSERT(configuration->find (Selector::LOGGER) != 0);
+    CPPUNIT_ASSERT(configuration->find (PredictorActivator::LOGGER) != 0);
 }
 
 void ProfileManagerTest::testCustomProfile()
@@ -129,18 +66,18 @@ void ProfileManagerTest::testCustomProfile()
                    << "<Presage>\n"
 		   << "    <ProfileManager>\n"
 		   << "         <LOGGER>ERROR</LOGGER>\n"
+		   << "         <AUTOPERSIST>false</AUTOPERSIST>\n"
 		   << "    </ProfileManager>\n"
                    << "    <Custom>CUSTOM</Custom>\n"
                    << "</Presage>\n";
     profile_stream.close();
 
-    profileManager->loadProfile(custom_profile);
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
+    delete profileManager;
+    profileManager = new ProfileManager (custom_profile);
 
-    Variable variable("Presage.Custom");
+    configuration = profileManager->get_configuration();
 
-    Value value = configuration->get(variable);
+    Value value = configuration->find ("Presage.Custom")->get_value ();
 
     CPPUNIT_ASSERT_EQUAL(std::string("CUSTOM"), value);
 

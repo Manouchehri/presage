@@ -36,15 +36,16 @@ public:
 
     void testGetConfig();
     void testGetNonExistantConfig();
+    void testNonExistantProfile();
 
 private:
-    TiXmlDocument* profileXmlDoc;
     Profile*       profile;
     Configuration* configuration;
 
     CPPUNIT_TEST_SUITE( ProfileTest        );
     CPPUNIT_TEST( testGetConfig            );
     CPPUNIT_TEST( testGetNonExistantConfig );
+    CPPUNIT_TEST( testNonExistantProfile   );
     CPPUNIT_TEST_SUITE_END();
 };
 

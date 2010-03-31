@@ -29,10 +29,10 @@
 #include <algorithm>
 #include <cmath>
 
-const Variable ARPAPlugin::LOGGER     = Variable("Presage.Plugins.ARPAPlugin.LOGGER");
-const Variable ARPAPlugin::ARPAFILENAME = Variable("Presage.Plugins.ARPAPlugin.ARPAFILENAME");
-const Variable ARPAPlugin::VOCABFILENAME = Variable("Presage.Plugins.ARPAPlugin.VOCABFILENAME");
-const Variable ARPAPlugin::TIMEOUT = Variable("Presage.Plugins.ARPAPlugin.TIMEOUT");
+const char* ARPAPlugin::LOGGER     = "Presage.Plugins.ARPAPlugin.LOGGER";
+const char* ARPAPlugin::ARPAFILENAME = "Presage.Plugins.ARPAPlugin.ARPAFILENAME";
+const char* ARPAPlugin::VOCABFILENAME = "Presage.Plugins.ARPAPlugin.VOCABFILENAME";
+const char* ARPAPlugin::TIMEOUT = "Presage.Plugins.ARPAPlugin.TIMEOUT";
 
 
 #define OOV "<UNK>"
@@ -44,51 +44,36 @@ ARPAPlugin::ARPAPlugin(Configuration* config, ContextTracker* ct)
 	     ct,
              "ARPAPlugin",
              "ARPAPlugin, a plugin relying on an ARPA language model",
-             "ARPAPlugin, long description." )
+             "ARPAPlugin, long description."
+	     ),
+      dispatcher (this)
 {
-    Value value;
-
-    try {
-	value = config->get(LOGGER);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-    } catch (Configuration::ConfigurationException ex) {
-	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
-    try {
-        value = config->get(VOCABFILENAME);
-        logger << INFO << "VOCABFILENAME: " << value << endl;
-        vocabFilename = value;
-
-    } catch (Configuration::ConfigurationException ex) {
-        logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
-        throw PresageException("Unable to init " + name + " predictive plugin.");
-    }
-
-    try {
-	value = config->get(ARPAFILENAME);
-	logger << INFO << "ARPAFILENAME: " << value << endl;
-	arpaFilename = value;
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
-	throw PresageException("Unable to init " + name + " predictive plugin.");
-    }
-
-    try {
-        value = config->get(TIMEOUT);
-        logger << INFO << "TIMEOUT: " << value << endl;
-        timeout = atoi(value.c_str());
-
-    } catch (Configuration::ConfigurationException ex) {
-        logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
-        throw PresageException("Unable to init " + name + " predictive plugin.");
-    }
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & ARPAPlugin::set_logger);
+    dispatcher.map (config->find (VOCABFILENAME), & ARPAPlugin::set_vocab_filename);
+    dispatcher.map (config->find (ARPAFILENAME), & ARPAPlugin::set_arpa_filename);
+    dispatcher.map (config->find (TIMEOUT), & ARPAPlugin::set_timeout);
 
     loadVocabulary();
     createARPATable();
+}
 
+void ARPAPlugin::set_vocab_filename (const std::string& value)
+{
+    logger << INFO << "VOCABFILENAME: " << value << endl;
+    vocabFilename = value;
+}
+
+void ARPAPlugin::set_arpa_filename (const std::string& value)
+{
+    logger << INFO << "ARPAFILENAME: " << value << endl;
+    arpaFilename = value;
+}
+
+void ARPAPlugin::set_timeout (const std::string& value)
+{
+    logger << INFO << "TIMEOUT: " << value << endl;
+    timeout = atoi(value.c_str());
 }
 
 void ARPAPlugin::loadVocabulary()
@@ -487,4 +472,12 @@ void ARPAPlugin::train()
 {
     logger << DEBUG << "train() method called" << endl;
     logger << DEBUG << "train() method exited" << endl;
+}
+
+void ARPAPlugin::update (const Observable* variable)
+{
+  Variable* var = (Variable*) variable;
+  
+  logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
+  dispatcher.dispatch (var);
 }

@@ -25,10 +25,12 @@
 #ifndef PRESAGE_PROFILEMANAGER
 #define PRESAGE_PROFILEMANAGER
 
-#include "core/profile.h"
-#include "tinyxml/tinyxml.h"
-#include "core/combiner.h"
-#include "core/logger.h"
+#include "profile.h"
+#include "defaultProfile.h"
+#include "../tinyxml/tinyxml.h"
+#include "combiner.h"
+#include "logger.h"
+#include "dispatcher.h"
 
 #include <string>
 #include <list>
@@ -36,29 +38,15 @@
 #include <stdio.h> // for int remove( const char* ) to remove files/dirs
 
 
-const char DEFAULT_PROFILE_FILENAME[] = "presage.xml";
-
-const std::string  DEFAULT_LOGGER_LEVEL                 = "DEBUG";
-const int          DEFAULT_PREDICT_TIME                = 1000;
-const int          DEFAULT_MAX_PARTIAL_PREDICTION_SIZE = 100;
-const std::string  DEFAULT_COMBINATION_POLICY          = "Meritocracy";
-const std::string  DEFAULT_PREDICTIVE_PLUGINS          = "";
-const int          DEFAULT_SLIDING_WINDOW_SIZE         = 80;
-const size_t       DEFAULT_SUGGESTIONS                 = 6;
-const bool         DEFAULT_REPEAT_SUGGESTION           = false;
-const unsigned int DEFAULT_GREEDY_SUGGESTION_THRESHOLD = 0;
-const std::string  DEFAULT_PLUGINS                     = "";
-
 /** Juggles configuration files and presage system initialization.
  *
- * The idea is that ProfileManager loads up an xml file containing
- * configuration data and initializes system components according to
- * the config file.
+ * ProfileManager loads up a bunch of xml files containing
+ * configuration data and initializes a configuration object.
  * 
- * If no profile is supplied, load the default profile in the
- * following order:
- *  - ~/.presage.xml
- *  - sysconfdir/presage.xml
+ * 1. write config with data from /etc/presage.xml if it exists
+ * 2. overwrite config with data from  <sysconfdir>/presage.xml if it exists
+ * 3. overwrite config with data from  ~/.presage.xml if it exists
+ * 4. overwrite config with data from profile passed to constructor (if non-empty string)
  *
  */
 class ProfileManager {
@@ -66,14 +54,23 @@ public:
     ProfileManager(const std::string = "");
     ~ProfileManager();
 
-    bool loadDefaultProfile();
-    bool loadProfile(const std::string);
-    void buildProfile(const std::string = DEFAULT_PROFILE_FILENAME);
-    bool saveProfile() const;
-    Profile* getProfile();
+    void save_profile() const;
+
+    Configuration* get_configuration();
+
+    void set_autopersist (const std::string& value);
     
+    static const char* LOGGER;
+    static const char* AUTOPERSIST;
+
 private:
+    void init_profiles (const std::string& profilename);
+
+    Profile* create_profile_from_xml (const std::string& filename);
+
     std::string get_user_home_dir() const;
+
+    bool loaded_at_least_one_profile;
     
     /** Cache log message until logger level is read from configuration.
      */
@@ -83,7 +80,7 @@ private:
     void flush_cached_log_messages();
     /** Refresh configuration variables
      */
-    void refresh_config(Profile* profile);
+    void refresh_config();
 
     struct CachedLogMessage {
 	// Level is commented out because it gets translated to
@@ -99,9 +96,12 @@ private:
 
     std::list<CachedLogMessage> cached_log_messages;
 
-    TiXmlDocument*  xmlProfileDoc;
-    std::string     profileFile;
+    Configuration* config;
+    Profile* rw_profile;           // readable-writable profile
+    bool autopersist_config;
+
     Logger<char>    logger;
+
 };
 
 

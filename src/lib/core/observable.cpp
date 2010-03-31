@@ -22,40 +22,38 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_VARIABLE
-#define PRESAGE_VARIABLE
-
-#include <string>
-#include <vector>
-
 #include "observable.h"
 
-class Variable : public Observable {
-public:
-    Variable(const char* variable);
-    Variable(const std::string& variable);
-    Variable(const std::vector<std::string>& variable);
-    ~Variable();
+#include <iostream>
 
-    std::string              get_name () const;
-    std::vector<std::string> get_name_vector () const;
+Observable::~Observable ()
+{
 
-    std::string get_value () const;
-    void        set_value (std::string value);
-    
-    size_t size() const { return m_name_vector.size(); }
+}
+  
+void Observable::attach (Observer* observer)
+{
+  observers.push_back (observer);
+}
 
-    bool operator<(const Variable& other) const { return (get_name () < other.get_name ()); }
+void Observable::detach (Observer* observer)
+{
+  observers.remove (observer);
+}
 
-    static std::vector<std::string> string_to_vector(const std::string& str);
-    static std::string vector_to_string(const std::vector<std::string>& var);
+void Observable::notify ()
+{
+  for (std::list <Observer*>::iterator it = observers.begin ();
+       it != observers.end ();
+       it++) {
+    //std::cerr << "notify() observable: " << *it << std::endl;
+    (*it)->update (this);
+  }
+}
 
-private:
-    
-    std::string              m_name;
-    std::vector<std::string> m_name_vector;
-    std::string              m_value;
+Observable::Observable ()
+{
+  // complete
+}
 
-};
 
-#endif // PRESAGE_VARIABLE

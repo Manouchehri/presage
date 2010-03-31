@@ -27,57 +27,54 @@
 #include <math.h>  // for exp()
 
 // RecencyPlugin config variables
-const Variable RecencyPlugin::LOGGER           = "Presage.Plugins.RecencyPlugin.LOGGER";
-const Variable RecencyPlugin::LAMBDA           = "Presage.Plugins.RecencyPlugin.LAMBDA";
-const Variable RecencyPlugin::N_0              = "Presage.Plugins.RecencyPlugin.N_0";
-const Variable RecencyPlugin::CUTOFF_THRESHOLD = "Presage.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
+const char* RecencyPlugin::LOGGER           = "Presage.Plugins.RecencyPlugin.LOGGER";
+const char* RecencyPlugin::LAMBDA           = "Presage.Plugins.RecencyPlugin.LAMBDA";
+const char* RecencyPlugin::N_0              = "Presage.Plugins.RecencyPlugin.N_0";
+const char* RecencyPlugin::CUTOFF_THRESHOLD = "Presage.Plugins.RecencyPlugin.CUTOFF_THRESHOLD";
 
 RecencyPlugin::RecencyPlugin(Configuration* config, ContextTracker* ct)
     : Plugin(config,
 	     ct,
              "RecencyPlugin",
              "RecencyPlugin, a statistical recency promotion plugin",
-             "RecencyPlugin, based on a recency promotion principle, generates predictions by assigning exponentially decaying probability values to previously encountered tokens. Tokens are assigned a probability value that decays exponentially with their distance from the current token, thereby promoting context recency." )
+             "RecencyPlugin, based on a recency promotion principle, generates predictions by assigning exponentially decaying probability values to previously encountered tokens. Tokens are assigned a probability value that decays exponentially with their distance from the current token, thereby promoting context recency." ),
+      dispatcher (this)
 {
     // init default values
     lambda = 1;
     n_0 = 1;
     cutoff_threshold = 20;
 
-    // read values from config
-    try {
-	Value value = config->get(LOGGER);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-    } catch (Configuration::ConfigurationException ex) {
-	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
-    try {
-	Value value = config->get(LAMBDA);
-	lambda = toDouble(value);
-	logger << INFO << "LAMBDA: " << value << endl;
-	
-	value = config->get(N_0);
-	n_0 = toDouble(value);
-	logger << INFO << "N_0: " << value << endl;
-	
-	value = config->get(CUTOFF_THRESHOLD);
-	cutoff_threshold = toInt(value);
-	logger << INFO << "CUTOFF_THRESHOLD: " << value << endl;
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
-	throw PresageException("Unable to init " + name + " predictive plugin.");
-    }
-    
-
+    dispatcher.map(config->find (LOGGER),            &RecencyPlugin::set_logger);
+    dispatcher.map(config->find (LAMBDA),            &RecencyPlugin::set_lambda);
+    dispatcher.map(config->find (N_0),               &RecencyPlugin::set_n_0);
+    dispatcher.map(config->find (CUTOFF_THRESHOLD),  &RecencyPlugin::set_cutoff_threshold);
 }
 
 RecencyPlugin::~RecencyPlugin()
 {
-
+    // complete
 }
+
+void RecencyPlugin::set_lambda (const std::string& value)
+{
+    lambda = toDouble(value);
+    logger << INFO << "LAMBDA: " << value << endl;
+}
+
+void RecencyPlugin::set_n_0 (const std::string& value)
+{
+    n_0 = toDouble (value);
+    logger << INFO << "N_0: " << value << endl;
+}
+
+
+void RecencyPlugin::set_cutoff_threshold (const std::string& value)
+{
+    cutoff_threshold = toInt (value);
+    logger << INFO << "CUTOFF_THRESHOLD: " << value << endl;
+}
+
 
 Prediction RecencyPlugin::predict(const size_t max, const char** filter) const
 {
@@ -130,3 +127,11 @@ void RecencyPlugin::extract()
 
 void RecencyPlugin::train()
 {}
+
+void RecencyPlugin::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+
+    logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
+    dispatcher.dispatch (var);
+}

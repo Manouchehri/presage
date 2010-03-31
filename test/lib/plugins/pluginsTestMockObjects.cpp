@@ -35,7 +35,8 @@ ContextTracker::ContextTracker(Configuration* config,
 			       const char sc[],
 			       const char bc[],
 			       const char cc[])
-    : logger("MockContextTracker", std::cerr)
+    : logger ("MockContextTracker", std::cerr),
+      dispatcher (this)
 {
     const char** history = (const char**) config;
     wordChars       = history[2]; // getPrefix()
@@ -109,4 +110,5 @@ bool ContextTracker::isControlChar   (const char) const
 bool ContextTracker::isBlankspaceChar(const char) const
 { return true; }
 
-
+void ContextTracker::update (const Observable* variable)
+{ /* intentionally empty */ }

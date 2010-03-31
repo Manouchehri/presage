@@ -25,14 +25,14 @@
 #ifndef PRESAGE_PROFILE
 #define PRESAGE_PROFILE
 
+#include <vector>
 #include <string>
 #include <map>
 
 #include "tinyxml/tinyxml.h"
 
 typedef std::string Value;
-#include "core/variable.h"
-#include "core/configuration.h"
+#include "configuration.h"
 #include "presageException.h"
 
 /** Profile provides access to the active profile configuration variables.
@@ -57,20 +57,28 @@ public:
      *
      * \param xmlProfileDoc Profile takes ownership of the configuration object.
      */
-    Profile(TiXmlDocument* xmlProfileDoc);
+    Profile(const std::string& filename);
 
     /** Profile destructor.
      *
      * Destructor deallocates the Configuration object passed in costructor.
      *
      */
-    ~Profile();
+    virtual ~Profile();
 
-    /** Get configuration associated to profile.
-     *
-     * \return configuration object
+    /** Writes configuration from XML DOM document into configuration.
+     * 
      */
-    Configuration* get_configuration();
+    void read_into_configuration(Configuration* configuration);
+
+    /* Reads from configuration and writes to XML DOM document.
+     *
+     */
+    void read_from_configuration (Configuration* configuration);
+
+    bool file_read_ok () const;
+
+    bool write_to_file () const;
 
     class ProfileException : public PresageException {
     public:
@@ -82,11 +90,13 @@ public:
 
     };
 
-private:
+protected:
     void init_configuration(Configuration* config, TiXmlDocument* node);
-    void visit_node(Configuration* config, TiXmlNode* node, Variable variable);
+    void visit_node(Configuration* config, TiXmlNode* node, std::vector<std::string> variable);
 
-    TiXmlDocument* profile;
+    TiXmlDocument* xmlProfileDoc;
+    std::string xml_filename;
+    bool xml_profile_read_ok;
 };
 
 #endif // PRESAGE_PROFILE

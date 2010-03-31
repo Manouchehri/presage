@@ -28,47 +28,28 @@
 # include <string.h>
 #endif
 
-const Variable SmoothedCountPlugin::LOGGER         = "Presage.Plugins.SmoothedCountPlugin.LOGGER";
-const Variable SmoothedCountPlugin::UNIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.UNIGRAM_WEIGHT";
-const Variable SmoothedCountPlugin::BIGRAM_WEIGHT  = "Presage.Plugins.SmoothedCountPlugin.BIGRAM_WEIGHT";
-const Variable SmoothedCountPlugin::TRIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.TRIGRAM_WEIGHT";
-const Variable SmoothedCountPlugin::DBFILENAME     = "Presage.Plugins.SmoothedCountPlugin.DBFILENAME";
+const char* SmoothedCountPlugin::LOGGER         = "Presage.Plugins.SmoothedCountPlugin.LOGGER";
+const char* SmoothedCountPlugin::UNIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.UNIGRAM_WEIGHT";
+const char* SmoothedCountPlugin::BIGRAM_WEIGHT  = "Presage.Plugins.SmoothedCountPlugin.BIGRAM_WEIGHT";
+const char* SmoothedCountPlugin::TRIGRAM_WEIGHT = "Presage.Plugins.SmoothedCountPlugin.TRIGRAM_WEIGHT";
+const char* SmoothedCountPlugin::DBFILENAME     = "Presage.Plugins.SmoothedCountPlugin.DBFILENAME";
 
 SmoothedCountPlugin::SmoothedCountPlugin(Configuration* config, ContextTracker* ct)
 	: Plugin(config,
 		 ct,
 		 "SmoothedCountPlugin",
 		 "SmoothedCountPlugin, a linear interpolating unigram bigram trigram plugin",
-		 "SmoothedCountPlugin, long description." )
+		 "SmoothedCountPlugin, long description." 
+		 ),
+	  dispatcher (this)
 {
+    // build notification dispatch map
+    dispatcher.map (config->find (LOGGER), & SmoothedCountPlugin::set_logger);
+    dispatcher.map (config->find (UNIGRAM_WEIGHT), & SmoothedCountPlugin::set_unigram_weight);
+    dispatcher.map (config->find (BIGRAM_WEIGHT), & SmoothedCountPlugin::set_bigram_weight);
+    dispatcher.map (config->find (TRIGRAM_WEIGHT), & SmoothedCountPlugin::set_trigram_weight);
+    dispatcher.map (config->find (DBFILENAME), & SmoothedCountPlugin::set_dbfilename);
 
-    Value value;
-
-    try {
-	value = config->get(LOGGER);
-	logger << setlevel(value);
-	logger << INFO << "LOGGER: " << value << endl;
-    } catch (Configuration::ConfigurationException ex) {
-	logger << WARN << "Caught ConfigurationException: " << ex.what() << endl;
-    }
-
-    try {
-	value = config->get(UNIGRAM_WEIGHT);
-	unigram_weight = toDouble(value);
-	
-	value = config->get(BIGRAM_WEIGHT);
-	bigram_weight = toDouble(value);
-	
-	value = config->get(TRIGRAM_WEIGHT);
-	trigram_weight = toDouble(value);
-	
-	value = config->get(DBFILENAME);
-	dbfilename = value;
-
-    } catch (Configuration::ConfigurationException ex) {
-	logger << ERROR << "Caught fatal ConfigurationException: " << ex.what() << endl;
-	throw PresageException("Unable to init " + name + " predictive plugin.");
-    }
 
     // open database
 #if defined(HAVE_SQLITE3_H)
@@ -91,6 +72,30 @@ SmoothedCountPlugin::~SmoothedCountPlugin()
 #endif
 }
 
+
+void SmoothedCountPlugin::set_unigram_weight (const std::string& value)
+{
+    unigram_weight = toDouble (value);
+    logger << INFO << "UNIGRAM_WEIGHT: " << value << endl;
+}
+
+void SmoothedCountPlugin::set_bigram_weight (const std::string& value)
+{
+    bigram_weight = toDouble (value);
+    logger << INFO << "BIGRAM_WEIGHT: " << value << endl;
+}
+
+void SmoothedCountPlugin::set_trigram_weight (const std::string& value)
+{
+    trigram_weight = toDouble (value);
+    logger << INFO << "TRIGRAM_WEIGHT: " << value << endl;
+}
+
+void SmoothedCountPlugin::set_dbfilename (const std::string& value)
+{
+    dbfilename = value;
+    logger << INFO << "DBFILENAME: " << value << endl;
+}
 
 
 Prediction SmoothedCountPlugin::predict(const size_t max_partial_predictions_size, const char** filter) const
@@ -320,4 +325,12 @@ int buildPrediction( void* callbackDataPtr,
 		}
 	}
 	return 0;
+}
+
+void SmoothedCountPlugin::update (const Observable* variable)
+{
+    Variable* var = (Variable*) variable;
+
+    logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
+    dispatcher.dispatch (var);
 }

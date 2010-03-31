@@ -133,10 +133,11 @@ void SmoothedNgramPluginTest::tearDown()
 Configuration* SmoothedNgramPluginTest::prepareConfiguration(const char* config[]) const
 {
     Configuration* configuration = new Configuration();
-    configuration->set(Variable("Presage.Plugins.SmoothedNgramPlugin.LOGGER"), "ERROR");
-    configuration->set(Variable("Presage.Plugins.SmoothedNgramPlugin.DELTAS"), config[0]);
-    configuration->set(Variable("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME"), config[1]);
-    configuration->set(Variable("Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER"), "ERROR");
+    configuration->insert ("Presage.Plugins.SmoothedNgramPlugin.LOGGER", "ERROR");
+    configuration->insert ("Presage.Plugins.SmoothedNgramPlugin.DELTAS", config[0]);
+    configuration->insert ("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME", config[1]);
+    configuration->insert ("Presage.Plugins.SmoothedNgramPlugin.DatabaseConnector.LOGGER", "ERROR");
+    configuration->insert ("Presage.Plugins.SmoothedNgramPlugin.LEARN", "FALSE");
     
     return configuration;
 }
@@ -152,7 +153,7 @@ void SmoothedNgramPluginTest::assertCorrectPrediction(const char** config,
 
     CPPUNIT_ASSERT_EQUAL(expected_prediction_size, prediction.size());
     
-    for (int i = 0; i < expected_prediction_size; i++) {
+    for (size_t i = 0; i < expected_prediction_size; i++) {
 	CPPUNIT_ASSERT_EQUAL(expected_prediction_words[i], prediction.getSuggestion(i).getWord());
     }
 }

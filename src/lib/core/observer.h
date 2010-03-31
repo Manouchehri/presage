@@ -22,40 +22,23 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_VARIABLE
-#define PRESAGE_VARIABLE
+#ifndef PRESAGE_OBSERVER
+#define PRESAGE_OBSERVER
 
-#include <string>
-#include <vector>
+#if HAVE_CONFIG_H
+# include "config.h"
+#endif
 
-#include "observable.h"
+class Observable;
 
-class Variable : public Observable {
-public:
-    Variable(const char* variable);
-    Variable(const std::string& variable);
-    Variable(const std::vector<std::string>& variable);
-    ~Variable();
+class Observer {
+ public:
+  virtual ~Observer () { };
+  virtual void update (const Observable* changed_observable) = 0;
 
-    std::string              get_name () const;
-    std::vector<std::string> get_name_vector () const;
-
-    std::string get_value () const;
-    void        set_value (std::string value);
-    
-    size_t size() const { return m_name_vector.size(); }
-
-    bool operator<(const Variable& other) const { return (get_name () < other.get_name ()); }
-
-    static std::vector<std::string> string_to_vector(const std::string& str);
-    static std::string vector_to_string(const std::vector<std::string>& var);
-
-private:
-    
-    std::string              m_name;
-    std::vector<std::string> m_name_vector;
-    std::string              m_value;
+ protected:
+  Observer () { };
 
 };
 
-#endif // PRESAGE_VARIABLE
+#endif // PRESAGE_OBSERVER

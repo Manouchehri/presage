@@ -29,5 +29,3 @@ libcontexttracker_la_SOURCES = \
 	contextTracker.h \
 	contextChangeDetector.cpp \
 	contextChangeDetector.h 
-
-AM_CPPFLAGS =	-I$(top_srcdir)/src/lib

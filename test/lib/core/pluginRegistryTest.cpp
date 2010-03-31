@@ -29,9 +29,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION( PluginRegistryTest );
 void PluginRegistryTest::setUp()
 {
     config = new Configuration;
-    config->set(Variable("Presage.PluginRegistry.LOGGER"), "ALL");
-//    config->set(Variable("Presage.PluginRegistry.PLUGINS"), "SmoothedNgramPlugin RecencyPlugin AbbreviationExpansionPlugin DummyPlugin");
-    config->set(Variable("Presage.PluginRegistry.PLUGINS"), "DummyPlugin DummyPlugin DummyPlugin DummyPlugin");
+    config->insert ("Presage.PluginRegistry.LOGGER", "ALL");
+    config->insert ("Presage.PluginRegistry.PLUGINS", "DummyPlugin DummyPlugin DummyPlugin DummyPlugin");
 
     registry = new PluginRegistry(config);
 }

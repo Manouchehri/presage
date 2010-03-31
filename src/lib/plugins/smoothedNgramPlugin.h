@@ -28,6 +28,7 @@
 #include "plugins/plugin.h"
 #include "core/utility.h"    // strtolower
 #include "core/logger.h"
+#include "core/dispatcher.h"
 
 #include <assert.h>
 
@@ -45,7 +46,7 @@
 /** Smoothed n-gram statistical plugin.
  *
  */
-class SmoothedNgramPlugin : public Plugin {
+class SmoothedNgramPlugin : public Plugin, public Observer {
 public:
     SmoothedNgramPlugin(Configuration*, ContextTracker*);
     ~SmoothedNgramPlugin();
@@ -56,20 +57,30 @@ public:
     virtual void extract();
     virtual void train();
 
+    virtual void update (const Observable* variable);
+
 private:
-    static const Variable LOGGER;
-    static const Variable DBFILENAME;
-    static const Variable DELTAS;
-    static const Variable LEARN;
-    static const Variable DATABASE_LOGGER;
+    static const char* LOGGER;
+    static const char* DBFILENAME;
+    static const char* DELTAS;
+    static const char* LEARN;
+    static const char* DATABASE_LOGGER;
 
     unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
     void check_learn_consistency(const Ngram& name) const;
 
+    void set_dbfilename (const std::string& filename);
+    void set_deltas (const std::string& deltas);
+    void set_database_logger_level (const std::string& value);
+    void set_learn (const std::string& deltas);
+
     DatabaseConnector*  db;
     std::string         dbfilename;
+    std::string         dbloglevel;
     std::vector<double> deltas;
+    bool                wanna_learn;
 
+    Dispatcher<SmoothedNgramPlugin> dispatcher;
 };
 
 #endif // PRESAGE_SMOOTHEDNGRAMPLUGIN

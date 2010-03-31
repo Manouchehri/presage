@@ -27,10 +27,8 @@
 
 #include <map>
 
-#include "core/variable.h"
-#include "presageException.h"
-
-typedef std::string Value;
+#include "variable.h"
+#include "../presageException.h"
 
 /** Configuration allows to query and modify all presage runtime configuration variables.
  *
@@ -40,13 +38,16 @@ public:
     Configuration();
     ~Configuration();
 
-    Value get(const Variable& variable) const;
-    void set(const Variable& variable, const Value& value);
+    Variable* find (const std::string& variable) const;
+    void insert (const std::string& variable, const std::string& value);
+    void remove (const std::string& variable);
 
-    Value operator[](const Variable& variable) const;
-    //Value& operator[](const Variable& variable);
+    Variable* operator[](const std::string& variable) const;
 
     void print() const;
+
+    std::map<std::string, Variable*>::const_iterator begin () const;
+    std::map<std::string, Variable*>::const_iterator end   () const;
 
     class ConfigurationException : public PresageException {
     public:
@@ -59,7 +60,7 @@ public:
     };
 
 private:
-    std::map<Variable, Value>* configuration;
+    std::map<std::string, Variable*>* configuration;
 
 };
 

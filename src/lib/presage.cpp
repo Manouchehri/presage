@@ -33,9 +33,7 @@
 Presage::Presage(PresageCallback* callback)
 {
     profileManager = new ProfileManager();
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
-
+    configuration = profileManager->get_configuration();
     pluginRegistry = new PluginRegistry(configuration);
     contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
     predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
@@ -50,8 +48,7 @@ Presage::Presage(PresageCallback* callback)
 Presage::Presage(PresageCallback* callback, const std::string config_filename)
 {
     profileManager = new ProfileManager(config_filename);
-    profile = profileManager->getProfile();
-    configuration = profile->get_configuration();
+    configuration = profileManager->get_configuration();
 
     pluginRegistry = new PluginRegistry(configuration);
     contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
@@ -65,9 +62,6 @@ Presage::~Presage()
     delete predictorActivator;
     delete contextTracker;
     delete pluginRegistry;
-
-    delete configuration;
-    delete profile;
     delete profileManager;
 }
 
@@ -80,7 +74,7 @@ std::vector<std::string> Presage::predict()
     result = selector->select(prediction);
 
     Prediction previous_prediction = prediction;
-    while ((result.size() < (selector->suggestions()))
+    while ((result.size() < (selector->get_suggestions()))
 	   && (prediction = predictorActivator->predict(multiplier++, 0)).size() > previous_prediction.size()) {
 	// while the number of predicted tokens is lower than desired,
 	// search harder (i.e. higher multiplier) for a prediction of
@@ -118,7 +112,7 @@ std::multimap<double, std::string> Presage::predict(std::vector<std::string> fil
     selection = selector->select(prediction);
 
     Prediction previous_prediction = prediction;
-    while ((selection.size() < (selector->suggestions()))
+    while ((selection.size() < (selector->get_suggestions()))
 	   && (prediction = predictorActivator->predict(multiplier++, internal_filter)).size() > previous_prediction.size()) {
 	// while the number of predicted tokens is lower than desired,
 	// search harder (i.e. higher multiplier) for a prediction of
@@ -212,10 +206,15 @@ std::string Presage::prefix() const
 
 std::string Presage::config(const std::string variable) const
 {
-    return configuration->get(variable);
+    return configuration->find (variable)->get_value ();
 }
 
 void Presage::config(const std::string variable, const std::string value) const
 {
-    configuration->set(variable, value);
+    configuration->find (variable)->set_value (value);
+}
+
+void Presage::save_config() const
+{
+    profileManager->save_profile ();
 }

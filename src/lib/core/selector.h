@@ -29,10 +29,11 @@
 #include "config.h"
 #endif
 
-#include "core/suggestion.h"
-#include "core/prediction.h"
-#include "core/context_tracker/contextTracker.h"
-#include "core/logger.h"
+#include "suggestion.h"
+#include "prediction.h"
+#include "context_tracker/contextTracker.h"
+#include "logger.h"
+#include "dispatcher.h"
 
 #include <string>
 #include <vector>
@@ -76,7 +77,7 @@ typedef	std::set< std::string, std::less<std::string> > StringSet;
  * "automatically" would be suggested, while "automatic" would not.
  *
  */
-class Selector {
+class Selector : public Observer {
 public:
     Selector(Configuration*, ContextTracker*);
     ~Selector();
@@ -85,15 +86,30 @@ public:
 
     void update();
 
-    size_t suggestions() const;
-    bool repeat_suggestions() const;
-    unsigned int greedy_suggestion_threshold() const;
+    void set_logger(const std::string& value);
+    void set_suggestions(const std::string& value);
+    void set_repeat_suggestions(const std::string& value);
+    void set_greedy_suggestion_threshold(const std::string& value);
 
-    static const Variable SUGGESTIONS;
-    static const Variable REPEAT_SUGGESTIONS;
-    static const Variable GREEDY_SUGGESTION_THRESHOLD;
+    size_t get_suggestions () const;
+    bool get_repeat_suggestions () const;
+    size_t get_greedy_suggestion_threshold () const;
+
+    static const char* LOGGER;
+    static const char* SUGGESTIONS;
+    static const char* REPEAT_SUGGESTIONS;
+    static const char* GREEDY_SUGGESTION_THRESHOLD;
+
+    virtual void update (const Observable* variable);
 
 private:
+    // handle observable notifications
+    typedef void (Selector::* mbr_func_ptr_t)(const std::string&);
+    std::map<std::string, mbr_func_ptr_t> dispatch_map;
+
+    size_t suggestions;
+    bool repeat_suggestions;
+    size_t greedy_suggestion_threshold;
 
     void updateSuggestedWords( const std::vector<std::string>& );
     void clearSuggestedWords();
@@ -108,6 +124,8 @@ private:
     ContextTracker* contextTracker;
     Configuration*  config;
     Logger<char> logger;
+
+    Dispatcher<Selector> dispatcher;
 };
 
 

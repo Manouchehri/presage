@@ -55,6 +55,10 @@
     </PredictorActivator>
     <ProfileManager>
         <LOGGER>ERROR</LOGGER>
+        <!-- AUTOPERSIST
+	     Automatically saves configuration to active profile.
+	  -->
+	<AUTOPERSIST>false</AUTOPERSIST>
     </ProfileManager>
     <Plugins>
         <SmoothedNgramPlugin>

@@ -32,70 +32,66 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ProfileTest );
 
 void ProfileTest::setUp()
 {
-    profileXmlDoc = new TiXmlDocument;
-    CPPUNIT_ASSERT(profileXmlDoc);
-    
-    bool readOk = false;
     std::string profileFile = 
 	static_cast<std::string>(getenv("srcdir"))
 	+ '/' + "profileTest.xml";
-    readOk = profileXmlDoc->LoadFile(profileFile.c_str());
-    CPPUNIT_ASSERT(readOk);
-
-    profile = new Profile(profileXmlDoc);
-    configuration = profile->get_configuration();
+    profile = new Profile(profileFile);
+    configuration = new Configuration();
+    profile->read_into_configuration(configuration);
 }
 
 void ProfileTest::tearDown()
 {
     delete configuration;
     delete profile;
-    delete profileXmlDoc;
 }
 
 void ProfileTest::testGetConfig()
 {
     Variable* var;
     
-    var = new Variable("Presage.ContextTracker.MAX_BUFFER_SIZE");
-    CPPUNIT_ASSERT(configuration->get(*var) == "1024");
-    delete var;
+    var = configuration->find ("Presage.ContextTracker.MAX_BUFFER_SIZE");
+    CPPUNIT_ASSERT(var->get_value() == "1024");
 
-    var = new Variable("Presage.Selector.SUGGESTIONS");
-    CPPUNIT_ASSERT(configuration->get(*var) == "6");
-    delete var;
+    var = configuration->find ("Presage.Selector.SUGGESTIONS");
+    CPPUNIT_ASSERT(var->get_value() == "6");
 
-    var = new Variable("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD");
-    CPPUNIT_ASSERT(configuration->get(*var) == "0");
-    delete var;
+    var = configuration->find ("Presage.Selector.GREEDY_SUGGESTION_THRESHOLD");
+    CPPUNIT_ASSERT(var->get_value() == "0");
 
-
-    var = new Variable("Presage.Selector.REPEAT_SUGGESTIONS");
-    CPPUNIT_ASSERT(configuration->get(*var) == "no");
-    delete var;
+    var = configuration->find ("Presage.Selector.REPEAT_SUGGESTIONS");
+    CPPUNIT_ASSERT(var->get_value() == "no");
     
-    var = new Variable("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
-    CPPUNIT_ASSERT(configuration->get(*var) == "database_en.db");
-    delete var;
+    var = configuration->find ("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
+    CPPUNIT_ASSERT(var->get_value() == "database_en.db");
 
-    var = new Variable("Presage.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
-    CPPUNIT_ASSERT(configuration->get(*var) == "40");
-    delete var;
+    var = configuration->find ("Presage.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
+    CPPUNIT_ASSERT(var->get_value() == "40");
 }
 
 void ProfileTest::testGetNonExistantConfig()
 {
     std::cout << "void ProfileTest::testGetNonExistantConfig()" << std::endl;
 
-    Variable* var = new Variable();
-    CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
-    delete var;
+    CPPUNIT_ASSERT_THROW(configuration->find (""), Configuration::ConfigurationException);
 
-    var = new Variable("foo");
-    CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
-    delete var;
+    CPPUNIT_ASSERT_THROW(configuration->find ("foo"), Configuration::ConfigurationException);
 
-    var = new Variable("bar");
-    CPPUNIT_ASSERT_THROW(configuration->get(*var), Configuration::ConfigurationException);
-    delete var;
+    CPPUNIT_ASSERT_THROW(configuration->find ("bar"), Configuration::ConfigurationException);
+}
+
+void ProfileTest::testNonExistantProfile()
+{
+    std::cout << "ProfileTest::testNonExistantProfile()" << std::endl;
+
+    // hopefully a file with the following name will not exists
+    const std::string wacky_profile("this_IS_a_wAckY_profileName.xml");
+
+    Profile* local_profile = new Profile (wacky_profile);
+    Configuration* local_config = new Configuration ();
+
+    CPPUNIT_ASSERT_NO_THROW( local_profile->read_into_configuration (local_config) );
+
+    delete local_config;
+    delete local_profile;
 }

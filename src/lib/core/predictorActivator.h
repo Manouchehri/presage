@@ -39,6 +39,7 @@
 #include "core/context_tracker/contextTracker.h"
 #include "core/prediction.h"
 #include "core/logger.h"
+#include "core/dispatcher.h"
 
 #include "core/combiner.h"
 #include "core/meritocracyCombiner.h"
@@ -65,7 +66,7 @@
  * refer to my thesis for a list of possible conbination strategies.
  *
  */
-class PredictorActivator {
+class PredictorActivator : public Observer {
   public:
 //PLUMP    PredictorActivator(HistoryTracker&,
 //PLUMP              plump::Plump&);
@@ -128,7 +129,7 @@ class PredictorActivator {
      * @param predictTime expressed in milliseconds
      * @return true if the supplied value is valid, false otherwise
      */
-    bool setPredictTime(const int predictTime);
+    void setPredictTime(const std::string& predictTime);
 
      /** Gets COMBINATION_METHOD option value.
       *
@@ -151,7 +152,26 @@ class PredictorActivator {
      *
      * @param policy combination policy
      */
-    void setCombinationPolicy(const std::string policy);
+    void setCombinationPolicy(const std::string& policy);
+
+    /** Sets maximum partial prediction size.
+     *
+     * @param size maximum partial prediction size
+     */
+    void setMaxPartialPredictionSize (const std::string& size);
+
+    /** Sets logger level.
+     *
+     * @param level logger level
+     */
+    void setLogger (const std::string& level);
+
+    virtual void update (const Observable* variable);
+
+    static const char* LOGGER;
+    static const char* PREDICT_TIME;
+    static const char* MAX_PARTIAL_PREDICTION_SIZE;
+    static const char* COMBINATION_POLICY;
 
   private:
     // PLUMP
@@ -175,8 +195,9 @@ class PredictorActivator {
 
     std::vector<Prediction> predictions; // predictions computed by each plugin are returned here
 
-    int PREDICT_TIME;
+    int predict_time;
 
+    Dispatcher<PredictorActivator> dispatcher;
 };
 
 #endif // PRESAGE_PREDICTORACTIVATOR

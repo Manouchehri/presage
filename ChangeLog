@@ -1,3 +1,84 @@
+2010-03-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configuration_observer: merged configuration_observer branch to
+	trunk.
+
+	* src/lib/presage.cpp, src/lib/Makefile.am, src/lib/presage.h:
+	added new API method to persist presage configuration to file.
+
+2010-03-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/defaultProfile.cpp: enhanced default profile to
+	contain all available configuration variables.
+
+	* src/lib/core/profileManager.cpp: fixed memory leak, load default
+	profile before any other configuration profile.
+
+	* test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.h,
+	test/lib/core/selectorTest.cpp, test/lib/core/selectorTest.h,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	src/lib/core/pluginRegistry.cpp, src/lib/core/pluginRegistry.h:
+	fixed bug in unit tests when no local installation is present.
+
+2010-03-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileManagerTest.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/core/profileManager.h, src/lib/core/profile.h,
+	src/lib/core/defaultProfile.cpp, src/lib/core/configuration.cpp,
+	src/lib/core/profileManager.cpp, src/lib/core/profile.cpp,
+	src/lib/core/defaultProfile.h, src/lib/core/configuration.h,
+	resources/profiles/presage.xml.template: implemented method to
+	write configuration to xml profile, added variable to persist
+	current configuration.
+
+2010-03-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/profileManager.h, src/lib/core/profile.h,
+	src/lib/core/profileManager.cpp, src/lib/core/profile.cpp,
+	src/lib/core/Makefile.am, src/lib/core/defaultProfile.cpp,
+	src/lib/core/defaultProfile.h: encapsulated default profile into
+	DefaultProfile class, reworked ProfileManager handling of loading
+	configuration data from profile xml files, fixed distcheck.
+
+2010-03-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/configurationTest.cpp,
+	test/lib/core/variableTest.cpp, src/lib/plugins/ARPAPlugin.cpp,
+	src/lib/plugins/recencyPlugin.cpp,
+	src/lib/plugins/abbreviationExpansionPlugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp, src/lib/presage.cpp,
+	src/lib/core/profile.h, src/lib/core/configuration.cpp,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/variable.cpp, src/lib/core/pluginRegistry.cpp,
+	src/lib/core/profileManager.cpp, src/lib/core/profile.cpp,
+	src/lib/core/predictorActivator.cpp, src/lib/core/selector.cpp,
+	src/lib/core/variable.h, src/lib/core/dispatcher.h: fixed bug in
+	configuration handling and restored profile manager cached logging
+	functionality.
+
+2010-03-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileManagerTest.h,
+	test/lib/core/profileTest.cpp, test/lib/core/profileTest.h,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.h,
+	test/lib/core/selectorTest.cpp,
+	test/lib/core/profileManagerTest.cpp, src/lib/presage.cpp,
+	src/lib/core/profileManager.h, src/lib/core/profile.h,
+	src/lib/core/configuration.cpp, src/lib/core/profileManager.cpp,
+	src/lib/core/profile.cpp, src/lib/presage.h: modified profile
+	manager and related classes so that presage configuration is
+	read from the following XML files: /etc/presage.xml,
+	<sysconfdir>/presage.xml, ~/.presage.xml and optionally supplied
+	xml file.
+
 2010-03-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla
@@ -12,7 +93,94 @@
 	apps/gtk/gpresagemate/gpresagemate.cpp: removed compilation
 	warnings.
 
-2010-03-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+2010-03-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/pluginsTestMockObjects.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.cpp,
+	src/lib/plugins/plugin.*, src/lib/plugins/ARPAPlugin.*,
+	src/lib/plugins/dejavuPlugin.*, src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/abbreviationExpansionPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/dictionaryPlugin.*,
+	src/lib/plugins/smoothedNgramPlugin.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/context_tracker/contextChangeDetector.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/context_tracker/Makefile.am, src/lib/core/selector.*,
+	src/lib/core/suggestion.h, src/lib/core/configuration.h,
+	src/lib/core/pluginRegistry.h, src/lib/presage.h,
+	src/lib/core/predictorActivator.*,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/profileManager.*: implemented dispatcher logic for
+	components.
+
+	* src/tools/presageDemoText.cpp, src/tools/presageDemo.cpp,
+	apps/gtk/gpresagemate/gpresagemate.cpp: minor fixes for
+	compilation warnings.
+
+2010-03-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/dejavuPlugin.*, src/lib/plugins/recencyPlugin.*,
+	src/lib/core/dispatcher.*, src/lib/core/Makefile.am: created
+	dispatcher class to handle dispatching of notifications from
+	observable to member functions and attachment/detachment from
+	notifications.
+
+2010-03-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/abbreviationExpansionPluginTest.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.cpp,
+	test/lib/plugins/Makefile.am,
+	test/lib/plugins/dejavuPluginTest.cpp,
+	test/lib/core/profileTest.cpp, src/lib/plugins/recencyPlugin.*,
+	src/lib/core/configuration.cpp, src/lib/core/selector.*: fixed
+	test compilation problems and implemented some notification update
+	handling code.
+
+2010-03-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileTest.cpp,
+	test/lib/core/configurationTest.cpp,
+	test/lib/core/selectorTest.cpp,
+	test/lib/core/pluginRegistryTest.cpp,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/profileManager.h, src/lib/core/variable.cpp,
+	src/lib/core/selector.*, src/lib/core/observable.cpp: fixed tests
+	and started implemented update method of observable classes.
+
+	* src/lib/plugins/ARPAPlugin.*, src/lib/plugins/dejavuPlugin.*,
+	src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/abbreviationExpansionPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/smoothedNgramPlugin.*,
+	src/lib/plugins/dictionaryPlugin.*, src/lib/presage.cpp,
+	src/lib/core/profileManager.*, src/lib/core/predictorActivator.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/selector.*, src/lib/core/pluginRegistry.*,
+	src/lib/core/observer.h: more changes for configuration variable
+	notifications.
+
+2010-03-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/configuration.*, src/lib/core/variable.*,
+	src/lib/core/selector.*, src/lib/core/profile.*: more changes for
+	configuration variable changes notifications.
+
+2010-03-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/configuration.*, src/lib/core/predictorActivator.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/selector.*, test/lib/core/profileTest.cpp,
+	src/lib/core/profile.*, src/lib/core/variable.*,
+	src/lib/core/observable.*, src/lib/core/observer.*,
+	src/lib/core/profile.cpp, src/lib/core/Makefile.am: initial
+	changes to implement observer pattern for configuration variable
+	changes notifications.
+
+2010-03-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/plugins/smoothedNgramPlugin.cpp: performance improvement
 	in smoothed n-gram predictor, moved expensive sqlite query outside

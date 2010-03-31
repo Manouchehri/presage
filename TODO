@@ -7,6 +7,18 @@ TODO list
 ---------
 
 
+Make DefaultProfile write out complete default profile, so that we can retire presage.xml.template.
+
+Profile tests
+Configuration changes
+
+Configuration improvement:
+The following should happen when config is read in:
+1. read config from /etc/presage.xml if it exists
+2. overwrite config with <sysconfdir>/presage.xml if it exists
+3. overwrite config with ~/.presage.xml if it exists
+Then, when client applications call Presage::write_config(), current configuration is written to ~/.presage.xml (or whatever profile file was specified when Presage object was created, using the constructor variant that takes a profile file as parameter). 
+
 GUI apps:
 * gprompter
 ** gray in and out redo and undo menu items

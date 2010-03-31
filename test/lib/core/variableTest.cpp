@@ -46,22 +46,22 @@ void VariableTest::test_string_to_variable()
     variable = new Variable("foo");
     expected_size = 1;
     CPPUNIT_ASSERT_EQUAL(expected_size, variable->size());
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo"), (variable->variable())[0]);
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo"), (variable->get_name_vector ())[0]);
     delete variable;
 
     variable = new Variable("foo.bar");
     expected_size = 2;
     CPPUNIT_ASSERT_EQUAL(expected_size, variable->size());
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo"), (variable->variable())[0]);
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("bar"), (variable->variable())[1]);
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo"), (variable->get_name_vector ())[0]);
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("bar"), (variable->get_name_vector ())[1]);
     delete variable;
 
     variable = new Variable("foo.bar.foobar");
     expected_size = 3;
     CPPUNIT_ASSERT_EQUAL(expected_size, variable->size());
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo"), (variable->variable())[0]);
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("bar"), (variable->variable())[1]);
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foobar"), (variable->variable())[2]);
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo"), (variable->get_name_vector ())[0]);
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("bar"), (variable->get_name_vector ())[1]);
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foobar"), (variable->get_name_vector ())[2]);
     delete variable;
 }
 
@@ -71,14 +71,14 @@ void VariableTest::test_variable_to_string()
 
     std::vector<std::string>* expected = new std::vector<std::string>();
     Variable* var = new Variable(*expected);
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>(""), var->string());
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>(""), var->get_name ());
     delete expected;
     delete var;
 
     expected = new std::vector<std::string>();
     expected->push_back("foo");
     var = new Variable(*expected);
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo"), var->string());
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo"), var->get_name ());
     delete expected;
     delete var;
 
@@ -86,7 +86,7 @@ void VariableTest::test_variable_to_string()
     expected->push_back("foo");
     expected->push_back("bar");
     var = new Variable(*expected);
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo.bar"), var->string());
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo.bar"), var->get_name ());
     delete expected;
     delete var;
 
@@ -95,7 +95,7 @@ void VariableTest::test_variable_to_string()
     expected->push_back("bar");
     expected->push_back("foobar");
     var = new Variable(*expected);
-    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo.bar.foobar"), var->string());
+    CPPUNIT_ASSERT_EQUAL(static_cast<std::string>("foo.bar.foobar"), var->get_name ());
     delete expected;
     delete var;
 }

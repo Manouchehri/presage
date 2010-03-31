@@ -27,7 +27,7 @@
 
 #include "plugins/plugin.h"
 #include "core/logger.h"
-
+#include "core/dispatcher.h"
 
 /** Recency plugin, a recency promotion statistical plugin.
  *
@@ -61,7 +61,7 @@
  * eigenfunction).
  *
  */
-class RecencyPlugin : public Plugin {
+class RecencyPlugin : public Plugin, public Observer {
 public:
     RecencyPlugin(Configuration*, ContextTracker*);
     ~RecencyPlugin();
@@ -72,16 +72,26 @@ public:
     virtual void extract();
     virtual void train();
 
-private:
+    virtual void update (const Observable* variable);
 
-    static const Variable LOGGER;
-    static const Variable LAMBDA;
-    static const Variable N_0;
-    static const Variable CUTOFF_THRESHOLD;
+private:
+//    typedef void (RecencyPlugin::* mbr_func_ptr_t) (const std::string& value);
+//    std::map<std::string, mbr_func_ptr_t> dispatch_map;
+
+    void set_lambda           (const std::string& value);
+    void set_n_0              (const std::string& value);
+    void set_cutoff_threshold (const std::string& value);
+
+    static const char* LOGGER;
+    static const char* LAMBDA;
+    static const char* N_0;
+    static const char* CUTOFF_THRESHOLD;
     
     double lambda;
     double n_0;
     size_t cutoff_threshold;
+
+    Dispatcher<RecencyPlugin> dispatcher;
 
 };
 

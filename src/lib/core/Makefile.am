@@ -38,6 +38,12 @@ libcore_la_SOURCES =	\
 	utility.h \
 	iso8859_1.h \
 	charsets.h \
+	observable.cpp \
+	observable.h \
+	observer.cpp \
+	observer.h \
+	dispatcher.h \
+	dispatcher.cpp \
 	predictorActivator.cpp \
 	predictorActivator.h \
 	combiner.h \
@@ -55,6 +61,8 @@ libcore_la_SOURCES =	\
 	configuration.h \
 	profile.cpp \
 	profile.h \
+	defaultProfile.cpp \
+	defaultProfile.h \
 	profileManager.cpp \
 	profileManager.h \
 	logger.cpp \

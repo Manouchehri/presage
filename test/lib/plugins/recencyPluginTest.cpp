@@ -42,16 +42,16 @@ void RecencyPluginTest::setUp()
 
     config = new Configuration();
     // set context tracker config variables
-    config->set(Variable("Presage.ContextTracker.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.ContextTracker.SLIDING_WINDOW_SIZE"), Value("80"));
+    config->insert ("Presage.ContextTracker.LOGGER", "ERROR");
+    config->insert ("Presage.ContextTracker.SLIDING_WINDOW_SIZE", "80");
     // set plugin registry config variables
-    config->set(Variable("Presage.PluginRegistry.LOGGER"), Value("ERROR"));
-    config->set(Variable("Presage.PluginRegistry.PLUGINS"), Value(""));
+    config->insert ("Presage.PluginRegistry.LOGGER", "ERROR");
+    config->insert ("Presage.PluginRegistry.PLUGINS", "");
     // set recency plugin config variables
-    config->set(LOGGER, "ALL");
-    config->set(LAMBDA, "1");
-    config->set(N_0,    "1");
-    config->set(CUTOFF, "20");
+    config->insert (LOGGER, "ALL");
+    config->insert (LAMBDA, "1");
+    config->insert (N_0,    "1");
+    config->insert (CUTOFF, "20");
 
     pluginRegistry = new PluginRegistry(config);
     stream = new std::stringstream();
@@ -94,29 +94,21 @@ void RecencyPluginTest::testCutoffThreshold()
     *stream << "foo bar foobar baz f";
 
     {
-	config->set(CUTOFF, "0");
+	config->insert (CUTOFF, "0");
 	Prediction expected;
 	RecencyPlugin plugin(config, ct);
 	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE, 0));
     }
 
     {
-	config->set(CUTOFF, "1");
+	config->insert (CUTOFF, "1");
 	Prediction expected;
 	RecencyPlugin plugin(config, ct);
 	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE, 0));
     }
 
     {
-	config->set(CUTOFF, "2");
-	Prediction expected;
-	RecencyPlugin plugin(config, ct);
-	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
-	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE, 0));
-    }
-
-    {
-	config->set(CUTOFF, "3");
+	config->insert (CUTOFF, "2");
 	Prediction expected;
 	RecencyPlugin plugin(config, ct);
 	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
@@ -124,7 +116,15 @@ void RecencyPluginTest::testCutoffThreshold()
     }
 
     {
-	config->set(CUTOFF, "4");
+	config->insert (CUTOFF, "3");
+	Prediction expected;
+	RecencyPlugin plugin(config, ct);
+	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
+	CPPUNIT_ASSERT_EQUAL(expected, plugin.predict(SIZE, 0));
+    }
+
+    {
+	config->insert (CUTOFF, "4");
 	Prediction expected;
 	RecencyPlugin plugin(config, ct);
 	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)

@@ -105,8 +105,6 @@ private:
     TestDataSuite*   tds_S6_NR_T3;
     TestDataSuite*   tds_S6_R_T3;
 
-    ProfileManager*  profileManager;
-    Profile*         profile;
     Configuration*   configuration;
     PluginRegistry*  pluginRegistry;
     std::stringstream* strstream;
