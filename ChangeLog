@@ -1,3 +1,8 @@
+2010-03-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.cpp, src/lib/Makefile.am, src/lib/presage.h:
+	added new API method to persist presage configuration to file.
+
 2010-03-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/defaultProfile.cpp: enhanced default profile to

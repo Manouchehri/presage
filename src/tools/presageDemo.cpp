@@ -200,7 +200,6 @@ int main(int argc, char** argv)
 
     } while( c != KEY_F(12) );
 
-
     delwin(title_win);
     delwin(context_win);
     delwin(function_win);

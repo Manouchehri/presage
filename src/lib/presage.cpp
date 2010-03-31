@@ -213,3 +213,8 @@ void Presage::config(const std::string variable, const std::string value) const
 {
     configuration->find (variable)->set_value (value);
 }
+
+void Presage::save_config() const
+{
+    profileManager->save_profile ();
+}

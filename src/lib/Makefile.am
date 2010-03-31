@@ -52,4 +52,4 @@ libpresage_la_LIBADD =		core/libcore.la \
 #				plump/src/libplump.la 
 
 libpresage_la_LDFLAGS =		-no-undefined \
-				-version-info 1:0:0 
+				-version-info 2:1:1

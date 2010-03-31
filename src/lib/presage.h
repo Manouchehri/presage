@@ -106,7 +106,9 @@ class Presage {
 
     /** \brief Callback getter/setter.
      *
-     * \param callback to be used by presage (pass a null pointer to obtain callback to current callback without modifying it)
+     * \param callback to be used by presage (pass a null pointer to
+     * obtain callback to current callback without modifying it)
+     *
      * \return pointer to previously used callback
      */
     PresageCallback* callback(PresageCallback* callback);
@@ -118,7 +120,9 @@ class Presage {
      * to the current prefix, forms the token passed as the str
      * argument.
      *
-     * \param str successful prediction, for which a completion string is requested
+     * \param str successful prediction, for which a completion string
+     * is requested
+     *
      * \return completion string
      */
     std::string completion(std::string str);
@@ -159,6 +163,15 @@ class Presage {
      *
      */
     void config(const std::string variable, const std::string value) const;
+
+    /** \brief Save current configuration to file.
+     *
+     * Call this method to persist current presage configuration to
+     * file. The configuration data will be saved to the currently
+     * active XML profile.
+     *
+     */
+    void save_config() const;
 
     /*
      * Presage public API ends here
