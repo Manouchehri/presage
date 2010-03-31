@@ -215,9 +215,8 @@ void DejavuPlugin::update_rolling_window(std::list<std::string>& rolling_window,
     rolling_window.push_back(token);
 }
 
-void DejavuPlugin::update (const Observable* variable)
+void DejavuPlugin::update (const Observable* var)
 {
-    Variable* var = (Variable*) variable;
-
+    logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
     dispatcher.dispatch (var);
 }

@@ -111,9 +111,8 @@ void DictionaryPlugin::train()
     std::cout << "DictionaryPlugin::train() method exited" << std::endl;
 }
 
-void DictionaryPlugin::update (const Observable* variable)
+void DictionaryPlugin::update (const Observable* var)
 {
-    Variable* var = (Variable*) variable;
-
+    logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
     dispatcher.dispatch (var);
 }

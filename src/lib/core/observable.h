@@ -32,20 +32,24 @@
 #include "observer.h"
 
 #include <list>
+#include <string>
 
 class Observable {
- public:
-  virtual ~Observable ();
+public:
+    virtual ~Observable ();
   
-  virtual void attach (Observer* observer);
-  virtual void detach (Observer* observer);
-  virtual void notify ();
-   
- protected:
-  Observable ();
+    virtual void attach (Observer* observer);
+    virtual void detach (Observer* observer);
+    virtual void notify ();
 
- private:
-  std::list <Observer*> observers;
+    virtual std::string  get_name () const = 0;
+    virtual std::string get_value () const = 0;
+   
+protected:
+    Observable ();
+
+private:
+    std::list <Observer*> observers;
 
 };
 

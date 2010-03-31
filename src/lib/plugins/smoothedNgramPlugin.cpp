@@ -408,10 +408,8 @@ void SmoothedNgramPlugin::train()
     logger << DEBUG << "train() method exited" << endl;
 }
 
-void SmoothedNgramPlugin::update (const Observable* variable)
+void SmoothedNgramPlugin::update (const Observable* var)
 {
-    Variable* var = (Variable*) variable;
-
     logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
     dispatcher.dispatch (var);
 }

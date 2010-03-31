@@ -313,10 +313,8 @@ std::string ContextTracker::toString() const
 
 void ContextTracker::update (const Observable* variable)
 {
-    Variable* var = (Variable*) variable;
-    
     logger << DEBUG << "Notification received: "
-	   << var->get_name () << " - " << var->get_value () << endl;
+	   << variable->get_name () << " - " << variable->get_value () << endl;
 
-    dispatcher.dispatch (var);
+    dispatcher.dispatch (variable);
 }

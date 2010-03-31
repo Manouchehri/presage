@@ -33,7 +33,7 @@
 #include <string>
 #include <iostream>
 
-#include "variable.h"
+#include "observable.h"
 
 /** Dispatches observable notifications.
  *
@@ -51,18 +51,18 @@ public:
 
     ~Dispatcher()
     {
-	for (std::list<Variable*>::iterator it = variables.begin();
-	     it != variables.end();
+	for (std::list<Observable*>::iterator it = observables.begin();
+	     it != observables.end();
 	     it++) {
 	    (*it)->detach (object);
 	}
 
     }
 
-    void map (Variable* var, const mbr_func_ptr_t& ptr)
+    void map (Observable* var, const mbr_func_ptr_t& ptr)
     {
 	var->attach (object);
-	variables.push_back (var);
+	observables.push_back (var);
 	dispatch_map[var->get_name ()] = ptr;
 	dispatch (var);
 
@@ -70,7 +70,7 @@ public:
 	//	  << object << "->" << ptr << std::endl;
     }
 
-    void dispatch (Variable* var) 
+    void dispatch (const Observable* var) 
     {
 	mbr_func_ptr_t handler_ptr = dispatch_map[var->get_name ()];
 	if (handler_ptr) {
@@ -84,7 +84,7 @@ public:
 private:
     class_t* object;
     dispatch_map_t dispatch_map;
-    std::list<Variable*> variables;
+    std::list<Observable*> observables;
 
 };
 

@@ -28,32 +28,32 @@
 
 Observable::~Observable ()
 {
-
+    // complete
 }
   
 void Observable::attach (Observer* observer)
 {
-  observers.push_back (observer);
+    observers.push_back (observer);
 }
 
 void Observable::detach (Observer* observer)
 {
-  observers.remove (observer);
+    observers.remove (observer);
 }
 
 void Observable::notify ()
 {
-  for (std::list <Observer*>::iterator it = observers.begin ();
-       it != observers.end ();
-       it++) {
-    //std::cerr << "notify() observable: " << *it << std::endl;
-    (*it)->update (this);
-  }
+    for (std::list <Observer*>::iterator it = observers.begin ();
+	 it != observers.end ();
+	 it++) {
+	//std::cerr << "notify() observable: " << *it << std::endl;
+	(*it)->update (this);
+    }
 }
 
 Observable::Observable ()
 {
-  // complete
+    // complete
 }
 
 

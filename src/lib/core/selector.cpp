@@ -277,9 +277,7 @@ size_t Selector::get_greedy_suggestion_threshold () const
 
 void Selector::update (const Observable* variable)
 {
-    Variable* var = (Variable*) variable;
-    
-    logger << DEBUG << "update(" << var->get_name () << ") called" << endl;
+    logger << DEBUG << "update(" << variable->get_name () << ") called" << endl;
 
-    dispatcher.dispatch (var);
+    dispatcher.dispatch (variable);
 }
