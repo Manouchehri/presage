@@ -707,17 +707,16 @@ static void on_menu_view_smaller_text_size( GtkWidget* widget,
 			    0);
 }
 
-static void on_menu_view_word_wrap( GtkWidget* widget,
-				    gpointer data )
+static void on_menu_view_word_wrap( GtkWidget* widget, gpointer data )
 {
     ScintillaObject* scintilla;
-    GtkCheckMenuItem* check_menu_item;
+    GtkToggleAction* toggle_action;
     gboolean active;
 
 
     scintilla = SCINTILLA (data);
-    check_menu_item = GTK_CHECK_MENU_ITEM (widget);
-    active = gtk_check_menu_item_get_active (check_menu_item);
+    toggle_action = GTK_TOGGLE_ACTION (widget);
+    active = gtk_toggle_action_get_active (toggle_action);
 
     g_print ("active: %d\n", active);
 
@@ -823,107 +822,174 @@ static void on_menu_help_about( GtkWidget* widget,
   "wrap-license"             gboolean              : Read / Write
 */
 
-static GtkWidget* create_menu_bar(GtkWidget* window, ScintillaObject* scintilla)
+
+static GtkWidget* create_menu_bar (GtkWidget* window, ScintillaObject* scintilla)
 {
-  GtkWidget* menubar;
-  GtkWidget* menu;
-  GtkWidget* menu_item;
+    GtkActionGroup      *action_group;          /* Packing group for our Actions */
+    GtkUIManager        *menu_manager;          /* The magic widget! */
+    GError              *error;                 /* For reporting exceptions or errors */
+    GtkWidget           *menubar;               /* The actual menubar */    
 
-  menubar = gtk_menu_bar_new ();
-
-#define CREATE_STOCK_MENU_ITEM(stock_id, item, menu, callback, data) \
-  item = gtk_image_menu_item_new_from_stock (stock_id, NULL);	     \
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);		     \
-  g_signal_connect (G_OBJECT (item),				     \
-                    "activate",					     \
-		    G_CALLBACK (callback),			     \
-		    (gpointer) data);				     \
-  gtk_widget_show (item);
-
-#define CREATE_SEPARATOR(item, menu)			\
-  item = gtk_separator_menu_item_new ();		\
-  gtk_menu_shell_append (GTK_MENU_SHELL(menu), item);	
-
-  /* File */
-  menu = gtk_menu_new ();
-
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_NEW, menu_item, menu, on_menu_file_new, scintilla);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_OPEN, menu_item, menu, on_menu_file_open, scintilla);
-  CREATE_SEPARATOR      (menu_item, menu);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_SAVE, menu_item, menu, on_menu_file_save, scintilla);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_SAVE_AS, menu_item, menu, on_menu_file_save_as, scintilla);
-  CREATE_SEPARATOR      (menu_item, menu);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_QUIT, menu_item, menu, exit_app, NULL);
-
-  menu_item = gtk_menu_item_new_with_mnemonic ("_File");
-  gtk_widget_show (menu_item);
-
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_item), menu);
-
-  gtk_menu_shell_append (GTK_MENU_SHELL (menubar), menu_item);
-
-  
-  /* Edit */
-  menu = gtk_menu_new();
-
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_UNDO, menu_item, menu, on_menu_edit_undo, scintilla);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_REDO, menu_item, menu, on_menu_edit_redo, scintilla);
-  CREATE_SEPARATOR      (menu_item, menu);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_CUT, menu_item, menu, on_menu_edit_cut, scintilla);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_COPY, menu_item, menu, on_menu_edit_copy, scintilla);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_PASTE, menu_item, menu, on_menu_edit_paste, scintilla);
-  CREATE_SEPARATOR      (menu_item, menu);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_SELECT_ALL, menu_item, menu, on_menu_edit_selectall, scintilla);
-
-  menu_item = gtk_menu_item_new_with_mnemonic ("_Edit");
-  gtk_widget_show (menu_item);
-
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_item), menu);
-
-  gtk_menu_shell_append (GTK_MENU_SHELL (menubar), menu_item);
+    const gchar* const xml =
+	"<ui>"
+	"  <menubar name=\"MainMenu\">"
+	"    <menu name=\"FileMenu\" action=\"FileMenuAction\">"
+	"      <menuitem name=\"New\" action=\"FileMenuNewAction\" />"
+	"      <menuitem name=\"Open\" action=\"FileMenuOpenAction\" />"
+	"      <separator />"
+	"      <menuitem name=\"Save\" action=\"FileMenuSaveAction\" />"
+	"      <menuitem name=\"SaveAs\" action=\"FileMenuSaveAsAction\" />"
+	"      <separator />"
+	"      <menuitem name=\"Quit\" action=\"FileMenuQuitAction\" />"
+	"      <placeholder name=\"FileMenuAdditions\" />"
+	"    </menu>"
+	"    <menu name=\"EditMenu\" action=\"EditMenuAction\">"
+	"      <menuitem name=\"Undo\" action=\"EditMenuUndoAction\" />"
+	"      <menuitem name=\"Redo\" action=\"EditMenuRedoAction\" />"
+	"      <separator />"
+	"      <menuitem name=\"Cut\" action=\"EditMenuCutAction\" />"
+	"      <menuitem name=\"Copy\" action=\"EditMenuCopyAction\" />"
+	"      <menuitem name=\"Paste\" action=\"EditMenuPasteAction\" />"
+	"      <separator />"
+	"      <menuitem name=\"SelectAll\" action=\"EditMenuSelectAllAction\" />"
+	"    </menu>"
+	"    <menu name=\"ViewMenu\" action=\"ViewMenuAction\">"
+	"      <menuitem name=\"ZoomIn\" action=\"ViewMenuZoomInAction\" />"
+	"      <menuitem name=\"ZoomOut\" action=\"ViewMenuZoomOutAction\" />"
+	"      <separator />"
+	"      <menuitem name=\"WordWrap\" action=\"ViewMenuWordWrapAction\" />"
+	"    </menu>"
+	"    <menu name=\"HelpMenu\" action=\"HelpMenuAction\">"
+	"      <menuitem name=\"Contents\" action=\"HelpMenuContentsAction\" />"
+	"      <menuitem name=\"About\" action=\"HelpMenuAboutAction\" />"
+	"    </menu>"
+	"  </menubar>"
+	"</ui>";
 
 
-  /* View */
-  menu = gtk_menu_new();
+    static GtkActionEntry action_entries[] = 
+	{
+	    { "FileMenuAction", NULL, "_File" },   /* name, stock id, label */
+	    { "EditMenuAction", NULL, "_Edit" },
+	    { "ViewMenuAction", NULL, "_View" },
+	    { "HelpMenuAction", NULL, "_Help" },
+	
+	    { "FileMenuNewAction", GTK_STOCK_NEW,      /* name, stock id */
+	      "_New", "<control>N",                    /* label, accelerator */
+	      "Create a new document",                 /* tooltip */ 
+	      G_CALLBACK (on_menu_file_new) },
+	
+	    { "FileMenuOpenAction", GTK_STOCK_OPEN,
+	      "_Open","<control>O",  
+	      "Open a file",
+	      G_CALLBACK (on_menu_file_open) },
+	
+	    { "FileMenuSaveAction", GTK_STOCK_SAVE,
+	      "_Save","<control>S",  
+	      "Save the current file",
+	      G_CALLBACK (on_menu_file_save) },
+	
+	    { "FileMenuSaveAsAction", GTK_STOCK_SAVE_AS,
+	      "Save _As","<shift><control>S",  
+	      "Save the current file with a different name",
+	      G_CALLBACK (on_menu_file_save_as) },
+	
+	    { "FileMenuQuitAction", GTK_STOCK_QUIT,
+	      "_Quit", "<control>Q",    
+	      "Quit the program",
+	      G_CALLBACK (exit_app) },
+	
+	    { "EditMenuUndoAction", GTK_STOCK_UNDO,
+	      "_Undo","<control>Z",  
+	      "Undo the last action",
+	      G_CALLBACK (on_menu_edit_undo) },
+	
+	    { "EditMenuRedoAction", GTK_STOCK_REDO,
+	      "_Redo","<shift><control>Z",  
+	      "Redo the last undone action",
+	      G_CALLBACK (on_menu_edit_redo) },
+	
+	    { "EditMenuCutAction", GTK_STOCK_CUT,
+	      "Cu_t","<control>X",  
+	      "Cut the selection",
+	      G_CALLBACK (on_menu_edit_cut) },
+	
+	    { "EditMenuCopyAction", GTK_STOCK_COPY,
+	      "_Copy","<control>C",  
+	      "Copy the selection",
+	      G_CALLBACK (on_menu_edit_copy) },
+	
+	    { "EditMenuPasteAction", GTK_STOCK_PASTE,
+	      "_Paste","<control>V",  
+	      "Paste the clipboard",
+	      G_CALLBACK (on_menu_edit_paste) },
+	
+	    { "EditMenuSelectAllAction", GTK_STOCK_SELECT_ALL,
+	      "Select _All","<control>A",  
+	      "Select the entire contents",
+	      G_CALLBACK (on_menu_edit_selectall) },
+	
+	    { "ViewMenuZoomInAction", GTK_STOCK_ZOOM_IN,
+	      "Zoom _In","<control>plus",  
+	      "Zoom in",
+	      G_CALLBACK (on_menu_view_larger_text_size) },
+	
+	    { "ViewMenuZoomOutAction", GTK_STOCK_ZOOM_OUT,
+	      "Zoom _Out","<control>minus",  
+	      "Zoom out",
+	      G_CALLBACK (on_menu_view_smaller_text_size) },
+	
+	    { "HelpMenuContentsAction", GTK_STOCK_HELP,
+	      "_Contents","",
+	      "Open the manual",
+	      G_CALLBACK (on_menu_help_contents) },
+	
+	    { "HelpMenuAboutAction", GTK_STOCK_ABOUT,
+	      "_About","",  
+	      "About this application",
+	      G_CALLBACK (on_menu_help_about) }
+	
+	};
+    static guint n_action_entries = G_N_ELEMENTS (action_entries);
 
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_ZOOM_IN, menu_item, menu, on_menu_view_larger_text_size, scintilla);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_ZOOM_OUT, menu_item, menu, on_menu_view_smaller_text_size, scintilla);
-  CREATE_SEPARATOR      (menu_item, menu);
-  /* create word wrap check menu item */
-  menu_item = gtk_check_menu_item_new_with_mnemonic ("_Word Wrap");
-  gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-  g_signal_connect (G_OBJECT (menu_item),
-                    "toggled",
-		    G_CALLBACK (on_menu_view_word_wrap),
-		    (gpointer) scintilla);
-  gtk_widget_show (menu_item);
-  /* done creating word wrap check menu item */
 
-  menu_item = gtk_menu_item_new_with_mnemonic ("_View");
-  gtk_widget_show (menu_item);
+    GtkToggleActionEntry toggle_action_entries[] = 
+	{
+	    { "ViewMenuWordWrapAction", NULL,
+	      "Word _Wrap","<control>W",
+	      "Wrap lines",
+	      G_CALLBACK (on_menu_view_word_wrap),
+	      TRUE }
+	};
+    static guint n_toggle_action_entries = G_N_ELEMENTS (toggle_action_entries);
+    
 
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_item), menu);
+    action_group = gtk_action_group_new ("MenuActions");
+    gtk_action_group_set_translation_domain (action_group, "blah");
+    gtk_action_group_add_actions (action_group, action_entries, n_action_entries, scintilla);
+    gtk_action_group_add_toggle_actions (action_group, toggle_action_entries, n_toggle_action_entries, scintilla);
 
-  gtk_menu_shell_append (GTK_MENU_SHELL (menubar), menu_item);
+    menu_manager = gtk_ui_manager_new ();
+    gtk_ui_manager_insert_action_group (menu_manager, action_group, 0);
+    
+    /* Read in the UI from our XML file */
+    error = NULL;
+    gtk_ui_manager_add_ui_from_string (menu_manager, xml, -1, &error);
+    
+    if (error)
+    {
+	g_message ("building menus failed: %s", error->message);
+	g_error_free (error);
+    }
+    
+    /* Get the menubar */
+    menubar = gtk_ui_manager_get_widget (menu_manager, "/MainMenu");
 
+    /* Make sure that the accelerators work */
+    gtk_window_add_accel_group (GTK_WINDOW (window), 
+				gtk_ui_manager_get_accel_group (menu_manager));
 
-  /* Help */
-  menu = gtk_menu_new();
-
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_HELP, menu_item, menu, on_menu_help_contents, scintilla);
-  CREATE_STOCK_MENU_ITEM(GTK_STOCK_ABOUT, menu_item, menu, on_menu_help_about, scintilla);
-
-  menu_item = gtk_menu_item_new_with_mnemonic ("_Help");
-  gtk_widget_show (menu_item);
-
-  gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_item), menu);
-
-  gtk_menu_shell_append (GTK_MENU_SHELL (menubar), menu_item);
-
-
-
-  return menubar;
+    return menubar;
 }
 
 
