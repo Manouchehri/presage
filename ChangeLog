@@ -1,5 +1,10 @@
 2010-04-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla
+	2.1.1 release.
+
+2010-04-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* debian/control, debian/copyright: added dependency on GTK+ devel
 	and updated copyright file, other packaging fixes.
 

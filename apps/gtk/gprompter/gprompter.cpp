@@ -31,7 +31,7 @@
 
 #include <Scintilla.h>
 #include <SciLexer.h>
-#define PLAT_GTK 1
+#define GTK 1
 #include <ScintillaWidget.h>
 
 #include <stdlib.h>
