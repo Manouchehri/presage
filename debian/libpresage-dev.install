@@ -1,4 +1,4 @@
-usr/include/presage.h
+usr/include/*
 usr/lib/libpresage.la
 usr/lib/libpresage.a
 usr/lib/libpresage.so

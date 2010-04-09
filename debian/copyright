@@ -1,11 +1,7 @@
-Format-Specification: http://wiki.debian.org/Proposals/CopyrightFormat
-Upstream-Author: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
-Debianized-By: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
-Debianized-Date: Wed, 19 Dec 2007 16:42:15 +0000.
-Original-Source-Location: http://sourceforge.net/projects/presage/
-Original-Source-Command: ./debian/rules get-orig-source
-Original-Source-Size: 1292184
-Original-Source-MD5: 5a47645993c01b4203733ef179004835
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
+Name: presage
+Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Source: http://sourceforge.net/projects/presage/
 
 Files: *
 Copyright: Copyright 2008, Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
@@ -47,8 +43,137 @@ License: other
 
 Files: resources/la_coscienza_di_zeno.txt
 Copyright: 
-License: other
+License: CC-BY-NC-SA
  Creative Commons Attribution-NonCommercial-ShareAlike 2.5
  .
  The complete text of the license can be found at:
  http://www.liberliber.it/biblioteca/licenze/
+
+Files: apps/gtk/gprompter/scintilla/*
+Copyright: Copyright 1998-2010 by Neil Hodgson <neilh@scintilla.org>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexRebol.cxx
+Copyright: Copyright 2005 by Pascal Hurni <pascal_hurni@fastmail.fm>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexCLW.cxx
+Copyright: Copyright 2003-2004 by Ron Schofield <ron@schofieldcomputer.com>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexLout.cxx
+Copyright: Copyright 2003 by Kein-Hong Man <mkh@pl.jaring.my>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexPLM.cxx
+Copyright: Copyright (c) 1990-2007, Scientific Toolworks, Inc.
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexEScript.cxx
+Copyright: Copyright 2003 by Patrizio Bekerle (patrizio@bekerle.com)
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexProgress.cxx
+Copyright: Copyright 2006-2007 by Yuval Papish <Yuval@YuvCom.com>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexRuby.cxx
+Copyright: Copyright 2001- by Clemens Wyss <wys@helbling.ch>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/ExternalLexer.h
+Copyright: Copyright 2001 Simon Steele <ss@pnotepad.org>, portions copyright Neil Hodgson.
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexTCL.cxx
+Copyright: Copyright 1998-2001 by Andre Arpin <arpin@kingston.net>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexAda.cxx
+Copyright: Copyright 2002 by Sergey Koshcheyev <sergey.k@seznam.cz>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexYAML.cxx
+Copyright: Copyright 2003- by Sean O'Dell <sean@celsoft.com>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexNsis.cxx
+Copyright: Copyright 2003 - 2005 by Angelo Mandato <angelo [at] spaceblue [dot] com>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexMPT.cxx
+Copyright: Copyright 2003 by Marius Gheorghe <mgheorghe@cabletest.com>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexGAP.cxx
+Copyright: Copyright 2007 by Istvan Szollosi ( szteven <at> gmail <dot> com )
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexKix.cxx
+Copyright: Copyright 2004 by Manfred Becker <manfred@becker-trdf.de>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexCmake.cxx
+Copyright: Copyright 2007 by Cristian Adam <cristian [dot] adam [at] gmx [dot] net>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexAsn1.cxx
+Copyright: Copyright 2004 by Herr Pfarrer rpfarrer <at> yahoo <dot> de
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexSML.cxx
+Copyright: Copyright 2009 by James Moffatt and Yuzhou Xin
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexSML.cxx
+Copyright: Modified from LexCaml.cxx by Robert Roessler <robertr@rftp.com> Copyright 2005
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexD.cxx
+Copyright: Copyright (c) 2006 by Waldemar Augustyn <waldemar@wdmsys.com>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexPowerShell.cxx
+Copyright: Copyright 2008 by Tim Gerundt <tim@gerundt.de>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexBaan.cxx
+Copyright: Copyright 2001- by Vamsi Potluru <vamsi@who.net> & Praveen Ambekar <ambekarpraveen@yahoo.com>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexSpice.cxx
+Copyright: Copyright 2006 by Fabien Proriol
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexCaml.cxx
+Copyright: Copyright 2005-2009 by Robert Roessler <robertr@rftp.com>
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/ExternalLexer.cxx
+Copyright: Copyright 2001 Simon Steele <ss@pnotepad.org>, portions copyright Neil Hodgson.
+License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/LexFlagship.cxx
+Copyright: Copyright 2005 by Randy Butler
+License: License for Scintilla and SciTE
+
+License: License for Scintilla and SciTE
+ Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
+ .
+ All Rights Reserved 
+ .
+ Permission to use, copy, modify, and distribute this software and its 
+ documentation for any purpose and without fee is hereby granted, 
+ provided that the above copyright notice appear in all copies and that 
+ both that copyright notice and this permission notice appear in 
+ supporting documentation. 
+ .
+ NEIL HODGSON DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS 
+ SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY 
+ AND FITNESS, IN NO EVENT SHALL NEIL HODGSON BE LIABLE FOR ANY 
+ SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES 
+ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, 
+ WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER 
+ TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE 
+ OR PERFORMANCE OF THIS SOFTWARE.
+

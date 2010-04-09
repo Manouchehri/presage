@@ -1,3 +1,8 @@
+2010-04-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/copyright: added dependency on GTK+ devel
+	and updated copyright file, other packaging fixes.
+
 2010-04-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.cpp: migrated to GtkUIManager to
