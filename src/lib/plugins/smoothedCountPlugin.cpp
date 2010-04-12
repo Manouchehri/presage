@@ -75,19 +75,19 @@ SmoothedCountPlugin::~SmoothedCountPlugin()
 
 void SmoothedCountPlugin::set_unigram_weight (const std::string& value)
 {
-    unigram_weight = toDouble (value);
+    unigram_weight = Utility::toDouble (value);
     logger << INFO << "UNIGRAM_WEIGHT: " << value << endl;
 }
 
 void SmoothedCountPlugin::set_bigram_weight (const std::string& value)
 {
-    bigram_weight = toDouble (value);
+    bigram_weight = Utility::toDouble (value);
     logger << INFO << "BIGRAM_WEIGHT: " << value << endl;
 }
 
 void SmoothedCountPlugin::set_trigram_weight (const std::string& value)
 {
-    trigram_weight = toDouble (value);
+    trigram_weight = Utility::toDouble (value);
     logger << INFO << "TRIGRAM_WEIGHT: " << value << endl;
 }
 

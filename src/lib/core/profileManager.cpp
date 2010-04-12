@@ -239,6 +239,6 @@ void ProfileManager::refresh_config()
 
 void ProfileManager::set_autopersist (const std::string& value)
 {
-    autopersist_config = isTrue (value);
+    autopersist_config = Utility::isTrue (value);
     logger << INFO << "AUTOPERSIST: " << autopersist_config << endl;
 }

@@ -33,7 +33,7 @@
 /** Convert string to lower case
  *
  */
-char* strtolower(char* str)
+char* Utility::strtolower(char* str)
 {
     for(int i = 0; str[i] != '\0'; i++)
 	str[i] = tolower (str[i]);
@@ -45,7 +45,7 @@ char* strtolower(char* str)
 /** Convert string to lower case
  *
  */
-std::string& strtolower(std::string& str)
+std::string& Utility::strtolower(std::string& str)
 {
     for(std::string::iterator i = str.begin();
 	i != str.end();
@@ -58,7 +58,7 @@ std::string& strtolower(std::string& str)
 /** Returns a lower case copy of a string
  *
  */
-std::string strtolower(const std::string& str)
+std::string Utility::strtolower(const std::string& str)
 {
     std::string lowstr = str;
     for(std::string::iterator i = lowstr.begin();
@@ -73,7 +73,7 @@ std::string strtolower(const std::string& str)
 /** Convert string to upper case
  *
  */
-std::string strtoupper(const std::string& str)
+std::string Utility::strtoupper(const std::string& str)
 {
     std::string upstr = str;
     for(std::string::iterator i = upstr.begin();
@@ -88,7 +88,7 @@ std::string strtoupper(const std::string& str)
 /** Is string either true or false
  *
  */
-bool isTrueFalse(const char* str)
+bool Utility::isTrueFalse(const char* str)
 {
     // TODO: manage yes/no with gettext?
 
@@ -98,7 +98,7 @@ bool isTrueFalse(const char* str)
 /** Is string True
  *
  */
-bool isTrue(const char* str)
+bool Utility::isTrue(const char* str)
 {
     bool result = false;
     
@@ -119,7 +119,7 @@ bool isTrue(const char* str)
 /** Is string False
  *
  */
-bool isFalse(const char* str)
+bool Utility::isFalse(const char* str)
 {
     bool result = false;
 
@@ -140,7 +140,7 @@ bool isFalse(const char* str)
 /** Is string True
  *
  */
-bool isTrue(const std::string& str)
+bool Utility::isTrue(const std::string& str)
 {
     return isTrue( str.c_str() );
 }
@@ -149,7 +149,7 @@ bool isTrue(const std::string& str)
 /** Is string False
  *
  */
-bool isFalse(const std::string& str)
+bool Utility::isFalse(const std::string& str)
 {
     return isFalse( str.c_str() );
 }
@@ -158,7 +158,7 @@ bool isFalse(const std::string& str)
 /** Is string either true or false
  *
  */
-bool isTrueFalse( const std::string& str )
+bool Utility::isTrueFalse( const std::string& str )
 {
     return isTrueFalse( str.c_str() );
 }
@@ -167,7 +167,7 @@ bool isTrueFalse( const std::string& str )
 /** Is string either yes or no
  *
  */
-bool isYesNo(const char* str)
+bool Utility::isYesNo(const char* str)
 {
     return (isYes (str) || isNo (str));
 }
@@ -176,7 +176,7 @@ bool isYesNo(const char* str)
 /** Is string Yes
  *
  */
-bool isYes( const char* str )
+bool Utility::isYes( const char* str )
 {
     bool result = false;
 
@@ -199,7 +199,7 @@ bool isYes( const char* str )
 /** Is string No
  *
  */
-bool isNo( const char* str )
+bool Utility::isNo( const char* str )
 {
     bool result = false;
 
@@ -223,7 +223,7 @@ bool isNo( const char* str )
 /** Is string either yes or no
  *
  */
-bool isYesNo(const std::string& str)
+bool Utility::isYesNo(const std::string& str)
 {
     return isYesNo (str.c_str());
 }
@@ -232,7 +232,7 @@ bool isYesNo(const std::string& str)
 /** Is string Yes
  * 
  */
-bool isYes( const std::string& str )
+bool Utility::isYes( const std::string& str )
 {
     return isYes (str.c_str());
 }
@@ -241,7 +241,7 @@ bool isYes( const std::string& str )
 /** Is string No
  *
  */
-bool isNo(const std::string& str)
+bool Utility::isNo(const std::string& str)
 {
     return isNo (str.c_str());
 }
@@ -249,7 +249,7 @@ bool isNo(const std::string& str)
 /** Convert string to double.
  *
  */
-double toDouble(const std::string str)
+double Utility::toDouble(const std::string str)
 {
     return atof(str.c_str());
 }
@@ -257,7 +257,7 @@ double toDouble(const std::string str)
 /** Convert string to int.
  *
  */
-int toInt(const std::string str)
+int Utility::toInt(const std::string str)
 {
     return atoi(str.c_str());
 }

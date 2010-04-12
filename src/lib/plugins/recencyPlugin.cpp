@@ -58,20 +58,20 @@ RecencyPlugin::~RecencyPlugin()
 
 void RecencyPlugin::set_lambda (const std::string& value)
 {
-    lambda = toDouble(value);
+    lambda = Utility::toDouble(value);
     logger << INFO << "LAMBDA: " << value << endl;
 }
 
 void RecencyPlugin::set_n_0 (const std::string& value)
 {
-    n_0 = toDouble (value);
+    n_0 = Utility::toDouble (value);
     logger << INFO << "N_0: " << value << endl;
 }
 
 
 void RecencyPlugin::set_cutoff_threshold (const std::string& value)
 {
-    cutoff_threshold = toInt (value);
+    cutoff_threshold = Utility::toInt (value);
     logger << INFO << "CUTOFF_THRESHOLD: " << value << endl;
 }
 

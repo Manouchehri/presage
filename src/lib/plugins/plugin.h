@@ -31,6 +31,7 @@
 #include "../core/prediction.h"
 #include "../core/context_tracker/contextTracker.h"
 #include "../core/configuration.h"
+#include "../core/utility.h"
 
 #include <string>
 #include <vector>
@@ -89,9 +90,6 @@ protected:
 
     Configuration* configuration;
     
-    double toDouble(const std::string) const;
-    int    toInt   (const std::string) const;
-
     Logger<char> logger;
 
 private:

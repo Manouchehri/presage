@@ -59,7 +59,7 @@ void DictionaryPlugin::set_dictionary (const std::string& value)
 
 void DictionaryPlugin::set_probability (const std::string& value)
 {
-    probability = toDouble (value);
+    probability = Utility::toDouble (value);
     logger << INFO << "PROBABILITY: " << value << endl;
 }
 

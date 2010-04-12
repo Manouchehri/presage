@@ -221,7 +221,7 @@ void Selector::set_logger (const std::string& value)
 void Selector::set_suggestions(const std::string& value)
 {
     logger << INFO << "SUGGESTIONS: " << value << endl;
-    int result = toInt(value);
+    int result = Utility::toInt(value);
     if (result < 0) {
 	logger << ERROR << "Presage.Selector.SUGGESTIONS value out of range!/a" << endl;
 	// REVISIT: throw exception
@@ -238,7 +238,7 @@ void Selector::set_suggestions(const std::string& value)
 void Selector::set_repeat_suggestions(const std::string& value)
 {
     logger << INFO << "REPEAT_SUGGESTIONS: " << value << endl;
-    bool result = isYes(value);
+    bool result = Utility::isYes(value);
 
     repeat_suggestions = result;
 }
@@ -250,7 +250,7 @@ void Selector::set_repeat_suggestions(const std::string& value)
 void Selector::set_greedy_suggestion_threshold(const std::string& value)
 {
     logger << INFO << "GREEDY_SUGGESTION_THRESHOLD: " << value << endl;
-    int result = toInt(value);
+    int result = Utility::toInt(value);
     if( result < 0 ) {
 	logger << ERROR << "GREEDY_SUGGESTION_THRESHOLD value out of range." << value << endl;
 	// REVISIT: throw exception

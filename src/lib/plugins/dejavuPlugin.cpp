@@ -63,7 +63,7 @@ void DejavuPlugin::set_memory (const std::string& filename)
 
 void DejavuPlugin::set_trigger (const std::string& number)
 {
-    trigger = toInt (number);
+    trigger = Utility::toInt (number);
     logger << INFO << "TRIGGER: " << number << endl;
 }
 

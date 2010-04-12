@@ -10,21 +10,10 @@ TODO list
 GUI apps:
 * gprompter
 ** gray in and out redo and undo menu items
-* prompter:
-** add icon to about box
 ** toolbar icon size
 ** autocomp max height
 
 Absolute first:
- - make all components aware of configuration variable runtime changes
-      + modify Variable class to hold value
-      + modify Configuration class to be a container of Variable
-   instances
-      + implement the Observer design pattern interfaces Observer and
-   Observable (Subject)
-      + make Variable observable
-      + modify each presage component to observe the Variables they
-   are interested in and implement handler for each variable notification
  - make predictive plugins support filters and write related tests
  - implement logger level inheritance from parent module
  - SqliteDatabaseConnector callback: had to disable logging there because

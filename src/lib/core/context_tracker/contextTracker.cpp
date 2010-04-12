@@ -246,7 +246,7 @@ bool ContextTracker::isCompletionValid(const std::string& completion) const
     bool result = false;
 
     std::string prefix = getPrefix();
-    prefix = strtolower(prefix);  // no need to be case sensitive
+    prefix = Utility::strtolower(prefix);  // no need to be case sensitive
     if (completion.find(prefix) == 0) {
         result = true;
     }

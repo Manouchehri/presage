@@ -325,9 +325,9 @@ Prediction ARPAPlugin::predict(const size_t max_partial_prediction_size, const c
   int cardinality = 3;
   std::vector<std::string> tokens(cardinality);
 
-  std::string prefix = strtolower(contextTracker->getToken(0));
-  std::string wd2Str = strtolower(contextTracker->getToken(1));
-  std::string wd1Str = strtolower(contextTracker->getToken(2));
+  std::string prefix = Utility::strtolower(contextTracker->getToken(0));
+  std::string wd2Str = Utility::strtolower(contextTracker->getToken(1));
+  std::string wd1Str = Utility::strtolower(contextTracker->getToken(2));
 
   std::multimap<float,std::string,cmp> result;
 

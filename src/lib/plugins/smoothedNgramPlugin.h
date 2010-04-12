@@ -26,7 +26,6 @@
 #define PRESAGE_SMOOTHEDNGRAMPLUGIN
 
 #include "plugins/plugin.h"
-#include "core/utility.h"    // strtolower
 #include "core/logger.h"
 #include "core/dispatcher.h"
 

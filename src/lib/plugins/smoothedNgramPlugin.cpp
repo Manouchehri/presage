@@ -88,7 +88,7 @@ void SmoothedNgramPlugin::set_deltas (const std::string& value)
     std::string delta;
     while (ss_deltas >> delta) {
         logger << DEBUG << "Pushing delta: " << delta << endl;
-	deltas.push_back (toDouble (delta));
+	deltas.push_back (Utility::toDouble (delta));
     }
     logger << INFO << "DELTAS: " << value << endl;
 }
@@ -96,7 +96,7 @@ void SmoothedNgramPlugin::set_deltas (const std::string& value)
 
 void SmoothedNgramPlugin::set_learn (const std::string& value)
 {
-    wanna_learn = isTrue (value);
+    wanna_learn = Utility::isTrue (value);
     logger << INFO << "LEARN: " << value << endl;
 }
 
@@ -153,7 +153,7 @@ Prediction SmoothedNgramPlugin::predict(const size_t max_partial_prediction_size
     //
     std::vector<std::string> tokens(cardinality);
     for (int i = 0; i < cardinality; i++) {
-	tokens[cardinality - 1 - i] = strtolower(contextTracker->getToken(i));
+	tokens[cardinality - 1 - i] = Utility::strtolower(contextTracker->getToken(i));
 	logger << DEBUG << "Cached tokens[" << cardinality - 1 - i << "] = " << tokens[cardinality - 1 - i] << endl;
     }
 

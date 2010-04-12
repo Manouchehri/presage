@@ -103,7 +103,7 @@ void PredictorActivator::setLogger (const std::string& value)
 
 void PredictorActivator::setPredictTime (const std::string& value)
 {
-    int result = toInt (value);
+    int result = Utility::toInt (value);
     // handle exception where predictTime is less than zero
     if (result < 0) {
         logger << ERROR << "Error: attempted to set PREDICT_TIME option to "
@@ -129,7 +129,7 @@ void PredictorActivator::setCombinationPolicy(const std::string& cp)
     delete combiner;
     combinationPolicy = cp;
 
-    std::string policy = strtolower (cp);
+    std::string policy = Utility::strtolower (cp);
     if (policy == "meritocracy") {
 	combiner = new MeritocracyCombiner();
     } else {
@@ -148,7 +148,7 @@ std::string PredictorActivator::getCombinationPolicy() const
 
 void PredictorActivator::setMaxPartialPredictionSize (const std::string& size)
 {
-    max_partial_prediction_size = toInt(size);
+    max_partial_prediction_size = Utility::toInt(size);
     logger << INFO << "MAX_PARTIAL_PREDICTION_SIZE: " << max_partial_prediction_size << endl;
 }
 

@@ -1,3 +1,19 @@
+2010-04-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/Makefile.am, src/lib/plugins/plugin.cpp,
+	src/lib/plugins/ARPAPlugin.cpp, src/lib/plugins/plugin.h,
+	src/lib/plugins/ARPAPlugin.h, src/lib/plugins/recencyPlugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/dictionaryPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.h,
+	src/lib/plugins/dejavuPlugin.cpp, src/lib/core/utility.cpp,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/profileManager.cpp,
+	src/lib/core/predictorActivator.cpp, src/lib/core/utility.h,
+	src/lib/core/selector.cpp: moved utility functions into Utility
+	class.
+
 2010-04-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla

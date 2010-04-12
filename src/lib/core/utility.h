@@ -31,31 +31,36 @@
 
 #include <string>   // overload strtolower function
 
-char*        strtolower( char*        );
-std::string& strtolower( std::string& );
-std::string  strtolower( const std::string& );
+class Utility {
+    
+public:    
+    static char*        strtolower( char*        );
+    static std::string& strtolower( std::string& );
+    static std::string  strtolower( const std::string& );
 
-std::string  strtoupper( const std::string& );
+    static std::string  strtoupper( const std::string& );
 
-bool isTrueFalse( const char* );
-bool isTrueFalse( const std::string& );
+    static bool isTrueFalse( const char* );
+    static bool isTrueFalse( const std::string& );
 
-bool isTrue( const char* );
-bool isTrue( const std::string& );
+    static bool isTrue( const char* );
+    static bool isTrue( const std::string& );
 
-bool isFalse( const char* );
-bool isFalse( const std::string& );
+    static bool isFalse( const char* );
+    static bool isFalse( const std::string& );
 
-bool isYesNo( const char* );
-bool isYesNo( const std::string& );
+    static bool isYesNo( const char* );
+    static bool isYesNo( const std::string& );
 
-bool isYes( const char* );
-bool isYes( const std::string& );
+    static bool isYes( const char* );
+    static bool isYes( const std::string& );
 
-bool isNo( const char* );
-bool isNo( const std::string& );
+    static bool isNo( const char* );
+    static bool isNo( const std::string& );
 
-double toDouble(const std::string);
-int    toInt   (const std::string);
+    static double toDouble(const std::string);
+    static int    toInt   (const std::string);
+
+};
 
 #endif // PRESAGE_UTILITY
