@@ -22,8 +22,8 @@
                                                                 **********(*)*/
 
 
-#include "core/predictorActivator.h"
-#include "core/utility.h"
+#include "predictorActivator.h"
+#include "utility.h"
 
 const char* PredictorActivator::LOGGER = "Presage.PredictorActivator.LOGGER";
 const char* PredictorActivator::PREDICT_TIME = "Presage.PredictorActivator.PREDICT_TIME";
@@ -31,10 +31,10 @@ const char* PredictorActivator::MAX_PARTIAL_PREDICTION_SIZE = "Presage.Predictor
 const char* PredictorActivator::COMBINATION_POLICY = "Presage.PredictorActivator.COMBINATION_POLICY";
 
 PredictorActivator::PredictorActivator(Configuration* configuration,
-		     PluginRegistry* registry,
-		     ContextTracker* ct)
+				       PredictorRegistry* registry,
+				       ContextTracker* ct)
     : config(configuration),
-      pluginRegistry(registry),
+      predictorRegistry(registry),
       contextTracker(ct),
       logger("PredictorActivator", std::cerr),
       dispatcher(this)
@@ -58,7 +58,7 @@ Prediction PredictorActivator::predict(unsigned int multiplier, const char** fil
 {
     Prediction result;
 
-    // Here goes code to instantiate a separate thread for each Plugin
+    // Here goes code to instantiate a separate thread for each Predictor
     //
 
     // All threads need to be synched together. One thread makes sure that
@@ -72,12 +72,12 @@ Prediction PredictorActivator::predict(unsigned int multiplier, const char** fil
     // clear out previous predictions
     predictions.clear();
 
-    PluginRegistry::Iterator it = pluginRegistry->iterator();
-    Plugin* plugin = 0;
+    PredictorRegistry::Iterator it = predictorRegistry->iterator();
+    Predictor* predictor = 0;
     while (it.hasNext()) {
-	plugin = it.next();
-	logger << DEBUG << "Invoking predictive plugin: " << plugin->getName() << endl;
-	predictions.push_back(plugin->predict(max_partial_prediction_size * multiplier, filter));
+	predictor = it.next();
+	logger << DEBUG << "Invoking predictor: " << predictor->getName() << endl;
+	predictions.push_back(predictor->predict(max_partial_prediction_size * multiplier, filter));
     }
 
     // ...then merge predictions into a single one...

@@ -34,7 +34,7 @@ class Configuration;
 class ProfileManager;
 class Profile;
 class ContextTracker;
-class PluginRegistry;
+class PredictorRegistry;
 class PredictorActivator;
 class Selector;
 
@@ -47,7 +47,7 @@ class Selector;
 /** \brief Presage, the intelligent predictive text entry platform.
  */
 class Presage {
-  public:
+public:
     /** Creates and initializes presage.
      *
      * \param callback is a user-supplied implementation of PresageCallback interface
@@ -177,10 +177,10 @@ class Presage {
      * Presage public API ends here
      */
 
-  private:
+private:
     ProfileManager*     profileManager;
     Configuration*      configuration;
-    PluginRegistry*     pluginRegistry;
+    PredictorRegistry*     predictorRegistry;
     ContextTracker*     contextTracker;
     PredictorActivator* predictorActivator;
     Selector*           selector;
@@ -189,55 +189,55 @@ class Presage {
 
 /** \mainpage
 
-\section intro_section Introduction
+    \section intro_section Introduction
 
-Presage is an intelligent predictive text entry
-platform. Presage exploits <a
-href="http://en.wikipedia.org/wiki/Redundancy_%28information_theory%29">redundant
-information</a> embedded in natural languages to generate
-predictions. Presage's modular and pluggable <a
-href="?q=node/14">architecture</a> allows its <a
-href="http://en.wikipedia.org/wiki/Language_modeling">language
-model</a> to be extended and customized to utilize statistical,
-syntactic, and semantic information sources.
+    Presage is an intelligent predictive text entry
+    platform. Presage exploits <a
+    href="http://en.wikipedia.org/wiki/Redundancy_%28information_theory%29">redundant
+    information</a> embedded in natural languages to generate
+    predictions. Presage's modular and pluggable <a
+    href="?q=node/14">architecture</a> allows its <a
+    href="http://en.wikipedia.org/wiki/Language_modeling">language
+    model</a> to be extended and customized to utilize statistical,
+    syntactic, and semantic information sources.
 
-A predictive text entry system attempts to improve ease and speed of
-textual input. Word prediction consists in computing which word tokens
-or word completions are most likely to be entered next. The system
-analyses the text already entered and combines the information thus
-extracted with other information sources to calculate a set of most
-probable tokens.
+    A predictive text entry system attempts to improve ease and speed of
+    textual input. Word prediction consists in computing which word tokens
+    or word completions are most likely to be entered next. The system
+    analyses the text already entered and combines the information thus
+    extracted with other information sources to calculate a set of most
+    probable tokens.
 
-A typical presage-based application would display the set of most
-probable tokens (i.e. a list of suggestions) to the user and
-automatically enter the desired token after the user selects it. If
-the list of suggestions does not contain the desired word, the user
-continues entering text until the correct suggestion is offered or
-until the user is done entering text.
+    A typical presage-based application would display the set of most
+    probable tokens (i.e. a list of suggestions) to the user and
+    automatically enter the desired token after the user selects it. If
+    the list of suggestions does not contain the desired word, the user
+    continues entering text until the correct suggestion is offered or
+    until the user is done entering text.
 
-Presage is fundamentally different from predictive <a
-href="http://en.wikipedia.org/wiki/T9_%28predictive_text%29">input
-technologies commonly found on mobile phones</a>, which might more
-accurately be described as 'disambiguating text entry' rather than
-'predictive text entry' systems.  Such systems do not try to guess
-what the user intends to write in the future, only to determine what
-they most-likely intend to write in the present, given their past
-input.  Presage, on the other hand, actively predicts the what the
-user intends to write, and only reverts to <a
-href="http://en.wikipedia.org/wiki/Word_completion">word
-completion</a> mode if the prediction did not contain the desired
-token.
+    Presage is fundamentally different from predictive <a
+    href="http://en.wikipedia.org/wiki/T9_%28predictive_text%29">input
+    technologies commonly found on mobile phones</a>, which might more
+    accurately be described as 'disambiguating text entry' rather than
+    'predictive text entry' systems.  Such systems do not try to guess
+    what the user intends to write in the future, only to determine what
+    they most-likely intend to write in the present, given their past
+    input.  Presage, on the other hand, actively predicts the what the
+    user intends to write, and only reverts to <a
+    href="http://en.wikipedia.org/wiki/Word_completion">word
+    completion</a> mode if the prediction did not contain the desired
+    token.
 
-Presage is <a
-href="http://www.gnu.org/philosophy/free-sw.html">free
-software</a>. It is distributed under the term of the <a
-href="http://www.gnu.org/copyleft/gpl.html">General Public
-License</a>.
+    Presage is <a
+    href="http://www.gnu.org/philosophy/free-sw.html">free
+    software</a>. It is distributed under the term of the <a
+    href="http://www.gnu.org/copyleft/gpl.html">General Public
+    License</a>.
 
-\author Matteo Vescovi
+    \author Matteo Vescovi
 
-\section getting_started_section Getting started
-\include getting_started.txt
+    \section getting_started_section Getting started
+    \include getting_started.txt
 
 */
 

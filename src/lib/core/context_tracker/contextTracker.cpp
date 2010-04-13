@@ -24,7 +24,7 @@
 
 #include "contextTracker.h"
 #include "../utility.h"
-#include "../pluginRegistry.h"
+#include "../predictorRegistry.h"
 #include "../tokenizer/forwardTokenizer.h"
 
 #include <stdlib.h>  // for atoi()
@@ -33,7 +33,7 @@ const char* ContextTracker::LOGGER = "Presage.ContextTracker.LOGGER";
 const char* ContextTracker::SLIDING_WINDOW_SIZE = "Presage.ContextTracker.SLIDING_WINDOW_SIZE";
 
 ContextTracker::ContextTracker(Configuration* config,
-			       PluginRegistry* registry,
+			       PredictorRegistry* registry,
 			       PresageCallback* callback,
 			       const char wChars[],
 			       const char tChars[],
@@ -43,7 +43,7 @@ ContextTracker::ContextTracker(Configuration* config,
       separatorChars (tChars),
       blankspaceChars(bChars),
       controlChars   (cChars),
-      pluginRegistry (registry),
+      predictorRegistry (registry),
       logger         ("ContextTracker", std::cerr),
       //tokenizer      (pastStream, blankspaceChars, separatorChars),
       dispatcher     (this)
@@ -59,11 +59,11 @@ ContextTracker::ContextTracker(Configuration* config,
 						      blankspaceChars,
 						      controlChars);
 
-    // set pointer to this context tracker in plugin registry so that
-    // plugins can be constructed when next iterator is requested
+    // set pointer to this context tracker in predictor registry so that
+    // predictors can be constructed when next iterator is requested
     //
-    if (pluginRegistry) {
-	pluginRegistry->setContextTracker(this);
+    if (predictorRegistry) {
+	predictorRegistry->setContextTracker(this);
     }
 
     // build dispatch map
@@ -157,12 +157,12 @@ void ContextTracker::update()
     logger << INFO << endl;
 
     // time to learn
-    PluginRegistry::Iterator it = pluginRegistry->iterator();
-    Plugin* plugin = 0;
+    PredictorRegistry::Iterator it = predictorRegistry->iterator();
+    Predictor* predictor = 0;
 
     while (it.hasNext()) {
-	plugin = it.next();
-	plugin->learn(change_tokens);
+	predictor = it.next();
+	predictor->learn(change_tokens);
     }
 
     // update sliding window

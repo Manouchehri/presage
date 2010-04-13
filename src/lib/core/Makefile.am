@@ -69,8 +69,8 @@ libcore_la_SOURCES =	\
 	logger.h \
 	presageException.cpp \
 	../presageException.h \
-	pluginRegistry.cpp \
-	pluginRegistry.h \
+	predictorRegistry.cpp \
+	predictorRegistry.h \
 	progress.cpp \
 	progress.h 
 

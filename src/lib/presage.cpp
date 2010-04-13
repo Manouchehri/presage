@@ -25,7 +25,7 @@
 #include "presage.h"
 
 #include "core/profileManager.h"
-#include "core/pluginRegistry.h"
+#include "core/predictorRegistry.h"
 #include "core/context_tracker/contextTracker.h"
 #include "core/selector.h"
 #include "core/predictorActivator.h"
@@ -34,15 +34,15 @@ Presage::Presage(PresageCallback* callback)
 {
     profileManager = new ProfileManager();
     configuration = profileManager->get_configuration();
-    pluginRegistry = new PluginRegistry(configuration);
-    contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
-    predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
+    predictorRegistry = new PredictorRegistry(configuration);
+    contextTracker = new ContextTracker(configuration, predictorRegistry, callback);
+    predictorActivator = new PredictorActivator(configuration, predictorRegistry, contextTracker);
     selector = new Selector(configuration, contextTracker);
 
     //plump::Logger::getLogger()->setLevel(plump::Logger::DEBUG);
-    //plump.appendPath("./plugins");
+    //plump.appendPath("./predictors");
     //plump.registerCallback(callback_helloworld, 0);
-    //plump.discoverPlugins();
+    //plump.discoverPredictors();
 }
 
 Presage::Presage(PresageCallback* callback, const std::string config_filename)
@@ -50,9 +50,9 @@ Presage::Presage(PresageCallback* callback, const std::string config_filename)
     profileManager = new ProfileManager(config_filename);
     configuration = profileManager->get_configuration();
 
-    pluginRegistry = new PluginRegistry(configuration);
-    contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
-    predictorActivator = new PredictorActivator(configuration, pluginRegistry, contextTracker);
+    predictorRegistry = new PredictorRegistry(configuration);
+    contextTracker = new ContextTracker(configuration, predictorRegistry, callback);
+    predictorActivator = new PredictorActivator(configuration, predictorRegistry, contextTracker);
     selector = new Selector(configuration, contextTracker);
 }
 
@@ -61,7 +61,7 @@ Presage::~Presage()
     delete selector;
     delete predictorActivator;
     delete contextTracker;
-    delete pluginRegistry;
+    delete predictorRegistry;
     delete profileManager;
 }
 

@@ -28,7 +28,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "core/profileManager.h"
-#include "core/pluginRegistry.h"
+#include "core/predictorRegistry.h"
 #include "core/selector.h"
 
 #include "../common/testStringSuite.h"
@@ -106,7 +106,7 @@ private:
     TestDataSuite*   tds_S6_R_T3;
 
     Configuration*   configuration;
-    PluginRegistry*  pluginRegistry;
+    PredictorRegistry*  predictorRegistry;
     std::stringstream* strstream;
     PresageCallback* callback;
     ContextTracker*  contextTracker;

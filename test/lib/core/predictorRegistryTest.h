@@ -22,52 +22,29 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_CONTEXTTRACKERTEST
-#define PRESAGE_CONTEXTTRACKERTEST
+#ifndef PRESAGE_PREDICTORREGISTRYTEST
+#define PRESAGE_PREDICTORREGISTRYTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "core/profileManager.h"
-#include "core/context_tracker/contextTracker.h"
-#include "core/predictorRegistry.h"
+#include <core/predictorRegistry.h>
 
-#include "../../common/testStringSuite.h"
-
-class ContextTrackerTest : public CppUnit::TestFixture { 
+class PredictorRegistryTest : public CppUnit::TestFixture { 
 public:
     void setUp();
     void tearDown();
     
-    void testConstructor();
-    void testGetPrefix();
-    void testGetToken();
-
-    void testGetFutureStream();
-    void testGetPastStream();
-
-    void testToString();
-
-    void testContextChange();
-    void testCumulativeContextChange();
+    void testHasNext();
+    void testNext();
 
 private:
-    TestStringSuite* testStringSuite;
+    Configuration* config;
+    PredictorRegistry* registry;
 
-    ContextTracker*  contextTracker;
-    Configuration*   configuration;
-    PredictorRegistry*  predictorRegistry;
-    
-    CPPUNIT_TEST_SUITE( ContextTrackerTest );
-    CPPUNIT_TEST( testConstructor          );
-    CPPUNIT_TEST( testGetPrefix            );
-    CPPUNIT_TEST( testGetToken             );
-    CPPUNIT_TEST( testGetFutureStream      );
-    CPPUNIT_TEST( testGetPastStream        );
-    CPPUNIT_TEST( testToString             );
-    CPPUNIT_TEST( testContextChange        );
-    CPPUNIT_TEST( testCumulativeContextChange );
+    CPPUNIT_TEST_SUITE( PredictorRegistryTest );
+    CPPUNIT_TEST( testHasNext );
+    CPPUNIT_TEST( testNext );
     CPPUNIT_TEST_SUITE_END();
-
 };
 
-#endif // PRESAGE_CONTEXTTRACKERTEST
+#endif // PRESAGE_PREDICTORREGISTRYTEST

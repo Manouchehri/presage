@@ -22,52 +22,42 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_CONTEXTTRACKERTEST
-#define PRESAGE_CONTEXTTRACKERTEST
+#ifndef PRESAGE_RECENCYPREDICTORTEST
+#define PRESAGE_RECENCYPREDICTORTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "core/profileManager.h"
-#include "core/context_tracker/contextTracker.h"
-#include "core/predictorRegistry.h"
+#include <plugins/recencyPredictor.h>
 
-#include "../../common/testStringSuite.h"
-
-class ContextTrackerTest : public CppUnit::TestFixture { 
-public:
+/** Test RecencyPredictor.
+ * 
+ */
+class RecencyPredictorTest : public CppUnit::TestFixture {
+public: 
     void setUp();
     void tearDown();
     
-    void testConstructor();
-    void testGetPrefix();
-    void testGetToken();
-
-    void testGetFutureStream();
-    void testGetPastStream();
-
-    void testToString();
-
-    void testContextChange();
-    void testCumulativeContextChange();
+    void testMaxPartialPredictionSize();
+    void testCutoffThreshold();
 
 private:
-    TestStringSuite* testStringSuite;
+    Configuration*  config;
+    PredictorRegistry* predictorRegistry;
+    std::stringstream* stream;
+    PresageCallback* callback;
+    ContextTracker* ct;
 
-    ContextTracker*  contextTracker;
-    Configuration*   configuration;
-    PredictorRegistry*  predictorRegistry;
-    
-    CPPUNIT_TEST_SUITE( ContextTrackerTest );
-    CPPUNIT_TEST( testConstructor          );
-    CPPUNIT_TEST( testGetPrefix            );
-    CPPUNIT_TEST( testGetToken             );
-    CPPUNIT_TEST( testGetFutureStream      );
-    CPPUNIT_TEST( testGetPastStream        );
-    CPPUNIT_TEST( testToString             );
-    CPPUNIT_TEST( testContextChange        );
-    CPPUNIT_TEST( testCumulativeContextChange );
+    static const int SIZE;
+    static const char* LOGGER;
+    static const char* LAMBDA;
+    static const char* CUTOFF;
+    static const char* N_0;
+
+    CPPUNIT_TEST_SUITE( RecencyPredictorTest );
+    CPPUNIT_TEST( testMaxPartialPredictionSize );
+    CPPUNIT_TEST( testCutoffThreshold );
     CPPUNIT_TEST_SUITE_END();
-
 };
 
-#endif // PRESAGE_CONTEXTTRACKERTEST
+
+#endif // PRESAGE_RECENCYPREDICTORTEST

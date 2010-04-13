@@ -35,19 +35,19 @@ void ContextTrackerTest::setUp()
     testStringSuite = new TestStringSuite();
 
     configuration = new Configuration();
-    configuration->insert (PluginRegistry::LOGGER, "ALL");
-    configuration->insert (PluginRegistry::PLUGINS, "");
+    configuration->insert (PredictorRegistry::LOGGER, "ALL");
+    configuration->insert (PredictorRegistry::PREDICTORS, "");
     configuration->insert (ContextTracker::LOGGER, "ALL");
     configuration->insert (ContextTracker::SLIDING_WINDOW_SIZE, "80");
 
-    pluginRegistry = new PluginRegistry(configuration);
+    predictorRegistry = new PredictorRegistry(configuration);
 }
 
 void ContextTrackerTest::tearDown()
 {
     delete testStringSuite;
 
-    delete pluginRegistry;
+    delete predictorRegistry;
     delete configuration;
 }
 
@@ -62,7 +62,7 @@ void ContextTrackerTest::testGetPrefix()
     while (testStringSuite->hasMoreTestStrings()) {
 	std::stringstream buffer;
 	StringstreamPresageCallback callback(buffer);
-	ContextTracker hT(configuration, pluginRegistry, &callback);
+	ContextTracker hT(configuration, predictorRegistry, &callback);
 	buffer << testStringSuite->currentTestString()->getstr();
 
 	assert(testStringSuite->currentTestString() != 0);
@@ -91,7 +91,7 @@ void ContextTrackerTest::testGetToken()
     while (testStringSuite->hasMoreTestStrings()) {
 	std::stringstream buffer;
 	StringstreamPresageCallback callback(buffer);
-	ContextTracker hT(configuration, pluginRegistry, &callback);
+	ContextTracker hT(configuration, predictorRegistry, &callback);
 	buffer << testStringSuite->currentTestString()->getstr();
 
 	assert(testStringSuite->currentTestString() != 0);
@@ -124,7 +124,7 @@ void ContextTrackerTest::testGetPastStream()
     while (testStringSuite->hasMoreTestStrings()) {
 	std::stringstream buffer;
 	StringstreamPresageCallback callback(buffer);
-	ContextTracker hT(configuration, pluginRegistry, &callback);
+	ContextTracker hT(configuration, predictorRegistry, &callback);
 	std::string str = testStringSuite->currentTestString()->getstr();
 	std::string partial_str;
         for (size_t i = 0; i < str.size(); i++) {
@@ -148,7 +148,7 @@ void ContextTrackerTest::testContextChange()
     std::stringstream buffer;
     PresageCallback* callback = new StringstreamPresageCallback(buffer);
     ContextTracker* contextTracker = new ContextTracker(configuration,
-							pluginRegistry, 
+							predictorRegistry, 
 							callback);
 
     const std::string line   = "foo bar foobar, foo   bar! Foobar foo bar... foobar. ";
@@ -178,7 +178,7 @@ void ContextTrackerTest::testCumulativeContextChange()
 {
     std::stringstream buffer;
     PresageCallback* callback = new StringstreamPresageCallback(buffer);
-    ContextTracker* contextTracker = new ContextTracker(configuration, pluginRegistry, callback);
+    ContextTracker* contextTracker = new ContextTracker(configuration, predictorRegistry, callback);
 
     const char* TRUE = "true";
     const char* FALSE = "false";

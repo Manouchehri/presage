@@ -35,18 +35,18 @@ libpresage_la_SOURCES = 	presage.cpp \
 libpresage_la_LIBADD =		core/libcore.la \
 				tinyxml/libtinyxml.la \
 				simulator/libsimulator.la \
-				plugins/libplugin.la  \
-				plugins/libSmoothedNgramPlugin.la \
-				plugins/libAbbreviationExpansionPlugin.la \
-				plugins/libDummyPlugin.la \
-				plugins/libDictionaryPlugin.la \
-				plugins/libSmoothedCountPlugin.la \
-				plugins/libRecencyPlugin.la \
-				plugins/libDejavuPlugin.la \
-				plugins/libARPAPlugin.la 
+				plugins/libpredictor.la  \
+				plugins/libSmoothedNgramPredictor.la \
+				plugins/libAbbreviationExpansionPredictor.la \
+				plugins/libDummyPredictor.la \
+				plugins/libDictionaryPredictor.la \
+				plugins/libSmoothedCountPredictor.la \
+				plugins/libRecencyPredictor.la \
+				plugins/libDejavuPredictor.la \
+				plugins/libARPAPredictor.la 
 
 #				REVISIT remove plugins/lib*.la entries
-#				when reintegrating dynamically loaded plugins
+#				when reintegrating dynamically loaded predictors
 
 #				REVISIT add libplump.la when using plump
 #				plump/src/libplump.la 

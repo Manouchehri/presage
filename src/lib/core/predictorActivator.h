@@ -34,17 +34,17 @@
 //#include "plump/src/plump.h"
 //namespace plump { typedef int Plump; }
 
-#include "core/configuration.h"
-#include "core/pluginRegistry.h"
-#include "core/context_tracker/contextTracker.h"
-#include "core/prediction.h"
-#include "core/logger.h"
-#include "core/dispatcher.h"
+#include "configuration.h"
+#include "predictorRegistry.h"
+#include "context_tracker/contextTracker.h"
+#include "prediction.h"
+#include "logger.h"
+#include "dispatcher.h"
 
-#include "core/combiner.h"
-#include "core/meritocracyCombiner.h"
+#include "combiner.h"
+#include "meritocracyCombiner.h"
 
-#include "plugins/plugin.h"
+#include "plugins/predictor.h"
 
 
 #ifdef STDC_HEADERS
@@ -54,98 +54,98 @@
 //#include <dlfcn.h>   // needed for shared library dynamic loading
 
 
-/** PredictorActivator, the heart of Presage system, coordinates the execution of predictive plugins and returns the combination of their predictions.
+/** PredictorActivator, the heart of Presage system, coordinates the execution of predictors and returns the combination of their predictions.
  *
- * PredictorActivator starts the execution of the active predictive plugins,
+ * PredictorActivator starts the execution of the active predictors,
  * monitors their execution and collects the predictions returned, or
- * terminates a predictive plugin's execution if it execedes its
- * maximum prediction time.
+ * terminates a predictor's execution if it execedes its maximum
+ * prediction time.
  * 
- * The predictions returned by the individual predictive plugins are
- * combined into a single prediction by the active Combiner. (please
- * refer to my thesis for a list of possible conbination strategies.
+ * The predictions returned by the individual predictors are combined
+ * into a single prediction by the active Combiner. (please refer to
+ * my thesis for a list of possible conbination strategies.
  *
  */
 class PredictorActivator : public Observer {
-  public:
+public:
 //PLUMP    PredictorActivator(HistoryTracker&,
 //PLUMP              plump::Plump&);
 
     /** Construct a PredictorActivator object.
      *
-     *  PredictorActivator needs a reference to the ContextTracker object to
-     *  forward to the predictive plugins for context retrieval and
+     *  PredictorActivator needs a reference to the ContextTracker
+     *  object to forward to the predictors for context retrieval and
      *  analysis.
      *
      * @param config pointer to configuration
-     * @param registry pointer to plugin registry
+     * @param registry pointer to predictor registry
      * @param contextTracker pointer to ContextTracker
      */
-    PredictorActivator(Configuration* config, PluginRegistry* registry, ContextTracker* contextTracker);
+    PredictorActivator(Configuration* config, PredictorRegistry* registry, ContextTracker* contextTracker);
 
     /** Destroy predictor activator.
      *
      */
     ~PredictorActivator();
 
-    /** Runs the predictive plugins, combine their predictions and return the resulting prediction.
+    /** Runs the predictors, combine their predictions and return the resulting prediction.
      *
      * This is the heart of Presage.
      * 
-     * Plump will eventually provide the implementation of sequential or parallel execution of plugins.
+     * Plump will eventually provide the implementation of sequential or parallel execution of predictors.
      *
-     * @return prediction produced by the active predictive plugins and combined by the active combiner
+     * @return prediction produced by the active predictors and combined by the active combiner
      */
     Prediction predict(unsigned int multiplier, const char** filter);
 
-    /** Set active predictive plugins.
+    /** Set active predictors.
      *
-     * @param pluginList space separated list of predictive plugins
+     * @param predictorList space separated list of predictors
      */
-    void setPlugins(const std::string& pluginList);
+    void setPredictors(const std::string& predictorList);
 
-    /** Adds a predictive plugin to the active runtime plugins list.
+    /** Adds a predictor to the active runtime predictors list.
      *
-     * @param pluginName plugin name string
+     * @param predictorName predictor name string
      */
-    void addPlugin(const std::string& pluginName);
+    void addPredictor(const std::string& predictorName);
 
-    /** Removes all predictive plugins from the active plugins list.
+    /** Removes all predictors from the active predictors list.
      *
      */
-    void removePlugins();
+    void removePredictors();
 
     /** Gets PREDICT_TIME option value.
      *
-     * Returns the maximum time plugins are allowed to execute before
+     * Returns the maximum time predictors are allowed to execute before
      * returning a prediction.
      *
      * @return value of PREDICT_TIME
      */
     int getPredictTime() const;
     
-    /** Sets PREDICT_TIME option, the maximum time allowed for a predictive plugin to return its prediction.
+    /** Sets PREDICT_TIME option, the maximum time allowed for a predictor to return its prediction.
      *
      * @param predictTime expressed in milliseconds
      * @return true if the supplied value is valid, false otherwise
      */
     void setPredictTime(const std::string& predictTime);
 
-     /** Gets COMBINATION_METHOD option value.
-      *
-      * Returns the active combination method used by predictor
-      * activator to combine predictions returned by the active
-      * predictive plugins into one prediction.
-      *
-      * @return value of COMBINATION_METHOD
-      */
+    /** Gets COMBINATION_METHOD option value.
+     *
+     * Returns the active combination method used by predictor
+     * activator to combine predictions returned by the active
+     * predictors into one prediction.
+     *
+     * @return value of COMBINATION_METHOD
+     */
     std::string getCombinationPolicy() const;
 
     /** Sets combination policy.
      *
      * Sets the combination policy used by predictor activator to
-     * combine predictions returned by the active predictive plugins
-     * into one prediction.
+     * combine predictions returned by the active predictors into one
+     * prediction.
      * 
      * The existing combiner object is first destroyed, then a new
      * combiner object created.
@@ -173,17 +173,17 @@ class PredictorActivator : public Observer {
     static const char* MAX_PARTIAL_PREDICTION_SIZE;
     static const char* COMBINATION_POLICY;
 
-  private:
+private:
     // PLUMP
     //plump::Plump& plump;
 
 
-    // execute plugin function (invoked in thread)
+    // execute predictor function (invoked in thread)
     void *execute(void *);
 
 
     Configuration*  config;
-    PluginRegistry* pluginRegistry;
+    PredictorRegistry* predictorRegistry;
     ContextTracker* contextTracker;
 
     Logger<char>    logger;
@@ -193,7 +193,7 @@ class PredictorActivator : public Observer {
 
     int max_partial_prediction_size;
 
-    std::vector<Prediction> predictions; // predictions computed by each plugin are returned here
+    std::vector<Prediction> predictions; // predictions computed by each predictor are returned here
 
     int predict_time;
 

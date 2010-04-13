@@ -42,7 +42,7 @@ coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
 				variableTest.h variableTest.cpp             \
 				configurationTest.h configurationTest.cpp   \
 				combinerTest.h combinerTest.cpp             \
-				pluginRegistryTest.h pluginRegistryTest.cpp 
+				predictorRegistryTest.h predictorRegistryTest.cpp 
 
 coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 coreTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
@@ -50,12 +50,6 @@ coreTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 coreTestRunner_LIBS =		-ldl
 coreTestRunner_LDADD =		$(top_builddir)/src/lib/libpresage.la \
 				../common/libcommon.la
-
-
-# Temporarily disabled
-#pluginManagerDriver_SOURCES =	pluginManagerDriver.cpp
-##pluginManagerDriver_LDFLAGS =	-ldl
-
 
 
 DEPENDENCIES =	libpresage.la

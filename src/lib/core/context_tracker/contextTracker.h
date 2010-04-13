@@ -45,7 +45,7 @@
 
 #include "../../presageCallback.h"
 
-class PluginRegistry;
+class PredictorRegistry;
 
 /** \brief Tracks user interaction and context.
  *
@@ -155,7 +155,7 @@ class PluginRegistry;
 class ContextTracker : public Observer {
 public:
     ContextTracker(Configuration* config,
-		   PluginRegistry* pluginRegistry,
+		   PredictorRegistry* predictorRegistry,
 		   PresageCallback* callback,
 		   const char[]=DEFAULT_WORD_CHARS,
                    const char[]=DEFAULT_SEPARATOR_CHARS,
@@ -212,7 +212,7 @@ private:
     bool isBlankspaceChar(const char) const;
 
     const PresageCallback* context_tracker_callback;
-    PluginRegistry* pluginRegistry;
+    PredictorRegistry* predictorRegistry;
     ContextChangeDetector* contextChangeDetector;
     Logger<char> logger;
     

@@ -21,42 +21,42 @@
 
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES =	libplugin.la                      \
-			libSmoothedNgramPlugin.la         \
-			libDictionaryPlugin.la            \
-			libSmoothedCountPlugin.la         \
-			libDummyPlugin.la                 \
-			libAbbreviationExpansionPlugin.la \
-			libRecencyPlugin.la               \
-			libDejavuPlugin.la                \
-			libARPAPlugin.la
+noinst_LTLIBRARIES =	libpredictor.la                      \
+			libSmoothedNgramPredictor.la         \
+			libDictionaryPredictor.la            \
+			libSmoothedCountPredictor.la         \
+			libDummyPredictor.la                 \
+			libAbbreviationExpansionPredictor.la \
+			libRecencyPredictor.la               \
+			libDejavuPredictor.la                \
+			libARPAPredictor.la
 
 
-libplugin_la_SOURCES =	plugin.cpp plugin.h
+libpredictor_la_SOURCES =	predictor.cpp predictor.h
 
-libSmoothedNgramPlugin_la_SOURCES =		smoothedNgramPlugin.cpp \
-						smoothedNgramPlugin.h   
+libSmoothedNgramPredictor_la_SOURCES =		smoothedNgramPredictor.cpp \
+						smoothedNgramPredictor.h   
 
-libAbbreviationExpansionPlugin_la_SOURCES =	abbreviationExpansionPlugin.h   \
-						abbreviationExpansionPlugin.cpp 
+libAbbreviationExpansionPredictor_la_SOURCES =	abbreviationExpansionPredictor.h   \
+						abbreviationExpansionPredictor.cpp 
 
-libDictionaryPlugin_la_SOURCES =	dictionaryPlugin.cpp    \
-					dictionaryPlugin.h      
+libDictionaryPredictor_la_SOURCES =	dictionaryPredictor.cpp \
+					dictionaryPredictor.h      
 
-libSmoothedCountPlugin_la_SOURCES =	smoothedCountPlugin.cpp \
-					smoothedCountPlugin.h
+libSmoothedCountPredictor_la_SOURCES =	smoothedCountPredictor.cpp \
+					smoothedCountPredictor.h
 
-libDummyPlugin_la_SOURCES =		dummyPlugin.cpp         \
-					dummyPlugin.h           
+libDummyPredictor_la_SOURCES =		dummyPredictor.cpp \
+					dummyPredictor.h           
 
-libRecencyPlugin_la_SOURCES =		recencyPlugin.cpp	\
-					recencyPlugin.h
-libRecencyPlugin_la_LDFLAGS =		-lm
+libRecencyPredictor_la_SOURCES =	recencyPredictor.cpp \
+					recencyPredictor.h
+libRecencyPredictor_la_LDFLAGS =	-lm
 
-libDejavuPlugin_la_SOURCES =		dejavuPlugin.cpp        \
-					dejavuPlugin.h
+libDejavuPredictor_la_SOURCES =		dejavuPredictor.cpp \
+					dejavuPredictor.h
 
-libARPAPlugin_la_SOURCES =		ARPAPlugin.cpp		\
-					ARPAPlugin.h
+libARPAPredictor_la_SOURCES =		ARPAPredictor.cpp \
+					ARPAPredictor.h
 
 AM_CPPFLAGS = -I$(top_srcdir)/src/lib

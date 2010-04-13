@@ -21,20 +21,17 @@
 
 ## Process this file with automake to produce Makefile.in
 
-check_PROGRAMS = $(TESTS)              \
-		dictionaryPluginDriver \
-		dummyPluginDriver      \
-		smoothedCountDriver    
+check_PROGRAMS = $(TESTS)
 
 if HAVE_CPPUNIT
 
-TESTS =	pluginsTestRunner newPluginsTestRunner
+TESTS =	predictorsTestRunner newPredictorsTestRunner
 
-pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp \
-				pluginsTestMockObjects.h \
-				pluginsTestMockObjects.cpp \
-				pluginsTestFixture.h \
-				pluginsTestFixture.cpp \
+predictorsTestRunner_SOURCES =	predictorsTestRunner.cpp \
+				predictorsTestMockObjects.h \
+				predictorsTestMockObjects.cpp \
+				predictorsTestFixture.h \
+				predictorsTestFixture.cpp \
 				$(top_srcdir)/src/lib/core/suggestion.h \
 				$(top_srcdir)/src/lib/core/suggestion.cpp \
 				$(top_srcdir)/src/lib/core/prediction.h \
@@ -51,45 +48,33 @@ pluginsTestRunner_SOURCES =	pluginsTestRunner.cpp \
 				$(top_srcdir)/src/lib/core/observable.cpp \
 				$(top_srcdir)/src/lib/core/observer.h \
 				$(top_srcdir)/src/lib/core/observer.cpp \
-				smoothedNgramPluginTest.h \
-				smoothedNgramPluginTest.cpp \
-				$(top_srcdir)/src/lib/plugins/smoothedNgramPlugin.cpp \
-				$(top_srcdir)/src/lib/plugins/smoothedNgramPlugin.h \
-				abbreviationExpansionPluginTest.h \
-				abbreviationExpansionPluginTest.cpp \
-				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.h \
-				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPlugin.cpp
-pluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
-pluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-pluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la               \
+				smoothedNgramPredictorTest.h \
+				smoothedNgramPredictorTest.cpp \
+				$(top_srcdir)/src/lib/plugins/smoothedNgramPredictor.cpp \
+				$(top_srcdir)/src/lib/plugins/smoothedNgramPredictor.h \
+				abbreviationExpansionPredictorTest.h \
+				abbreviationExpansionPredictorTest.cpp \
+				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPredictor.h \
+				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPredictor.cpp
+predictorsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
+predictorsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
+predictorsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libpredictor.la               \
 				$(top_builddir)/src/lib/core/dbconnector/libdbconnector.la 
 
 # the following test runner links with libpresage, instead of using
 # mock objects in place of the core libsootsayer library facilities
-newPluginsTestRunner_SOURCES = 	pluginsTestRunner.cpp \
-				recencyPluginTest.h \
-				recencyPluginTest.cpp \
-				dejavuPluginTest.h \
-				dejavuPluginTest.cpp \
-				newSmoothedNgramPluginTest.h \
-				newSmoothedNgramPluginTest.cpp
-newPluginsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
-newPluginsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-newPluginsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libplugin.la	\
+newPredictorsTestRunner_SOURCES = 	predictorsTestRunner.cpp \
+				recencyPredictorTest.h \
+				recencyPredictorTest.cpp \
+				dejavuPredictorTest.h \
+				dejavuPredictorTest.cpp \
+				newSmoothedNgramPredictorTest.h \
+				newSmoothedNgramPredictorTest.cpp
+newPredictorsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
+newPredictorsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
+newPredictorsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libpredictor.la	\
 				$(top_builddir)/src/lib/libpresage.la
 
 endif # HAVE_CPPUNIT
-
-dictionaryPluginDriver_SOURCES =	dictionaryPluginDriver.cpp
-dictionaryPluginDriver_LDADD =		$(top_builddir)/src/lib/plugins/libDictionaryPlugin.la \
-					$(top_builddir)/src/lib/libpresage.la 
-
-dummyPluginDriver_SOURCES = 	dummyPluginDriver.cpp
-dummyPluginDriver_LDADD =	$(top_builddir)/src/lib/plugins/libDummyPlugin.la \
-				$(top_builddir)/src/lib/libpresage.la 
-
-smoothedCountDriver_SOURCES = 	smoothedCountDriver.cpp
-smoothedCountDriver_LDADD =	$(top_builddir)/src/lib/plugins/libSmoothedCountPlugin.la \
-				$(top_builddir)/src/lib/libpresage.la
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib

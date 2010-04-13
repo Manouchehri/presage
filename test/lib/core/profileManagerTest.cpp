@@ -25,7 +25,7 @@
 #include "profileManagerTest.h"
 #include "../common/stringstreamPresageCallback.h"
 
-#include "core/pluginRegistry.h"
+#include "core/predictorRegistry.h"
 #include "core/context_tracker/contextTracker.h"
 #include "core/predictorActivator.h"
 #include "core/selector.h"
@@ -49,7 +49,7 @@ void ProfileManagerTest::testProfile()
 {
     // test that some default variables are there in retrieved config
     CPPUNIT_ASSERT(configuration->find (ProfileManager::LOGGER) != 0);
-    CPPUNIT_ASSERT(configuration->find (PluginRegistry::PLUGINS) != 0);
+    CPPUNIT_ASSERT(configuration->find (PredictorRegistry::PREDICTORS) != 0);
     CPPUNIT_ASSERT(configuration->find (ContextTracker::LOGGER) != 0);
     CPPUNIT_ASSERT(configuration->find (Selector::LOGGER) != 0);
     CPPUNIT_ASSERT(configuration->find (PredictorActivator::LOGGER) != 0);

@@ -383,8 +383,8 @@ void SelectorTest::setUp()
     tds_S6_R_T3 = new TestDataSuite_S6_R_T3();
 
     configuration = new Configuration();
-    configuration->insert (PluginRegistry::LOGGER, "ALL");
-    configuration->insert (PluginRegistry::PLUGINS, "");
+    configuration->insert (PredictorRegistry::LOGGER, "ALL");
+    configuration->insert (PredictorRegistry::PREDICTORS, "");
     configuration->insert (ContextTracker::LOGGER, "ALL");
     configuration->insert (ContextTracker::SLIDING_WINDOW_SIZE, "80");
     configuration->insert (Selector::LOGGER, "ALL");
@@ -392,10 +392,10 @@ void SelectorTest::setUp()
     configuration->insert (Selector::REPEAT_SUGGESTIONS, "no");
     configuration->insert (Selector::GREEDY_SUGGESTION_THRESHOLD, "0");
 
-    pluginRegistry = new PluginRegistry(configuration);
+    predictorRegistry = new PredictorRegistry(configuration);
     strstream = new std::stringstream();
     callback = new StringstreamPresageCallback(*strstream);
-    contextTracker  = new ContextTracker(configuration, pluginRegistry, callback);
+    contextTracker  = new ContextTracker(configuration, predictorRegistry, callback);
     selector = new Selector(configuration, contextTracker);
 }
 
