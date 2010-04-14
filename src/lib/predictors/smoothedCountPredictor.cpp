@@ -22,7 +22,7 @@
                                                                 **********(*)*/
 
 
-#include "plugins/smoothedCountPredictor.h"
+#include "smoothedCountPredictor.h"
 
 #ifdef HAVE_STRING_H
 # include <string.h>

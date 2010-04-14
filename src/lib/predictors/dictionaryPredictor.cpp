@@ -22,7 +22,7 @@
                                                                 **********(*)*/
 
 
-#include "plugins/dictionaryPredictor.h"
+#include "dictionaryPredictor.h"
 
 #include <assert.h>
 

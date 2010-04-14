@@ -22,42 +22,44 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_RECENCYPREDICTORTEST
-#define PRESAGE_RECENCYPREDICTORTEST
+#ifndef PRESAGE_DICTIONARYPREDICTOR
+#define PRESAGE_DICTIONARYPREDICTOR
 
-#include <cppunit/extensions/HelperMacros.h>
+#include "predictor.h"
+#include "../core/dispatcher.h"
 
-#include <plugins/recencyPredictor.h>
+#include <fstream>
 
-/** Test RecencyPredictor.
- * 
+
+/** Dictionary predictive predictor.
+ *
+ * Generates a prediction by extracting tokens that start with the
+ * current prefix from a given dictionary.
+ *
  */
-class RecencyPredictorTest : public CppUnit::TestFixture {
-public: 
-    void setUp();
-    void tearDown();
-    
-    void testMaxPartialPredictionSize();
-    void testCutoffThreshold();
+class DictionaryPredictor : public Predictor, public Observer {
+public:
+    DictionaryPredictor(Configuration*, ContextTracker*);
+    ~DictionaryPredictor();
+
+    virtual Prediction predict(const size_t size, const char** filter) const;
+
+    virtual void learn(const std::vector<std::string>& change);
+
+    virtual void update (const Observable* variable);
+
+    void set_dictionary (const std::string& value);
+    void set_probability (const std::string& value);
 
 private:
-    Configuration*  config;
-    PredictorRegistry* predictorRegistry;
-    std::stringstream* stream;
-    PresageCallback* callback;
-    ContextTracker* ct;
-
-    static const int SIZE;
     static const char* LOGGER;
-    static const char* LAMBDA;
-    static const char* CUTOFF;
-    static const char* N_0;
+    static const char* DICTIONARY;
+    static const char* PROBABILITY;
 
-    CPPUNIT_TEST_SUITE( RecencyPredictorTest );
-    CPPUNIT_TEST( testMaxPartialPredictionSize );
-    CPPUNIT_TEST( testCutoffThreshold );
-    CPPUNIT_TEST_SUITE_END();
+    std::string dictionary_path;
+    double probability;
+
+    Dispatcher<DictionaryPredictor> dispatcher;
 };
 
-
-#endif // PRESAGE_RECENCYPREDICTORTEST
+#endif // PRESAGE_DICTIONARYPREDICTOR

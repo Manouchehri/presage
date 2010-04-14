@@ -22,40 +22,42 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_DEJAVUPREDICTORTEST
-#define PRESAGE_DEJAVUPREDICTORTEST
+#ifndef PRESAGE_RECENCYPREDICTORTEST
+#define PRESAGE_RECENCYPREDICTORTEST
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <plugins/dejavuPredictor.h>
+#include <predictors/recencyPredictor.h>
 
-/** Test DejavuPredictor.
+/** Test RecencyPredictor.
  * 
  */
-class DejavuPredictorTest : public CppUnit::TestFixture {
+class RecencyPredictorTest : public CppUnit::TestFixture {
 public: 
     void setUp();
     void tearDown();
     
-    void testPredict();
+    void testMaxPartialPredictionSize();
+    void testCutoffThreshold();
 
 private:
     Configuration*  config;
+    PredictorRegistry* predictorRegistry;
     std::stringstream* stream;
     PresageCallback* callback;
     ContextTracker* ct;
-    PredictorRegistry* predictorRegistry;
 
     static const int SIZE;
     static const char* LOGGER;
-    static const char* TRIGGER;
-    static const char* MEMORY;
-    static const char* MEMORY_FILENAME;
+    static const char* LAMBDA;
+    static const char* CUTOFF;
+    static const char* N_0;
 
-    CPPUNIT_TEST_SUITE( DejavuPredictorTest );
-    CPPUNIT_TEST( testPredict );
+    CPPUNIT_TEST_SUITE( RecencyPredictorTest );
+    CPPUNIT_TEST( testMaxPartialPredictionSize );
+    CPPUNIT_TEST( testCutoffThreshold );
     CPPUNIT_TEST_SUITE_END();
 };
 
 
-#endif // PRESAGE_DEJAVUPREDICTORTEST
+#endif // PRESAGE_RECENCYPREDICTORTEST

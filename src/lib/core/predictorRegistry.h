@@ -26,7 +26,7 @@
 #define PRESAGE_PREDICTORREGISTRY
 
 #include "dispatcher.h"
-#include "../plugins/predictor.h"
+#include "../predictors/predictor.h"
 
 class ContextTracker;
 

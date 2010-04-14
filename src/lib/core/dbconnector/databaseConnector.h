@@ -29,7 +29,7 @@
 #include "config.h"
 #endif
 
-#include "core/logger.h"
+#include "../../core/logger.h"
 
 #include <map>
 #include <vector>

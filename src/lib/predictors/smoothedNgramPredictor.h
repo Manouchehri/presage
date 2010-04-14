@@ -22,25 +22,32 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_DICTIONARYPREDICTOR
-#define PRESAGE_DICTIONARYPREDICTOR
+#ifndef PRESAGE_SMOOTHEDNGRAMPREDICTOR
+#define PRESAGE_SMOOTHEDNGRAMPREDICTOR
 
-#include "plugins/predictor.h"
-#include "core/dispatcher.h"
+#include "predictor.h"
+#include "../core/logger.h"
+#include "../core/dispatcher.h"
+#include "../core/dbconnector/sqliteDatabaseConnector.h"
 
-#include <fstream>
+#include <assert.h>
+
+#if defined(HAVE_SQLITE3_H) 
+# include <sqlite3.h>
+#elif defined(HAVE_SQLITE_H)
+# include <sqlite.h>
+#else
+# error "SQLite is required. Please install SQLite."
+#endif
 
 
-/** Dictionary predictive predictor.
- *
- * Generates a prediction by extracting tokens that start with the
- * current prefix from a given dictionary.
+/** Smoothed n-gram statistical predictor.
  *
  */
-class DictionaryPredictor : public Predictor, public Observer {
+class SmoothedNgramPredictor : public Predictor, public Observer {
 public:
-    DictionaryPredictor(Configuration*, ContextTracker*);
-    ~DictionaryPredictor();
+    SmoothedNgramPredictor(Configuration*, ContextTracker*);
+    ~SmoothedNgramPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;
 
@@ -48,18 +55,28 @@ public:
 
     virtual void update (const Observable* variable);
 
-    void set_dictionary (const std::string& value);
-    void set_probability (const std::string& value);
-
 private:
     static const char* LOGGER;
-    static const char* DICTIONARY;
-    static const char* PROBABILITY;
+    static const char* DBFILENAME;
+    static const char* DELTAS;
+    static const char* LEARN;
+    static const char* DATABASE_LOGGER;
 
-    std::string dictionary_path;
-    double probability;
+    unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
+    void check_learn_consistency(const Ngram& name) const;
 
-    Dispatcher<DictionaryPredictor> dispatcher;
+    void set_dbfilename (const std::string& filename);
+    void set_deltas (const std::string& deltas);
+    void set_database_logger_level (const std::string& value);
+    void set_learn (const std::string& deltas);
+
+    DatabaseConnector*  db;
+    std::string         dbfilename;
+    std::string         dbloglevel;
+    std::vector<double> deltas;
+    bool                wanna_learn;
+
+    Dispatcher<SmoothedNgramPredictor> dispatcher;
 };
 
-#endif // PRESAGE_DICTIONARYPREDICTOR
+#endif // PRESAGE_SMOOTHEDNGRAMPREDICTOR

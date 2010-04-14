@@ -50,15 +50,15 @@ predictorsTestRunner_SOURCES =	predictorsTestRunner.cpp \
 				$(top_srcdir)/src/lib/core/observer.cpp \
 				smoothedNgramPredictorTest.h \
 				smoothedNgramPredictorTest.cpp \
-				$(top_srcdir)/src/lib/plugins/smoothedNgramPredictor.cpp \
-				$(top_srcdir)/src/lib/plugins/smoothedNgramPredictor.h \
+				$(top_srcdir)/src/lib/predictors/smoothedNgramPredictor.cpp \
+				$(top_srcdir)/src/lib/predictors/smoothedNgramPredictor.h \
 				abbreviationExpansionPredictorTest.h \
 				abbreviationExpansionPredictorTest.cpp \
-				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPredictor.h \
-				$(top_srcdir)/src/lib/plugins/abbreviationExpansionPredictor.cpp
+				$(top_srcdir)/src/lib/predictors/abbreviationExpansionPredictor.h \
+				$(top_srcdir)/src/lib/predictors/abbreviationExpansionPredictor.cpp
 predictorsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 predictorsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-predictorsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libpredictor.la               \
+predictorsTestRunner_LDADD =	$(top_builddir)/src/lib/predictors/libpredictor.la               \
 				$(top_builddir)/src/lib/core/dbconnector/libdbconnector.la 
 
 # the following test runner links with libpresage, instead of using
@@ -72,7 +72,7 @@ newPredictorsTestRunner_SOURCES = 	predictorsTestRunner.cpp \
 				newSmoothedNgramPredictorTest.cpp
 newPredictorsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 newPredictorsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-newPredictorsTestRunner_LDADD =	$(top_builddir)/src/lib/plugins/libpredictor.la	\
+newPredictorsTestRunner_LDADD =	$(top_builddir)/src/lib/predictors/libpredictor.la	\
 				$(top_builddir)/src/lib/libpresage.la
 
 endif # HAVE_CPPUNIT

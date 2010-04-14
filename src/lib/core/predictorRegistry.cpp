@@ -30,14 +30,14 @@
 // IMPORTANT: remove following includes when moving back to dynamically
 // loaded predictors.
 //
-#include "plugins/smoothedNgramPredictor.h"
-#include "plugins/ARPAPredictor.h"
-#include "plugins/abbreviationExpansionPredictor.h"
-#include "plugins/dummyPredictor.h"
-#include "plugins/dictionaryPredictor.h"
-#include "plugins/smoothedCountPredictor.h"
-#include "plugins/recencyPredictor.h"
-#include "plugins/dejavuPredictor.h"
+#include "predictors/smoothedNgramPredictor.h"
+#include "predictors/ARPAPredictor.h"
+#include "predictors/abbreviationExpansionPredictor.h"
+#include "predictors/dummyPredictor.h"
+#include "predictors/dictionaryPredictor.h"
+#include "predictors/smoothedCountPredictor.h"
+#include "predictors/recencyPredictor.h"
+#include "predictors/dejavuPredictor.h"
 
 const char* PredictorRegistry::LOGGER  = "Presage.PredictorRegistry.LOGGER";
 const char* PredictorRegistry::PREDICTORS = "Presage.PredictorRegistry.PREDICTORS";

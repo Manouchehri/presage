@@ -79,7 +79,7 @@ void Suggestion::setWord(std::string s)
 void Suggestion::setProbability(double p)
 {
     // this should validate that probability is within range [MIN,
-    // MAX], but certain plugins multiply probability by a delta,
+    // MAX], but certain predictors multiply probability by a delta,
     // hence only checking lower bound
     if (p >= MIN_PROBABILITY) { //  && p <= MAX_PROBABILITY) {
 	probability = p;

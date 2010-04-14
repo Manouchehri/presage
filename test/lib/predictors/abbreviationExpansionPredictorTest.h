@@ -27,7 +27,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <plugins/abbreviationExpansionPredictor.h>
+#include <predictors/abbreviationExpansionPredictor.h>
 
 #include "predictorsTestMockObjects.h"
 #include "predictorsTestFixture.h"

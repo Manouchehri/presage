@@ -333,7 +333,7 @@ AC_OUTPUT([
 	src/lib/core/dbconnector/Makefile
 	src/lib/simulator/Makefile
 	src/lib/tinyxml/Makefile
-	src/lib/plugins/Makefile
+	src/lib/predictors/Makefile
 	src/tools/Makefile
 	test/Makefile
 	test/lib/Makefile
@@ -342,7 +342,7 @@ AC_OUTPUT([
 	test/lib/core/tokenizer/Makefile
 	test/lib/core/context_tracker/Makefile
 	test/lib/core/dbconnector/Makefile
-	test/lib/plugins/Makefile
+	test/lib/predictors/Makefile
 	test/lib/simulator/Makefile
 	test/tools/Makefile
 	test/integration/Makefile
@@ -397,7 +397,7 @@ AC_MSG_RESULT([
     API documentation diagrams: . ${build_documentation_diagrams}
 
 
-  Predictive plugins:
+  Predictors:
 
     Smoothed n-gram: ............ yes
     Recency promotion: .......... yes

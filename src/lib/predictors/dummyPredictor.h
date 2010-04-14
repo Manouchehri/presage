@@ -22,48 +22,26 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_ABBREVIATIONEXPANSIONPREDICTOR
-#define PRESAGE_ABBREVIATIONEXPANSIONPREDICTOR
+#ifndef PRESAGE_DUMMYPREDICTOR
+#define PRESAGE_DUMMYPREDICTOR
 
-#include "plugins/predictor.h"
-#include "core/dispatcher.h"
+#include "predictor.h"
 
 
-/** Abbreviation expansion predictor.
- *
- * This predictor maps abbreviations to the corresponding fully expanded
- * token (i.e. word or phrase).
- *
- * The mapping between abbreviations and expansions is stored in the
- * file specified by the predictor configuration section.
- *
- * The format for the abbreviation-expansion database is a simple tab
- * separated text file format, with each abbreviation-expansion pair
- * per line.
+/** Dummy predictor is provided here to show how to implement real predictors.
  *
  */
-class AbbreviationExpansionPredictor : public Predictor, public Observer {
+class DummyPredictor : public Predictor {
 public:
-    AbbreviationExpansionPredictor(Configuration*, ContextTracker*);
-    ~AbbreviationExpansionPredictor();
+    DummyPredictor(Configuration*, ContextTracker*);
+    ~DummyPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;
 
     virtual void learn(const std::vector<std::string>& change);
 
-    virtual void update (const Observable* variable);
-
 private:
-    static const char* LOGGER;
-    static const char* ABBREVIATIONS;
-
-    void set_abbreviations (const std::string& filename);
-    void cacheAbbreviationsExpansions();
-    
-    std::string abbreviations;
-    std::map< std::string, std::string> cache;
-
-    Dispatcher<AbbreviationExpansionPredictor> dispatcher;
+	
 };
 
-#endif // PRESAGE_ABBREVIATIONEXPANSIONPREDICTOR
+#endif // PRESAGE_DUMMYPREDICTOR

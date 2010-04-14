@@ -22,7 +22,7 @@
                                                                 **********(*)*/
 
 
-#include "plugins/dummyPredictor.h"
+#include "dummyPredictor.h"
 
 
 DummyPredictor::DummyPredictor(Configuration* config, ContextTracker* ct)

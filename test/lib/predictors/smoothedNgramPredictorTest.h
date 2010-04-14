@@ -27,7 +27,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <plugins/smoothedNgramPredictor.h>
+#include <predictors/smoothedNgramPredictor.h>
 
 #include "predictorsTestFixture.h"
 

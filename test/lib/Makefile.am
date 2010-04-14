@@ -21,4 +21,4 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	common core plugins simulator
+SUBDIRS =	common core predictors simulator

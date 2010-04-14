@@ -24,13 +24,13 @@
 #ifndef PRESAGE_DEJAVUPREDICTOR
 #define PRESAGE_DEJAVUPREDICTOR
 
-#include "plugins/predictor.h"
+#include "predictor.h"
+#include "../core/dispatcher.h"
 
 #include <list>
 #include <string>
 #include <fstream>
 
-#include "core/dispatcher.h"
 
 /** Dejavu predictor learns and reproduces previously seen text tokens, once its memory is triggered by a known token sequence.
  *   

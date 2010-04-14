@@ -22,26 +22,45 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_DUMMYPREDICTOR
-#define PRESAGE_DUMMYPREDICTOR
+#ifndef PRESAGE_NEWSMOOTHEDNGRAMPREDICTORTEST
+#define PRESAGE_NEWSMOOTHEDNGRAMPREDICTORTEST
 
-#include "plugins/predictor.h"
+#include <cppunit/extensions/HelperMacros.h>
 
+#include <predictors/smoothedNgramPredictor.h>
 
-/** Dummy predictor is provided here to show how to implement real predictors.
+/** Test SmoothedNgramPredictor.
  *
+ * this test doesn't follow the pattern of test
+ * SmoothedNgramPredictorTest: i.e. it doesn't reuse the infrastructure
+ * provided by the predictor test fixture, because that infrastructure
+ * was not designed to accomodate predictors that are able to learn.
+ * 
  */
-class DummyPredictor : public Predictor {
-public:
-    DummyPredictor(Configuration*, ContextTracker*);
-    ~DummyPredictor();
-
-    virtual Prediction predict(const size_t size, const char** filter) const;
-
-    virtual void learn(const std::vector<std::string>& change);
+class NewSmoothedNgramPredictorTest : public CppUnit::TestFixture {
+public: 
+    void setUp();
+    void tearDown();
+    
+    void testLearning();
+    void testFilter();
 
 private:
-	
+    Configuration*  config;
+    std::stringstream* stream;
+    PresageCallback* callback;
+    ContextTracker* ct;
+    PredictorRegistry* predictorRegistry;
+    Predictor*         predictor;
+
+    static const char* DATABASE;
+    static const int   SIZE;
+
+    CPPUNIT_TEST_SUITE( NewSmoothedNgramPredictorTest );
+    CPPUNIT_TEST( testLearning );
+    CPPUNIT_TEST( testFilter );
+    CPPUNIT_TEST_SUITE_END();
 };
 
-#endif // PRESAGE_DUMMYPREDICTOR
+
+#endif // PRESAGE_NEWSMOOTHEDNGRAMPREDICTORTEST

@@ -22,33 +22,30 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_SMOOTHEDNGRAMPREDICTOR
-#define PRESAGE_SMOOTHEDNGRAMPREDICTOR
+#ifndef PRESAGE_ABBREVIATIONEXPANSIONPREDICTOR
+#define PRESAGE_ABBREVIATIONEXPANSIONPREDICTOR
 
-#include "plugins/predictor.h"
-#include "core/logger.h"
-#include "core/dispatcher.h"
-
-#include <assert.h>
-
-#if defined(HAVE_SQLITE3_H) 
-# include <sqlite3.h>
-#elif defined(HAVE_SQLITE_H)
-# include <sqlite.h>
-#else
-# error "SQLite is required. Please install SQLite."
-#endif
-
-#include "core/dbconnector/sqliteDatabaseConnector.h"
+#include "predictor.h"
+#include "../core/dispatcher.h"
 
 
-/** Smoothed n-gram statistical predictor.
+/** Abbreviation expansion predictor.
+ *
+ * This predictor maps abbreviations to the corresponding fully expanded
+ * token (i.e. word or phrase).
+ *
+ * The mapping between abbreviations and expansions is stored in the
+ * file specified by the predictor configuration section.
+ *
+ * The format for the abbreviation-expansion database is a simple tab
+ * separated text file format, with each abbreviation-expansion pair
+ * per line.
  *
  */
-class SmoothedNgramPredictor : public Predictor, public Observer {
+class AbbreviationExpansionPredictor : public Predictor, public Observer {
 public:
-    SmoothedNgramPredictor(Configuration*, ContextTracker*);
-    ~SmoothedNgramPredictor();
+    AbbreviationExpansionPredictor(Configuration*, ContextTracker*);
+    ~AbbreviationExpansionPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;
 
@@ -58,26 +55,15 @@ public:
 
 private:
     static const char* LOGGER;
-    static const char* DBFILENAME;
-    static const char* DELTAS;
-    static const char* LEARN;
-    static const char* DATABASE_LOGGER;
+    static const char* ABBREVIATIONS;
 
-    unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
-    void check_learn_consistency(const Ngram& name) const;
+    void set_abbreviations (const std::string& filename);
+    void cacheAbbreviationsExpansions();
+    
+    std::string abbreviations;
+    std::map< std::string, std::string> cache;
 
-    void set_dbfilename (const std::string& filename);
-    void set_deltas (const std::string& deltas);
-    void set_database_logger_level (const std::string& value);
-    void set_learn (const std::string& deltas);
-
-    DatabaseConnector*  db;
-    std::string         dbfilename;
-    std::string         dbloglevel;
-    std::vector<double> deltas;
-    bool                wanna_learn;
-
-    Dispatcher<SmoothedNgramPredictor> dispatcher;
+    Dispatcher<AbbreviationExpansionPredictor> dispatcher;
 };
 
-#endif // PRESAGE_SMOOTHEDNGRAMPREDICTOR
+#endif // PRESAGE_ABBREVIATIONEXPANSIONPREDICTOR

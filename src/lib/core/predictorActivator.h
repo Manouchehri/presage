@@ -44,7 +44,7 @@
 #include "combiner.h"
 #include "meritocracyCombiner.h"
 
-#include "plugins/predictor.h"
+#include "predictors/predictor.h"
 
 
 #ifdef STDC_HEADERS

@@ -21,7 +21,7 @@
                                                                              *
 									     **********(*)*/
 
-#include "plugins/dejavuPredictor.h"
+#include "dejavuPredictor.h"
 
 #include <algorithm>
 

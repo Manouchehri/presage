@@ -40,8 +40,8 @@
  * A suggestion is a prediction token, probability pair.
  *
  * A prediction token is a string (word or single character). The
- * probability describes how likely the predictive plugin estimated
- * that the associated predicted token is the desired token.
+ * probability describes how likely the predictor estimated that the
+ * associated predicted token is the desired token.
  * 
  * Probability might have to be computed as logarithmic probability to
  * avoid buffer underflows.

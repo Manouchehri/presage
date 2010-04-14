@@ -58,5 +58,3 @@ libDejavuPredictor_la_SOURCES =		dejavuPredictor.cpp \
 
 libARPAPredictor_la_SOURCES =		ARPAPredictor.cpp \
 					ARPAPredictor.h
-
-AM_CPPFLAGS = -I$(top_srcdir)/src/lib

@@ -25,8 +25,8 @@
 #ifndef PRESAGE_SMOOTHEDCOUNTPREDICTOR
 #define PRESAGE_SMOOTHEDCOUNTPREDICTOR
 
-#include "plugins/predictor.h"
-#include "core/dispatcher.h"
+#include "predictor.h"
+#include "../core/dispatcher.h"
 
 #include <assert.h>
 #include <stdlib.h>    // double atof( const char* )

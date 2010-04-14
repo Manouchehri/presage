@@ -38,7 +38,7 @@
 #endif
 
 #include "databaseConnector.h"
-#include "presageException.h"
+#include "../../presageException.h"
 
 class SqliteDatabaseConnector : public DatabaseConnector {
   public:

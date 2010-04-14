@@ -40,8 +40,8 @@
  * a Prediction is a list of Suggestion object, ordered by decreasing
  * probability.
  *
- * A Prediction object is returned by the predictive plugins and by a
- * combiner object.
+ * A Prediction object is returned by the predictors and by a combiner
+ * object.
  * 
  */
 class Prediction {

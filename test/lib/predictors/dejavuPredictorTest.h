@@ -22,12 +22,40 @@
                                                                 **********(*)*/
 
 
-#ifndef PRESAGE_PREDICTORSTESTMOCKOBJECTS
-#define PRESAGE_PREDICTORSTESTMOCKOBJECTS
+#ifndef PRESAGE_DEJAVUPREDICTORTEST
+#define PRESAGE_DEJAVUPREDICTORTEST
 
-#include "plugins/predictor.h"
+#include <cppunit/extensions/HelperMacros.h>
 
-typedef std::map< std::string, std::string > ConfigMap;
+#include <predictors/dejavuPredictor.h>
+
+/** Test DejavuPredictor.
+ * 
+ */
+class DejavuPredictorTest : public CppUnit::TestFixture {
+public: 
+    void setUp();
+    void tearDown();
+    
+    void testPredict();
+
+private:
+    Configuration*  config;
+    std::stringstream* stream;
+    PresageCallback* callback;
+    ContextTracker* ct;
+    PredictorRegistry* predictorRegistry;
+
+    static const int SIZE;
+    static const char* LOGGER;
+    static const char* TRIGGER;
+    static const char* MEMORY;
+    static const char* MEMORY_FILENAME;
+
+    CPPUNIT_TEST_SUITE( DejavuPredictorTest );
+    CPPUNIT_TEST( testPredict );
+    CPPUNIT_TEST_SUITE_END();
+};
 
 
-#endif // PRESAGE_PREDICTORSTESTMOCKOBJECTS
+#endif // PRESAGE_DEJAVUPREDICTORTEST

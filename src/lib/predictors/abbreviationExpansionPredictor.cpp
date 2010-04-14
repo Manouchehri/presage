@@ -22,7 +22,8 @@
 									     **********(*)*/
 
 
-#include "plugins/abbreviationExpansionPredictor.h"
+#include "abbreviationExpansionPredictor.h"
+
 #include <fstream>
 
 

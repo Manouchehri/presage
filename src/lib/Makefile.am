@@ -21,7 +21,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = 			tinyxml core simulator plugins #plump
+SUBDIRS = 			tinyxml core simulator predictors #plump
 
 include_HEADERS =		presage.h \
 				presageException.h \
@@ -35,17 +35,17 @@ libpresage_la_SOURCES = 	presage.cpp \
 libpresage_la_LIBADD =		core/libcore.la \
 				tinyxml/libtinyxml.la \
 				simulator/libsimulator.la \
-				plugins/libpredictor.la  \
-				plugins/libSmoothedNgramPredictor.la \
-				plugins/libAbbreviationExpansionPredictor.la \
-				plugins/libDummyPredictor.la \
-				plugins/libDictionaryPredictor.la \
-				plugins/libSmoothedCountPredictor.la \
-				plugins/libRecencyPredictor.la \
-				plugins/libDejavuPredictor.la \
-				plugins/libARPAPredictor.la 
+				predictors/libpredictor.la  \
+				predictors/libSmoothedNgramPredictor.la \
+				predictors/libAbbreviationExpansionPredictor.la \
+				predictors/libDummyPredictor.la \
+				predictors/libDictionaryPredictor.la \
+				predictors/libSmoothedCountPredictor.la \
+				predictors/libRecencyPredictor.la \
+				predictors/libDejavuPredictor.la \
+				predictors/libARPAPredictor.la 
 
-#				REVISIT remove plugins/lib*.la entries
+#				REVISIT remove predictors/lib*.la entries
 #				when reintegrating dynamically loaded predictors
 
 #				REVISIT add libplump.la when using plump

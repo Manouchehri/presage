@@ -25,9 +25,9 @@
 #ifndef PRESAGE_RECENCYPREDICTOR
 #define PRESAGE_RECENCYPREDICTOR
 
-#include "plugins/predictor.h"
-#include "core/logger.h"
-#include "core/dispatcher.h"
+#include "predictor.h"
+#include "../core/logger.h"
+#include "../core/dispatcher.h"
 
 /** Recency predictor, a recency promotion statistical predictor.
  *

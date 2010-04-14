@@ -22,7 +22,7 @@
                                                                 **********(*)*/
 
 
-#include "plugins/smoothedNgramPredictor.h"
+#include "smoothedNgramPredictor.h"
 
 #include <sstream>
 #include <algorithm>

@@ -25,10 +25,10 @@
 #ifndef PRESAGE_ARPAPREDICTOR
 #define PRESAGE_ARPAPREDICTOR
 
-#include "plugins/predictor.h"
-#include "core/logger.h"
-#include "core/progress.h"
-#include "core/dispatcher.h"
+#include "predictor.h"
+#include "../core/logger.h"
+#include "../core/progress.h"
+#include "../core/dispatcher.h"
 
 #include <assert.h>
 #include <fstream>
