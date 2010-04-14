@@ -1,5 +1,10 @@
 2010-04-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* debian/control, debian/source, debian/source/format,
+	Makefile.am: switching debian packaging to 3.0 quilt format.
+
+2010-04-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* test/lib/plugins, test/lib/plugins/dejavuPredictorTest.h,
 	test/lib/plugins/predictorsTestMockObjects.cpp,
 	test/lib/plugins/newSmoothedNgramPredictorTest.h,

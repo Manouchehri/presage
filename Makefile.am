@@ -88,7 +88,7 @@ debian: dist
 	  cp $(DIST_ARCHIVES) $(PACKAGE)_$(VERSION).orig.zip ;;\
 	esac
 	mkdir $(distdir)/debian
-	cp $(srcdir)/debian/* $(distdir)/debian/
+	cp -R $(srcdir)/debian/* $(distdir)/debian/
 	(cd $(distdir) && \
 	  dpkg-buildpackage -us -uc -rfakeroot)
 

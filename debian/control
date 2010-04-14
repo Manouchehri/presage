@@ -24,7 +24,7 @@ Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/
 Package: presage
 Section: misc
 Architecture: any
-Depends: ${shlibs:Depends}, presage-data
+Depends: ${shlibs:Depends}, ${misc:Depends}, presage-data
 Suggests: presage-doc
 Description: intelligent predictive text entry platform (tools and demos)
  Presage is an intelligent predictive text entry platform.
@@ -49,6 +49,7 @@ Description: intelligent predictive text entry platform (tools and demos)
 Package: presage-data
 Section: misc
 Architecture: any
+Depends: ${misc:Depends}
 Recommends: presage
 Description: intelligent predictive text entry platform (data files)
  Presage is an intelligent predictive text entry platform.
@@ -71,6 +72,7 @@ Description: intelligent predictive text entry platform (data files)
 Package: presage-doc
 Section: doc
 Architecture: all
+Depends: ${misc:Depends}
 Recommends: presage
 Description: intelligent predictive text entry platform (documentation)
  Presage is an intelligent predictive text entry platform.
@@ -93,7 +95,7 @@ Description: intelligent predictive text entry platform (documentation)
 Package: libpresage1
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: intelligent predictive text entry platform (shared library)
  Presage is an intelligent predictive text entry platform.
  .
@@ -115,7 +117,7 @@ Package: libpresage-dev
 Section: libdevel
 Suggests: presage-doc
 Architecture: any
-Depends: libpresage1 (= ${binary:Version}), libc6-dev
+Depends: libpresage1 (= ${binary:Version}), ${misc:Depends}, libc6-dev
 Description: intelligent predictive text entry platform (development files)
  Presage is an intelligent predictive text entry platform.
  .
@@ -136,7 +138,7 @@ Description: intelligent predictive text entry platform (development files)
 Package: python-presage
 Section: python
 Architecture: any
-Depends: ${python:Depends}, ${shlibs:Depends}
+Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Provides: ${python:Provides}
 Description: intelligent predictive text entry platform (Python binding)
  Presage is an intelligent predictive text entry platform.
@@ -154,3 +156,4 @@ Description: intelligent predictive text entry platform (Python binding)
  statistical, syntactic, and semantic information sources.
  .
  This package contains the Python binding.
+
