@@ -24,7 +24,7 @@ Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/
 Package: presage
 Section: misc
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, presage-data
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: presage-doc
 Description: intelligent predictive text entry platform (tools and demos)
  Presage is an intelligent predictive text entry platform.
@@ -45,29 +45,6 @@ Description: intelligent predictive text entry platform (tools and demos)
  statistical data used by presage to generate predictions.
  .
  This package also contains simple demonstration programs.
-
-Package: presage-data
-Section: misc
-Architecture: any
-Depends: ${misc:Depends}
-Recommends: presage
-Description: intelligent predictive text entry platform (data files)
- Presage is an intelligent predictive text entry platform.
- .
- A predictive text entry system attempts to improve the ease and speed
- of textual input by predicting words. Word prediction consists in
- computing which word tokens or word completions are most likely to be
- entered next. The system analyses the text already entered and
- combines the information thus extracted with other information sources
- to calculate the set of most probable tokens.
- .
- Presage exploits redundant information embedded in natural
- languages to generate word predictions. The modular architecture
- allows its language model to be extended and customized to utilize
- statistical, syntactic, and semantic information sources.
- .
- This package contains the sample statistical data files and
- abbreviation files needed by presage.
 
 Package: presage-doc
 Section: doc
@@ -95,7 +72,7 @@ Description: intelligent predictive text entry platform (documentation)
 Package: libpresage1
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, libpresage-data (= ${binary:Version})
 Description: intelligent predictive text entry platform (shared library)
  Presage is an intelligent predictive text entry platform.
  .
@@ -112,6 +89,29 @@ Description: intelligent predictive text entry platform (shared library)
  statistical, syntactic, and semantic information sources.
  .
  This package contains the shared library.
+
+Package: libpresage-data
+Section: libs
+Architecture: any
+Depends: ${misc:Depends}
+Recommends: presage
+Description: intelligent predictive text entry platform (data files)
+ Presage is an intelligent predictive text entry platform.
+ .
+ A predictive text entry system attempts to improve the ease and speed
+ of textual input by predicting words. Word prediction consists in
+ computing which word tokens or word completions are most likely to be
+ entered next. The system analyses the text already entered and
+ combines the information thus extracted with other information sources
+ to calculate the set of most probable tokens.
+ .
+ Presage exploits redundant information embedded in natural
+ languages to generate word predictions. The modular architecture
+ allows its language model to be extended and customized to utilize
+ statistical, syntactic, and semantic information sources.
+ .
+ This package contains the sample statistical data files and
+ abbreviation files needed by presage.
 
 Package: libpresage-dev
 Section: libdevel

@@ -1,3 +1,16 @@
+2010-04-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileTest.cpp, test/lib/core/profileTest.xml,
+	apps/python/prompter/prompter.py: removed remaining references to
+	plugins instead of predictors.
+
+2010-04-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/libpresage-data.dirs,
+	debian/libpresage-data.install, debian/presage-data.dirs,
+	debian/presage-data.install: renamed presage-data package to
+	libpresage-data package.
+
 2010-04-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/control, debian/source, debian/source/format,

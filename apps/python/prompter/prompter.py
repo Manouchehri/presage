@@ -143,10 +143,10 @@ class PrompterFrame(wx.Frame):
       self.ID_PROMPT_ME = wx.NewId()
       BindMenu(self.presageMenu.Append(self.ID_PROMPT_ME, "&Prompt me\tCTRL+P"), self.OnPresageMenuPromptMe)
 
-      # TODO: this currently toggles smoothed ngram plugin learning on
+      # TODO: this currently toggles smoothed ngram predictor learning on
       # or off, it should really switch off context tracker learning
       # when that is implemented.
-      self.learn_mode_config_var = "Presage.Plugins.SmoothedNgramPlugin.LEARN"
+      self.learn_mode_config_var = "Presage.Predictors.SmoothedNgramPredictor.LEARN"
       learn_mode = self.editor.prsg.config(self.learn_mode_config_var)
       if learn_mode.lower() == 'true':
          learn_mode = True

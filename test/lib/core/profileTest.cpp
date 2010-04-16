@@ -62,10 +62,10 @@ void ProfileTest::testGetConfig()
     var = configuration->find ("Presage.Selector.REPEAT_SUGGESTIONS");
     CPPUNIT_ASSERT(var->get_value() == "no");
     
-    var = configuration->find ("Presage.Plugins.SmoothedNgramPlugin.DBFILENAME");
+    var = configuration->find ("Presage.Predictors.SmoothedNgramPredictor.DBFILENAME");
     CPPUNIT_ASSERT(var->get_value() == "database_en.db");
 
-    var = configuration->find ("Presage.Plugins.SmoothedNgramPlugin.MAX_PARTIAL_PREDICTION_SIZE");
+    var = configuration->find ("Presage.Predictors.SmoothedNgramPredictor.MAX_PARTIAL_PREDICTION_SIZE");
     CPPUNIT_ASSERT(var->get_value() == "40");
 }
 
