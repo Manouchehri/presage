@@ -1,3 +1,9 @@
+2010-04-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/presage.install,
+	debian/presage-gprompter.install: split gprompter in its own
+	package.
+
 2010-04-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/core/profileTest.cpp, test/lib/core/profileTest.xml,
