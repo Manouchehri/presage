@@ -1,3 +1,13 @@
+2010-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/Makefile.am, apps/python/pypresagemate.in,
+	apps/python/pypresagemate.py, apps/python/presagemate,
+	apps/python/presagemate/presagemate.py,
+	apps/python/presagemate/__init__.py, configure.ac: split
+	pypresagemate into a front end that supports standard command line
+	parameters and a presagemate package that contains the GUI and
+	main application.
+
 2010-04-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/control, debian/presage.install,

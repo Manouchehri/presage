@@ -27,7 +27,13 @@ if ENABLE_PYTHON_BINDING
 
 
 # pypresagemate uses autotools
-dist_bin_SCRIPTS = pypresagemate.py
+dist_bin_SCRIPTS = \
+	pypresagemate
+
+presagematedir = $(pythondir)/presagemate
+presagemate_PYTHON = \
+	presagemate/__init__.py \
+	presagemate/presagemate.py 
 
 # pyprompter delegates to setup.py
 EXTRA_DIST =	pyprompter \
