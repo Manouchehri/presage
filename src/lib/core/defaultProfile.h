@@ -34,7 +34,7 @@ class DefaultProfile : public Profile {
 public:
     /** Profile constructor.
      *
-     * \param xmlProfileDoc Profile takes ownership of the configuration object.
+     * \param filename where profile is saved to
      */
     DefaultProfile(const std::string& filename);
 

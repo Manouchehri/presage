@@ -1,3 +1,12 @@
+2010-04-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/profile.h, src/lib/core/defaultProfile.h: fixed
+	doxygen warnings.
+
+	* src/lib/presage.cpp: fixed bug with learning.
+
+	* setup.py.in: fixed python presage debian package build problem.
+
 2010-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/Makefile.am, apps/python/pypresagemate.in,

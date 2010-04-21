@@ -134,6 +134,8 @@ std::multimap<double, std::string> Presage::predict(std::vector<std::string> fil
 	result.insert(p);
     }
 
+    contextTracker->update();
+
     return result;
 }
 
