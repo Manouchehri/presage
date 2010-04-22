@@ -1,3 +1,8 @@
+2010-04-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/presage-gprompter.menu, debian/README.Debian: added
+	debian menu entry for gprompter.
+
 2010-04-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/profile.h, src/lib/core/defaultProfile.h: fixed
