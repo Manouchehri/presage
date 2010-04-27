@@ -1,3 +1,8 @@
+2010-04-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: fixed issue with
+	stringification of prediction for autocompletion list.
+
 2010-04-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/presage-gprompter.menu, debian/README.Debian: added

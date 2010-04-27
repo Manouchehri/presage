@@ -1,6 +1,6 @@
 ?package(presage-gprompter):\
-    needs="x11"\
-    section="Applications/Accessibility"\
-    title="Gprompter"\
-    longtitle="Predictive text editor based on presage"\
+    needs="X11" \
+    section="Applications/Accessibility" \
+    title="Gprompter" \
+    longtitle="Predictive text editor based on presage" \
     command="/usr/bin/gprompter"

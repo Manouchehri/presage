@@ -118,13 +118,12 @@ static void show_prediction(ScintillaObject* scintilla, Presage* presage)
 	{
 	    ss << 'F' << i + 1 << ' ';
 	}
-	ss << result[i] << '\t';
+	ss << result[i];
+	if (i < result.size() - 1) {
+            ss << '\t';
+	}
     }
     char* list = strdup (ss.str().c_str());
-
-    if (list[strlen(list) - 1] == ' ') {
-	list[strlen(list) - 1] = '\0';
-    }
     // end TODO
 
     g_print ("prediction: %s|\n", list);
