@@ -44,8 +44,10 @@
 #include "dirs.h"
 
 
-char* glob_filename;
-int   glob_function_keys_mode;
+char*       glob_filename;
+int         glob_function_keys_mode;
+const char* glob_autopunctuation_whitespace = " ";
+const char* glob_autopunctuation_chars = ".,;:'?!$%&";
 
 #define PROGRAM_NAME "gprompter"
 
@@ -155,9 +157,51 @@ static void on_char_added (SCNotification* nt,
 			   ScintillaObject* scintilla,
 			   Presage* presage)
 {
-    g_print("on_char_added()\n");
+    g_print ("on_char_added()\n");
  
-    g_print("char: %c\n", nt->ch);
+    g_print ("char: %c\n", nt->ch);
+
+    /* if added char is an autopunctuation char */
+    if (strchr (glob_autopunctuation_chars, nt->ch))
+    {
+        g_print ("autopunctuation char: %c\n", nt->ch);
+
+        uptr_t curr_pos	= scintilla_send_message(scintilla,
+						 SCI_GETCURRENTPOS,
+						 0,
+						 0);
+	if (curr_pos > 1)
+        {
+            g_print ("current pos: %d\n", curr_pos);
+
+            uptr_t prev_pos = curr_pos - 2;
+            uptr_t prev_char = scintilla_send_message(scintilla,
+						      SCI_GETCHARAT,
+						      prev_pos,
+						      0);
+
+	    g_print ("prev_pos: %d\n", prev_pos);
+	    g_print ("prev_char: %c\n", prev_char);
+
+            /* if previous char is a autopunctuation whitespace char */
+            if (strchr (glob_autopunctuation_whitespace, prev_char))
+            {
+                g_print ("autopunctuation activated\n");
+
+                char replacement[3] = { nt->ch, prev_char, 0 };
+
+                scintilla_send_message(scintilla,
+		                       SCI_SETSELECTION,
+				       prev_pos,
+				       curr_pos);
+
+                scintilla_send_message(scintilla,
+		                       SCI_REPLACESEL,
+				       0,
+				       (sptr_t) replacement);
+            }
+	}
+    }
    
 //    show_prediction(scintilla, presage);
 }
@@ -306,7 +350,9 @@ static gboolean on_scintilla_notify(GtkWidget *editor, gint wParam, gpointer lPa
     Presage* presage;
     ScintillaObject* scintilla;
 
+    /*
     g_print("notify handler: ");
+    */
 
     presage = (Presage*) data;
     scintilla = SCINTILLA(editor);
@@ -314,7 +360,7 @@ static gboolean on_scintilla_notify(GtkWidget *editor, gint wParam, gpointer lPa
     notification = (struct SCNotification*) lParam;
     switch (notification->nmhdr.code) {
     case SCN_PAINTED:
-	g_print("on_painted()\n");
+        /* g_print("on_painted()\n"); */
 	break;
     case SCN_UPDATEUI:
 	on_update_ui(notification, scintilla, presage);
