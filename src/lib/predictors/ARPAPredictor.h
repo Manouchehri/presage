@@ -35,8 +35,9 @@
 #include <iomanip>
 
 
-struct cmp {
-  bool operator()( float f1, float f2 ) const {
+class cmp {
+ public:
+  bool operator() (const float& f1, const float& f2 ) const {
     return f2 < f1;
   }
 };

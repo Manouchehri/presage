@@ -189,7 +189,7 @@ scintilla/include/WindowAccessor.h
 
 
 libscintilla_la_SOURCES =	$(SCINTILLA_SRC) $(SCINTILLA_GTK) $(SCINTILLA_INCLUDE)
-libscintilla_la_CXXFLAGS =	-DNDEBUG -Os -DGTK -DSCI_LEXER -DG_THREADS_IMPL_NONE
+libscintilla_la_CXXFLAGS =	-DNDEBUG -DGTK -DSCI_LEXER -DG_THREADS_IMPL_NONE
 libscintilla_la_CPPFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) \
 				-I$(srcdir)/scintilla/include \
 				-I$(srcdir)/scintilla/src 

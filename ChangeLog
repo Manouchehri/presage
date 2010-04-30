@@ -1,3 +1,14 @@
+2010-04-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/ARPAPredictor.cpp,
+	src/lib/predictors/ARPAPredictor.h: fixed bug in multimap code and
+	compilation problem on Solaris SPARC.
+
+	* apps/gtk/gprompter/Makefile.am, src/lib/presage.cpp: fixed
+	compilation issue on Solaris SPARC.
+
+	* debian/control: changed data package to arch all.
+
 2010-04-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.cpp: implemented autopunctuation.

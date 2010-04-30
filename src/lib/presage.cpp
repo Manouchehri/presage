@@ -128,9 +128,8 @@ std::multimap<double, std::string> Presage::predict(std::vector<std::string> fil
     for (std::vector<std::string>::const_iterator it = selection.begin();
 	 it != selection.end();
 	 it++) {
-	std::pair<double,std::string> p;
-	p.first = prediction.getSuggestion(*it).getProbability();
-	p.second = (*it);
+        std::pair<const double, std::string> p(prediction.getSuggestion(*it).getProbability(),
+					       (*it));
 	result.insert(p);
     }
 

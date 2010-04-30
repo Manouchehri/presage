@@ -329,7 +329,7 @@ Prediction ARPAPredictor::predict(const size_t max_partial_prediction_size, cons
     std::string wd2Str = Utility::strtolower(contextTracker->getToken(1));
     std::string wd1Str = Utility::strtolower(contextTracker->getToken(2));
 
-    std::multimap<float,std::string,cmp> result;
+    std::multimap< float, std::string, cmp > result;
 
     logger << DEBUG << "["<<wd1Str<<"]"<<" ["<<wd2Str<<"] "<<"["<<prefix<<"]"<<endl;
 
@@ -352,9 +352,8 @@ Prediction ARPAPredictor::predict(const size_t max_partial_prediction_size, cons
 	    //if wd3 matches prefix and filter -> compute its backoff probability and add to the result set
 	    if(matchesPrefixAndFilter(it->second,prefix,filter))
 	    {
-		std::pair<float,std::string> p;
-		p.first = computeTrigramBackoff(wd1It->second,wd2It->second,it->first);
-		p.second = it->second;
+                std::pair<const float,std::string> p (computeTrigramBackoff(wd1It->second,wd2It->second,it->first),
+						      it->second);
 		result.insert(p);
 	    }
 	}
@@ -369,9 +368,8 @@ Prediction ARPAPredictor::predict(const size_t max_partial_prediction_size, cons
 	    //if wd3 matches prefix and filter -> compute its backoff probability and add to the result set
 	    if(matchesPrefixAndFilter(it->second,prefix,filter))
 	    {
-		std::pair<float,std::string> p;
-		p.first = computeBigramBackoff(wd2It->second,it->first);
-		p.second = it->second;
+	        std::pair<const float,std::string> p(computeBigramBackoff(wd2It->second,it->first),
+						     it->second);
 		result.insert(p);
 	    }
 	}
@@ -386,9 +384,8 @@ Prediction ARPAPredictor::predict(const size_t max_partial_prediction_size, cons
 	    //if wd3 matches prefix and filter -> compute its backoff probability and add to the result set
 	    if(matchesPrefixAndFilter(it->second,prefix,filter))
 	    {
-		std::pair<float,std::string> p;
-		p.first = unigramMap.find(it->first)->second.logProb;
-		p.second = it->second;
+	        std::pair<const float,std::string> p (unigramMap.find(it->first)->second.logProb,
+						      it->second);
 		result.insert(p);
 	    }
 	}
@@ -396,7 +393,9 @@ Prediction ARPAPredictor::predict(const size_t max_partial_prediction_size, cons
 
 
     size_t numSuggestions = 0;
-    for(std::multimap<float,std::string>::const_iterator it = result.begin(); it != result.end() && numSuggestions < max_partial_prediction_size; ++it)
+    for(std::multimap< float, std::string, cmp >::const_iterator it = result.begin();
+	it != result.end() && numSuggestions < max_partial_prediction_size;
+	it++)
     {
 	prediction.addSuggestion(Suggestion(it->second,exp(it->first)));
 	numSuggestions++;
