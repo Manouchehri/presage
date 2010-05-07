@@ -6,8 +6,6 @@ The Presage project
 TODO list
 ---------
 
-* change permission of installed db files
-
 GUI apps:
 * gprompter
 ** gray in and out redo and undo menu items
@@ -22,15 +20,9 @@ Absolute first:
  - test performance with different n values in n-gram
 
 Architectural restructure: 
-- predictive plug-ins
-  could inherit from a Predictor class
-  Plugin class should just define the interface, PluginBase should
-  provide a skeleton implementation class that concrete plug-ins would
-  inherit from.
-
 - selector
-  should be a class similar to current Predictor i.e. a class that
-  invokes other classes' method to perform work.
+  should be a class similar to current PredictorActivator i.e. a class
+  that invokes other classes' method to perform work.
   Current Selector's functionality should be broken up in Filter
   objects i.e. an abstract Filter class and implementation of various
   filters (repetion filter, greedy filter, etc)
@@ -71,11 +63,7 @@ Short term:
    config really an exceptional condition?
  - Consider removing the following public methods from Variable
    interface:
-   . Variable();
    . Variable(const std::vector<std::string>& variable);
-   . std::vector<std::string> variable() const;
-   . void push_back(const std::string& str) { m_variable.push_back(str); }
-   . void pop_back() { m_variable.pop_back(); }
    . size_t size() const;
  - pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plug-in loading is disabled. This functionality will

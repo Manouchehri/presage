@@ -182,3 +182,28 @@ Description: intelligent predictive GTK+ text editor
  statistical, syntactic, and semantic information sources.
  .
  This package contains the GTK+ predictive text editor gprompter.
+
+Package: presage-pyprompter
+Section: misc
+Architecture: any
+Depends: ${python:Depends}, python-presage (= ${binary:Version})
+Description: intelligent predictive wxPython text editor
+ pyprompter is a cross-platform predictive text editor.
+ .
+ pyprompter displays predictions in a contextual pop-up box as each
+ letter is typed. Predictions can be easily selected and inserted in
+ the document.
+ .
+ A predictive text entry system attempts to improve the ease and speed
+ of textual input by predicting words. Word prediction consists in
+ computing which word tokens or word completions are most likely to be
+ entered next. The system analyses the text already entered and
+ combines the information thus extracted with other information sources
+ to calculate the set of most probable tokens.
+ .
+ Presage exploits redundant information embedded in natural
+ languages to generate word predictions. The modular architecture
+ allows its language model to be extended and customized to utilize
+ statistical, syntactic, and semantic information sources.
+ .
+ This package contains the wxPython predictive text editor pyprompter.
