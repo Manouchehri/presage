@@ -1,3 +1,7 @@
+2010-05-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control: fixed up package dependencies.
+
 2010-05-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* debian/control, debian/presage-pyprompter.menu,

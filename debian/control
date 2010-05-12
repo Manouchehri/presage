@@ -5,11 +5,11 @@ Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 Build-Depends: cdbs (>= 0.4.15),
 	       debhelper (>= 5),
 	       autotools-dev,
-	       libsqlite3-dev | libsqlite-dev,
+	       libsqlite3-dev,
+	       sqlite3,
 	       libncurses5-dev | libncurses-dev,
 	       help2man,
 	       libcppunit-dev (>= 1.9.6),
-	       sqlite3 | sqlite,
 	       doxygen,
 	       graphviz,
 	       python-all-dev (>= 2.3.5-11),
@@ -72,7 +72,10 @@ Description: intelligent predictive text entry platform (documentation)
 Package: libpresage1
 Section: libs
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libpresage-data (= ${source:Version})
+Depends: ${shlibs:Depends},
+	 ${misc:Depends},
+	 libpresage-data (= ${source:Version}),
+	 libsqlite3-0
 Description: intelligent predictive text entry platform (shared library)
  Presage is an intelligent predictive text entry platform.
  .
@@ -186,7 +189,10 @@ Description: intelligent predictive GTK+ text editor
 Package: presage-pyprompter
 Section: misc
 Architecture: any
-Depends: ${python:Depends}, python-presage (= ${binary:Version})
+Depends: ${python:Depends},
+	 ${misc:Depends},
+	 python-presage (= ${binary:Version}),
+	 python-wxgtk2.8 (>= 2.8.7)
 Description: intelligent predictive wxPython text editor
  pyprompter is a cross-platform predictive text editor.
  .
