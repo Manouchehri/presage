@@ -71,7 +71,10 @@ install-exec-local:
 # has no control over what distutils install command does.
 #
 uninstall-local:
-	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/*presage*
+	rm -f $(DESTDIR)$(libdir)/python*/site-packages/_presage.so
+	rm -f $(DESTDIR)$(libdir)/python*/site-packages/presage.py
+	rm -f $(DESTDIR)$(libdir)/python*/site-packages/presage.pyc
+	rm -f $(DESTDIR)$(libdir)/python*/site-packages/presage*.egg*
 	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/prompter
 	rm -f $(DESTDIR)$(bindir)/presage_python_demo
 	rm -f $(DESTDIR)$(bindir)/presage_prompter
