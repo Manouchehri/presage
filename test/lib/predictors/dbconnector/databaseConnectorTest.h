@@ -27,7 +27,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "core/dbconnector/databaseConnector.h"
+#include "predictors/dbconnector/databaseConnector.h"
 
 #include <iostream>
 #include <sstream>

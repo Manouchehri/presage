@@ -28,7 +28,7 @@
 #include "predictor.h"
 #include "../core/logger.h"
 #include "../core/dispatcher.h"
-#include "../core/dbconnector/sqliteDatabaseConnector.h"
+#include "dbconnector/sqliteDatabaseConnector.h"
 
 #include <assert.h>
 

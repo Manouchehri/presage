@@ -23,8 +23,7 @@
 
 SUBDIRS =	\
 	tokenizer \
-	context_tracker \
-	dbconnector
+	context_tracker
 
 noinst_LTLIBRARIES = 	\
 	libcore.la
@@ -79,7 +78,6 @@ libcore_la_SOURCES =	\
 
 libcore_la_LIBADD =	\
 	tokenizer/libtokenizer.la \
-	context_tracker/libcontexttracker.la \
-	dbconnector/libdbconnector.la 
+	context_tracker/libcontexttracker.la
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib

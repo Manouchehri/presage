@@ -22,6 +22,7 @@
 ## Process this file with automake to produce Makefile.in
 
 if HAVE_CPPUNIT
+if USE_SQLITE
 
 TESTS =	dbconnectorTestRunner
 
@@ -41,11 +42,12 @@ dbconnectorTestRunner_SOURCES =	dbconnectorTestRunner.cpp       \
 dbconnectorTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 dbconnectorTestRunner_LDFLAGS =		$(CPPUNIT_LIBS)
 dbconnectorTestRunner_LIBS =		-ldl
-dbconnectorTestRunner_LDADD =		$(top_builddir)/src/lib/core/dbconnector/libdbconnector.la
+dbconnectorTestRunner_LDADD =		$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la
 dbconnectorTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 
 # Clean out files created during tests.
 # Required to make distcheck happy.
 DISTCLEANFILES =	test.db
 
+endif
 endif

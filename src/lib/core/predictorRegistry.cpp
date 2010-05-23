@@ -30,12 +30,14 @@
 // IMPORTANT: remove following includes when moving back to dynamically
 // loaded predictors.
 //
-#include "predictors/smoothedNgramPredictor.h"
+#ifdef USE_SQLITE
+# include "predictors/smoothedNgramPredictor.h"
+# include "predictors/smoothedCountPredictor.h"
+#endif
 #include "predictors/ARPAPredictor.h"
 #include "predictors/abbreviationExpansionPredictor.h"
 #include "predictors/dummyPredictor.h"
 #include "predictors/dictionaryPredictor.h"
-#include "predictors/smoothedCountPredictor.h"
 #include "predictors/recencyPredictor.h"
 #include "predictors/dejavuPredictor.h"
 
@@ -102,16 +104,18 @@ void PredictorRegistry::addPredictor(const std::string& predictorName)
 	// then, all known predictors have to be listed here and explicitly
 	// created based on their name.
 	//
-	if (predictorName == "SmoothedNgramPredictor") {
-	    predictor = new SmoothedNgramPredictor(config, contextTracker);
-	} else if (predictorName == "AbbreviationExpansionPredictor") {
+	if (predictorName == "AbbreviationExpansionPredictor") {
 	    predictor = new AbbreviationExpansionPredictor(config, contextTracker);
 	} else if (predictorName == "DummyPredictor") {
 	    predictor = new DummyPredictor(config, contextTracker);
 	} else if (predictorName == "DictionaryPredictor" ) {
 	    predictor = new DictionaryPredictor(config, contextTracker);
+#ifdef USE_SQLITE
+	} else if (predictorName == "SmoothedNgramPredictor") {
+	    predictor = new SmoothedNgramPredictor(config, contextTracker);
 	} else if (predictorName == "SmoothedCountPredictor") {
 	    predictor = new SmoothedCountPredictor(config, contextTracker);
+#endif
 	} else if (predictorName == "RecencyPredictor") {
 	    predictor = new RecencyPredictor(config, contextTracker);
 	} else if (predictorName == "DejavuPredictor") {

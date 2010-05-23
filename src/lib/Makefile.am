@@ -36,14 +36,18 @@ libpresage_la_LIBADD =		core/libcore.la \
 				tinyxml/libtinyxml.la \
 				simulator/libsimulator.la \
 				predictors/libpredictor.la  \
-				predictors/libSmoothedNgramPredictor.la \
 				predictors/libAbbreviationExpansionPredictor.la \
 				predictors/libDummyPredictor.la \
 				predictors/libDictionaryPredictor.la \
-				predictors/libSmoothedCountPredictor.la \
 				predictors/libRecencyPredictor.la \
 				predictors/libDejavuPredictor.la \
 				predictors/libARPAPredictor.la 
+
+if USE_SQLITE
+libpresage_la_LIBADD +=		predictors/libSmoothedNgramPredictor.la \
+				predictors/libSmoothedCountPredictor.la \
+				predictors/dbconnector/libdbconnector.la
+endif
 
 #				REVISIT remove predictors/lib*.la entries
 #				when reintegrating dynamically loaded predictors

@@ -22,6 +22,9 @@
 ## Process this file with automake to produce Makefile.in
 
 TESTS_ENVIRONMENT = $(SHELL) -x
+
+if USE_SQLITE
 TESTS =	integration.sh
+endif
 
 EXTRA_DIST = integration.sh

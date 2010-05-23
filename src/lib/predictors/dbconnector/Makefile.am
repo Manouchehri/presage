@@ -21,6 +21,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
+if USE_SQLITE
 
 noinst_LTLIBRARIES =	libdbconnector.la
 
@@ -30,4 +31,4 @@ libdbconnector_la_SOURCES =	databaseConnector.cpp             \
 				sqliteDatabaseConnector.h         
 libdbconnector_la_LIBADD =	$(SQLITE_LIBS)
 
-libdbconnector_la_CPPFLAGS =	-I$(top_srcdir)/src/lib
+endif

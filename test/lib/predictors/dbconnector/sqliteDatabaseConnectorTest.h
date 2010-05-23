@@ -27,7 +27,7 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "core/dbconnector/sqliteDatabaseConnector.h"
+#include "predictors/dbconnector/sqliteDatabaseConnector.h"
 
 #include <iostream>
 #include <sstream>

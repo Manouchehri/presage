@@ -24,9 +24,15 @@
 noinst_LTLIBRARIES =	libtools.la
 libtools_la_SOURCES =	ngram.cpp ngram.h                 
 
-bin_PROGRAMS =		text2ngram \
-			presage_demo_text \
+bin_PROGRAMS =		presage_demo_text \
 			presage_simulator
+
+if USE_SQLITE
+bin_PROGRAMS +=		text2ngram
+
+text2ngram_SOURCES =	text2ngram.cpp
+text2ngram_LDADD =	libtools.la ../lib/libpresage.la ../lib/predictors/dbconnector/libdbconnector.la
+endif
 
 if HAVE_CURSES
 bin_PROGRAMS +=		presage_demo       
@@ -42,17 +48,10 @@ presage_demo_text_LDADD = 	../lib/libpresage.la
 presage_simulator_SOURCES =	presageSimulator.cpp
 presage_simulator_LDADD =	../lib/libpresage.la  
 
-text2ngram_SOURCES =		text2ngram.cpp
-text2ngram_LDADD =		libtools.la ../lib/libpresage.la
-
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src
 
 
 if HAVE_HELP2MAN
-text2ngram.1:	text2ngram.cpp $(top_srcdir)/configure.ac
-	$(MAKE) $(AM_MAKEFLAGS) text2ngram$(EXEEXT)
-	help2man --output=$@ --name="generate statistical n-gram data from text" ./text2ngram$(EXEEXT)
-
 presage_demo_text.1:	presageDemoText.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) presage_demo_text$(EXEEXT)
 	help2man --output=$@ --name="presage demo program (text)" ./presage_demo_text$(EXEEXT)
@@ -61,12 +60,19 @@ presage_simulator.1:	presageSimulator.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) presage_simulator$(EXEEXT)
 	help2man --output=$@ --name="presage simulator program" ./presage_simulator$(EXEEXT)
 
-dist_man_MANS =	text2ngram.1 \
-		presage_demo_text.1 \
-		presage_simulator.1
+dist_man_MANS =		presage_demo_text.1 \
+			presage_simulator.1
+
+if USE_SQLITE
+text2ngram.1:		text2ngram.cpp $(top_srcdir)/configure.ac
+	$(MAKE) $(AM_MAKEFLAGS) text2ngram$(EXEEXT)
+	help2man --output=$@ --name="generate statistical n-gram data from text" ./text2ngram$(EXEEXT)
+
+dist_man_MANS +=	text2ngram.1
+endif
 
 if HAVE_CURSES
-presage_demo.1:	presageDemo.cpp $(top_srcdir)/configure.ac
+presage_demo.1:		presageDemo.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) presage_demo$(EXEEXT)
 	help2man --output=$@ --name="presage demo program (ncurses)" ./presage_demo$(EXEEXT)
 

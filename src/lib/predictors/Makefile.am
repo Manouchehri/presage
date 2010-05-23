@@ -21,30 +21,36 @@
 
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES =	libpredictor.la                      \
-			libSmoothedNgramPredictor.la         \
-			libDictionaryPredictor.la            \
-			libSmoothedCountPredictor.la         \
-			libDummyPredictor.la                 \
-			libAbbreviationExpansionPredictor.la \
-			libRecencyPredictor.la               \
-			libDejavuPredictor.la                \
-			libARPAPredictor.la
+SUBDIRS = dbconnector
 
+noinst_LTLIBRARIES = \
+	libpredictor.la \
+	libDummyPredictor.la \
+	libDictionaryPredictor.la \
+	libAbbreviationExpansionPredictor.la \
+	libRecencyPredictor.la \
+	libDejavuPredictor.la \
+	libARPAPredictor.la
+
+if USE_SQLITE
+noinst_LTLIBRARIES += \
+	libSmoothedNgramPredictor.la \
+	libSmoothedCountPredictor.la         
+
+libSmoothedNgramPredictor_la_SOURCES =	smoothedNgramPredictor.cpp \
+					smoothedNgramPredictor.h   
+
+libSmoothedCountPredictor_la_SOURCES =	smoothedCountPredictor.cpp \
+					smoothedCountPredictor.h
+endif
 
 libpredictor_la_SOURCES =	predictor.cpp predictor.h
-
-libSmoothedNgramPredictor_la_SOURCES =		smoothedNgramPredictor.cpp \
-						smoothedNgramPredictor.h   
 
 libAbbreviationExpansionPredictor_la_SOURCES =	abbreviationExpansionPredictor.h   \
 						abbreviationExpansionPredictor.cpp 
 
 libDictionaryPredictor_la_SOURCES =	dictionaryPredictor.cpp \
 					dictionaryPredictor.h      
-
-libSmoothedCountPredictor_la_SOURCES =	smoothedCountPredictor.cpp \
-					smoothedCountPredictor.h
 
 libDummyPredictor_la_SOURCES =		dummyPredictor.cpp \
 					dummyPredictor.h           

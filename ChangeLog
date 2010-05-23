@@ -1,3 +1,30 @@
+2010-05-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/integration/Makefile.am, test/lib/core/dbconnector,
+	test/lib/core/dbconnector/databaseConnectorTest.cpp,
+	test/lib/core/dbconnector/sqliteDatabaseConnectorTest.cpp,
+	test/lib/core/dbconnector/databaseConnectorTest.h,
+	test/lib/core/dbconnector/sqliteDatabaseConnectorTest.h,
+	test/lib/core/dbconnector/Makefile.am,
+	test/lib/core/dbconnector/dbconnectorTestRunner.cpp,
+	test/lib/core/Makefile.am, test/lib/predictors/dbconnector,
+	test/lib/predictors/dbconnector/databaseConnectorTest.h,
+	test/lib/predictors/dbconnector/sqliteDatabaseConnectorTest.h,
+	test/lib/predictors/dbconnector/Makefile.am,
+	test/lib/predictors/Makefile.am, src/tools/Makefile.am,
+	src/tools/text2ngram.cpp, src/lib/core/predictorRegistry.cpp,
+	src/lib/core/dbconnector,
+	src/lib/core/dbconnector/databaseConnector.cpp,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.cpp,
+	src/lib/core/dbconnector/databaseConnector.h,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.h,
+	src/lib/core/dbconnector/Makefile.am, src/lib/core/Makefile.am,
+	src/lib/Makefile.am, src/lib/predictors/dbconnector,
+	src/lib/predictors/dbconnector/Makefile.am,
+	src/lib/predictors/smoothedNgramPredictor.h,
+	src/lib/predictors/Makefile.am, configure.ac,
+	resources/Makefile.am: added --disable-sqlite configure flag.
+
 2010-05-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am: fixed distcheck target.

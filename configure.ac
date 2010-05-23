@@ -82,7 +82,11 @@ AM_CONDITIONAL(HAVE_CURSES, test "x$have_curses_library" = "xtrue" -a "x$have_cu
 dnl =================
 dnl Checks for SQLite
 dnl =================
-dnl 
+AC_ARG_ENABLE([sqlite],
+        AS_HELP_STRING([--disable-sqlite],[disable use of SQLite (default: enabled)]),
+        [enable_sqlite=$enableval],
+        [enable_sqlite=yes])
+
 dnl check for libsqlite3
 dnl if (libsqlite3 found) {
 dnl     set SQLITE_LIBS to -lsqlite3
@@ -106,22 +110,36 @@ dnl     } else {
 dnl         error
 dnl     }
 dnl }
+if test "x$enable_sqlite" = "xyes"
+then
 AC_CHECK_LIB([sqlite3],
              [sqlite3_open],
-             [SQLITE_LIBS="-lsqlite3" &&
+             [SQLITE_LIBS="-lsqlite3" && \
               AC_CHECK_HEADERS([sqlite3.h],
-                               [AC_MSG_NOTICE([using sqlite 3])],
+                               [have_sqlite=yes && AC_MSG_NOTICE([using sqlite 3])],
                                [AC_MSG_ERROR([Found sqlite3 library, but cannot find matching sqlite3.h header.])],
                                [])],
 	     [AC_CHECK_LIB([sqlite],
                            [sqlite_open],
                            [SQLITE_LIBS="-lsqlite" && \
                             AC_CHECK_HEADERS([sqlite.h],
-                                             [AC_MSG_NOTICE([using sqlite 2])],
+                                             [have_sqlite=yes && AC_MSG_NOTICE([using sqlite 2])],
                                              [AC_MSG_ERROR([Found sqlite 2 library, but cannot find matching sqlite.h header.])],
                                              [])],
-                           [AC_MSG_ERROR([SQLite library not found. SQLite can be obtained from http://sqlite.org.])])])
+                           [SQLITE_LIBS= && \
+			    have_sqlite=no && \
+			    AC_MSG_ERROR([SQLite library not found. SQLite can be obtained from http://sqlite.org.])])])
 AC_SUBST([SQLITE_LIBS], ["$SQLITE_LIBS"])
+fi
+
+if test "x$enable_sqlite" = "xyes" -a "x$have_sqlite" = "xyes"
+then
+    use_sqlite=yes
+    AC_DEFINE([USE_SQLITE], [1], [Define to 1 if you want to use SQLite])
+else
+    use_sqlite=no
+fi
+AM_CONDITIONAL([USE_SQLITE], [test "x$use_sqlite" = "xyes"])
 
 
 dnl ==================
@@ -163,7 +181,7 @@ AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON" -a "x$have_python_header" = "xtrue")
 
 AC_ARG_ENABLE([python-binding],
               AS_HELP_STRING([--disable-python-binding],
-                             [build python binding (default=yes)]),
+                             [build python binding (default=enabled)]),
               [ac_enable_python_binding=$enableval],
               [ac_enable_python_binding=yes])
 if test "x$ac_enable_python_binding" = "xyes"
@@ -330,10 +348,10 @@ AC_OUTPUT([
 	src/lib/core/Makefile
 	src/lib/core/tokenizer/Makefile
 	src/lib/core/context_tracker/Makefile
-	src/lib/core/dbconnector/Makefile
 	src/lib/simulator/Makefile
 	src/lib/tinyxml/Makefile
 	src/lib/predictors/Makefile
+	src/lib/predictors/dbconnector/Makefile
 	src/tools/Makefile
 	test/Makefile
 	test/lib/Makefile
@@ -341,8 +359,8 @@ AC_OUTPUT([
 	test/lib/core/Makefile
 	test/lib/core/tokenizer/Makefile
 	test/lib/core/context_tracker/Makefile
-	test/lib/core/dbconnector/Makefile
 	test/lib/predictors/Makefile
+	test/lib/predictors/dbconnector/Makefile
 	test/lib/simulator/Makefile
 	test/tools/Makefile
 	test/integration/Makefile
@@ -400,10 +418,10 @@ AC_MSG_RESULT([
 
   Predictors:
 
-    Smoothed n-gram: ............ yes
+    Smoothed n-gram: ............ ${use_sqlite}
     Recency promotion: .......... yes
     Abbreviation expansion: ..... yes
-    Smoothed count: ............. yes
+    Smoothed count: ............. ${use_sqlite}
     Dictionary: ................. yes
     Deja-vu: .................... yes
     ARPA: ....................... yes

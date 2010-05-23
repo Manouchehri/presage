@@ -21,7 +21,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	tokenizer context_tracker dbconnector
+SUBDIRS =	tokenizer context_tracker
 
 EXTRA_DIST =	profileTest.xml
 

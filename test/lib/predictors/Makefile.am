@@ -21,6 +21,8 @@
 
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS = dbconnector
+
 check_PROGRAMS = $(TESTS)
 
 if HAVE_CPPUNIT
@@ -48,18 +50,21 @@ predictorsTestRunner_SOURCES =	predictorsTestRunner.cpp \
 				$(top_srcdir)/src/lib/core/observable.cpp \
 				$(top_srcdir)/src/lib/core/observer.h \
 				$(top_srcdir)/src/lib/core/observer.cpp \
-				smoothedNgramPredictorTest.h \
-				smoothedNgramPredictorTest.cpp \
-				$(top_srcdir)/src/lib/predictors/smoothedNgramPredictor.cpp \
-				$(top_srcdir)/src/lib/predictors/smoothedNgramPredictor.h \
 				abbreviationExpansionPredictorTest.h \
 				abbreviationExpansionPredictorTest.cpp \
 				$(top_srcdir)/src/lib/predictors/abbreviationExpansionPredictor.h \
 				$(top_srcdir)/src/lib/predictors/abbreviationExpansionPredictor.cpp
 predictorsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 predictorsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-predictorsTestRunner_LDADD =	$(top_builddir)/src/lib/predictors/libpredictor.la               \
-				$(top_builddir)/src/lib/core/dbconnector/libdbconnector.la 
+predictorsTestRunner_LDADD =	$(top_builddir)/src/lib/predictors/libpredictor.la
+
+if USE_SQLITE
+predictorsTestRunner_SOURCES +=	smoothedNgramPredictorTest.h \
+				smoothedNgramPredictorTest.cpp \
+				$(top_srcdir)/src/lib/predictors/smoothedNgramPredictor.cpp \
+				$(top_srcdir)/src/lib/predictors/smoothedNgramPredictor.h 
+predictorsTestRunner_LDADD +=	$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la
+endif
 
 # the following test runner links with libpresage, instead of using
 # mock objects in place of the core libsootsayer library facilities
@@ -67,13 +72,18 @@ newPredictorsTestRunner_SOURCES = 	predictorsTestRunner.cpp \
 				recencyPredictorTest.h \
 				recencyPredictorTest.cpp \
 				dejavuPredictorTest.h \
-				dejavuPredictorTest.cpp \
-				newSmoothedNgramPredictorTest.h \
-				newSmoothedNgramPredictorTest.cpp
+				dejavuPredictorTest.cpp 
 newPredictorsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 newPredictorsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 newPredictorsTestRunner_LDADD =	$(top_builddir)/src/lib/predictors/libpredictor.la	\
 				$(top_builddir)/src/lib/libpresage.la
+
+if USE_SQLITE
+newPredictorsTestRunner_SOURCES += \
+				newSmoothedNgramPredictorTest.h \
+				newSmoothedNgramPredictorTest.cpp
+predictorsTestRunner_LDADD +=	$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la 
+endif
 
 endif # HAVE_CPPUNIT
 

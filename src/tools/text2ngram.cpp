@@ -46,7 +46,7 @@
 #include "core/iso8859_1.h"
 #include "core/progress.h"
 
-#include "core/dbconnector/sqliteDatabaseConnector.h"
+#include "../lib/predictors/dbconnector/sqliteDatabaseConnector.h"
 
 const std::string PROGRAM_NAME = "text2ngram";
 
