@@ -1,6 +1,0 @@
-?package(presage-pyprompter):\
-    needs="X11" \
-    section="Applications/Accessibility" \
-    title="pyprompter" \
-    longtitle="Predictive wxPython text editor based on presage" \
-    command="/usr/bin/pyprompter"
