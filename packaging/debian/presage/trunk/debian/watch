@@ -1,2 +1,2 @@
 version=3
-http://sf.net/presage/presage-(.*)\.tar\.gz
+http://sf.net/presage/presage-(\d\.\d.*)\.tar\.gz
