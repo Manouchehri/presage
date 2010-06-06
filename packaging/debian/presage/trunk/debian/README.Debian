@@ -1,0 +1,15 @@
+presage for Debian
+------------------
+
+Presage for Debian is split up into the following packages:
+
+presage            Command line tools, demo programs
+presage-doc        Documentation
+libpresage1        Shared library
+libpresage-data    Data files
+libpresage-dev     Development files (header, static library)
+python-presage     Python binding and demo programs
+presage-gprompter  GTK+ predictive text editor based on presage
+
+
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Wed, 19 Dec 2007 16:42:15 +0000
