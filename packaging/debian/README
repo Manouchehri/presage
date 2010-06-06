@@ -1,1 +1,3 @@
-Imported with svn-inject.
+Imported with svn-inject:
+svn-inject -o presage_0.8.2-1.dsc https://presage.svn.sourceforge.net/svnroot/presage/trunk/packaging/debian
+
