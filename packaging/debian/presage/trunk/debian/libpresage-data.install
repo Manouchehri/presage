@@ -1,3 +1,4 @@
+etc/presage.xml
 var/lib/presage/abbreviations_en.txt
 var/lib/presage/abbreviations_it.txt
 var/lib/presage/database_en.db

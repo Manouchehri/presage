@@ -82,7 +82,7 @@ uninstall-local:
 clean-local:
 	$(PYTHON) setup.py clean --all
 
-presage_wrap.cpp presage.py:	$(SWIG_INTERFACE) $(PRESAGE_INTERFACE)
+presage_wrap.cpp presage_wrap.h presage.py:	$(SWIG_INTERFACE) $(PRESAGE_INTERFACE)
 	$(SWIG) -c++ -python -I$(top_srcdir)/src/lib -o presage_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)
 
 if HAVE_HELP2MAN

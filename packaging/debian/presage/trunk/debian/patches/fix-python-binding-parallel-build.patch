@@ -1,0 +1,15 @@
+Fix parallel build bug occuring during python binding component build.
+
+Index: presage-0.8.2/bindings/python/Makefile.am
+===================================================================
+--- presage-0.8.2.orig/bindings/python/Makefile.am	2010-06-09 18:44:40.000000000 +0100
++++ presage-0.8.2/bindings/python/Makefile.am	2010-06-09 18:53:48.000000000 +0100
+@@ -79,7 +79,7 @@
+ clean-local:
+ 	$(PYTHON) setup.py clean --all
+ 
+-presage_wrap.cpp presage.py:	$(SWIG_INTERFACE) $(PRESAGE_INTERFACE)
++presage_wrap.cpp presage_wrap.h presage.py:	$(SWIG_INTERFACE) $(PRESAGE_INTERFACE)
+ 	$(SWIG) -c++ -python -I$(top_srcdir)/src/lib -o presage_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)
+ 
+ if HAVE_HELP2MAN

@@ -1,3 +1,8 @@
+2010-06-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: fixed issue with parallel build of
+	python binding component.
+
 2010-05-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/integration/Makefile.am, test/lib/core/dbconnector,
