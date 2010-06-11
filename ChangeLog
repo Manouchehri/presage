@@ -4,6 +4,10 @@
 	src/lib/core/profile.h, src/lib/Makefile.am, configure.ac: added
 	ability to use system libtinyxml instead of embedded copy.
 
+	* packaging/debian/presage/trunk/debian/presage-gprompter.menu,
+	resources/Makefile.am, resources/presage.xpm: added menu entry
+	icon.
+
 2010-06-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am: fixed issue with parallel build of

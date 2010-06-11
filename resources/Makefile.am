@@ -28,7 +28,9 @@ EXTRA_DIST =	the_picture_of_dorian_gray.txt  \
 		abbreviations_en.txt            \
 		abbreviations_it.txt            
 
-dist_pkgdata_DATA =	presage.png
+dist_pkgdata_DATA = \
+	presage.png \
+	presage.xpm
 
 if USE_SQLITE
 
