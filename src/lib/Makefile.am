@@ -21,7 +21,11 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = 			tinyxml core simulator predictors #plump
+if BUILD_TINYXML
+MAYBE_TINYXML =	tinyxml
+endif
+
+SUBDIRS =	$(MAYBE_TINYXML) core simulator predictors
 
 include_HEADERS =		presage.h \
 				presageException.h \
@@ -33,7 +37,6 @@ libpresage_la_SOURCES = 	presage.cpp \
 				presageException.h \
 				presageCallback.h 
 libpresage_la_LIBADD =		core/libcore.la \
-				tinyxml/libtinyxml.la \
 				simulator/libsimulator.la \
 				predictors/libpredictor.la  \
 				predictors/libAbbreviationExpansionPredictor.la \
@@ -43,17 +46,17 @@ libpresage_la_LIBADD =		core/libcore.la \
 				predictors/libDejavuPredictor.la \
 				predictors/libARPAPredictor.la 
 
+libpresage_la_LDFLAGS =		-no-undefined \
+				-version-info 2:1:1
+
 if USE_SQLITE
 libpresage_la_LIBADD +=		predictors/libSmoothedNgramPredictor.la \
 				predictors/libSmoothedCountPredictor.la \
 				predictors/dbconnector/libdbconnector.la
 endif
 
-#				REVISIT remove predictors/lib*.la entries
-#				when reintegrating dynamically loaded predictors
-
-#				REVISIT add libplump.la when using plump
-#				plump/src/libplump.la 
-
-libpresage_la_LDFLAGS =		-no-undefined \
-				-version-info 2:1:1
+if BUILD_TINYXML
+libpresage_la_LIBADD +=		tinyxml/libtinyxml.la
+else
+libpresage_la_LDFLAGS +=	-ltinyxml
+endif

@@ -25,11 +25,13 @@
 #ifndef PRESAGE_PROFILE
 #define PRESAGE_PROFILE
 
+#include "config.h"
+
+#include "tinyxml/tinyxml.h"
+
 #include <vector>
 #include <string>
 #include <map>
-
-#include "tinyxml/tinyxml.h"
 
 typedef std::string Value;
 #include "configuration.h"

@@ -38,6 +38,8 @@ AC_PROG_CC
 AC_PROG_CPP
 AM_PROG_CC_C_O
 
+AC_LANG([C++])
+
 dnl ==================
 dnl Checks for libtool
 dnl ==================
@@ -78,6 +80,28 @@ AC_CHECK_HEADERS([curses.h],
                  [AC_MSG_WARN([curses header file not found. curses demo programs will not be built.])],
                  [])
 AM_CONDITIONAL(HAVE_CURSES, test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue")
+
+
+dnl ==================
+dnl Checks for tinyxml
+dnl ==================
+AC_CHECK_LIB([tinyxml],
+             [main],
+             [have_tinyxml_library=true],
+	     [AC_MSG_WARN([tinyxml library not found. Embedded tinyxml library will be built.])])
+AC_CHECK_HEADERS([tinyxml.h],
+                 [have_tinyxml_header=true],
+                 [AC_MSG_WARN([tinyxml library not found. Embedded tinyxml library will be built.])],
+                 [])
+if test "x$have_tinyxml_library" != "xtrue" -o "x$have_tinyxml_header" != "xtrue"
+then
+    build_tinyxml=yes
+else
+    build_tinyxml=no
+    AC_DEFINE([TIXML_USE_STL], [1], [Define to 1 to use STL string in TinyXML])
+fi
+AM_CONDITIONAL([BUILD_TINYXML], [test "x$build_tinyxml" = "xyes"])
+
 
 dnl =================
 dnl Checks for SQLite
