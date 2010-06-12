@@ -20,7 +20,7 @@ Build-Depends: cdbs (>= 0.4.15),
 Standards-Version: 3.7.3
 Homepage: http://presage.sourceforge.net/
 Vcs-Svn: https://presage.svn.sourceforge.net/svnroot/presage/trunk
-Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/
+Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/trunk
 
 Package: presage
 Section: misc
