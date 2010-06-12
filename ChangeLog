@@ -1,5 +1,8 @@
 2010-06-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* website/presage_database_dump.sql.gz, configure.ac, NEWS:
+	preparing for 0.8.3 release.
+
 	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla
 	2.1.2 release.
 

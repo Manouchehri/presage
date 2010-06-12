@@ -7,6 +7,30 @@ NEWS
 ----
 
 
+Presage 0.8.3 released
+----------------------
+Presage 0.8.3 is now available for download.
+
+Presage 0.8.3 comes with a number of improvements and fixes to its
+build system. No major features were added in this release. Presage
+0.8.3 is a minor mantainance release.
+
+Presage 0.8.3 also includes other bug fixes and enhancements. Please
+see the ChangeLog for more details.
+
+This is a source release only. No precompiled packages or installers
+are provided.
+
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
+
+Presage 0.8.3 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+(Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues
+while building or running presage, please report them to the author.
+
+
 Presage 0.8.2 released
 ----------------------
 Presage 0.8.2 is now available for download.
