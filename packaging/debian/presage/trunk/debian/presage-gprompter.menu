@@ -3,5 +3,5 @@
     section="Applications/Accessibility" \
     title="Gprompter" \
     longtitle="Predictive text editor based on presage" \
-    icon="/usr/share/presage/presage.xpm" \
+    icon="/usr/share/pixmaps/presage-gprompter.xpm" \
     command="/usr/bin/gprompter"
