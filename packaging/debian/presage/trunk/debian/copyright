@@ -36,18 +36,10 @@ License: ZLIB
  3. This notice may not be removed or altered from any source
  distribution.
 
-Files: resources/the_picture_of_dorian_gray.txt
+Files: resources/the_picture_of_dorian_gray.txt, resources/l_innocente.txt
 Copyright: Public Domain
 License: other
  Please see file for full license details.
-
-Files: resources/la_coscienza_di_zeno.txt
-Copyright: 
-License: CC-BY-NC-SA
- Creative Commons Attribution-NonCommercial-ShareAlike 2.5
- .
- The complete text of the license can be found at:
- http://www.liberliber.it/biblioteca/licenze/
 
 Files: apps/gtk/gprompter/scintilla/*
 Copyright: Copyright 1998-2010 by Neil Hodgson <neilh@scintilla.org>
