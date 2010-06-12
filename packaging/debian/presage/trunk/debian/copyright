@@ -12,7 +12,7 @@ License: GPL-2+
  (at your option) any later version.
  .
  On Debian systems, the complete text of the GNU General Public License
- can be found in file "/usr/share/common-licenses/GPL".
+ can be found in file "/usr/share/common-licenses/GPL-2".
 
 Files: src/lib/tinyxml/*
 Copyright: Copyright 2000-2006 Lee Thomason (www.grinninglizard.com)
