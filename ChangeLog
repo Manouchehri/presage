@@ -1,3 +1,7 @@
+2010-06-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* doc/Makefile.am: install docs.
+
 2010-06-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/debian/presage/trunk/debian/control,

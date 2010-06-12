@@ -22,10 +22,12 @@
 ## Process this file with automake to produce Makefile.in
 
 EXTRA_DIST =	\
-	getting_started.txt \
-	python_binding.txt \
 	INSTALL_Cygwin_dev_env.txt \
 	INSTALL_MinGW_MSYS_dev_env.txt	
+
+dist_pkgdata_DATA = \
+	getting_started.txt \
+	python_binding.txt
 
 if BUILD_DOCUMENTATION
 if HAVE_DOXYGEN
