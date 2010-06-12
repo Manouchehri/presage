@@ -43,11 +43,11 @@
  * differential equation, where N is the quantity and λ is a positive
  * number called the decay constant.
  *
- *  \frac{dN}{dt} = -\lambda N.
+ *  frac{dN}{dt} = -lambda N.
  *
  * The solution to this equation is below:
  *
- *  N(t) = N_0 e^{-\lambda t}. \,
+ *  N(t) = N_0 e^{-lambda t}
  *
  * Here N(t) is the quantity at time t, and N0 = N(0) is the (initial)
  * quantity, at time t = 0.

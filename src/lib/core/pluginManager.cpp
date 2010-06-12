@@ -119,11 +119,11 @@ void PluginManager::init()
 }
 
 
-/** Checks that string @str has suffix @suffix.
- * @str string to check
- * @suffix suffix
+/** Checks that string has suffix.
+ * \param str string to check
+ * \param suffix suffix
  *
- * Returns true if string @str has suffix @suffix, false otherwise.
+ * \return true if string str has suffix, false otherwise.
  *
  * Length of string and suffix are compared. Length of string has to be greater than length of suffix.
  *
@@ -154,7 +154,7 @@ void PluginManager::loadOptions()
 
 /** Creates a DOM containing each plugin and its options.
  *
- * Parameter @root is the container of the plugins elements.
+ * \param root is the container of the plugins elements.
  *
  * Plugin options differ for each Plugin object. Plugin objects are
  * expected to supply a description of the options that they accept by

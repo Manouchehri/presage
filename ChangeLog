@@ -6,6 +6,10 @@
 	resources/l_innocente.txt: replaced training corpus text for
 	italian language.
 
+	* src/lib/predictors/recencyPredictor.h, doc/Doxyfile.in,
+	src/lib/core/profileManager.h, src/lib/core/pluginManager.cpp:
+	fixed doxygen warnings.
+
 2010-06-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/debian/presage/trunk/debian/control,
