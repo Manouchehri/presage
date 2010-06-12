@@ -46,8 +46,7 @@ Section: libs
 Architecture: any
 Depends: ${shlibs:Depends},
 	 ${misc:Depends},
-	 libpresage-data (= ${source:Version}),
-	 libsqlite3-0
+	 libpresage-data (= ${source:Version})
 Description: intelligent predictive text entry platform (shared library)
  This package contains the shared library.
 
