@@ -172,7 +172,7 @@ static void on_char_added (SCNotification* nt,
 						 0);
 	if (curr_pos > 1)
         {
-            g_print ("current pos: %d\n", curr_pos);
+            //g_print ("current pos: %d\n", curr_pos);
 
             uptr_t prev_pos = curr_pos - 2;
             uptr_t prev_char = scintilla_send_message(scintilla,
@@ -180,8 +180,8 @@ static void on_char_added (SCNotification* nt,
 						      prev_pos,
 						      0);
 
-	    g_print ("prev_pos: %d\n", prev_pos);
-	    g_print ("prev_char: %c\n", prev_char);
+	    //g_print ("prev_pos: %d\n", prev_pos);
+	    //g_print ("prev_char: %c\n", prev_char);
 
             /* if previous char is a autopunctuation whitespace char */
             if (strchr (glob_autopunctuation_whitespace, prev_char))

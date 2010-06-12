@@ -3,6 +3,8 @@
 	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla
 	2.1.2 release.
 
+	* apps/gtk/gprompter/gprompter.cpp: removed debugging output.
+	
 	* doc/Makefile.am: install docs.
 
 	* resources/la_coscienza_di_zeno.txt, resources/Makefile.am,
