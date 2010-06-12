@@ -2,6 +2,10 @@
 
 	* doc/Makefile.am: install docs.
 
+	* resources/la_coscienza_di_zeno.txt, resources/Makefile.am,
+	resources/l_innocente.txt: replaced training corpus text for
+	italian language.
+
 2010-06-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/debian/presage/trunk/debian/control,

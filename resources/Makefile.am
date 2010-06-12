@@ -23,9 +23,9 @@
 
 SUBDIRS =	arpa profiles
 
-EXTRA_DIST =	the_picture_of_dorian_gray.txt  \
-		la_coscienza_di_zeno.txt        \
-		abbreviations_en.txt            \
+EXTRA_DIST =	the_picture_of_dorian_gray.txt \
+		l_innocente.txt \
+		abbreviations_en.txt \
 		abbreviations_it.txt            
 
 dist_pkgdata_DATA = \
@@ -41,7 +41,7 @@ resources_DATA =	abbreviations_en.txt \
 BUILT_SOURCES =	database_en.db \
 		database_it.db
 
-database_it.db:	la_coscienza_di_zeno.txt
+database_it.db:	l_innocente.txt
 	@rm -f $@
 	@$(top_builddir)/src/tools/text2ngram -n 1 -l -f sqlite -o $@ $^
 	@$(top_builddir)/src/tools/text2ngram -n 2 -l -f sqlite -o $@ $^
