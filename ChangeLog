@@ -1,5 +1,8 @@
 2010-06-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla
+	2.1.2 release.
+
 	* doc/Makefile.am: install docs.
 
 	* resources/la_coscienza_di_zeno.txt, resources/Makefile.am,
