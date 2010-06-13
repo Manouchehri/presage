@@ -103,7 +103,9 @@ Provides: ${python:Provides}
 Description: intelligent predictive text entry platform (Python binding)
  Presage is an intelligent predictive text entry platform.
  .
- This package contains the Python binding.
+ This package provides the Python binding for libpresage.
+ .
+ This package contains the Python extension module for libpresage.
 
 Package: presage-gprompter
 Section: misc
