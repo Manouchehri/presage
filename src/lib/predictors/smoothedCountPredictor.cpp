@@ -305,7 +305,6 @@ Prediction SmoothedCountPredictor::predict(const size_t max_partial_predictions_
 		    } else {
 			std::cerr << "Invalid invocation of buildPrediction method!"
 				  << std::endl;
-			exit( 1 );
 		    }
 		}
 		return 0;
