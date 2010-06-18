@@ -1,7 +1,8 @@
-presage (0.8.3-1.1) unstable; urgency=low
+presage (0.8.3-2) unstable; urgency=low
 
   * Added "-Wl,--as-needed" to LDFLAGS to resolve avoidable dependency warnings.
-  * Fixed lintian extended-description-is-probably-too-short informational warnings.
+  * Fixed lintian extended-description-is-probably-too-short informational
+    warnings.
   * Fixed FBTFS when building twice in a row.
 
  -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Fri, 18 Jun 2010 21:30:12 +0100
