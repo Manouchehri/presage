@@ -57,6 +57,7 @@ endif
 
 if BUILD_TINYXML
 libpresage_la_LIBADD +=		tinyxml/libtinyxml.la
+libpresage_la_CPPFLAGS =	-I$(top_srcdir)/src/lib/tinyxml
 else
 libpresage_la_LDFLAGS +=	-ltinyxml
 endif

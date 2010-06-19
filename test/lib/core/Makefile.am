@@ -51,6 +51,11 @@ coreTestRunner_LIBS =		-ldl
 coreTestRunner_LDADD =		$(top_builddir)/src/lib/libpresage.la \
 				../common/libcommon.la
 
+if BUILD_TINYXML
+coreTestRunner_CPPFLAGS +=	-I$(top_srcdir)/src/lib/tinyxml
+else
+coreTestRunner_LIBS +=		-ltinyxml
+endif
 
 DEPENDENCIES =	libpresage.la
 

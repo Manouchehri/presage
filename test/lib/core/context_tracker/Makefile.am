@@ -39,6 +39,12 @@ contextTrackerTestRunner_LIBS =		-ldl
 contextTrackerTestRunner_LDADD =	$(top_builddir)/src/lib/libpresage.la \
 					../../common/libcommon.la
 
+if BUILD_TINYXML
+contextTrackerTestRunner_CPPFLAGS +=	-I$(top_srcdir)/src/lib/tinyxml
+else
+contextTrackerTestRunner_LIBS +=	-ltinyxml
+endif
+
 DEPENDENCIES =	libpresage.la
 
 endif

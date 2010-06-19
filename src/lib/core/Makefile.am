@@ -80,4 +80,8 @@ libcore_la_LIBADD =	\
 	tokenizer/libtokenizer.la \
 	context_tracker/libcontexttracker.la
 
-AM_CPPFLAGS =	-I$(top_srcdir)/src/lib
+libcore_la_CPPFLAGS =	-I$(top_srcdir)/src/lib
+
+if BUILD_TINYXML
+libcore_la_CPPFLAGS +=	-I$(top_srcdir)/src/lib/tinyxml
+endif
