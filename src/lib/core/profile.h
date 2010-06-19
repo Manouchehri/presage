@@ -27,7 +27,7 @@
 
 #include "config.h"
 
-#include "tinyxml/tinyxml.h"
+#include <tinyxml.h>
 
 #include <vector>
 #include <string>

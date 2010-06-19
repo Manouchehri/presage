@@ -1,2 +1,3 @@
+remove-dependency-on-embedded-tinyxml-sources.patch
 fix-shlib-calls-exit.patch
 fix-spelling-error-in-binary.patch

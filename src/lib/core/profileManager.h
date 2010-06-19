@@ -27,7 +27,6 @@
 
 #include "profile.h"
 #include "defaultProfile.h"
-#include "../tinyxml/tinyxml.h"
 #include "combiner.h"
 #include "logger.h"
 #include "dispatcher.h"
