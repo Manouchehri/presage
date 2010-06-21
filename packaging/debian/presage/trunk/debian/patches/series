@@ -1,3 +1,4 @@
 remove-dependency-on-embedded-tinyxml-sources.patch
 fix-shlib-calls-exit.patch
 fix-spelling-error-in-binary.patch
+fix-hyphen-used-as-minus-sign-in-text2ngram-man-page.patch

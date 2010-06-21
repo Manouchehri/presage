@@ -1,0 +1,18 @@
+fix hyphen-used-as-minus-sign warning in text2ngram man page.
+
+help2man generates a hyphen where a minus sign was intended.
+
+The sed one-liner contained in this patch works around that.
+Index: presage-0.8.3/src/tools/text2ngram.1
+===================================================================
+--- presage-0.8.3.orig/src/tools/text2ngram.1	2010-06-21 12:16:56.000000000 +0100
++++ presage-0.8.3/src/tools/text2ngram.1	2010-06-21 12:17:12.000000000 +0100
+@@ -4,7 +4,7 @@
+ text2ngram \- generate statistical n-gram data from text
+ .SH SYNOPSIS
+ .B text2ngram
+-[\fIOPTION\fR]... \fI-o outfile  -f format -n ngrams infiles\fR...
++[\fIOPTION\fR]... \fI\-o outfile  \-f format \-n ngrams infiles\fR...
+ .SH DESCRIPTION
+ .TP
+ \fB\-\-output\fR, \fB\-o\fR O
