@@ -26,7 +26,6 @@ Package: presage
 Section: misc
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Suggests: presage-doc
 Description: intelligent predictive text entry platform (tools and demos)
  Presage is an intelligent predictive text entry platform.
  .
@@ -36,7 +35,7 @@ Description: intelligent predictive text entry platform (tools and demos)
  .
  This package also contains simple demonstration programs and simulator.
 
-Package: presage-doc
+Package: libpresage-doc
 Section: doc
 Architecture: all
 Depends: ${misc:Depends}
@@ -84,7 +83,7 @@ Description: intelligent predictive text entry platform (data files)
 
 Package: libpresage-dev
 Section: libdevel
-Suggests: presage-doc
+Suggests: libpresage-doc
 Architecture: any
 Depends: libpresage1 (= ${binary:Version}), ${misc:Depends}, libc6-dev
 Description: intelligent predictive text entry platform (development files)
