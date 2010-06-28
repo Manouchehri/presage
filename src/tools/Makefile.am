@@ -31,11 +31,14 @@ if USE_SQLITE
 bin_PROGRAMS +=		text2ngram
 
 text2ngram_SOURCES =	text2ngram.cpp
-text2ngram_LDADD =	libtools.la ../lib/libpresage.la ../lib/predictors/dbconnector/libdbconnector.la
+text2ngram_LDADD =	libtools.la \
+			../lib/core/libcore.la \
+			../lib/predictors/dbconnector/libdbconnector.la \
+			../lib/libpresage.la
 endif
 
 if HAVE_CURSES
-bin_PROGRAMS +=		presage_demo       
+bin_PROGRAMS +=		presage_demo
 
 presage_demo_SOURCES =	presageDemo.cpp
 presage_demo_LDADD =	../lib/libpresage.la
@@ -46,7 +49,9 @@ presage_demo_text_SOURCES = 	presageDemoText.cpp
 presage_demo_text_LDADD = 	../lib/libpresage.la
 
 presage_simulator_SOURCES =	presageSimulator.cpp
-presage_simulator_LDADD =	../lib/libpresage.la  
+presage_simulator_LDADD =	../lib/core/libcore.la \
+				../lib/simulator/libsimulator.la \
+				../lib/libpresage.la
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src
 

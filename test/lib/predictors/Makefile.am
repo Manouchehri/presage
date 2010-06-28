@@ -68,21 +68,25 @@ endif
 
 # the following test runner links with libpresage, instead of using
 # mock objects in place of the core libsootsayer library facilities
-newPredictorsTestRunner_SOURCES = 	predictorsTestRunner.cpp \
-				recencyPredictorTest.h \
-				recencyPredictorTest.cpp \
-				dejavuPredictorTest.h \
-				dejavuPredictorTest.cpp 
+newPredictorsTestRunner_SOURCES =	predictorsTestRunner.cpp \
+					recencyPredictorTest.h \
+					recencyPredictorTest.cpp \
+					dejavuPredictorTest.h \
+					dejavuPredictorTest.cpp 
 newPredictorsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 newPredictorsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-newPredictorsTestRunner_LDADD =	$(top_builddir)/src/lib/predictors/libpredictor.la	\
-				$(top_builddir)/src/lib/libpresage.la
+newPredictorsTestRunner_LDADD =		libnewpredictorstest.la
+
+check_LTLIBRARIES =			libnewpredictorstest.la
+
+libnewpredictorstest_la_SOURCES = 
+libnewpredictorstest_la_LIBADD =	$(top_builddir)/src/lib/predictors/libpredictors.la \
+					$(top_builddir)/src/lib/core/libcore.la
 
 if USE_SQLITE
-newPredictorsTestRunner_SOURCES += \
-				newSmoothedNgramPredictorTest.h \
-				newSmoothedNgramPredictorTest.cpp
-predictorsTestRunner_LDADD +=	$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la 
+newPredictorsTestRunner_SOURCES +=	newSmoothedNgramPredictorTest.h \
+					newSmoothedNgramPredictorTest.cpp
+libnewpredictorstest_la_LIBADD +=	$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la 
 endif
 
 endif # HAVE_CPPUNIT

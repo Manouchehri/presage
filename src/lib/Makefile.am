@@ -38,22 +38,10 @@ libpresage_la_SOURCES = 	presage.cpp \
 				presageCallback.h 
 libpresage_la_LIBADD =		core/libcore.la \
 				simulator/libsimulator.la \
-				predictors/libpredictor.la  \
-				predictors/libAbbreviationExpansionPredictor.la \
-				predictors/libDummyPredictor.la \
-				predictors/libDictionaryPredictor.la \
-				predictors/libRecencyPredictor.la \
-				predictors/libDejavuPredictor.la \
-				predictors/libARPAPredictor.la 
-
+				predictors/libpredictors.la
 libpresage_la_LDFLAGS =		-no-undefined \
-				-version-info 2:1:1
-
-if USE_SQLITE
-libpresage_la_LIBADD +=		predictors/libSmoothedNgramPredictor.la \
-				predictors/libSmoothedCountPredictor.la \
-				predictors/dbconnector/libdbconnector.la
-endif
+				-version-info 2:1:1 \
+				-Wl,--version-script,$(srcdir)/libpresage.map
 
 if BUILD_TINYXML
 libpresage_la_LIBADD +=		tinyxml/libtinyxml.la
@@ -61,3 +49,5 @@ libpresage_la_CPPFLAGS =	-I$(top_srcdir)/src/lib/tinyxml
 else
 libpresage_la_LDFLAGS +=	-ltinyxml
 endif
+
+EXTRA_DIST =	libpresage.map

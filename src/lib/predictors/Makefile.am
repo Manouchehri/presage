@@ -23,7 +23,7 @@
 
 SUBDIRS = dbconnector
 
-noinst_LTLIBRARIES = \
+PREDICTORS = \
 	libpredictor.la \
 	libDummyPredictor.la \
 	libDictionaryPredictor.la \
@@ -33,18 +33,28 @@ noinst_LTLIBRARIES = \
 	libARPAPredictor.la
 
 if USE_SQLITE
-noinst_LTLIBRARIES += \
+PREDICTORS += \
 	libSmoothedNgramPredictor.la \
-	libSmoothedCountPredictor.la         
+	libSmoothedCountPredictor.la
+
+DBCONNECTOR = \
+	dbconnector/libdbconnector.la
+endif
+
+noinst_LTLIBRARIES = \
+	libpredictors.la \
+	$(PREDICTORS)
+
+libpredictors_la_SOURCES = 
+libpredictors_la_LIBADD =	$(PREDICTORS) $(DBCONNECTOR)
+
+libpredictor_la_SOURCES =	predictor.cpp predictor.h
 
 libSmoothedNgramPredictor_la_SOURCES =	smoothedNgramPredictor.cpp \
 					smoothedNgramPredictor.h   
 
 libSmoothedCountPredictor_la_SOURCES =	smoothedCountPredictor.cpp \
 					smoothedCountPredictor.h
-endif
-
-libpredictor_la_SOURCES =	predictor.cpp predictor.h
 
 libAbbreviationExpansionPredictor_la_SOURCES =	abbreviationExpansionPredictor.h   \
 						abbreviationExpansionPredictor.cpp 

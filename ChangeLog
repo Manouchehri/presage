@@ -1,3 +1,26 @@
+2010-06-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/context_tracker/Makefile.am,
+	test/lib/core/Makefile.am, test/lib/predictors/Makefile.am,
+	src/tools/Makefile.am, src/lib/Makefile.am,
+	src/lib/libpresage.map, src/lib/predictors/Makefile.am: added
+	support for controlling and versioning symbols exported by
+	libpresage.
+
+2010-06-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/profileManager.h, src/lib/core/profile.h,
+	test/lib/core/context_tracker/Makefile.am,
+	test/lib/core/Makefile.am, src/lib/core/Makefile.am,
+	src/lib/Makefile.am: removed all dependencies on convenience
+	embedded tinyxml source code copy when system libtinyxml is
+	available.
+
+2010-06-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/smoothedCountPredictor.cpp: removed call to
+	exit().
+
 2010-06-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* presage-0.8.3: released.
@@ -9,7 +32,7 @@
 	2.1.2 release.
 
 	* apps/gtk/gprompter/gprompter.cpp: removed debugging output.
-	
+
 	* doc/Makefile.am: install docs.
 
 	* resources/la_coscienza_di_zeno.txt, resources/Makefile.am,

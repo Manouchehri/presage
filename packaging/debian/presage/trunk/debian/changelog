@@ -1,3 +1,10 @@
+presage (0.8.3-4) unstable; urgency=low
+
+  * Added support for controlling and versioning symbols exported by libpresage.
+  * Updated to latest policy.
+
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Mon, 28 Jun 2010 15:03:26 +0100
+
 presage (0.8.3-3) unstable; urgency=low
 
   * Added rule to remove embedded tinyxml source and header files.

@@ -48,13 +48,22 @@ coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 coreTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 coreTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 coreTestRunner_LIBS =		-ldl
-coreTestRunner_LDADD =		$(top_builddir)/src/lib/libpresage.la \
-				../common/libcommon.la
+coreTestRunner_LDADD =		libcoretest.la
+
+check_LTLIBRARIES = \
+	libcoretest.la
+
+libcoretest_la_SOURCES =	
+libcoretest_la_LIBADD = \
+	../common/libcommon.la \
+	$(top_builddir)/src/lib/core/libcore.la \
+	$(top_builddir)/src/lib/predictors/libpredictors.la
 
 if BUILD_TINYXML
 coreTestRunner_CPPFLAGS +=	-I$(top_srcdir)/src/lib/tinyxml
+libcoretest_la_LIBADD +=	$(top_builddir)/src/lib/tinyxml/libtinyxml.la
 else
-coreTestRunner_LIBS +=		-ltinyxml
+libcoretest_la_LIBS =		-ltinyxml
 endif
 
 DEPENDENCIES =	libpresage.la
