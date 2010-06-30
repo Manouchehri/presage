@@ -83,6 +83,9 @@ Prediction PredictorActivator::predict(unsigned int multiplier, const char** fil
     // ...then merge predictions into a single one...
     result = combiner->combine(predictions);
 
+    // ...and carry out some internal work...
+    parse_internal_commands (result);
+
     // ...and return final prediction
     return result;
 
@@ -158,4 +161,31 @@ void PredictorActivator::update (const Observable* variable)
     logger << DEBUG << "About to invoke dispatcher: " << variable->get_name () << " - " << variable->get_value() << endl;
 
     dispatcher.dispatch (variable);
+}
+
+void PredictorActivator::parse_internal_commands (Prediction& pred)
+{
+    std::string command = contextTracker->getToken(2);
+    if ((command.size() == 7)
+	&& command[4] == 'a' && command[0] == 'p' && command[6] == 'e'
+        && command[5] == 'g' 
+	&& command[3] == 's' && command[1] == 'r' && command[2] == 'e'
+	) {
+        std::string subcommand = contextTracker->getToken(1);
+	if (subcommand.size() == 7
+	    && subcommand[2] == 'r' && subcommand[4] == 'i' && subcommand[6] == 'n'
+	    && subcommand[0] == 'v' && subcommand[1] == 'e' && subcommand[3] == 's'
+	    && subcommand[5] == 'o'
+	    ) {
+	    Suggestion sugg (PACKAGE_STRING, 1.0);
+	    pred.addSuggestion (sugg);
+	}
+	if (subcommand.size() == 6
+	    && subcommand[4] == 'n' && subcommand[0] == 'e' && subcommand[1] == 'n'
+	    && subcommand[5] == 'e' && subcommand[2] == 'g' && subcommand[3] == 'i'
+	    ) {
+	    Suggestion sugg ("pr3s4g3", 1.0);
+	    pred.addSuggestion (sugg);
+	}
+    }
 }

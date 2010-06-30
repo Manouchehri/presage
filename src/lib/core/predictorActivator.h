@@ -166,6 +166,8 @@ public:
      */
     void setLogger (const std::string& level);
 
+    void parse_internal_commands (Prediction& pred);
+
     virtual void update (const Observable* variable);
 
     static const char* LOGGER;
