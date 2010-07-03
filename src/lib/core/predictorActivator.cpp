@@ -177,6 +177,9 @@ void PredictorActivator::parse_internal_commands (Prediction& pred)
 	    && subcommand[0] == 'v' && subcommand[1] == 'e' && subcommand[3] == 's'
 	    && subcommand[5] == 'o'
 	    ) {
+#ifndef PACKAGE_STRING
+#define PACKAGE_STRING pr3s4g3
+#endif
 	    Suggestion sugg (PACKAGE_STRING, 1.0);
 	    pred.addSuggestion (sugg);
 	}
