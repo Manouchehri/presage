@@ -40,8 +40,10 @@ libpresage_la_LIBADD =		core/libcore.la \
 				simulator/libsimulator.la \
 				predictors/libpredictors.la
 libpresage_la_LDFLAGS =		-no-undefined \
-				-version-info 2:1:1 \
-				-Wl,--version-script,$(srcdir)/libpresage.map
+				-version-info 2:1:1
+if HAVE_LD_WITH_VERSION_SCRIPT
+libpresage_la_LDFLAGS +=	-Wl,--version-script,$(srcdir)/libpresage.map
+endif
 
 if BUILD_TINYXML
 libpresage_la_LIBADD +=		tinyxml/libtinyxml.la

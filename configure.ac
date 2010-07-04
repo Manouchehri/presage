@@ -54,6 +54,47 @@ AC_LIBTOOL_DLOPEN
 AC_PROG_LIBTOOL
 
 
+dnl ============================
+dnl Checks for ld version script
+dnl ============================
+AC_MSG_CHECKING([whether linker supports version scripts])
+cat > conftest.map <<EOF
+VERSION_1 {
+global:
+	main;
+local:
+	*;
+};
+
+VERSION_2 {
+global:
+	main;
+	hello_world;
+} VERSION_1;
+EOF
+
+save_ldflags="$LDFLAGS"
+LDFLAGS="$LDFLAGS -Wl,--version-script,conftest.map"
+AC_LINK_IFELSE(
+	[AC_LANG_PROGRAM(
+		[[const char hello_world[] = "Hello, World\n";]],
+                [[]])],
+	[have_ld_with_version_script=yes],
+	[have_ld_with_version_script=no]
+)
+LDFLAGS="$save_ldflags"
+
+if test "x$have_ld_with_version_script" = "xyes"
+then
+        AC_MSG_RESULT([yes])
+else
+        AC_MSG_RESULT([no])
+        AC_MSG_WARN([Linker does not support version scripts.])
+fi
+AM_CONDITIONAL([HAVE_LD_WITH_VERSION_SCRIPT],
+               [test "x$have_ld_with_version_script" = "xyes"])
+
+
 dnl Cygwin windows specific flag
 LDFLAGS="-L/usr/local/lib $LDFLAGS"
 
@@ -79,7 +120,7 @@ AC_CHECK_HEADERS([curses.h],
                  [have_curses_header=true],
                  [AC_MSG_WARN([curses header file not found. curses demo programs will not be built.])],
                  [])
-AM_CONDITIONAL(HAVE_CURSES, test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue")
+AM_CONDITIONAL([HAVE_CURSES], [test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue"])
 
 
 dnl ==================
@@ -172,7 +213,7 @@ dnl ==================
 AM_PATH_CPPUNIT([1.9.6],
                 [],
                 [AC_MSG_WARN([CppUnit not found. Unit tests will not be built. CppUnit can be obtained from http://cppunit.sourceforge.net.])])
-AM_CONDITIONAL(HAVE_CPPUNIT, test "$CPPUNIT_LIBS")
+AM_CONDITIONAL([HAVE_CPPUNIT], [test "$CPPUNIT_LIBS"])
 
 
 dnl ============================
@@ -183,7 +224,7 @@ dnl ===============
 dnl Checks for SWIG
 dnl ===============
 AC_PATH_PROG([SWIG], [swig])
-AM_CONDITIONAL(HAVE_SWIG, test "$SWIG")
+AM_CONDITIONAL([HAVE_SWIG], [test "$SWIG"])
 
 
 dnl =================
@@ -200,7 +241,7 @@ then
                      [AC_MSG_WARN([Python.h header file not found. Python development files are required to build presage python binding. Python can be obtained from http://www.python.org])],
                      [])
 fi
-AM_CONDITIONAL(HAVE_PYTHON, test "$PYTHON" -a "x$have_python_header" = "xtrue")
+AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" -a "x$have_python_header" = "xtrue"])
 
 
 AC_ARG_ENABLE([python-binding],
@@ -218,7 +259,7 @@ else
     AC_MSG_NOTICE([Python binding for presage will not be built.])
     AC_MSG_NOTICE([Enable Python binding module building with --enable-python-binding])
 fi
-AM_CONDITIONAL(ENABLE_PYTHON_BINDING, test "x$ac_enable_python_binding" = "xyes")
+AM_CONDITIONAL([ENABLE_PYTHON_BINDING], [test "x$ac_enable_python_binding" = "xyes"])
 
 
 dnl ========================
@@ -338,7 +379,7 @@ then
 else
 	build_gtk_prompter=no
 fi
-AM_CONDITIONAL(BUILD_GTK_PROMPTER, test "x$build_gtk_prompter" = "xyes")
+AM_CONDITIONAL([BUILD_GTK_PROMPTER], [test "x$build_gtk_prompter" = "xyes"])
 
 dnl ===================================================
 dnl Checks for CMU-Statistical Language Modelling tools

@@ -1,3 +1,8 @@
+2010-07-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/Makefile.am, configure.ac: added conditional check for
+	version script linker support.
+
 2010-06-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/lib/core/context_tracker/Makefile.am,
