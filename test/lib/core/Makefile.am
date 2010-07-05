@@ -31,18 +31,19 @@ TESTS =		coreTestRunner
 
 check_PROGRAMS = $(TESTS)
 
-coreTestRunner_SOURCES =	coreTestRunner.cpp                          \
-				suggestionTest.h suggestionTest.cpp         \
-				predictionTest.h predictionTest.cpp         \
-				selectorTest.h selectorTest.cpp             \
-				profileTest.h profileTest.cpp               \
-				profileManagerTest.h profileManagerTest.cpp \
-				meritocracyCombinerTest.h meritocracyCombinerTest.cpp \
-				loggerTest.h loggerTest.cpp                 \
-				variableTest.h variableTest.cpp             \
-				configurationTest.h configurationTest.cpp   \
-				combinerTest.h combinerTest.cpp             \
-				predictorRegistryTest.h predictorRegistryTest.cpp 
+coreTestRunner_SOURCES = \
+	coreTestRunner.cpp \
+	suggestionTest.h suggestionTest.cpp \
+	predictionTest.h predictionTest.cpp \
+	selectorTest.h selectorTest.cpp \
+	profileTest.h profileTest.cpp \
+	profileManagerTest.h profileManagerTest.cpp \
+	meritocracyCombinerTest.h meritocracyCombinerTest.cpp \
+	loggerTest.h loggerTest.cpp \
+	variableTest.h variableTest.cpp \
+	configurationTest.h configurationTest.cpp \
+	combinerTest.h combinerTest.cpp \
+	predictorRegistryTest.h predictorRegistryTest.cpp
 
 coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 coreTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
@@ -63,7 +64,7 @@ if BUILD_TINYXML
 coreTestRunner_CPPFLAGS +=	-I$(top_srcdir)/src/lib/tinyxml
 libcoretest_la_LIBADD +=	$(top_builddir)/src/lib/tinyxml/libtinyxml.la
 else
-libcoretest_la_LIBS =		-ltinyxml
+libcoretest_la_LIBADD +=	-ltinyxml
 endif
 
 DEPENDENCIES =	libpresage.la

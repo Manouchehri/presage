@@ -85,7 +85,7 @@ Package: libpresage-dev
 Section: libdevel
 Suggests: libpresage-doc
 Architecture: any
-Depends: libpresage1 (= ${binary:Version}), ${misc:Depends}, libc6-dev
+Depends: libpresage1 (= ${binary:Version}), ${misc:Depends}
 Description: intelligent predictive text entry platform (development files)
  Presage is an intelligent predictive text entry platform.
  .

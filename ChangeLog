@@ -1,3 +1,18 @@
+2010-07-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/predictorRegistry.cpp,
+	src/lib/predictors/smoothedCountPredictor.cpp,
+	src/lib/predictors/smoothedCountPredictor.h,
+	src/lib/predictors/Makefile.am: removed obsolete smoothed count
+	predictor, superseded by smoothed n-gram predictor.
+
+	* resources/presage.svg, website/presage_logo.svg,
+	resources/Makefile.am: renamed SVG presage logo source and added
+	it to dist tarball.
+
+	* test/lib/core/Makefile.am: fixed issue building unit tests with
+	system libtinyxml.
+
 2010-07-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/Makefile.am, configure.ac: added conditional check for

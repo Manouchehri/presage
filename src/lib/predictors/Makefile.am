@@ -34,8 +34,7 @@ PREDICTORS = \
 
 if USE_SQLITE
 PREDICTORS += \
-	libSmoothedNgramPredictor.la \
-	libSmoothedCountPredictor.la
+	libSmoothedNgramPredictor.la
 
 DBCONNECTOR = \
 	dbconnector/libdbconnector.la
@@ -52,9 +51,6 @@ libpredictor_la_SOURCES =	predictor.cpp predictor.h
 
 libSmoothedNgramPredictor_la_SOURCES =	smoothedNgramPredictor.cpp \
 					smoothedNgramPredictor.h   
-
-libSmoothedCountPredictor_la_SOURCES =	smoothedCountPredictor.cpp \
-					smoothedCountPredictor.h
 
 libAbbreviationExpansionPredictor_la_SOURCES =	abbreviationExpansionPredictor.h   \
 						abbreviationExpansionPredictor.cpp 

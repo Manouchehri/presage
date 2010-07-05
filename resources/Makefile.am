@@ -23,10 +23,12 @@
 
 SUBDIRS =	arpa profiles
 
-EXTRA_DIST =	the_picture_of_dorian_gray.txt \
-		l_innocente.txt \
-		abbreviations_en.txt \
-		abbreviations_it.txt            
+EXTRA_DIST = \
+	the_picture_of_dorian_gray.txt \
+	l_innocente.txt \
+	abbreviations_en.txt \
+	abbreviations_it.txt \
+	presage.svg
 
 dist_pkgdata_DATA = \
 	presage.png \

@@ -117,7 +117,7 @@ void DejavuPredictor::learn(const std::vector<std::string>& change)
 	 it++)
     {
 	std::string new_token = *it;
-	logger << INFO << "Commiting new token to memory: " << new_token << endl;
+	logger << INFO << "Committing new token to memory: " << new_token << endl;
 	std::ofstream memory_file(memory.c_str(), std::ios::app);
 	if (!memory_file) {
 	    logger << ERROR << "Error opening memory file: " << memory << endl;

@@ -1,3 +1,10 @@
+presage (0.8.4b-1) unstable; urgency=low
+
+  * Upstream new release, removed debian patches that were integrated upstream.
+  * Removed installation of LaTeX documentation.
+
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Mon, 05 Jul 2010 12:05:44 +0100
+
 presage (0.8.3-4) unstable; urgency=low
 
   * Added support for controlling and versioning symbols exported by libpresage.
