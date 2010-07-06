@@ -48,7 +48,6 @@ coreTestRunner_SOURCES = \
 coreTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 coreTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 coreTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-coreTestRunner_LIBS =		-ldl
 coreTestRunner_LDADD =		libcoretest.la
 
 check_LTLIBRARIES = \

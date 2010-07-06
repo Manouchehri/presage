@@ -46,10 +46,10 @@ libpresage_la_LDFLAGS +=	-Wl,--version-script,$(srcdir)/libpresage.map
 endif
 
 if BUILD_TINYXML
-libpresage_la_LIBADD +=		tinyxml/libtinyxml.la
 libpresage_la_CPPFLAGS =	-I$(top_srcdir)/src/lib/tinyxml
+libpresage_la_LIBADD +=		tinyxml/libtinyxml.la
 else
-libpresage_la_LDFLAGS +=	-ltinyxml
+libpresage_la_LIBADD +=		-ltinyxml
 endif
 
 EXTRA_DIST =	libpresage.map

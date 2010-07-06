@@ -87,7 +87,7 @@ if HAVE_HELP2MAN
 
 pyprompter.1:	pyprompter.in $(top_srcdir)/configure.ac
 	chmod u+x ./pyprompter
-	help2man --output=$@ --name="pyprompter, the intelligent predictive text editor" ./pyprompter
+	help2man --output=$@ --no-info --name="the intelligent predictive wxPython text editor" ./pyprompter
 
 dist_man_MANS =	pyprompter.1
 

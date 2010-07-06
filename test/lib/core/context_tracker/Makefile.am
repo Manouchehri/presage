@@ -35,7 +35,6 @@ contextTrackerTestRunner_SOURCES =	../coreTestRunner.cpp \
 contextTrackerTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 contextTrackerTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 contextTrackerTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-contextTrackerTestRunner_LIBS =		-ldl
 contextTrackerTestRunner_LDADD =	libcontexttrackertest.la
 
 check_LTLIBRARIES = 	\
@@ -52,7 +51,7 @@ if BUILD_TINYXML
 contextTrackerTestRunner_CPPFLAGS +=	-I$(top_srcdir)/src/lib/tinyxml
 libcontexttrackertest_la_LIBADD +=	$(top_builddir)/src/lib/tinyxml/libtinyxml.la
 else
-contextTrackerTestRunner_LIBS +=	-ltinyxml
+libcontexttrackertest_la_LIBADD +=	-ltinyxml
 endif
 
 endif

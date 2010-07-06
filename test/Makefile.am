@@ -32,7 +32,6 @@ check_PROGRAMS = $(TESTS)
 testRunner_SOURCES =	testRunner.cpp
 testRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 testRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-testRunner_LIBS =	-ldl
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src
 

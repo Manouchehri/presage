@@ -38,7 +38,6 @@ tokenizerTestRunner_SOURCES =	tokenizerTestRunner.cpp        \
 				stringForwardTokenizerTest.cpp 
 tokenizerTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 tokenizerTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-tokenizerTestRunner_LIBS =	-ldl
 tokenizerTestRunner_LDADD =	$(top_builddir)/src/lib/core/tokenizer/libtokenizer.la \
 				../../common/libcommon.la
 

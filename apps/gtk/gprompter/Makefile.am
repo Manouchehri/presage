@@ -215,7 +215,7 @@ gprompter_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) \
 if HAVE_HELP2MAN
 gprompter.1:	gprompter.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) gprompter$(EXEEXT)
-	help2man --output=$@ --name="gprompter" ./gprompter$(EXEEXT)
+	help2man --output=$@ --no-info --name="the intelligent predictive GTK+ text editor" ./gprompter$(EXEEXT)
 
 dist_man_MANS =	gprompter.1
 endif

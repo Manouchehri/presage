@@ -1,5 +1,16 @@
 2010-07-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* test/tools/Makefile.am,
+	test/lib/core/context_tracker/Makefile.am,
+	test/lib/core/Makefile.am, test/lib/core/tokenizer/Makefile.am,
+	test/lib/predictors/dbconnector/Makefile.am, test/Makefile.am:
+	removed explicit link to -ldl in tests.
+
+	* src/tools/Makefile.am, src/lib/Makefile.am,
+	bindings/python/Makefile.am, apps/python/Makefile.am,
+	apps/gtk/gprompter/Makefile.am, apps/gtk/gpresagemate/Makefile.am:
+	do not generate reference to info documentation in man pages.
+
 	* THANKS, apps/dbus, apps/dbus/org.gnome.presage.service,
 	apps/dbus/prediction_service, apps/dbus/prediction_service.py:
 	added DBUS prediction service contributed by David Pellicer.

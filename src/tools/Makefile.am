@@ -59,11 +59,11 @@ AM_CPPFLAGS =	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src
 if HAVE_HELP2MAN
 presage_demo_text.1:	presageDemoText.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) presage_demo_text$(EXEEXT)
-	help2man --output=$@ --name="presage demo program (text)" ./presage_demo_text$(EXEEXT)
+	help2man --output=$@ --no-info --name="presage demo program (text)" ./presage_demo_text$(EXEEXT)
 
 presage_simulator.1:	presageSimulator.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) presage_simulator$(EXEEXT)
-	help2man --output=$@ --name="presage simulator program" ./presage_simulator$(EXEEXT)
+	help2man --output=$@ --no-info --name="presage simulator program" ./presage_simulator$(EXEEXT)
 
 dist_man_MANS =		presage_demo_text.1 \
 			presage_simulator.1
@@ -71,7 +71,7 @@ dist_man_MANS =		presage_demo_text.1 \
 if USE_SQLITE
 text2ngram.1:		text2ngram.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) text2ngram$(EXEEXT)
-	help2man --output=$@ --name="generate statistical n-gram data from text" ./text2ngram$(EXEEXT)
+	help2man --output=$@ --no-info --name="generate statistical n-gram data from text" ./text2ngram$(EXEEXT)
 
 dist_man_MANS +=	text2ngram.1
 endif
@@ -79,7 +79,7 @@ endif
 if HAVE_CURSES
 presage_demo.1:		presageDemo.cpp $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) presage_demo$(EXEEXT)
-	help2man --output=$@ --name="presage demo program (ncurses)" ./presage_demo$(EXEEXT)
+	help2man --output=$@ --no-info --name="presage demo program (ncurses)" ./presage_demo$(EXEEXT)
 
 dist_man_MANS +=	presage_demo.1
 endif

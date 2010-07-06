@@ -41,7 +41,6 @@ dbconnectorTestRunner_SOURCES =	dbconnectorTestRunner.cpp       \
 
 dbconnectorTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 dbconnectorTestRunner_LDFLAGS =		$(CPPUNIT_LIBS)
-dbconnectorTestRunner_LIBS =		-ldl
 dbconnectorTestRunner_LDADD =		$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la
 dbconnectorTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 
