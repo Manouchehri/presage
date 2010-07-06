@@ -26,6 +26,7 @@ SUBDIRS =	arpa profiles
 EXTRA_DIST = \
 	the_picture_of_dorian_gray.txt \
 	l_innocente.txt \
+	el_quijote.txt \
 	abbreviations_en.txt \
 	abbreviations_it.txt \
 	presage.svg
@@ -41,7 +42,8 @@ resources_DATA =	abbreviations_en.txt \
 			abbreviations_it.txt 
 
 BUILT_SOURCES =	database_en.db \
-		database_it.db
+		database_it.db \
+		database_es.db
 
 database_it.db:	l_innocente.txt
 	@rm -f $@
@@ -55,13 +57,20 @@ database_en.db:	the_picture_of_dorian_gray.txt
 	@$(top_builddir)/src/tools/text2ngram -n 2 -l -f sqlite -o $@ $^
 	@$(top_builddir)/src/tools/text2ngram -n 3 -l -f sqlite -o $@ $^
 
+database_es.db:	el_quijote.txt
+	@rm -f $@
+	@$(top_builddir)/src/tools/text2ngram -n 1 -l -f sqlite -o $@ $^
+	@$(top_builddir)/src/tools/text2ngram -n 2 -l -f sqlite -o $@ $^
+	@$(top_builddir)/src/tools/text2ngram -n 3 -l -f sqlite -o $@ $^
 
 # Clean out files created during tests.
 # Required to make distcheck happy.
 DISTCLEANFILES =	database_en.db \
-			database_it.db
+			database_it.db \
+			database_es.db
 
 resources_DATA +=	database_en.db \
-			database_it.db 
+			database_it.db \
+			database_es.db 
 
 endif

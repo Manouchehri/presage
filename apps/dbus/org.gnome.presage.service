@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.gnome.presage
+Exec=/usr/bin/prediction_service --start
+User=root

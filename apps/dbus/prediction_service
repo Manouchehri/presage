@@ -1,0 +1,67 @@
+#!/usr/bin/python
+
+##########
+#  Presage, an extensible predictive text entry system
+#  ------------------------------------------------------
+#  Copyright (C) 2010  David Pellicer <dpellicer@warp.es>
+#  Copyright (C) 2010  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License along
+#  with this program; if not, write to the Free Software Foundation, Inc.,
+#  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+import prediction_service
+import signal
+from optparse import OptionParser
+import os
+
+def stop_service():
+    print 'stopping...'
+    pid = int(os.popen("ps -A | grep prediction_serv | awk '{print $1}'").read().split()[0])
+    if pid and pid != os.getpid():
+        os.kill(pid, signal.SIGKILL)
+        print "Process stoped"
+    else: 
+        print "The process was not running"
+
+def start_service():
+    prediction_service.main()
+
+parser = OptionParser()
+parser.add_option ("-v", "--version", action="store_true",
+                   dest="show_version", default=False,
+                                      help="Show version and exit")
+parser.add_option ("-r", "--restart", action="store_true",
+                   dest="should_restart", default=False,
+                                      help="Restart word prediction service")
+parser.add_option ("-s", "--start", action="store_true",
+                   dest="should_start", default=False,
+                                      help="Start word prediction service")
+parser.add_option ("-t", "--stop", action="store_true",
+                   dest="should_stop", default=False,
+                                      help="Stop word prediction service")
+
+options, args = parser.parse_args()
+
+    
+
+#if __name__ == '__main__':
+if options.should_stop:
+    stop_service()
+if options.should_start:
+    start_service()
+if options.should_restart:
+    stop_service()
+    start_service()
+

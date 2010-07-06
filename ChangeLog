@@ -1,3 +1,12 @@
+2010-07-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* THANKS, apps/dbus, apps/dbus/org.gnome.presage.service,
+	apps/dbus/prediction_service, apps/dbus/prediction_service.py:
+	added DBUS prediction service contributed by David Pellicer.
+
+	* resources/Makefile.am, resources/el_quijote.txt: added spanish
+	training text and spanish language model generation.
+
 2010-07-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/predictorRegistry.cpp,

@@ -5,9 +5,12 @@ The Presage project
 
 Thanks to:
 
+        Consorcio Fernando de los Rios
+	David Pellicer (DBUS prediction service)
+
 	Tiziano D'Albis (predictive filter functionality, ARPA plugin)
 
-	John Hills (gpresagemate)
+	John Hills (gpresagemate, pypresagemate)
 
 	Wala Brennan
 
