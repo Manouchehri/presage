@@ -443,6 +443,7 @@ AC_OUTPUT([
 	apps/python/pyprompter
 	apps/python/pypresagemate
 	apps/python/setup.py
+	apps/dbus/Makefile
 	doc/Doxyfile
 	doc/Makefile
 	setup.py

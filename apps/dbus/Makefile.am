@@ -3,7 +3,7 @@
 #  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
-#  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+#  Copyright (C) 2010  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,7 +21,8 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = \
-	gtk \
-	python \
-	dbus
+dist_bin_SCRIPTS = \
+	presage_dbus_service
+
+python_PYTHON = \
+	presage_dbus_service.py
