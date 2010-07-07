@@ -3,8 +3,7 @@ ___________________
 The Presage project
 ~~~~~~~~~~~~~~~~~~~
 
-Welcome to Presage, the intelligent extensible pluggable predictive
-text entry system.
+Welcome to Presage, the intelligent predictive text entry system.
 
 
 This document will guide you through the steps required to configure
@@ -145,8 +144,9 @@ always built). To start, type:
 
  * presage_demo_text
 
-   Simple textual program that reads strings from standard input and
-   prints predictions.
+   Simple textual console application designed to interactively test
+   presage predictive functionality. The program reads strings from
+   standard input and returns predictions.
 
 
  * presage_demo
@@ -154,12 +154,43 @@ always built). To start, type:
    Ncurses based demo program similar to presage_demo_text.
 
 
- * presage_prompter
+ * presage_simulator
+
+   Console application that simulates presage predictive process and
+   reports on predictive performance.
+
+
+ * presage_python_demo
+
+   Simple console application designed to interactively test presage
+   python binding.
+
+
+ * gprompter
+
+   Cross-platform predictive text editor. gprompter displays
+   predictions in a contextual pop-up box as each letter is
+   typed. Predictions can be easily selected and inserted in the
+   document. gprompter is a cross-platform GTK+ application.
+
+
+ * pyprompter
 
    Text editor with autocompletion popups displaying predictions and
-   enabling users to quickly and efficiently selecting the correct
-   prediction or requesting more predictions.
+   enabling users to quickly and efficiently select the correct
+   prediction or requesting more predictions. pyprompter is a
+   cross-platform wxPython application.
 
+
+ * pypresagemate
+
+   Universal predictive text companion. Pypresagemate works alongside
+   any AT-SPI aware application. The Assistive Technology Service
+   Provider Interface (AT-SPI) is a toolkit-neutral way of providing
+   accessibility facilities in applications. Pypresagemate works in
+   the background by tracking what keystrokes are typed and displaying
+   predictions in its window. When a prediction is selected, text is
+   sent to the active application.
 
  * gpresagemate
 
