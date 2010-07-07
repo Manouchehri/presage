@@ -2,8 +2,6 @@
 
 	* AUTHORS, README: updated docs.
 
-2010-07-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
-
 	* configure.ac, apps/Makefile.am, apps/dbus/prediction_service,
 	apps/dbus/presage_dbus_service, apps/dbus/prediction_service.py,
 	apps/dbus/Makefile.am, apps/dbus/presage_dbus_service.py: renamed

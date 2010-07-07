@@ -406,6 +406,13 @@ AM_CONDITIONAL([BUILD_ARPA_NGRAM], [test "x$build_arpa_ngram_resources" = "xyes"
 #AC_CONFIG_SUBDIRS(src/plump)
 
 
+dnl ======================
+dnl Checks for dbus python
+dnl ======================
+PKG_CHECK_EXISTS([dbus-python], [have_dbus_python=yes], [have_dbus_python=no])
+AM_CONDITIONAL([HAVE_DBUS_PYTHON], [test "x$have_dbus_python" = "xyes"])
+
+
 AC_OUTPUT([
 	Makefile
 	src/Makefile
@@ -498,6 +505,7 @@ AC_MSG_RESULT([
     wxPython prompter: .......... ${build_python_binding}
     GTK+ presage mate: .......... ${build_gtk_presage_mate}
     GTK+ prompter: .............. ${build_gtk_prompter}
+    D-BUS presage service: ...... ${have_dbus_python}
 
 
   Additional resources:

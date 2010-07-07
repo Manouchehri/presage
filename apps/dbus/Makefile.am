@@ -21,8 +21,12 @@
 
 ## Process this file with automake to produce Makefile.in
 
+if HAVE_DBUS_PYTHON
+
 dist_bin_SCRIPTS = \
 	presage_dbus_service
 
 python_PYTHON = \
 	presage_dbus_service.py
+
+endif
