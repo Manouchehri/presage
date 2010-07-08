@@ -29,4 +29,10 @@ dist_bin_SCRIPTS = \
 python_PYTHON = \
 	presage_dbus_service.py
 
+dbus_servicedir = $(datadir)/dbus-1/services
+dbus_service_DATA = org.gnome.presage.service
+
+org.gnome.presage.service:	org.gnome.presage.service.in Makefile
+	sed -e "s|{bindir}|$(bindir)|" $< > $@
+
 endif

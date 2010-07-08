@@ -1,3 +1,11 @@
+2010-07-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/dbus/org.gnome.presage.service,
+	apps/dbus/org.gnome.presage.service.in, apps/dbus/Makefile.am,
+	apps/dbus/presage_dbus_service.py: added generation of d-bus
+	service file, modified service name and object path until d-bus
+	interface API is finalized.
+
 2010-07-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* AUTHORS, README: updated docs.

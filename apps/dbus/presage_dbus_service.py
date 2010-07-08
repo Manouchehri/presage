@@ -28,8 +28,8 @@ from dbus.mainloop.glib import DBusGMainLoop
 import presage
 import os
 
-service_name = 'org.gnome.presage'
-service_path = '/org/gnome/presage'
+service_name = 'org.gnome.presage.beta'
+service_path = '/org/gnome/presage/beta'
 default_config_file = 'presage.xml'
 pid = None
 
