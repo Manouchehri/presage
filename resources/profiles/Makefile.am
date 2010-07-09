@@ -30,7 +30,7 @@ CLEANFILES =	presage.xml
 # event it had previously been built and then the package reconfigured
 # to install to a different location.
 presage.xml:	Makefile presage.xml.template generate_presage_config.sh
-	${srcdir}/generate_presage_config.sh ${srcdir}/presage.xml.template presage.xml ${localstatedir}/lib/presage ${pkgdatadir};
+	${srcdir}/generate_presage_config.sh ${srcdir}/presage.xml.template presage.xml ${pkgdatadir};
 
 # ${prefix}/etc directory
 sysconf_DATA =	presage.xml

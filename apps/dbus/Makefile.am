@@ -32,7 +32,11 @@ python_PYTHON = \
 dbus_servicedir = $(datadir)/dbus-1/services
 dbus_service_DATA = org.gnome.presage.service
 
+EXTRA_DIST = org.gnome.presage.service.in
+
 org.gnome.presage.service:	org.gnome.presage.service.in Makefile
 	sed -e "s|{bindir}|$(bindir)|" $< > $@
+
+CLEANFILES = org.gnome.presage.service
 
 endif

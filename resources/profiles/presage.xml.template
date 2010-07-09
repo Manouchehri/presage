@@ -63,7 +63,7 @@
     <Predictors>
         <SmoothedNgramPredictor>
             <LOGGER>ERROR</LOGGER>
-            <DBFILENAME>::LOCALSTATEDIR::/database_en.db</DBFILENAME>
+            <DBFILENAME>::PACKAGEDATADIR::/database_en.db</DBFILENAME>
             <!-- \delta_0, \delta_1, ..., \delta_{n-1} -->
             <DELTAS>0.01 0.1 0.89</DELTAS>
             <LEARN>false</LEARN>
@@ -84,11 +84,11 @@
 	</DictionaryPredictor>
         <AbbreviationExpansionPredictor>
             <LOGGER>ERROR</LOGGER>
-            <ABBREVIATIONS>::LOCALSTATEDIR::/abbreviations_en.txt</ABBREVIATIONS>
+            <ABBREVIATIONS>::PACKAGEDATADIR::/abbreviations_en.txt</ABBREVIATIONS>
         </AbbreviationExpansionPredictor>
         <DejavuPredictor>
             <LOGGER>ERROR</LOGGER>
-            <MEMORY>::LOCALSTATEDIR::/dejavu_memory_en.txt</MEMORY>
+            <MEMORY>::PACKAGEDATADIR::/dejavu_memory_en.txt</MEMORY>
             <TRIGGER>3</TRIGGER>
         </DejavuPredictor>
 	<ARPAPredictor>

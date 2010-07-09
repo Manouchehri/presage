@@ -22,24 +22,23 @@
 
 
 # This script takes the configuration $TEMPLATE file, the output file
-# name and the localstatedir as arguments and writes to $OUTPUT file,
+# name and the pkgdatadir as arguments and writes to $OUTPUT file,
 # replacing all tokens (in the form of ::TOKEN::) in $TEMPLATE.
 
 # exit on error
 set -e
 
-if [ $# -lt 4 ];
+if [ $# -lt 3 ];
 then
-    echo "Usage: $0 template output localstatedir pkgdatadir"
+    echo "Usage: $0 template output pkgdatadir"
     exit 1
 fi
 
 TEMPLATE=$1
 OUTPUT=$2
-LOCALSTATEDIR=$3
-PACKAGEDATADIR=$4
+PACKAGEDATADIR=$3
 
-# Determining whether LOCALSTATEDIR is in a format which will be
+# Determining whether PACKAGEDATADIR is in a format which will be
 # understood by SQLite on Cygwin, whereby SQLite will not be
 # able to open a database file when specified as an absolute path
 # rooted at / (e.g. /var/database_en.db)
@@ -50,12 +49,9 @@ PACKAGEDATADIR=$4
 #
 case `uname` in
 CYGWIN*)
-    LOCALSTATEDIR=`cygpath -m $LOCALSTATEDIR`;
     PACKAGEDATADIR=`cygpath -m $PACKAGEDATADIR`;
     ;;
 MINGW*)
-    LOCALSTATEDIR=`cd $LOCALSTATEDIR && pwd -W`;
-    LOCALSTATEDIR=`echo $LOCALSTATEDIR | sed -e 's|/|\\\\\\\\|g'`;
     PACKAGEDATADIR=`cd $PACKAGEDATADIR && pwd -W`;
     PACKAGEDATADIR=`echo $PACKAGEDATADIR | sed -e 's|/|\\\\\\\\|g'`;
     ;;
@@ -65,6 +61,5 @@ esac
 
 # Replace the token in $TEMPLATE and write result to $OUTPUT
 sed -e "
-s|::LOCALSTATEDIR::|${LOCALSTATEDIR}|
 s|::PACKAGEDATADIR::|${PACKAGEDATADIR}|
 " ${TEMPLATE} > ${OUTPUT}

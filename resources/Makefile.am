@@ -33,13 +33,11 @@ EXTRA_DIST = \
 
 dist_pkgdata_DATA = \
 	presage.png \
-	presage.xpm
+	presage.xpm \
+	abbreviations_en.txt \
+	abbreviations_it.txt 
 
 if USE_SQLITE
-
-resourcesdir =		$(localstatedir)/lib/presage
-resources_DATA =	abbreviations_en.txt \
-			abbreviations_it.txt 
 
 BUILT_SOURCES =	database_en.db \
 		database_it.db \
@@ -69,7 +67,7 @@ DISTCLEANFILES =	database_en.db \
 			database_it.db \
 			database_es.db
 
-resources_DATA +=	database_en.db \
+dist_pkgdata_DATA +=	database_en.db \
 			database_it.db \
 			database_es.db 
 
