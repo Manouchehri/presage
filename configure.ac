@@ -29,6 +29,7 @@ AM_INIT_AUTOMAKE([-Wall -Werror])
 
 AC_CONFIG_SRCDIR([src/lib/presage.cpp])
 AC_CONFIG_HEADERS([config.h:config.hin])
+AC_CONFIG_MACRO_DIR([m4])
 
 dnl Checks for programs.
 AC_PROG_INSTALL
@@ -47,10 +48,10 @@ dnl ==================
 # Temporarily disabling this
 #AC_LIB_LTDL
 #AC_LIBLTDL_CONVENIENCE
-AC_SUBST(LTDLINCL)
-AC_SUBST(LIBLTDL)
+#AC_SUBST(LTDLINCL)
+#AC_SUBST(LIBLTDL)
 AC_LIBTOOL_WIN32_DLL
-AC_LIBTOOL_DLOPEN
+#AC_LIBTOOL_DLOPEN
 AC_PROG_LIBTOOL
 
 

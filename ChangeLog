@@ -9,6 +9,9 @@
 	resources/Makefile.am: moved installation of language model data
 	files to share directory.
 
+	* configure.ac: updated m4 macro handling, removed unneeded
+	autoconf checks.
+
 2010-07-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/dbus/org.gnome.presage.service,
