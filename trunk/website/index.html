@@ -1,0 +1,239 @@
+<html><head><title>Presage, an intelligent predictive text entry platform</title></head><body>
+
+<pre>
+______________________________________________________
+Presage, an intelligent predictive text entry platform
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Presage is an intelligent, extensible and pluggable predictive text
+entry platform.
+
+
+Introduction
+------------
+
+Communication is a basic human need. Electronic text is an
+increasingly important communication medium. Textual interaction and
+electronic text generation are essential to effective communication.
+
+However, electronic text generation may be cumbersome if:
+- the device is equipped with a limited text entry system, such as
+devices lacking a standard keyboard, i.e. portable devices, PDAs and
+mobile phones
+- the user has physical or linguistic disabilities which might impair
+their speed, accuracy, or altogether prevent their access to
+electronic text creation
+
+A predictive text entry system attempts to improve ease and speed of
+textual input.
+
+Word prediction consists in computing which word tokens or word
+completions are most likely to be entered next. The system analyses
+the text already entered and combines the information thus extracted
+with other information sources to calculate a set of most probable
+tokens.
+
+The set of most probable tokens, a list of suggestions, is displayed
+to the user. If the token the user intended to enter is in the list,
+the user selects it and it is automatically entered by the system.
+
+If the list of suggestions does not contain the desired word, the user
+continues entering text until the correct suggestion is offered or
+until the user is done entering text.
+
+
+Concepts
+--------
+
+How can presage predict what text the user is going to enter next?
+
+The approach relies on information theory. Natural language is
+modelled as an information source. Natural language is a redundant
+information source.
+
+The key idea is modelling natural language as a set of redundant
+sources of information. The redundancy embedded in natural language is
+exploited by various predictive methods to extract information in
+order to generate predictions.
+
+Information sources can be classified as statistical,
+syntactic and semantic.
+
+Statistical sources
+-------------------
+If one were asked to guess what word followed the following text
+fragment: ``The quick brown fox jumps over the lazy ...''
+, one would most likely reply ``dog''.
+
+``The quick brown fox jumps over the lazy dog'' is in fact a widely
+known "pangram" (a sentence which uses every letter of the alphabet at
+least once).
+
+One would pick the word ``dog'' on the grounds that, given the history
+string ``The quick brown fox jumps over the lazy ...'', ``dog'' most
+frequently follows. ("frequentist" approach to statistical
+information)
+
+Likewise, one would pick ``over'' or ``on'' when given the fragment
+``The quick brown fox jumps ...'' on account that the words that most
+frequently follow the verb ``jump'' are either ``on'' or ``over''.
+
+Syntactic sources
+-----------------
+Continuing the previous example, one would pick the words ``over'' or
+``on'' when given the context:
+
+``The quick brown fox jumps o'' (note the final letter ``o'')
+
+A syntactically aware predictive plugin could exploit the fact that
+``to jump'' is an intransitive verb and should be followed by an
+adverb. ``on'' and ``over'' are adverbs and begin with the letter
+``o'', which makes them strong candidates for a prediction.
+
+Semantic sources
+----------------
+Supposing one had been writing about the adventures of a cunning fox
+and a loyal dog for a while, then one would suggest that ``dog'' is
+the most likely object to be jumped over by the ``fox'':
+
+``The quick brown fox jumps over the lazy d''
+
+Information about the context and (however limited) comprehension of
+it provides additional information to increase predictive accuracy.
+
+The resulting language model is powerful, flexible and extensible.
+
+
+Presage
+-------
+
+Presage is an intelligent predictive text entry platform.
+
+Presage's platform consists of a set of modules that provide
+functionality required by predictive plugins.
+
+Presage's predictive capabilities are implemented by predictive
+plugins. Predictive plugins use the services provided by the
+Presage platform to implement a given prediction technique.
+
+Presage is extensible. Its reliance on predictive plugins means
+that additional predictive capabilities can be integrated by writing
+new predictive plugins.
+
+Presage is flexible and configurable. Its flexibility and
+configurability derives from its plugin based architecture. This
+flexibility translates into ease of experimentation with new
+predictive techniques and improved users' experience.
+
+Individual users can tailor presage's predictive capabilities to
+their needs and obtain the best benefits from its predictions.
+
+Presage uses Plump, the Pluggable Lightweight Ubiquitous
+Multithreaded Platform as its underlying plugin architecture.
+http://sourceforge.net/projects/plump/
+
+Presage also provides a set of predictive plugins and predictive
+resources.
+
+Whenever predictive resources are generated from data, tools to
+generate and extract predictive resources from raw data is included in
+the platform.
+
+Presage aims to provide the best predictive text entry capabilities
+and provide a platform to ease development and addition of innovative
+predictive capabilities.
+
+
+It is hoped that this tool will help as many users as possible.
+
+
+Architecture
+------------
+
+The Presage platform aims to be modular, extensible, configurable
+and pluggable.
+
+Presage's extensibility is achieved through pervasive usage of
+plugins. Its core functionality is provided by intelligent components
+which can be effortlessly plugged into the system. This plugin design
+encourages decoupling of prediction mechanisms and foster reuse of the
+basic services offered by presage's core modules.
+
+Presage's pluggability means that presage predictive
+capabilities can be easily integrated into an existing
+system. Presage transparently reads the characters entered by the
+user and returns predictions.
+
+Presage's configurability is a direct conseguence of its plugin
+architecture and of the flexible design of its core components. The
+user can customize presage's predictive functionality by choosing
+which predictive plugins to use. The behaviour of the core modules is
+controlled by an easily editable XML file.
+
+Presage's modularity translates to the following architecture:
+* ContextTracker
+ Keeps track of user's input.
+ Responds to predictive plugin's queries regarding the context.
+
+* Tokenizer
+ Breaks a string into tokens based on configurable separators.
+ Works in reverse order, starting from end of string.
+
+* Selector
+ Determines which suggestions should be returned as a prediction.
+ Decisions are based on configurable parameters.
+
+* Predictor
+ Coordinates individual predictive plugins.
+
+* Combiner
+ Merges the suggestions returned by different predictive plugins
+ into a single prediction.
+
+* PluginManager
+
+* ProfileManager
+
+
+Current status
+--------------
+
+Platform: complete, some modules should be rewritten and optimized
+
+Plugins: statical predictive plugins are provided, syntactic and
+semantic plugins have been designed but not yet been developed.
+
+
+Future
+------
+
+Short term:
+* overhaul of presage architecture and integration of the plump framework
+* restructure configuration and plugin directories
+* generate multilanguage prediction resources
+
+Medium term:
+* add more tests to increase coverage
+* implement Combinator class
+* implement abbreviation expansion plugin
+
+Long term:
+* add more predictive plugins
+
+Longer term:
+* add gettext support
+* add UNICODE support
+
+
+
+
+
+Matteo Vescovi
+matteovescovi (at) users (dot) sourceforge (dot) net
+
+</pre>
+
+<a href="www.sourceforge.net/projects/presage">Presage project page</a>
+
+</body></html>

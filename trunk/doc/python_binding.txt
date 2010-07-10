@@ -1,0 +1,84 @@
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+______________________
+Presage Python binding
+~~~~~~~~~~~~~~~~~~~~~~
+
+A Python binding for Presage is automatically built when the build
+system determines that the following software requirements are
+satisfied:
+  - Python (include development headers)
+  - SWIG
+
+You can optionally disable building of the python binding by passing
+the --disable-python-binding flag to configure.
+
+The Python binding is a Python extension module that wraps around the
+presage library. The Python extension module is built using SWIG
+and the Python Distribution Utilities package (distutils).
+
+
+To use the Python binding for presage
+
+1) Ensure that the Python extension module is enabled by checking that
+   ./configure configuration summary reports the following:
+
+    Python binding: ............. yes
+
+
+2) Build and install as usual
+   
+   make
+   make install
+
+
+3) An additional _presage library will have been built and
+   installed into your system Python extension library directory. This
+   is the presage Python extension module.
+
+
+4) You should now be able to use Presage from Python. Read through the
+   presage_python_demo script in the bindings/python directory for an
+   example and try running it.
+
+
+
+A few points to note if you installed in a non-default location:
+
+- the Python extension module _presage.so (_presage.dll) depends
+  on libpresage.so (libpresage.dll), so ensure that it is on the
+  runtime loader path (i.e. LD_LIBRARY_PATH on Linux/Solaris, LIBPATH
+  on AIX, PATH on Windows, etc.)
+
+- the Python extension module _presage.so needs to be in a standard
+  Python extension library directory in order for Python to find it,
+  or the directory containing the extension module needs to be added
+  to the PYTHONPATH environment variable
+
+
+The presage python API is generated from the presage C++ API by SWIG.
+As such, it follows SWIG conventions for mapping Python code to C++
+code. A minimal description of the presage python module interface is
+available from the python interpreter itself by executing:
+>>> import presage
+>>> help (presage)
+
+
+########/
+
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+
+Presage is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+########\

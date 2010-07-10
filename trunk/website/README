@@ -1,0 +1,71 @@
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
+
+Project website deployment HOWTO
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The presage database username, password, and host can be obtained
+from sourceforge.net project page by any user with administrator's
+rights.
+
+
+ o download drupal, the open source content management platform.
+   drupal can be obtained from http://drupal.org.
+   At the time of writing, presage website uses drupal-6.15.
+
+
+ o install drupal by following the instructions found in file
+   INSTALL.txt in drupal's directory.
+
+
+ o install presage theme in sites/all/themes/ directory (create it if
+   it does not exist)
+
+     tar -C sites/all/themes/ -zxvf /path/to/presage_theme.tar.gz
+
+
+ o install presage files in sites/all/files/ directory (create it if
+   it does not exist)
+
+     tar -C sites/all/files/ -zxvf /path/to/presage_files.tar.gz
+
+
+ o populate drupal's database. If you followed the steps described in
+   drupal's INSTALL.txt, you will have created a database and
+   populated it with a set of tables that drupal needs.
+
+   - unzip drupal database
+
+     gunzip /path/to/presage_website_backup.sql.gz
+
+   - restore database from drupal's database backup
+
+     mysql -u user -p database < presage_website_backup.sql
+
+
+ o checkout a local copy of source repository. This is needed to
+   satisfy the website links to the documentation.
+
+   - create a presage/ directory and change to it
+
+     mkdir presage && cd presage
+
+   - check out the source repository
+
+     svn co https://presage.svn.sourceforge.net/svnroot/presage/trunk
+
+
+ o generate API documentation
+
+
+ o ensure that sites/default/settings.php is pointing to the correct
+   database instance and that it is using the appropriate database
+   user credentials (username and password)
+
+
+To generate a database backup dump:
+  mysqldump -u user -p database > presage_database_dump.sql
+  gzip presage_database_dump.sql
+
+

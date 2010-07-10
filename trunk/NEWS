@@ -1,0 +1,801 @@
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
+
+NEWS
+----
+
+
+Presage 0.8.4 released
+----------------------
+Presage 0.8.4 is now available for download.
+
+Presage 0.8.4 comes with a number of improvements and fixes to its
+build system.
+
+Presage 0.8.4 adds shared library symbol versioning. Symbols exported
+by libpresage are limited to public API symbols and versioned.
+
+Presage 0.8.4 removes its dependency on embedded convenience copy of
+XML configuration parser library, when a system installed libtinyxml
+is available.
+
+Presage 0.8.4 also provides an experimental DBUS prediction service
+and Spanish language model generation.
+
+Presage 0.8.4 also includes other bug fixes and enhancements. Please
+see the ChangeLog for more details.
+
+This is a source release only. No precompiled packages or installers
+are provided.
+
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
+
+Presage 0.8.4 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+(Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues
+while building or running presage, please report them to the author.
+
+
+Presage 0.8.3 released
+----------------------
+Presage 0.8.3 is now available for download.
+
+Presage 0.8.3 comes with a number of improvements and fixes to its
+build system. No major features were added in this release. Presage
+0.8.3 is a minor mantainance release.
+
+Presage 0.8.3 also includes other bug fixes and enhancements. Please
+see the ChangeLog for more details.
+
+This is a source release only. No precompiled packages or installers
+are provided.
+
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
+
+Presage 0.8.3 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+(Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues
+while building or running presage, please report them to the author.
+
+
+Presage 0.8.2 released
+----------------------
+Presage 0.8.2 is now available for download.
+
+Presage 0.8.2 comes with improved gprompter and pypresagemate demo
+applications. gprompter new features include autopunctuation
+implementation, support for keyboard accelerators to access menu
+items, bug fixes, and updates to the text editing
+component. pypresagemate now supports standard command line
+parameters.
+
+Presage 0.8.2 delivers a number of fixes and improvements to the core
+predictive engine, such as a fix for a defect in the learning code and
+the prediction with multimaps. The internal core predictor hierarchy
+has been refactored and the XML parsing code subsystem
+updated. Compilations issues on Solaris and various compilation
+warning have also been fixed.
+
+Presage 0.8.2 also includes other bug fixes and enhancements. Please
+see the ChangeLog for more details.
+
+This is a source release only. No precompiled packages or installers
+are provided.
+
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
+
+Presage 0.8.2 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+(Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues
+while building or running presage, please report them to the author.
+
+
+Presage 0.8.1 released
+----------------------
+Presage 0.8.1 is now available for download.
+
+Presage 0.8.1 sports significant performance improvements in its
+smoothed n-gram predictor. Runtime execution was sped up by
+approximately a factor of 5 by tuning some expensive SQL queries to
+the embedded SQLite database.
+
+Presage 0.8.1 comes with refactored configuration and profile handling
+subsystems. Configuration is read from system-level,
+installation-level, user-level XML profiles and from an optional
+user-specified profile. Changes to configuration variables made at
+runtime through the config() API can now be persisted to file by
+calling the new save_profile() API method. Presage components are also
+immediately notified of configuration changes and adjust accordingly.
+
+Presage 0.8.1 also includes other bug fixes and
+enhancements. Compilation problems on recent stricter compilers,
+compilation warnings, and minor memory leaks were fixed in this
+release. Please see the ChangeLog for more details.
+
+This is a source release only. No precompiled packages or installers
+are provided.
+
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
+
+Presage 0.8.1 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+(Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues
+while building or running presage, please report them to the author.
+
+
+Presage 0.8 released
+----------------------
+Presage 0.8 is now available for download.
+
+Presage 0.8 includes two new predictive applications, gprompter and
+pypresagemate. Gprompter is a cross-platform predictive text
+editor. Gprompter displays predictions in a contextual pop-up box as
+each letter is typed. Predictions can be easily selected and inserted
+in the document. Pypresagemate is a universal predictive text
+companion. Pypresagemate works alongside any AT-SPI aware
+application. The Assistive Technology Service Provider Interface
+(AT-SPI) is a toolkit-neutral way of providing accessibility
+facilities in applications. Pypresagemate works in the background by
+tracking what keystrokes are typed and displaying predictions in its
+window. When a prediction is selected, text is sent to the active
+application.
+
+Presage 0.8 provides a new callback-aware programming interface to
+make it easier to develop interactive presage applications. Presage
+applications no longer need to track user interaction by explicitly
+updating the context. Instead, a callback object decouples the user
+application from the chosen text buffer (which might be a simple
+string, a graphical text widget, a file stream, etc.) and frees the
+caller from having to explicitly notify of any updates to the context.
+with presage and this allows presage to retrieve contextual
+information from the application whenever needed.
+
+Presage 0.8 also includes other bug fixes and enhancements. Please see
+the ChangeLog for more details.
+
+This is a source release only. No precompiled packages or installers
+are provided.
+
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
+
+Presage 0.8 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+(Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues
+while building or running presage, please report them to the author.
+
+
+Presage 0.7.3 released
+----------------------
+Presage 0.7.3 is now available for download.
+
+Presage 0.7.3 includes the new predictive ARPA plugin. The ARPA plugin
+enables the use of statistical language modelling data in the ARPA
+N-gram format. In the ARPA format each N-gram is stored with its
+discounted log probability and its Katz backoff weight. Probabilities
+are estimated by applying Katz backoff smoothing to the maximum
+likelihood estimates based on n-gram counts data.
+
+Presage 0.7.3 also provides (in a separate tarball) an extensive
+language model generated from the British National Corpus (BNC)
+containing 20.001 unigrams, 517.537 bigrams, and 1.648.226
+trigrams. This language model was constructed by computing the
+smoothed Katz backoff trigram model using the CMU-Cambridge
+Statistical Language Modeling toolkit.
+
+Presage 0.7.3 also includes other bug fixes and enhancements. Please
+see the ChangeLog for more details.
+
+Presage 0.7.3 is a beta release. This is a source release only. No
+precompiled packages or installers are provided.
+
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
+
+Presage 0.7.3 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+XP/Cygwin, and Windows XP/MinGW/MSYS. If you encounter any issues
+while building or running presage, please report them to the author.
+
+
+Presage 0.7.2 released
+----------------------
+Presage 0.7.2 is now available for download.
+
+Presage 0.7.2 adds support for predictive plugins filters and a new
+predict method returning an ordered multimap of probability-token
+pairs. The filters feature enables lookahead prediction.
+
+Presage 0.7.2 incorporates a number of bug fixes, such as handling of
+utf-8 encoded text, initialization bug in presage demo program, build
+problems fixes in gpresagemate. Prompter comes with user interface
+improvements, such as text size controls.
+
+Presage 0.7.2 also includes other bug fixes and enhancements. Please
+see the ChangeLog for more details.
+
+Presage 0.7.2 is a beta release. This is a source release only. No
+precompiled packages or installers are provided.
+
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
+
+Presage 0.7.2 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+XP/Cygwin, and Windows XP/MinGW/MSYS. If you encounter any issues
+while building or running presage, please report it to the author.
+
+As always, there is still a lot more work to be done. Currently, the
+installed presage system is trained on a very small training
+corpus. Predictive performance can be greatly increased by using a
+larger training corpus. Users can easily generate statistical
+predictive resources using the text2ngram tool on a custom training
+text corpus.  New predictive plugins are also in the works, which will
+take advantage of the multiple predictive source architecture.  Please
+refer to our TODO list for details on what needs to be done.
+
+
+Presage 0.7.1 released
+----------------------
+Presage 0.7.1 is now available for download.
+
+Presage 0.7.1 is able to learn "on the fly" from the context and the
+text currently being entered. The smoothed n-gram predictive plugin
+dynamically learns from the current context, while generating new
+predictions. An n-gram count consistency bug triggered by the dynamic
+learning capability of the smoothed n-gram predictive plugin has been
+fixed in this release.
+
+Presage 0.7.1 incorporates a number of bug fixes: completion
+validation routine case sensitiveness, fixed various compilation
+warnings, prompter UTF8 encoding.
+
+Presage 0.7.1 also includes other bug fixes and enhancements. Please
+see the ChangeLog for more details.
+
+Presage 0.7.1 is a beta release. This is a source release only. No
+precompiled packages or installers are provided.
+
+Users wishing to try out Presage will need to follow the (easy)
+steps required to build presage on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+presage. CPPUnit is optional, but be aware that no unit tests will
+be built nor run when running `make check', unless CPPUnit is
+installed.
+
+Presage 0.7.1 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+XP/Cygwin, and Windows XP/MinGW/MSYS. If you encounter any issues
+while building or running presage, please report it to the author.
+
+As always, there is still a lot more work to be done. Currently, the
+installed presage system is trained on a very small training
+corpus. Predictive performance can be greatly increased by using a
+larger training corpus. Users can easily generate statistical
+predictive resources using the text2ngram tool on a custom training
+text corpus. New predictive plugins are also in the works, which will
+take advantage of the multiple predictive source architecture.  Please
+refer to our TODO list for details on what needs to be done.
+
+
+Presage 0.7 released
+--------------------
+Presage 0.7 is now available for download.
+
+Presage 0.7 is the first release that uses the new project name.
+Presage was formerly known as Soothsayer. The Soothsayer project was
+renamed to Presage in order to avoid clashes with a similarly named
+commercial software product.
+
+Presage 0.7 is now able to learn "on the fly" from the context and the
+text currently being entered. The smoothed n-gram predictive plugin
+dynamically learns from the current context, while generating new
+predictions. Presage 0.7 also includes a new dejavu plugin, which
+reproduces previously entered text sequences once its memory trigger
+is activated.
+
+Presage 0.7 provides better predictions by incrementally increasing
+depth of prediction generation while previous predictions did not
+match desired token.
+
+Presage 0.7 delivers an improved Python GUI demo application,
+Prompter:
+ * added prompt functionality, which allows user to request a new
+   prediction on-demand
+ * added function keys mode, which allows user to select desired
+   prediction by pressing the corresponding function key
+ * added ability to toggle autopunctuation functionality
+ * added toolbar (can be hidden/shown)
+ * added ability to toggle learning mode on or off
+ * added edit menu with cut, copy, paste, undo, redo, select all
+   operations
+ * improved editor layout
+ * added modern about dialog box
+
+Presage 0.7 incorporates several bug fixes to the context changes
+detection code, including fixing bugs triggered by empty string
+updates and bugs where multiple separators triggered spurious context
+changes.
+
+Presage 0.7 includes a new GTK application which aims to augment any
+other application with presage predictive functionality.
+
+Presage 0.7 also includes bug fixes and improvements to the build
+framework. See ChangeLog for more details.
+
+Presage 0.7 is a beta release. This is a source release only. No
+precompiled packages or installers are provided.
+
+Users wishing to try out Presage will need to follow the (easy)
+steps required to build presage on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+presage. CPPUnit is optional, but be aware that no unit tests will
+be built nor run when running `make check', unless CPPUnit is
+installed.
+
+Presage 0.7 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+XP/Cygwin, and Windows XP/MinGW/MSYS. If you encounter any issues
+while building or running presage, please report it to the author.
+
+As always, there is still a lot more work to be done. Currently, the
+installed presage system is trained on a very small training
+corpus. Predictive performance can be greatly increased by using a
+larger training corpus. Users can easily generate statistical
+predictive resources using the text2ngram tool on a custom training
+text corpus. New predictive plugins are also in the works, which will
+take advantage of the multiple predictive source architecture.  Please
+refer to our TODO list for details on what needs to be done.
+
+
+Soothsayer 0.6.3 released
+-------------------------
+Soothsayer 0.6.3 is now available for download.
+
+Soothsayer 0.6.3 comes with a number of packaging and distribution
+improvements. The build system has received minor fixes and
+configurability enhancements.
+
+Soothsayer 0.6.3 ships with improved demonstration programs. The
+existing C++ demonstration programs have been renamed from from
+capitalized style names to underscore separated style names. Python
+demonstration programs incorporate various improvements, including new
+command line switches and manual pages.
+
+Soothsayer 0.6.3 adds improved UTF-8 support. Distributed text
+resources used to generate sample statistical data are now UTF-8
+encoded.
+
+Soothsayer 0.6.3 also includes a few bug fixes and documentation
+updates. See ChangeLog for more details.
+
+Soothsayer 0.6.3 is a beta release. This is a source release only. No
+precompiled packages or installers are provided.
+
+Users wishing to try out Soothsayer will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+soothsayer. CPPUnit is optional, but be aware that no unit tests will
+be built nor run when running `make check', unless CPPUnit is
+installed.
+
+Soothsayer 0.6.3 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+XP/Cygwin, and Windows XP/MinGW/MSYS. If you encounter any issues
+while building or running soothsayer, please report it to the author.
+
+As always, there is still a lot more work to be done. Currently, the
+installed soothsayer system is trained on a very small training
+corpus. Predictive performance can be greatly increased by using a
+larger training corpus. Users can easily generate statistical
+predictive resources using the text2ngram tool on a custom training
+text corpus.  New predictive plugins are also in the works, which will
+take advantage of the multiple predictive source architecture.  Please
+refer to our TODO list for details on what needs to be done.
+
+
+Soothsayer 0.6.2 released
+-------------------------
+Soothsayer 0.6.2 is now available for download.
+
+Soothsayer 0.6.2 comes with a number of new features. Most notably, a
+new statistical predictive plugin, based on recency promotion, is
+available. The new recency plugin generates predictions by assigning
+exponentially decaying probability values to previously encountered
+word tokens, thereby promoting context recency.
+
+Soothsayer 0.6.2 also ships a brand new simple GUI demonstration
+program, prompter. Prompter is a soothsayer-enabled text
+editor. Prompter displays predictions generated by soothsayer through
+a pop-up autocompletion list. Prompter also provides an
+autopunctuation feature that saves key pressing by intelligently
+handling punctuation and whitespace. Prompter is a Python application
+(wxPython) and uses soothsayer's python binding.
+
+Soothsayer 0.6.2 adds native Windows support by supporting the
+MinGW/MSYS platform. It is now possible to build soothsayer in native
+Win32 mode. Detailed instructions to build soothsayer on MinGW/MSYS
+are included in the doc/ directory.
+
+Soothsayer 0.6.2 includes enhancements to the build system, a
+restructured soothsayer exception hierarchy, additional range checking
+in core classes, and improved logging subsystem.
+
+Soothsayer 0.6.2 also includes a number of bug fixes. See ChangeLog
+for more details.
+
+Soothsayer 0.6.2 is a beta release. This is a source release only. No
+precompiled packages or installers are provided.
+
+Users wishing to try out Soothsayer will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+soothsayer. CPPUnit is optional, but be aware that no unit tests will
+be built nor run when running `make check', unless CPPUnit is
+installed.
+
+Soothsayer 0.6.2 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+XP/Cygwin, and Windows XP/MinGW/MSYS. If you encounter any issues
+while building or running soothsayer, please report it to the author.
+
+As always, there is still a lot more work to be done. Currently, the
+installed soothsayer system is trained on a very small training
+corpus. Predictive performance can be greatly increased by using a
+larger training corpus. Users can easily generate statistical
+predictive resources using the text2ngram tool on a custom training
+text corpus.  New predictive plugins are also in the works, which will
+take advantage of the multiple predictive source architecture.  Please
+refer to our TODO list for details on what needs to be done.
+
+
+Soothsayer 0.6.1 released
+-------------------------
+Soothsayer 0.6.1 is now available for download.
+
+Soothsayer 0.6.1 includes a number of under-the-hood changes. The
+focus of this release has been on refactoring, restructuring, and
+cleaning up, rather than adding new functionality. The source
+directory layout was changed to better reflect the logical
+structure. Improvements were made to the configuration system and the
+logging subsystem, which underwent a complete overhaul and rewrite.
+
+Soothsayer 0.6.1 ships with man pages for the tools and demo
+programs. This release also includes bug fixes and improvements to the
+build system. All GCC generated compilation warnings were
+fixed. Library dependencies have been cleaned up.
+
+Soothsayer 0.6.1 is a beta release. This is a source release only. No
+precompiled packages or installers are provided.
+
+Users wishing to try out Soothsayer will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+soothsayer. CPPUnit is optional, but be aware that no unit tests will
+be built nor run when running `make check', unless CPPUnit is
+installed.
+
+Soothsayer 0.6.1 has been built and tested on various Linux platforms
+(including 64 bit architectures) and Windows XP + Cygwin platform. If
+you encounter any issues while building or running soothsayer, please
+report it to the author.
+
+As always, there is still a lot of work to be done. Currently,
+Soothsayer is trained on a very small training corpus. Predictive
+performance can be greatly increased by using a larger training
+corpus. Users can easily generate statistical predictive resources
+using the text2ngram tool on a custom training text corpus.  New
+predictive plugins will also be added to take advantage of the
+multiple predictive source architecture.  Please refer to our TODO
+list for details on what needs to be done.
+
+
+Soothsayer 0.6 released
+-----------------------
+Soothsayer 0.6 is now available for download.
+
+Soothsayer 0.6 includes a new Python binding module, which enables
+Python applications to natively call into soothsayer. Soothsayer 0.6
+has also been ported to Solaris 10 platform, and built with Sun Studio
+10 and 11 compilers.
+
+This release also includes bug fixes and improvements to the build
+system. Library dependencies have been cleaned up. Shared libraries
+are now built on all supported platforms, including Windows/Cygwin
+targets.
+
+Soothsayer 0.6 is a beta release. This is a source release only. No
+precompiled packages or installers are provided.
+
+Users wishing to try out Soothsayer will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+soothsayer. CPPUnit is optional, but be aware that no unit tests will
+be built nor run when running `make check', unless CPPUnit is
+installed.
+
+Soothsayer 0.6 has been built and tested on various Linux platforms
+(including 64 bit architectures) and Windows XP + Cygwin platform. If
+you encounter any issues while building or running soothsayer, please
+report it to the author.
+
+There is still a lot of work to be done. Currently, Soothsayer is
+training on a very small training corpus. Predictive performance can
+be greatly increased by using a larger training corpus. Users can
+easily generate statistical predictive resources using the text2ngram
+tool on a custom training text corpus.  New predictive plugins should
+also be added to take advantage of the multiple predictive source
+architecture.  Please refer to our TODO list for more details on what
+needs to be done.
+
+
+Soothsayer 0.5 released
+-----------------------
+Soothsayer 0.5 is now available for download.
+
+Soothsayer 0.5 includes the new generalized smoothed n-gram
+statistical predictive plugin, which supports arbitrary order
+n-grams. Used in combination with the text2ngram tool, statistical
+predictions can be generated by n-gram language models of arbitrary
+cardinality. The new generalized smoothed n-gram predictive plugin
+also uses an improved heuristic to generate initial completion
+candidates, by using highest order n-gram statistics, and falling back
+on lower order n-grams if initial completion set is smaller than
+required.
+
+This release also includes notable bug fixes and improvements to
+soothsayer simulator. A bug in the simulator caused the reported Key
+Stroke Reduction rate to much much lower than the actual KSR achieved
+by soothsayer.
+
+Soothsayer 0.5 marks a change in project status from alpha to
+beta. However, it is still to be considered a developer's preview
+release. This is a source release only. No precompiled packages or
+installers are provided.
+
+Users wishing to try out Soothsayer will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+soothsayer. CPPUnit is optional, but be aware that no unit tests will
+be built nor run when running `make check', unless CPPUnit is
+installed.
+
+Soothsayer 0.5 has been built and tested on various Linux platforms
+(including 64 bit architectures) and Windows XP + Cygwin platform. If
+you encounter any issues while building or running soothsayer, please
+report it to the author.
+
+There is still a lot of work to be done. Currently, Soothsayer is
+training on a very small training corpus. Predictive performance can
+be greatly increased by using a larger training corpus. Users can
+easily generate statistical predictive resources using the text2ngram
+tool on a custom training text corpus.  New predictive plugins should
+also be added to take advantage of the multiple predictive source
+architecture.  Please refer to our TODO list for more details on what
+needs to be done.
+
+
+Soothsayer 0.4 released
+-----------------------
+Soothsayer 0.4 is now available for download.
+
+Soothsayer 0.4 includes the new abbreviation expansion predictive
+plugin. This plugin allows users to specify a file containing a list
+of abbreviations/expansions pairs. When an abbreviation is entered,
+the next generated prediction will contain the associated expansion,
+which is typically a commonly used word or phrase.
+
+This release also includes bug fixes and documentation improvements.
+
+Soothsayer 0.4 is a developer's preview release. This is a source
+release only. No precompiled packages or installers are provided.
+
+Users wishing to try out Soothsayer will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+soothsayer. CPPUnit is optional, but be aware that no unit tests will
+be built nor run when running `make check', unless CPPUnit is
+installed.
+
+Soothsayer 0.4 has been built and tested on various Linux platforms
+(including 64 bit architectures) and Windows XP + Cygwin platform. If
+you encounter any issues while building or running soothsayer, please
+report it to the author.
+
+There is still a lot of work to be done. Currently, the build process
+trains Soothsayer predictive plugin with a very limited training
+corpus (a single novel).  Predictive performance can be greatly
+increased by using a larger training corpus. Users can easily generate
+predictive resources using a custom text corpus and the extraction
+tools provided.  Currently, the main predictive plugin is a smoothed
+uni-bi-tri-gram predictive plugin. The plugin should be extended to be
+able to support n-grams of any cardinality. More plugins should also
+be added to take advantage of the multiple predictive source
+architecture.  Please refer to our TODO list for more details on what
+needs to be done.
+
+
+Soothsayer 0.3 released
+-----------------------
+Soothsayer 0.3 is now available for download.
+
+Soothsayer 0.3 adds initial support for simultaneous use of multiple
+predictive plugins. Multiple predictions combination is carried out
+according to a meritocracy policy.
+
+This release also includes bug fixes, memory leak fixes, and
+improvements to the demo programs (visual context change cues).
+
+Soothsayer 0.3 adds new configuration variables to control its runtime
+predictive behaviour. Configuration handling has been
+refactored. Please consult the ChangeLog for more details.
+
+Soothsayer 0.3 is a developer's preview release. This is a source
+release only. No precompiled packages or installers are provided.
+
+Users wishing to try Soothsayer out will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+soothsayer. CPPUnit is optional, but no unit tests will be built when
+running `make check', unless CPPUnit is installed.
+
+Soothsayer 0.3 has been built and tested on various Linux platforms
+(including 64 bit architectures) and Windows XP + Cygwin platform. If
+you encounter any issues while building or running soothsayer, please
+report it to the author.
+
+There is still a lot of work to be done. Currently, the build process
+trains Soothsayer predictive plugin with a very limited training
+corpus (a single novel).  Predictive performance can be greatly
+increased by using a larger training corpus. Users can easily generate
+predictive resources using a custom text corpus and the extraction
+tools provided.  Currently, only one predictive plugin is provided, a
+smoothed n-gram predictive plugin. The plugin should be extended to be
+able to support n-grams of any cardinality. More plugins should also
+be added to take advantage of the multiple predictive source
+architecture.  Please refer to our TODO list for more details on what
+needs to be done.
+
+
+Soothsayer 0.2 released
+-----------------------
+Soothsayer 0.2 is now available for download.
+
+Soothsayer 0.2 adds support for SQLite 2.x and SQLite 3.x. The
+soothsayer build system will autodetect which SQLite version is
+available and use the most recent version.
+
+This release also includes bug fixes and improvements to the command
+line utilities and demo programs. Please consult the ChangeLog for
+more details.
+
+Soothsayer 0.2 is a developer's preview release. This is a source
+release only. No precompiled packages or installers are provided.
+
+Users wishing to try Soothsayer out will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README file. Please note that SQLite is required to build
+soothsayer. CPPUnit is optional, but no unit tests will be built when
+running `make check', unless CPPUnit is installed.
+
+Soothsayer 0.2 has been built and tested on various Linux platforms
+(including 64 bit architectures) and Windows XP + Cygwin platform. If
+you encounter any issues while building or running soothsayer, please
+report it to the author.
+
+There is still a lot of work to be done. Currently, the build process
+trains Soothsayer predictive plugin with a very limited training
+corpus (a single book).  Predictive performance can be greatly
+increased by using a larger training corpus. Users can easily generate
+predictive resources using a custom text corpus and the extraction
+tools provided.  Currently, only one predictive plugin is provided, a
+smoothed n-gram predictive plugin. The plugin should be extended to be
+able to support n-grams of any cardinality. More plugins should also
+be added to take advantage of the multiple predictive source
+architecture.  There is also more work to be done on various modules,
+including the combiner module and the configuration module.  Please
+refer to our TODO list for more details on what needs to be done.
+
+
+Soothsayer 0.1.1 released
+-------------------------
+Soothsayer 0.1.1 is now available for download.
+
+Soothsayer 0.1.1 fixes a problem that caused build failures in a
+Windows + Cygwin environment.
+
+Soothsayer 0.1.1 is a developer's preview release. This is a source
+release only. No precompiled packages or installers are provided.
+
+Users wishing to try Soothsayer out will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README. Please note that Sqlite is required to build
+soothsayer. CPPUnit is optional, but no unit tests will be built when
+running `make test', unless CPPUnit is installed.
+
+Soothsayer 0.1.1 has been built and tested on various Linux platforms
+(including 64 bit architectures) and Windows XP + Cygwin platform. If
+you encounter any issues while building or running soothsayer, please
+report it to the author.
+
+There is still a lot of work to be done. Currently, the build process
+trains Soothsayer predictive plugin with a very limited training
+corpus (a single book).  Predictive performance can be greatly
+increased by using a larger training corpus. Users can easily generate
+predictive resources using a custom text corpus and the extraction
+tools provided.  Currently, only one predictive plugin is provided, a
+smoothed n-gram predictive plugin. The plugin should be extended to be
+able to support n-grams of any cardinality. More plugins should also
+be added to take advantage of the multiple predictive source
+architecture.  There is also more work to be done on various modules,
+including the combiner module and the configuration module.  Please
+refer to our TODO file for more information on what needs to be done.
+
+
+
+Soothsayer 0.1 released
+-----------------------
+I am proud to announce the first ever release of Soothsayer.
+
+Soothsayer 0.1 is now available for download.
+
+Soothsayer 0.1 is a developer's preview release. This is a source
+release only. No precompiled packages or installers are provided.
+
+Users wishing to try Soothsayer out will need to follow the (easy)
+steps required to build soothsayer on their machine, as detailed in
+the README. Please note that Sqlite is required to build
+soothsayer. CPPUnit is optional, but no unit tests will be built when
+running `make test', unless CPPUnit is installed.
+
+Soothsayer 0.1 has been built and tested on various Linux platforms
+(including 64 bit architectures).  Building on Windows + Cygwin is
+temporarily broken.  If you encounter any issues while building or
+running soothsayer, please report it to the author.
+
+There is still a lot of work to be done. Currently, the build process
+trains Soothsayer predictive plugin with a very limited training
+corpus (a single book).  Predictive performance can be greatly
+increased by using a larger training corpus. Users can easily generate
+predictive resources using a custom text corpus and the extraction
+tools provided.  Currently, only one predictive plugin is provided, a
+smoothed n-gram predictive plugin. The plugin should be extended to be
+able to support n-grams of any cardinality. More plugins should also
+be added to take advantage of the multiple predictive source
+architecture.  There is also more work to be done on various modules,
+including the combiner module and the configuration module.  Please
+refer to our TODO file for more information on what needs to be done.
+
+
+########/
+
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+
+Soothsayer is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+########\

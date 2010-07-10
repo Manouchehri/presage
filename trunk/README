@@ -1,0 +1,221 @@
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
+
+Welcome to Presage, the intelligent predictive text entry system.
+
+
+This document will guide you through the steps required to configure
+and build the Presage system and libraries. You should be ready to run
+Presage in a few minutes.
+
+This README does not contain the answers to all the questions you
+might have. If you run into troubles, if you have problems, or if you
+would like a pressing question answered, please direct your attention
+to the doc/ directory, where you will find all the available
+documentation.
+
+
+Requirements:
+- A working development enviroment.
+  On Linux/Unix systems, this means having GCC (g++), the GNU Compiler
+  Collection packages, as well as libraries for these languages
+  (libstdc++, glibc, etc).
+
+  On Solaris systems, this means having Sun Studio 10 or Sun Studio 11
+  compilers.
+
+  On Windows systems, please either install the Cygwin development
+  environment or the MinGW/MSYS developer environment.
+
+  Cygwin can be obtained from http://www.cygwin.com
+  Instructions on how to setup Cygwin and required packages can be
+  found in the doc/INSTALL_Cygwin_dev_env.txt file.
+
+  MinGW/MSYS can be obtained from http://www.mingw.org
+  Instructions on how to setup MinGW/MSYS and required packages can be
+  found in the doc/INSTALL_MinGW_MSYS_dev_env.txt file.
+
+- SQLite package. SQLite is a small C library that implements a
+  self-contained, embeddable, zero-configuration SQL database engine.
+  SQLite can be obtained from http://www.sqlite.org
+ 
+  On Debian systems, install libsqlite3-dev and sqlite3 packages.
+
+Optional:
+- Curses library. On Debian systems, install libncurses5-dev.
+
+- CPPUnit library. On Debian systems, install libcppunit-dev.
+
+- Python package. On Debian systems, install python-dev.
+
+- SWIG package. On Debian systems, install swig.
+
+- help2man package. On Debian systems, install help2man.
+
+- doxygen package. On Debian systems, install doxygen.
+
+- dot program. On Debian systems, install graphviz.
+
+- X11 EvIE extension library. On Debian systems, install libxevie-dev.
+
+- GNOME development package. On Debian systems, install gnome-devel.
+
+- CMU-Cambridge Statistical Language Modeling toolkit.
+
+
+_______________________
+STEP 0: Getting Presage
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Official releases and development snapshots are available from the
+download section of the official website hosted by SourceForge
+
+  http://presage.sourceforge.net
+
+Alternatively, get the latest and greatest sources from SVN.
+
+
+_________________________
+STEP 1: Unpacking Presage
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On Linux/Unix, uncompress and untar the distribution with 
+
+  tar jxvf presage-*.tar.bz2
+
+or
+
+  tar zxvf presage-*.tar.gz
+
+depending on whether you downloaded the tarball or the bzipped archive.
+
+
+___________________________
+STEP 2: Configuring Presage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Configuring Presage to different platforms, environments and
+operating systems is simply a matter of running
+
+  ./configure
+
+in the top-level directory of the distribution. This will configure
+Presage for your system. Should you require additional options, try
+
+  ./configure --help
+
+to see the available options.
+
+
+_________________________
+STEP 3: Compiling Presage
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kick off the compilation with
+
+  make
+
+This will build the Presage system, libraries and available
+plugins.
+
+
+__________________________
+STEP 4: Installing Presage
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Install Presage and its support libraries and plugins by typing
+
+  make install
+
+
+__________________________________
+STEP 5: Let Presage read your mind
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Presage includes some demonstration programs that will read the user
+input and guess what the user intends to type using its predictive
+technology. These programs require additional libraries that are not
+needed by the presage library and might not be configured to build,
+depending on the build system installed libraries (except
+presage_demo_text, which has no extra dependencies and is therefore
+always built). To start, type:
+
+ * presage_demo_text
+
+   Simple textual console application designed to interactively test
+   presage predictive functionality. The program reads strings from
+   standard input and returns predictions.
+
+
+ * presage_demo
+
+   Ncurses based demo program similar to presage_demo_text.
+
+
+ * presage_simulator
+
+   Console application that simulates presage predictive process and
+   reports on predictive performance.
+
+
+ * presage_python_demo
+
+   Simple console application designed to interactively test presage
+   python binding.
+
+
+ * gprompter
+
+   Cross-platform predictive text editor. gprompter displays
+   predictions in a contextual pop-up box as each letter is
+   typed. Predictions can be easily selected and inserted in the
+   document. gprompter is a cross-platform GTK+ application.
+
+
+ * pyprompter
+
+   Text editor with autocompletion popups displaying predictions and
+   enabling users to quickly and efficiently select the correct
+   prediction or requesting more predictions. pyprompter is a
+   cross-platform wxPython application.
+
+
+ * pypresagemate
+
+   Universal predictive text companion. Pypresagemate works alongside
+   any AT-SPI aware application. The Assistive Technology Service
+   Provider Interface (AT-SPI) is a toolkit-neutral way of providing
+   accessibility facilities in applications. Pypresagemate works in
+   the background by tracking what keystrokes are typed and displaying
+   predictions in its window. When a prediction is selected, text is
+   sent to the active application.
+
+ * gpresagemate
+
+   X application that monitors all X events and display predictions in
+   its window. When users select the correct prediction, it is sent to
+   the current active X application as if it had been typed
+   in. Requires that XEvIE X extension is enabled.
+
+
+########/
+
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+
+Presage is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+########\

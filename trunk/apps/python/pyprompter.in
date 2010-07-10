@@ -1,0 +1,114 @@
+#!/usr/bin/python
+
+##########
+#  Presage, an extensible predictive text entry system
+#  ---------------------------------------------------
+#
+#  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License along
+#  with this program; if not, write to the Free Software Foundation, Inc.,
+#  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+import sys
+import getopt
+import os
+
+PROGRAM_NAME = 'pyprompter'
+config = None
+suggestions = None
+
+def print_version():
+   print """
+%s (%s) version %s
+Copyright (C) 2004 Matteo Vescovi.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE,
+to the extent permitted by law.
+""" % (PROGRAM_NAME, '@PACKAGE_NAME@', '@PACKAGE_VERSION@')
+
+def print_usage():
+   print """
+Usage: %s [options]
+
+Options:
+  -h, --help           display this help and exit
+  -v, --version        output version information and exit
+
+Prompter is a simple predictive text editor, written to demonstrate
+the use of presage, the intelligent predictive text entry system.
+
+Begin editing. While editing, prompter uses presage to generate
+predictions and displays them in a pop-up prediction list. If the
+desired text is displayed in the prediction list, select it by double
+clicking on it or by highlighting it with the arrow keys and then
+pressing ENTER; the desired text will be automatically entered.
+
+Direct your bug reports to: %s
+""" % (PROGRAM_NAME, '@PACKAGE_BUGREPORT@')
+
+def parse_cmd_line_args():
+   short_options = "c:s:hv"
+   long_options  = ["config=", "suggestions=", "help", "version"]
+   
+   try:
+      opts, args = getopt.getopt(sys.argv[1:], short_options, long_options)
+   except getopt.GetoptError, err:
+      print str(err)
+      sys.exit(1)
+   
+   for opt, arg in opts:
+      if opt in ('-v', '--version'):
+         print_version()
+         sys.exit()
+      elif opt in ('-h', '--help'):
+         print_usage()
+         sys.exit()
+      elif opt in ('-c', '--config'):
+         global config
+         config = arg
+      elif opt in ('-s', '--suggestions'):
+         global suggestions
+         suggestions = arg
+
+
+if __name__ == "__main__":
+   parse_cmd_line_args()
+
+   try:
+      import prompter.prompter
+   except ImportError, e:
+      print '''
+Error: failed to import module prompter.
+
+Check that prompter is properly installed (if installed in a
+non-standard location, please set PYTHONPATH accordingly).
+'''
+      print e
+   else:
+      if not config:
+         # try to locate presage.xml config file
+         scriptdir = os.path.dirname(sys.argv[0])
+         # in scriptdir/etc
+         conffile = os.path.join(scriptdir, 'etc', 'presage.xml')
+         if os.path.isfile(conffile):
+            config = conffile
+         else:
+            # in scriptdir/../etc
+            conffile = os.path.join(scriptdir, '..', 'etc', 'presage.xml')
+            if os.path.isfile(conffile):
+               config = conffile
+         print 'Configuration file: ' + str(config)
+
+      app = prompter.prompter.Prompter("@PACKAGE_VERSION@", config, suggestions)
+      app.MainLoop()

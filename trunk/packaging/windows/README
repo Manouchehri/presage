@@ -1,0 +1,39 @@
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
+
+Building the Windows installer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Building the Windows NSIS installer requires the following components,
+in addition to presage build requirements:
+
+- py2exe
+- NSIS
+
+*BEWARE*
+The current Windows installer is experimental. Use at your own risk.
+
+Steps:
+
+1) Build presage with MinGW/MSYS and install to a location specified
+with --prefix configure option (i.e. /c/presage )
+
+2) Copy setup.py from the trunk/windows directory into the root of the
+installation directory (i.e. /c/presage )
+
+3) Check that the PATH is properly setup by running presage_prompter
+
+4) Run: `python setup.py py2exe'. You might have to manually copy the
+redistributable MS runtime libraries into the bin directory.
+
+5) Copy the entire contents of the dist directory into the bin
+directory
+
+6) In a MinGW/MSYS shell, run the win-buildpackage script:
+sh /c/cygwin/home/matt/presage/trunk/windows/win-buildpackage.sh /c/presage 0.7.3
+
+7) You should now have a presage-*-setup.exe in the root of your
+presage installation. Congratulations.
+

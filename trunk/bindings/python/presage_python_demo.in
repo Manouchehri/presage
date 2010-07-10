@@ -1,0 +1,161 @@
+#!/usr/bin/python
+
+##########
+#  Presage, an extensible predictive text entry system
+#  ------------------------------------------------------
+#
+#  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License along
+#  with this program; if not, write to the Free Software Foundation, Inc.,
+#  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+import sys
+import getopt
+
+PROGRAM_NAME = 'presage_python_demo'
+
+config = None
+suggestions = None
+
+def disclaimer():
+	print """
+Presage python demo
+-----------------------
+
+This program is intended as a demonstration of Presage ONLY.
+
+The Presage project aims to provide an intelligent predictive text
+entry platform.
+
+Its intent is NOT to provide a predictive text entry user interface.
+
+Think of Presage as the predictive backend that sits behind a shiny
+user interface and does all the predictive heavy lifting.
+"""
+
+def print_version():
+	print """
+%s (%s) version %s
+Copyright (C) 2004 Matteo Vescovi.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE,
+to the extent permitted by law.
+""" % (PROGRAM_NAME, '@PACKAGE_NAME@', '@PACKAGE_VERSION@')
+
+def print_usage():
+	print """
+Usage: %s [OPTION]...
+
+At the prompt, type in some text. Hit enter to generate a prediction.
+Any text input is valid, including no text, a single character, or a long string.
+
+  -c, --config CONFIG  use config file CONFIG
+  -s, --suggestions N  set prediction size to N suggestions
+  -h, --help           display this help and exit
+  -v, --version        output version information and exit
+
+Direct your bug reports to: %s
+""" % (PROGRAM_NAME, '@PACKAGE_BUGREPORT@')
+
+def parse_cmd_line_args():
+	global config
+	global suggestions
+
+	short_options = "c:s:hv"
+	long_options  = ["config=", "suggestions=", "help", "version"]
+	
+	try:
+		opts, args = getopt.getopt(sys.argv[1:], short_options, long_options)
+	except getopt.GetoptError, err:
+		print str(err)
+		sys.exit(1)
+
+	for opt, arg in opts:
+		if opt in ('-v', '--version'):
+			print_version()
+			sys.exit()
+		elif opt in ('-h', '--help'):
+			print_usage()
+			sys.exit()
+		elif opt in ('-c', '--config'):
+			config = arg
+		elif opt in ('-s', '--suggestions'):
+			suggestions = arg
+
+
+def main():
+        try:
+	        import presage
+
+        except ImportError, e:
+                print '''
+Error: failed to import module presage.
+
+Check that presage python binding is properly installed (if
+installed in a non-standard location, please set PYTHONPATH
+accordingly).
+
+Check that presage library is properly installed (if installed in a
+non-standard location, please set LD_LIBRARY_PATH (PATH, LIBPATH)
+accordingly).
+'''
+		print e
+                sys.exit(1)
+
+	try:
+		# Define and create PresageCallback object
+		class DemoCallback(presage.PresageCallback):
+			def __init__(self):
+				presage.PresageCallback.__init__(self)
+				self.buffer = ''
+
+			def get_past_stream(self):
+				return self.buffer
+			
+			def get_future_stream(self):
+				return ''
+
+		# Presage owns callback, so we create it and disown it
+		callback = DemoCallback().__disown__()
+
+		# Create Presage object
+		if config:
+			prsg = presage.Presage(callback, config)
+		else:
+			prsg = presage.Presage(callback)
+		
+		if suggestions:
+			prsg.config('Presage.Selector.SUGGESTIONS', suggestions)
+
+		print "Enter text at the prompt (press enter on empty line to exit):"
+		str = None
+		while str != "":
+			str = raw_input(">  ")
+			callback.buffer += str
+			print prsg.predict()
+		
+	        # Destroy Presage object
+		del prsg
+
+	except presage.PresageException,ex:
+		print ex.what()
+		sys.exit(1)
+
+	print "Goodbye"
+
+
+if __name__ == '__main__':
+	parse_cmd_line_args()
+	disclaimer()
+	main()

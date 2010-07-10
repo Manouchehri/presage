@@ -1,0 +1,3479 @@
+2010-07-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.8.4: released.
+
+	* website/presage_database_dump.sql.gz, configure.ac, NEWS:
+	preparing for 0.8.4 release.
+
+	* website/download_presage.svg, website/presage_files.tar.gz:
+	added download presage image.
+
+2010-07-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/dbus/Makefile.am: fixed distcheck target.
+
+	* src/lib/core/defaultProfile.cpp,
+	resources/profiles/presage.xml.template,
+	resources/profiles/Makefile.am,
+	resources/profiles/generate_presage_config.sh,
+	resources/Makefile.am: moved installation of language model data
+	files to share directory.
+
+	* configure.ac: updated m4 macro handling, removed unneeded
+	autoconf checks.
+
+2010-07-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/dbus/org.gnome.presage.service,
+	apps/dbus/org.gnome.presage.service.in, apps/dbus/Makefile.am,
+	apps/dbus/presage_dbus_service.py: added generation of d-bus
+	service file, modified service name and object path until d-bus
+	interface API is finalized.
+
+2010-07-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* AUTHORS, README: updated docs.
+
+	* configure.ac, apps/Makefile.am, apps/dbus/prediction_service,
+	apps/dbus/presage_dbus_service, apps/dbus/prediction_service.py,
+	apps/dbus/Makefile.am, apps/dbus/presage_dbus_service.py: renamed
+	dbus predictive service and added it to install and dist rules.
+
+2010-07-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/tools/Makefile.am,
+	test/lib/core/context_tracker/Makefile.am,
+	test/lib/core/Makefile.am, test/lib/core/tokenizer/Makefile.am,
+	test/lib/predictors/dbconnector/Makefile.am, test/Makefile.am:
+	removed explicit link to -ldl in tests.
+
+	* src/tools/Makefile.am, src/lib/Makefile.am,
+	bindings/python/Makefile.am, apps/python/Makefile.am,
+	apps/gtk/gprompter/Makefile.am, apps/gtk/gpresagemate/Makefile.am:
+	do not generate reference to info documentation in man pages.
+
+	* THANKS, apps/dbus, apps/dbus/org.gnome.presage.service,
+	apps/dbus/prediction_service, apps/dbus/prediction_service.py:
+	added DBUS prediction service contributed by David Pellicer.
+
+	* resources/Makefile.am, resources/el_quijote.txt: added spanish
+	training text and spanish language model generation.
+
+2010-07-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/predictorRegistry.cpp,
+	src/lib/predictors/smoothedCountPredictor.cpp,
+	src/lib/predictors/smoothedCountPredictor.h,
+	src/lib/predictors/Makefile.am: removed obsolete smoothed count
+	predictor, superseded by smoothed n-gram predictor.
+
+	* resources/presage.svg, website/presage_logo.svg,
+	resources/Makefile.am: renamed SVG presage logo source and added
+	it to dist tarball.
+
+	* test/lib/core/Makefile.am: fixed issue building unit tests with
+	system libtinyxml.
+
+2010-07-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/Makefile.am, configure.ac: added conditional check for
+	version script linker support.
+
+2010-06-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/context_tracker/Makefile.am,
+	test/lib/core/Makefile.am, test/lib/predictors/Makefile.am,
+	src/tools/Makefile.am, src/lib/Makefile.am,
+	src/lib/libpresage.map, src/lib/predictors/Makefile.am: added
+	support for controlling and versioning symbols exported by
+	libpresage.
+
+2010-06-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/profileManager.h, src/lib/core/profile.h,
+	test/lib/core/context_tracker/Makefile.am,
+	test/lib/core/Makefile.am, src/lib/core/Makefile.am,
+	src/lib/Makefile.am: removed all dependencies on convenience
+	embedded tinyxml source code copy when system libtinyxml is
+	available.
+
+2010-06-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/smoothedCountPredictor.cpp: removed call to
+	exit().
+
+2010-06-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.8.3: released.
+
+	* website/presage_database_dump.sql.gz, configure.ac, NEWS:
+	preparing for 0.8.3 release.
+
+	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla
+	2.1.2 release.
+
+	* apps/gtk/gprompter/gprompter.cpp: removed debugging output.
+
+	* doc/Makefile.am: install docs.
+
+	* resources/la_coscienza_di_zeno.txt, resources/Makefile.am,
+	resources/l_innocente.txt: replaced training corpus text for
+	italian language.
+
+	* src/lib/predictors/recencyPredictor.h, doc/Doxyfile.in,
+	src/lib/core/profileManager.h, src/lib/core/pluginManager.cpp:
+	fixed doxygen warnings.
+
+2010-06-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging/debian/presage/trunk/debian/control,
+	src/lib/core/profile.h, src/lib/Makefile.am, configure.ac: added
+	ability to use system libtinyxml instead of embedded copy.
+
+	* packaging/debian/presage/trunk/debian/presage-gprompter.menu,
+	resources/Makefile.am, resources/presage.xpm: added menu entry
+	icon.
+
+2010-06-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: fixed issue with parallel build of
+	python binding component.
+
+2010-05-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/integration/Makefile.am, test/lib/core/dbconnector,
+	test/lib/core/dbconnector/databaseConnectorTest.cpp,
+	test/lib/core/dbconnector/sqliteDatabaseConnectorTest.cpp,
+	test/lib/core/dbconnector/databaseConnectorTest.h,
+	test/lib/core/dbconnector/sqliteDatabaseConnectorTest.h,
+	test/lib/core/dbconnector/Makefile.am,
+	test/lib/core/dbconnector/dbconnectorTestRunner.cpp,
+	test/lib/core/Makefile.am, test/lib/predictors/dbconnector,
+	test/lib/predictors/dbconnector/databaseConnectorTest.h,
+	test/lib/predictors/dbconnector/sqliteDatabaseConnectorTest.h,
+	test/lib/predictors/dbconnector/Makefile.am,
+	test/lib/predictors/Makefile.am, src/tools/Makefile.am,
+	src/tools/text2ngram.cpp, src/lib/core/predictorRegistry.cpp,
+	src/lib/core/dbconnector,
+	src/lib/core/dbconnector/databaseConnector.cpp,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.cpp,
+	src/lib/core/dbconnector/databaseConnector.h,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.h,
+	src/lib/core/dbconnector/Makefile.am, src/lib/core/Makefile.am,
+	src/lib/Makefile.am, src/lib/predictors/dbconnector,
+	src/lib/predictors/dbconnector/Makefile.am,
+	src/lib/predictors/smoothedNgramPredictor.h,
+	src/lib/predictors/Makefile.am, configure.ac,
+	resources/Makefile.am: added --disable-sqlite configure flag.
+
+2010-05-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: fixed distcheck target.
+
+2010-05-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.8.2: released.
+
+	* debian/changelog, website/presage_database_dump.sql.gz,
+	configure.ac, NEWS: preparing for 0.8.2 release.
+
+2010-05-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control: fixed up package dependencies.
+
+2010-05-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/presage-pyprompter.menu,
+	debian/python-presage.install, debian/presage-pyprompter.install:
+	created new pyprompter package.
+
+2010-05-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_database_dump.sql.gz: updated main page and
+	features page.
+
+2010-04-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/ARPAPredictor.cpp,
+	src/lib/predictors/ARPAPredictor.h: fixed bug in multimap code and
+	compilation problem on Solaris SPARC.
+
+	* apps/gtk/gprompter/Makefile.am, src/lib/presage.cpp: fixed
+	compilation issue on Solaris SPARC.
+
+	* debian/control: changed data package to arch all.
+
+2010-04-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: implemented autopunctuation.
+
+2010-04-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: fixed issue with
+	stringification of prediction for autocompletion list.
+
+2010-04-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/presage-gprompter.menu, debian/README.Debian: added
+	debian menu entry for gprompter.
+
+2010-04-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/profile.h, src/lib/core/defaultProfile.h: fixed
+	doxygen warnings.
+
+	* src/lib/presage.cpp: fixed bug with learning.
+
+	* setup.py.in: fixed python presage debian package build problem.
+
+2010-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/Makefile.am, apps/python/pypresagemate.in,
+	apps/python/pypresagemate.py, apps/python/presagemate,
+	apps/python/presagemate/presagemate.py,
+	apps/python/presagemate/__init__.py, configure.ac: split
+	pypresagemate into a front end that supports standard command line
+	parameters and a presagemate package that contains the GUI and
+	main application.
+
+2010-04-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/presage.install,
+	debian/presage-gprompter.install: split gprompter in its own
+	package.
+
+2010-04-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileTest.cpp, test/lib/core/profileTest.xml,
+	apps/python/prompter/prompter.py: removed remaining references to
+	plugins instead of predictors.
+
+2010-04-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/libpresage-data.dirs,
+	debian/libpresage-data.install, debian/presage-data.dirs,
+	debian/presage-data.install: renamed presage-data package to
+	libpresage-data package.
+
+2010-04-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/source, debian/source/format,
+	Makefile.am: switching debian packaging to 3.0 quilt format.
+
+2010-04-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins, test/lib/plugins/dejavuPredictorTest.h,
+	test/lib/plugins/predictorsTestMockObjects.cpp,
+	test/lib/plugins/newSmoothedNgramPredictorTest.h,
+	test/lib/plugins/recencyPredictorTest.cpp,
+	test/lib/plugins/abbreviationExpansionPredictorTest.cpp,
+	test/lib/plugins/predictorsTestMockObjects.h,
+	test/lib/plugins/predictorsTestRunner.cpp,
+	test/lib/plugins/recencyPredictorTest.h,
+	test/lib/plugins/abbreviationExpansionPredictorTest.h,
+	test/lib/plugins/smoothedNgramPredictorTest.cpp,
+	test/lib/plugins/predictorsTestFixture.cpp,
+	test/lib/plugins/smoothedNgramPredictorTest.h,
+	test/lib/plugins/Makefile.am,
+	test/lib/plugins/predictorsTestFixture.h,
+	test/lib/plugins/dejavuPredictorTest.cpp,
+	test/lib/plugins/newSmoothedNgramPredictorTest.cpp,
+	test/lib/Makefile.am, test/lib/predictors,
+	test/lib/predictors/dejavuPredictorTest.h,
+	test/lib/predictors/newSmoothedNgramPredictorTest.h,
+	test/lib/predictors/predictorsTestMockObjects.h,
+	test/lib/predictors/recencyPredictorTest.h,
+	test/lib/predictors/abbreviationExpansionPredictorTest.h,
+	test/lib/predictors/Makefile.am,
+	test/lib/predictors/smoothedNgramPredictorTest.h, src/lib/plugins,
+	src/lib/plugins/ARPAPredictor.cpp,
+	src/lib/plugins/dejavuPredictor.h, src/lib/plugins/predictor.h,
+	src/lib/plugins/ARPAPredictor.h,
+	src/lib/plugins/recencyPredictor.cpp,
+	src/lib/plugins/abbreviationExpansionPredictor.cpp,
+	src/lib/plugins/dummyPredictor.cpp,
+	src/lib/plugins/smoothedCountPredictor.cpp,
+	src/lib/plugins/recencyPredictor.h,
+	src/lib/plugins/abbreviationExpansionPredictor.h,
+	src/lib/plugins/smoothedCountPredictor.h,
+	src/lib/plugins/dummyPredictor.h,
+	src/lib/plugins/dictionaryPredictor.cpp,
+	src/lib/plugins/smoothedNgramPredictor.cpp,
+	src/lib/plugins/dictionaryPredictor.h,
+	src/lib/plugins/smoothedNgramPredictor.h,
+	src/lib/plugins/Makefile.am, src/lib/plugins/dejavuPredictor.cpp,
+	src/lib/plugins/predictor.cpp, src/lib/core/predictorActivator.h,
+	src/lib/core/predictorRegistry.cpp, src/lib/core/suggestion.h,
+	src/lib/core/prediction.h,
+	src/lib/core/dbconnector/databaseConnector.h,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.h,
+	src/lib/core/suggestion.cpp, src/lib/core/predictorRegistry.h,
+	src/lib/Makefile.am, src/lib/predictors,
+	src/lib/predictors/dejavuPredictor.h,
+	src/lib/predictors/ARPAPredictor.cpp,
+	src/lib/predictors/ARPAPredictor.h,
+	src/lib/predictors/abbreviationExpansionPredictor.cpp,
+	src/lib/predictors/smoothedCountPredictor.cpp,
+	src/lib/predictors/dummyPredictor.cpp,
+	src/lib/predictors/recencyPredictor.h,
+	src/lib/predictors/abbreviationExpansionPredictor.h,
+	src/lib/predictors/dummyPredictor.h,
+	src/lib/predictors/smoothedCountPredictor.h,
+	src/lib/predictors/dictionaryPredictor.cpp,
+	src/lib/predictors/smoothedNgramPredictor.cpp,
+	src/lib/predictors/dictionaryPredictor.h,
+	src/lib/predictors/smoothedNgramPredictor.h,
+	src/lib/predictors/Makefile.am,
+	src/lib/predictors/dejavuPredictor.cpp, configure.ac: renamed
+	plugins directory to predictors.
+
+2010-04-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/integration/integration.sh,
+	test/lib/plugins/dictionaryPluginDriver.cpp,
+	test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/predictorsTestMockObjects.cpp,
+	test/lib/plugins/dejavuPluginTest.h,
+	test/lib/plugins/recencyPredictorTest.cpp,
+	test/lib/plugins/pluginsTestMockObjects.cpp,
+	test/lib/plugins/abbreviationExpansionPredictorTest.cpp,
+	test/lib/plugins/predictorsTestRunner.cpp,
+	test/lib/plugins/recencyPluginTest.h,
+	test/lib/plugins/abbreviationExpansionPluginTest.h,
+	test/lib/plugins/predictorsTestFixture.cpp,
+	test/lib/plugins/pluginsTestFixture.cpp,
+	test/lib/plugins/smoothedNgramPredictorTest.h,
+	test/lib/plugins/smoothedNgramPluginTest.h,
+	test/lib/plugins/dejavuPluginTest.cpp,
+	test/lib/plugins/dejavuPredictorTest.h,
+	test/lib/plugins/newSmoothedNgramPredictorTest.h,
+	test/lib/plugins/newSmoothedNgramPluginTest.h,
+	test/lib/plugins/predictorsTestMockObjects.h,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/smoothedCountDriver.cpp,
+	test/lib/plugins/abbreviationExpansionPluginTest.cpp,
+	test/lib/plugins/recencyPredictorTest.h,
+	test/lib/plugins/pluginsTestMockObjects.h,
+	test/lib/plugins/pluginsTestRunner.cpp,
+	test/lib/plugins/abbreviationExpansionPredictorTest.h,
+	test/lib/plugins/smoothedNgramPredictorTest.cpp,
+	test/lib/plugins/dummyPluginDriver.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.cpp,
+	test/lib/plugins/Makefile.am,
+	test/lib/plugins/predictorsTestFixture.h,
+	test/lib/plugins/dejavuPredictorTest.cpp,
+	test/lib/plugins/pluginsTestFixture.h,
+	test/lib/plugins/newSmoothedNgramPredictorTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.h,
+	test/lib/core/predictorRegistryTest.cpp,
+	test/lib/core/selectorTest.h,
+	test/lib/core/pluginRegistryTest.cpp,
+	test/lib/core/profileManagerTest.cpp,
+	test/lib/core/selectorTest.cpp, test/lib/core/Makefile.am,
+	test/lib/core/predictorRegistryTest.h,
+	test/lib/core/pluginRegistryTest.h, src/lib/plugins/plugin.cpp,
+	src/lib/plugins/dejavuPlugin.h, src/lib/plugins/ARPAPredictor.h,
+	src/lib/plugins/recencyPredictor.cpp,
+	src/lib/plugins/abbreviationExpansionPredictor.cpp,
+	src/lib/plugins/dummyPredictor.cpp, src/lib/plugins/ARPAPlugin.h,
+	src/lib/plugins/dummyPlugin.cpp, src/lib/plugins/recencyPlugin.h,
+	src/lib/plugins/smoothedCountPredictor.h,
+	src/lib/plugins/abbreviationExpansionPlugin.h,
+	src/lib/plugins/smoothedCountPlugin.h,
+	src/lib/plugins/dictionaryPredictor.cpp,
+	src/lib/plugins/dictionaryPlugin.cpp,
+	src/lib/plugins/smoothedNgramPredictor.h,
+	src/lib/plugins/smoothedNgramPlugin.h,
+	src/lib/plugins/dejavuPlugin.cpp,
+	src/lib/plugins/dejavuPredictor.h,
+	src/lib/plugins/ARPAPredictor.cpp, src/lib/plugins/predictor.h,
+	src/lib/plugins/ARPAPlugin.cpp, src/lib/plugins/plugin.h,
+	src/lib/plugins/smoothedCountPredictor.cpp,
+	src/lib/plugins/recencyPlugin.cpp,
+	src/lib/plugins/abbreviationExpansionPlugin.cpp,
+	src/lib/plugins/recencyPredictor.h,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/abbreviationExpansionPredictor.h,
+	src/lib/plugins/dummyPredictor.h, src/lib/plugins/dummyPlugin.h,
+	src/lib/plugins/smoothedNgramPredictor.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/plugins/dictionaryPredictor.h,
+	src/lib/plugins/Makefile.am, src/lib/plugins/dictionaryPlugin.h,
+	src/lib/plugins/dejavuPredictor.cpp,
+	src/lib/plugins/predictor.cpp, src/lib/presage.cpp,
+	src/lib/core/defaultProfile.cpp,
+	src/lib/core/predictorActivator.h,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	src/lib/core/predictorRegistry.cpp,
+	src/lib/core/pluginRegistry.cpp,
+	src/lib/core/predictorActivator.cpp,
+	src/lib/core/defaultProfile.h, src/lib/core/Makefile.am,
+	src/lib/core/predictorRegistry.h, src/lib/core/pluginRegistry.h,
+	src/lib/Makefile.am, src/lib/presage.h,
+	resources/profiles/presage.xml.template: refactored plugins
+	hierarchy, renamed base Plugin class to Predictor.
+
+2010-04-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/Makefile.am, src/lib/plugins/plugin.cpp,
+	src/lib/plugins/ARPAPlugin.cpp, src/lib/plugins/plugin.h,
+	src/lib/plugins/ARPAPlugin.h, src/lib/plugins/recencyPlugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/dictionaryPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.h,
+	src/lib/plugins/dejavuPlugin.cpp, src/lib/core/utility.cpp,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/profileManager.cpp,
+	src/lib/core/predictorActivator.cpp, src/lib/core/utility.h,
+	src/lib/core/selector.cpp: moved utility functions into Utility
+	class.
+
+2010-04-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla
+	2.1.1 release.
+
+2010-04-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/copyright: added dependency on GTK+ devel
+	and updated copyright file, other packaging fixes.
+
+2010-04-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: migrated to GtkUIManager to
+	build gprompter menus.
+
+2010-04-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/tinyxml/*: updated to latest tinyxml 2.6.1 release.
+
+2010-03-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.8.1: released.
+
+	* debian/changelog, website/presage_database_dump.sql.gz,
+	configure.ac, NEWS: preparing for 0.8.1 release.
+
+2010-03-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configuration_observer: merged configuration_observer branch to
+	trunk.
+
+	* src/lib/presage.cpp, src/lib/Makefile.am, src/lib/presage.h:
+	added new API method to persist presage configuration to file.
+
+2010-03-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/defaultProfile.cpp: enhanced default profile to
+	contain all available configuration variables.
+
+	* src/lib/core/profileManager.cpp: fixed memory leak, load default
+	profile before any other configuration profile.
+
+	* test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.h,
+	test/lib/core/selectorTest.cpp, test/lib/core/selectorTest.h,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	src/lib/core/pluginRegistry.cpp, src/lib/core/pluginRegistry.h:
+	fixed bug in unit tests when no local installation is present.
+
+2010-03-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileManagerTest.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/core/profileManager.h, src/lib/core/profile.h,
+	src/lib/core/defaultProfile.cpp, src/lib/core/configuration.cpp,
+	src/lib/core/profileManager.cpp, src/lib/core/profile.cpp,
+	src/lib/core/defaultProfile.h, src/lib/core/configuration.h,
+	resources/profiles/presage.xml.template: implemented method to
+	write configuration to xml profile, added variable to persist
+	current configuration.
+
+2010-03-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/profileManager.h, src/lib/core/profile.h,
+	src/lib/core/profileManager.cpp, src/lib/core/profile.cpp,
+	src/lib/core/Makefile.am, src/lib/core/defaultProfile.cpp,
+	src/lib/core/defaultProfile.h: encapsulated default profile into
+	DefaultProfile class, reworked ProfileManager handling of loading
+	configuration data from profile xml files, fixed distcheck.
+
+2010-03-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/configurationTest.cpp,
+	test/lib/core/variableTest.cpp, src/lib/plugins/ARPAPlugin.cpp,
+	src/lib/plugins/recencyPlugin.cpp,
+	src/lib/plugins/abbreviationExpansionPlugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp, src/lib/presage.cpp,
+	src/lib/core/profile.h, src/lib/core/configuration.cpp,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/variable.cpp, src/lib/core/pluginRegistry.cpp,
+	src/lib/core/profileManager.cpp, src/lib/core/profile.cpp,
+	src/lib/core/predictorActivator.cpp, src/lib/core/selector.cpp,
+	src/lib/core/variable.h, src/lib/core/dispatcher.h: fixed bug in
+	configuration handling and restored profile manager cached logging
+	functionality.
+
+2010-03-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileManagerTest.h,
+	test/lib/core/profileTest.cpp, test/lib/core/profileTest.h,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.h,
+	test/lib/core/selectorTest.cpp,
+	test/lib/core/profileManagerTest.cpp, src/lib/presage.cpp,
+	src/lib/core/profileManager.h, src/lib/core/profile.h,
+	src/lib/core/configuration.cpp, src/lib/core/profileManager.cpp,
+	src/lib/core/profile.cpp, src/lib/presage.h: modified profile
+	manager and related classes so that presage configuration is
+	read from the following XML files: /etc/presage.xml,
+	<sysconfdir>/presage.xml, ~/.presage.xml and optionally supplied
+	xml file.
+
+2010-03-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla
+	2.0.3 release.
+
+2010-03-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/Makefile.am: fixed incorrect removal of
+	pypresagemate.py bug
+
+	* apps/gtk/gprompter/gprompter.cpp,
+	apps/gtk/gpresagemate/gpresagemate.cpp: removed compilation
+	warnings.
+
+2010-03-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/pluginsTestMockObjects.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.cpp,
+	src/lib/plugins/plugin.*, src/lib/plugins/ARPAPlugin.*,
+	src/lib/plugins/dejavuPlugin.*, src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/abbreviationExpansionPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/dictionaryPlugin.*,
+	src/lib/plugins/smoothedNgramPlugin.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/context_tracker/contextChangeDetector.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/context_tracker/Makefile.am, src/lib/core/selector.*,
+	src/lib/core/suggestion.h, src/lib/core/configuration.h,
+	src/lib/core/pluginRegistry.h, src/lib/presage.h,
+	src/lib/core/predictorActivator.*,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/profileManager.*: implemented dispatcher logic for
+	components.
+
+	* src/tools/presageDemoText.cpp, src/tools/presageDemo.cpp,
+	apps/gtk/gpresagemate/gpresagemate.cpp: minor fixes for
+	compilation warnings.
+
+2010-03-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/dejavuPlugin.*, src/lib/plugins/recencyPlugin.*,
+	src/lib/core/dispatcher.*, src/lib/core/Makefile.am: created
+	dispatcher class to handle dispatching of notifications from
+	observable to member functions and attachment/detachment from
+	notifications.
+
+2010-03-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/abbreviationExpansionPluginTest.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.cpp,
+	test/lib/plugins/Makefile.am,
+	test/lib/plugins/dejavuPluginTest.cpp,
+	test/lib/core/profileTest.cpp, src/lib/plugins/recencyPlugin.*,
+	src/lib/core/configuration.cpp, src/lib/core/selector.*: fixed
+	test compilation problems and implemented some notification update
+	handling code.
+
+2010-03-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/profileTest.cpp,
+	test/lib/core/configurationTest.cpp,
+	test/lib/core/selectorTest.cpp,
+	test/lib/core/pluginRegistryTest.cpp,
+	test/lib/core/profileManagerTest.cpp,
+	src/lib/core/profileManager.h, src/lib/core/variable.cpp,
+	src/lib/core/selector.*, src/lib/core/observable.cpp: fixed tests
+	and started implemented update method of observable classes.
+
+	* src/lib/plugins/ARPAPlugin.*, src/lib/plugins/dejavuPlugin.*,
+	src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/abbreviationExpansionPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/smoothedNgramPlugin.*,
+	src/lib/plugins/dictionaryPlugin.*, src/lib/presage.cpp,
+	src/lib/core/profileManager.*, src/lib/core/predictorActivator.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/selector.*, src/lib/core/pluginRegistry.*,
+	src/lib/core/observer.h: more changes for configuration variable
+	notifications.
+
+2010-03-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/configuration.*, src/lib/core/variable.*,
+	src/lib/core/selector.*, src/lib/core/profile.*: more changes for
+	configuration variable changes notifications.
+
+2010-03-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/configuration.*, src/lib/core/predictorActivator.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/selector.*, test/lib/core/profileTest.cpp,
+	src/lib/core/profile.*, src/lib/core/variable.*,
+	src/lib/core/observable.*, src/lib/core/observer.*,
+	src/lib/core/profile.cpp, src/lib/core/Makefile.am: initial
+	changes to implement observer pattern for configuration variable
+	changes notifications.
+
+2010-03-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/smoothedNgramPlugin.cpp: performance improvement
+	in smoothed n-gram predictor, moved expensive sqlite query outside
+	loop to speed up runtime execution by a factor greater than 5.
+
+	* src/lib/core/dbconnector/sqliteDatabaseConnector.cpp: fixed
+	logic error in sqlite query callback function.
+
+2010-03-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/smoothedNgramPlugin.cpp: fixed leak and logic
+	bug reported by Joaquim Rocha.
+
+2010-02-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: fixed minor bug that triggered
+	a compilation problem.
+
+2010-02-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.8: released.
+
+	* debian/changelog, website/presage_database_dump.sql.gz,
+	website/presage_files.tar.gz, configure.ac, NEWS: preparing for
+	upcoming release.
+
+2010-02-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_logo.svg: slight modification to presage logo.
+
+2010-02-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_database_dump.sql.gz,
+	website/presage_files.tar.gz, website/README: created website
+	applications page with screenshots.
+
+2010-02-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/Makefile.am: build scintilla GTK widget with
+	G_THREADS_IMPL_NONE define to work around bug on Windows XP.
+
+	* apps/python/pyprompter.in, apps/python/prompter/prompter.py:
+	fixed apps names, removed about dialog pop-up on start-up.
+
+	* apps/python/pypresagemate.py: committed patch submitted by John
+	Hills to add suggestions number config.
+
+2010-02-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*, apps/gtk/gprompter/Makefile.am:
+	updated to latest scintilla 2.0.2 release.
+
+2010-01-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* setup.py.in, apps/python/presage_prompter.in,
+	apps/python/pyprompter.in, apps/python/Makefile.am,
+	apps/python/setup.py.in, configure.ac: renamed presage_prompter to
+	pyprompter.
+
+2010-01-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: added -h and -v command line
+	options.
+
+	* apps/gtk/gprompter/Makefile.am: generate man page with help2man.
+
+2010-01-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp, resources/Makefile.am,
+	resources/presage.png: added logo image to about dialog in
+	gprompter application.
+
+2010-01-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pypresagemate.py: committed patch submitted by John
+	Hills to add a right click menu with 'About', 'Preferences' and
+	'Close' entries. The preferences entry doesn't do anything
+	functional yet though.
+
+2010-01-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/dictionaryPluginDriver.cpp,
+	test/lib/plugins/dejavuPluginTest.h,
+	test/lib/plugins/pluginsTestMockObjects.cpp,
+	test/lib/plugins/newSmoothedNgramPluginTest.h,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/smoothedCountDriver.cpp,
+	test/lib/plugins/recencyPluginTest.h,
+	test/lib/plugins/dummyPluginDriver.cpp,
+	test/lib/plugins/pluginsTestFixture.cpp,
+	test/lib/plugins/dejavuPluginTest.cpp,
+	test/lib/core/profileManagerTest.h,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/context_tracker/contextChangeDetectorTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.h,
+	test/lib/core/context_tracker/Makefile.am,
+	test/lib/core/context_tracker/contextChangeDetectorTest.h,
+	test/lib/core/selectorTest.cpp, test/lib/core/selectorTest.h,
+	test/lib/core/Makefile.am,
+	test/lib/core/tokenizer/testStringSuite.cpp,
+	test/lib/core/tokenizer/forwardTokenizerTest.h,
+	test/lib/core/tokenizer/testStringSuite.h,
+	test/lib/core/tokenizer/crossCheckTokenizerTest.h,
+	test/lib/core/tokenizer/Makefile.am,
+	test/lib/core/tokenizer/reverseTokenizerTest.h,
+	test/lib/core/tokenizer/stringForwardTokenizerTest.h,
+	test/lib/core/profileManagerTest.cpp, test/lib/common,
+	test/lib/common/testStringSuite.cpp,
+	test/lib/common/testStringSuite.h,
+	test/lib/common/stringstreamPresageCallback.cpp,
+	test/lib/common/Makefile.am,
+	test/lib/common/stringstreamPresageCallback.h,
+	test/lib/Makefile.am, debian/changelog, debian/presage.install,
+	AUTHORS, src/tools/presageDemoText.cpp,
+	src/tools/presageSimulator.cpp, src/tools/presageDemo.cpp,
+	src/lib/simulator/simulator.cpp, src/lib/simulator/simulator.h,
+	src/lib/plugins/dejavuPlugin.h, src/lib/plugins/ARPAPlugin.cpp,
+	src/lib/plugins/plugin.h, src/lib/plugins/recencyPlugin.cpp,
+	src/lib/plugins/ARPAPlugin.h,
+	src/lib/plugins/abbreviationExpansionPlugin.cpp,
+	src/lib/plugins/dummyPlugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/recencyPlugin.h,
+	src/lib/plugins/abbreviationExpansionPlugin.h,
+	src/lib/plugins/dummyPlugin.h,
+	src/lib/plugins/smoothedCountPlugin.h,
+	src/lib/plugins/dictionaryPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/plugins/dictionaryPlugin.h,
+	src/lib/plugins/smoothedNgramPlugin.h,
+	src/lib/plugins/dejavuPlugin.cpp, src/lib/presage.cpp,
+	src/lib/core/profileManager.h,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/context_tracker/contextChangeDetector.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	src/lib/core/context_tracker/Makefile.am,
+	src/lib/core/context_tracker/contextChangeDetector.h,
+	src/lib/core/tokenizer/tokenizer.h,
+	src/lib/core/profileManager.cpp, src/lib/core/selector.cpp,
+	src/lib/Makefile.am, src/lib/presageCallback.h,
+	src/lib/presageException.h, src/lib/presage.h, ChangeLog,
+	bindings/python/presage_python_demo.in,
+	bindings/python/presage_prompter.in, bindings/python/prompter,
+	bindings/python/prompter/prompter.py,
+	bindings/python/prompter/__init__.py, bindings/python/Makefile.am,
+	bindings/python/setup.py.in, bindings/presage.i, configure.ac,
+	apps/python/presage_prompter.in, apps/python/prompter,
+	apps/python/prompter/prompter.py,
+	apps/python/prompter/__init__.py, apps/python/Makefile.am,
+	apps/python/setup.py.in, apps/python/pypresagemate.py,
+	apps/gtk/gprompter, apps/gtk/gprompter/gprompter.cpp,
+	apps/gtk/gprompter/scintilla,
+	apps/gtk/gprompter/scintilla/zipsrc.bat,
+	apps/gtk/gprompter/scintilla/test,
+	apps/gtk/gprompter/scintilla/test/xite.py,
+	apps/gtk/gprompter/scintilla/test/lexTests.py,
+	apps/gtk/gprompter/scintilla/test/simpleTests.py,
+	apps/gtk/gprompter/scintilla/test/XiteMenu.py,
+	apps/gtk/gprompter/scintilla/test/MessageNumbers.py,
+	apps/gtk/gprompter/scintilla/test/CVS,
+	apps/gtk/gprompter/scintilla/test/CVS/Repository,
+	apps/gtk/gprompter/scintilla/test/CVS/Root,
+	apps/gtk/gprompter/scintilla/test/CVS/Entries,
+	apps/gtk/gprompter/scintilla/test/performanceTests.py,
+	apps/gtk/gprompter/scintilla/test/README,
+	apps/gtk/gprompter/scintilla/test/XiteWin.py,
+	apps/gtk/gprompter/scintilla/test/examples,
+	apps/gtk/gprompter/scintilla/test/examples/x.vb.styled,
+	apps/gtk/gprompter/scintilla/test/examples/x.asp,
+	apps/gtk/gprompter/scintilla/test/examples/x.d,
+	apps/gtk/gprompter/scintilla/test/examples/CVS,
+	apps/gtk/gprompter/scintilla/test/examples/CVS/Repository,
+	apps/gtk/gprompter/scintilla/test/examples/CVS/Root,
+	apps/gtk/gprompter/scintilla/test/examples/CVS/Entries,
+	apps/gtk/gprompter/scintilla/test/examples/x.asp.styled,
+	apps/gtk/gprompter/scintilla/test/examples/x.d.styled,
+	apps/gtk/gprompter/scintilla/test/examples/x.php,
+	apps/gtk/gprompter/scintilla/test/examples/x.py,
+	apps/gtk/gprompter/scintilla/test/examples/x.php.styled,
+	apps/gtk/gprompter/scintilla/test/examples/x.py.styled,
+	apps/gtk/gprompter/scintilla/test/examples/x.cxx,
+	apps/gtk/gprompter/scintilla/test/examples/x.html,
+	apps/gtk/gprompter/scintilla/test/examples/x.cxx.styled,
+	apps/gtk/gprompter/scintilla/test/examples/x.html.styled,
+	apps/gtk/gprompter/scintilla/test/examples/x.vb,
+	apps/gtk/gprompter/scintilla/include,
+	apps/gtk/gprompter/scintilla/include/HFacer.py,
+	apps/gtk/gprompter/scintilla/include/WindowAccessor.h,
+	apps/gtk/gprompter/scintilla/include/PropSet.h,
+	apps/gtk/gprompter/scintilla/include/SciLexer.h,
+	apps/gtk/gprompter/scintilla/include/Face.py,
+	apps/gtk/gprompter/scintilla/include/Accessor.h,
+	apps/gtk/gprompter/scintilla/include/Scintilla.h,
+	apps/gtk/gprompter/scintilla/include/Scintilla.iface,
+	apps/gtk/gprompter/scintilla/include/Platform.h,
+	apps/gtk/gprompter/scintilla/include/CVS,
+	apps/gtk/gprompter/scintilla/include/CVS/Repository,
+	apps/gtk/gprompter/scintilla/include/CVS/Root,
+	apps/gtk/gprompter/scintilla/include/CVS/Entries,
+	apps/gtk/gprompter/scintilla/include/ScintillaWidget.h,
+	apps/gtk/gprompter/scintilla/include/.cvsignore,
+	apps/gtk/gprompter/scintilla/include/KeyWords.h,
+	apps/gtk/gprompter/scintilla/cocoa,
+	apps/gtk/gprompter/scintilla/cocoa/QuartzTextLayout.h,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaCallTip.h,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/main.m,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/Info.plist,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/Scintilla-Info.plist,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/TestData.sql,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/ScintillaTest_Prefix.pch,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/AppController.h,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/CVS,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/CVS/Repository,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/CVS/Root,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/CVS/Entries,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/AppController.mm,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/English.lproj,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/English.lproj/InfoPlist.strings,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/English.lproj/MainMenu.xib,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/English.lproj/CVS,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/English.lproj/CVS/Repository,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/English.lproj/CVS/Root,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/English.lproj/CVS/Entries,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/ScintillaTest.xcodeproj,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/ScintillaTest.xcodeproj/project.pbxproj,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/ScintillaTest.xcodeproj/CVS,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/ScintillaTest.xcodeproj/CVS/Repository,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/ScintillaTest.xcodeproj/CVS/Root,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaTest/ScintillaTest.xcodeproj/CVS/Entries,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaView.mm,
+	apps/gtk/gprompter/scintilla/cocoa/QuartzTextStyleAttribute.h,
+	apps/gtk/gprompter/scintilla/cocoa/InfoBarCommunicator.h,
+	apps/gtk/gprompter/scintilla/cocoa/InfoBar.mm,
+	apps/gtk/gprompter/scintilla/cocoa/res,
+	apps/gtk/gprompter/scintilla/cocoa/res/mac_cursor_busy.png,
+	apps/gtk/gprompter/scintilla/cocoa/res/mac_cursor_flipped.png,
+	apps/gtk/gprompter/scintilla/cocoa/res/info_bar_bg.png,
+	apps/gtk/gprompter/scintilla/cocoa/res/CVS,
+	apps/gtk/gprompter/scintilla/cocoa/res/CVS/Repository,
+	apps/gtk/gprompter/scintilla/cocoa/res/CVS/Root,
+	apps/gtk/gprompter/scintilla/cocoa/res/CVS/Entries,
+	apps/gtk/gprompter/scintilla/cocoa/CVS,
+	apps/gtk/gprompter/scintilla/cocoa/CVS/Repository,
+	apps/gtk/gprompter/scintilla/cocoa/CVS/Root,
+	apps/gtk/gprompter/scintilla/cocoa/CVS/Entries,
+	apps/gtk/gprompter/scintilla/cocoa/PlatCocoa.h,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaCocoa.mm,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaListBox.mm,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/Info.plist,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/Scintilla_Prefix.pch,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/CVS,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/CVS/Repository,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/CVS/Root,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/CVS/Entries,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/ScintillaFramework.xcodeproj,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/ScintillaFramework.xcodeproj/project.pbxproj,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/ScintillaFramework.xcodeproj/CVS,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/ScintillaFramework.xcodeproj/CVS/Repository,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/ScintillaFramework.xcodeproj/CVS/Root,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/ScintillaFramework.xcodeproj/CVS/Entries,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/English.lproj,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/English.lproj/InfoPlist.strings,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/English.lproj/CVS,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/English.lproj/CVS/Repository,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/English.lproj/CVS/Root,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaFramework/English.lproj/CVS/Entries,
+	apps/gtk/gprompter/scintilla/cocoa/QuartzTextStyle.h,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaView.h,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaCallTip.mm,
+	apps/gtk/gprompter/scintilla/cocoa/InfoBar.h,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaListBox.h,
+	apps/gtk/gprompter/scintilla/cocoa/ScintillaCocoa.h,
+	apps/gtk/gprompter/scintilla/cocoa/PlatCocoa.mm,
+	apps/gtk/gprompter/scintilla/delcvs.bat,
+	apps/gtk/gprompter/scintilla/gtk,
+	apps/gtk/gprompter/scintilla/gtk/scintilla-marshal.list,
+	apps/gtk/gprompter/scintilla/gtk/deps.mak,
+	apps/gtk/gprompter/scintilla/gtk/PlatGTK.cxx,
+	apps/gtk/gprompter/scintilla/gtk/scintilla-marshal.c,
+	apps/gtk/gprompter/scintilla/gtk/ScintillaGTK.cxx,
+	apps/gtk/gprompter/scintilla/gtk/scintilla.mak,
+	apps/gtk/gprompter/scintilla/gtk/CVS,
+	apps/gtk/gprompter/scintilla/gtk/CVS/Repository,
+	apps/gtk/gprompter/scintilla/gtk/CVS/Root,
+	apps/gtk/gprompter/scintilla/gtk/CVS/Entries,
+	apps/gtk/gprompter/scintilla/gtk/Converter.h,
+	apps/gtk/gprompter/scintilla/gtk/makefile,
+	apps/gtk/gprompter/scintilla/gtk/scintilla-marshal.h,
+	apps/gtk/gprompter/scintilla/src,
+	apps/gtk/gprompter/scintilla/src/LineMarker.h,
+	apps/gtk/gprompter/scintilla/src/LexLisp.cxx,
+	apps/gtk/gprompter/scintilla/src/LexErlang.cxx,
+	apps/gtk/gprompter/scintilla/src/LexAVE.cxx,
+	apps/gtk/gprompter/scintilla/src/AutoComplete.h,
+	apps/gtk/gprompter/scintilla/src/LexTADS3.cxx,
+	apps/gtk/gprompter/scintilla/src/LexSorcus.cxx,
+	apps/gtk/gprompter/scintilla/src/RESearch.cxx,
+	apps/gtk/gprompter/scintilla/src/Partitioning.h,
+	apps/gtk/gprompter/scintilla/src/RunStyles.h,
+	apps/gtk/gprompter/scintilla/src/LexPLM.cxx,
+	apps/gtk/gprompter/scintilla/src/Selection.h,
+	apps/gtk/gprompter/scintilla/src/SVector.h,
+	apps/gtk/gprompter/scintilla/src/Decoration.h,
+	apps/gtk/gprompter/scintilla/src/ContractionState.cxx,
+	apps/gtk/gprompter/scintilla/src/LexBash.cxx,
+	apps/gtk/gprompter/scintilla/src/LexPowerPro.cxx,
+	apps/gtk/gprompter/scintilla/src/CallTip.cxx,
+	apps/gtk/gprompter/scintilla/src/PositionCache.cxx,
+	apps/gtk/gprompter/scintilla/src/LexRuby.cxx,
+	apps/gtk/gprompter/scintilla/src/LexPS.cxx,
+	apps/gtk/gprompter/scintilla/src/LexD.cxx,
+	apps/gtk/gprompter/scintilla/src/LexSpecman.cxx,
+	apps/gtk/gprompter/scintilla/src/CharClassify.h,
+	apps/gtk/gprompter/scintilla/src/DocumentAccessor.cxx,
+	apps/gtk/gprompter/scintilla/src/LexKix.cxx,
+	apps/gtk/gprompter/scintilla/src/LexASY.cxx,
+	apps/gtk/gprompter/scintilla/src/LexVHDL.cxx,
+	apps/gtk/gprompter/scintilla/src/LexGui4Cli.cxx,
+	apps/gtk/gprompter/scintilla/src/LexR.cxx,
+	apps/gtk/gprompter/scintilla/src/LexYAML.cxx,
+	apps/gtk/gprompter/scintilla/src/Indicator.cxx,
+	apps/gtk/gprompter/scintilla/src/Document.cxx,
+	apps/gtk/gprompter/scintilla/src/LexAbaqus.cxx,
+	apps/gtk/gprompter/scintilla/src/LexCaml.cxx,
+	apps/gtk/gprompter/scintilla/src/Decoration.cxx,
+	apps/gtk/gprompter/scintilla/src/LexCPP.cxx,
+	apps/gtk/gprompter/scintilla/src/PerLine.cxx,
+	apps/gtk/gprompter/scintilla/src/LexCLW.cxx,
+	apps/gtk/gprompter/scintilla/src/LexAU3.cxx,
+	apps/gtk/gprompter/scintilla/src/LexCrontab.cxx,
+	apps/gtk/gprompter/scintilla/src/UniConversion.cxx,
+	apps/gtk/gprompter/scintilla/src/Document.h,
+	apps/gtk/gprompter/scintilla/src/LexEiffel.cxx,
+	apps/gtk/gprompter/scintilla/src/LexGen.py,
+	apps/gtk/gprompter/scintilla/src/LexTeX.cxx,
+	apps/gtk/gprompter/scintilla/src/CellBuffer.cxx,
+	apps/gtk/gprompter/scintilla/src/CharClassify.cxx,
+	apps/gtk/gprompter/scintilla/src/LexPascal.cxx,
+	apps/gtk/gprompter/scintilla/src/LexProgress.cxx,
+	apps/gtk/gprompter/scintilla/src/LexOthers.cxx,
+	apps/gtk/gprompter/scintilla/src/LexVerilog.cxx,
+	apps/gtk/gprompter/scintilla/src/LexVB.cxx,
+	apps/gtk/gprompter/scintilla/src/ExternalLexer.cxx,
+	apps/gtk/gprompter/scintilla/src/PerLine.h,
+	apps/gtk/gprompter/scintilla/src/Style.h,
+	apps/gtk/gprompter/scintilla/src/KeyMap.cxx,
+	apps/gtk/gprompter/scintilla/src/LexAsm.cxx,
+	apps/gtk/gprompter/scintilla/src/CVS,
+	apps/gtk/gprompter/scintilla/src/CVS/Repository,
+	apps/gtk/gprompter/scintilla/src/CVS/Root,
+	apps/gtk/gprompter/scintilla/src/CVS/Entries,
+	apps/gtk/gprompter/scintilla/src/LexHaskell.cxx,
+	apps/gtk/gprompter/scintilla/src/LexConf.cxx,
+	apps/gtk/gprompter/scintilla/src/LexMMIXAL.cxx,
+	apps/gtk/gprompter/scintilla/src/SplitVector.h,
+	apps/gtk/gprompter/scintilla/src/LexSML.cxx,
+	apps/gtk/gprompter/scintilla/src/StyleContext.cxx,
+	apps/gtk/gprompter/scintilla/src/ExternalLexer.h,
+	apps/gtk/gprompter/scintilla/src/LexMSSQL.cxx,
+	apps/gtk/gprompter/scintilla/src/RunStyles.cxx,
+	apps/gtk/gprompter/scintilla/src/KeyMap.h,
+	apps/gtk/gprompter/scintilla/src/LexInno.cxx,
+	apps/gtk/gprompter/scintilla/src/LexSpice.cxx,
+	apps/gtk/gprompter/scintilla/src/LexPOV.cxx,
+	apps/gtk/gprompter/scintilla/src/ScintillaBase.cxx,
+	apps/gtk/gprompter/scintilla/src/LexEScript.cxx,
+	apps/gtk/gprompter/scintilla/src/LexFortran.cxx,
+	apps/gtk/gprompter/scintilla/src/LexNsis.cxx,
+	apps/gtk/gprompter/scintilla/src/DocumentAccessor.h,
+	apps/gtk/gprompter/scintilla/src/XPM.h,
+	apps/gtk/gprompter/scintilla/src/LexBasic.cxx,
+	apps/gtk/gprompter/scintilla/src/LexForth.cxx,
+	apps/gtk/gprompter/scintilla/src/LexTACL.cxx,
+	apps/gtk/gprompter/scintilla/src/LexMagik.cxx,
+	apps/gtk/gprompter/scintilla/src/LexOpal.cxx,
+	apps/gtk/gprompter/scintilla/src/LexFlagship.cxx,
+	apps/gtk/gprompter/scintilla/src/LexScriptol.cxx,
+	apps/gtk/gprompter/scintilla/src/LexMatlab.cxx,
+	apps/gtk/gprompter/scintilla/src/LexBullant.cxx,
+	apps/gtk/gprompter/scintilla/src/LexPB.cxx,
+	apps/gtk/gprompter/scintilla/src/LexRebol.cxx,
+	apps/gtk/gprompter/scintilla/src/LexHTML.cxx,
+	apps/gtk/gprompter/scintilla/src/RESearch.h,
+	apps/gtk/gprompter/scintilla/src/UniConversion.h,
+	apps/gtk/gprompter/scintilla/src/LexTAL.cxx,
+	apps/gtk/gprompter/scintilla/src/LineMarker.cxx,
+	apps/gtk/gprompter/scintilla/src/CellBuffer.h,
+	apps/gtk/gprompter/scintilla/src/LexCSS.cxx,
+	apps/gtk/gprompter/scintilla/src/AutoComplete.cxx,
+	apps/gtk/gprompter/scintilla/src/SciTE.properties,
+	apps/gtk/gprompter/scintilla/src/ContractionState.h,
+	apps/gtk/gprompter/scintilla/src/CallTip.h,
+	apps/gtk/gprompter/scintilla/src/PositionCache.h,
+	apps/gtk/gprompter/scintilla/src/ViewStyle.h,
+	apps/gtk/gprompter/scintilla/src/Selection.cxx,
+	apps/gtk/gprompter/scintilla/src/Editor.cxx,
+	apps/gtk/gprompter/scintilla/src/LexCmake.cxx,
+	apps/gtk/gprompter/scintilla/src/LexAPDL.cxx,
+	apps/gtk/gprompter/scintilla/src/StyleContext.h,
+	apps/gtk/gprompter/scintilla/src/LexLout.cxx,
+	apps/gtk/gprompter/scintilla/src/CharacterSet.h,
+	apps/gtk/gprompter/scintilla/src/Style.cxx,
+	apps/gtk/gprompter/scintilla/src/Indicator.h,
+	apps/gtk/gprompter/scintilla/src/ScintillaBase.h,
+	apps/gtk/gprompter/scintilla/src/LexMetapost.cxx,
+	apps/gtk/gprompter/scintilla/src/LexCOBOL.cxx,
+	apps/gtk/gprompter/scintilla/src/KeyWords.cxx,
+	apps/gtk/gprompter/scintilla/src/LexMPT.cxx,
+	apps/gtk/gprompter/scintilla/src/LexBaan.cxx,
+	apps/gtk/gprompter/scintilla/src/Editor.h,
+	apps/gtk/gprompter/scintilla/src/LexPerl.cxx,
+	apps/gtk/gprompter/scintilla/src/LexMySQL.cxx,
+	apps/gtk/gprompter/scintilla/src/LexGAP.cxx,
+	apps/gtk/gprompter/scintilla/src/WindowAccessor.cxx,
+	apps/gtk/gprompter/scintilla/src/LexLua.cxx,
+	apps/gtk/gprompter/scintilla/src/LexPython.cxx,
+	apps/gtk/gprompter/scintilla/src/ViewStyle.cxx,
+	apps/gtk/gprompter/scintilla/src/LexTCL.cxx,
+	apps/gtk/gprompter/scintilla/src/PropSetSimple.h,
+	apps/gtk/gprompter/scintilla/src/PropSet.cxx,
+	apps/gtk/gprompter/scintilla/src/LexSmalltalk.cxx,
+	apps/gtk/gprompter/scintilla/src/LexPowerShell.cxx,
+	apps/gtk/gprompter/scintilla/src/LexAda.cxx,
+	apps/gtk/gprompter/scintilla/src/LexNimrod.cxx,
+	apps/gtk/gprompter/scintilla/src/LexCsound.cxx,
+	apps/gtk/gprompter/scintilla/src/XPM.cxx,
+	apps/gtk/gprompter/scintilla/src/LexSQL.cxx,
+	apps/gtk/gprompter/scintilla/src/LexAsn1.cxx,
+	apps/gtk/gprompter/scintilla/vcbuild,
+	apps/gtk/gprompter/scintilla/vcbuild/SciLexer.dsp,
+	apps/gtk/gprompter/scintilla/vcbuild/CVS,
+	apps/gtk/gprompter/scintilla/vcbuild/CVS/Repository,
+	apps/gtk/gprompter/scintilla/vcbuild/CVS/Root,
+	apps/gtk/gprompter/scintilla/vcbuild/CVS/Entries,
+	apps/gtk/gprompter/scintilla/vcbuild/.cvsignore,
+	apps/gtk/gprompter/scintilla/macosx,
+	apps/gtk/gprompter/scintilla/macosx/QuartzTextLayout.h,
+	apps/gtk/gprompter/scintilla/macosx/TCarbonEvent.h,
+	apps/gtk/gprompter/scintilla/macosx/ExtInput.cxx,
+	apps/gtk/gprompter/scintilla/macosx/ScintillaCallTip.h,
+	apps/gtk/gprompter/scintilla/macosx/ScintillaMacOSX.h,
+	apps/gtk/gprompter/scintilla/macosx/TView.h,
+	apps/gtk/gprompter/scintilla/macosx/QuartzTextStyleAttribute.h,
+	apps/gtk/gprompter/scintilla/macosx/ScintillaListBox.cxx,
+	apps/gtk/gprompter/scintilla/macosx/CVS,
+	apps/gtk/gprompter/scintilla/macosx/CVS/Repository,
+	apps/gtk/gprompter/scintilla/macosx/CVS/Root,
+	apps/gtk/gprompter/scintilla/macosx/CVS/Entries,
+	apps/gtk/gprompter/scintilla/macosx/TCarbonEvent.cxx,
+	apps/gtk/gprompter/scintilla/macosx/ScintillaCallTip.cxx,
+	apps/gtk/gprompter/scintilla/macosx/ScintillaMacOSX.cxx,
+	apps/gtk/gprompter/scintilla/macosx/TView.cxx,
+	apps/gtk/gprompter/scintilla/macosx/PlatMacOSX.h,
+	apps/gtk/gprompter/scintilla/macosx/deps.mak,
+	apps/gtk/gprompter/scintilla/macosx/QuartzTextStyle.h,
+	apps/gtk/gprompter/scintilla/macosx/ExtInput.h,
+	apps/gtk/gprompter/scintilla/macosx/TRect.h,
+	apps/gtk/gprompter/scintilla/macosx/PlatMacOSX.cxx,
+	apps/gtk/gprompter/scintilla/macosx/ScintillaListBox.h,
+	apps/gtk/gprompter/scintilla/macosx/makefile,
+	apps/gtk/gprompter/scintilla/macosx/SciTest,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/SciTest.xcode,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/SciTest.xcode/project.pbxproj,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/SciTest.xcode/CVS,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/SciTest.xcode/CVS/Repository,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/SciTest.xcode/CVS/Root,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/SciTest.xcode/CVS/Entries,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/version.plist,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/SciTest_Prefix.pch,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/Info.plist,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/main.cpp,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/CVS,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/CVS/Repository,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/CVS/Root,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/CVS/Entries,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/InfoPlist.strings,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/CVS,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/CVS/Repository,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/CVS/Root,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/CVS/Entries,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/main.nib,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/main.nib/info.nib,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/main.nib/classes.nib,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/main.nib/objects.xib,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/main.nib/CVS,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/main.nib/CVS/Repository,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/main.nib/CVS/Root,
+	apps/gtk/gprompter/scintilla/macosx/SciTest/English.lproj/main.nib/CVS/Entries,
+	apps/gtk/gprompter/scintilla/CVS,
+	apps/gtk/gprompter/scintilla/CVS/Repository,
+	apps/gtk/gprompter/scintilla/CVS/Root,
+	apps/gtk/gprompter/scintilla/CVS/Entries,
+	apps/gtk/gprompter/scintilla/README,
+	apps/gtk/gprompter/scintilla/License.txt,
+	apps/gtk/gprompter/scintilla/win32,
+	apps/gtk/gprompter/scintilla/win32/PlatWin.cxx,
+	apps/gtk/gprompter/scintilla/win32/Scintilla.def,
+	apps/gtk/gprompter/scintilla/win32/ScintillaWin.cxx,
+	apps/gtk/gprompter/scintilla/win32/SciTE.properties,
+	apps/gtk/gprompter/scintilla/win32/deps.mak,
+	apps/gtk/gprompter/scintilla/win32/PlatformRes.h,
+	apps/gtk/gprompter/scintilla/win32/Margin.cur,
+	apps/gtk/gprompter/scintilla/win32/scintilla_vc6.mak,
+	apps/gtk/gprompter/scintilla/win32/scintilla.mak,
+	apps/gtk/gprompter/scintilla/win32/CVS,
+	apps/gtk/gprompter/scintilla/win32/CVS/Repository,
+	apps/gtk/gprompter/scintilla/win32/CVS/Root,
+	apps/gtk/gprompter/scintilla/win32/CVS/Entries,
+	apps/gtk/gprompter/scintilla/win32/.cvsignore,
+	apps/gtk/gprompter/scintilla/win32/ScintRes.rc,
+	apps/gtk/gprompter/scintilla/win32/makefile,
+	apps/gtk/gprompter/scintilla/delbin.bat,
+	apps/gtk/gprompter/scintilla/version.txt,
+	apps/gtk/gprompter/scintilla/doc,
+	apps/gtk/gprompter/scintilla/doc/annotations.png,
+	apps/gtk/gprompter/scintilla/doc/styledmargin.png,
+	apps/gtk/gprompter/scintilla/doc/SciTEIco.png,
+	apps/gtk/gprompter/scintilla/doc/ScintillaRelated.html,
+	apps/gtk/gprompter/scintilla/doc/SciWord.jpg,
+	apps/gtk/gprompter/scintilla/doc/CVS,
+	apps/gtk/gprompter/scintilla/doc/CVS/Repository,
+	apps/gtk/gprompter/scintilla/doc/CVS/Root,
+	apps/gtk/gprompter/scintilla/doc/CVS/Entries,
+	apps/gtk/gprompter/scintilla/doc/SciRest.jpg,
+	apps/gtk/gprompter/scintilla/doc/Lexer.txt,
+	apps/gtk/gprompter/scintilla/doc/Steps.html,
+	apps/gtk/gprompter/scintilla/doc/SciBreak.jpg,
+	apps/gtk/gprompter/scintilla/doc/SciCoding.html,
+	apps/gtk/gprompter/scintilla/doc/ScintillaHistory.html,
+	apps/gtk/gprompter/scintilla/doc/index.html,
+	apps/gtk/gprompter/scintilla/doc/ScintillaUsage.html,
+	apps/gtk/gprompter/scintilla/doc/ScintillaDoc.html,
+	apps/gtk/gprompter/scintilla/doc/ScintillaToDo.html,
+	apps/gtk/gprompter/scintilla/doc/Design.html,
+	apps/gtk/gprompter/scintilla/doc/ScintillaDownload.html,
+	apps/gtk/gprompter/scintilla/doc/Icons.html,
+	apps/gtk/gprompter/scintilla/bin,
+	apps/gtk/gprompter/scintilla/bin/CVS,
+	apps/gtk/gprompter/scintilla/bin/CVS/Repository,
+	apps/gtk/gprompter/scintilla/bin/CVS/Root,
+	apps/gtk/gprompter/scintilla/bin/CVS/Entries,
+	apps/gtk/gprompter/scintilla/bin/empty.txt,
+	apps/gtk/gprompter/scintilla/bin/.cvsignore,
+	apps/gtk/gprompter/scintilla/tgzsrc,
+	apps/gtk/gprompter/Makefile.am, apps/gtk/gpresagemate,
+	apps/gtk/gpresagemate/gpresagemate.cpp,
+	apps/gtk/gpresagemate/Makefile.am, apps/gtk/Makefile.am,
+	apps/Makefile.am, doc/getting_started.txt, doc/Doxyfile.in, TODO,
+	resources/profiles/presage.xml.template: merged callback_refactor
+	branch into trunk.
+
+2010-01-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: fixed scintilla editing widget
+	resizing problem, fixed UTF8 scintilla problem on Win32/GTK,
+	removed widgets padding.
+
+2010-01-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/dictionaryPluginDriver.cpp,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/smoothedCountDriver.cpp,
+	test/lib/plugins/dummyPluginDriver.cpp,
+	test/lib/plugins/dejavuPluginTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.h,
+	test/lib/core/context_tracker/Makefile.am,
+	test/lib/core/selectorTest.cpp, test/lib/core/selectorTest.h,
+	test/lib/core/Makefile.am,
+	test/lib/core/tokenizer/testStringSuite.cpp,
+	test/lib/core/tokenizer/forwardTokenizerTest.h,
+	test/lib/core/tokenizer/testStringSuite.h,
+	test/lib/core/tokenizer/crossCheckTokenizerTest.h,
+	test/lib/core/tokenizer/Makefile.am,
+	test/lib/core/tokenizer/reverseTokenizerTest.h,
+	test/lib/core/tokenizer/stringForwardTokenizerTest.h,
+	test/lib/core/profileManagerTest.cpp, test/lib/common,
+	test/lib/common/testStringSuite.cpp,
+	test/lib/common/testStringSuite.h, test/lib/Makefile.am,
+	configure.ac, test/lib/common/stringstreamPresageCallback.cpp,
+	test/lib/common/Makefile.am,
+	test/lib/common/stringstreamPresageCallback.h: fixed callback
+	memory leak in tests, created common lib for tests, added
+	stringstream callback, and moved test string suite to common lib.
+
+	* src/lib/presageCallback.h,
+	apps/gtk/gpresagemate/gpresagemate.cpp: removed stringstream
+	callback out of public API.
+
+2010-01-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp,
+	apps/gtk/gprompter/Makefile.am: added stuff to about dialog.
+
+2010-01-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/context_tracker/contextTracker.cpp: removed dead
+	code.
+
+	* doc/getting_started.txt: updated getting started guide with
+	example on how to use presage callback object.
+
+	* apps/python/pypresagemate.py: remap function keys keycode ->
+	keysym in pure python using Xlib module.
+
+2010-01-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: added some text to about
+	dialog.
+
+2009-12-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.cpp,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/context_tracker/contextTracker.h, src/lib/presage.h:
+	fixed issue whereby context tracker took ownership of callback
+	object.
+
+	* apps/gtk/gpresagemate/gpresagemate.cpp: minor change.
+
+2009-12-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/*, configure.ac, apps/python/*: moved
+	presage_prompter application from bindings/python to apps/python.
+
+2009-12-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/dbconnector/sqliteDatabaseConnectorTest.cpp: fixed
+	tests on Windows with latest Cygwin release (1.7.1).
+
+2009-12-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.cpp: added help menu item and about
+	dialog box, help still to be implemented.
+
+2009-12-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/Makefile.am: incremented current interface library
+	revision.
+
+2009-12-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pypresagemate, apps/python/pypresagemate.py:
+	applying patch by John Hills, remapped function keys and auto
+	capitalize word "I"
+
+2009-12-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/soothie_theme.tar.gz, website/presage_theme.tar.gz,
+	website/README, website/presage_database_dump.sql.gz: website
+	update and redesign.
+
+2009-12-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pypresagemate.py: fixed to work with callbacks.
+
+2009-12-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/*: moved GTK applications from src/tools/gtk directory
+	to apps/gtk directory
+
+	* apps/python/pypresagemate*: added new pypresagemate application
+	contributed by John Hills.
+
+	* configure.ac, Makefile.am: trivial changes to reflect directory
+	layout changes.
+
+2009-11-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.7.3: released.
+
+2009-10-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* README: updated optional components list.
+
+	* configure.ac, resources/arpa/Makefile.am: fixed sample arpa
+	database generation on MinGW/MSYS.
+
+2009-10-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/changelog, ChangeLog, configure.ac, NEWS: preparing for
+	upcoming release.
+
+	* doc/INSTALL_MinGW_MSYS_dev_env.txt: minor doc update.
+
+	* resources/profiles/Makefile.am,
+	resources/profiles/generate_presage_config.sh: added support for
+	MinGW/MSYS installing into packagedatadir.
+
+2009-10-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_database_dump.sql.gz: updated website in
+	preparation for upcoming release.
+
+	* README: updated documentation.
+
+2009-10-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac, resources/profiles/presage.xml.template,
+	resources/profiles/Makefile.am,
+	resources/profiles/generate_presage_config.sh,
+	resources/arpa/createlm, resources/Makefile.am: integrated arpa
+	format ngram into package and automate build of arpa format ngram
+	database when CMU-SLM tools are available.
+
+2009-10-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/profiles/presage.xml.template,
+	resources/profiles/generate_presage_config.sh, resources/arpa,
+	resources/arpa/convcorpus, resources/arpa/xml2txt,
+	resources/arpa/bnc.arpa, resources/arpa/mergesubcorpus,
+	resources/arpa/subcorpus, resources/arpa/corpuscats,
+	resources/arpa/bnc.vocab, resources/arpa/createlm,
+	resources/arpa/README, resources/arpa/xml2cats: added statistical
+	language model generated from the British National Corpus with
+	CMU-SLM toolkit.
+
+2009-09-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/progress.cpp, src/tools/progress.h,
+	src/lib/core/progress.h, src/lib/core/progress.cpp,
+	src/tools/Makefile.am, src/lib/core/Makefile.am,
+	src/tools/text2ngram.cpp: moved progress class to core lib.
+
+	* src/lib/plugins/ARPAPlugin.cpp, src/lib/plugins/ARPAPlugin.h,
+	src/lib/plugins/Makefile.am,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	src/lib/core/logger.h, src/lib/core/pluginRegistry.cpp,
+	src/lib/Makefile.am, resources/profiles/presage.xml.template:
+	added new Katz backoff smoothed predictive plugin using ARPA
+	n-gram format.
+
+	* doc/python_binding.txt: minor update
+
+2009-09-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/presageDemoText.cpp: fixed compilation problem on
+	maemo gregale SDK due to missing constructor/destructor.
+
+	* src/tools/gtk/gpresagemate,
+	src/tools/gtk/gpresagemate/gpresagemate.cpp
+	src/tools/gtk/gpresagemate/Makefile.am,
+	src/tools/gtk/gpresagemate.cpp: moved gpresagemate to subdir.
+
+	* src/tools/gtk/gprompter,
+	src/tools/gtk/gprompter/gprompter.cpp,
+	src/tools/gtk/gprompter/Makefile.am,
+	src/tools/gtk/Makefile.am :
+	gprompter GNOME application, initial commit.
+
+	* src/tools/gtk/gprompter/scintilla: import of scintilla 2.0.1.
+
+	* src/tools/gtk/Makefile.am, configure.ac: moved gpresagemate and
+	added gprompter.
+
+2009-08-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.*,
+	src/lib/plugins/smoothedNgramPlugin.cpp: added unit tests for
+	filter feature for smoothed n-gram predictive plugin.
+
+2009-08-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.7.2: released.
+
+2009-08-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/changelog, website/presage_database_dump.sql.gz,
+	  configure.ac, NEWS: preparing for upcoming release.
+
+2009-08-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/presageDemo.cpp: fixed initialization bug.
+
+	* src/lib/presage.cpp, src/lib/presage.h: changed predict()'s
+	signature to return a multimap instead of a map.
+
+2009-05-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_database_dump.sql.gz: updated to drupal 5.18.
+
+2009-05-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/website/presage_database_dump.sql.gz, src/website/README:
+	updated to drupal 5.17, updated sf.net logo link, and made direct
+	links to text files in svn repository.
+
+2009-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/dictionaryPluginDriver.cpp,
+	test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/smoothedCountDriver.cpp,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/dummyPluginDriver.cpp,
+	test/lib/plugins/pluginsTestFixture.cpp,
+	test/lib/plugins/dejavuPluginTest.cpp,
+	test/lib/core/pluginRegistryTest.cpp,
+	src/lib/plugins/dejavuPlugin.h, src/lib/plugins/plugin.h,
+	src/lib/plugins/recencyPlugin.cpp,
+	src/lib/plugins/abbreviationExpansionPlugin.cpp,
+	src/lib/plugins/dummyPlugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/recencyPlugin.h,
+	src/lib/plugins/abbreviationExpansionPlugin.h,
+	src/lib/plugins/dummyPlugin.h,
+	src/lib/plugins/smoothedCountPlugin.h,
+	src/lib/plugins/dictionaryPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/plugins/dictionaryPlugin.h,
+	src/lib/plugins/smoothedNgramPlugin.h,
+	src/lib/plugins/dejavuPlugin.cpp, src/lib/presage.cpp,
+	src/lib/core/prediction.cpp, src/lib/core/predictorActivator.h,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	src/lib/core/prediction.h, src/lib/core/predictorActivator.cpp,
+	src/lib/core/dbconnector/databaseConnector.cpp,
+	src/lib/core/dbconnector/databaseConnector.h, src/lib/presage.h:
+	added support for predictive plugins filters, database connector
+	limit clause, and new predict() method that returns map of
+	<probability,token> pairs order by probability. Many thanks to
+	Tiziano D'Albis for contributing code for this.
+
+2009-02-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac, doc/Makefile.am: added --disable-documentation
+	configure switch to turn off doxygen documentation generation.
+
+2009-02-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/gtk/gpresagemate.cpp: fixed includes.
+
+	* README: added information about optional build deps.
+
+2009-01-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/changelog, configure.ac: changed to next beta revision.
+
+	* windows/presage_installer.nsi: added Start menu shortcut for
+	presage prompter.
+
+2008-11-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* predictorActivator.*, selector.h, profileManager.cpp,
+	predictor.*: refactored Predictor class to PredictorActivator.
+
+2008-11-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added menu items to
+	increase or decrease text size.
+
+2008-11-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/contextTracker.*: fixed handling of utf-8 encoded
+	text.
+
+	* resources/la_coscienza_di_zeno.txt: re-encoded text file in
+	UTF-8.
+
+2008-11-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/Makefile.am: fixed problem with rebuilding n-gram
+	resources.
+
+2008-11-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.7.1: released.
+
+	* debian/changelog, website/presage_database_dump.sql.gz,
+	configure.ac, NEWS: preparing for upcoming release.
+
+	* test/integration/integration.sh: fixed typo
+
+	* resources/la_coscienza_di_zeno.txt: restoring original text encoding.
+
+2008-11-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/recencyPlugin.*,
+	src/lib/plugins/abbreviationExpansionPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/smoothedCountPlugin.*,
+	src/lib/plugins/dictionaryPlugin.*,
+	src/lib/plugins/smoothedNgramPlugin.*,
+	src/lib/plugins/dejavuPlugin.*, src/lib/core/pluginRegistry.*:
+	refactored predictive plugins whereby on initialization plugin
+	throws exception and predictor just catches it and carries on,
+	changed behaviour so that missing required variables cause fatal
+	failure and optional variables generate warning.
+
+2008-10-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.cpp,
+	test/lib/plugins/pluginsTestMockObjects.cpp,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/abbreviationExpansionPluginTest.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.cpp,
+	test/lib/plugins/smoothedNgramPluginTest.h,
+	test/lib/core/predictionTest.cpp,
+	test/lib/core/configurationTest.cpp,
+	test/lib/core/pluginRegistryTest.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/recencyPlugin.h,
+	src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/core/profileManager.h, src/lib/core/prediction.cpp,
+	src/lib/core/meritocracyCombiner.cpp, src/lib/core/selector.h,
+	src/lib/core/contextTracker.h, src/lib/core/prediction.h,
+	src/lib/core/selector.cpp: fixed GCC compiler warnings.
+
+2008-09-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/smoothedNgramPlugin.*: fixed ngram count
+	consistency problem triggered by dynamic learning capability of
+	smoothed n-gram predictive plugin.
+
+2008-09-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* windows/presage_installer.nsi: added finish page to installer.
+
+2008-09-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/presage_prompter.in,
+	bindings/python/prompter/prompter.py: search for configuration
+	file in scriptdir/etc and scriptdir/../etc
+
+	* windows/setup.py: initial commit of py2exe setup.py.
+
+	* src/lib/presage.cpp, src/lib/core/contextTracker.*: completion
+	validation is no longer case sensitive.
+
+	* bindings/python/prompter/prompter.py: switched scintilla to UTF8
+	encoded text.
+
+2008-09-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* windows/win-buildpackage.sh: created script to automate win
+	installer build.
+
+	* windows/presage_installer.nsi: include dynamically generated
+	defines file and proper GPL license text.
+
+2008-09-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: preparing for next release iteration.
+
+	* windows/*: preliminary Windows NSIS installer files.
+
+2008-09-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/contextTrackerTest.cpp: added test for backspace
+	handling.
+
+	* src/lib/core/predictor.cpp: removed unnecessary includes.
+
+	* src/lib/core/pluginRegistry.h: added documentation comments.
+
+2008-09-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.7: released.
+
+	* src/lib/core/profileManager.cpp: fixed header inclusion bug on
+	Solaris.
+
+	* website/presage_database_dump.sql.gz, NEWS: preparing for
+	upcoming release.
+
+	* doc/python_binding.txt: fixed documentation bug.
+
+	* src/lib/plugins/Makefile.am: fixed implicit link to -lm.
+
+	* configure.ac: added disable gpresagemate configure switch.
+
+2008-09-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: check wxPython version
+	before attempting to use about dialog box.
+
+2008-09-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/presage_prompter.in: added version info.
+
+	* bindings/python/prompter/prompter.py: redirected debugging
+	output, added about dialog box.
+
+2008-09-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added ability to show/hide
+	toolbar, toggle autopunctuation functionality, cleaned up minor
+	quirks here and there, hid margins away.
+
+2008-09-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added function labels and
+	ability to select tokens with function keys, cleaned up presage
+	menu toggling implementation.
+
+	* src/tools/gtk/gpresagemate.cpp: added presage gtk application
+	contributed by John Hills.
+
+	* src/tools/gtk, src/tools/gtk/Makefile.am, src/tools/Makefile.am,
+	src/Makefile.am, configure.ac: integrated gpresagemate application
+	into build system.
+
+	* resources/profiles/presage.xml.template: switched off learning
+	by default to prevent write access exception when default n-gram
+	database is not writable.
+
+2008-09-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: reduced size of toolbar
+	icons.
+
+2008-09-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: removed fix_wrapper sed script to
+	workaround bug in swig, which is now fixed in latest stable
+	release.
+
+2008-09-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/profiles/presage.xml.template: disable dejavu plugin
+	by default.
+
+	* src/lib/presage.cpp, src/lib/core/selector.*: fixed problem
+	whereby presage updates were not trigger selector suggested tokens
+	cache cleaning operation.
+
+2008-09-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/contextTracker.cpp: fixed bug whereby context
+	change was not updated when update string is empty.
+
+	* src/tools/presageDemoText.cpp, src/tools/presageDemo.cpp,
+	src/lib/presage.cpp, src/lib/presage.h: changed context change
+	method name.
+
+	* bindings/python/prompter/prompter.py: added context change
+	debugging printouts.
+
+2008-08-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added prompter toolbar.
+
+	* debian/changelog, configure.ac: moved version up to 0.6.4b, will
+	become 0.6.4 when ready to cut release.
+
+	* bindings/python/presage_prompter.in: fixed program name typo.
+
+2008-08-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.cpp, src/lib/core/predictor.h: incrementally
+	increase depth of prediction when prediction size does not match
+	desired value.
+
+2008-08-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added prompt me menu item
+	to presage menu.
+
+2008-08-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added presage menu and
+	toggle learn mode item.
+
+2008-08-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added select all to edit
+	menu.
+
+2008-08-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added undo/redo to edit
+	menu.
+
+2008-08-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py: added edit menu with cut,
+	copy, paste operations.
+
+2008-08-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/newSmoothedNgramPluginTest.*: added unit tests
+	for smoothed n-gram plugin learning functionality.
+
+2008-08-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/smoothedNgramPlugin.*: implemented learning for
+	smoothed n-gram plugin, which is now able to learn "on the fly"
+	from the context, while it generate predictions.
+
+	* resources/profiles/presage.xml.template: added smoothed n-gram
+	plugin learn config var.
+
+2008-08-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_database_dump.sql.gz: updated presage website.
+
+	* src/lib/plugins/dejavuPlugin.*, src/lib/core/configuration.h,
+	src/lib/core/pluginRegistry.h: added descriptive comments.
+
+2008-08-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/contextTrackerTest.cpp,
+	src/lib/core/contextTracker.cpp: fixed bug in context change
+	detection routine whereby multiple separators trigger spurious
+	context changes.
+
+2008-08-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/dejavuPluginTest.*,
+	src/lib/plugins/dejavuPlugin.cpp: fixed dejavu plugin test.
+
+2008-08-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.cpp, src/lib/core/contextTracker.*,
+	src/lib/core/pluginRegistry.*, src/lib/core/predictor.*,
+	src/lib/core/selector.*: integrated plugin registry into presage.
+
+2008-08-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/contextTracker.*: refactored update() method and
+	introduced new private methods to facilitate learning in update()
+	method.
+
+2008-07-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/dejavuPluginTest.*,
+	test/lib/plugins/pluginsTestMockObjects.*,
+	test/lib/plugins/recencyPluginTest.*,
+	test/lib/plugins/pluginsTestFixture.*,
+	test/lib/core/contextTrackerTest.*,
+	test/lib/core/profileManagerTest.*, test/lib/core/selectorTest.*:
+	updated tests for context tracker constructor change, now taking a
+	plugin registry parameter.
+
+	* resources/profiles/presage.xml.template: added new plugin
+	registry config variables to template xml config file.
+
+2008-07-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/pluginRegistry, src/lib/presage,
+	src/lib/core/contextTracker, src/lib/core/Makefile.am: created
+	plugin registry class and began hooking it up into presage to
+	facilitate plugin learning.
+
+	* test/lib/core/pluginRegistryTest.*, test/lib/core/Makefile.am:
+	unit tests for new plugin registry class.
+
+2008-07-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/plugins/dejavuPluginTest.*,
+	test/lib/plugins/Makefile.am: added dejavu plugin test, still to
+	fix learning mechanism.
+
+2008-07-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/dejavuPlugin,
+	resources/profiles/presage.xml.template: dejavu plugin now talks
+	back.
+
+2008-07-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/copyright: adding dependencies on
+	packages required for unit test suite.
+
+2008-07-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/smoothedCountPlugin.cpp: use logger instead of
+	standard out.
+
+	* src/lib/plugins/dejavuPlugin.cpp: initial sketch of
+	implementation.
+
+	* src/lib/core/predictor.cpp: invoke learn() method.
+
+	* resources/profiles/presage.xml.template: added dejavu plugin
+	specific configuration.
+
+2008-07-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/presage_python_demo.in,
+	bindings/python/prompter/prompter.py: removed references to
+	soothsayer.
+
+2008-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* *.h, *.cpp, *.am, *: changed license notices to update project name to
+	presage, changed header include guard.
+
+	* src/lib/plugins/dejavuPlugin.h,
+	src/lib/plugins/dejavuPlugin.cpp: commited experimental deja-vu
+	plugin.
+
+2008-07-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/integration/integration.sh, test/lib/simulator/Makefile.am,
+	test/lib/plugins/Makefile.am,
+	test/lib/core/dbconnector/Makefile.am, test/lib/core/Makefile.am,
+	src/tools/soothsayerSimulator.cpp, src/tools/presageDemoText.cpp,
+	src/tools/soothsayerDemo.cpp, src/tools/presageSimulator.cpp,
+	src/tools/Makefile.am, src/tools/soothsayerDemoText.cpp,
+	src/tools/presageDemo.cpp, src/lib/simulator/simulator.cpp,
+	src/lib/simulator/simulator.h, src/lib/soothsayer.cpp,
+	src/lib/soothsayerException.h, src/lib/soothsayer.h,
+	src/lib/presage.cpp, src/lib/core/profile.h,
+	src/lib/core/soothsayerException.cpp, src/lib/core/suggestion.h,
+	src/lib/core/presageException.cpp, src/lib/core/configuration.h,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.h,
+	src/lib/core/Makefile.am, src/lib/Makefile.am,
+	src/lib/presageException.h, src/lib/presage.h,
+	bindings/python/presage_python_demo.in,
+	bindings/python/presage_prompter.in,
+	bindings/python/prompter/prompter.py, bindings/python/Makefile.am,
+	bindings/python/soothsayer_python_demo.in,
+	bindings/python/setup.py.in,
+	bindings/python/soothsayer_prompter.in, bindings/soothsayer.i,
+	bindings/presage.i, utils/modify_license_notice.pl, configure.ac,
+	Makefile.am: initial project name change from soothsayer to
+	presage.
+
+2008-07-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/soothsayer_database_dump.sql.gz: more website updates.
+
+2008-07-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/soothsayer_database_dump.sql.gz: preparing website
+	database for upcoming soothsayer project name change.
+
+2008-07-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test\integration\integration.sh: fixed problem in distcheck
+	target.
+
+2008-06-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test\integration\integration.sh: fix integration test failure on
+	Windows/MinGW/MSYS platform.
+
+	* bindings\python\fix_wrapper.sed: make workaround fix for SWIG
+	bug on Windows a bit more robust to changes in the generated
+	wrapper.
+
+	* resources\profiles\generate_soothsayer_config.sh: use cygpath
+	program to obtain properly formatted path instead of using mount |
+	grep | awk | tr hack.
+
+2008-06-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/soothsayer_database_dump.sql.gz: minor update to home
+	page.
+
+2008-06-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter/prompter.py,
+	bindings/python/soothsayer_python_demo.in,
+	bindings/python/soothsayer_prompter.in: handle module import
+	errors gracefully.
+
+2008-06-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: fixed distcheck.
+
+2008-06-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/lib/core/dbconnector/sqliteDatabaseConnectorTest.cpp,
+	src/tools/soothsayerSimulator.cpp, src/tools/soothsayerDemo.cpp,
+	src/tools/soothsayerDemoText.cpp, src/tools/text2ngram.cpp,
+	src/lib/plugins/plugin.cpp,
+	src/lib/plugins/smoothedCountPlugin.cpp,
+	src/lib/plugins/smoothedNgramPlugin.cpp, src/lib/core/utility.cpp,
+	src/lib/core/utility.h: ported soothsayer to GCC 4.3, which has
+	stricter and cleaner header dependencies, causing required headers
+	to be explicitly included.
+
+	* bindings/python/Makefile.am: changing man page generation
+	dependency from generated file to source file.
+
+2008-06-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: bumped release version up to 0.6.3.
+
+	* NEWS, website/soothsayer_database_dump.sql.gz: announcing 0.6.3
+	release.
+
+2008-06-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/integration/integration.sh, src/tools/Makefile.am,
+	doc/getting_started.txt: changed binaries names from capitalized
+	style to underscore separated style (i.e. from soothsayerSimulator
+	to soothsayer_simulator).
+
+2008-05-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: automatically generate
+	soothsayer_prompter demo man page.
+
+	* debian/python-soothsayer.install: included prompter man page in
+	debian package.
+
+	* bindings/python/setup.py.in, bindings/python/prompter.in,
+	bindings/python/prompter, bindings/python/prompter/prompter.py,
+	bindings/python/prompter/__init__.py: split prompter demo program
+	in a front-end script and a back-end package.
+
+	* bindings/python/soothsayer_prompter.in: renamed prompter
+	front-end to soothsayer_prompter.  * configure.ac:
+
+2008-05-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: generate man page from python
+	script.
+
+	* debian/python-soothsayer.install: added man page to debian
+	package.
+
+	* configure.ac, bindings/python/soothsayer_python_demo.in,
+	bindings/python/prompter.in: process python scripts with autoconf
+	to insert versioning and maintainer information.
+
+	* bindings/python/setup.py.in,
+	bindings/python/soothsayer_python_demo, bindings/python/prompter:
+	appended .in to python programs finenames to allow autoconf
+	processing.
+
+2008-05-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/python-soothsayer.install, setup.py.in,
+	bindings/python/prompter.py, bindings/python/Makefile.am,
+	bindings/python/setup.py.in,
+	bindings/python/soothsayer_python_demo.py: removed .py suffix from
+	python demo programs.
+
+2008-05-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/python-soothsayer.install: fixed script-not-executable
+	warnings for python scripts in python-soothsayer package.
+
+2008-05-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* setup.py.in, bindings/python/Makefile.am,
+	bindings/python/setup.py.in: distributing
+	soothsayer_python_demo.py and prompter.py demo programs through
+	python distutils.
+
+	* bindings/python/Makefile.am,
+	bindings/python/soothsayer_python_demo.py,
+	bindings/python/runme.py: renamed runme.py.
+
+2008-05-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control: added swig to build dependencies.
+
+	* configure.ac: print summary of predictive plugins to build.
+
+2008-05-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/python-soothsayer.install: fixed few
+	python binding debian package problems, soothsayer python binding
+	package is now working and usable.
+
+2008-05-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control, debian/rules: added soothsayer-python package.
+
+	* setup.py.in, configure.ac: added distutils distribution file.
+
+	* bindings/python/Makefile.am, bindings/python/setup.py.in:
+	cleaning using distutils, maintainer field.
+
+2008-05-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: fixed bug, not honouring DESTDIR.
+
+	* debian/copyright: using new proposed machine-interpretable
+	copyright and license format.
+
+	* debian/soothsayer-doc.docs: updated location of Cygwin and
+	MinGW/MSYS installation instructions.
+
+	* resources/la_coscienza_di_zeno.txt: re-encoded text file in
+	UTF-8.
+
+	* resources/Makefile.am, resources/i_malavoglia.txt: removed text
+	file and switched to other italian text resources for sample
+	statistical database generation.
+
+2008-05-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/soothsayer.cpp, src/lib/soothsayer.h: simplified
+	interface, removed redundant methods that take a char type. Now
+	using only methods taking std::string types. Removal of methods
+	taking char has downside of breaking ABI, but has the advantage of
+	making future unicode support more straightforward (plus there are
+	no third party applications currently depending on soothsayer that
+	I am aware of).
+
+	* src/lib/simulator/simulator.cpp, src/tools/soothsayerDemo.cpp:
+	adapted to interface change.
+
+	* doc/INSTALL_MinGW_MSYS_dev_env.txt: minor doc updates.
+
+2008-05-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: bumped release version up to 0.6.2.
+
+	* NEWS, website/soothsayer_database_dump.sql.gz: announcing 0.6.2
+	release.
+
+	* src/lib/core/contextTracker.cpp: fixed logging trace levels.
+
+	* bindings/python/prompter.py: added partial UTF-8 encoded unicode
+	text support, added start-up informational message.
+
+	* test/lib/plugins/smoothedNgramPluginTest.cpp: fixed test failure.
+
+	* bindings/python/Makefile.am: added distribution and byte-compilation
+	of prompter.py.
+
+2008-05-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/i_malavoglia.txt: converted training text to utf-8
+	encoding.
+
+	* src/lib/plugins/smoothedNgramPlugin.cpp,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.cpp: added log
+	traces.
+
+	* Makefile.am: fix for hardcoded unix style path problem affecting
+	MinGW/MSYS build, paths are now converted to native win32 style
+	thanks to some shell programming hackery.
+
+	* src/lib/core/profileManager.cpp: fixed core when attempting to
+	retrieve non-existant environment variable.
+
+	* bindings/python/fix_wrapper.sed: added swig wrapper fixes, line
+	numbers seems to change across versions.
+
+2008-05-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* README, doc/INSTALL_MinGW_MSYS_dev_env.txt,
+	doc/INSTALL_Cygwin_dev_env.txt: updated documentation and
+	instructions.
+
+	* src/lib/plugins/recencyPlugin: added comments and description.
+
+	* website/soothsayer_database_dump.sql.gz: adding recency plugin
+	information to website.
+
+2008-05-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/dictionaryPlugin: refactored and cleaned up
+	plugin.
+
+	* resources/profiles/soothsayer.xml.template: added dictionary
+	plugin config variable.
+
+2008-05-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/recencyPlugin: added const configuration
+	variable keys.
+
+2008-05-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/profile.h: made ProfileException inherit from
+	SoothsayerException.
+
+2008-05-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/Makefile.am: distribute header soothsayerException.h
+
+	* bindings/python/Makefile.am, bindings/soothsayer.i: added
+	soothsayer exception to SWIG interface file.
+
+	* bindings/python/runme.py: wrapped soothsayer calls in try:
+	except: block.
+
+2008-05-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: switched on building python binding by default
+	(can be turned off with --disable-python-binding option).
+
+	* src/lib/core/profileManager: fixed chicken and egg problem
+	whereby logging was being done before logger level could be read
+	from configuration profile. Solution caches logging statements and
+	flushes them out when configuration becomes available.
+
+	* resources/profiles/soothsayer.xml.template: added logger
+	configuration variable.
+
+2008-05-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/soothsayerException.h,
+	src/lib/core/soothsayerException.cpp: refactored soothsayer
+	exception hierarchy, created new soothsayer exception base class.
+
+	* src/lib/soothsayer.h: added new SoothsayerException base
+	exception class to soothsayer interface.
+
+	* src/lib/core/configuration.h,
+	src/lib/core/dbconnector/sqliteDatabaseConnector.h: modified
+	existing exception classes to inherit from soothsayer base
+	exception class.
+
+	* src/lib/core/suggestion.cpp: added probability setting
+	validation, exception is raised for out-of-range probability
+	values.
+
+	* src/lib/core/Makefile.am, test/lib/plugins/Makefile.am,
+	test/lib/core/dbconnector/Makefile.am: hooked new soothsayer
+	exception class into build system.
+
+2008-04-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter.py: implemented autopunctuation
+	feature, enabled by default. Show prediction list on startup.
+
+2008-04-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* doc/MinGW-MSYS_devenv.txt: updated instructions to build in
+	MinGW/MSYS.
+
+	* INSTALL_cygwin_dev_env.txt: fixed typo in CygWin build 
+	instructions.
+
+2008-04-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter.py: fixed problem showing prediction
+	list after user list selection event (thanks to Robin Dunn for
+	providing the solution).
+
+2008-04-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/recencyPlugin: fixed bug in cutoff threshold.
+
+	* test/lib/plugins/recencyPluginTest: added more unit tests.
+
+	* test/lib/plugins/smoothedNgramPluginTest.cpp: turned off verbose
+	test output.
+
+2008-04-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/recencyPlugin.cpp: added code to read values
+	from config variables.
+
+	* src/lib/plugins/smoothedNgramPlugin.cpp: fixed incorrect and
+	unnecessary initialization of data member.
+
+	* src/lib/core/variable: added constructor taking C style string
+	as parameter.
+
+	* resources/profiles/soothsayer.xml.template: added recency plugin
+	configuration.
+
+	* src/lib/core/profile.cpp: removed debug printout statement.
+
+2008-04-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/combiner, src/lib/core/meritocracyCombiner,
+	src/lib/core/suggestion: added filter method to remove duplicate
+	suggestions from prediction and enabled it in meritocracy
+	combiner.
+
+	* test/lib/core/combinerTest, test/lib/core/Makefile.am: added
+	duplicate suggestions filter test.
+
+2008-04-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/rules: enabled unit tests in debian package build.
+
+	* src/lib/plugins/recencyPlugin.cpp: fixed compilation warning.
+
+2008-04-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/plugins/smoothedNgramPlugin.cpp: fixed plugin
+	description typo.
+
+	* src/lib/plugins/recencyPlugin.h,
+	src/lib/plugins/recencyPlugin.cpp, src/lib/core/predictor.cpp,
+	src/lib/Makefile.am, src/lib/plugins/Makefile.am: added new
+	recency statistical predictive plugin.
+
+	* test/lib/plugins/Makefile.am,
+	test/lib/plugins/recencyPluginTest.cpp,
+	test/lib/plugins/recencyPluginTest.h: added recency plugin tests.
+
+2008-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter.py: minor refactor.
+
+2008-04-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter.py: added more menu items, added grey
+	out of unavailable menu items.
+
+2008-04-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter.py: added file open functionality.
+
+2008-04-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am,
+	resources/profiles/generate_soothsayer_config.sh,
+	resources/profiles/Makefile.am: added a few escaped backslashes
+	and swithed to shell built-in case switches for pattern matching.
+
+2008-04-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: fixed python binding installation
+	on MinGW/MSYS.
+
+	* resources/profiles/Makefile.am: fixed config file generation on
+	MinGW/MSYS.
+
+2008-04-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: fixing python distutils install
+	target by using clever hack to get native Win32 path in MSYS.
+
+	* bindings/python/prompter.py: fixed problems with autocompletion,
+	which now almost works for simple cases.
+
+2008-04-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am: added dependency on soothsayer.h
+	interface.
+
+2008-04-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter.py: additional work to fix bugs with
+	autocompletion and keeping soothsayer in sync with autocompletion
+	updates.
+
+2008-04-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/profileManager.cpp, bindings/python/Makefile.am,
+	resources/profiles/generate_soothsayer_config.sh: adding support
+	for MinGW/MSYS.
+
+2008-04-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: added autoconf check for pwd.h.
+
+	* debian/changelog: update changelog to current soothsayer release.
+
+2008-04-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter.py: improved autocompletion
+	functionality of prompter demo application (still very buggy).
+
+	* src/lib/soothsayer: added prefix() method to obtain current
+	prediction prefix.
+
+2008-04-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/prompter.py: initial commit of prompter
+	graphical user interface demonstration program.
+
+2008-04-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: bumped release version up to 0.6.1.
+
+	* NEWS, website/soothsayer_database_dump.sql.gz: announcing 0.6.1
+	release.
+
+	* bindings/soothsayer.i: update copyright and license notice.
+
+	* bindings/Makefile.am: added soothsayer.i to distribution.
+
+	* bindings/python/fix_wrapper.sed: added to distribution.
+
+2008-04-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: added configuration report for man pages.
+
+	* src/tools/Makefile.am: only distribute manpages if generated.
+
+	* debian/control: added build dependency on help2man.
+
+2008-04-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/fix_wrapper.sed: fixed sed script to workaround
+	swig bug.
+
+	* INSTALL_cygwin_dev_env.txt: updated cygwin developer environment
+	installation instructions. 
+
+2008-04-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: fixed autoconf checks for python.
+
+2008-03-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/Makefile.am: added -version-info to libsoothsayer.
+
+	* src/tools/Makefile.am: removed text2ngram unnecessary linking
+	with sqlite library.
+
+2008-03-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website: added link to ChangeLog in news section.
+
+2008-03-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* changes: restructured source and test directory layout to better
+	reflect logical structure.
+
+2008-03-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* doc/Makefile.am: fixed minor issue with automake install hook.
+
+2008-03-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/soothsayerDemoText: documented -s flag.
+
+	* src/soothsayerDemo: added -s suggestions functionality.
+
+	* Makefile.am: removed linda check, linda is obsolete.
+
+2008-03-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/soothsayer: added config() to API.
+
+	* src/soothsayerDemoText: added --suggestions flag to set number
+	of suggestions.
+
+	* debian/soothsayer-doc.doc-base: update doc-base section.
+
+2008-03-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/utility: understand true and false too.
+
+	* src/core/selector: no longer cache selector variables, query
+	them from selector.
+
+	* src/core/selectorTest, src/core/profileManagerTest: changed
+	tests to use new selector api.
+
+2008-03-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/sqliteDatabaseConnector: fixed bug when attempting to
+	free() error message string allocated by sqlite3_exec() call: use
+	sqlite3_free() instead.
+
+2008-03-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/copyright: update copyright notice.
+
+	* debian/changelog: closes Intent To Package bug number.
+
+	* website: updated website to Drupal 5.7, updated instructions.
+
+2008-03-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian/control: updated description fields.
+
+2008-02-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tinyxml/Makefile.am: no longer bundle tinyxml/doc files in
+	distribution package.
+
+	* doc/Makefile.am, doc/options.txt: removed outdated file, removed
+	references to it from Makefile.am.
+
+2008-02-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/plugins/Makefile.am: no longer build
+	SmoothedUniBiTrigramPlugin.
+
+	* src/Makefile.am, src/core/predictor: removed references to
+	SmoothedUniBiTrigramPlugin.
+
+	* test/plugins/Makefile.am, test/plugins/smoothedUniBiTrigramTest:
+	removed tests.
+
+2008-02-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/plugins/dictionaryPluginDriver.cpp
+	test/plugins/pluginsTestMockObjects.cpp
+	test/plugins/smoothedCountDriver.cpp
+	test/plugins/abbreviationExpansionPluginTest.cpp
+	test/plugins/abbreviationExpansionPluginTest.h
+	test/plugins/smoothedUniBiTrigramPluginTest.cpp
+	test/plugins/smoothedUniBiTrigramPluginTest.h
+	test/plugins/dummyPluginDriver.cpp
+	test/plugins/smoothedNgramPluginTest.cpp
+	test/plugins/Makefile.am
+	test/plugins/pluginsTestFixture.cpp
+	test/plugins/smoothedNgramPluginTest.h
+	test/plugins/pluginsTestFixture.h
+	test/core/profileTest.cpp
+	test/core/profileManagerTest.h
+	test/core/contextTrackerTest.cpp
+	test/core/contextTrackerTest.h
+	test/core/profileTest.h
+	test/core/selectorTest.cpp
+	test/core/selectorTest.h
+	test/core/profileManagerTest.cpp
+	src/plugins/plugin.cpp
+	src/plugins/plugin.h
+	src/plugins/abbreviationExpansionPlugin.cpp
+	src/plugins/smoothedCountPlugin.cpp
+	src/plugins/dummyPlugin.cpp
+	src/plugins/smoothedUniBiTrigramPlugin.cpp
+	src/plugins/abbreviationExpansionPlugin.h
+	src/plugins/smoothedCountPlugin.h
+	src/plugins/dummyPlugin.h
+	src/plugins/smoothedUniBiTrigramPlugin.h
+	src/plugins/dictionaryPlugin.cpp
+	src/plugins/smoothedNgramPlugin.cpp
+	src/plugins/Makefile.am
+	src/plugins/dictionaryPlugin.h
+	src/plugins/smoothedNgramPlugin.h
+	src/soothsayer.cpp
+	src/soothsayer.h
+	src/core/contextTracker.cpp
+	src/core/profile.h
+	src/core/selector.h
+	src/core/profile.cpp
+	src/core/predictor.h
+	src/core/contextTracker.h
+	src/core/configuration.h
+	src/core/selector.cpp
+	src/core/predictor.cpp
+	src/Makefile.am	: ported components to use Configuration class instead of Profile
+	 class to query	for variables' values and they should not cache
+	 those values.
+
+2008-02-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/setup.py.in, bindings/python/runme.py: updated
+	license notice.
+
+2008-02-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: changed notice message when dot is not found.
+
+	* doc/Doxygen.in: enabled generation of caller graphs.
+
+2008-02-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* sources: updated license notices in *.h and *.cpp source files.
+
+	* Makefile.am: updated license notices in Makefile.am files.
+
+	* configure.ac: updated license notice.
+
+	* utils/modify_license_notice.pl: perl script to replace multiline
+	license notices in source files.
+
+	* resources/profiles/generate_soothsayer_config.sh,
+	test/integration/integration.sh: updated license notices.
+
+2008-02-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/configuration: config class is now a full featured
+	class instead of a typedef'ed map.
+
+	* src/core/Makefile.am: added new Configuration class to library.
+
+	* src/core/utility: added strtoupper function.
+
+	* src/core/profile: using new Configuration class.
+
+	* test/core/configurationTest: configuration unit tests.
+
+	* test/core/Makefile.am: enabled new unit tests.
+
+2008-02-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* doc/Doxygen.in, configure.ac: added configure check for
+	Graphviz's dot tool to control documentation diagram generation.
+
+2008-02-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/variable: fixed bug causing addition of empty config
+	variable part when extracting variable from string.
+
+	* test/code/variableTest: added unit tests for Variable class.
+
+	* debian/watch: added watch file.
+
+2008-02-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/contextTracker, src/core/selector, src/core/predictor:
+	changed to using new style of variable class.
+
+	* src/core/profile: using Variable class instead of vector of
+	strings.
+
+	* src/core/variable: removed debugging printouts.
+
+	* src/soothsayerDemoText: began implementing support for option to
+	specify number of desired suggestions with each prediction.
+
+	* src/soothsayer: update documentation comments.
+
+2008-02-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/soothsayer: renamed history() method to context().
+
+	* src/soothsayerDemo, src/soothsayerDemoText: cleaned up, added
+	comments and documentation to demo programs.
+
+2008-02-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/variable: added initial implementation of Variable
+	class to replace typedef'ed vector<string> variable definition.
+
+	* src/core/profile, src/core/Makefile.am: adapted profile object
+	to use new Variable class.
+
+	* test/core/profileTest, 
+	  test/plugins/pluginsTestMockObjects,
+	  test/plugins/abbreviationExpansionPluginTest,
+	  test/plugins/smoothedUniBiTrigramPluginTest,
+	  test/plugins/smoothedNgramPluginTest,
+	  test/plugins/Makefile.am: adapted tests to new Variable class.
+
+
+2008-01-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/plugins/smoothedNgramPlugin: cleaned up debugging and
+	logging statements.
+
+	* src/core/logger: added method that returns whether logger will
+	log or not, useful to replace DEBUG #ifdef's.
+
+2008-01-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/profile, test/core/profileTest: added tests reading
+	non-existing variables, border conditions.
+
+	* src/core/profileManager, doc/getting_started.txt: update
+	documentation on soothsayer configuration files used.
+
+2008-01-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/profile: cache configuration inside Profile object.
+
+2008-01-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian: added files for soothsayer-doc package and registered
+	documentation with doc-base.
+
+	* Makefile.am: added targets to build, check, and clean debian
+	packages.
+
+	* debian/control: changes to make package "unstable lintian
+	clean", edited descriptions.
+
+2008-01-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/profileManager: look for default profile in user's home
+	directory first and then system config directory /etc/soothsayer.
+
+	* test/core/profileManagerTest: adapted test to take changes to
+	user specified profile into account.
+
+	* test/integration/integration.sh: make simulator use specified
+	configuration, since configuration file in current directory is no
+	longer used by default.
+
+2008-01-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* compiler-warnings: fixed all compiler warning while building
+	`make all' and `make check'.
+
+	* debian: fixed warning caused by no newline at end of debian
+	packaging files.
+
+	* help2man: generated man pages were erroneously distclean'ed, and
+	not included in the dist tarball when help2man executable was not
+	found: fixed now.
+
+2008-01-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/Makefile.am: install generated statistical database
+	resources in soothsayer specific var lib directory.
+
+	* resources/profiles/Makefile.am: generate config file with
+	updated resources location.
+
+	* debian: changed build depends to get package to build in
+	pbuilder chroot.
+
+2008-01-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* man: added --name option to help2man man pages generation.
+
+2007-12-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian: added configuration file soothsayer.xml to
+	libsoothsayer0 debian package.
+
+	* src/core/profileManager: changed default value for active
+	predictive plugins to null.
+
+	* man: added automatic generation of man pages using help2man for
+	text2ngram, soothsayerDemo, soothsayerDemoText, and
+	soothsayerSimulator executables.
+
+2007-12-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian: changes to debian files to fix various lintian warnings
+	and errors, added soothsayer-data package, fixed dev package name.
+
+2007-12-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian: switched to cdbs, cleaned up and fixed installations
+	into separate packages, removed unnecessary files from debian
+	directory.
+
+2007-12-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* debian: initial stab at creating a soothsayer debian package.
+
+2007-12-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* logger, soothsayer.xml.template: changed default logging level
+	to ERROR.
+
+	* abbreviationExpansionPlugin: added plugin logger initialization.
+
+	* smoothedNgramPlugin: fixed incorrect DatabaseConnector logger
+	level initialization.
+
+	* databaseConnector, sqliteDatabaseConnector: added constructor
+	taking logger level.
+
+2007-12-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* databaseConnector, sqliteDatabaseConnector: now use new logger.
+
+	* smoothedNgramPlugin: read database connector logger level
+	configuration variable and init logger.
+
+	* contextTracker, predictor: have an instance of logger, instead
+	of pointer to logger.
+
+2007-12-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* plugin.h, plugins: reverted to const predict method now
+	that logger has been fixed.
+
+2007-12-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* logger.h: resolved problem whereby a const method of a class
+	using its own member logger would not compile due to disregarding
+	const qualifier.
+
+2007-11-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* Moved DatabaseConnector to new dbconnector directory within core.
+
+	* Plugin base class uses new logger, started cleaning up
+	SmoothedNgramPlugin logging, fixed typo in abbreviations expansion
+	database.
+
+2007-11-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* ProfileManager uses new logger.
+
+2007-11-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* Fix tools tests, should now work with every sqlite/sqlite3
+	command line executable version.
+
+	* Selector now uses the new logger.
+
+2007-11-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* Logger logs its name at beginning of each log line.
+
+	* ContextTracker uses new logger and endl line endings.
+
+2007-11-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* More logger work. Getting to a stage where it is actually
+	providing some functionality.
+
+2007-11-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* Minor doc update.
+
+2007-11-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* Adding logger levels. More logger changes, still not
+	complete. Added logger test files.
+
+2007-11-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* Initial implementation of Logger, more features to be added.
+
+2007-09-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac, doc/Doxyfile.in, Makefile.am: integrated Doxygen
+	documentation generation into autotools build system.
+
+	* configure.ac: added configuration information notification.
+
+2007-09-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/integration.sh: modified integration test training corpus
+	and control corpus generation.
+
+	* configure.ac: warn if requested python binding build cannot be
+	carried out.
+
+2007-09-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/plugins/plugins: modified Plugin::predict() method signature
+	to have parameter indicating desired prediction size.
+
+	* test/integration: added larval integration test suite.
+
+2007-09-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/soothsayerDemo.cpp: display initial prediction before user
+	enter first character.
+
+	* src/core/profileManager.cpp: turn off debugging.
+
+2007-09-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: bumped version up to 0.6.
+
+	* Doxyfile: bumped version up to 0.6.
+
+	* NEWS, website/soothsayer_database_dump.sql.gz: added 0.6 release
+	news.
+
+2007-09-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python, bindings/python/Makefile.am,
+	bindings/python/setup.py.in, bindings/Makefile.am, configure.ac:
+	added support for building and installing Python binding based on
+	Python distutils.
+
+2007-09-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* Makefile.am: Ensure local m4 macros are included during
+	autoreconf and automatic aclocal.m4 remaking
+
+2007-08-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/Makefile.am: added -no-undefined linker flag to ensure
+	that shared libraries are built on Windows targets.
+
+	* bindings/Makefile.am: added -no-undefined -avoid-version 
+	linker flags to python dynamically loaded extension module.
+
+2007-08-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: added --enable-python-binding configure flag.
+
+	* bindings/Makefile.am, bindings/runme.py, configure.ac,
+	Makefile.am: added support for building python binding module.
+
+	* m4, m4/swig_enable_cxx.m4, m4/ac_python_devel.m4,
+	m4/swig_multi_module_support.m4, m4/swig_python.m4,
+	m4/ac_pkg_swig.m4: added autoconf macros to support SWIG and
+	python binding builds.
+
+	* bootstrap: changed bootstrap to use SWIG macros.
+
+2007-08-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac, src/tools/Makefile.am: changed SQLite link flag.
+
+2007-08-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings, bindings/soothsayer.i, bindings/Makefile.am,
+	bindings/runme.py, configure.ac, Makefile.am: added initial
+	support for generating a python binding for soothsayer. Not fully
+	integrated into build system yet.
+
+2007-08-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/databaseConnector: minor fix to get soothsayer to
+	build on Solaris 10 with SUN Studio 10 and 11. Soothsayer builds
+	on Solaris!
+
+	* src/plugins/smoothedNgramPlugin,
+	src/plugins/smoothedCountPlugin,
+	src/plugins/smoothedUniBiTrigramPlugin: cleaned up header files
+	inclusions.
+
+2007-08-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: checking for curses instead of ncurses header and
+	library to increase portability.
+
+	* src/Makefile.am: made compilation of soothsayerDemo conditional
+	on curses autoconf check.
+
+2007-08-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/core/profileManagerTest: fixed compilation problem on
+	Windows+CygWin.
+
+	* src/tools/text2ngram: minor correction to --help output.
+
+2007-08-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/soothsayerSimulator, src/soothsayerDemo,
+	src/soothsayerDemoText: implemented -c flag to specify custom XML
+	configuration file.
+
+	* src/soothsayer, src/simulator/simulator: added constructor
+	taking custom configuration file as a parameter.
+
+	* src/core/profileManager: extended profile loading from current
+	directory or absolute path.
+
+	* test/core/profileManagerTest: added unit tests for loading
+	profiles from current dir or using absolute filename.
+
+2007-08-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/databaseConnector: fixed problem caused by SQLite
+	2.x. not supporting IF NOT EXISTS clause in a CREATE TABLE
+	statement.
+
+2007-08-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: bumped version up to 0.5.
+
+	* Doxyfile: bumped version up to 0.5.
+
+	* website/soothsayer_database_dump.sql.gz: added 0.5 release news.
+
+2007-08-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/plugins/smoothedNgramPlugin: performance enhancement,
+	candidates generation no longer retrieves unnecessary n-gram like
+	counts from database.
+
+	* src/tools/databaseConnector: extended getNgramLikeTable to
+	produce a LIMIT clause in the SQL query.
+
+	* test/tools/dataConnectorTest: added test for new limit
+	functionality.
+
+	* src/simulator/simulator, src/soothsayerSimulator: added silent
+	flag to reduce simulation verbosity.
+
+2007-08-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/plugins/smoothedNgram: use highest n-gram to generate
+	initial completion candidates, fall back on lower n-grams if
+	initial completion set is smaller than required.
+
+	* src/tools/text2ngram: implemented -a append flag for sqlite file
+	format output.
+
+	* src/tools/databaseConnector: creating table if table does not
+	exit only.
+
+2007-08-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/simulator/simulator.cpp: fixed bug in simulator which caused
+	the reported keystroke reduction rate to be much lower than the
+	actual rate. The prediction success rate is actually much higher
+	than previously reported, which is great news.
+
+	* src/soothsayerSimulator.cpp: added flag to enable case
+	insensitive simulation.
+
+2007-08-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/plugins/smoothedNgram: added initial implementation of
+	generalized smoothed n-gram probabilistic predictive plugin.
+
+	* src/plugins/Makefile.am: added support for smoothed n-gram
+	predictive plugin.
+
+	* src/core/predictor.cpp: added support for smoothed n-gram
+	predictive plugin.
+
+	* src/Makefile.am: added support for smoothed n-gram predictive
+	plugin.
+
+	* resources/profiles/soothsayer.xml.template: added configuration
+	section for smoothed n-gram predictive plugin.
+
+2007-08-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: bumped version up to 0.4.
+
+	* Doxyfile: bumped version up to 0.4.
+
+	* website/soothsayer_database_dump.sql.gz: added 0.4 release news.
+
+2007-08-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/plugins/smoothedUniBiTrigramPluginTest: remove duplicate
+	code, test now inherits common code from PluginsTestFixture class
+	and reuses code from PluginsTestMockObjects.
+
+	* documentation: improved, fixed, added doxygen documentation to
+	various source files.
+
+	* src/soothsayer.h: documented soothsayer interface and added
+	mainpage to doxygen generated documentation.
+
+2007-08-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/plugins/abbreviationExpansionPluginTest: fixed problem with
+	running test with distchek target (VPATH build).
+
+	* src/soothsayer.h: documented soothsayer interface for doxygen
+	documentation generator.
+
+	* Doxyfile: modified EXAMPLE_PATH to include getting started guide
+
+2007-08-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/plugins/abbreviationExpansionPlugin: implemented
+	abbreviation expansion predictive plugin.
+
+	* src/plugins/Makefile.am: added abbreviation expansion plugin
+	rules.
+
+	* src/soothsayer: fixed complete() method to handle normal
+	completions as well as erasing completions (i.e. such as those
+	generated by abbreviation expansion predictive plugin).
+
+	* src/core/historyTracker: enabled backspace control character
+	handling, added logging printouts.
+
+	* src/core/charsets.h: fixed backspace character code.
+
+	* src/Makefile.am: added libAbbreviationExpansionPlugin to
+	libsoothsayer.
+
+	* test/plugins/smoothedUniBiTrigramPluginTest: moved mock objects
+	definition out.
+
+	* test/plugins/pluginsTestMockObjects: plugins tests mock objects.
+
+	* test/plugins/abbreviationExpansionPluginTest: implemented
+	abbreviation expansion predictive plugins tests.
+
+	* test/plugins/Makefile.am: added abbreviation expansion
+	predictive plugins tests.
+
+	* test/plugins/pluginsTestFixture: base class for plugins test
+	fixtures, provides some functionality useful to plugins tests.
+
+	* resources/abbreviations_it.txt: example abbreviation expansion
+	Italian resource file.
+
+	* resources/abbreviations_en.txt: example abbreviation expansion
+	English resource file.
+
+	* resources/profiles/soothsayer.xml.template: enabled abbreviation
+	expansion plugin by default.
+
+	* resources/Makefile.am: addding abbreviations resource files to
+	distribution.
+
+	* doc/getting_started.txt: minor header changes.
+
+2007-08-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/historyTracker: conditionally use std::string or
+	std::stringstream to track past and future stream.
+
+2007-08-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tinyxml/Makefile.am: prevented inclusion of .svn directory
+	and its contents in tinyxml/docs directory.
+
+2007-07-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: bumped version up to 0.3.
+
+	* Doxyfile: bumped version up to 0.3.
+
+	* website/soothsayer_database_dump.sql.gz: improved development
+	pages, added 0.3 release news.
+
+	* website/soothie_theme.tar.gz: minor style sheet updates.
+
+2007-07-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/selector: removed context change detection from
+	Selector and moved it to HistoryTracker (should be called
+	ContextTracker).
+
+	* src/core/historyTracker: moved context change detection logic
+	from Selector to HistoryTracker and fixed bug.
+
+	* test/core/historyTrackerTest: added context change tests.
+
+	* src/soothsayer: added context change method.
+
+	* src/soothsayerDemo: added context change visual cues.
+
+	* src/soothsayerDemoText: added context change visual cues.
+
+2007-07-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/Makefile.am: added HEADERS primary to install soothsayer.h
+
+	* src/soothsayer.h: made soohsayer.h independent from other
+	internal headers
+
+	* src/simulator/simulator.cpp, src/soothsayer.cpp,
+	src/soothsayerDemo.cpp, src/soothsayerDemoText.cpp:
+	added required headers to account for changes to soothsayer.h	
+
+2007-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/predictor.h, src/core/predictor.cpp: fixed memory leak.
+
+	* src/core/utility.cpp: fixed free memory mismatch.
+
+2007-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/plugins/smoothedUniBiTrigramPlugin.cpp,
+	src/plugins/smoothedUniBiTrigramPlugin.h,
+	src/plugins/dummyPlugin.h, src/plugins/dummyPlugin.cpp,
+	src/plugins/smoothedCountPlugin.h,
+	src/plugins/smoothedCountPlugin.cpp,
+	src/plugins/dictionaryPlugin.h, src/plugins/dictionaryPlugin.cpp:
+	removed create() and destroy() extern "C" functions.
+
+	* src/Makefile.am, src/plugins/Makefile.am: rearranged
+	libplugin.la usage.
+
+	* src/core/profileManager.h, src/core/profileManager.cpp: added
+	PLUGINS configuration variable to Predictor section.
+
+	* src/core/predictor.h, src/core/predictor.cpp: added support for
+	controlling active predictive plugins through configuration.
+
+	* resources/profiles/soothsayer.xml.template: added PLUGINS
+	configuration variable to Predictor section.
+
+2007-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/profileManager, test/core/profileManagerTest: changed
+	COMBINER_METHOD to COMBINER_POLICY.
+
+	* src/core/predictor: combiner policy change.
+
+2007-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website: revamped website design, created new drupal theme based
+	on Zen drupal theme, created new soothsayer logo.
+
+2007-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/profileManager.cpp: fixed memory leak in
+	ProfileManager, xml profile document was not being delete on
+	ProfileManager destructor.
+
+	* src/core/utility.cpp: fixed memory leaks in utility functions.
+
+2007-07-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/plugins/smoothedUniBiTrigramPluginTest.cpp,
+	test/plugins/dictionaryPluginDriver.cpp,
+	test/plugins/smoothedUniBiTrigramPluginTest.h,
+	test/plugins/dummyPluginDriver.cpp,
+	test/plugins/smoothedCountDriver.cpp,
+	test/core/profileManagerTest.h, test/core/historyTrackerTest.cpp,
+	test/core/selectorTest.cpp, test/core/historyTrackerTest.h,
+	test/core/selectorTest.h, test/core/profileManagerTest.cpp,
+	ChangeLog, src/plugins/plugin.cpp,
+	src/plugins/smoothedUniBiTrigramPlugin.cpp,
+	src/plugins/dummyPlugin.h, src/plugins/smoothedCountPlugin.h,
+	src/plugins/plugin.h, src/plugins/smoothedUniBiTrigramPlugin.h,
+	src/plugins/dictionaryPlugin.cpp, src/plugins/dictionaryPlugin.h,
+	src/plugins/dummyPlugin.cpp, src/plugins/smoothedCountPlugin.cpp,
+	src/soothsayer.cpp, src/soothsayer.h src/core/profileManager.h,
+	src/core/predictor.h, src/core/profile.cpp src/core/utility.cpp,
+	src/core/combiner.h, src/core/utility.h
+	src/core/historyTracker.cpp, src/core/selector.cpp,
+	src/core/historyTracker.h, src/core/selector.h,
+	src/core/predictor.cpp, src/core/profileManager.cpp, TODO:
+	configuration pulling refactor. Plugins and components now query a
+	Profile object, created by ProfileManager, and pull the values of
+	the configuration variables they need from it, rather than having
+	ProfileManager push the configuration out towards plugins and
+	components.
+
+2007-07-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/combiner: modified interface to take std::vector of
+	predictions to be combined.
+
+	* src/core/meritocracyCombiner: implemented meritocracy combiner.
+
+	* src/core/Makefile.am: added meritocracyCombiner object to
+	libcore convenience library.
+
+	* src/core/suggestion: added overloaded not equal to operator.
+
+	* src/core/prediction: added overloaded comparison operator.
+
+	* test/core/suggestion: added tests.
+
+	* test/core/meritocracyCombiner: created unit tests.
+
+	* test/core/Makefile.am: added meritocracyCombiner object to
+	test runner.
+
+2007-07-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: bumped version up to 0.2, updated website.
+
+2007-07-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/soothsayerDemo: improved previous predictions drawing logic,
+	predictions windows are only drawn if they fit on screen.
+
+2007-07-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/soothsayerSimulator: modified help and version option
+	handling.
+
+	* src/soothsayerDemo: modified help and version option handling.
+
+	* src/soothsayerDemoText: modified help and version option
+	handling.
+
+	* src/simulator/simulator: increase results verbosity.
+
+2007-06-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* sqlite3: added support for sqlite3. sqlite3 will be used in
+	preference of sqlite2 is both are installed.
+
+2007-06-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/profiles/Makefile.am: fixed problem regenerating
+	configuration file from template. Configuration file was not
+	rebuilt after package reconfiguration.
+
+2007-06-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/sqliteDatabaseConnector: fixed exceptions raised when
+	sqlite returns error conditions.
+
+	* test/tools/sqliteDatabaseConnector: added assertions to check
+	expected exceptions are thrown.
+
+2007-06-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/plugins/smoothedUniBiTrigramPluginTest: added plugin unit
+	tests.
+
+	* src/plugins/smoothedUniBiTrigramPluginTest: fixed bug exposed by
+	new plugin unit tests.
+
+2007-06-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/suggestion, src/core/prediction: minor change to
+	interface. Adapted unit tests accordingly.
+
+2007-06-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* Makefile.am: minor changes and cleanups.
+
+2007-06-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/databaseConnector: added method to compute the sum of
+	all unigrams counts.
+
+	* src/tools/smoothedUniBiTrigramPlugin: using DatabaseConnector
+	interface instead of derived SqliteDatabaseConnector interface.
+
+2007-06-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/resources/profiles: added script to generate soothsayer.xml
+	config file from template and determine cygwin root directory,
+	when on cygwin, to work around sqlite problem with absolute
+	database paths on Windows+Cygwin
+
+2007-06-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/Makefile.am, src/plugins/Makefile.am: cleaned up
+	dependencies of convenience libraries.
+
+2007-06-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: added checks for ncurses.
+
+2007-05-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/profiles/soothsayer.xml: removed superflous bits and
+	added element descriptions.
+
+2007-05-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/historyTracker: fixed bug in getToken(index), incorrect
+	token was returned when index pointed too far back into the
+	history.
+
+	* src/tools/databaseConnector: fixed bug in the query generation
+	code. A keyword in single quotes is interpreted as a literal
+	string if it occurs in a context where a string literal is
+	allowed, otherwise it is understood as an identifier, whereas a
+	keyword in double-quotes is interpreted as an identifier if it
+	matches a known identifier - otherwise it is interpreted as a
+	string literal. The following WHERE word = "word" is a no-op, the
+	correct clause is WHERE word = 'word'.
+
+2007-05-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/soothsayerDemo: added function key sidebar.
+
+2007-05-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/text2ngram: improved performance of sqlite database
+	creation by enclosing INSERTs in a transaction. The resulting
+	performance enhancement is quite dramatic.
+	BEFORE                AFTER
+	real    40m51.569s    real    0m8.107s
+	user    0m10.797s     user    0m4.604s
+	sys     0m29.438s     sys     0m3.148s
+
+	* src/tools/databaseConnector: added interface to begin and end
+	SQL transactions.
+
+	* src/plugins/Makefile.am: minor change to
+	SmoothedUniBiTrigramPlugin sources.
+
+2007-05-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/text2ngram: added progress bar to result writing
+	phase.
+
+	* src/soothsayerDemoSimple: removed, obsoleted by soothsayerDemo.
+
+	* src/core/loadXml: removed as not needed.
+
+	* src/core/createXML: removed as not needed.
+
+2007-05-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/text2ngram: corrected -f option flag to generate
+	tabbed separated values to 'tsv' instead of generic 'file'.
+
+	* license_headers: fixed typo in maintainer's email address line.
+
+	* resources/profiles/soothsayer.xml: templatized soothsayer.xml to
+	account for different installation targets.
+
+	* resources/profiles/Makefile.am: added install data hook to
+	replace tokens in templatized soothsayer.xml.
+
+	* resources/profile/defaultpassword.xml: no longer needed.
+
+2007-05-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/core/profile: added Profile class to easy configuration
+	variable querying by plugins and other components.
+
+	* test/core/profileTest: added unit tests for new Profile class.
+
+	* test/core/selectorDriverInteractive: removed as no longer
+	needed, due to Selector unit tests in selectorTest.
+
+	* src/plugins/*Plugin: modified plugins to use new Profile
+	interface, discarded old Option classes.
+
+	* src/plugin/option: removed as superseded by Profile.
+
+	* src/core/predictor: cleaned up comments, modified instantiation
+	of plugins to pass profile object
+
+	* src/core/profileManager: added support for Profile class.
+
+2007-05-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/soothsayerDemo: added disclaimer and copyright information,
+	added helpful comments, fixed bug in display refreshing, minor
+	embellishments.
+
+	* src/soothsayerDriver: added disclaimer and copyright information
+	and changed name to soothsayerDemoText
+
+	* src/soothsayerDriverNcurses: changed name to soothsayerDemoSimple
+
+2007-05-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/utility: not needed, removed
+
+	* src/tools/bigram: not needed, removed
+
+	* src/tools/trigram: not needed, removed
+
+	* FAQ: added frequenly asked questions file
+
+	* src/core/iso8895_1.h: added required file to libcore sources
+	list.
+
+	* Doxyfile: added Doxygen configuration file to distribution.
+
+2007-05-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: fixed check for CppUnit library.
+
+	* configure.ac: changed check for dirent.h header and changed
+	dirent.h inclusion directives
+
+	* Makefile.am: made building and running unit tests conditional on
+	whether CppUnit is found.
+
+2007-04-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools: removed unneeded database.h, database.cpp,
+	sqlite.cpp, fileTokenizer.h, fileTokenizer.cpp
+
+2007-04-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* updated_email_address: in all .h and .cpp files, courtesy of the
+	all powerful find and sed utils - i.e. `find . -name "*.h" -type f
+	-exec sed -i -e
+	's/matteo.vescovi@yahoo.co.uk/matteo.vescovi@yahoo.co.uk/' {} \;'
+
+2007-04-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* tools: retired old text2unigram, text2bigram, text2trigram,
+	text2unigramdb, text2bigramdb, text2trigramdb tools, which are
+	superseded by text2ngram tool.
+
+2007-04-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* logging: added LOG() macro to turn log messages on/off in
+	tools/dbConnectors. This is a temporary solution using
+	preprocessor macros, which should be replaced by an appropriate
+	logger implementation.
+
+2007-04-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/plugins/smoothedUniBiTriGramPlugin: modified plugin to use new
+	databaseConnector classes
+
+	* src/tools/sqliteDatabaseConnector: added ORDER BY clause to
+	getNgramLikeTable() method
+
+2007-04-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources: switched database creation to new text2ngram tool,
+	which uses the new table names in _N_gram form.
+
+2007-04-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/sqliteDatabaseConnector: fixed callback() method by
+	return 0 to signal normal execution. Oddly, even the the method
+	signature specifies an integer return type, the gcc C++ compiler
+	does not generate any error or warning that no value is returned.
+
+2007-03-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/tools/databaseConnectorTest: added tests for
+	...NgramLikeTable() methods family, fixed tests to account for
+	buildXClause changes
+
+	* test/tools/sqliteDatabaseConnectorTest: fixed tests to account
+	for buildXClause changes
+
+2007-03-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/databaseConnector: fixed bugs affecting the
+	buildXClause family of functions
+
+2007-03-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/databaseConnector: added getNgramLikeTable() method,
+	which returns a set of ngrams that are possible completions of the
+	supplied ngram
+
+	* src/tools/databaseConnector: changed executeSql() to return an
+	NgramTable instead of a string to ease subsequent manipulation and
+	information extraction
+
+2007-03-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/tokenizer: renamed Tokenizer class to FileTokenizer,
+	taking us one step closer to fully removing code duplication with
+	src/core/tokenizer classes... :-)
+
+	* src/tools/utility: removed duplicate code from strtolower
+	functions family
+
+	* src/Makefile.am: linking libtools.la with libsoothsayer.la
+
+2007-02-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* text2ngram: added -o option (set output file) and option -f (set
+	file format), text2ngram can output in text file or sqlite format
+
+	* progress.h: turned progress bar implementation into a class,
+	added progress bar completion on object destruction
+
+2007-02-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* profileManager: when no profile is found, use default value for
+	configuration parameters
+
+2007-02-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* headers: changed generation of multiple headers containing
+	directory value to single header
+
+	* profileManager: default profile is loaded from system-wide and
+	installation specific paths
+
+	* smoothedUniBiTrigramPlugin: database is found based on
+	installation location
+
+2007-02-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* headers: added generation of headers with defines for
+	sysconfdir, datadir, pkgdatadir, and localstatedir using built
+	sources
+
+2007-01-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* svn: moved soothsayer codebase to subversion
+
+	* plugins: plugins subsystem was temporarily disabled, now
+	smoothed uni/bi/trigram plugin is linked into soothsayer library
+
+	* birthday: born on this day a few years ago
+
+	* promise: I will start updating the changelog frequently

@@ -1,0 +1,30 @@
+_________________________
+Presage release checklist
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ o create release notes
+
+ o update website NEWS section
+
+ o update NEWS file
+
+ o bump release version up in configure.ac file
+
+ o create dist tarball on base platform (GNU/Debian stable)
+
+ o build, test, install dist tarball on all supported platforms
+   . make distcheck on base platform will do the trick
+   . do it manually on other platforms (WinXP/Cygwin, Solaris, etc.)
+     - tar zxvf presage-RELEASE.tar.gz
+     - cd presage-RELEASE
+     - ../configure
+     - make all check install
+     - and test python binding
+
+ o tag release in SVN
+
+ o upload release to SourceForge.net
+
+ o announce release on FreshMeat.net
+
+ o upload website

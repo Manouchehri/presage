@@ -1,0 +1,262 @@
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
+
+TODO list
+---------
+
+GUI apps:
+* gprompter
+** gray in and out redo and undo menu items
+** toolbar icon size
+** autocomp max height
+
+Absolute first:
+ - make predictive plugins support filters and write related tests
+ - implement logger level inheritance from parent module
+ - SqliteDatabaseConnector callback: had to disable logging there because
+   static method, investigate on how it can be re-enabled
+ - test performance with different n values in n-gram
+
+Architectural restructure: 
+- selector
+  should be a class similar to current PredictorActivator i.e. a class
+  that invokes other classes' method to perform work.
+  Current Selector's functionality should be broken up in Filter
+  objects i.e. an abstract Filter class and implementation of various
+  filters (repetion filter, greedy filter, etc)
+
+- combiner
+  clean up the mess that is our current Predictor implementation,
+   particularly with regards to the Combiner handling and
+   implementation. Considering making Combiner a concrete class that
+   uses different CombinationStrategy objects to do combine
+   predictions. Combiner object would know how to retrieve its config
+   values and which Strategy to create and use.
+
+- registry [DONE]:
+
+  Predictor class functionality should be split up. There should be
+  one PluginRegitry class which holds the active plugins and whose
+  interface consists of a call that returns an iterator to the
+  plugins.
+
+  Predictor would obtain an iterator from PluginRegistry and invoke
+  the predict() method on each Plugin pointed to by the iterator.
+
+  A new Learner class could invoke the learn() method on them when
+  needed.
+
+  This way, the reverse dependency that implementing learning cause
+  between ContextTracker and Predictor would disappear, being
+  substituted by a single dependency on Registry and the introduction
+  of a new Learner class (name still to decide).
+ 
+  The registry should eventually just be a simple wrapper around
+  plump.
+
+
+Short term:
+ - should Profile::getConfig() really throw exception? Why not just
+   return an empty string when config is not found? Is not finding a
+   config really an exceptional condition?
+ - Consider removing the following public methods from Variable
+   interface:
+   . Variable(const std::vector<std::string>& variable);
+   . size_t size() const;
+ - pluginManagerDriver, pluginManager are currently not necessary, as
+   dynamic plug-in loading is disabled. This functionality will
+   eventually be reinstated and supplied by the plump project.
+   files:
+      src/core/pluginManager.h
+      src/core/pluginManager.cpp
+      test/core/pluginManagerDriver.cpp
+   should be taken care of as part of plump integration
+* add proper unicode support
+* enable dictionary plugin by default (dictionary file?)
+* put utility.h/utility.cpp functions in a Utility class
+* rewrite strtoupper and strtolower utility functions to use a pointer
+   to function to do the individual char conversion
+* add ContextTracker tests for control chars
+* put everything inside the presage namespace
+* write more integration tests
+* write Combiner implementations (various combination strategies)
+* restructure directories regarding config files and plugins etc.
+* add more tests to increase coverage
+* bug: validate string passed to sql_exec query function, unsanitized
+   string can cause security problems
+* implement activation map predictive plugin
+
+- try to improve reverseTokenizer::progress() accuracy
+   currently it uses a delta of 0.7, should try to get it down to 0.3
+- Class HistoryTracker could initialize Tokenizer's members separator
+   and blankspace on a member initializer list. Also, Tokenizer could
+   take references to string instead of pointers.
+- add simulator tests - i.e. given a carefully crafted input text and
+  a purpose developed plugin and related resources, test that it
+  returns the correct simulation and keystroke reduction rates
+- add custom profile loading support and add more tests to
+   profileManager, use config file in user directory
+
+Medium term:
+* fix character codes
+* overhaul of presage architecture and integration of the plump framework
+
+Long term:
+* use timer alarm to implement threaded plugins controller
+* improve exceptions handling
+* add more predictive plugins
+
+Longer term:
+* add gettext support
+
+
+
+
+VARIOUS NOTES
+=============
+
+Plugins and Profiles and Managers
+---------------------------------
+
+A problem arises when a profile requires that more than one instance
+of a Plugin object is created.
+
+profile: pluginA, pluginB, pluginA
+
+plugins: pluginA, pluginB, pluginA
+
+libraries: libpluginA, libpluginB
+
+We need to be able to distinguish (therefore separately manage) plugin
+objects and library objects and profile objects.
+
+libpluginA --->	pluginA
+            |
+libpluginB -+->	pluginB
+            |
+	    `->	pluginA
+
+ProfileManager should invoke the construction of Plugin objects and
+initiate their option values using a PluginFactory class.
+
+PluginManager should manager the association between a Plugin object
+and the module (library) object that contains the Plugin.
+
+Plump, the Pluggable Lightweight Multithreaded Platform, was created
+to solve this and other problems and is going to become presage's
+plugin framework implementation.
+
+
+Plump framework integration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   The dynamic loading and plugin management system currently implemented
+   is going to be scrapped in favour of the more general and portable
+   plump framework.
+
+   Plump is a Pluggable Lightweight Ubiquitous Multithreaded Platform
+   which makes integration, usage and deployment of a plugin framework
+   dead easy.
+
+   Plump integration into presage will require a number of changes to
+   presage architecture, affecting Predictor and PluginManager
+   classes in particular.
+
+   Predictor and PluginManager classes will delegate much of their
+   current functionality to plump. Plump will render the functionality
+   provided by PluginManager redundant, as everything that
+   PluginManager does will be done by plump. Similarly, part of the
+   Predictor class functionality will be replaced by plump too.
+
+   Predictor was intended to be used to execute the plugins in a
+   serial or parallel mode. Plump will do that. Predictor will still
+   be in charge of collecting the result of each plugin's run and
+   combining them into a global prediction.
+
+   PluginManager was in fact a lesser plump. PluginManager can be
+   considered a precursor to plump. Plump has been designed to solve
+   the same problems that PluginManager was intended to solve, plus a
+   bit more.
+
+
+Plugins creation and initialisation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A few things should happen:
+   plugin objects should be instantiated based on configuration files,
+   that is if the configuration file uses the plugin, then an instance
+   of the corresponding class implementing the plugin should be
+   instantiated
+
+   plugin objects should be initialised with the options contained in
+   the configuration file
+
+The most sensible way to achieve this requirements seems to revolve
+around having a plugin factory class which:
+
+   determines which and how many instances of plugin classes need to
+   be instantiated from the xml configuration file
+
+   passes a pointer to the root the xml representation of the options
+   specific to that plugin so that the plugin constructor can
+   initialise its internal state accordingly
+
+This results in:
+
+   plugins know how to initialise themselves
+   the information required for initizialisation is passed to the
+   plugin's constructor
+   the information is passed in xml parse tree format
+
+
+Points to ponder:
+(o) the plugin factory needs to be able to determine which plugin
+   class to instantiate a plugin from based on the content of the
+   configuration file (xml file). A solution could be that the module
+   implementing the plugin class exports a string corresponding to the
+   plugin type/name.
+(o) it is necessary to be able to associate a plugin object with
+   initialisation data. In other words, each plugin class needs to
+   have an associated string that describes its kind. Or we can use
+   run-time type information.
+(o) in light of all this, it is probably worth designing a versioning
+   system for plugin classes to be implemented as exported symbols in
+   the plugin module.
+
+
+
+
+STEP to autoconfiscate
+~~~~~~~~~~~~~~~~~~~~~~
+
+aclocal
+libtoolize --force --ltdl
+autoheader
+autoconf
+automake -a --copy
+
+or source the bootstrap script provided (in svn repo):
+. bootstrap
+
+
+########/
+
+Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+
+Presage is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+########\

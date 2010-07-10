@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.gnome.presage.beta
+Exec={bindir}/presage_dbus_service --start
+User=root
