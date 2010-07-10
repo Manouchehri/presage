@@ -1,5 +1,7 @@
 2010-07-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* presage-0.8.4: released.
+
 	* website/presage_database_dump.sql.gz, configure.ac, NEWS:
 	preparing for 0.8.4 release.
 

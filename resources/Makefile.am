@@ -67,8 +67,8 @@ DISTCLEANFILES =	database_en.db \
 			database_it.db \
 			database_es.db
 
-dist_pkgdata_DATA +=	database_en.db \
-			database_it.db \
-			database_es.db 
+pkgdata_DATA =	database_en.db \
+		database_it.db \
+		database_es.db 
 
 endif
