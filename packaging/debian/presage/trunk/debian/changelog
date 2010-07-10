@@ -1,4 +1,4 @@
-presage (0.8.4b-1) unstable; urgency=low
+presage (0.8.4-1) unstable; urgency=low
 
   * Upstream new release, removed debian patches that were integrated upstream.
   * Removed installation of LaTeX documentation.
