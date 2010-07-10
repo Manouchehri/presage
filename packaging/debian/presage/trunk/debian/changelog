@@ -2,6 +2,10 @@ presage (0.8.4-1) unstable; urgency=low
 
   * Upstream new release, removed debian patches that were integrated upstream.
   * Removed installation of LaTeX documentation.
+  * Removed explicit libc6-dev dependency of libpresage-dev package.
+  * Install language models in /usr/share/presage.
+  * Install API docs in /usr/share/doc/libpresage-doc.
+  * Removed reference to info documentation from man pages.
 
  -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Mon, 05 Jul 2010 12:05:44 +0100
 
