@@ -1,3 +1,12 @@
+presage (0.8.4-2) unstable; urgency=low
+
+  * Renamed presage-gprompter package to gprompter.
+  * Renamed presage-pyprompter package to pyprompter.
+  * Ship README NEWS TODO AUTHORS THANKS to libpresage1, presage, gprompter,
+    pyprompter packages.
+
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sun, 11 Jul 2010 08:43:52 +0100
+
 presage (0.8.4-1) unstable; urgency=low
 
   * Upstream new release, removed debian patches that were integrated upstream.

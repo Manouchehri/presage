@@ -106,7 +106,7 @@ Description: intelligent predictive text entry platform (Python binding)
  .
  This package contains the Python extension module for libpresage.
 
-Package: presage-gprompter
+Package: gprompter
 Section: misc
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -120,7 +120,7 @@ Description: intelligent predictive GTK+ text editor
  letter is typed. Predictions can be easily selected and inserted in
  the document.
 
-Package: presage-pyprompter
+Package: pyprompter
 Section: misc
 Architecture: any
 Depends: ${python:Depends},
