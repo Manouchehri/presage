@@ -1,5 +1,6 @@
 presage (0.8.4-2) unstable; urgency=low
 
+  * Switched package from CDBS to debhelper dh.
   * Renamed presage-gprompter package to gprompter.
   * Renamed presage-pyprompter package to pyprompter.
   * Ship README NEWS TODO AUTHORS THANKS to libpresage1, presage, gprompter,

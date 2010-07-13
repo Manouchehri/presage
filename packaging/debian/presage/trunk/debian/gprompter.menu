@@ -1,4 +1,4 @@
-?package(presage-gprompter):\
+?package(gprompter):\
     needs="X11" \
     section="Applications/Accessibility" \
     title="Gprompter" \

@@ -1,4 +1,4 @@
-?package(presage-pyprompter):\
+?package(pyprompter):\
     needs="X11" \
     section="Applications/Accessibility" \
     title="pyprompter" \
