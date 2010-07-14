@@ -13,8 +13,8 @@ include /usr/share/cdbs/1/class/python-distutils.mk
 
 DEB_INSTALL_DOCS_ALL = 
 DEB_INSTALL_DOCS_presage = README NEWS TODO AUTHORS THANKS
-DEB_INSTALL_DOCS_presage_gprompter = README NEWS TODO AUTHORS THANKS
-DEB_INSTALL_DOCS_presage_pyprompter = README NEWS TODO AUTHORS THANKS
+DEB_INSTALL_DOCS_gprompter = README NEWS TODO AUTHORS THANKS
+DEB_INSTALL_DOCS_pyprompter = README NEWS TODO AUTHORS THANKS
 DEB_INSTALL_DOCS_libpresage1 = README NEWS TODO AUTHORS THANKS
 
 # 1) Workaround issue whereby CDBS cleans out autotools before cleaning
