@@ -4,5 +4,69 @@ export DH_VERBOSE=1
 
 LDFLAGS += -Wl,--as-needed
 
-%:	
+PYVERS=$(shell pyversions -vs)
+
+%:
 	dh $@
+
+## dh ... --before and --after
+#
+# build: build-stamp
+# build-stamp:
+# 	dh build --before pysupport
+# 	for i in $(PYVERS); do \
+# 		python$$i setup.py build \
+# 	done
+# 	dh build --after  pysupport
+# 	touch build-stamp
+# 
+# clean:
+# 	dh clean
+# 
+# install: build install-stamp
+# install-stamp:
+# 	dh install --before pysupport
+# 	for i in $(PYVERS); do \
+# 		python$$i setup.py install --root $(CURDIR)/debian/python-presage \
+# 	done
+# 	dh install --after  pysupport
+# 	touch install-stamp
+# 
+# binary-arch: install
+# 	dh binary-arch
+# 
+# binary-indep: install
+# 	dh binary-indep
+# 
+# binary: binary-arch binary-indep
+
+
+## with pythonX.Y targets
+#
+# build: build-auto $(PYVERS:%=build-python%) build-stamp
+# build-auto:
+# 	dh build
+# build-python%:
+# 	python$* setup.py build
+# 	touch $@
+# build-stamp:
+# 	touch $@
+# 
+# clean:
+# 	dh clean
+# 
+# install: build install-auto $(PYVERS:%=install-python%) install-stamp
+# install-auto:
+# 	dh install
+# install-python%:
+# 	python$* setup.py install --root $(CURDIR)/debian/python-presage
+# install-stamp:
+# 	touch $@
+# 
+# binary-arch: install
+# 	dh binary-arch
+# 
+# binary-indep: install
+# 	dh binary-indep
+# 
+# binary: binary-arch binary-indep
