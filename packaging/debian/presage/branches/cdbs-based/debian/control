@@ -3,7 +3,7 @@ Section: devel
 Priority: extra
 Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 Build-Depends: cdbs (>= 0.4.15),
-	       debhelper (>= 5),
+	       debhelper (>= 7),
 	       autotools-dev,
 	       libsqlite3-dev,
 	       sqlite3,

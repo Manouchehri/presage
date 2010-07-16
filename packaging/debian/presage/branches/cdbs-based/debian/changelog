@@ -1,3 +1,9 @@
+presage (0.8.4-3) unstable; urgency=low
+
+  * Fixed pyprompter module, now shipping in pyprompter package.
+
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Fri, 16 Jul 2010 12:58:59 +0100
+
 presage (0.8.4-2) unstable; urgency=low
 
   * Renamed presage-gprompter package to gprompter.
