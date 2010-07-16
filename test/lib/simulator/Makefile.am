@@ -27,10 +27,4 @@ check_PROGRAMS = $(TESTS)
 
 #simulatorDriver_SOURCES =	
 
-LDADD =	$(top_builddir)/src/libpresage.la      \
-	$(top_builddir)/src/tools/libtools.la     \
-	$(top_builddir)/src/tinyxml/libtinyxml.la
-
 AM_CPPFLAGS =	-I$(top_srcdir)/src
-
-DEPENDENCIES =	libpresage.la

@@ -29,45 +29,23 @@ if HAVE_CPPUNIT
 
 TESTS =	predictorsTestRunner newPredictorsTestRunner
 
-predictorsTestRunner_SOURCES =	predictorsTestRunner.cpp \
+predictorsTestRunner_SOURCES = 	predictorsTestRunner.cpp \
 				predictorsTestMockObjects.h \
 				predictorsTestMockObjects.cpp \
 				predictorsTestFixture.h \
 				predictorsTestFixture.cpp \
-				$(top_srcdir)/src/lib/core/suggestion.h \
-				$(top_srcdir)/src/lib/core/suggestion.cpp \
-				$(top_srcdir)/src/lib/core/prediction.h \
-				$(top_srcdir)/src/lib/core/prediction.cpp \
-				$(top_srcdir)/src/lib/core/utility.h \
-				$(top_srcdir)/src/lib/core/utility.cpp \
-				$(top_srcdir)/src/lib/core/variable.h \
-				$(top_srcdir)/src/lib/core/variable.cpp \
-				$(top_srcdir)/src/lib/core/configuration.h \
-				$(top_srcdir)/src/lib/core/configuration.cpp \
-				$(top_srcdir)/src/lib/presageException.h \
-				$(top_srcdir)/src/lib/core/presageException.cpp	\
-				$(top_srcdir)/src/lib/core/observable.h \
-				$(top_srcdir)/src/lib/core/observable.cpp \
-				$(top_srcdir)/src/lib/core/observer.h \
-				$(top_srcdir)/src/lib/core/observer.cpp \
 				abbreviationExpansionPredictorTest.h \
-				abbreviationExpansionPredictorTest.cpp \
-				$(top_srcdir)/src/lib/predictors/abbreviationExpansionPredictor.h \
-				$(top_srcdir)/src/lib/predictors/abbreviationExpansionPredictor.cpp
+				abbreviationExpansionPredictorTest.cpp
 predictorsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 predictorsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-predictorsTestRunner_LDADD =	$(top_builddir)/src/lib/predictors/libpredictor.la
+predictorsTestRunner_LDADD =	libpredictorstest.la
 
 if USE_SQLITE
 predictorsTestRunner_SOURCES +=	smoothedNgramPredictorTest.h \
-				smoothedNgramPredictorTest.cpp \
-				$(top_srcdir)/src/lib/predictors/smoothedNgramPredictor.cpp \
-				$(top_srcdir)/src/lib/predictors/smoothedNgramPredictor.h 
-predictorsTestRunner_LDADD +=	$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la
+				smoothedNgramPredictorTest.cpp
 endif
 
-# the following test runner links with libpresage, instead of using
-# mock objects in place of the core libsootsayer library facilities
+
 newPredictorsTestRunner_SOURCES =	predictorsTestRunner.cpp \
 					recencyPredictorTest.h \
 					recencyPredictorTest.cpp \
@@ -75,18 +53,18 @@ newPredictorsTestRunner_SOURCES =	predictorsTestRunner.cpp \
 					dejavuPredictorTest.cpp 
 newPredictorsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 newPredictorsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
-newPredictorsTestRunner_LDADD =		libnewpredictorstest.la
+newPredictorsTestRunner_LDADD =		libpredictorstest.la
 
-check_LTLIBRARIES =			libnewpredictorstest.la
+check_LTLIBRARIES =			libpredictorstest.la
 
-libnewpredictorstest_la_SOURCES = 
-libnewpredictorstest_la_LIBADD =	$(top_builddir)/src/lib/predictors/libpredictors.la \
+libpredictorstest_la_SOURCES = 
+libpredictorstest_la_LIBADD =		$(top_builddir)/src/lib/predictors/libpredictors.la \
 					$(top_builddir)/src/lib/core/libcore.la
 
 if USE_SQLITE
 newPredictorsTestRunner_SOURCES +=	newSmoothedNgramPredictorTest.h \
 					newSmoothedNgramPredictorTest.cpp
-libnewpredictorstest_la_LIBADD +=	$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la 
+libpredictorstest_la_LIBADD +=		$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la 
 endif
 
 endif # HAVE_CPPUNIT

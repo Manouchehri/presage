@@ -27,12 +27,11 @@ TESTS =	toolsTestRunner
 
 check_PROGRAMS = $(TESTS)
 
-toolsTestRunner_SOURCES =	toolsTestRunner.cpp       \
+toolsTestRunner_SOURCES =	toolsTestRunner.cpp \
 				nGramTest.h nGramTest.cpp 
 toolsTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 toolsTestRunner_LDFLAGS =	$(CPPUNIT_LIBS)
 toolsTestRunner_LDADD =		$(top_builddir)/src/tools/libtools.la
-
 toolsTestRunner_CPPFLAGS =	-I$(top_srcdir)/src
 
 endif

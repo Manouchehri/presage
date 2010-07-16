@@ -1,3 +1,9 @@
+2010-07-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/tools/Makefile.am, test/lib/simulator/Makefile.am,
+	test/lib/core/Makefile.am, test/lib/predictors/Makefile.am: avoid
+	rebuilding sources, link in convenience libs in tests.
+
 2010-07-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* presage-0.8.4: released.

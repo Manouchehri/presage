@@ -66,6 +66,4 @@ else
 libcoretest_la_LIBADD +=	-ltinyxml
 endif
 
-DEPENDENCIES =	libpresage.la
-
 endif
