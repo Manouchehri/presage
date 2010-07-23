@@ -24,7 +24,8 @@
 if HAVE_DBUS_PYTHON
 
 dist_bin_SCRIPTS = \
-	presage_dbus_service
+	presage_dbus_service \
+	presage_dbus_python_demo
 
 python_PYTHON = \
 	presage_dbus_service.py
@@ -32,7 +33,9 @@ python_PYTHON = \
 dbus_servicedir = $(datadir)/dbus-1/services
 dbus_service_DATA = org.gnome.presage.service
 
-EXTRA_DIST = org.gnome.presage.service.in
+EXTRA_DIST = \
+	org.gnome.presage.service.in \
+	presage_dbus_python_demo.in
 
 org.gnome.presage.service:	org.gnome.presage.service.in Makefile
 	sed -e "s|{bindir}|$(bindir)|" $< > $@

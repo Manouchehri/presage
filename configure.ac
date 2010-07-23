@@ -452,6 +452,7 @@ AC_OUTPUT([
 	apps/python/pypresagemate
 	apps/python/setup.py
 	apps/dbus/Makefile
+	apps/dbus/presage_dbus_python_demo
 	doc/Doxyfile
 	doc/Makefile
 	setup.py

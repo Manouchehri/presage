@@ -1,3 +1,8 @@
+2010-07-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/dbus/Makefile.am, apps/dbus/presage_dbus_python_demo.in,
+	configure.ac: added dbus service demo python program.
+
 2010-07-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/tools/Makefile.am, test/lib/simulator/Makefile.am,
