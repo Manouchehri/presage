@@ -1,3 +1,7 @@
+2010-07-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/presagemate/presagemate.py: handle backspace.
+
 2010-07-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/dbus/Makefile.am, apps/dbus/presage_dbus_python_demo.in,

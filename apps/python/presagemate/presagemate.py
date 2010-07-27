@@ -79,6 +79,8 @@ def process_event(event):
    global prediction
    global ignore_keys
 
+   #print "event_string: " + event.event_string
+
    if (event.type == pyatspi.KEY_PRESS) & (event.is_text == True):
     
      if (len(event.event_string) == 1) & (event.event_string.isalpha() == True):
@@ -94,6 +96,14 @@ def process_event(event):
         char_index = 0
         if ignore_keys == 0:
            callback.buffer += ' '
+           prediction = prsg.predict()
+        else:
+           ignore_keys -= 1
+     
+     elif event.event_string.lower() == "backspace":
+        char_index = 0
+        if ignore_keys == 0:
+           callback.buffer = callback.buffer[:-1]  # cut out the last character
            prediction = prsg.predict()
         else:
            ignore_keys -= 1
