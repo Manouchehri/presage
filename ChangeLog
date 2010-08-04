@@ -1,3 +1,8 @@
+2010-08-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/Makefile.am, apps/gtk/gprompter/scintilla/*:
+	updated to latest scintilla 2.20 release.
+
 2010-07-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/presagemate/presagemate.py: handle backspace.
