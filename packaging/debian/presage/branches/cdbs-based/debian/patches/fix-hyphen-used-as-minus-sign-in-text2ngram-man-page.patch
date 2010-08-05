@@ -1,8 +1,10 @@
-fix hyphen-used-as-minus-sign warning in text2ngram man page.
+From: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Subject: fix hyphen-used-as-minus-sign warning in text2ngram man page.
+ help2man generates a hyphen where a minus sign was intended.
+ .
+ The sed one-liner contained in this patch works around that.
+Forwarded: not-needed
 
-help2man generates a hyphen where a minus sign was intended.
-
-The sed one-liner contained in this patch works around that.
 Index: presage-0.8.3/src/tools/text2ngram.1
 ===================================================================
 --- presage-0.8.3.orig/src/tools/text2ngram.1	2010-06-21 12:16:56.000000000 +0100

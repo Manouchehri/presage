@@ -1,6 +1,8 @@
 presage (0.8.4-4) unstable; urgency=low
 
   * Updated to latest policy.
+  * Added entries for new files in debian/copyright.
+  * Added DEP-3 headers to patches.
 
  -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Wed, 04 Aug 2010 09:59:55 +0100
 
