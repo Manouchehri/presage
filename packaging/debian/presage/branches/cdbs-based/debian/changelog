@@ -1,16 +1,11 @@
-presage (0.8.4-4) unstable; urgency=low
+presage (0.8.4-3) unstable; urgency=low
 
   * Updated to latest policy.
   * Added entries for new files in debian/copyright.
   * Added DEP-3 headers to patches.
-
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Wed, 04 Aug 2010 09:59:55 +0100
-
-presage (0.8.4-3) unstable; urgency=low
-
   * Fixed pyprompter module, now shipping in pyprompter package.
 
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Fri, 16 Jul 2010 12:58:59 +0100
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Fri, 14 Aug 2010 10:51:59 +0100
 
 presage (0.8.4-2) unstable; urgency=low
 
