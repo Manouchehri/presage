@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 ##########
 #  Presage, an extensible predictive text entry system
@@ -22,98 +22,116 @@
 
 
 import gobject
-from dbus.service import BusName, Object, method
-from dbus import SessionBus, UTF8String
-from dbus.mainloop.glib import DBusGMainLoop
-import presage
+
+import dbus
+import dbus.service
+import dbus.mainloop.glib
+
 import os
+import sys
 
-service_name = 'org.gnome.presage.beta'
-service_path = '/org/gnome/presage/beta'
+import presage
+
+presage_service_name = 'org.gnome.presage.beta'
+presage_service_path = '/org/gnome/presage/beta'
 default_config_file = 'presage.xml'
-pid = None
 
-class PredictionCallback(presage.PresageCallback):
+
+class DbusPresageCallback(presage.PresageCallback):
     def __init__(self):
         presage.PresageCallback.__init__(self)
-        self.buffer = ''
-        self.cursor_position = 0
+        self.past_stream = ''
+        self.future_stream = ''
 
-    def set_buffer(self, string):
-        self.buffer = string
-        self.set_cursor_position(len(string))
+    def set_past_stream(self, string):
+        self.past_stream = string
+        #print 'set_past_stream: ' + self.past_stream
 
-    def set_cursor_position(self, cursor_position):
-        self.cursor_position = cursor_position
+    def set_future_stream(self, string):
+        self.future_stream = string
+        #print 'set_future_stream: ' + self.future_stream
 
     def get_past_stream(self):
-        return self.buffer
+        #print 'get_past_stream: ' + self.past_stream
+        return str(self.past_stream)
     
     def get_future_stream(self):
-        return self.buffer[self.cursor_position:]
-
-class Predictions:
-    def __init__(self, config):
-        self.callback = PredictionCallback().__disown__()
-        self.prsg = presage.Presage(self.callback, config)
-        
-    def get_prediction(self):
-        return self.prsg.predict()
-
-    def reset_buffer(self):
-        self.callback.set_buffer('')
-        self.callback.set_cursor_position(0)
-
-    def set_buffer(self, string):
-        self.callback.set_buffer(string)
+        #print 'get_future_stream: ' + self.future_stream
+        return str(self.future_stream)
 
 
-dbus_loop = DBusGMainLoop()
-session = SessionBus(mainloop=dbus_loop)
-
-class PresageObject(Object):
+class PresageObject(dbus.service.Object):
     instances = 0
-    def __init__(self, bus, loop, config):
+    def __init__(self, bus, config):
         PresageObject.instances += 1
-        name = BusName(service_name, bus)
-        self.path = service_path + '/' + str(PresageObject.instances)
-        self.loop = loop
-        self.predictions = Predictions(config)
-        Object.__init__(self, name, self.path)
+        name = dbus.service.BusName(presage_service_name, bus)
+        self.path = presage_service_path + '/' + str(PresageObject.instances)
+        self.callback = DbusPresageCallback().__disown__()
+        self.prsg = presage.Presage(self.callback, config)
+        dbus.service.Object.__init__(self, name, self.path)
         print 'Service %s created' % self.path
 
-    @method(dbus_interface = service_name, out_signature = 'as')
-    def get_predictions(self):
-        return self.predictions.get_prediction()
+#    def __del__( self ):
+#        print 'PresageObject destroyed: ', self 
 
-    @method(dbus_interface = service_name, utf8_strings=True)
-    def set_buffer(self, string):
-        self.predictions.set_buffer(str(string))
+    @dbus.service.method(dbus_interface = presage_service_name,
+            in_signature = 'ss',
+            out_signature = 'as')
+    def get_predictions(self, past, future):
+        self.callback.set_past_stream(past)
+        self.callback.set_future_stream(future)
+        return self.prsg.predict()
 
-    @method(dbus_interface = service_name)
-    def close(self):
-        self.loop.quit()
-        print 'Service %s closed' % self.path
+    @dbus.service.method(dbus_interface = presage_service_name)
+    def destroy(self):
+        self.remove_from_connection()
+        print 'Removed object ' + self.path + ' from connection.'
 
 
-class PresageService(Object):
+class PresageService(dbus.service.Object):
     def __init__(self, bus, loop):
-        name = BusName(service_name, bus)
+        self.name = dbus.service.BusName(presage_service_name, bus)
         self.bus = bus
-        path = service_path
+        self.path = presage_service_path
         self.loop = loop
-        Object.__init__(self, name, path)
-        print 'Service %s created' % service_name
+        dbus.service.Object.__init__(self, self.name, self.path)
+        print 'Service %s created, pid %d' % (presage_service_name, os.getpid())
 
-    @method(dbus_interface = service_name, in_signature = 's', out_signature = 's')
-    def get_next_object_path(self, config = default_config_file):
-        obj = PresageObject(self.bus, self.loop, config)
+    @dbus.service.method(dbus_interface = presage_service_name,
+                         in_signature = 's',
+                         out_signature = 's')
+    def get_presage_object_path(self, config = default_config_file):
+        obj = PresageObject(self.bus, config)
         return obj.path
 
-        
-def main():
+    @dbus.service.method(dbus_interface = presage_service_name,
+                         in_signature = '',
+                         out_signature = '')
+    def shutdown(self):
+        self.loop.quit()
+        print 'Service %s shutdown' % self.path
+
+
+def start():
+    print 'Starting ' + presage_service_name + '...'
+
+    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+
     loop = gobject.MainLoop()
-    my_service = PresageService(session, loop)
-    pid = os.getpid()
-    print pid
+    presage_service = PresageService(dbus.SessionBus(), loop)
     loop.run()
+
+def stop():
+    print 'Stopping ' + presage_service_name + '...'
+    try:
+        bus = dbus.SessionBus()
+        presage_service_object = bus.get_object(presage_service_name, presage_service_path)
+        presage_service_object.shutdown()
+
+    except Exception, e:
+        print 'Caught exception while attempting to stop ' + presage_service_name
+        print e
+        sys.exit(1)
+        
+if __name__ == '__main__':
+    start()

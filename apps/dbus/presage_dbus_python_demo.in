@@ -24,17 +24,19 @@
 
 import sys
 import getopt
-from dbus.mainloop.glib import DBusGMainLoop
+
 import dbus
+import dbus.mainloop.glib
 
 PROGRAM_NAME = 'presage_dbus_python_demo'
 
 config = None
-prediction_object = None
-prediction_service_name = 'org.gnome.presage.beta'
-prediction_service_path = '/org/gnome/presage/beta'
+
+presage_service_name = 'org.gnome.presage.beta'
+presage_service_path = '/org/gnome/presage/beta'
+
 # gloop to use DBUS
-gloop = DBusGMainLoop(set_as_default=True)
+gloop = dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
 
 def disclaimer():
@@ -117,16 +119,15 @@ accordingly).
 '''
 
 
-
     # Get the path for the Presage object
     try:
         bus = dbus.SessionBus(gloop)
         if config:
-            prediction_path = bus.get_object(prediction_service_name, prediction_service_path).get_next_object_path(config)
+            presage_object_path = bus.get_object(presage_service_name, presage_service_path).get_presage_object_path(config)
         else:
-            prediction_path = bus.get_object(prediction_service_name, prediction_service_path).get_next_object_path()
+            presage_object_path = bus.get_object(presage_service_name, presage_service_path).get_presage_object_path()
         # Get the Presage object
-        prediction_object = bus.get_object(prediction_service_name, prediction_path)
+        presage_object = bus.get_object(presage_service_name, presage_object_path)
 
         print "DBUS connection created"
 
@@ -142,11 +143,10 @@ accordingly).
     while string != "":
         string = raw_input(">  ")
         buffer += string
-        prediction_object.set_buffer(buffer)
-        results = prediction_object.get_predictions() 
+        results = presage_object.get_predictions(buffer, '')
         for result in results:
             print str(result)
-    prediction_object.close()
+    presage_object.destroy()
     print "Goodbye"
 
 

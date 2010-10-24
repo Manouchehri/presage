@@ -1,3 +1,11 @@
+2010-10-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/dbus/presage_dbus_service,
+	apps/dbus/presage_dbus_service.py,
+	apps/dbus/presage_dbus_python_demo.in: modified beta D-BUS service
+	interface, improved start and stop script, adapted D-BUS python
+	demo client.
+
 2010-08-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/Makefile.am, apps/gtk/gprompter/scintilla/*:

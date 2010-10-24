@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 ##########
 #  Presage, an extensible predictive text entry system
@@ -22,46 +22,36 @@
 
 
 import presage_dbus_service
-import signal
-from optparse import OptionParser
-import os
+import optparse
 
 def stop_service():
-    print 'stopping...'
-    pid = int(os.popen("ps -A | grep presage_dbus_se | awk '{print $1}'").read().split()[0])
-    if pid and pid != os.getpid():
-        os.kill(pid, signal.SIGKILL)
-        print "Process stoped"
-    else: 
-        print "The process was not running"
+    presage_dbus_service.stop()
 
 def start_service():
-    presage_dbus_service.main()
+    presage_dbus_service.start()
 
-parser = OptionParser()
-parser.add_option ("-v", "--version", action="store_true",
-                   dest="show_version", default=False,
-                                      help="Show version and exit")
-parser.add_option ("-r", "--restart", action="store_true",
-                   dest="should_restart", default=False,
-                                      help="Restart presage predictive service")
-parser.add_option ("-s", "--start", action="store_true",
-                   dest="should_start", default=False,
-                                      help="Start presage predictive service")
-parser.add_option ("-t", "--stop", action="store_true",
-                   dest="should_stop", default=False,
-                                      help="Stop presage predictive service")
 
-options, args = parser.parse_args()
+if __name__ == '__main__':
+    parser = optparse.OptionParser()
+    parser.add_option ("-v", "--version", action="store_true",
+                       dest="show_version", default=False,
+                       help="Show version and exit")
+    parser.add_option ("-r", "--restart", action="store_true",
+                       dest="should_restart", default=False,
+                       help="Restart presage predictive service")
+    parser.add_option ("-s", "--start", action="store_true",
+                       dest="should_start", default=False,
+                       help="Start presage predictive service")
+    parser.add_option ("-t", "--stop", action="store_true",
+                       dest="should_stop", default=False,
+                       help="Stop presage predictive service")
 
+    options, args = parser.parse_args()
     
-
-#if __name__ == '__main__':
-if options.should_stop:
-    stop_service()
-if options.should_start:
-    start_service()
-if options.should_restart:
-    stop_service()
-    start_service()
-
+    if options.should_stop:
+        stop_service()
+    if options.should_start:
+        start_service()
+    if options.should_restart:
+        stop_service()
+        start_service()
