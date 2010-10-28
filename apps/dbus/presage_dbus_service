@@ -35,23 +35,25 @@ if __name__ == '__main__':
     parser = optparse.OptionParser()
     parser.add_option ("-v", "--version", action="store_true",
                        dest="show_version", default=False,
-                       help="Show version and exit")
+                       help="show version and exit")
     parser.add_option ("-r", "--restart", action="store_true",
                        dest="should_restart", default=False,
-                       help="Restart presage predictive service")
+                       help="restart presage predictive service")
     parser.add_option ("-s", "--start", action="store_true",
                        dest="should_start", default=False,
-                       help="Start presage predictive service")
+                       help="start presage predictive service")
     parser.add_option ("-t", "--stop", action="store_true",
                        dest="should_stop", default=False,
-                       help="Stop presage predictive service")
+                       help="stop presage predictive service")
 
     options, args = parser.parse_args()
     
     if options.should_stop:
         stop_service()
-    if options.should_start:
+    elif options.should_start:
         start_service()
-    if options.should_restart:
+    elif options.should_restart:
         stop_service()
         start_service()
+    else:
+        parser.print_help()

@@ -11,6 +11,7 @@ GUI apps:
 ** gray in and out redo and undo menu items
 ** toolbar icon size
 ** autocomp max height
+** would be nice to have status bar with KSR rate
 
 Absolute first:
  - make predictive plugins support filters and write related tests

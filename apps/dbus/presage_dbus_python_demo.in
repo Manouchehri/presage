@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 ##########
 #  Presage, an extensible predictive text entry system
@@ -32,11 +32,9 @@ PROGRAM_NAME = 'presage_dbus_python_demo'
 
 config = None
 
-presage_service_name = 'org.gnome.presage.beta'
-presage_service_path = '/org/gnome/presage/beta'
-
-# gloop to use DBUS
-gloop = dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+presage_service_name      = 'org.gnome.presage.beta'
+presage_service_path      = '/org/gnome/presage/beta'
+presage_service_interface = 'org.gnome.presage.beta'
 
 
 def disclaimer():
@@ -58,7 +56,7 @@ user interface and does all the predictive heavy lifting.
 def print_version():
 	print """
 %s (%s) version %s
-Copyright (C) 2004 Matteo Vescovi.
+Copyright (C) 2010 Matteo Vescovi.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE,
 to the extent permitted by law.
@@ -102,22 +100,8 @@ def parse_cmd_line_args():
 
 
 def main():
-    try:
-        import presage
-
-    except ImportError, e:
-        print '''
-Error: failed to import module presage.
-
-Check that presage python binding is properly installed (if
-installed in a non-standard location, please set PYTHONPATH
-accordingly).
-
-Check that presage library is properly installed (if installed in a
-non-standard location, please set LD_LIBRARY_PATH (PATH, LIBPATH)
-accordingly).
-'''
-
+    # gloop to use DBUS
+    gloop = dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
 
     # Get the path for the Presage object
     try:
@@ -129,19 +113,17 @@ accordingly).
         # Get the Presage object
         presage_object = bus.get_object(presage_service_name, presage_object_path)
 
-        print "DBUS connection created"
-
+        print 'D-BUS connection to presage object %s created' % presage_object_path
 
     except Exception, e:
         print e
         sys.exit(1)
 
-
     print "Enter text at the prompt (press enter on empty line to exit):"
     string = None
     buffer = ""
     while string != "":
-        string = raw_input(">  ")
+        string = raw_input("> ")
         buffer += string
         results = presage_object.get_predictions(buffer, '')
         for result in results:

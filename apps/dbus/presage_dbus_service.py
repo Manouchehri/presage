@@ -3,6 +3,7 @@
 ##########
 #  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
+#
 #  Copyright (C) 2010  David Pellicer <dpellicer@warp.es>
 #  Copyright (C) 2010  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 #
@@ -32,8 +33,10 @@ import sys
 
 import presage
 
-presage_service_name = 'org.gnome.presage.beta'
-presage_service_path = '/org/gnome/presage/beta'
+presage_service_name      = 'org.gnome.presage.beta'
+presage_service_path      = '/org/gnome/presage/beta'
+presage_service_interface = 'org.gnome.presage.beta'
+
 default_config_file = 'presage.xml'
 
 
@@ -69,12 +72,12 @@ class PresageObject(dbus.service.Object):
         self.callback = DbusPresageCallback().__disown__()
         self.prsg = presage.Presage(self.callback, config)
         dbus.service.Object.__init__(self, name, self.path)
-        print 'Service %s created' % self.path
+        print 'Created presage object %s' % self.path
 
 #    def __del__( self ):
 #        print 'PresageObject destroyed: ', self 
 
-    @dbus.service.method(dbus_interface = presage_service_name,
+    @dbus.service.method(dbus_interface = presage_service_interface,
             in_signature = 'ss',
             out_signature = 'as')
     def get_predictions(self, past, future):
@@ -82,10 +85,10 @@ class PresageObject(dbus.service.Object):
         self.callback.set_future_stream(future)
         return self.prsg.predict()
 
-    @dbus.service.method(dbus_interface = presage_service_name)
+    @dbus.service.method(dbus_interface = presage_service_interface)
     def destroy(self):
         self.remove_from_connection()
-        print 'Removed object ' + self.path + ' from connection.'
+        print 'Removed presage object ' + self.path
 
 
 class PresageService(dbus.service.Object):
@@ -97,26 +100,25 @@ class PresageService(dbus.service.Object):
         dbus.service.Object.__init__(self, self.name, self.path)
         print 'Service %s created, pid %d' % (presage_service_name, os.getpid())
 
-    @dbus.service.method(dbus_interface = presage_service_name,
+    @dbus.service.method(dbus_interface = presage_service_interface,
                          in_signature = 's',
                          out_signature = 's')
     def get_presage_object_path(self, config = default_config_file):
         obj = PresageObject(self.bus, config)
         return obj.path
 
-    @dbus.service.method(dbus_interface = presage_service_name,
+    @dbus.service.method(dbus_interface = presage_service_interface,
                          in_signature = '',
                          out_signature = '')
     def shutdown(self):
         self.loop.quit()
-        print 'Service %s shutdown' % self.path
+        print 'Service %s shutdown' % presage_service_name
 
 
 def start():
     print 'Starting ' + presage_service_name + '...'
 
     dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-
     loop = gobject.MainLoop()
     presage_service = PresageService(dbus.SessionBus(), loop)
     loop.run()
@@ -124,6 +126,7 @@ def start():
 def stop():
     print 'Stopping ' + presage_service_name + '...'
     try:
+        dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
         bus = dbus.SessionBus()
         presage_service_object = bus.get_object(presage_service_name, presage_service_path)
         presage_service_object.shutdown()
@@ -131,7 +134,6 @@ def stop():
     except Exception, e:
         print 'Caught exception while attempting to stop ' + presage_service_name
         print e
-        sys.exit(1)
         
 if __name__ == '__main__':
     start()
