@@ -67,6 +67,29 @@ static bool FollowsPostfixOperator(StyleContext &sc, LexAccessor &styler) {
 	return false;
 }
 
+static bool followsReturnKeyword(StyleContext &sc, LexAccessor &styler) {
+	// Don't look at styles, so no need to flush.
+	int pos = (int) sc.currentPos;
+	int currentLine = styler.GetLine(pos);
+	int lineStartPos = styler.LineStart(currentLine);
+	char ch;
+	while (--pos > lineStartPos) {
+		ch = styler.SafeGetCharAt(pos);
+		if (ch != ' ' && ch != '\t') {
+			break;
+		}
+	}
+	const char *retBack = "nruter";
+	const char *s = retBack;
+	while (*s
+		&& pos >= lineStartPos
+		&& styler.SafeGetCharAt(pos) == *s) {
+		s++;
+		pos--;
+	}
+	return !*s;
+}
+
 static std::string GetRestOfLine(LexAccessor &styler, int start, bool allowSpace) {
 	std::string restOfLine;
 	int i =0;
@@ -188,6 +211,7 @@ struct OptionsCPP {
 	bool identifiersAllowDollars;
 	bool trackPreprocessor;
 	bool updatePreprocessor;
+	bool fold;
 	bool foldComment;
 	bool foldCommentExplicit;
 	bool foldPreprocessor;
@@ -198,6 +222,7 @@ struct OptionsCPP {
 		identifiersAllowDollars = true;
 		trackPreprocessor = true;
 		updatePreprocessor = true;
+		fold = false;
 		foldComment = false;
 		foldCommentExplicit = true;
 		foldPreprocessor = false;
@@ -230,6 +255,8 @@ struct OptionSetCPP : public OptionSet<OptionsCPP> {
 
 		DefineProperty("lexer.cpp.update.preprocessor", &OptionsCPP::updatePreprocessor,
 			"Set to 1 to update preprocessor definitions when #define found.");
+
+		DefineProperty("fold", &OptionsCPP::fold);
 
 		DefineProperty("fold.comment", &OptionsCPP::foldComment,
 			"This option enables folding multi-line comments and explicit fold points when using the C++ lexer. "
@@ -407,7 +434,9 @@ void SCI_METHOD LexerCPP::Lex(unsigned int startPos, int length, int initStyle, 
 	bool isIncludePreprocessor = false;
 
 	int lineCurrent = styler.GetLine(startPos);
-	if (initStyle == SCE_C_PREPROCESSOR) {
+	if ((initStyle == SCE_C_PREPROCESSOR) ||
+      (initStyle == SCE_C_COMMENTLINE) ||
+      (initStyle == SCE_C_COMMENTLINEDOC)) {
 		// Set continuationLine if last character of previous line is '\'
 		if (lineCurrent > 0) {
 			int chBack = styler.SafeGetCharAt(startPos-1, 0);
@@ -500,6 +529,8 @@ void SCI_METHOD LexerCPP::Lex(unsigned int startPos, int length, int initStyle, 
 			}
 		}
 
+		const bool atLineEndBeforeSwitch = sc.atLineEnd;
+
 		// Determine if the current state should terminate.
 		switch (sc.state & maskActivity) {
 			case SCE_C_OPERATOR:
@@ -507,7 +538,7 @@ void SCI_METHOD LexerCPP::Lex(unsigned int startPos, int length, int initStyle, 
 				break;
 			case SCE_C_NUMBER:
 				// We accept almost anything because of hex. and number suffixes
-				if (!setWord.Contains(sc.ch)) {
+				if (!(setWord.Contains(sc.ch) || ((sc.ch == '+' || sc.ch == '-') && (sc.chPrev == 'e' || sc.chPrev == 'E')))) {
 					sc.SetState(SCE_C_DEFAULT|activitySet);
 				}
 				break;
@@ -562,12 +593,12 @@ void SCI_METHOD LexerCPP::Lex(unsigned int startPos, int length, int initStyle, 
 				}
 				break;
 			case SCE_C_COMMENTLINE:
-				if (sc.atLineStart) {
+				if (sc.atLineStart && !continuationLine) {
 					sc.SetState(SCE_C_DEFAULT|activitySet);
 				}
 				break;
 			case SCE_C_COMMENTLINEDOC:
-				if (sc.atLineStart) {
+				if (sc.atLineStart && !continuationLine) {
 					sc.SetState(SCE_C_DEFAULT|activitySet);
 				} else if (sc.ch == '@' || sc.ch == '\\') { // JavaDoc and Doxygen support
 					// Verify that we have the conditions to mark a comment-doc-keyword
@@ -657,6 +688,12 @@ void SCI_METHOD LexerCPP::Lex(unsigned int startPos, int length, int initStyle, 
 				}
 		}
 
+		if (sc.atLineEnd && !atLineEndBeforeSwitch) {
+			// State exit processing consumed characters up to end of line.
+			lineCurrent++;
+			vlls.Add(lineCurrent, preproc);
+		}
+
 		// Determine if a new state should be entered.
 		if ((sc.state & maskActivity) == SCE_C_DEFAULT) {
 			if (sc.Match('@', '\"')) {
@@ -689,8 +726,11 @@ void SCI_METHOD LexerCPP::Lex(unsigned int startPos, int length, int initStyle, 
 					sc.SetState(SCE_C_COMMENTLINEDOC|activitySet);
 				else
 					sc.SetState(SCE_C_COMMENTLINE|activitySet);
-			} else if (sc.ch == '/' && setOKBeforeRE.Contains(chPrevNonWhite) &&
-				(!setCouldBePostOp.Contains(chPrevNonWhite) || !FollowsPostfixOperator(sc, styler))) {
+			} else if (sc.ch == '/'
+				   && (setOKBeforeRE.Contains(chPrevNonWhite)
+				       || followsReturnKeyword(sc, styler))
+				   && (!setCouldBePostOp.Contains(chPrevNonWhite)
+				       || !FollowsPostfixOperator(sc, styler))) {
 				sc.SetState(SCE_C_REGEX|activitySet);	// JavaScript's RegEx
 			} else if (sc.ch == '\"') {
 				sc.SetState(SCE_C_STRING|activitySet);
@@ -799,6 +839,9 @@ void SCI_METHOD LexerCPP::Lex(unsigned int startPos, int length, int initStyle, 
 // and to make it possible to fiddle the current level for "} else {".
 
 void SCI_METHOD LexerCPP::Fold(unsigned int startPos, int length, int initStyle, IDocument *pAccess) {
+
+	if (!options.fold)
+		return;
 
 	LexAccessor styler(pAccess);
 
@@ -962,9 +1005,9 @@ void LexerCPP::EvaluateTokens(std::vector<std::string> &tokens) {
 				else if (tokens[k+1] == "*")
 					result = valA * valB;
 				else if (tokens[k+1] == "/")
-					result = valA / valB;
+					result = valA / (valB ? valB : 1);
 				else if (tokens[k+1] == "%")
-					result = valA % valB;
+					result = valA % (valB ? valB : 1);
 				else if (tokens[k+1] == "<")
 					result = valA < valB;
 				else if (tokens[k+1] == "<=")

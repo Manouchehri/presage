@@ -3038,27 +3038,9 @@ struct Sci_TextToFind {
     horizontal space, such as Thai, will mostly work but there are some issues where the characters
     are drawn separately leading to visual glitches. Bi-directional text is not supported. </p>
 
-    <p>On Windows, code page can be set to 932 (Japanese Shift-JIS), 936 (Simplified Chinese GBK),
+    <p>Code page can be set to 932 (Japanese Shift-JIS), 936 (Simplified Chinese GBK),
     949 (Korean Unified Hangul Code), 950 (Traditional Chinese Big5), or 1361 (Korean Johab)
     although these may require installation of language specific support.</p>
-
-    <p>On GTK+, code page can be set to 932 (Japanese Shift-JIS), 936 (Simplified Chinese GBK),
-    or 950 (Traditional Chinese Big5).
-    The code page may also be set to <code>SC_CP_DBCS</code> (1)
-    which uses the current locale to handle multi byte characters which may work for otherwise unsupported
-    code pages.</p>
-
-    <p>For GTK+ 1.x, the locale should be set to a Unicode locale with a call similar to
-    <code>setlocale(LC_CTYPE, "en_US.UTF-8")</code>. Fonts with an <code>"iso10646"</code> registry
-    should be used in a font set. Font sets are a comma separated list of partial font
-    specifications where each partial font specification can be in the form:
-    <code>foundry-fontface-charsetregistry-encoding</code> or
-    <code>fontface-charsetregistry-encoding</code> or <code>foundry-fontface</code> or
-    <code>fontface</code>. An example is <code>"misc-fixed-iso10646-1,*"</code>.
-    On GTK+ 2.x, Pango fonts should be used rather than font sets.</p>
-
-    <p>Setting <code>codePage</code> to a non-zero value that is not <code>SC_CP_UTF8</code> is
-    operating system dependent.</p>
 
     <p><b id="SCI_SETKEYSUNICODE">SCI_SETKEYSUNICODE(bool keysUnicode)</b><br />
      <b id="SCI_GETKEYSUNICODE">SCI_GETKEYSUNICODE</b><br />
@@ -3884,7 +3866,7 @@ struct Sci_TextToFind {
 
     <p><b id="SCI_AUTOCSETCANCELATSTART">SCI_AUTOCSETCANCELATSTART(bool cancel)</b><br />
      <b id="SCI_AUTOCGETCANCELATSTART">SCI_AUTOCGETCANCELATSTART</b><br />
-     The default behavior is for the list to be cancelled if the caret moves before the location it
+     The default behavior is for the list to be cancelled if the caret moves to the location it
     was at when the list was displayed. By calling this message with a <code>false</code> argument,
     the list is not cancelled until the caret moves before the first character of the word being
     completed.</p>
@@ -4313,6 +4295,8 @@ struct Sci_TextToFind {
         <tr>
           <td><code>SCI_SELECTIONDUPLICATE</code></td>
 
+          <td><code>SCI_VERTICALCENTRECARET</code></td>
+
         </tr>
      </tbody>
     </table>
@@ -4717,6 +4701,7 @@ sptr_t CallScintilla(unsigned int iMessage, uptr_t wParam, sptr_t lParam){
      <a class="message" href="#SCI_SETFOLDEXPANDED">SCI_SETFOLDEXPANDED(int line, bool
     expanded)</a><br />
      <a class="message" href="#SCI_GETFOLDEXPANDED">SCI_GETFOLDEXPANDED(int line)</a><br />
+     <a class="message" href="#SCI_CONTRACTEDFOLDNEXT">SCI_CONTRACTEDFOLDNEXT(int lineStart)</a><br />
      <a class="message" href="#SCI_TOGGLEFOLD">SCI_TOGGLEFOLD(int line)</a><br />
      <a class="message" href="#SCI_ENSUREVISIBLE">SCI_ENSUREVISIBLE(int line)</a><br />
      <a class="message" href="#SCI_ENSUREVISIBLEENFORCEPOLICY">SCI_ENSUREVISIBLEENFORCEPOLICY(int
@@ -4866,6 +4851,13 @@ sptr_t CallScintilla(unsigned int iMessage, uptr_t wParam, sptr_t lParam){
     <code>SCI_SETFOLDEXPANDED</code> message to process many folds without updating the display
     until you had finished. See <code>SciTEBase::FoldAll()</code> and
     <code>SciTEBase::Expand()</code> for examples of the use of these messages.</p>
+
+    <p><b id="SCI_CONTRACTEDFOLDNEXT">SCI_CONTRACTEDFOLDNEXT(int lineStart)</b><br />
+     Search efficiently for lines that are contracted fold headers.
+     This is useful when saving the user's folding when switching documents or saving folding with a file.
+     The search starts at line number <code>lineStart</code> and continues forwards to the end of the file.
+     <code>lineStart</code> is returned if it is a contracted fold header otherwise the next contracted
+     fold header is returned. If there are no more contracted fold headers then -1 is returned.</p>
 
     <p><b id="SCI_ENSUREVISIBLE">SCI_ENSUREVISIBLE(int line)</b><br />
      <b id="SCI_ENSUREVISIBLEENFORCEPOLICY">SCI_ENSUREVISIBLEENFORCEPOLICY(int line)</b><br />
@@ -5686,9 +5678,10 @@ struct SCNotification {
     int position;
     // SCN_STYLENEEDED, SCN_DOUBLECLICK, SCN_MODIFIED, SCN_DWELLSTART,
     // SCN_DWELLEND, SCN_CALLTIPCLICK,
-    // SCN_HOTSPOTCLICK, SCN_HOTSPOTDOUBLECLICK
+    // SCN_HOTSPOTCLICK, SCN_HOTSPOTDOUBLECLICK, SCN_HOTSPOTRELEASECLICK
     int ch;             // SCN_CHARADDED, SCN_KEY
-    int modifiers;      // SCN_KEY, SCN_DOUBLECLICK, SCN_HOTSPOTCLICK, SCN_HOTSPOTDOUBLECLICK
+    int modifiers;
+    // SCN_KEY, SCN_DOUBLECLICK, SCN_HOTSPOTCLICK, SCN_HOTSPOTDOUBLECLICK, SCN_HOTSPOTRELEASECLICK
     int modificationType; // SCN_MODIFIED
     const char *text;   // SCN_MODIFIED, SCN_USERLISTSELECTION, SCN_AUTOCSELECTION
     int length;         // SCN_MODIFIED
@@ -5728,6 +5721,7 @@ struct SCNotification {
      <a class="message" href="#SCN_ZOOM">SCN_ZOOM</a><br />
      <a class="message" href="#SCN_HOTSPOTCLICK">SCN_HOTSPOTCLICK</a><br />
      <a class="message" href="#SCN_HOTSPOTDOUBLECLICK">SCN_HOTSPOTDOUBLECLICK</a><br />
+     <a class="message" href="#SCN_HOTSPOTRELEASECLICK">SCN_HOTSPOTRELEASECLICK</a><br />
      <a class="message" href="#SCN_INDICATORCLICK">SCN_INDICATORCLICK</a><br />
      <a class="message" href="#SCN_INDICATORRELEASE">SCN_INDICATORRELEASE</a><br />
      <a class="message" href="#SCN_CALLTIPCLICK">SCN_CALLTIPCLICK</a><br />
@@ -6359,12 +6353,14 @@ for line = lineStart to lineEnd do SCI_ENSUREVISIBLE(line) next
     <p>
     <b id="SCN_HOTSPOTCLICK">SCN_HOTSPOTCLICK</b><br />
     <b id="SCN_HOTSPOTDOUBLECLICK">SCN_HOTSPOTDOUBLECLICK</b><br />
+    <b id="SCN_HOTSPOTRELEASECLICK">SCN_HOTSPOTRELEASECLICK</b><br />
      These notifications are generated when the user clicks or double clicks on
      text that is in a style with the hotspot attribute set.
     This notification can be used to link to variable definitions or web pages.
     The <code>position</code> field is set the text position of the click or
     double click and the <code>modifiers</code> field set to the key modifiers
-    held down in a similar manner to <a class="message" href="#SCN_KEY">SCN_KEY</a>.</p>
+    held down in a similar manner to <a class="message" href="#SCN_KEY">SCN_KEY</a>.
+    Only the state of the Ctrl key is reported for <code>SCN_HOTSPOTRELEASECLICK</code>.</p>
 
     <p>
     <b id="SCN_INDICATORCLICK">SCN_INDICATORCLICK</b><br />

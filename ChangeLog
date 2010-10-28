@@ -1,4 +1,9 @@
 2010-10-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+	
+	* apps/gtk/gprompter/scintilla/*:
+	updated to latest scintilla 2.22 release.
+
+2010-10-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/dbus/presage_dbus_service,
 	apps/dbus/presage_dbus_service.py,

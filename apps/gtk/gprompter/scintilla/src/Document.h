@@ -228,8 +228,10 @@ public:
 	int ClampPositionIntoDocument(int pos);
 	bool IsCrLf(int pos);
 	int LenChar(int pos);
-	bool InGoodUTF8(int pos, int &start, int &end);
+	bool InGoodUTF8(int pos, int &start, int &end) const;
 	int MovePositionOutsideChar(int pos, int moveDir, bool checkLineEnd=true);
+	int NextPosition(int pos, int moveDir) const;
+	bool NextCharacter(int &pos, int moveDir);	// Returns true if pos changed
 	int SCI_METHOD CodePage() const;
 	bool SCI_METHOD IsDBCSLeadByte(char ch) const;
 
@@ -252,9 +254,9 @@ public:
 	void AddUndoAction(int token, bool mayCoalesce) { cb.AddUndoAction(token, mayCoalesce); }
 	void SetSavePoint();
 	bool IsSavePoint() { return cb.IsSavePoint(); }
-	const char *BufferPointer() { return cb.BufferPointer(); }
+	const char * SCI_METHOD BufferPointer() { return cb.BufferPointer(); }
 
-	int GetLineIndentation(int line);
+	int SCI_METHOD GetLineIndentation(int line);
 	void SetLineIndentation(int line, int indent);
 	int GetLineIndentPosition(int line) const;
 	int GetColumn(int position);
@@ -276,6 +278,9 @@ public:
 		cb.GetCharRange(buffer, position, lengthRetrieve);
 	}
 	char SCI_METHOD StyleAt(int position) const { return cb.StyleAt(position); }
+	void GetStyleRange(unsigned char *buffer, int position, int lengthRetrieve) const {
+		cb.GetStyleRange(buffer, position, lengthRetrieve);
+	}
 	int GetMark(int line);
 	int AddMark(int line, int markerNum);
 	void AddMarkSet(int line, int valueSet);
