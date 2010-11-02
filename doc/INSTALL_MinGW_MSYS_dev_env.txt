@@ -53,6 +53,13 @@ Install SWIG
 Install SWIG for Windows by simply unzipping it.
 
 
+___________
+Install GTK
+~~~~~~~~~~~
+
+Install GTK for Windows by simply unzipping the all-in-one bundle.
+
+
 _____________
 Build SQLite3
 ~~~~~~~~~~~~~
