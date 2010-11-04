@@ -441,6 +441,7 @@ AC_OUTPUT([
 	resources/arpa/Makefile
 	resources/profiles/Makefile
 	bindings/Makefile
+	bindings/c/Makefile
 	bindings/python/setup.py
 	bindings/python/Makefile
 	apps/Makefile

@@ -3,7 +3,7 @@
 #  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
-#  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+#  Copyright (C) 2010  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,6 +21,26 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	python c
+## Commented block out until I resolve segfault in test
+# 
+# lib_LTLIBRARIES = 		libpresage_c.la
+# libpresage_c_la_SOURCES = 	presage_c.cxx \
+# 				presage_c.h
+# libpresage_c_la_LIBADD =	../../src/lib/libpresage.la
+# libpresage_c_la_CPPFLAGS =	-I$(top_srcdir)/src/lib
+# libpresage_c_la_LDFLAGS =	-no-undefined \
+# 				-version-info 0:0:0
+# 
+# 
+# TESTS =	presage_c_demo
+# 
+# check_PROGRAMS = $(TESTS)
+# 
+# presage_c_demo_SOURCES =	presage_c_demo.c
+# presage_c_demo_LDADD =		libpresage_c.la
+# 
 
-EXTRA_DIST =	presage.i
+EXTRA_DIST = \
+	presage_c.cxx \
+	presage_c.h \
+	presage_c_demo.c

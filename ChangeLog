@@ -1,5 +1,12 @@
+2010-11-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/c, bindings/c/Makefile.am, bindings/c/presage_c.cxx,
+	bindings/c/presage_c_demo.c, bindings/c/presage_c.h,
+	bindings/Makefile.am, configure.ac: added beta C presage library
+	wrapper.
+
 2010-10-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
-	
+
 	* apps/gtk/gprompter/scintilla/*:
 	updated to latest scintilla 2.22 release.
 
