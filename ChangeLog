@@ -1,3 +1,9 @@
+2010-11-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/c/Makefile.am, bindings/c/presage_c.cxx,
+	bindings/c/presage_c_demo.c, bindings/c/presage_c.h: fixed bug in
+	c wrapper shared library.
+
 2010-11-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/c, bindings/c/Makefile.am, bindings/c/presage_c.cxx,

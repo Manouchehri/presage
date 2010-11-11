@@ -49,7 +49,7 @@ static const char* get_future_stream()
 
 int main()
 {
-    presage        prsg;
+    presage_t      prsg;
     char*          completion;
     char**         prediction;
     char*          context;

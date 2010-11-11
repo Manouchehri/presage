@@ -36,38 +36,42 @@ g++ -shared -o presage_c.dll presage_c.cxx -Wl,--output-def,presage_c.def,--out-
 extern "C" {
 #endif
 
-    typedef struct _presage* presage;
+    typedef struct _presage* presage_t;
 
     typedef const char* (*_presage_callback_get_past_stream)  ();
     typedef const char* (*_presage_callback_get_future_stream)();
 
-    presage      presage_new                 (_presage_callback_get_past_stream past,
+    presage_t    presage_new                 (_presage_callback_get_past_stream past,
 					      _presage_callback_get_future_stream future);
+
+    presage_t    presage_new_with_config     (_presage_callback_get_past_stream past,
+					      _presage_callback_get_future_stream future,
+					      const char* config);
     
-    void         presage_delete              (presage prsg);
+    void         presage_delete              (presage_t prsg);
     
     void         presage_free_string         (char* str);
     void         presage_free_string_array   (char** str);
 
-    char**       presage_predict             (presage prsg);
+    char**       presage_predict             (presage_t prsg);
     
-    char*        presage_completion          (presage prsg,
+    char*        presage_completion          (presage_t prsg,
 					      const char* token);
 
-    char*        presage_context             (presage prsg);
+    char*        presage_context             (presage_t prsg);
 
-    int          presage_context_change      (presage prsg);
+    int          presage_context_change      (presage_t prsg);
 
-    char*        presage_prefix              (presage prsg);
+    char*        presage_prefix              (presage_t prsg);
 
-    char*        presage_config              (presage prsg,
+    char*        presage_config              (presage_t prsg,
 					      const char* variable);
 
-    void         presage_config_set          (presage prsg,
+    void         presage_config_set          (presage_t prsg,
 					      const char* variable,
 					      const char* value);
 
-    void         presage_save_config         (presage prsg);
+    void         presage_save_config         (presage_t prsg);
 
 #ifdef __cplusplus
 }
