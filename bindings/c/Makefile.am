@@ -21,20 +21,12 @@
 
 ## Process this file with automake to produce Makefile.in
 
-lib_LTLIBRARIES = 		libpresage_c.la
-libpresage_c_la_SOURCES = 	presage_c.cxx \
-				presage_c.h
-libpresage_c_la_LIBADD =	../../src/lib/libpresage.la
-libpresage_c_la_CPPFLAGS =	-I$(top_srcdir)/src/lib
-libpresage_c_la_LDFLAGS =	-no-undefined \
-				-version-info 0:0:0
+# TESTS =	presage_c_demo
 
-include_HEADERS =		presage_c.h
-
-
-TESTS =	presage_c_demo
-
-check_PROGRAMS = $(TESTS)
+check_PROGRAMS = presage_c_demo
 
 presage_c_demo_SOURCES =	presage_c_demo.c
-presage_c_demo_LDADD =		libpresage_c.la
+presage_c_demo_LDADD =		../../src/lib/libpresage.la
+presage_c_demo_CFLAGS =		-I$(top_srcdir)/src/lib
+
+CLEANFILES =	presage_c_demo.xml

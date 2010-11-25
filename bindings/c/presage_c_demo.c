@@ -22,28 +22,21 @@
                                                                 **********(*)*/
 
 
-/*
-
-LIB /MACHINE:x86 /DEF:presage_c.def
-CL /EHsc /Zi presage_c_demo.c presage_c.lib
-
- */
-
-#include "presage_c.h"
+#include "presage.h"
 
 #include <stdio.h>
 
-static const char* STREAM = "did you not sa";
-static const char* EMPTY = "";
+static const char* PAST   = "did you not sa";
+static const char* FUTURE = "";
 
-static const char* get_past_stream()
+static const char* get_past_stream(void* arg)
 {
-    return STREAM;
+    return (char*) arg;
 }
 
-static const char* get_future_stream()
+static const char* get_future_stream(void* arg)
 {
-    return EMPTY;
+    return (char*) arg;
 }
 
 
@@ -57,7 +50,11 @@ int main()
     char*          value;
     size_t         i;
 
-    prsg = presage_new (get_past_stream, get_future_stream);
+    prsg = presage_new_with_config (get_past_stream,
+				    PAST,
+				    get_future_stream,
+				    FUTURE,
+				    "presage_c_demo.xml");
 
     prediction = presage_predict (prsg);
     for (i = 0; prediction[i] != 0; i++)

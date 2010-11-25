@@ -25,11 +25,70 @@
 #ifndef PRESAGE
 #define PRESAGE
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*
+ *    Presage C API starts here
+ */
+
+    typedef struct _presage* presage_t;
+
+    typedef const char* (*_presage_callback_get_past_stream)   (void*);
+    typedef const char* (*_presage_callback_get_future_stream) (void*);
+
+    presage_t    presage_new                 (_presage_callback_get_past_stream past_stream_cb,
+					      void* past_stream_cb_arg,
+					      _presage_callback_get_future_stream future_stream_cb,
+					      void* future_stream_cb_arg);
+    
+    presage_t    presage_new_with_config     (_presage_callback_get_past_stream past,
+					      void* past_stream_cb_arg,
+					      _presage_callback_get_future_stream future_stream_cb,
+					      void* future_stream_cb_arg,
+					      const char* config);
+    
+    void         presage_delete              (presage_t prsg);
+    
+    void         presage_free_string         (char* str);
+    void         presage_free_string_array   (char** str);
+
+    char**       presage_predict             (presage_t prsg);
+    
+    char*        presage_completion          (presage_t prsg,
+					      const char* token);
+
+    char*        presage_context             (presage_t prsg);
+
+    int          presage_context_change      (presage_t prsg);
+
+    char*        presage_prefix              (presage_t prsg);
+
+    char*        presage_config              (presage_t prsg,
+					      const char* variable);
+
+    void         presage_config_set          (presage_t prsg,
+					      const char* variable,
+					      const char* value);
+
+    void         presage_save_config         (presage_t prsg);
+
+/*
+ *    Presage C API ends here
+ */
+#ifdef __cplusplus
+}
+#endif
+
+
+#ifdef __cplusplus
+
 #include <string>
 #include <vector>
 #include <map>
 
-// Forward declarations, not part of presage API
+// Forward declarations, not part of presage C++ API
 class Configuration;
 class ProfileManager;
 class Profile;
@@ -39,7 +98,7 @@ class PredictorActivator;
 class Selector;
 
 /*
- * Presage public API starts here
+ *    Presage C++ API starts here
  */
 #include "presageException.h"
 #include "presageCallback.h"
@@ -186,6 +245,12 @@ private:
     Selector*           selector;
 
 };
+
+/*
+ *    Presage C++ API ends here
+ */
+#endif // __cplusplus
+
 
 /** \mainpage
 

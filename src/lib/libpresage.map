@@ -17,3 +17,21 @@ global:
 local:
 	*;
 };
+
+PRESAGE_0.8.5 {
+global:
+	presage_completion;
+	presage_config;
+	presage_config_set;
+	presage_context;
+	presage_context_change;
+	presage_delete;
+	presage_free_string;
+	presage_free_string_array;
+	presage_new;
+	presage_new_with_config;
+	presage_predict;
+	presage_prefix;
+	presage_save_config;
+} PRESAGE_0.8.3;
+

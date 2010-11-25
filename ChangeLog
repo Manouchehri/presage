@@ -1,3 +1,9 @@
+2010-11-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.cpp, src/lib/Makefile.am,
+	src/lib/libpresage.map, src/lib/presage.h, bindings/c/Makefile.am,
+	bindings/c/presage_c_demo.c: built C API into libpresage.
+
 2010-11-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/c/Makefile.am, bindings/c/presage_c.cxx,
