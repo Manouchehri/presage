@@ -156,8 +156,6 @@ void DefaultProfile::build_xml_document (const std::string& filename)
 "    </Predictors>"
 "</Presage>";
 
-  xmlProfileDoc = new TiXmlDocument (filename.c_str ());
-
   xmlProfileDoc->Parse (xml);
 
 }
