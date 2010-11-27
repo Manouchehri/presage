@@ -52,81 +52,157 @@ const char* glob_autopunctuation_chars = ".,;:'?!$%&";
 #define PROGRAM_NAME "gprompter"
 
 
-// TODO: reuse previously allocated char* buffer
-class ScintillaPresageCallback
-    : public PresageCallback {
-public:
-    ScintillaPresageCallback(ScintillaObject* sci) { m_scintilla = sci; }
-    virtual ~ScintillaPresageCallback() { }
+static const char* get_past_stream (void* scintilla)
+{
+    ScintillaObject* sci = SCINTILLA(scintilla);
+    static struct TextRange range;
+    range.chrg.cpMin = 0;
+    range.chrg.cpMax = scintilla_send_message(sci,
+					      SCI_GETCURRENTPOS,
+					      0,
+					      0);
 
-    virtual std::string get_past_stream() const {
-	TextRange range;
-	range.chrg.cpMin = 0;
-	range.chrg.cpMax = scintilla_send_message(m_scintilla,
-						  SCI_GETCURRENTPOS,
-						  0,
-						  0);
+    free (range.lpstrText);
+    range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
+
+    scintilla_send_message(sci,
+			   SCI_GETTEXTRANGE,
+			   0,
+			   (sptr_t) &range);
 	
-	range.lpstrText = new char[range.chrg.cpMax - range.chrg.cpMin + 1];
+    return range.lpstrText;
+}
 
-	scintilla_send_message(m_scintilla,
-			       SCI_GETTEXTRANGE,
-			       0,
-			       (sptr_t) &range);
+static const char* get_future_stream (void* scintilla)
+{
+    ScintillaObject* sci = SCINTILLA(scintilla);
+    static struct TextRange range;
+    range.chrg.cpMin = scintilla_send_message(sci,
+					      SCI_GETCURRENTPOS,
+					      0,
+					      0);
+    range.chrg.cpMax = -1;
+
+    free (range.lpstrText);
+    range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
+
+    scintilla_send_message(sci,
+			   SCI_GETTEXTRANGE,
+			   0,
+			   (sptr_t) &range);
 	
-	std::string result = range.lpstrText;
-	delete range.lpstrText;
-	return result;
-    }
-
-    virtual std::string get_future_stream() const {
-	TextRange range;
-	range.chrg.cpMin = scintilla_send_message(m_scintilla,
-						  SCI_GETCURRENTPOS,
-						  0,
-						  0);
-	range.chrg.cpMax = -1;
-	
-	range.lpstrText = new char[range.chrg.cpMax - range.chrg.cpMin + 1];
-
-	scintilla_send_message(m_scintilla,
-			       SCI_GETTEXTRANGE,
-			       0,
-			       (sptr_t) &range);
-	
-	std::string result = range.lpstrText;
-	delete range.lpstrText;
-	return result;
-    }
-
-private:
-    ScintillaObject* m_scintilla;
-
-};
+    return range.lpstrText;
+}
 
 static int exit_app(GtkWidget*w, GdkEventAny*e, gpointer p) {
    gtk_main_quit();
    return w||e||p||1;	// Avoid warnings
 }
 
-static void show_prediction(ScintillaObject* scintilla, Presage* presage)
+static char* stringify_prediction (char** prediction)
 {
-    // TODO: this should go in separate function
-    std::vector<std::string> result = presage->predict();
-    std::stringstream ss;
-    for (size_t i = 0; i < result.size(); i++)
+    size_t len = 0;
+    size_t nchars = 0;
+
+    size_t function_string_len = 4;
+    char* function_string = (char*) malloc (sizeof(char) * function_string_len);
+
+    size_t allocated = 128;
+    char* result = (char*) malloc (sizeof(char) * allocated);
+
+    if (result != NULL)
     {
-	if (glob_function_keys_mode)
+	int i;
+	char *newp = 0;
+	char *wp = result;
+
+	/* write into stringified prediction string */
+	for (i = 0; prediction[i] != 0; i++)
 	{
-	    ss << 'F' << i + 1 << ' ';
+	    if (glob_function_keys_mode)
+	    {
+		/* stringify 'F' (i+1) ' ' into function_string */
+		nchars = snprintf (function_string,
+				   function_string_len,
+				   "F%d ", i + 1);
+		if (nchars >= function_string_len)
+		{
+		    /* realloc buffer */
+		    function_string = (char*) realloc (function_string, nchars + 1);
+		    if (function_string != NULL)
+		    {
+			function_string_len = nchars + 1;
+			nchars = snprintf (function_string,
+					   function_string_len,
+					   "F%d ", i + 1);
+		    }
+		}
+
+		/* realloc if necessary to write 'F\d+ ' into result */
+		if (wp + function_string_len + 1 > result + allocated)
+		{
+		    allocated = (allocated + function_string_len) * 2;
+		    newp = (char *) realloc (result, allocated);
+		    if (newp == NULL)
+		    {
+			free (result);
+			return NULL;
+		    }
+		    wp = newp + (wp - result);
+		    result = newp;
+		}
+
+		/* write 'F\d+ ' into result */
+		wp = (char*) memcpy (wp, function_string, function_string_len);
+		wp += function_string_len - 1;
+	    }
+
+
+	    /* realloc if necessary to write 'prediction[i]\t' into result */
+	    len = strlen (prediction[i]) + 1;
+	    if (wp + len + 1 > result + allocated)
+	    {
+		allocated = (allocated + len) * 2;
+		newp = (char *) realloc (result, allocated);
+		if (newp == NULL)
+		{
+		    free (result);
+		    return NULL;
+		}
+		wp = newp + (wp - result);
+		result = newp;
+	    }
+
+	    /* write 'F\d+ ' into result */
+	    wp = (char*) memcpy (wp, prediction[i], len - 1);
+	    wp += len - 1;
+
+	    *wp++ = '\t';
 	}
-	ss << result[i];
-	if (i < result.size() - 1) {
-            ss << '\t';
+
+	if (wp > result)
+	{
+	    /* Terminate the result string */
+	    *(wp - 1) = '\0';
 	}
+
+	/* Resize memory to the optimal size.  */
+	newp = (char*) realloc (result, wp - result);
+	if (newp != NULL)
+	    result = newp;
     }
-    char* list = strdup (ss.str().c_str());
-    // end TODO
+    
+    return result;
+}
+
+static void show_prediction(ScintillaObject* scintilla, presage_t presage)
+{
+    char** prediction;
+    char* list;
+    
+    prediction = presage_predict(presage);
+    list = stringify_prediction (prediction);
+    presage_free_string_array (prediction);
 
     g_print ("prediction: %s|\n", list);
 
@@ -153,9 +229,9 @@ static void show_prediction(ScintillaObject* scintilla, Presage* presage)
     free (list);
 }
 
-static void on_char_added (SCNotification* nt, 
+static void on_char_added (struct SCNotification* nt, 
 			   ScintillaObject* scintilla,
-			   Presage* presage)
+			   presage_t presage)
 {
     g_print ("on_char_added()\n");
  
@@ -206,18 +282,18 @@ static void on_char_added (SCNotification* nt,
 //    show_prediction(scintilla, presage);
 }
 
-static void on_update_ui (SCNotification* nt,
+static void on_update_ui (struct SCNotification* nt,
 			  ScintillaObject* scintilla,
-			  Presage* presage)
+			  presage_t presage)
 {
     g_print("on_update_ui()\n");
 
     show_prediction(scintilla, presage);
 }
 
-static void on_modified (SCNotification* nt,
+static void on_modified (struct SCNotification* nt,
 			 ScintillaObject* scintilla,
-			 Presage* presage)
+			 presage_t presage)
 {
     g_print("on_modified()\n");
 
@@ -258,9 +334,12 @@ static void on_modified (SCNotification* nt,
 //    }
 }
 
-static void on_user_list_selection(SCNotification* nt, ScintillaObject* scintilla, Presage* presage)
+static void on_user_list_selection(struct SCNotification* nt,
+				   ScintillaObject* scintilla,
+				   presage_t presage)
 {
     char* selection;
+    char* completion;
 
     g_print("on_user_list_selection()\n");
 
@@ -284,12 +363,12 @@ static void on_user_list_selection(SCNotification* nt, ScintillaObject* scintill
 
     g_print("selected text: %s\n", nt->text);
 
-    std::string completion = presage->completion (selection);
+    completion = presage_completion (presage, selection);
 
     free (selection);
 
-    uptr_t length = completion.size();
-    sptr_t str = (sptr_t) completion.c_str();
+    uptr_t length = strlen (completion);
+    sptr_t str = (sptr_t) completion;
 
     scintilla_send_message (scintilla,
 			    SCI_ADDTEXT,
@@ -300,9 +379,9 @@ static void on_user_list_selection(SCNotification* nt, ScintillaObject* scintill
 //    show_prediction (scintilla, presage);
 }
 
-static void on_key( SCNotification* nt,
+static void on_key( struct SCNotification* nt,
 		    ScintillaObject* scintilla,
-		    Presage* presage )
+		    presage_t presage )
 {
     g_print("on_key()\n");
 
@@ -347,14 +426,14 @@ static void on_key( SCNotification* nt,
 static gboolean on_scintilla_notify(GtkWidget *editor, gint wParam, gpointer lParam, gpointer data)
 {
     struct SCNotification *notification;
-    Presage* presage;
+    presage_t presage;
     ScintillaObject* scintilla;
 
     /*
     g_print("notify handler: ");
     */
 
-    presage = (Presage*) data;
+    presage = (presage_t) data;
     scintilla = SCINTILLA(editor);
 
     notification = (struct SCNotification*) lParam;
@@ -831,7 +910,7 @@ static void on_menu_help_about( GtkWidget* widget,
       "http://presage.sourceforge.net";
 
     static const gchar* logo_image_full_filename = pkgdatadir "/presage.png";
-    static GdkPixbuf* logo = gdk_pixbuf_new_from_file (logo_image_full_filename, NULL);
+    GdkPixbuf* logo = gdk_pixbuf_new_from_file (logo_image_full_filename, NULL);
 
     gtk_show_about_dialog (NULL, 
 			   "artists", authors,
@@ -1112,6 +1191,7 @@ int main(int argc, char **argv) {
    GtkWidget* menubar;
    GtkWidget* editor;
    ScintillaObject* sci;
+   presage_t presage;
 
    parse_cmd_line_args (argc, argv);
 
@@ -1147,8 +1227,10 @@ int main(int argc, char **argv) {
    gtk_widget_show (editor);
 
    /* create presage */
-   ScintillaPresageCallback* callback = new ScintillaPresageCallback(sci);
-   Presage* presage = new Presage(callback);
+   presage = presage_new (get_past_stream,
+			  sci,
+			  get_future_stream,
+			  sci);
 
    g_signal_connect (G_OBJECT (sci), SCINTILLA_NOTIFY,
 		     G_CALLBACK (on_scintilla_notify), presage);
@@ -1165,7 +1247,7 @@ int main(int argc, char **argv) {
    uptr_t text_length = SSM(SCI_GETTEXTLENGTH, 0, 0);
    SSM(SCI_GOTOPOS, text_length, 0);       /* position cursor at end */
 
-   uptr_t height = atoi(presage->config("Presage.Selector.SUGGESTIONS").c_str());
+   uptr_t height = atoi (presage_config (presage, "Presage.Selector.SUGGESTIONS"));
    SSM(SCI_AUTOCSETMAXHEIGHT, height, 0);  /* set autocompletion box height */
    SSM(SCI_AUTOCSETSEPARATOR, '\t', 0);    /* set autocompletion separator */
    SSM(SCI_SETWRAPMODE, SC_WRAP_WORD, 0);  /* set word wrapping */

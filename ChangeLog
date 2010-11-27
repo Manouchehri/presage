@@ -1,5 +1,11 @@
 2010-11-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/gtk/gprompter/gprompter.c, apps/gtk/gprompter/Makefile.am:
+	first stab at writing gprompter in pure C using the libpresage C
+	API.
+
+2010-11-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* src/lib/core/defaultProfile.cpp: fixed small memory leak.
 
 2010-11-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>

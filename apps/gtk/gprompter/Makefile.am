@@ -213,13 +213,21 @@ EXTRA_DIST = scintilla/License.txt scintilla/version.txt
 #################################
 
 
-bin_PROGRAMS =		gprompter
+bin_PROGRAMS =		gprompter gprompter_c
 
 gprompter_SOURCES = 	gprompter.cpp
 gprompter_CPPFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) \
 			-I$(top_srcdir)/src/lib \
 			-I$(srcdir)/scintilla/include 
 gprompter_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) \
+			../../../src/lib/libpresage.la \
+			libscintilla.la
+
+gprompter_c_SOURCES = 	gprompter.c
+gprompter_c_CFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) \
+			-I$(top_srcdir)/src/lib \
+			-I$(srcdir)/scintilla/include 
+gprompter_c_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) \
 			../../../src/lib/libpresage.la \
 			libscintilla.la
 
