@@ -1,4 +1,9 @@
-2010-11-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+2010-11-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.c: fixed bug in
+	stringify_prediction() function when prediction is empty.
+
+2010-11-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c, apps/gtk/gprompter/Makefile.am:
 	first stab at writing gprompter in pure C using the libpresage C

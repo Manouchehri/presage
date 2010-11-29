@@ -180,16 +180,22 @@ static char* stringify_prediction (char** prediction)
 	    *wp++ = '\t';
 	}
 
+	/* Terminate the result string */
 	if (wp > result)
 	{
-	    /* Terminate the result string */
-	    *(wp - 1) = '\0';
+	    *(--wp) = '\0';
 	}
+	else if (wp == result)
+        {
+            *(wp++) = '\0';
+        }
 
 	/* Resize memory to the optimal size.  */
 	newp = (char*) realloc (result, wp - result);
 	if (newp != NULL)
+	{
 	    result = newp;
+	}
     }
     
     return result;
