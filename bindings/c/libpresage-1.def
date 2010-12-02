@@ -1,0 +1,15 @@
+LIBRARY libpresage-1.dll
+EXPORTS
+presage_completion
+presage_config
+presage_config_set
+presage_context
+presage_context_change
+presage_delete
+presage_free_string
+presage_free_string_array
+presage_new
+presage_new_with_config
+presage_predict
+presage_prefix
+presage_save_config

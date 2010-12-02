@@ -1,3 +1,10 @@
+2010-12-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/c/README_Visual_Studio.txt,
+	bindings/c/libpresage-1.def, bindings/c/Makefile.am,
+	bindings/c/presage_c_demo.c: added support for and documentation
+	to link libpresage with Visual Studio.
+
 2010-11-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c: fixed bug in

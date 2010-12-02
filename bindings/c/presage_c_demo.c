@@ -51,9 +51,9 @@ int main()
     size_t         i;
 
     prsg = presage_new_with_config (get_past_stream,
-				    PAST,
+				    (void *) PAST,
 				    get_future_stream,
-				    FUTURE,
+				    (void *) FUTURE,
 				    "presage_c_demo.xml");
 
     prediction = presage_predict (prsg);

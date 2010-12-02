@@ -29,4 +29,9 @@ presage_c_demo_SOURCES =	presage_c_demo.c
 presage_c_demo_LDADD =		../../src/lib/libpresage.la
 presage_c_demo_CFLAGS =		-I$(top_srcdir)/src/lib
 
-CLEANFILES =	presage_c_demo.xml
+CLEANFILES = \
+	presage_c_demo.xml
+
+EXTRA_DIST = \
+	README_Visual_Studio.txt
+	libpresage-1.def
