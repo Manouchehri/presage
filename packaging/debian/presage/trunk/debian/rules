@@ -4,10 +4,19 @@ export DH_VERBOSE=1
 
 LDFLAGS += -Wl,--as-needed
 
+#CFLAGS   = -O0 -g
+#CXXFLAGS = -O0 -g
+
 PYVERS=$(shell pyversions -vs)
 
 %:
 	dh $@
+
+override_dh_auto_install:	
+	dh_auto_install
+	cd bindings/python && python setup.py install --root $(CURDIR)/debian/python-presage --prefix usr
+	cd apps/python && python setup.py install --root $(CURDIR)/debian/pyprompter --prefix usr
+
 
 ## dh ... --before and --after
 #

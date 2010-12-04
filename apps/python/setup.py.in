@@ -24,7 +24,7 @@
 from distutils.core import setup, Extension
 setup(name='@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
-      description='Presage Python binding demo application',
+      description='Pyprompter, the intelligent predictive wxPython text editor powered by presage',
       author='Matteo Vescovi',
       author_email='@PACKAGE_BUGREPORT@',
       maintainer='Matteo Vescovi',

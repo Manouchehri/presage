@@ -1,3 +1,9 @@
+presage (0.8.5b-1) unstable; urgency=low
+
+  * Switched package from CDBS to debhelper dh.
+
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Thu, 02 Dec 2010 08:43:52 +0100
+
 presage (0.8.4-3) unstable; urgency=low
 
   * Updated to latest policy.
