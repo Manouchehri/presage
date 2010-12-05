@@ -1,8 +1,10 @@
 presage (0.8.5b-1) unstable; urgency=low
 
-  * Switched package from CDBS to debhelper dh.
+  * Switched packaging from CDBS to debhelper dh.
+  * Build python extension module for all pyversions.
+  * Fixed pyprompter module packaging.
 
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Thu, 02 Dec 2010 08:43:52 +0100
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sun, 05 Dec 2010 08:43:52 +0100
 
 presage (0.8.4-3) unstable; urgency=low
 
