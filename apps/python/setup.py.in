@@ -22,7 +22,7 @@
 # Process this file with configure to produce setup.py
 
 from distutils.core import setup, Extension
-setup(name='@PACKAGE_NAME@',
+setup(name='pyprompter',
       version='@PACKAGE_VERSION@',
       description='Pyprompter, the intelligent predictive wxPython text editor powered by presage',
       author='Matteo Vescovi',

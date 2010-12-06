@@ -22,7 +22,7 @@
 # Process this file with configure to produce setup.py
 
 from distutils.core import setup, Extension
-setup(name='@PACKAGE_NAME@',
+setup(name='python-@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
       description='Presage Python binding',
       author='Matteo Vescovi',
