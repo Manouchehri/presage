@@ -213,26 +213,18 @@ EXTRA_DIST = scintilla/License.txt scintilla/version.txt
 #################################
 
 
-bin_PROGRAMS =		gprompter gprompter_c
+bin_PROGRAMS =		gprompter
 
-gprompter_SOURCES = 	gprompter.cpp
-gprompter_CPPFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) \
+gprompter_SOURCES = 	gprompter.c
+gprompter_CFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) \
 			-I$(top_srcdir)/src/lib \
 			-I$(srcdir)/scintilla/include 
 gprompter_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) \
 			../../../src/lib/libpresage.la \
 			libscintilla.la
 
-gprompter_c_SOURCES = 	gprompter.c
-gprompter_c_CFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) \
-			-I$(top_srcdir)/src/lib \
-			-I$(srcdir)/scintilla/include 
-gprompter_c_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) \
-			../../../src/lib/libpresage.la \
-			libscintilla.la
-
 if HAVE_HELP2MAN
-gprompter.1:	gprompter.cpp $(top_srcdir)/configure.ac
+gprompter.1:	gprompter.c $(top_srcdir)/configure.ac
 	$(MAKE) $(AM_MAKEFLAGS) gprompter$(EXEEXT)
 	help2man --output=$@ --no-info --name="the intelligent predictive GTK+ text editor" ./gprompter$(EXEEXT)
 

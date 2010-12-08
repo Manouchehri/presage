@@ -77,6 +77,7 @@ install-exec-local:
 #
 uninstall-local:
 	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/prompter
+	rm -f $(DESTDIR)$(libdir)/python*/site-packages/pyprompter-*.egg-info
 	rm -f $(DESTDIR)$(bindir)/pyprompter
 
 clean-local:

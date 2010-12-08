@@ -1,4 +1,12 @@
-2010-12-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+2010-12-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/Makefile.am,
+	apps/gtk/gprompter/gprompter.cpp: rewrote gprompter app in C.
+
+	* bindings/python/Makefile.am, apps/python/Makefile.am: fixed
+	distcheck.
+
+2010-12-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/setup.py.in, apps/python/setup.py.in: fixed
 	setup.py and python egg generation.

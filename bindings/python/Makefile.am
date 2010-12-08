@@ -74,10 +74,8 @@ uninstall-local:
 	rm -f $(DESTDIR)$(libdir)/python*/site-packages/_presage.so
 	rm -f $(DESTDIR)$(libdir)/python*/site-packages/presage.py
 	rm -f $(DESTDIR)$(libdir)/python*/site-packages/presage.pyc
-	rm -f $(DESTDIR)$(libdir)/python*/site-packages/presage*.egg*
-	rm -rf $(DESTDIR)$(libdir)/python*/site-packages/prompter
+	rm -f $(DESTDIR)$(libdir)/python*/site-packages/python_presage-*.egg-info
 	rm -f $(DESTDIR)$(bindir)/presage_python_demo
-	rm -f $(DESTDIR)$(bindir)/presage_prompter
 
 clean-local:
 	$(PYTHON) setup.py clean --all
