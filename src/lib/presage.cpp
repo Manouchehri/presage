@@ -264,9 +264,9 @@ public:
 
 private:
   _presage_callback_get_past_stream   m_get_past_stream_cb;
+  void*                               m_get_past_stream_cb_arg;
   _presage_callback_get_future_stream m_get_future_stream_cb;
-  void* m_get_past_stream_cb_arg;
-  void* m_get_future_stream_cb_arg;
+  void*                               m_get_future_stream_cb_arg;
 };
 
 static char* alloc_c_str (std::string str)

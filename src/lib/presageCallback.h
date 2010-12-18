@@ -25,6 +25,20 @@
 #ifndef PRESAGE_CALLBACK
 #define PRESAGE_CALLBACK
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+    typedef const char* (*_presage_callback_get_past_stream)   (void*);
+    typedef const char* (*_presage_callback_get_future_stream) (void*);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+#ifdef __cplusplus
+
 #include <string>
 #include <sstream>
 
@@ -100,4 +114,6 @@ private:
     const std::string m_empty;
 };
 
-#endif // PRESAGE_CALLBACK
+#endif /* _cplusplus */
+
+#endif /* PRESAGE_CALLBACK */

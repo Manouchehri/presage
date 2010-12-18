@@ -25,6 +25,9 @@
 #ifndef PRESAGE
 #define PRESAGE
 
+#include "presageException.h"
+#include "presageCallback.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -34,9 +37,6 @@ extern "C" {
  */
 
     typedef struct _presage* presage_t;
-
-    typedef const char* (*_presage_callback_get_past_stream)   (void*);
-    typedef const char* (*_presage_callback_get_future_stream) (void*);
 
     presage_t    presage_new                 (_presage_callback_get_past_stream past_stream_cb,
 					      void* past_stream_cb_arg,
@@ -89,7 +89,7 @@ extern "C" {
 #include <vector>
 #include <map>
 
-// Forward declarations, not part of presage C++ API
+/* Forward declarations, not part of presage C++ API */
 class Configuration;
 class ProfileManager;
 class Profile;
@@ -101,9 +101,6 @@ class Selector;
 /*
  *    Presage C++ API starts here
  */
-
-#include "presageException.h"
-#include "presageCallback.h"
 
 /** \brief Presage, the intelligent predictive text entry platform.
  */
@@ -251,7 +248,7 @@ private:
 /*
  *    Presage C++ API ends here
  */
-#endif // __cplusplus
+#endif /* __cplusplus */
 
 
 /** \mainpage
@@ -308,4 +305,4 @@ private:
 
 */
 
-#endif // PRESAGE
+#endif /* PRESAGE */

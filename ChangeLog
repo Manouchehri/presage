@@ -1,3 +1,9 @@
+2010-12-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.cpp, src/lib/presageCallback.h,
+	src/lib/presageException.h, src/lib/presage.h: fixed up public
+	headers for C and C++ interface.
+
 2010-12-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/presage.*, src/lib/core/profile.*,
