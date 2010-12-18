@@ -341,14 +341,22 @@ void SmoothedNgramPredictor::learn(const std::vector<std::string>& change)
 		
 		if (ngram.end() == find(ngram.begin(), ngram.end(), "")) {
 		    // only learn ngram if it doesn't contain empty strings
-		    db->beginTransaction();
+		    try
+		    {
+			db->beginTransaction();
 		    
-		    db->incrementNgramCount(ngram);
-		    check_learn_consistency(ngram);
-		    
-		    db->endTransaction();
-		    logger << INFO << "Committed ngram update to database" << endl;
-		    
+			db->incrementNgramCount(ngram);
+			check_learn_consistency(ngram);
+			
+			db->endTransaction();
+			logger << INFO << "Committed ngram update to database" << endl;
+		    }
+		    catch (SqliteDatabaseConnector::SqliteDatabaseConnectorException& ex)
+		    {
+			db->rollbackTransaction();
+			logger << ERROR << ex.what() << endl;
+			throw;
+		    }
 		} else {
 		    logger << INFO << "Discarded ngram" << endl;
 		}

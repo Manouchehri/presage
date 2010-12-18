@@ -143,11 +143,7 @@ class PrompterFrame(wx.Frame):
       self.ID_PROMPT_ME = wx.NewId()
       BindMenu(self.presageMenu.Append(self.ID_PROMPT_ME, "&Prompt me\tCTRL+P"), self.OnPresageMenuPromptMe)
 
-      # TODO: this currently toggles smoothed ngram predictor learning on
-      # or off, it should really switch off context tracker learning
-      # when that is implemented.
-      self.learn_mode_config_var = "Presage.Predictors.SmoothedNgramPredictor.LEARN"
-      learn_mode = self.editor.prsg.config(self.learn_mode_config_var)
+      learn_mode = self.editor.prsg.config(self.editor.learn_mode_config_var)
       if learn_mode.lower() == 'true':
          learn_mode = True
       elif learn_mode.lower() == 'false':
@@ -387,7 +383,7 @@ class PrompterFrame(wx.Frame):
       self.editor.ShowPrediction()
 
    def OnPresageMenuToggleLearnMode(self, event):
-      self.editor.prsg.config(self.learn_mode_config_var, str(event.Checked()))
+      self.editor.prsg.config(self.editor.learn_mode_config_var, str(event.Checked()))
       print "Learn mode switched to " + str(event.Checked())
 
    def OnPresageMenuToggleFunctionMode(self, event):
@@ -486,6 +482,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.autopunctuation_whitespace = ' '
       self.autopunctuation_chars = ".,;:'?!$%&"
       self.function_keys_enabled = True
+      self.learn_mode_config_var = "Presage.Predictors.SmoothedNgramPredictor.LEARN"
 
       self.Bind(wx.EVT_CHAR, self.OnChar)
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
@@ -563,17 +560,37 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
 
    def __ShowPrediction(self, string = ''):
       print "------------ __ShowPrediction()"
-      self.prediction = self.prsg.predict()
-      if self.function_keys_enabled:
-         self.prediction = self.__PrependFunctionLabel(self.prediction)
-      self.suggestions = self.separator.join(self.prediction);
-      prefix = self.prsg.prefix()
+      try:
+         prefix = self.prsg.prefix()
+         context = self.prsg.context()
+         context_change = self.prsg.context_change()
+
+         self.prediction = self.prsg.predict()
+
+         if self.function_keys_enabled:
+            self.prediction = self.__PrependFunctionLabel(self.prediction)
+         self.suggestions = self.separator.join(self.prediction);
+
+      except presage.PresageException, ex:
+         print 'Caught exception %s' % (ex)
+         print '  code: %d' % (ex.code())
+         print '  what: %s' % (ex.what())
+         
+         if ex.code() == presage.PRESAGE_SQLITE_EXECUTE_SQL_ERROR:
+            # switch off learning and update menu checkbox
+            self.prsg.config(self.learn_mode_config_var, "false")
+            self.parent.presageMenu.Check(self.parent.ID_TOGGLE_LEARN_MODE, False)
+
+            # notify user
+            dialog = wx.MessageDialog(self.parent, "The adaptive text learning component of the presage predictive text entry engine has detected an error. Learning has been switched off.", "Learning error in presage predictive text engine", wx.OK)
+            dialog.ShowModal()
+            dialog.Destroy()
 
       print "String:         " + string
       print "Prefix:         " + prefix
       print "Prefix len:     " + str(len(prefix))
-      print "Context:        " + self.prsg.context()
-      print "Context change: " + str(self.prsg.context_change())
+      print "Context:        " + context
+      print "Context change: " + str(context_change)
       print "Prediction:     " + self.suggestions
 
       if self.AutoCompActive():

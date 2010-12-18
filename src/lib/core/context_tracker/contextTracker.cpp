@@ -51,7 +51,7 @@ ContextTracker::ContextTracker(Configuration* config,
     if (callback) {
 	context_tracker_callback = callback;
     } else {
-	throw new PresageException("Invalid callback object");
+	throw new PresageException(PRESAGE_INVALID_CALLBACK_ERROR, "Invalid callback object");
     }
 
     contextChangeDetector = new ContextChangeDetector(wordChars,

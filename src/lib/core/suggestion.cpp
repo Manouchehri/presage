@@ -88,7 +88,7 @@ void Suggestion::setProbability(double p)
 	ss << "Suggestion " << word << " probability value "
 	   << p << " out of [" << MIN_PROBABILITY << ", "
 	   << "inf]"; // << MAX_PROBABILITY << "] range";
-	throw SuggestionException(ss.str());
+	throw SuggestionException(PRESAGE_INVALID_SUGGESTION_ERROR, ss.str());
     }
 }
 

@@ -99,6 +99,11 @@ public:
      */
     virtual void endTransaction() const;
 
+    /** Rolls back an SQL transaction.
+     *
+     */
+    virtual void rollbackTransaction() const;
+
 protected:
     // Following functions to be overridden by derived classes.
     virtual void openDatabase()                                  = 0;

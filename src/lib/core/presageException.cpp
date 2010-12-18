@@ -24,17 +24,3 @@
 
 #include "presageException.h"
 
-PresageException::PresageException(const std::string& msg) throw()
-{
-    details = msg;
-}
-
-PresageException::~PresageException() throw()
-{
-    // intentionally empty
-}
-
-const char* PresageException::what() const throw()
-{
-    return details.c_str();
-}

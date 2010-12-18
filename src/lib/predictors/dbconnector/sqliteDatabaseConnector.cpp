@@ -54,7 +54,7 @@ void SqliteDatabaseConnector::openDatabase()
     if (result != SQLITE_OK) {
 	std::string error = sqlite3_errmsg(db);
 	logger << ERROR << "Unable to open database: " << db_name << " : " << endl;
-	throw SqliteDatabaseConnectorException(error);
+	throw SqliteDatabaseConnectorException(PRESAGE_SQLITE_OPEN_DATABASE_ERROR, error);
     }
 #elif defined(HAVE_SQLITE_H)
     char* errormsg = 0;
@@ -120,7 +120,7 @@ NgramTable SqliteDatabaseConnector::executeSql(const std::string query) const
 	logger << ERROR << "Error executing SQL: '" 
 	       << query << "' on database: '" << db_name
 	       << "' : " << error << endl;
-	throw SqliteDatabaseConnectorException(error);
+	throw SqliteDatabaseConnectorException(PRESAGE_SQLITE_EXECUTE_SQL_ERROR, error);
     }
 
     return answer;

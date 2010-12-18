@@ -84,11 +84,11 @@ public:
 
     class ProfileException : public PresageException {
     public:
-	ProfileException(const std::string& desc) throw() : PresageException(desc) { }
+	ProfileException(presage_error_code_t code, const std::string& desc) throw() : PresageException(code, desc) { }
 	virtual ~ProfileException() throw() { }
 	
     private:
-	ProfileException() throw() : PresageException("") { }
+	ProfileException() throw() : PresageException(PRESAGE_ERROR, "") { }
 
     };
 

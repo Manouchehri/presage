@@ -30,7 +30,8 @@
 #include "core/selector.h"
 #include "core/predictorActivator.h"
 
-Presage::Presage(PresageCallback* callback)
+Presage::Presage (PresageCallback* callback)
+    throw (PresageException)
 {
     profileManager = new ProfileManager();
     configuration = profileManager->get_configuration();
@@ -45,7 +46,8 @@ Presage::Presage(PresageCallback* callback)
     //plump.discoverPredictors();
 }
 
-Presage::Presage(PresageCallback* callback, const std::string config_filename)
+Presage::Presage (PresageCallback* callback, const std::string config_filename)
+    throw (PresageException)
 {
     profileManager = new ProfileManager(config_filename);
     configuration = profileManager->get_configuration();
@@ -65,7 +67,8 @@ Presage::~Presage()
     delete profileManager;
 }
 
-std::vector<std::string> Presage::predict()
+std::vector<std::string> Presage::predict ()
+    throw (PresageException)
 {
     std::vector<std::string> result;
 
@@ -90,7 +93,8 @@ std::vector<std::string> Presage::predict()
     return result;
 }
 
-std::multimap<double, std::string> Presage::predict(std::vector<std::string> filter)
+std::multimap<double, std::string> Presage::predict (std::vector<std::string> filter)
+    throw (PresageException)
 {
     std::multimap<double, std::string> result;
 
@@ -138,12 +142,14 @@ std::multimap<double, std::string> Presage::predict(std::vector<std::string> fil
     return result;
 }
 
-PresageCallback* Presage::callback(PresageCallback* callback)
+PresageCallback* Presage::callback (PresageCallback* callback)
+    throw (PresageException)
 {
     return const_cast<PresageCallback*>(contextTracker->callback(callback));
 }
 
-std::string Presage::completion(const std::string str)
+std::string Presage::completion (const std::string str)
+    throw (PresageException)
 {
     // There are two types of completions: normal and erasing.
     // normal_completion  = prefix + remainder
@@ -175,7 +181,7 @@ std::string Presage::completion(const std::string str)
 	    message += str;
 	    message += "' does not match prefix: ";
 	    message += contextTracker->getPrefix();
-	    throw PresageException(message);
+	    throw PresageException(PRESAGE_TOKEN_PREFIX_MISMATCH_ERROR, message);
         }
     } else {
         // erasing completion,
@@ -190,32 +196,38 @@ std::string Presage::completion(const std::string str)
     return result;
 }
 
-std::string Presage::context() const
+std::string Presage::context () const
+    throw (PresageException)
 {
     return contextTracker->getPastStream();
 }
 
-bool Presage::context_change() const
+bool Presage::context_change () const
+    throw (PresageException)
 {
     return contextTracker->contextChange();
 }
 
-std::string Presage::prefix() const
+std::string Presage::prefix () const
+    throw (PresageException)
 {
     return contextTracker->getPrefix();
 }
 
-std::string Presage::config(const std::string variable) const
+std::string Presage::config (const std::string variable) const
+    throw (PresageException)
 {
     return configuration->find (variable)->get_value ();
 }
 
-void Presage::config(const std::string variable, const std::string value) const
+void Presage::config (const std::string variable, const std::string value) const
+    throw (PresageException)
 {
     configuration->find (variable)->set_value (value);
 }
 
-void Presage::save_config() const
+void Presage::save_config () const
+    throw (PresageException)
 {
     profileManager->save_profile ();
 }

@@ -69,11 +69,11 @@ public:
 
     class PredictorRegistryException : public PresageException {
     public:
-	PredictorRegistryException(const std::string& desc) throw() : PresageException(desc) { }
+	PredictorRegistryException(presage_error_code_t code, const std::string& desc) throw() : PresageException(code, desc) { }
 	virtual ~PredictorRegistryException() throw() { }
 
     private:
-	PredictorRegistryException() throw() : PresageException("") { }
+	PredictorRegistryException() throw() : PresageException(PRESAGE_ERROR, "") { }
 
     };
 

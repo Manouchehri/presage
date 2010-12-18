@@ -13,6 +13,7 @@ global:
 	       PresageException::*PresageException*;
 	       PresageException::what*;
 	       typeinfo*PresageException;
+	       vtable*PresageException;
 	};
 local:
 	*;
@@ -34,4 +35,3 @@ global:
 	presage_prefix;
 	presage_save_config;
 } PRESAGE_0.8.3;
-

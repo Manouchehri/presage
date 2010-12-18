@@ -74,6 +74,7 @@ extern "C" {
 
     void         presage_save_config         (presage_t prsg);
 
+
 /*
  *    Presage C API ends here
  */
@@ -100,6 +101,7 @@ class Selector;
 /*
  *    Presage C++ API starts here
  */
+
 #include "presageException.h"
 #include "presageCallback.h"
 
@@ -113,7 +115,7 @@ public:
      * 
      * Presage does not take ownership of the callback object.
      */
-    Presage(PresageCallback* callback);
+    Presage(PresageCallback* callback) throw (PresageException);
 
 
     /** Creates and initializes presage with supplied configuration.
@@ -123,7 +125,7 @@ public:
      *
      * Presage does not take ownership of the callback object.
      */
-    Presage(PresageCallback* callback, const std::string config);
+    Presage(PresageCallback* callback, const std::string config) throw (PresageException);
 
 
     /** Destroys presage.
@@ -147,7 +149,7 @@ public:
      * \return prediction
      *
      */
-    std::vector<std::string> predict();
+    std::vector<std::string> predict() throw (PresageException);
 
     /** \brief Obtains a prediction that matches the supplied token
      *         filter.
@@ -161,7 +163,7 @@ public:
      * of the filter tokens.
      *
      */
-    std::multimap<double, std::string> predict(std::vector<std::string> filter);
+    std::multimap<double, std::string> predict(std::vector<std::string> filter) throw (PresageException);
 
     /** \brief Callback getter/setter.
      *
@@ -170,7 +172,7 @@ public:
      *
      * \return pointer to previously used callback
      */
-    PresageCallback* callback(PresageCallback* callback);
+    PresageCallback* callback(PresageCallback* callback) throw (PresageException);
 
     /** \brief Request presage to return the completion string for the given predicted token.
      *
@@ -184,26 +186,26 @@ public:
      *
      * \return completion string
      */
-    std::string completion(std::string str);
+    std::string completion(std::string str) throw (PresageException);
 
     /** \brief Returns the text entered so far.
      *
      * \return context, text entered so far.
      */
-    std::string context() const;
+    std::string context() const throw (PresageException);
 
     /** \brief Returns true if a context change occured.
      *
      * \return true if a context change occured after the last update
      * or predict calls, or false otherwise.
      */
-    bool context_change() const;
+    bool context_change() const throw (PresageException);
 
     /** \brief Returns the current prefix.
      *
      * \return prefix
      */
-    std::string prefix() const;
+    std::string prefix() const throw (PresageException);
 
     /** \brief Gets the value of specified configuration variable.
      *
@@ -212,7 +214,7 @@ public:
      *
      * \return value assigned to configuration variable.
      */
-    std::string config(const std::string variable) const;
+    std::string config(const std::string variable) const throw (PresageException);
 
     /** \brief Sets the value of specified configuration variable.
      *
@@ -221,7 +223,7 @@ public:
      * from the configuration file in use.
      *
      */
-    void config(const std::string variable, const std::string value) const;
+    void config(const std::string variable, const std::string value) const throw (PresageException);
 
     /** \brief Save current configuration to file.
      *
@@ -230,7 +232,7 @@ public:
      * active XML profile.
      *
      */
-    void save_config() const;
+    void save_config() const throw (PresageException);
 
     /*
      * Presage public API ends here

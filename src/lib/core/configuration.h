@@ -51,11 +51,11 @@ public:
 
     class ConfigurationException : public PresageException {
     public:
-	ConfigurationException(const std::string& desc) throw() : PresageException(desc) { }
+	ConfigurationException(presage_error_code_t error_code, const std::string& desc) throw() : PresageException(error_code, desc) { }
 	virtual ~ConfigurationException() throw() { }
 
     private:
-	ConfigurationException() throw() : PresageException("") { }
+	ConfigurationException() throw() : PresageException (PRESAGE_ERROR, "") { }
 
     };
 

@@ -130,7 +130,7 @@ void PredictorRegistry::addPredictor(const std::string& predictorName)
     } else {
 	// TODO: raise exception
 	logger << FATAL << "Unable to initialize predictor: " << predictorName << endl;
-	throw PredictorRegistryException("Unable to initialize predictor: " + predictorName);
+	throw PredictorRegistryException(PRESAGE_INIT_PREDICTOR_ERROR, "Unable to initialize predictor: " + predictorName);
     }
 }
 

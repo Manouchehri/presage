@@ -52,7 +52,7 @@ Variable* Configuration::find(const std::string& variable) const
         
 	// if we get here, variable was not found in the configuration,
 	// hence we have a right to complain
-	throw ConfigurationException(message);
+	throw ConfigurationException(PRESAGE_CONFIG_VARIABLE_ERROR, message);
     }
 
     return it->second;

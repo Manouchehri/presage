@@ -321,3 +321,8 @@ void DatabaseConnector::endTransaction() const
 {
     executeSql("END TRANSACTION;");
 }
+
+void DatabaseConnector::rollbackTransaction() const
+{
+    executeSql("ROLLBACK TRANSACTION;");
+}
