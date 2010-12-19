@@ -1,3 +1,7 @@
+2010-12-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/c/presage_c_demo.c: fixed compilation warning.
+
 2010-12-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/presage.cpp, src/lib/presageCallback.h,

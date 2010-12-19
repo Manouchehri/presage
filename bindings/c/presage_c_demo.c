@@ -58,7 +58,7 @@ int main()
 
     prediction = presage_predict (prsg);
     for (i = 0; prediction[i] != 0; i++)
-	printf ("prediction[%d]: %s\n", i, prediction[i]);
+	printf ("prediction[%lu]: %s\n", i, prediction[i]);
     presage_free_string_array (prediction);
 
     completion = presage_completion (prsg, "savages");
@@ -82,7 +82,7 @@ int main()
     presage_config_set (prsg, "Presage.Selector.SUGGESTIONS", "10");
     prediction = presage_predict (prsg);
     for (i = 0; prediction[i] != 0; i++)
-	printf ("prediction[%d]: %s\n", i, prediction[i]);
+	printf ("prediction[%lu]: %s\n", i, prediction[i]);
     presage_free_string_array (prediction);    
 
     presage_save_config (prsg);
