@@ -82,7 +82,7 @@ public:
 	return m_details.c_str();
     }
 
-    virtual const int   code() const throw()
+    virtual const presage_error_code_t code() const throw()
     {
 	return m_code;
     }

@@ -269,7 +269,18 @@ private:
   void*                               m_get_future_stream_cb_arg;
 };
 
-static char* alloc_c_str (std::string str)
+#define presage_exception_handler(CODE) \
+    try \
+    { \
+	CODE; \
+    } \
+    catch (PresageException& ex) \
+    { \
+	return ex.code (); \
+    } \
+    return PRESAGE_OK;
+
+static char* alloc_c_str (const std::string& str)
 {
     char* result_c_str = (char*) malloc (str.size() + 1);
     if (result_c_str)
@@ -310,18 +321,20 @@ presage_t presage_new_with_config (_presage_callback_get_past_stream past_stream
     return prsg;
 }
 
-void presage_delete(presage_t prsg)
+void presage_free (presage_t prsg)
 {
-    delete prsg->presage_object;
-    delete prsg->presage_callback_object;
-    
-    free (prsg);
+    if (prsg)
+    {
+	delete prsg->presage_object;
+	delete prsg->presage_callback_object;
+	
+	free (prsg);
+    }
 }
 
 void presage_free_string (char* str)
 {
-    if (str)
-	free (str);
+    free (str);
 }
 
 void presage_free_string_array (char** strs)
@@ -334,56 +347,80 @@ void presage_free_string_array (char** strs)
     }
 }
 
-char** presage_predict (presage_t prsg)
+presage_error_code_t presage_predict (presage_t prsg, char*** result)
 {
-    std::vector<std::string> prediction = prsg->presage_object->predict();
-    
-    size_t prediction_c_str_size = prediction.size() + 1;
-    char** prediction_c_str      = (char**) malloc (prediction_c_str_size * sizeof(char*));
-    memset (prediction_c_str, 0, prediction_c_str_size * sizeof(char*));
+    presage_exception_handler
+    (
+	std::vector<std::string> prediction = prsg->presage_object->predict();
+	
+	size_t prediction_c_str_size = prediction.size() + 1;
+	char** prediction_c_str      = (char**) malloc (prediction_c_str_size * sizeof(char*));
+	memset (prediction_c_str, 0, prediction_c_str_size * sizeof(char*));
 
-    size_t i = 0;
-    while (i < prediction_c_str_size - 1) {
-	prediction_c_str[i] = (char*) malloc (prediction[i].size() + 1);
-	strcpy (prediction_c_str[i], prediction[i].c_str());
-	i++;
-    }
-    prediction_c_str[i] = 0;
-
-    return prediction_c_str;
+	size_t i = 0;
+	while (i < prediction_c_str_size - 1) {
+	    prediction_c_str[i] = (char*) malloc (prediction[i].size() + 1);
+	    strcpy (prediction_c_str[i], prediction[i].c_str());
+	    i++;
+	}
+	prediction_c_str[i] = 0;
+	
+	*result = prediction_c_str;
+    );
 }
 
-char* presage_completion (presage_t prsg, const char* token)
+presage_error_code_t presage_completion (presage_t prsg, const char* token, char** result)
 {
-    return alloc_c_str (prsg->presage_object->completion (token));
+    presage_exception_handler
+    (
+	*result = alloc_c_str (prsg->presage_object->completion (token));
+    );
 }
 
-char* presage_context (presage_t prsg)
+presage_error_code_t presage_context (presage_t prsg, char** result)
 {
-    return alloc_c_str (prsg->presage_object->context ());
+    presage_exception_handler
+    (
+	*result = alloc_c_str (prsg->presage_object->context ());
+    );
 }
 
-int presage_context_change (presage_t prsg)
+presage_error_code_t presage_context_change (presage_t prsg, int* result)
 {
-    return prsg->presage_object->context_change ();
+    presage_exception_handler
+    (
+	*result = prsg->presage_object->context_change ();
+    );
 }
 
-char* presage_prefix (presage_t prsg)
+presage_error_code_t presage_prefix (presage_t prsg, char** result)
 {
-    return alloc_c_str (prsg->presage_object->prefix ());
+    presage_exception_handler
+    (
+	*result = alloc_c_str (prsg->presage_object->prefix ());
+    );
 }
 
-char* presage_config (presage_t prsg, const char* variable)
+presage_error_code_t presage_config (presage_t prsg, const char* variable, char** result)
 {
-    return alloc_c_str (prsg->presage_object->config (variable));
+    presage_exception_handler
+    (
+	*result = alloc_c_str (prsg->presage_object->config (variable));
+    );
 }
 
-void presage_config_set (presage_t prsg, const char* variable, const char* value)
+presage_error_code_t presage_config_set (presage_t prsg, const char* variable, const char* value)
 {
-    prsg->presage_object->config (variable, value);
+    presage_exception_handler 
+    (
+	prsg->presage_object->config (variable, value)
+    );
 }
-
-void presage_save_config (presage_t prsg)
+	    
+presage_error_code_t presage_save_config (presage_t prsg)
 {
-    prsg->presage_object->save_config ();
+    presage_exception_handler 
+    (
+	prsg->presage_object->save_config ()
+    );
 }

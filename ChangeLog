@@ -1,3 +1,10 @@
+2010-12-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.cpp, src/lib/libpresage.map,
+	src/lib/presageException.h, src/lib/presage.h,
+	bindings/c/presage_c_demo.c, apps/gtk/gprompter/gprompter.c:
+	modified presage C API functions to return success or error code.
+
 2010-12-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/c/presage_c_demo.c: fixed compilation warning.

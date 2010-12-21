@@ -205,34 +205,38 @@ static void show_prediction(ScintillaObject* scintilla, presage_t presage)
 {
     char** prediction;
     char* list;
+    presage_error_code_t result;
     
-    prediction = presage_predict(presage);
-    list = stringify_prediction (prediction);
-    presage_free_string_array (prediction);
-
-    g_print ("prediction: %s|\n", list);
-
-    uptr_t completion_active;
-
-    completion_active = scintilla_send_message (scintilla,
-						SCI_AUTOCACTIVE,
-						0,
-						0);
-
-    if (completion_active)
+    result = presage_predict(presage, &prediction);
+    if (PRESAGE_OK == result)
     {
+	list = stringify_prediction (prediction);
+	presage_free_string_array (prediction);
+	
+	g_print ("prediction: %s|\n", list);
+	
+	uptr_t completion_active;
+	
+	completion_active = scintilla_send_message (scintilla,
+						    SCI_AUTOCACTIVE,
+						    0,
+						    0);
+	
+	if (completion_active)
+	{
+	    scintilla_send_message (scintilla,
+				    SCI_AUTOCCANCEL,
+				    0,
+				    0);
+	}
+	
 	scintilla_send_message (scintilla,
-				SCI_AUTOCCANCEL,
-				0,
-				0);
+				SCI_USERLISTSHOW,
+				1,
+				(sptr_t) list);
+	
+	free (list);
     }
-
-    scintilla_send_message (scintilla,
-			    SCI_USERLISTSHOW,
-			    1,
-			    (sptr_t) list);
-
-    free (list);
 }
 
 static void on_char_added (struct SCNotification* nt, 
@@ -369,17 +373,18 @@ static void on_user_list_selection(struct SCNotification* nt,
 
     g_print("selected text: %s\n", nt->text);
 
-    completion = presage_completion (presage, selection);
+    if (PRESAGE_OK == presage_completion (presage, selection, &completion))
+    {
+	uptr_t length = strlen (completion);
+	sptr_t str = (sptr_t) completion;
+
+	scintilla_send_message (scintilla,
+				SCI_ADDTEXT,
+				length,
+				str);
+    }
 
     free (selection);
-
-    uptr_t length = strlen (completion);
-    sptr_t str = (sptr_t) completion;
-
-    scintilla_send_message (scintilla,
-			    SCI_ADDTEXT,
-			    length,
-			    str);
 
 //    g_print("added selected text, now calling show_prediction()\n");
 //    show_prediction (scintilla, presage);
@@ -1198,6 +1203,7 @@ int main(int argc, char **argv) {
    GtkWidget* editor;
    ScintillaObject* sci;
    presage_t presage;
+   char* value;
 
    parse_cmd_line_args (argc, argv);
 
@@ -1252,9 +1258,13 @@ int main(int argc, char **argv) {
 
    uptr_t text_length = SSM(SCI_GETTEXTLENGTH, 0, 0);
    SSM(SCI_GOTOPOS, text_length, 0);       /* position cursor at end */
-
-   uptr_t height = atoi (presage_config (presage, "Presage.Selector.SUGGESTIONS"));
-   SSM(SCI_AUTOCSETMAXHEIGHT, height, 0);  /* set autocompletion box height */
+   
+   if (PRESAGE_OK == presage_config (presage, "Presage.Selector.SUGGESTIONS", &value))
+   {
+       uptr_t height = atoi (value);
+       presage_free_string (value);
+       SSM(SCI_AUTOCSETMAXHEIGHT, height, 0);  /* set autocompletion box height */
+   }
    SSM(SCI_AUTOCSETSEPARATOR, '\t', 0);    /* set autocompletion separator */
    SSM(SCI_SETWRAPMODE, SC_WRAP_WORD, 0);  /* set word wrapping */
    SSM(SCI_SETMARGINWIDTHN, 0, 0);         /* hide margin */

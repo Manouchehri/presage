@@ -35,7 +35,8 @@ lib_LTLIBRARIES = 		libpresage.la
 libpresage_la_SOURCES = 	presage.cpp \
 				presage.h \
 				presageException.h \
-				presageCallback.h
+				presageCallback.h \
+				libpresage.map
 libpresage_la_LIBADD =		core/libcore.la \
 				simulator/libsimulator.la \
 				predictors/libpredictors.la

@@ -46,6 +46,7 @@ int main()
     char*          completion;
     char**         prediction;
     char*          context;
+    int            context_change;
     char*          prefix;
     char*          value;
     size_t         i;
@@ -56,38 +57,60 @@ int main()
 				    (void *) FUTURE,
 				    "presage_c_demo.xml");
 
-    prediction = presage_predict (prsg);
-    for (i = 0; prediction[i] != 0; i++)
-	printf ("prediction[%lu]: %s\n", i, prediction[i]);
-    presage_free_string_array (prediction);
+    if (PRESAGE_OK == presage_predict (prsg, &prediction))
+    {
+	for (i = 0; prediction[i] != 0; i++)
+	    printf ("prediction[%d]: %s\n", i, prediction[i]);
+	presage_free_string_array (prediction);
+    }
 
-    completion = presage_completion (prsg, "savages");
-    printf ("completion: %s\n", completion);
-    presage_free_string (completion);
+    if (PRESAGE_OK == presage_completion (prsg, "savages", &completion))
+    {
+	printf ("completion: %s\n", completion);
+	presage_free_string (completion);
+    }
 
-    context = presage_context (prsg);
-    printf ("context: %s\n", context);
-    presage_free_string (context);
+    if (PRESAGE_OK == presage_context (prsg, &context))
+    {
+	printf ("context: %s\n", context);
+	presage_free_string (context);
+    }
 
-    printf ("context_change: %d\n", presage_context_change (prsg));
+    if (PRESAGE_OK == presage_context_change (prsg, &context_change))
+    {
+	printf ("context_change: %d\n", context_change);
+    }
 
-    prefix = presage_prefix (prsg);
-    printf ("prefix: %s\n", prefix);
-    presage_free_string (prefix);
+    if (PRESAGE_OK == presage_prefix (prsg, &prefix))
+    {
+	printf ("prefix: %s\n", prefix);
+	presage_free_string (prefix);
+    }
 
-    value = presage_config (prsg, "Presage.Selector.SUGGESTIONS");
-    printf ("SUGGESTIONS: %s\n", value);
-    presage_free_string (value);
+    if (PRESAGE_OK == presage_config (prsg, "Presage.Selector.SUGGESTIONS", &value))
+    {
+	printf ("SUGGESTIONS: %s\n", value);
+	presage_free_string (value);
+    }
 
     presage_config_set (prsg, "Presage.Selector.SUGGESTIONS", "10");
+<<<<<<< .mine
+    if (PRESAGE_OK == presage_predict (prsg, &prediction))
+    {
+	for (i = 0; prediction[i] != 0; i++)
+	    printf ("prediction[%d]: %s\n", i, prediction[i]);
+	presage_free_string_array (prediction);    
+    }
+=======
     prediction = presage_predict (prsg);
     for (i = 0; prediction[i] != 0; i++)
 	printf ("prediction[%lu]: %s\n", i, prediction[i]);
     presage_free_string_array (prediction);    
+>>>>>>> .r669
 
     presage_save_config (prsg);
 
-    presage_delete (prsg);
+    presage_free (prsg);
 
     return 0;
 }

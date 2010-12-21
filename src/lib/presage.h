@@ -38,41 +38,47 @@ extern "C" {
 
     typedef struct _presage* presage_t;
 
-    presage_t    presage_new                 (_presage_callback_get_past_stream past_stream_cb,
-					      void* past_stream_cb_arg,
-					      _presage_callback_get_future_stream future_stream_cb,
-					      void* future_stream_cb_arg);
+    presage_t            presage_new                 (_presage_callback_get_past_stream past_stream_cb,
+						      void* past_stream_cb_arg,
+						      _presage_callback_get_future_stream future_stream_cb,
+						      void* future_stream_cb_arg);
     
-    presage_t    presage_new_with_config     (_presage_callback_get_past_stream past,
-					      void* past_stream_cb_arg,
-					      _presage_callback_get_future_stream future_stream_cb,
-					      void* future_stream_cb_arg,
-					      const char* config);
+    presage_t            presage_new_with_config     (_presage_callback_get_past_stream past,
+						      void* past_stream_cb_arg,
+						      _presage_callback_get_future_stream future_stream_cb,
+						      void* future_stream_cb_arg,
+						      const char* config);
     
-    void         presage_delete              (presage_t prsg);
+    void                 presage_free                (presage_t prsg);
     
-    void         presage_free_string         (char* str);
-    void         presage_free_string_array   (char** str);
+    void                 presage_free_string         (char* str);
+    void                 presage_free_string_array   (char** str);
 
-    char**       presage_predict             (presage_t prsg);
+    presage_error_code_t presage_predict             (presage_t prsg,
+						      char*** result);
     
-    char*        presage_completion          (presage_t prsg,
-					      const char* token);
+    presage_error_code_t presage_completion          (presage_t prsg,
+						      const char* token,
+						      char** result);
 
-    char*        presage_context             (presage_t prsg);
+    presage_error_code_t presage_context             (presage_t prsg, 
+						      char** result);
 
-    int          presage_context_change      (presage_t prsg);
+    presage_error_code_t presage_context_change      (presage_t prsg,
+						      int* result);
 
-    char*        presage_prefix              (presage_t prsg);
+    presage_error_code_t presage_prefix              (presage_t prsg,
+						      char** result);
 
-    char*        presage_config              (presage_t prsg,
-					      const char* variable);
+    presage_error_code_t presage_config              (presage_t prsg,
+						      const char* variable,
+						      char** result);
 
-    void         presage_config_set          (presage_t prsg,
-					      const char* variable,
-					      const char* value);
-
-    void         presage_save_config         (presage_t prsg);
+    presage_error_code_t presage_config_set          (presage_t prsg,
+						      const char* variable,
+						      const char* value);
+    
+    presage_error_code_t presage_save_config         (presage_t prsg);
 
 
 /*
