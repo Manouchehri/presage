@@ -94,19 +94,12 @@ int main()
     }
 
     presage_config_set (prsg, "Presage.Selector.SUGGESTIONS", "10");
-<<<<<<< .mine
     if (PRESAGE_OK == presage_predict (prsg, &prediction))
     {
 	for (i = 0; prediction[i] != 0; i++)
 	    printf ("prediction[%d]: %s\n", i, prediction[i]);
 	presage_free_string_array (prediction);    
     }
-=======
-    prediction = presage_predict (prsg);
-    for (i = 0; prediction[i] != 0; i++)
-	printf ("prediction[%lu]: %s\n", i, prediction[i]);
-    presage_free_string_array (prediction);    
->>>>>>> .r669
 
     presage_save_config (prsg);
 
