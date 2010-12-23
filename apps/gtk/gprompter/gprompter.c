@@ -1203,6 +1203,7 @@ int main(int argc, char **argv) {
    GtkWidget* editor;
    ScintillaObject* sci;
    presage_t presage;
+   presage_error_code_t presage_code;
    char* value;
 
    parse_cmd_line_args (argc, argv);
@@ -1239,10 +1240,16 @@ int main(int argc, char **argv) {
    gtk_widget_show (editor);
 
    /* create presage */
-   presage = presage_new (get_past_stream,
-			  sci,
-			  get_future_stream,
-			  sci);
+   presage_code = presage_new (get_past_stream,
+			       sci,
+			       get_future_stream,
+			       sci,
+			       &presage);
+   if (PRESAGE_OK != presage_code)
+   {
+       /* should handle this better */
+       return presage_code;
+   }
 
    g_signal_connect (G_OBJECT (sci), SCINTILLA_NOTIFY,
 		     G_CALLBACK (on_scintilla_notify), presage);

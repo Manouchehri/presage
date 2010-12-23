@@ -288,37 +288,42 @@ static char* alloc_c_str (const std::string& str)
     return result_c_str;    
 }
 
-presage_t presage_new (_presage_callback_get_past_stream past_stream_cb,
-		       void* past_stream_cb_arg,
-		       _presage_callback_get_future_stream future_stream_cb,
-		       void* future_stream_cb_arg)
+presage_error_code_t presage_new (_presage_callback_get_past_stream past_stream_cb,
+				  void* past_stream_cb_arg,
+				  _presage_callback_get_future_stream future_stream_cb,
+				  void* future_stream_cb_arg,
+				  presage_t* prsg)
 {
-    presage_t prsg = (presage_t) malloc (sizeof (_presage));
-    
-    prsg->presage_callback_object = new CPresageCallback (past_stream_cb,
-							  past_stream_cb_arg,
-							  future_stream_cb,
-							  future_stream_cb_arg);
-    prsg->presage_object          = new Presage          (prsg->presage_callback_object);
-
-    return prsg;
+    presage_exception_handler
+    (
+	(*prsg) = (presage_t) malloc (sizeof (_presage));
+	
+	(*prsg)->presage_callback_object = new CPresageCallback (past_stream_cb,
+								 past_stream_cb_arg,
+								 future_stream_cb,
+								 future_stream_cb_arg);
+	(*prsg)->presage_object          = new Presage          ((*prsg)->presage_callback_object);
+	
+    );
 }
 
-presage_t presage_new_with_config (_presage_callback_get_past_stream past_stream_cb,
-				   void* past_stream_cb_arg,
-				   _presage_callback_get_future_stream future_stream_cb,
-				   void* future_stream_cb_arg,
-				   const char* config)
+presage_error_code_t presage_new_with_config (_presage_callback_get_past_stream past_stream_cb,
+					      void* past_stream_cb_arg,
+					      _presage_callback_get_future_stream future_stream_cb,
+					      void* future_stream_cb_arg,
+					      const char* config,
+					      presage_t* prsg)
 {
-    presage_t prsg = (presage_t) malloc (sizeof (_presage));
-    
-    prsg->presage_callback_object = new CPresageCallback (past_stream_cb,
-							  past_stream_cb_arg,
-							  future_stream_cb,
-							  future_stream_cb_arg);
-    prsg->presage_object          = new Presage          (prsg->presage_callback_object, config);
-
-    return prsg;
+    presage_exception_handler
+    (
+	(*prsg) = (presage_t) malloc (sizeof (_presage));
+	
+	(*prsg)->presage_callback_object = new CPresageCallback (past_stream_cb,
+								 past_stream_cb_arg,
+								 future_stream_cb,
+								 future_stream_cb_arg);
+	(*prsg)->presage_object          = new Presage          ((*prsg)->presage_callback_object, config);
+    );
 }
 
 void presage_free (presage_t prsg)

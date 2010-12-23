@@ -51,11 +51,16 @@ int main()
     char*          value;
     size_t         i;
 
-    prsg = presage_new_with_config (get_past_stream,
-				    (void *) PAST,
-				    get_future_stream,
-				    (void *) FUTURE,
-				    "presage_c_demo.xml");
+    if (PRESAGE_OK != presage_new_with_config (get_past_stream,
+					       (void *) PAST,
+					       get_future_stream,
+					       (void *) FUTURE,
+					       "presage_c_demo.xml",
+					       &prsg))
+    {
+	return PRESAGE_ERROR;
+    }
+    
 
     if (PRESAGE_OK == presage_predict (prsg, &prediction))
     {
