@@ -10,23 +10,17 @@ The following steps will enable your system to build and execute
 presage in native Win32 mode.
 
 
-_____________
-Install MinGW
-~~~~~~~~~~~~~
+__________________
+Install MinGW/MSYS
+~~~~~~~~~~~~~~~~~~
 
 Download the current Automated MinGW installer and install the
 following components:
 
-    MinGW base tools
-    g++ compiler
-
-
-____________
-Install MSYS
-~~~~~~~~~~~~
-
-Install current MSYS Base System by repeatedly clicking Next and then
-answer Yes to continue with the post install script.
+MinGW Compiler Suite
+    C Compiler
+    C++ Compiler
+MSYS Basic System
 
 
 ______________
@@ -84,8 +78,8 @@ Start MSYS console
 Extract and configure presage, taking care of specifying where to
 find required binaries (Python and SWIG), headers, and libraries:
 
-  PATH=/c/gtk/bin:/c/Python26:/c/SWIG:$PATH \
-  CPPFLAGS="-I/c/SQLite3 -I/c/Python26/include" \
+  PATH=/c/gtk/bin:/c/Python27:/c/SWIG:$PATH \
+  CPPFLAGS="-I/c/SQLite3 -I/c/Python27/include" \
   LDFLAGS="-L/c/SQLite3" \
   ./configure --prefix=/c/presage
  
