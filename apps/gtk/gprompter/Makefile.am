@@ -195,8 +195,7 @@ scintilla/lexers/LexMSSQL.cxx \
 scintilla/lexers/LexAsn1.cxx \
 scintilla/lexers/LexInno.cxx \
 scintilla/lexers/LexSpice.cxx \
-scintilla/lexers/LexPOV.cxx \
-scintilla/lexers/LexA68k.cxx
+scintilla/lexers/LexPOV.cxx 
 
 
 libscintilla_la_SOURCES =	$(SCINTILLA_SRC) $(SCINTILLA_GTK) $(SCINTILLA_INCLUDE) $(SCINTILLA_LEXERS) $(SCINTILLA_LEXLIB)
