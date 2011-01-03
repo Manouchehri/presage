@@ -236,7 +236,25 @@ static void show_prediction(ScintillaObject* scintilla, presage_t presage)
 				(sptr_t) list);
 	
 	free (list);
+
+    } else if (PRESAGE_SQLITE_EXECUTE_SQL_ERROR == result) {
+        /* switch off learning */
+	if (PRESAGE_OK == presage_config_set (presage, 
+					      "Presage.Predictors.SmoothedNgramPredictor.LEARN",
+					      "false"))
+	{
+	    /* notify user */
+	    GtkWidget* dialog = gtk_message_dialog_new (NULL,
+							GTK_DIALOG_DESTROY_WITH_PARENT,
+							GTK_MESSAGE_ERROR,
+							GTK_BUTTONS_CLOSE,
+							"The adaptive text learning component of the presage predictive text entry engine has detected an error. Learning has been switched off.");
+	    gtk_dialog_run (GTK_DIALOG (dialog));
+	    gtk_widget_destroy (dialog);
+        }
     }
+
+    /* possible leak of prediction array of strings here */
 }
 
 static void on_char_added (struct SCNotification* nt, 

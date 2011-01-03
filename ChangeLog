@@ -1,3 +1,8 @@
+2011-01-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.c: handle exception triggered when
+	learning is switched on and n-gram database is not writable.
+
 2010-12-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/presage.cpp, src/lib/presage.h,
