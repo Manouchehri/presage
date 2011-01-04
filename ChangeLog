@@ -1,3 +1,8 @@
+2011-01-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* doc/Doxyfile.in: fixed documentation generation problem caused
+	by preprocessor define.
+
 2011-01-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c: handle exception triggered when
