@@ -5,7 +5,7 @@ presage_config
 presage_config_set
 presage_context
 presage_context_change
-presage_delete
+presage_free
 presage_free_string
 presage_free_string_array
 presage_new

@@ -1,3 +1,8 @@
+2011-01-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/c/libpresage-1.def: fixed export definition file for
+	Visual Studio compiler.
+
 2011-01-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* doc/Doxyfile.in: fixed documentation generation problem caused
