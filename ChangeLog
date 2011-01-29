@@ -1,3 +1,8 @@
+2011-01-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/integration/integration.sh: fixed dependency on bash and
+	bashisms in integration test script.
+
 2011-01-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/c/libpresage-1.def: fixed export definition file for

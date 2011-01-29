@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ##########
 #  Presage, an extensible predictive text entry system
@@ -46,7 +46,7 @@ ERROR_CODE=1
 #
 # arg1 n-gram order of statistical resources
 # arg2 database name
-function generate_resources()
+generate_resources()
 {
     if [ -z "$1" -o -z "$2" ]
     then
@@ -65,7 +65,7 @@ function generate_resources()
 ####
 # Tweak configuration file
 # 
-function generate_config()
+generate_config()
 {
 #    # use generate_presage_config script from src/resources/profiles
 #    ${srcdir}/../../resources/profiles/generate_presage_config.sh ${srcdir}/../../resources/profiles/presage.xml.template presage.xml .
@@ -86,7 +86,7 @@ function generate_config()
     replace_config_entry DELTAS "${NGRAM_DELTAS}"
 }
 
-function replace_config_entry()
+replace_config_entry()
 {
     rm -f ${CONFIG}.tmp
     sed -e "s|<$1>.*</$1>|<$1>$2</$1>|" ${CONFIG} > ${CONFIG}.tmp
@@ -96,7 +96,7 @@ function replace_config_entry()
 ####
 # Restore configuration file
 #
-function restore_config()
+restore_config()
 {
     rm -f ${CONFIG} ${CONFIG}.bak
 }
@@ -104,7 +104,7 @@ function restore_config()
 ####
 # Generate control corpus
 #
-function generate_control_corpus
+generate_control_corpus()
 {
     # just extract some text from the training
     # corpus for the time being      # REVISIT
@@ -116,7 +116,7 @@ function generate_control_corpus
 #
 # arg1 control corpus file
 #
-function simulate()
+simulate()
 {
     if [ -z "$1" ]
     then
@@ -132,7 +132,7 @@ function simulate()
 # 
 # arg1 command line argument to execute
 #
-function execute()
+execute()
 {
     if [ -z "$1" ]
     then
@@ -153,7 +153,7 @@ function execute()
 # 
 # cleans up after itself
 #
-function clean_up()
+clean_up()
 {
     if [ -f "$DATABASE" ]
     then
