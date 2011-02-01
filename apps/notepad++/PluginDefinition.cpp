@@ -109,6 +109,7 @@ void pluginInit(HANDLE hModule)
 //
 void pluginCleanUp()
 {
+	presage_free (presage);
 }
 
 //
@@ -186,6 +187,13 @@ void predict()
 	mbstowcs_s(&convertedChars, wcstr, wcstrsize, str, _TRUNCATE);
 
 	::MessageBox(NULL, wcstr, TEXT("Presage Notepad++ past stream"), MB_OK);
+
+	char** prediction = 0;
+	presage_predict (presage, &prediction);
+	for (int i = 0; prediction[i] != 0; i++) {
+		::MessageBoxA(NULL, (LPCSTR) prediction[i], "Prediction", MB_OK);
+	}
+	presage_free_string_array (prediction);
 
 	free (wcstr);
 }
