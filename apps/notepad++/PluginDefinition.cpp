@@ -18,6 +18,8 @@
 #include "PluginDefinition.h"
 #include "menuCmdID.h"
 
+#include "presage.h"
+
 //
 // The plugin data that Notepad++ needs
 //
@@ -28,11 +30,78 @@ FuncItem funcItem[nbFunc];
 //
 NppData nppData;
 
+static presage_t            presage;
+static presage_error_code_t presage_status;
+
+static const char* get_past_stream (void* scintilla)
+{
+	HWND sci = (HWND) scintilla;
+
+	static struct TextRange range;
+    range.chrg.cpMin = 0;
+    range.chrg.cpMax = ::SendMessage(sci,
+					                 SCI_GETCURRENTPOS,
+					                 0,
+					                 0);
+
+    free (range.lpstrText);
+    range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
+
+    ::SendMessage(sci,
+			      SCI_GETTEXTRANGE,
+			      0,
+			      (sptr_t) &range);
+	
+    return range.lpstrText;
+}
+
+static const char* get_future_stream (void* scintilla)
+{
+	HWND sci = (HWND) scintilla;
+
+	static struct TextRange range;
+    range.chrg.cpMin = ::SendMessage(sci,
+			                         SCI_GETCURRENTPOS,
+                                     0,
+                                     0);
+    range.chrg.cpMax = -1;
+
+    free (range.lpstrText);
+    range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
+
+    ::SendMessage(sci,
+			      SCI_GETTEXTRANGE,
+			      0,
+			      (sptr_t) &range);
+	
+    return range.lpstrText;
+}
+
+
 //
 // Initialize your plugin data here
 // It will be called while plugin loading   
 void pluginInit(HANDLE hModule)
 {
+    // Get the current scintilla
+    int which = -1;
+    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
+    if (which == -1)
+        return;
+    HWND sci = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
+
+   // create presage
+   presage_status = presage_new (get_past_stream,
+			                     sci,
+			                     get_future_stream,
+			                     sci,
+			                     &presage);
+   if (PRESAGE_OK != presage_status)
+   {
+       /* should handle this better */
+       abort();
+   }
+
 }
 
 //
@@ -58,7 +127,7 @@ void commandMenuInit()
     //            ShortcutKey *shortcut,          // optional. Define a shortcut to trigger this command
     //            bool check0nInit                // optional. Make this menu item be checked visually
     //            );
-    setCommand(0, TEXT("Hello Notepad++"), hello, NULL, false);
+    setCommand(0, TEXT("predict"), predict, NULL, false);
     setCommand(1, TEXT("Hello (with dialog)"), helloDlg, NULL, false);
 }
 
@@ -93,21 +162,32 @@ bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey 
 //----------------------------------------------//
 //-- STEP 4. DEFINE YOUR ASSOCIATED FUNCTIONS --//
 //----------------------------------------------//
-void hello()
+void predict()
 {
-    // Open a new document
-    ::SendMessage(nppData._nppHandle, NPPM_MENUCOMMAND, 0, IDM_FILE_NEW);
-
     // Get the current scintilla
     int which = -1;
     ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
     if (which == -1)
         return;
-    HWND curScintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
+    HWND sci = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 
     // Say hello now :
     // Scintilla control has no Unicode mode, so we use (char *) here
-    ::SendMessage(curScintilla, SCI_SETTEXT, 0, (LPARAM)"Hello, Notepad++!");
+    //::SendMessage(sci, SCI_SETTEXT, 0, (LPARAM)"Hello, Notepad++!");
+
+	const char *str = get_past_stream (sci);
+
+	size_t wcstrsize = strlen(str) + 1;
+
+    wchar_t* wcstr = (wchar_t*) malloc (wcstrsize * sizeof(wchar_t));
+
+    // Convert char* string to a wchar_t* string.
+    size_t convertedChars = 0;
+	mbstowcs_s(&convertedChars, wcstr, wcstrsize, str, _TRUNCATE);
+
+	::MessageBox(NULL, wcstr, TEXT("Presage Notepad++ past stream"), MB_OK);
+
+	free (wcstr);
 }
 
 void helloDlg()

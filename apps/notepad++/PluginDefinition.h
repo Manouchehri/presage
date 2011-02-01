@@ -28,7 +28,7 @@
 //-------------------------------------//
 // Here define your plugin name
 //
-const TCHAR NPP_PLUGIN_NAME[] = TEXT("Presage, the intelligent predictive text entry Notepad++ plugin");
+const TCHAR NPP_PLUGIN_NAME[] = TEXT("Presage Notepad++ plugin");
 
 //-----------------------------------------------//
 //-- STEP 2. DEFINE YOUR PLUGIN COMMAND NUMBER --//
@@ -70,7 +70,7 @@ bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey 
 //
 // Your plugin command functions
 //
-void hello();
+void predict();
 void helloDlg();
 
 #endif //PLUGINDEFINITION_H

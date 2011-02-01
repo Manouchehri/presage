@@ -1,3 +1,8 @@
+2011-02-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps\notepad++\PluginDefinition.*: began implementing some
+	scaffolding around the presage plugin for Notepad++.
+
 2011-01-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/integration/integration.sh: fixed dependency on bash and
