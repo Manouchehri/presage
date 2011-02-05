@@ -280,6 +280,18 @@ private:
     } \
     return PRESAGE_OK;
 
+#define presage_exception_handler_with_result(CODE) \
+    try \
+    { \
+	CODE; \
+    } \
+    catch (PresageException& ex) \
+    { \
+        (*result) = 0; \
+	return ex.code (); \
+    } \
+    return PRESAGE_OK;
+
 static char* alloc_c_str (const std::string& str)
 {
     char* result_c_str = (char*) malloc (str.size() + 1);
@@ -292,17 +304,17 @@ presage_error_code_t presage_new (_presage_callback_get_past_stream past_stream_
 				  void* past_stream_cb_arg,
 				  _presage_callback_get_future_stream future_stream_cb,
 				  void* future_stream_cb_arg,
-				  presage_t* prsg)
+				  presage_t* result)
 {
-    presage_exception_handler
+    presage_exception_handler_with_result
     (
-	(*prsg) = (presage_t) malloc (sizeof (_presage));
+	(*result) = (presage_t) malloc (sizeof (_presage));
 	
-	(*prsg)->presage_callback_object = new CPresageCallback (past_stream_cb,
-								 past_stream_cb_arg,
-								 future_stream_cb,
-								 future_stream_cb_arg);
-	(*prsg)->presage_object          = new Presage          ((*prsg)->presage_callback_object);
+	(*result)->presage_callback_object = new CPresageCallback (past_stream_cb,
+								   past_stream_cb_arg,
+								   future_stream_cb,
+								   future_stream_cb_arg);
+	(*result)->presage_object          = new Presage          ((*result)->presage_callback_object);
 	
     );
 }
@@ -312,17 +324,17 @@ presage_error_code_t presage_new_with_config (_presage_callback_get_past_stream 
 					      _presage_callback_get_future_stream future_stream_cb,
 					      void* future_stream_cb_arg,
 					      const char* config,
-					      presage_t* prsg)
+					      presage_t* result)
 {
-    presage_exception_handler
+    presage_exception_handler_with_result
     (
-	(*prsg) = (presage_t) malloc (sizeof (_presage));
+	(*result) = (presage_t) malloc (sizeof (_presage));
 	
-	(*prsg)->presage_callback_object = new CPresageCallback (past_stream_cb,
-								 past_stream_cb_arg,
-								 future_stream_cb,
-								 future_stream_cb_arg);
-	(*prsg)->presage_object          = new Presage          ((*prsg)->presage_callback_object, config);
+	(*result)->presage_callback_object = new CPresageCallback (past_stream_cb,
+								   past_stream_cb_arg,
+								   future_stream_cb,
+								   future_stream_cb_arg);
+	(*result)->presage_object          = new Presage          ((*result)->presage_callback_object, config);
     );
 }
 
@@ -354,7 +366,7 @@ void presage_free_string_array (char** strs)
 
 presage_error_code_t presage_predict (presage_t prsg, char*** result)
 {
-    presage_exception_handler
+    presage_exception_handler_with_result
     (
 	std::vector<std::string> prediction = prsg->presage_object->predict();
 	
@@ -376,7 +388,7 @@ presage_error_code_t presage_predict (presage_t prsg, char*** result)
 
 presage_error_code_t presage_completion (presage_t prsg, const char* token, char** result)
 {
-    presage_exception_handler
+    presage_exception_handler_with_result
     (
 	*result = alloc_c_str (prsg->presage_object->completion (token));
     );
@@ -384,7 +396,7 @@ presage_error_code_t presage_completion (presage_t prsg, const char* token, char
 
 presage_error_code_t presage_context (presage_t prsg, char** result)
 {
-    presage_exception_handler
+    presage_exception_handler_with_result
     (
 	*result = alloc_c_str (prsg->presage_object->context ());
     );
@@ -392,7 +404,7 @@ presage_error_code_t presage_context (presage_t prsg, char** result)
 
 presage_error_code_t presage_context_change (presage_t prsg, int* result)
 {
-    presage_exception_handler
+    presage_exception_handler_with_result
     (
 	*result = prsg->presage_object->context_change ();
     );
@@ -400,7 +412,7 @@ presage_error_code_t presage_context_change (presage_t prsg, int* result)
 
 presage_error_code_t presage_prefix (presage_t prsg, char** result)
 {
-    presage_exception_handler
+    presage_exception_handler_with_result
     (
 	*result = alloc_c_str (prsg->presage_object->prefix ());
     );
@@ -408,7 +420,7 @@ presage_error_code_t presage_prefix (presage_t prsg, char** result)
 
 presage_error_code_t presage_config (presage_t prsg, const char* variable, char** result)
 {
-    presage_exception_handler
+    presage_exception_handler_with_result
     (
 	*result = alloc_c_str (prsg->presage_object->config (variable));
     );
