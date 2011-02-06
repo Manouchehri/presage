@@ -3,6 +3,10 @@
 	* apps/gtk/gprompter/scintilla/*, apps/gtk/gprompter/Makefile.am:
 	updated to latest scintilla 2.24 release.
 
+	* apps/dbus/presage_dbus_service.py,
+	apps/dbus/presage_dbus_python_demo.in: modified dbus interface
+	method.
+
 2011-02-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/presage.cpp: make C API a bit more robust.

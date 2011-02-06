@@ -125,7 +125,7 @@ def main():
     while string != "":
         string = raw_input("> ")
         buffer += string
-        results = presage_object.get_predictions(buffer, '')
+        results = presage_object.get_prediction(buffer, '')
         for result in results:
             print str(result)
     presage_object.destroy()

@@ -80,7 +80,7 @@ class PresageObject(dbus.service.Object):
     @dbus.service.method(dbus_interface = presage_service_interface,
             in_signature = 'ss',
             out_signature = 'as')
-    def get_predictions(self, past, future):
+    def get_prediction(self, past, future):
         self.callback.set_past_stream(past)
         self.callback.set_future_stream(future)
         return self.prsg.predict()
