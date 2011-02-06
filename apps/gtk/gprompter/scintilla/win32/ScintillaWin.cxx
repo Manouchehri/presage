@@ -75,10 +75,8 @@
 #endif
 
 #include <commctrl.h>
-#ifndef __BORLANDC__
 #ifndef __DMC__
 #include <zmouse.h>
-#endif
 #endif
 #include <ole2.h>
 
@@ -770,8 +768,11 @@ sptr_t ScintillaWin::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam
 			break;
 
 		case WM_RBUTTONDOWN:
-			if (!PointInSelection(Point::FromLong(lParam)))
+			::SetFocus(MainHWND());
+			if (!PointInSelection(Point::FromLong(lParam))) {
+				CancelModes();
 				SetEmptySelection(PositionFromLocation(Point::FromLong(lParam)));
+			}
 			break;
 
 		case WM_SETCURSOR:
@@ -784,7 +785,7 @@ sptr_t ScintillaWin::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam
 					::GetCursorPos(&pt);
 					::ScreenToClient(MainHWND(), &pt);
 					if (PointInSelMargin(Point(pt.x, pt.y))) {
-						DisplayCursor(Window::cursorReverseArrow);
+						DisplayCursor(GetMarginCursor(Point(pt.x, pt.y)));
 					} else if (PointInSelection(Point(pt.x, pt.y)) && !SelectionEmpty()) {
 						DisplayCursor(Window::cursorArrow);
 					} else if (PointIsHotspot(Point(pt.x, pt.y))) {
@@ -813,6 +814,7 @@ sptr_t ScintillaWin::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam
 						char inBufferCP[20];
 						int size = ::WideCharToMultiByte(cpDest,
 							0, wcs, 1, inBufferCP, sizeof(inBufferCP) - 1, 0, 0);
+						inBufferCP[size] = '\0';
 						AddCharUTF(inBufferCP, size);
 					}
 				} else {
@@ -1375,12 +1377,12 @@ public:
 				LCMAP_LINGUISTIC_CASING | LCMAP_LOWERCASE,
 				&utf16Mixed[0], nUtf16Mixed, &utf16Folded[0], utf16Folded.size());
 
-			size_t lenOut = ::WideCharToMultiByte(cp, 0, 
+			size_t lenOut = ::WideCharToMultiByte(cp, 0,
 				&utf16Folded[0], lenFlat,
 				NULL, 0, NULL, 0);
 
 			if (lenOut < sizeFolded) {
-				::WideCharToMultiByte(cp, 0, 
+				::WideCharToMultiByte(cp, 0,
 					&utf16Folded[0], lenFlat,
 					folded, lenOut, NULL, 0);
 				return lenOut;
@@ -1600,7 +1602,7 @@ void ScintillaWin::Paste() {
 		return;
 	UndoGroup ug(pdoc);
 	bool isLine = SelectionEmpty() && (::IsClipboardFormatAvailable(cfLineSelect) != 0);
-	ClearSelection();
+	ClearSelection(multiPasteMode == SC_MULTIPASTE_EACH);
 	SelectionPosition selStart = sel.IsRectangular() ?
 		sel.Rectangular().Start() :
 		sel.Range(sel.Main()).Start();

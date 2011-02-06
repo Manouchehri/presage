@@ -1,3 +1,8 @@
+2011-02-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*, apps/gtk/gprompter/Makefile.am:
+	updated to latest scintilla 2.24 release.
+
 2011-02-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/presage.cpp: make C API a bit more robust.
