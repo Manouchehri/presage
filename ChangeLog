@@ -1,3 +1,8 @@
+2011-02-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_database_dump.sql.gz, website/README: upgraded
+	to drupal-6.20.
+
 2011-02-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*, apps/gtk/gprompter/Makefile.am:
@@ -13,7 +18,7 @@
 
 2011-02-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
-	* apps\notepad++\PluginDefinition.*: began implementing some
+	* apps/notepad++/PluginDefinition.*: began implementing some
 	scaffolding around the presage plugin for Notepad++.
 
 2011-01-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
