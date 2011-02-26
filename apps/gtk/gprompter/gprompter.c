@@ -183,7 +183,7 @@ static char* stringify_prediction (char** prediction)
 	/* Terminate the result string */
 	if (wp > result)
 	{
-	    *(--wp) = '\0';
+	    *(wp - 1) = '\0';
 	}
 	else if (wp == result)
         {
