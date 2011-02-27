@@ -104,9 +104,6 @@ static char* stringify_prediction (char** prediction)
     size_t len = 0;
     size_t nchars = 0;
 
-    size_t function_string_len = 4;
-    char* function_string = (char*) malloc (sizeof(char) * function_string_len);
-
     size_t allocated = 128;
     char* result = (char*) malloc (sizeof(char) * allocated);
 
@@ -121,6 +118,9 @@ static char* stringify_prediction (char** prediction)
 	{
 	    if (glob_function_keys_mode)
 	    {
+		size_t function_string_len = 4;
+		char* function_string = (char*) malloc (sizeof(char) * function_string_len);
+
 		/* stringify 'F' (i+1) ' ' into function_string */
 		nchars = snprintf (function_string,
 				   function_string_len,
@@ -155,6 +155,8 @@ static char* stringify_prediction (char** prediction)
 		/* write 'F\d+ ' into result */
 		wp = (char*) memcpy (wp, function_string, function_string_len);
 		wp += function_string_len - 1;
+
+		free (function_string);
 	    }
 
 
@@ -403,6 +405,7 @@ static void on_user_list_selection(struct SCNotification* nt,
     }
 
     free (selection);
+    free (completion);
 
 //    g_print("added selected text, now calling show_prediction()\n");
 //    show_prediction (scintilla, presage);
