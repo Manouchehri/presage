@@ -1,3 +1,9 @@
+2011-03-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/Makefile.am, apps/gtk/gprompter/Makefile.am,
+	apps/gtk/gpresagemate/Makefile.am: fixed dependencies for help2man
+	rules.
+
 2011-02-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c: fixed some memory leaks

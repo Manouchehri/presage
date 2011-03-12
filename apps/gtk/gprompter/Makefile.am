@@ -225,8 +225,7 @@ gprompter_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) \
 			libscintilla.la
 
 if HAVE_HELP2MAN
-gprompter.1:	gprompter.c $(top_srcdir)/configure.ac
-	$(MAKE) $(AM_MAKEFLAGS) gprompter$(EXEEXT)
+gprompter.1:	gprompter$(EXEEXT) gprompter.c $(top_srcdir)/configure.ac
 	help2man --output=$@ --no-info --name="the intelligent predictive GTK+ text editor" ./gprompter$(EXEEXT)
 
 dist_man_MANS =	gprompter.1

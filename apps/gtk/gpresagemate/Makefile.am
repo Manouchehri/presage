@@ -30,8 +30,7 @@ gpresagemate_CPPFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) -I$(top_srcdir)/src/li
 gpresagemate_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) -lXevie ../../../src/lib/libpresage.la
 
 # if HAVE_HELP2MAN
-# gpresagemate.1:	gpresagemate.cpp $(top_srcdir)/configure.ac
-# 	$(MAKE) $(AM_MAKEFLAGS) gpresagemate$(EXEEXT)
+# gpresagemate.1:	gpresagemate$(EXEEXT) gpresagemate.cpp $(top_srcdir)/configure.ac
 # 	help2man --output=$@ --no-info --name="GTK presage mate" ./gpresagemate$(EXEEXT)
 # 
 # dist_man_MANS =	gpresagemate.1
