@@ -34,6 +34,8 @@ gpresagemate_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) -lXevie ../../../src/lib/lib
 # 	help2man --output=$@ --no-info --name="GTK presage mate" ./gpresagemate$(EXEEXT)
 # 
 # dist_man_MANS =	gpresagemate.1
+#
+# DISTCLEANFILES =	gpresagemate.1
 # endif
 
 endif

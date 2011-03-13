@@ -88,8 +88,9 @@ presage_python_demo.1:	presage_python_demo.in $(top_srcdir)/configure.ac
 	chmod u+x ./presage_python_demo
 	help2man --output=$@ --no-info --name="presage demo program (Python)" ./presage_python_demo
 
-dist_man_MANS =	presage_python_demo.1
+dist_man_MANS =		presage_python_demo.1
 
+DISTCLEANFILES =	presage_python_demo.1
 endif 
 
 endif # ENABLE_PYTHON_BINDING

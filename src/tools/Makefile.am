@@ -66,7 +66,7 @@ presage_simulator.1:	presage_simulator$(EXEEXT) presageSimulator.cpp $(top_srcdi
 dist_man_MANS =		presage_demo_text.1 \
 			presage_simulator.1
 
-CLEANFILES =		presage_demo_text.1 \
+DISTCLEANFILES =	presage_demo_text.1 \
 			presage_simulator.1
 
 if USE_SQLITE
@@ -75,7 +75,7 @@ text2ngram.1:		text2ngram$(EXEEXT) $(top_srcdir)/configure.ac
 
 dist_man_MANS +=	text2ngram.1
 
-CLEANFILES +=		text2ngram.1
+DISTCLEANFILES +=	text2ngram.1
 endif
 
 if HAVE_CURSES
@@ -84,7 +84,7 @@ presage_demo.1:		presage_demo$(EXEEXT) $(top_srcdir)/configure.ac
 
 dist_man_MANS +=	presage_demo.1
 
-CLEANFILES +=		presage_demo.1
+DISTCLEANFILES +=	presage_demo.1
 endif
 
 endif

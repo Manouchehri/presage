@@ -92,6 +92,8 @@ pyprompter.1:	pyprompter.in $(top_srcdir)/configure.ac
 
 dist_man_MANS =	pyprompter.1
 
+DISTCLEANFILES= pyprompter.1
+
 endif
 
 endif
