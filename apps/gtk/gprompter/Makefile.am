@@ -205,7 +205,7 @@ libscintilla_la_CPPFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) \
 				-I$(srcdir)/scintilla/include \
 				-I$(srcdir)/scintilla/src \
 				-I$(srcdir)/scintilla/lexlib 
-libscintilla_la_LIBADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) 
+libscintilla_la_LIBADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS)
 
 # Distribute files from here.
 EXTRA_DIST = scintilla/License.txt scintilla/version.txt
@@ -229,6 +229,8 @@ gprompter.1:	gprompter$(EXEEXT) gprompter.c $(top_srcdir)/configure.ac
 	help2man --output=$@ --no-info --name="the intelligent predictive GTK+ text editor" ./gprompter$(EXEEXT)
 
 dist_man_MANS =	gprompter.1
+
+CLEANFILES =	gprompter.1
 endif
 
 endif

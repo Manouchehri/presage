@@ -57,7 +57,7 @@ AM_CPPFLAGS =	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src
 
 
 if HAVE_HELP2MAN
-presage_demo_text.1:	presage_demo_text$(EXEEXT) presageDemoText.cpp $(top_srcdir)/configure.ac
+presage_demo_text.1:	presage_demo_text$(EXEEXT) $(top_srcdir)/configure.ac
 	help2man --output=$@ --no-info --name="presage demo program (text)" ./presage_demo_text$(EXEEXT)
 
 presage_simulator.1:	presage_simulator$(EXEEXT) presageSimulator.cpp $(top_srcdir)/configure.ac
@@ -66,18 +66,25 @@ presage_simulator.1:	presage_simulator$(EXEEXT) presageSimulator.cpp $(top_srcdi
 dist_man_MANS =		presage_demo_text.1 \
 			presage_simulator.1
 
+CLEANFILES =		presage_demo_text.1 \
+			presage_simulator.1
+
 if USE_SQLITE
-text2ngram.1:		text2ngram$(EXEEXT) text2ngram.cpp $(top_srcdir)/configure.ac
+text2ngram.1:		text2ngram$(EXEEXT) $(top_srcdir)/configure.ac
 	help2man --output=$@ --no-info --name="generate statistical n-gram data from text" ./text2ngram$(EXEEXT)
 
 dist_man_MANS +=	text2ngram.1
+
+CLEANFILES +=		text2ngram.1
 endif
 
 if HAVE_CURSES
-presage_demo.1:		presage_demo$(EXEEXT) presageDemo.cpp $(top_srcdir)/configure.ac
+presage_demo.1:		presage_demo$(EXEEXT) $(top_srcdir)/configure.ac
 	help2man --output=$@ --no-info --name="presage demo program (ncurses)" ./presage_demo$(EXEEXT)
 
 dist_man_MANS +=	presage_demo.1
+
+CLEANFILES +=		presage_demo.1
 endif
 
 endif

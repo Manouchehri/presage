@@ -81,7 +81,7 @@ uninstall-local:
 	rm -f $(DESTDIR)$(bindir)/pyprompter
 
 clean-local:
-	$(PYTHON) setup.py clean --all
+	rm -rf build
 
 
 if HAVE_HELP2MAN

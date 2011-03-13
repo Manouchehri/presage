@@ -78,7 +78,7 @@ uninstall-local:
 	rm -f $(DESTDIR)$(bindir)/presage_python_demo
 
 clean-local:
-	$(PYTHON) setup.py clean --all
+	rm -rf build
 
 presage_wrap.cpp presage_wrap.h presage.py:	$(SWIG_INTERFACE) $(PRESAGE_INTERFACE)
 	$(SWIG) -c++ -python -I$(top_srcdir)/src/lib -o presage_wrap.cpp -outdir . $(srcdir)/$(SWIG_INTERFACE)

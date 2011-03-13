@@ -1,3 +1,9 @@
+2011-03-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/Makefile.am, bindings/python/Makefile.am,
+	apps/python/Makefile.am, apps/gtk/gprompter/Makefile.am: fixed
+	distcheck target.
+
 2011-03-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/Makefile.am, apps/gtk/gprompter/Makefile.am,
