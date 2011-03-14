@@ -1,3 +1,8 @@
+2011-03-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/text2ngram.cpp: default to stdout when no --output
+	flag specified.
+
 2011-03-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/tools/Makefile.am, bindings/python/Makefile.am,

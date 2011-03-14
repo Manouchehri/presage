@@ -59,16 +59,24 @@ int main(int argc, char* argv[])
 {
     int next_option;
 
+    // Setup some defaults
+    //  - default to generating 1-gram counts
     int ngrams = 1;
 
+    //  - default output to stdout (empty string signifies stdout)
     std::string output;
 
     const std::string TABBED_SEPARATED_VALUES = "tsv";
     const std::string SQLITE = "sqlite";
+    //  - default format is tabbed separated values 
     std::string format = TABBED_SEPARATED_VALUES;
 
+    //  - default to case sensitive
     bool lowercase = false;
+
+    //  - default to no append
     bool append    = false;
+
 	
     // getopt structures
     const char * const  short_options  = "n:o:f:alhv";
@@ -139,15 +147,13 @@ int main(int argc, char* argv[])
 	}
 
     } while (next_option != -1);
-	
 
-    // validate args
-    if (output.empty() 
-	|| (argc - optind < 1)) {
+
+    if ((argc - optind < 1)) {
 	usage();
 	return -1;
     }
-
+	
 
     // ngramMap stores <token,count> pairs
     std::map<NgramList, int> ngramMap;
@@ -204,9 +210,15 @@ int main(int argc, char* argv[])
 	// output to tabbed separated values text file
 	//
 
-	// open outstream for output
-	std::ofstream outstream(output.c_str(), std::ios::out);
-	assert(outstream);
+	std::ofstream *outstream = 0;
+	std::ostream  *prev_outstream = 0;
+
+	if (output.c_str()) {
+	    // tie outstream to file
+	    outstream = new std::ofstream (output.c_str(), std::ios::out);
+	    assert(outstream);
+	    prev_outstream = std::cout.tie (outstream);
+	}
 
 	// write results to output stream
 	ProgressBar<char> progressBar;
@@ -217,13 +229,18 @@ int main(int argc, char* argv[])
 	    for (NgramList::const_iterator ngram_it = it->first.begin();
 		 ngram_it != it->first.end();
 		 ngram_it++) {
-		outstream << *ngram_it << '\t';
+		std::cout << *ngram_it << '\t';
 	    }
-	    outstream << it->second << std::endl;
+	    std::cout << it->second << std::endl;
 	    progressBar.update(static_cast<double>(count++)/total);
 	}
 
-	outstream.close();
+	if (output.c_str()) {
+	    std::cout.tie (prev_outstream);
+	    outstream->close ();
+	    delete outstream;
+	}
+
     } else if (format == SQLITE) {
 	// output to SQLITE
 	// 
@@ -291,7 +308,7 @@ void version()
 void usage()
 {
     std::cout 
-	<< "Usage: " << PROGRAM_NAME << " [OPTION]... -o outfile  -f format -n ngrams infiles..." << std::endl
+	<< "Usage: " << PROGRAM_NAME << " [OPTION]... infiles..." << std::endl
 	<< std::endl
         << "  --output, -o O  " << "Output file name O" << std::endl
 	<< "  --ngrams, -n N  " << "Specify ngram cardinality N" << std::endl
