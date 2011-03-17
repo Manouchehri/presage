@@ -41,6 +41,8 @@ AM_PROG_CC_C_O
 
 AC_LANG([C++])
 
+AM_CONDITIONAL([USE_GCC], [test "x$GCC" = "xyes"])
+
 dnl ==================
 dnl Checks for libtool
 dnl ==================

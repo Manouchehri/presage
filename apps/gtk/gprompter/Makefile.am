@@ -223,6 +223,9 @@ gprompter_CFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) \
 gprompter_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) \
 			../../../src/lib/libpresage.la \
 			libscintilla.la
+if USE_GCC
+gprompter_LDADD +=	-lstdc++
+endif
 
 
 if HAVE_HELP2MAN
