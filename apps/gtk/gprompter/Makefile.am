@@ -114,7 +114,8 @@ scintilla/lexlib/WordList.cxx \
 scintilla/lexlib/CharacterSet.cxx \
 scintilla/lexlib/OptionSet.h \
 scintilla/lexlib/LexerModule.h \
-scintilla/lexlib/LexerBase.cxx
+scintilla/lexlib/LexerBase.cxx \
+scintilla/lexlib/SparseState.h 
 
 SCINTILLA_LEXERS = \
 scintilla/lexers/LexLisp.cxx \
@@ -196,8 +197,8 @@ scintilla/lexers/LexAsn1.cxx \
 scintilla/lexers/LexInno.cxx \
 scintilla/lexers/LexSpice.cxx \
 scintilla/lexers/LexPOV.cxx \
-scintilla/lexers/LexA68k.cxx 
-
+scintilla/lexers/LexA68k.cxx \
+scintilla/lexers/LexModula.cxx 
 
 libscintilla_la_SOURCES =	$(SCINTILLA_SRC) $(SCINTILLA_GTK) $(SCINTILLA_INCLUDE) $(SCINTILLA_LEXERS) $(SCINTILLA_LEXLIB)
 libscintilla_la_CXXFLAGS =	-DNDEBUG -DGTK -DSCI_LEXER -DG_THREADS_IMPL_NONE
