@@ -1,3 +1,11 @@
+2011-04-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* website/presage_database_dump.sql.gz, configure.ac, NEWS:
+	preparing for 0.8.5 release.
+
+	* packaging/debian/presage/trunk/debian/changelog: updated release
+	information.
+
 2011-03-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*, apps/gtk/gprompter/Makefile.am:
