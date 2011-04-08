@@ -37,7 +37,7 @@ Description: intelligent predictive text entry platform (tools and demos)
 Package: libpresage-doc
 Section: doc
 Architecture: all
-Depends: ${misc:Depends}
+Depends: libjs-jquery, ${misc:Depends}
 Recommends: presage
 Description: intelligent predictive text entry platform (documentation)
  Presage is an intelligent predictive text entry platform.

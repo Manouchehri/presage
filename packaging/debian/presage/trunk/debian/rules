@@ -21,6 +21,11 @@ override_dh_auto_clean:
 
 override_dh_auto_install:	
 	dh_auto_install
+	if test -f debian/tmp/usr/share/presage/html/jquery.js; \
+	then \
+		rm -f debian/tmp/usr/share/presage/html/jquery.js; \
+		ln -s /usr/share/javascript/jquery/jquery.js debian/tmp/usr/share/presage/html/jquery.js; \
+	fi
 	for i in $(PYVERS); do \
 		(cd bindings/python && python$$i setup.py install --root $(CURDIR)/debian/python-presage --prefix usr); \
 		(cd apps/python && python$$i setup.py install --root $(CURDIR)/debian/pyprompter --prefix usr); \
