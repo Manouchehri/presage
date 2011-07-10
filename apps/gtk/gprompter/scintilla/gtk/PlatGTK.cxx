@@ -296,9 +296,11 @@ void Palette::Allocate(Window &w) {
 			paletteNew[iPal].blue = entries[iPal].desired.GetBlue() * (65535 / 255);
 			paletteNew[iPal].pixel = entries[iPal].desired.AsLong();
 		}
+#ifndef USE_CAIRO
 		gdk_colormap_alloc_colors(gtk_widget_get_colormap(PWidget(w)),
 		                          paletteNew, allocatedLen, FALSE, TRUE,
 		                          successPalette);
+#endif
 		for (iPal = 0; iPal < used; iPal++) {
 			entries[iPal].allocated.Set(paletteNew[iPal].pixel);
 		}
@@ -1005,18 +1007,10 @@ void SurfaceImpl::PenColour(ColourAllocated fore) {
 #ifdef USE_CAIRO
 	if (context) {
 		ColourDesired cdFore(fore.AsLong());
-#if GTK_CHECK_VERSION(3,0,0)
-		// Colours appear inverted - possibly because palette no longer used
 		cairo_set_source_rgb(context,
 			cdFore.GetRed() / 255.0,
 			cdFore.GetGreen() / 255.0,
 			cdFore.GetBlue() / 255.0);
-#else
-		cairo_set_source_rgb(context,
-			cdFore.GetBlue() / 255.0,
-			cdFore.GetGreen() / 255.0,
-			cdFore.GetRed() / 255.0);
-#endif
 	}
 #else
 	if (gc) {
@@ -1256,8 +1250,6 @@ static guint32 u32FromRGBA(guint8 r, guint8 g, guint8 b, guint8 a) {
 	return converter.val;
 }
 
-#endif
-
 static unsigned int GetRValue(unsigned int co) {
 	return (co >> 16) & 0xff;
 }
@@ -1270,22 +1262,26 @@ static unsigned int GetBValue(unsigned int co) {
 	return co & 0xff;
 }
 
+#endif
+
 void SurfaceImpl::AlphaRectangle(PRectangle rc, int cornerSize, ColourAllocated fill, int alphaFill,
 		ColourAllocated outline, int alphaOutline, int flags) {
 #ifdef USE_CAIRO
 	if (context && rc.Width() > 0) {
+		ColourDesired cdFill(fill.AsLong());
 		cairo_set_source_rgba(context,
-			GetRValue(fill.AsLong()) / 255.0,
-			GetGValue(fill.AsLong()) / 255.0,
-			GetBValue(fill.AsLong()) / 255.0,
+			cdFill.GetRed() / 255.0,
+			cdFill.GetGreen() / 255.0,
+			cdFill.GetBlue() / 255.0,
 			alphaFill / 255.0);
 		PathRoundRectangle(context, rc.left + 1.0, rc.top+1.0, rc.right - rc.left - 2.0, rc.bottom - rc.top - 2.0, cornerSize);
 		cairo_fill(context);
 
+		ColourDesired cdOutline(outline.AsLong());
 		cairo_set_source_rgba(context,
-			GetRValue(outline.AsLong()) / 255.0,
-			GetGValue(outline.AsLong()) / 255.0,
-			GetBValue(outline.AsLong()) / 255.0,
+			cdOutline.GetRed() / 255.0,
+			cdOutline.GetGreen() / 255.0,
+			cdOutline.GetBlue() / 255.0,
 			alphaOutline / 255.0);
 		PathRoundRectangle(context, rc.left +0.5, rc.top+0.5, rc.right - rc.left - 1, rc.bottom - rc.top - 1, cornerSize);
 		cairo_stroke(context);
