@@ -405,7 +405,7 @@ static void on_user_list_selection(struct SCNotification* nt,
     }
 
     free (selection);
-    free (completion);
+    presage_string_free (completion);
 
 //    g_print("added selected text, now calling show_prediction()\n");
 //    show_prediction (scintilla, presage);

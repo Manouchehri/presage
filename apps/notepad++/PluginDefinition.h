@@ -36,7 +36,14 @@ const TCHAR NPP_PLUGIN_NAME[] = TEXT("Presage Notepad++ plugin");
 //
 // Here define the number of your plugin commands
 //
-const int nbFunc = 2;
+enum MENU_COMMANDS
+{
+    CMD_PREDICT = 0,
+	CMD_HELLO,
+	NB_MENU_COMMANDS
+};
+
+const int nbFunc = NB_MENU_COMMANDS;
 
 
 //
@@ -71,6 +78,8 @@ bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey 
 // Your plugin command functions
 //
 void predict();
-void helloDlg();
+void about();
+
+void on_user_list_selection(struct SCNotification* nt);
 
 #endif //PLUGINDEFINITION_H

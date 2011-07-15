@@ -19,6 +19,8 @@
 #include "menuCmdID.h"
 
 #include "presage.h"
+#include <cstdio>
+
 
 //
 // The plugin data that Notepad++ needs
@@ -77,30 +79,170 @@ static const char* get_future_stream (void* scintilla)
     return range.lpstrText;
 }
 
+static char* stringify_prediction (char** prediction)
+{
+	// TODO: remove hardcoding
+	bool glob_function_keys_mode = true;
+	
+	size_t len = 0;
+    size_t nchars = 0;
+
+    size_t allocated = 128;
+    char* result = (char*) malloc (sizeof(char) * allocated);
+
+    if (result != NULL)
+    {
+	int i;
+	char *newp = 0;
+	char *wp = result;
+
+	/* write into stringified prediction string */
+	for (i = 0; prediction[i] != 0; i++)
+	{
+	    if (glob_function_keys_mode)
+	    {
+		size_t function_string_len = 4;
+		char* function_string = (char*) malloc (sizeof(char) * function_string_len);
+
+		/* stringify 'F' (i+1) ' ' into function_string */
+		nchars = sprintf (function_string,
+				   "F%d ", i + 1);
+		if (nchars >= function_string_len)
+		{
+		    /* realloc buffer */
+		    function_string = (char*) realloc (function_string, nchars + 1);
+		    if (function_string != NULL)
+		    {
+			function_string_len = nchars + 1;
+			nchars = sprintf (function_string,
+					   "F%d ", i + 1);
+		    }
+		}
+
+		/* realloc if necessary to write 'F\d+ ' into result */
+		if (wp + function_string_len + 1 > result + allocated)
+		{
+		    allocated = (allocated + function_string_len) * 2;
+		    newp = (char *) realloc (result, allocated);
+		    if (newp == NULL)
+		    {
+			free (result);
+			return NULL;
+		    }
+		    wp = newp + (wp - result);
+		    result = newp;
+		}
+
+		/* write 'F\d+ ' into result */
+		wp = (char*) memcpy (wp, function_string, function_string_len);
+		wp += function_string_len - 1;
+
+		free (function_string);
+	    }
+
+
+	    /* realloc if necessary to write 'prediction[i]\t' into result */
+	    len = strlen (prediction[i]) + 1;
+	    if (wp + len + 1 > result + allocated)
+	    {
+		allocated = (allocated + len) * 2;
+		newp = (char *) realloc (result, allocated);
+		if (newp == NULL)
+		{
+		    free (result);
+		    return NULL;
+		}
+		wp = newp + (wp - result);
+		result = newp;
+	    }
+
+	    /* write 'F\d+ ' into result */
+	    wp = (char*) memcpy (wp, prediction[i], len - 1);
+	    wp += len - 1;
+
+	    *wp++ = '\t';
+	}
+
+	/* Terminate the result string */
+	if (wp > result)
+	{
+	    *(wp - 1) = '\0';
+	}
+	else if (wp == result)
+        {
+            *(wp++) = '\0';
+        }
+
+	/* Resize memory to the optimal size.  */
+	newp = (char*) realloc (result, wp - result);
+	if (newp != NULL)
+	{
+	    result = newp;
+	}
+    }
+    
+    return result;
+}
+
+void on_user_list_selection(struct SCNotification* nt)
+{
+    char* selection;
+    char* completion;
+	bool glob_function_keys_mode = true;
+
+    // Get the current scintilla
+    int which = -1;
+    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
+    if (which == -1)
+        return;
+    HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
+
+
+    if (glob_function_keys_mode)
+    {
+		// strip function key from selection
+		const char* separator;
+
+		separator = strchr (nt->text, ' ');
+		if (NULL == separator)
+		{
+			/* this happens when prediction is empty */
+			return;
+		}
+		selection = strdup (separator + 1);
+    }
+    else
+    {
+		selection = strdup (nt->text);
+    }
+
+    //g_print("selected text: %s\n", nt->text);
+
+    if (PRESAGE_OK == presage_completion (presage, selection, &completion))
+    {
+		uptr_t length = strlen (completion);
+		sptr_t str = (sptr_t) completion;
+
+		::SendMessage(scintilla,
+				SCI_ADDTEXT,
+				length,
+				str);
+    }
+
+    free (selection);
+    presage_free_string (completion);
+
+//    g_print("added selected text, now calling show_prediction()\n");
+//    show_prediction (scintilla, presage);
+}
+
+
 
 //
 // Initialize your plugin data here
 // It will be called while plugin loading   
 void pluginInit(HANDLE hModule)
 {
-    // Get the current scintilla
-    int which = -1;
-    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
-    if (which == -1)
-        return;
-    HWND sci = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
-
-   // create presage
-   presage_status = presage_new (get_past_stream,
-			                     sci,
-			                     get_future_stream,
-			                     sci,
-			                     &presage);
-   if (PRESAGE_OK != presage_status)
-   {
-       /* should handle this better */
-       abort();
-   }
 
 }
 
@@ -128,8 +270,28 @@ void commandMenuInit()
     //            ShortcutKey *shortcut,          // optional. Define a shortcut to trigger this command
     //            bool check0nInit                // optional. Make this menu item be checked visually
     //            );
-    setCommand(0, TEXT("predict"), predict, NULL, false);
+/*
+	setCommand(0, TEXT("predict"), predict, NULL, false);
     setCommand(1, TEXT("Hello (with dialog)"), helloDlg, NULL, false);
+*/
+	funcItem[CMD_PREDICT]._pFunc = predict;
+    lstrcpy(funcItem[CMD_PREDICT]._itemName, TEXT("Predict"));
+    funcItem[CMD_PREDICT]._pShKey = new ShortcutKey;
+    funcItem[CMD_PREDICT]._pShKey->_isAlt = true;
+    funcItem[CMD_PREDICT]._pShKey->_isCtrl = true;
+    funcItem[CMD_PREDICT]._pShKey->_isShift = true;
+    funcItem[CMD_PREDICT]._pShKey->_key = 'P';
+    funcItem[CMD_PREDICT]._init2Check = false;
+
+	funcItem[CMD_HELLO]._pFunc = about;
+    lstrcpy(funcItem[CMD_HELLO]._itemName, TEXT("Hello  (with dialog)"));
+    funcItem[CMD_HELLO]._pShKey = new ShortcutKey;
+    funcItem[CMD_HELLO]._pShKey->_isAlt = true;
+    funcItem[CMD_HELLO]._pShKey->_isCtrl = true;
+    funcItem[CMD_HELLO]._pShKey->_isShift = true;
+    funcItem[CMD_HELLO]._pShKey->_key = 'H';
+    funcItem[CMD_HELLO]._init2Check = false;
+
 }
 
 //
@@ -141,28 +303,27 @@ void commandMenuCleanUp()
 }
 
 
-//
-// This function help you to initialize your plugin commands
-//
-bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey *sk, bool check0nInit) 
-{
-    if (index >= nbFunc)
-        return false;
-
-    if (!pFunc)
-        return false;
-
-    lstrcpy(funcItem[index]._itemName, cmdName);
-    funcItem[index]._pFunc = pFunc;
-    funcItem[index]._init2Check = check0nInit;
-    funcItem[index]._pShKey = sk;
-
-    return true;
-}
-
 //----------------------------------------------//
 //-- STEP 4. DEFINE YOUR ASSOCIATED FUNCTIONS --//
 //----------------------------------------------//
+
+void init_presage (HWND sci)
+{
+	// create presage
+	presage_status = presage_new (
+		get_past_stream,
+		sci,
+		get_future_stream,
+		sci,
+		&presage
+	);
+	if (PRESAGE_OK != presage_status)
+	{
+		/* should handle this better */
+		abort();
+	}
+}
+
 void predict()
 {
     // Get the current scintilla
@@ -170,16 +331,26 @@ void predict()
     ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
     if (which == -1)
         return;
-    HWND sci = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
+    HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 
-    // Say hello now :
-    // Scintilla control has no Unicode mode, so we use (char *) here
-    //::SendMessage(sci, SCI_SETTEXT, 0, (LPARAM)"Hello, Notepad++!");
+	if (!presage) {
+		init_presage (scintilla);
 
+		::SendMessage(scintilla, SCI_AUTOCSETSEPARATOR, '\t', 0);    /* set autocompletion separator */
+
+		char* value = 0;
+		if (PRESAGE_OK == presage_config (presage, "Presage.Selector.SUGGESTIONS", &value))
+		{
+			uptr_t height = atoi (value);
+			presage_free_string (value);
+			::SendMessage(scintilla, SCI_AUTOCSETMAXHEIGHT, height, 0);  /* set autocompletion box height */
+		}
+
+	}
+
+/*
 	const char *str = get_past_stream (sci);
-
 	size_t wcstrsize = strlen(str) + 1;
-
     wchar_t* wcstr = (wchar_t*) malloc (wcstrsize * sizeof(wchar_t));
 
     // Convert char* string to a wchar_t* string.
@@ -188,17 +359,49 @@ void predict()
 
 	::MessageBox(NULL, wcstr, TEXT("Presage Notepad++ past stream"), MB_OK);
 
+	free (wcstr);
+*/
+
 	char** prediction = 0;
+	char* list = 0;
 	presage_predict (presage, &prediction);
+	/*
 	for (int i = 0; prediction[i] != 0; i++) {
 		::MessageBoxA(NULL, (LPCSTR) prediction[i], "Prediction", MB_OK);
 	}
+	*/
+
+	list = stringify_prediction (prediction);
 	presage_free_string_array (prediction);
 
-	free (wcstr);
+	/*
+	::MessageBoxA(NULL, (LPCSTR) list, "Predictions", MB_OK);
+	*/
+
+	uptr_t completion_active;
+	
+	completion_active = ::SendMessage (scintilla,
+						    SCI_AUTOCACTIVE,
+						    0,
+						    0);
+	
+	if (completion_active)
+	{
+	    ::SendMessage (scintilla,
+				    SCI_AUTOCCANCEL,
+				    0,
+				    0);
+	}
+	
+	::SendMessage (scintilla,
+				SCI_USERLISTSHOW,
+				1,
+				(sptr_t) list);
+
+	free (list);
 }
 
-void helloDlg()
+void about()
 {
-    ::MessageBox(NULL, TEXT("Hello, Notepad++!"), TEXT("Notepad++ Plugin Template"), MB_OK);
+    ::MessageBox(NULL, TEXT("Presage intelligent predictive text entry Notepad++ plugin.\n\nCopyright (C) Matteo Vescovi"), TEXT("Presage Notepad++ plugin"), MB_OK);
 }

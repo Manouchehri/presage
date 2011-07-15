@@ -65,8 +65,35 @@ extern "C" __declspec(dllexport) FuncItem * getFuncsArray(int *nbF)
 }
 
 
-extern "C" __declspec(dllexport) void beNotified(SCNotification *notifyCode)
+extern "C" __declspec(dllexport) void beNotified(SCNotification *notification)
 {
+
+    switch (notification->nmhdr.code) {
+		case SCN_PAINTED:
+			/* g_print("on_painted()\n"); */
+		break;
+    case SCN_UPDATEUI:
+		//on_update_ui(notification, scintilla, presage);
+		break;
+    case SCN_MODIFIED:
+		//on_modified(notification, scintilla, presage);
+		break;
+    case SCN_CHARADDED:
+		predict();
+		break;
+    case SCN_USERLISTSELECTION:
+		on_user_list_selection(notification);
+		break;
+    case SCN_AUTOCCANCELLED:
+		//printf("on_autoccancelled()\n");
+		break;
+    case SCN_KEY:
+		//on_key(notification, scintilla, presage);
+		break;
+    default:
+		//printf("notification->nmhdr.code: %u\n", notification->nmhdr.code);
+		break;
+    }
 }
 
 
