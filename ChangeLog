@@ -1,3 +1,12 @@
+2011-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* notepad++\NppPluginDemo.cpp, notepad++\PluginDefinition.cpp,
+	notepad++\PluginDefinition.h: prediction now works, user list is
+	displayed, and selection is inserted when selected. Much left to
+	do and fix.
+
+	* gtk\gprompter\gprompter.c: fixed mismatched memory deallocation.
+
 2011-07-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla 2.27
