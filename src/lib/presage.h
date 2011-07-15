@@ -92,6 +92,11 @@ extern "C" {
 
 
 #ifdef __cplusplus
+#ifndef _MSC_VER
+/*
+ *    Presage C++ API starts here
+ */
+
 
 #include <string>
 #include <vector>
@@ -105,10 +110,6 @@ class ContextTracker;
 class PredictorRegistry;
 class PredictorActivator;
 class Selector;
-
-/*
- *    Presage C++ API starts here
- */
 
 /** \brief Presage, the intelligent predictive text entry platform.
  */
@@ -256,8 +257,8 @@ private:
 /*
  *    Presage C++ API ends here
  */
+#endif /* _MSC_VER */
 #endif /* __cplusplus */
-
 
 /** \mainpage
 

@@ -38,6 +38,7 @@ extern "C" {
 
 
 #ifdef __cplusplus
+#ifndef _MSC_VER
 
 #include <string>
 #include <sstream>
@@ -114,6 +115,7 @@ private:
     const std::string m_empty;
 };
 
+#endif /* _MSC_VER */
 #endif /* _cplusplus */
 
 #endif /* PRESAGE_CALLBACK */

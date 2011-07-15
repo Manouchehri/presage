@@ -49,6 +49,7 @@ extern "C" {
 
 
 #ifdef __cplusplus
+#ifndef _MSC_VER
 
 #include <exception>
 #include <string>
@@ -93,6 +94,7 @@ private:
 
 };
 
+#endif /* _MSC_VER */
 #endif /* __cplusplus */
 
 #endif /* PRESAGE_EXCEPTION */

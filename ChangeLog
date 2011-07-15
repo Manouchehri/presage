@@ -1,5 +1,9 @@
 2011-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* src\lib\presageCallback.h, src\lib\presageException.h,
+	src\lib\presage.h: compiled out C++ API for Visual Studio
+	compilers (when _MSC_VER is defined)
+
 	* notepad++\NppPluginDemo.cpp, notepad++\PluginDefinition.cpp,
 	notepad++\PluginDefinition.h: prediction now works, user list is
 	displayed, and selection is inserted when selected. Much left to
