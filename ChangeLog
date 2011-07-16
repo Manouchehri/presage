@@ -1,3 +1,10 @@
+2011-07-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps\notepad++\NppPluginDemo.cpp,
+	apps\notepad++\PluginDefinition.cpp,
+	apps\notepad++\PluginDefinition.h: prediction displayed on update
+	ui notifications.
+
 2011-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src\lib\presageCallback.h, src\lib\presageException.h,

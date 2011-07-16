@@ -35,6 +35,65 @@ NppData nppData;
 static presage_t            presage;
 static presage_error_code_t presage_status;
 
+//
+// Initialize your plugin data here
+// It will be called while plugin loading   
+void pluginInit(HANDLE hModule)
+{
+
+}
+
+//
+// Here you can do the clean up, save the parameters (if any) for the next session
+//
+void pluginCleanUp()
+{
+	presage_free (presage);
+}
+
+//
+// Initialization of your plugin commands
+// You should fill your plugins commands here
+void commandMenuInit()
+{
+
+    //--------------------------------------------//
+    //-- STEP 3. CUSTOMIZE YOUR PLUGIN COMMANDS --//
+    //--------------------------------------------//
+
+	funcItem[CMD_PREDICT]._pFunc = predict;
+    lstrcpy(funcItem[CMD_PREDICT]._itemName, TEXT("Predict"));
+    funcItem[CMD_PREDICT]._pShKey = new ShortcutKey;
+    funcItem[CMD_PREDICT]._pShKey->_isAlt = true;
+    funcItem[CMD_PREDICT]._pShKey->_isCtrl = true;
+    funcItem[CMD_PREDICT]._pShKey->_isShift = true;
+    funcItem[CMD_PREDICT]._pShKey->_key = 'P';
+    funcItem[CMD_PREDICT]._init2Check = false;
+
+	funcItem[CMD_HELLO]._pFunc = about;
+    lstrcpy(funcItem[CMD_HELLO]._itemName, TEXT("About"));
+    funcItem[CMD_HELLO]._pShKey = new ShortcutKey;
+    funcItem[CMD_HELLO]._pShKey->_isAlt = true;
+    funcItem[CMD_HELLO]._pShKey->_isCtrl = true;
+    funcItem[CMD_HELLO]._pShKey->_isShift = true;
+    funcItem[CMD_HELLO]._pShKey->_key = 'H';
+    funcItem[CMD_HELLO]._init2Check = false;
+
+}
+
+//
+// Here you can do the clean up (especially for the shortcut)
+//
+void commandMenuCleanUp()
+{
+	// Don't forget to deallocate your shortcut here
+}
+
+
+//----------------------------------------------//
+//-- STEP 4. DEFINE YOUR ASSOCIATED FUNCTIONS --//
+//----------------------------------------------//
+
 static const char* get_past_stream (void* scintilla)
 {
 	HWND sci = (HWND) scintilla;
@@ -77,6 +136,23 @@ static const char* get_future_stream (void* scintilla)
 			      (sptr_t) &range);
 	
     return range.lpstrText;
+}
+
+static void init_presage (HWND sci)
+{
+	// create presage
+	presage_status = presage_new (
+		get_past_stream,
+		sci,
+		get_future_stream,
+		sci,
+		&presage
+	);
+	if (PRESAGE_OK != presage_status)
+	{
+		/* TODO: should handle this better */
+		abort();
+	}
 }
 
 static char* stringify_prediction (char** prediction)
@@ -184,146 +260,6 @@ static char* stringify_prediction (char** prediction)
     return result;
 }
 
-void on_user_list_selection(struct SCNotification* nt)
-{
-    char* selection;
-    char* completion;
-	bool glob_function_keys_mode = true;
-
-    // Get the current scintilla
-    int which = -1;
-    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
-    if (which == -1)
-        return;
-    HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
-
-
-    if (glob_function_keys_mode)
-    {
-		// strip function key from selection
-		const char* separator;
-
-		separator = strchr (nt->text, ' ');
-		if (NULL == separator)
-		{
-			/* this happens when prediction is empty */
-			return;
-		}
-		selection = strdup (separator + 1);
-    }
-    else
-    {
-		selection = strdup (nt->text);
-    }
-
-    //g_print("selected text: %s\n", nt->text);
-
-    if (PRESAGE_OK == presage_completion (presage, selection, &completion))
-    {
-		uptr_t length = strlen (completion);
-		sptr_t str = (sptr_t) completion;
-
-		::SendMessage(scintilla,
-				SCI_ADDTEXT,
-				length,
-				str);
-    }
-
-    free (selection);
-    presage_free_string (completion);
-
-//    g_print("added selected text, now calling show_prediction()\n");
-//    show_prediction (scintilla, presage);
-}
-
-
-
-//
-// Initialize your plugin data here
-// It will be called while plugin loading   
-void pluginInit(HANDLE hModule)
-{
-
-}
-
-//
-// Here you can do the clean up, save the parameters (if any) for the next session
-//
-void pluginCleanUp()
-{
-	presage_free (presage);
-}
-
-//
-// Initialization of your plugin commands
-// You should fill your plugins commands here
-void commandMenuInit()
-{
-
-    //--------------------------------------------//
-    //-- STEP 3. CUSTOMIZE YOUR PLUGIN COMMANDS --//
-    //--------------------------------------------//
-    // with function :
-    // setCommand(int index,                      // zero based number to indicate the order of command
-    //            TCHAR *commandName,             // the command name that you want to see in plugin menu
-    //            PFUNCPLUGINCMD functionPointer, // the symbol of function (function pointer) associated with this command. The body should be defined below. See Step 4.
-    //            ShortcutKey *shortcut,          // optional. Define a shortcut to trigger this command
-    //            bool check0nInit                // optional. Make this menu item be checked visually
-    //            );
-/*
-	setCommand(0, TEXT("predict"), predict, NULL, false);
-    setCommand(1, TEXT("Hello (with dialog)"), helloDlg, NULL, false);
-*/
-	funcItem[CMD_PREDICT]._pFunc = predict;
-    lstrcpy(funcItem[CMD_PREDICT]._itemName, TEXT("Predict"));
-    funcItem[CMD_PREDICT]._pShKey = new ShortcutKey;
-    funcItem[CMD_PREDICT]._pShKey->_isAlt = true;
-    funcItem[CMD_PREDICT]._pShKey->_isCtrl = true;
-    funcItem[CMD_PREDICT]._pShKey->_isShift = true;
-    funcItem[CMD_PREDICT]._pShKey->_key = 'P';
-    funcItem[CMD_PREDICT]._init2Check = false;
-
-	funcItem[CMD_HELLO]._pFunc = about;
-    lstrcpy(funcItem[CMD_HELLO]._itemName, TEXT("Hello  (with dialog)"));
-    funcItem[CMD_HELLO]._pShKey = new ShortcutKey;
-    funcItem[CMD_HELLO]._pShKey->_isAlt = true;
-    funcItem[CMD_HELLO]._pShKey->_isCtrl = true;
-    funcItem[CMD_HELLO]._pShKey->_isShift = true;
-    funcItem[CMD_HELLO]._pShKey->_key = 'H';
-    funcItem[CMD_HELLO]._init2Check = false;
-
-}
-
-//
-// Here you can do the clean up (especially for the shortcut)
-//
-void commandMenuCleanUp()
-{
-	// Don't forget to deallocate your shortcut here
-}
-
-
-//----------------------------------------------//
-//-- STEP 4. DEFINE YOUR ASSOCIATED FUNCTIONS --//
-//----------------------------------------------//
-
-void init_presage (HWND sci)
-{
-	// create presage
-	presage_status = presage_new (
-		get_past_stream,
-		sci,
-		get_future_stream,
-		sci,
-		&presage
-	);
-	if (PRESAGE_OK != presage_status)
-	{
-		/* should handle this better */
-		abort();
-	}
-}
-
 void predict()
 {
     // Get the current scintilla
@@ -401,7 +337,105 @@ void predict()
 	free (list);
 }
 
+
 void about()
 {
     ::MessageBox(NULL, TEXT("Presage intelligent predictive text entry Notepad++ plugin.\n\nCopyright (C) Matteo Vescovi"), TEXT("Presage Notepad++ plugin"), MB_OK);
+}
+
+
+static void on_user_list_selection(struct SCNotification* nt)
+{
+    char* selection;
+    char* completion;
+
+	// TODO: remove hardcoding
+	bool glob_function_keys_mode = true;
+
+    // Get the current scintilla
+    int which = -1;
+    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
+    if (which == -1)
+        return;
+    HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
+
+    if (glob_function_keys_mode)
+    {
+		// strip function key from selection
+		const char* separator;
+
+		separator = strchr (nt->text, ' ');
+		if (NULL == separator)
+		{
+			/* this happens when prediction is empty */
+			return;
+		}
+		selection = strdup (separator + 1);
+    }
+    else
+    {
+		selection = strdup (nt->text);
+    }
+
+    //g_print("selected text: %s\n", nt->text);
+
+    if (PRESAGE_OK == presage_completion (presage, selection, &completion))
+    {
+		uptr_t length = strlen (completion);
+		sptr_t str = (sptr_t) completion;
+
+		::SendMessage(scintilla,
+				SCI_ADDTEXT,
+				length,
+				str);
+    }
+
+    free (selection);
+    presage_free_string (completion);
+
+//    g_print("added selected text, now calling show_prediction()\n");
+//    show_prediction (scintilla, presage);
+}
+
+
+static void on_update_ui(struct SCNotification* notification)
+{
+	predict();
+}
+
+
+static void on_char_added (struct SCNotification* notification)
+{
+	// noop
+}
+
+
+void on_notification (struct SCNotification* notification)
+{
+    switch (notification->nmhdr.code) {
+		case SCN_PAINTED:
+			/* g_print("on_painted()\n"); */
+		break;
+    case SCN_UPDATEUI:
+		on_update_ui (notification);
+		break;
+    case SCN_MODIFIED:
+		//on_modified(notification, scintilla, presage);
+		break;
+    case SCN_CHARADDED:
+		on_char_added (notification);
+		break;
+    case SCN_USERLISTSELECTION:
+		on_user_list_selection (notification);
+		break;
+    case SCN_AUTOCCANCELLED:
+		//printf("on_autoccancelled()\n");
+		break;
+    case SCN_KEY:
+		//on_key(notification, scintilla, presage);
+		break;
+    default:
+		//printf("notification->nmhdr.code: %u\n", notification->nmhdr.code);
+		break;
+    }
 }

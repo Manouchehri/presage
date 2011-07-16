@@ -28,7 +28,7 @@
 //-------------------------------------//
 // Here define your plugin name
 //
-const TCHAR NPP_PLUGIN_NAME[] = TEXT("Presage Notepad++ plugin");
+const TCHAR NPP_PLUGIN_NAME[] = TEXT("Presage");
 
 //-----------------------------------------------//
 //-- STEP 2. DEFINE YOUR PLUGIN COMMAND NUMBER --//
@@ -69,17 +69,12 @@ void commandMenuInit();
 void commandMenuCleanUp();
 
 //
-// Function which sets your command 
-//
-bool setCommand(size_t index, TCHAR *cmdName, PFUNCPLUGINCMD pFunc, ShortcutKey *sk = NULL, bool check0nInit = false);
-
-
-//
 // Your plugin command functions
 //
 void predict();
 void about();
 
-void on_user_list_selection(struct SCNotification* nt);
+void on_notification (struct SCNotification* notification);
+
 
 #endif //PLUGINDEFINITION_H
