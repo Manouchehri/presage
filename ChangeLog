@@ -5,6 +5,9 @@
 	apps\notepad++\PluginDefinition.h: prediction displayed on update
 	ui notifications.
 
+	* NppPluginDemo.cpp, NppPresage.cpp: renamed notepad++ plugin main
+	file.
+
 2011-07-15  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src\lib\presageCallback.h, src\lib\presageException.h,
