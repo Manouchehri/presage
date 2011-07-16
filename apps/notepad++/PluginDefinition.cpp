@@ -35,6 +35,9 @@ NppData nppData;
 static presage_t            presage;
 static presage_error_code_t presage_status;
 
+static const char* glob_autopunctuation_whitespace = " ";
+static const char* glob_autopunctuation_chars = ".,;:'?!$%&";
+
 //
 // Initialize your plugin data here
 // It will be called while plugin loading   
@@ -405,9 +408,54 @@ static void on_update_ui(struct SCNotification* notification)
 }
 
 
-static void on_char_added (struct SCNotification* notification)
+static void on_char_added (struct SCNotification* nt)
 {
-	// noop
+	// Get the current scintilla
+	int which = -1;
+	::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
+	if (which == -1)
+		return;
+	HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
+
+	/* if added char is an autopunctuation char */
+	if (strchr (glob_autopunctuation_chars, nt->ch))
+	{
+		uptr_t curr_pos	= ::SendMessage(scintilla,
+			SCI_GETCURRENTPOS,
+			0,
+			0);
+		if (curr_pos > 1)
+		{
+			//g_print ("current pos: %d\n", curr_pos);
+
+			uptr_t prev_pos = curr_pos - 2;
+			uptr_t prev_char = ::SendMessage(scintilla,
+				SCI_GETCHARAT,
+				prev_pos,
+				0);
+
+			//g_print ("prev_pos: %d\n", prev_pos);
+			//g_print ("prev_char: %c\n", prev_char);
+
+			/* if previous char is a autopunctuation whitespace char */
+			if (strchr (glob_autopunctuation_whitespace, prev_char))
+			{
+				//g_print ("autopunctuation activated\n");
+
+				char replacement[3] = { nt->ch, prev_char, 0 };
+
+				::SendMessage(scintilla,
+					SCI_SETSELECTION,
+					prev_pos,
+					curr_pos);
+
+				::SendMessage(scintilla,
+					SCI_REPLACESEL,
+					0,
+					(sptr_t) replacement);
+			}
+		}
+	}
 }
 
 

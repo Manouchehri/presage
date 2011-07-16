@@ -3,7 +3,7 @@
 	* apps\notepad++\NppPluginDemo.cpp,
 	apps\notepad++\PluginDefinition.cpp,
 	apps\notepad++\PluginDefinition.h: prediction displayed on update
-	ui notifications.
+	ui notifications, added autopunctuation feature.
 
 	* NppPluginDemo.cpp, NppPresage.cpp: renamed notepad++ plugin main
 	file.
