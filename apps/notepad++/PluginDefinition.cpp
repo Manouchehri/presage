@@ -341,7 +341,7 @@ void predict()
 
 void about()
 {
-    ::MessageBox(NULL, TEXT("Presage intelligent predictive text entry Notepad++ plugin.\n\nCopyright (C) Matteo Vescovi"), TEXT("Presage Notepad++ plugin"), MB_OK);
+    ::MessageBox(NULL, TEXT("Presage, the intelligent predictive text entry - Notepad++ plugin.\n\nCopyright (C) Matteo Vescovi"), TEXT("Presage Notepad++ plugin"), MB_OK);
 }
 
 
