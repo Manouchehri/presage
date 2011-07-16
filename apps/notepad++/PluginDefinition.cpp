@@ -70,14 +70,14 @@ void commandMenuInit()
     funcItem[CMD_PREDICT]._pShKey->_key = 'P';
     funcItem[CMD_PREDICT]._init2Check = false;
 
-	funcItem[CMD_HELLO]._pFunc = about;
-    lstrcpy(funcItem[CMD_HELLO]._itemName, TEXT("About"));
-    funcItem[CMD_HELLO]._pShKey = new ShortcutKey;
-    funcItem[CMD_HELLO]._pShKey->_isAlt = true;
-    funcItem[CMD_HELLO]._pShKey->_isCtrl = true;
-    funcItem[CMD_HELLO]._pShKey->_isShift = true;
-    funcItem[CMD_HELLO]._pShKey->_key = 'H';
-    funcItem[CMD_HELLO]._init2Check = false;
+	funcItem[CMD_ABOUT]._pFunc = about;
+    lstrcpy(funcItem[CMD_ABOUT]._itemName, TEXT("About"));
+    funcItem[CMD_ABOUT]._pShKey = new ShortcutKey;
+    funcItem[CMD_ABOUT]._pShKey->_isAlt = true;
+    funcItem[CMD_ABOUT]._pShKey->_isCtrl = true;
+    funcItem[CMD_ABOUT]._pShKey->_isShift = true;
+    funcItem[CMD_ABOUT]._pShKey->_key = 'H';
+    funcItem[CMD_ABOUT]._init2Check = false;
 
 }
 
@@ -86,7 +86,8 @@ void commandMenuInit()
 //
 void commandMenuCleanUp()
 {
-	// Don't forget to deallocate your shortcut here
+	delete funcItem[CMD_PREDICT]._pShKey;
+	delete funcItem[CMD_ABOUT]._pShKey;
 }
 
 
