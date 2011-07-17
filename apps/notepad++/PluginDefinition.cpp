@@ -37,6 +37,7 @@ static presage_error_code_t presage_status;
 
 static const char* glob_autopunctuation_whitespace = " ";
 static const char* glob_autopunctuation_chars = ".,;:'?!$%&";
+static bool        glob_function_keys_mode = false;
 
 //
 // Initialize your plugin data here
@@ -161,9 +162,6 @@ static void init_presage (HWND sci)
 
 static char* stringify_prediction (char** prediction)
 {
-	// TODO: remove hardcoding
-	bool glob_function_keys_mode = true;
-	
 	size_t len = 0;
     size_t nchars = 0;
 
@@ -264,7 +262,7 @@ static char* stringify_prediction (char** prediction)
     return result;
 }
 
-void predict()
+static void predict ()
 {
     // Get the current scintilla
     int which = -1;
@@ -348,20 +346,10 @@ void about()
 }
 
 
-static void on_user_list_selection(struct SCNotification* nt)
+static void on_user_list_selection(struct SCNotification* nt, HWND scintilla)
 {
     char* selection;
     char* completion;
-
-	// TODO: remove hardcoding
-	bool glob_function_keys_mode = true;
-
-    // Get the current scintilla
-    int which = -1;
-    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
-    if (which == -1)
-        return;
-    HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 
     if (glob_function_keys_mode)
     {
@@ -402,20 +390,14 @@ static void on_user_list_selection(struct SCNotification* nt)
 }
 
 
-static void on_update_ui(struct SCNotification* notification)
+static void on_update_ui(struct SCNotification* notification, HWND scintilla)
 {
-	predict();
+	predict ();
 }
 
 
-static void on_char_added (struct SCNotification* nt)
+static void on_char_added (struct SCNotification* nt, HWND scintilla)
 {
-	// Get the current scintilla
-	int which = -1;
-	::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
-	if (which == -1)
-		return;
-	HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 
 	/* if added char is an autopunctuation char */
 	if (strchr (glob_autopunctuation_chars, nt->ch))
@@ -459,29 +441,81 @@ static void on_char_added (struct SCNotification* nt)
 }
 
 
+static void on_key (struct SCNotification* nt, HWND scintilla)
+{
+	//g_print("on_key()\n");
+
+	//g_print("key: %i\n", nt->ch);
+
+	if (glob_function_keys_mode)
+	{
+		uptr_t completion_active;
+
+		completion_active = ::SendMessage (scintilla,
+			SCI_AUTOCACTIVE,
+			0,
+			0);
+
+		if (completion_active)
+		{
+			/* figure out which function key it is */
+			int fkn;
+			char fk[4];
+
+			fkn = nt->ch - VK_F1 + 1;
+			//g_print ("fkn: F%d\n", fkn);
+
+			sprintf (fk, "F%d", fkn);
+			//g_print ("fk: %s\n", fk);
+
+			::MessageBox(NULL, (LPCWSTR) fk, TEXT("function key"), MB_OK);
+
+			/* select autocompletion */
+			::SendMessage (scintilla,
+				SCI_AUTOCSELECT,
+				0,
+				(sptr_t) fk);
+
+			/* and complete it */
+			::SendMessage (scintilla,
+				SCI_AUTOCCOMPLETE,
+				0,
+				0);
+		}
+	}
+}
+
+
 void on_notification (struct SCNotification* notification)
 {
+    // Get the current scintilla
+    int which = -1;
+    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
+    if (which == -1)
+        return;
+    HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
+
     switch (notification->nmhdr.code) {
 		case SCN_PAINTED:
 			/* g_print("on_painted()\n"); */
 		break;
     case SCN_UPDATEUI:
-		on_update_ui (notification);
+		on_update_ui (notification, scintilla);
 		break;
     case SCN_MODIFIED:
 		//on_modified(notification, scintilla, presage);
 		break;
     case SCN_CHARADDED:
-		on_char_added (notification);
+		on_char_added (notification, scintilla);
 		break;
     case SCN_USERLISTSELECTION:
-		on_user_list_selection (notification);
+		on_user_list_selection (notification, scintilla);
 		break;
     case SCN_AUTOCCANCELLED:
 		//printf("on_autoccancelled()\n");
 		break;
     case SCN_KEY:
-		//on_key(notification, scintilla, presage);
+		on_key(notification, scintilla);
 		break;
     default:
 		//printf("notification->nmhdr.code: %u\n", notification->nmhdr.code);

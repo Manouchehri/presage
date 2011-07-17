@@ -1,3 +1,8 @@
+2011-07-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps\notepad++\PluginDefinition.cpp: cleaned up code and
+	switched funtion keys mode off.
+
 2011-07-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps\notepad++\NppPluginDemo.cpp,
