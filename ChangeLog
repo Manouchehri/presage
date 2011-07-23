@@ -1,5 +1,8 @@
 2011-07-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps\notepad++\NppPresage.sln,
+	apps\notepad++\NppPluginTemplate.sln: renamed VS2010 solution.
+
 	* apps\notepad++\NppPresage.cpp,
 	apps\notepad++\PluginDefinition.cpp: minor changes.
 
