@@ -443,9 +443,13 @@ static void on_char_added (struct SCNotification* nt, HWND scintilla)
 
 static void on_key (struct SCNotification* nt, HWND scintilla)
 {
-	//g_print("on_key()\n");
+	// NOTE: this never gets invoked on Windows as SCN_KEY event is never fired
 
-	//g_print("key: %i\n", nt->ch);
+	char str[2048];
+	sprintf (str, "on_key: %d\n", nt->ch);
+	::MessageBox(NULL, (LPCWSTR) str, TEXT("on_key: key:"), MB_OK);
+
+	//::MessageBox(NULL, (LPCWSTR) nt->ch, TEXT("on_key: key:"), MB_OK);
 
 	if (glob_function_keys_mode)
 	{
@@ -488,37 +492,42 @@ static void on_key (struct SCNotification* nt, HWND scintilla)
 
 void on_notification (struct SCNotification* notification)
 {
-    // Get the current scintilla
-    int which = -1;
-    ::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
-    if (which == -1)
-        return;
-    HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
+	// Get the current scintilla
+	int which = -1;
+	::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
+	if (which == -1)
+		return;
+	HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 
-    switch (notification->nmhdr.code) {
-		case SCN_PAINTED:
-			/* g_print("on_painted()\n"); */
+	switch (notification->nmhdr.code) {
+	case SCN_PAINTED:
+		//::MessageBoxA(NULL, "SCN_PAINTED", "notification", MB_OK);
 		break;
-    case SCN_UPDATEUI:
+	case SCN_UPDATEUI:
 		on_update_ui (notification, scintilla);
 		break;
-    case SCN_MODIFIED:
-		//on_modified(notification, scintilla, presage);
+	case SCN_MODIFIED:
+		//::MessageBoxA(NULL, notification->text, "SCN_MODIFIED", MB_OK);
+		//::MessageBoxA(NULL, "SCN_MODIFIED", "notification", MB_OK);
 		break;
-    case SCN_CHARADDED:
+	case SCN_CHARADDED:
 		on_char_added (notification, scintilla);
 		break;
-    case SCN_USERLISTSELECTION:
+	case SCN_USERLISTSELECTION:
 		on_user_list_selection (notification, scintilla);
 		break;
-    case SCN_AUTOCCANCELLED:
-		//printf("on_autoccancelled()\n");
+	case SCN_AUTOCCANCELLED:
+		//::MessageBoxA(NULL, "SCN_AUTOCCANCELLED", "notification", MB_OK);
 		break;
-    case SCN_KEY:
+	case SCN_KEY:
+		// NOTE: this never gets invoked on Windows as SCN_KEY event is never fired
+		::MessageBoxA(NULL, "SCN_KEY", "notification", MB_OK);
 		on_key(notification, scintilla);
 		break;
-    default:
-		//printf("notification->nmhdr.code: %u\n", notification->nmhdr.code);
+	default:
+		//char str[2048];
+		//sprintf(str, "notification->nmhdr.code: %u\n", notification->nmhdr.code);
+		//::MessageBoxA(NULL, str, "notification", MB_OK);
 		break;
-    }
+	}
 }

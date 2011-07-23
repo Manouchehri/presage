@@ -83,6 +83,12 @@ extern "C" __declspec(dllexport) LRESULT messageProc(UINT Message, WPARAM wParam
 		::MessageBox(NULL, "move", "", MB_OK);
 	}
 */
+/*
+	if (Message == WM_KEYDOWN)
+	{
+		::MessageBox(NULL, TEXT("WM_KEYDOWN"), TEXT("messageProc"), MB_OK);
+	}
+*/
 	return TRUE;
 }
 

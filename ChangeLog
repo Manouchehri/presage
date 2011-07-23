@@ -1,3 +1,8 @@
+2011-07-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps\notepad++\NppPresage.cpp,
+	apps\notepad++\PluginDefinition.cpp: minor changes.
+
 2011-07-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps\notepad++\PluginDefinition.cpp: cleaned up code and
