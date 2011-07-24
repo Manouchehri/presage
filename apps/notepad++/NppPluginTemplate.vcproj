@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="NppPluginTemplate"
 	ProjectGUID="{1590D7CD-7D3A-4AB7-A355-EE02F7FB987D}"
 	RootNamespace="NppPluginTemplate"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\DockingFeature;.\"
+				AdditionalIncludeDirectories="&quot;$(PRESAGE_ROOT)\include&quot;;.\DockingFeature;.\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;NPPPLUGINTEMPLATE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -201,7 +201,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\DockingFeature;.\"
+				AdditionalIncludeDirectories="$(PRESAGE_ROOT)\include;.\DockingFeature;.\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NPPPLUGINTEMPLATE_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -221,9 +221,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="shlwapi.lib"
-				OutputFile="$(OutDir)/NppPluginTemplate.dll"
+				AdditionalDependencies="libpresage-1.lib shlwapi.lib"
+				OutputFile="$(OutDir)/NppPresage.dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(PRESAGE_ROOT)\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -347,7 +348,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\NppPluginDemo.cpp"
+				RelativePath=".\NppPresage.cpp"
 				>
 			</File>
 			<File
