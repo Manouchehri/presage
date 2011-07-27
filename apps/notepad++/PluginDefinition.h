@@ -39,6 +39,9 @@ const TCHAR NPP_PLUGIN_NAME[] = TEXT("Presage");
 enum MENU_COMMANDS
 {
     CMD_PREDICT = 0,
+	CMD_SEPARATOR_1,
+	CMD_AUTOPUNCTUATION,
+	CMD_SEPARATOR_2,
 	CMD_ABOUT,
 	NB_MENU_COMMANDS
 };
@@ -71,8 +74,9 @@ void commandMenuCleanUp();
 //
 // Your plugin command functions
 //
-void predict();
-void about();
+void on_predict();
+void on_autopunctuation();
+void on_about();
 
 void on_notification (struct SCNotification* notification);
 

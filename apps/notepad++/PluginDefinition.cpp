@@ -35,9 +35,10 @@ NppData nppData;
 static presage_t            presage;
 static presage_error_code_t presage_status;
 
-static const char* glob_autopunctuation_whitespace = " ";
-static const char* glob_autopunctuation_chars = ".,;:'?!$%&";
-static bool        glob_function_keys_mode = false;
+bool				glob_autopunctuation = true;
+static const char*	glob_autopunctuation_whitespace = " ";
+static const char*	glob_autopunctuation_chars = ".,;:'?!$%&";
+static bool			glob_function_keys_mode = false;
 
 //
 // Initialize your plugin data here
@@ -65,7 +66,7 @@ void commandMenuInit()
     //-- STEP 3. CUSTOMIZE YOUR PLUGIN COMMANDS --//
     //--------------------------------------------//
 
-	funcItem[CMD_PREDICT]._pFunc = predict;
+	funcItem[CMD_PREDICT]._pFunc = on_predict;
     lstrcpy(funcItem[CMD_PREDICT]._itemName, TEXT("Predict"));
     funcItem[CMD_PREDICT]._pShKey = new ShortcutKey;
     funcItem[CMD_PREDICT]._pShKey->_isAlt = true;
@@ -74,7 +75,24 @@ void commandMenuInit()
     funcItem[CMD_PREDICT]._pShKey->_key = 'P';
     funcItem[CMD_PREDICT]._init2Check = false;
 
-	funcItem[CMD_ABOUT]._pFunc = about;
+	funcItem[CMD_SEPARATOR_1]._pFunc = NULL;
+	lstrcpy(funcItem[CMD_SEPARATOR_1]._itemName, TEXT("-----------"));
+	funcItem[CMD_SEPARATOR_1]._pShKey = NULL;
+
+	funcItem[CMD_AUTOPUNCTUATION]._pFunc = on_autopunctuation;
+    lstrcpy(funcItem[CMD_AUTOPUNCTUATION]._itemName, TEXT("Autopunctuation"));
+    funcItem[CMD_AUTOPUNCTUATION]._pShKey = new ShortcutKey;
+    funcItem[CMD_AUTOPUNCTUATION]._pShKey->_isAlt = true;
+    funcItem[CMD_AUTOPUNCTUATION]._pShKey->_isCtrl = true;
+    funcItem[CMD_AUTOPUNCTUATION]._pShKey->_isShift = true;
+    funcItem[CMD_AUTOPUNCTUATION]._pShKey->_key = 'T';
+    funcItem[CMD_AUTOPUNCTUATION]._init2Check = true;
+
+	funcItem[CMD_SEPARATOR_2]._pFunc = NULL;
+	lstrcpy(funcItem[CMD_SEPARATOR_2]._itemName, TEXT("-----------"));
+	funcItem[CMD_SEPARATOR_2]._pShKey = NULL;
+
+	funcItem[CMD_ABOUT]._pFunc = on_about;
     lstrcpy(funcItem[CMD_ABOUT]._itemName, TEXT("About"));
     funcItem[CMD_ABOUT]._pShKey = new ShortcutKey;
     funcItem[CMD_ABOUT]._pShKey->_isAlt = true;
@@ -262,7 +280,7 @@ static char* stringify_prediction (char** prediction)
     return result;
 }
 
-static void predict ()
+static void on_predict ()
 {
     // Get the current scintilla
     int which = -1;
@@ -340,7 +358,19 @@ static void predict ()
 }
 
 
-void about()
+void on_autopunctuation()
+{
+    HMENU hMenu = GetMenu(nppData._nppHandle);
+    glob_autopunctuation = !glob_autopunctuation;
+    if (hMenu) {
+        CheckMenuItem(hMenu,
+                      funcItem[CMD_AUTOPUNCTUATION]._cmdID,
+                      MF_BYCOMMAND | (glob_autopunctuation ? MF_CHECKED : MF_UNCHECKED));
+	}
+}
+
+
+void on_about()
 {
     ::MessageBox(NULL, TEXT("Presage, the intelligent predictive text entry - Notepad++ plugin.\n\nCopyright (C) Matteo Vescovi"), TEXT("Presage Notepad++ plugin"), MB_OK);
 }
@@ -392,49 +422,50 @@ static void on_user_list_selection(struct SCNotification* nt, HWND scintilla)
 
 static void on_update_ui(struct SCNotification* notification, HWND scintilla)
 {
-	predict ();
+	on_predict ();
 }
 
 
 static void on_char_added (struct SCNotification* nt, HWND scintilla)
 {
-
-	/* if added char is an autopunctuation char */
-	if (strchr (glob_autopunctuation_chars, nt->ch))
-	{
-		uptr_t curr_pos	= ::SendMessage(scintilla,
-			SCI_GETCURRENTPOS,
-			0,
-			0);
-		if (curr_pos > 1)
+	if (glob_autopunctuation) {
+		/* if added char is an autopunctuation char */
+		if (strchr (glob_autopunctuation_chars, nt->ch))
 		{
-			//g_print ("current pos: %d\n", curr_pos);
-
-			uptr_t prev_pos = curr_pos - 2;
-			uptr_t prev_char = ::SendMessage(scintilla,
-				SCI_GETCHARAT,
-				prev_pos,
+			uptr_t curr_pos	= ::SendMessage(scintilla,
+				SCI_GETCURRENTPOS,
+				0,
 				0);
-
-			//g_print ("prev_pos: %d\n", prev_pos);
-			//g_print ("prev_char: %c\n", prev_char);
-
-			/* if previous char is a autopunctuation whitespace char */
-			if (strchr (glob_autopunctuation_whitespace, prev_char))
+			if (curr_pos > 1)
 			{
-				//g_print ("autopunctuation activated\n");
+				//g_print ("current pos: %d\n", curr_pos);
 
-				char replacement[3] = { nt->ch, prev_char, 0 };
-
-				::SendMessage(scintilla,
-					SCI_SETSELECTION,
+				uptr_t prev_pos = curr_pos - 2;
+				uptr_t prev_char = ::SendMessage(scintilla,
+					SCI_GETCHARAT,
 					prev_pos,
-					curr_pos);
+					0);
 
-				::SendMessage(scintilla,
-					SCI_REPLACESEL,
-					0,
-					(sptr_t) replacement);
+				//g_print ("prev_pos: %d\n", prev_pos);
+				//g_print ("prev_char: %c\n", prev_char);
+
+				/* if previous char is a autopunctuation whitespace char */
+				if (strchr (glob_autopunctuation_whitespace, prev_char))
+				{
+					//g_print ("autopunctuation activated\n");
+
+					char replacement[3] = { nt->ch, prev_char, 0 };
+
+					::SendMessage(scintilla,
+						SCI_SETSELECTION,
+						prev_pos,
+						curr_pos);
+
+					::SendMessage(scintilla,
+						SCI_REPLACESEL,
+						0,
+						(sptr_t) replacement);
+				}
 			}
 		}
 	}
