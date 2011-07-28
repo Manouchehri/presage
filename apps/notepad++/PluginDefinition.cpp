@@ -35,6 +35,7 @@ NppData nppData;
 static presage_t            presage;
 static presage_error_code_t presage_status;
 
+bool				glob_learn_mode = false;
 bool				glob_autopunctuation = true;
 static const char*	glob_autopunctuation_whitespace = " ";
 static const char*	glob_autopunctuation_chars = ".,;:'?!$%&";
@@ -79,13 +80,22 @@ void commandMenuInit()
 	lstrcpy(funcItem[CMD_SEPARATOR_1]._itemName, TEXT("-----------"));
 	funcItem[CMD_SEPARATOR_1]._pShKey = NULL;
 
+	funcItem[CMD_LEARN_MODE]._pFunc = on_learn_mode;
+    lstrcpy(funcItem[CMD_LEARN_MODE]._itemName, TEXT("Learn mode"));
+    funcItem[CMD_LEARN_MODE]._pShKey = new ShortcutKey;
+    funcItem[CMD_LEARN_MODE]._pShKey->_isAlt = true;
+    funcItem[CMD_LEARN_MODE]._pShKey->_isCtrl = true;
+    funcItem[CMD_LEARN_MODE]._pShKey->_isShift = true;
+    funcItem[CMD_LEARN_MODE]._pShKey->_key = 'L';
+    funcItem[CMD_LEARN_MODE]._init2Check = false;
+
 	funcItem[CMD_AUTOPUNCTUATION]._pFunc = on_autopunctuation;
     lstrcpy(funcItem[CMD_AUTOPUNCTUATION]._itemName, TEXT("Autopunctuation"));
     funcItem[CMD_AUTOPUNCTUATION]._pShKey = new ShortcutKey;
     funcItem[CMD_AUTOPUNCTUATION]._pShKey->_isAlt = true;
     funcItem[CMD_AUTOPUNCTUATION]._pShKey->_isCtrl = true;
     funcItem[CMD_AUTOPUNCTUATION]._pShKey->_isShift = true;
-    funcItem[CMD_AUTOPUNCTUATION]._pShKey->_key = 'T';
+    funcItem[CMD_AUTOPUNCTUATION]._pShKey->_key = 'A';
     funcItem[CMD_AUTOPUNCTUATION]._init2Check = true;
 
 	funcItem[CMD_SEPARATOR_2]._pFunc = NULL;
@@ -109,6 +119,8 @@ void commandMenuInit()
 void commandMenuCleanUp()
 {
 	delete funcItem[CMD_PREDICT]._pShKey;
+	delete funcItem[CMD_AUTOPUNCTUATION]._pShKey;
+	delete funcItem[CMD_LEARN_MODE]._pShKey;
 	delete funcItem[CMD_ABOUT]._pShKey;
 }
 
@@ -358,14 +370,40 @@ static void on_predict ()
 }
 
 
+void on_learn_mode()
+{
+	HMENU hMenu = GetMenu (nppData._nppHandle);
+	glob_learn_mode = !glob_learn_mode;
+	const char *value = 0;
+	if (glob_learn_mode) {
+		value = "true";
+	} else {
+		value = "false";
+	}
+	if (PRESAGE_OK != presage_config_set (
+			presage, 
+			"Presage.Predictors.SmoothedNgramPredictor.LEARN",
+			value)) {
+				::MessageBox(NULL, TEXT("Error while toggling Presage learn mode."), TEXT("Error"), MB_OK);
+	}
+	if (hMenu) {
+		CheckMenuItem (hMenu,
+			funcItem[CMD_LEARN_MODE]._cmdID,
+			MF_BYCOMMAND | (glob_learn_mode ? MF_CHECKED : MF_UNCHECKED)
+			);
+	}
+}
+
+
 void on_autopunctuation()
 {
-    HMENU hMenu = GetMenu(nppData._nppHandle);
-    glob_autopunctuation = !glob_autopunctuation;
-    if (hMenu) {
-        CheckMenuItem(hMenu,
-                      funcItem[CMD_AUTOPUNCTUATION]._cmdID,
-                      MF_BYCOMMAND | (glob_autopunctuation ? MF_CHECKED : MF_UNCHECKED));
+	HMENU hMenu = GetMenu (nppData._nppHandle);
+	glob_autopunctuation = !glob_autopunctuation;
+	if (hMenu) {
+		CheckMenuItem (hMenu,
+			funcItem[CMD_AUTOPUNCTUATION]._cmdID,
+			MF_BYCOMMAND | (glob_autopunctuation ? MF_CHECKED : MF_UNCHECKED)
+			);
 	}
 }
 

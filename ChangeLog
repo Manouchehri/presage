@@ -1,3 +1,8 @@
+2011-07-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* PluginDefinition.cpp, PluginDefinition.h: added learn mode menu
+	checkbox.
+
 2011-07-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* PluginDefinition.cpp, PluginDefinition.h: added autopunctuation
