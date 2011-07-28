@@ -83,10 +83,10 @@
   
   !insertmacro MUI_PAGE_INSTFILES
 
-  !define MUI_FINISHPAGE_RUN $INSTDIR/bin/presage_prompter
-  !define MUI_FINISHPAGE_RUN_TEXT "Run presage prompter"
+  !define MUI_FINISHPAGE_RUN $INSTDIR/bin/pyprompter
+  !define MUI_FINISHPAGE_RUN_TEXT "Run pyprompter"
   !define MUI_FINISHPAGE_LINK "For the latest news and updates, visit the website"
-  !define MUI_FINISHPAGE_LINK_LOCATION http://soothsayer.sourceforge.net/
+  !define MUI_FINISHPAGE_LINK_LOCATION http://presage.sourceforge.net/
   !insertmacro MUI_PAGE_FINISH
   
   !insertmacro MUI_UNPAGE_CONFIRM
@@ -108,8 +108,7 @@ Section "Runtime" SecRuntime
 
   File /r bin
   File /r etc
- ;File /r share
-  File /r var
+  File /r share
   
   ;Store installation folder
   WriteRegStr HKCU "Software\Presage" "" $INSTDIR
@@ -121,7 +120,7 @@ Section "Runtime" SecRuntime
     
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\presage_prompter.lnk" "$INSTDIR\bin\presage_prompter.exe"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\pyprompter.lnk" "$INSTDIR\bin\pyprompter.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -188,7 +187,7 @@ Section "Uninstall"
   
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
     
-  Delete "$SMPROGRAMS\$StartMenuFolder\presage_prompter.lnk"
+  Delete "$SMPROGRAMS\$StartMenuFolder\pyprompter.lnk"
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
   

@@ -47,7 +47,7 @@ function set_up()
     echo "!define PRESAGE_NAME \"presage\"" >> $INSTDIR/defines.nsh
 
     # license
-    LICENSE="$SCRIPTDIR/../COPYING"
+    LICENSE="$SCRIPTDIR/../../COPYING"
     cp $LICENSE $INSTDIR/license.txt
 
     # py2exe
