@@ -36,7 +36,7 @@
 //-------------------------------------//
 // Here define your plugin name
 //
-const TCHAR NPP_PLUGIN_NAME[] = TEXT("NppPresage");
+const TCHAR NPP_PLUGIN_NAME[] = TEXT("Presage");
 
 //-----------------------------------------------//
 //-- STEP 2. DEFINE YOUR PLUGIN COMMAND NUMBER --//
