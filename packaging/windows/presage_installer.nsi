@@ -54,13 +54,13 @@
   OutFile "${PRESAGE_NAME}-${PRESAGE_VERSION}-setup.exe"
 
   ;Default installation folder
-  InstallDir "$LOCALAPPDATA\${PRESAGE_NAME}"
+  InstallDir "$PROGRAMFILES\${PRESAGE_NAME}"
   
   ;Get installation folder from registry if available
   InstallDirRegKey HKCU "Software\Presage" ""
 
   ;Request application privileges for Windows Vista
-  RequestExecutionLevel user
+  RequestExecutionLevel admin
 
 ;--------------------------------
 ;Interface Settings
@@ -178,7 +178,7 @@ Section "Uninstall"
   RMDir /r "$INSTDIR\include"
   RMDir /r "$INSTDIR\lib"
   RMDir /r "$INSTDIR\Scripts"
- ;RMDir /r "$INSTDIR\share"
+  RMDir /r "$INSTDIR\share"
   RMDir /r "$INSTDIR\var"
 
   Delete "$INSTDIR\Uninstall.exe"
