@@ -1,3 +1,8 @@
+2011-07-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging\windows\presage_installer.nsi: Added uninstall
+	information to Add/Remove Programs.
+
 2011-07-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging\windows\presage_installer.nsi: improved the NSIS

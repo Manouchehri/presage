@@ -115,7 +115,16 @@ Section "Runtime" SecRuntime
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
-  
+
+  ;Add uninstall information to Add/Remove Programs
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "DisplayName" "${PRESAGE_NAME}"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "UninstallString" "$INSTDIR\Uninstall.exe"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "InstallLocation" "$INSTDIR"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "Publisher" "http://presage.sourceforge.net"
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "DisplayVersion" "${PRESAGE_VERSION}"
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "NoModify" "1"
+  WriteRegDWORD HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "NoRepair" "1"
+
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     
     ;Create shortcuts
@@ -192,6 +201,16 @@ Section "Uninstall"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
   
   DeleteRegKey /ifempty HKCU "Software\Presage"
+
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "DisplayName"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "UninstallString"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "InstallLocation"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "Publisher"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "DisplayVersion"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "NoModify"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "NoRepair"
+
+  DeleteRegKey /ifempty HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage"
 
 SectionEnd
 
