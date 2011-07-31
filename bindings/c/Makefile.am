@@ -33,5 +33,5 @@ CLEANFILES = \
 	presage_c_demo.xml
 
 EXTRA_DIST = \
-	README_Visual_Studio.txt
+	README_Visual_Studio.txt \
 	libpresage-1.def

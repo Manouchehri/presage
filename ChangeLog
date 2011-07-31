@@ -2,6 +2,9 @@
 
 	* configure.ac: added support for SWIG 2.
 
+	* bindings/c/libpresage-1.def, bindings/c/Makefile.am: fixed bug,
+	added libpresage-1.def to distribution.
+
 2011-07-30  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging\windows\presage_installer.nsi: Added uninstall
