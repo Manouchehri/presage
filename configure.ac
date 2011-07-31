@@ -227,6 +227,10 @@ dnl ===============
 dnl Checks for SWIG
 dnl ===============
 AC_PATH_PROG([SWIG], [swig])
+if test ! "$SWIG"
+then
+    AC_PATH_PROG([SWIG], [swig2.0])
+fi
 AM_CONDITIONAL([HAVE_SWIG], [test "$SWIG"])
 
 
