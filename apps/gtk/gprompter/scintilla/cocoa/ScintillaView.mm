@@ -158,6 +158,7 @@ NSString *SCIUpdateUINotification = @"SCIUpdateUI";
  */
 - (BOOL) acceptsFirstMouse: (NSEvent *) theEvent
 {
+#pragma unused(theEvent)
   return YES;
 }
 
@@ -260,8 +261,8 @@ NSString *SCIUpdateUINotification = @"SCIUpdateUI";
 
 - (NSRange) selectedRange
 {
-  int begin = [mOwner getGeneralProperty: SCI_GETSELECTIONSTART parameter: 0];
-  int end = [mOwner getGeneralProperty: SCI_GETSELECTIONEND parameter: 0];
+  long begin = [mOwner getGeneralProperty: SCI_GETSELECTIONSTART parameter: 0];
+  long end = [mOwner getGeneralProperty: SCI_GETSELECTIONEND parameter: 0];
   return NSMakeRange(begin, end - begin);
 }
 
@@ -285,7 +286,7 @@ NSString *SCIUpdateUINotification = @"SCIUpdateUI";
 	else if ([aString isKindOfClass:[NSAttributedString class]])
 		newText = (NSString*) [aString string];
 
-  int currentPosition = [mOwner getGeneralProperty: SCI_GETCURRENTPOS parameter: 0];
+  long currentPosition = [mOwner getGeneralProperty: SCI_GETCURRENTPOS parameter: 0];
 
   // Replace marked text if there is one.
   if (mMarkedTextRange.length > 0)
@@ -301,10 +302,10 @@ NSString *SCIUpdateUINotification = @"SCIUpdateUI";
   // Note: Scintilla internally works almost always with bytes instead chars, so we need to take
   //       this into account when determining selection ranges and such.
   std::string raw_text = [newText UTF8String];
-  mOwner.backend->InsertText(newText);
+  int lengthInserted = mOwner.backend->InsertText(newText);
 
   mMarkedTextRange.location = currentPosition;
-  mMarkedTextRange.length = raw_text.size();
+  mMarkedTextRange.length = lengthInserted;
     
   // Mark the just inserted text. Keep the marked range for later reset.
   [mOwner setGeneralProperty: SCI_SETINDICATORCURRENT value: INPUT_INDICATOR];
@@ -484,6 +485,7 @@ NSString *SCIUpdateUINotification = @"SCIUpdateUI";
 
 - (BOOL) prepareForDragOperation: (id <NSDraggingInfo>) sender
 {
+#pragma unused(sender)
   return YES;
 }
 
@@ -501,7 +503,19 @@ NSString *SCIUpdateUINotification = @"SCIUpdateUI";
  */
 - (NSDragOperation) draggingSourceOperationMaskForLocal: (BOOL) flag
 {
-  return NSDragOperationCopy | NSDragOperationMove;
+  return NSDragOperationCopy | NSDragOperationMove | NSDragOperationDelete;
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
+ * Finished a drag: may need to delete selection.
+ */
+
+- (void)draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation {
+    if (operation == NSDragOperationDelete) {
+        mOwner.backend->WndProc(SCI_CLEAR, 0, 0);
+    }
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -521,36 +535,43 @@ NSString *SCIUpdateUINotification = @"SCIUpdateUI";
 
 - (void) selectAll: (id) sender
 {
+#pragma unused(sender)
   mOwner.backend->SelectAll();
 }
 
 - (void) deleteBackward: (id) sender
 {
+#pragma unused(sender)
   mOwner.backend->DeleteBackward();
 }
 
 - (void) cut: (id) sender
 {
+#pragma unused(sender)
   mOwner.backend->Cut();
 }
 
 - (void) copy: (id) sender
 {
+#pragma unused(sender)
   mOwner.backend->Copy();
 }
 
 - (void) paste: (id) sender
 {
+#pragma unused(sender)
   mOwner.backend->Paste();
 }
 
 - (void) undo: (id) sender
 {
+#pragma unused(sender)
   mOwner.backend->Undo();
 }
 
 - (void) redo: (id) sender
 {
+#pragma unused(sender)
   mOwner.backend->Redo();
 }
 
@@ -643,7 +664,7 @@ NSString *SCIUpdateUINotification = @"SCIUpdateUI";
     case IBNZoomChanged:
     {
       // Compute point increase/decrease based on default font size.
-      int fontSize = [self getGeneralProperty: SCI_STYLEGETSIZE parameter: STYLE_DEFAULT];
+      long fontSize = [self getGeneralProperty: SCI_STYLEGETSIZE parameter: STYLE_DEFAULT];
       int zoom = (int) (fontSize * (value - 1));
       [self setGeneralProperty: SCI_SETZOOM value: zoom];
       break;
@@ -700,7 +721,7 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
           if (scn->margin == 2)
           {
             // Click on the folder margin. Toggle the current line if possible.
-            int line = [editor getGeneralProperty: SCI_LINEFROMPOSITION parameter: scn->position];
+            long line = [editor getGeneralProperty: SCI_LINEFROMPOSITION parameter: scn->position];
             [editor setGeneralProperty: SCI_TOGGLEFOLD value: line];
           }
           break;
@@ -717,7 +738,7 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
         {
           // A zoom change happend. Notify info bar if there is one.
           float zoom = [editor getGeneralProperty: SCI_GETZOOM parameter: 0];
-          int fontSize = [editor getGeneralProperty: SCI_STYLEGETSIZE parameter: STYLE_DEFAULT];
+          long fontSize = [editor getGeneralProperty: SCI_STYLEGETSIZE parameter: STYLE_DEFAULT];
           float factor = (zoom / fontSize) + 1;
           [editor->mInfoBar notify: IBNZoomChanged message: nil location: NSZeroPoint value: factor];
           break;
@@ -822,12 +843,14 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
 //--------------------------------------------------------------------------------------------------
 
 - (void) applicationDidResignActive: (NSNotification *)note {
+#pragma unused(note)
     mBackend->ActiveStateChanged(false);
 }
 
 //--------------------------------------------------------------------------------------------------
 
 - (void) applicationDidBecomeActive: (NSNotification *)note {
+#pragma unused(note)
     mBackend->ActiveStateChanged(true);
 }
 
@@ -1076,7 +1099,7 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
   NSString *result = @"";
   
   char *buffer(0);
-  const int length = mBackend->WndProc(SCI_GETSELTEXT, 0, 0);
+  const long length = mBackend->WndProc(SCI_GETSELTEXT, 0, 0);
   if (length > 0)
   {
     buffer = new char[length + 1];
@@ -1109,7 +1132,7 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
   NSString *result = @"";
   
   char *buffer(0);
-  const int length = mBackend->WndProc(SCI_GETLENGTH, 0, 0);
+  const long length = mBackend->WndProc(SCI_GETLENGTH, 0, 0);
   if (length > 0)
   {
     buffer = new char[length + 1];
@@ -1326,7 +1349,7 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
  */
 - (NSColor*) getColorProperty: (int) property parameter: (long) parameter
 {
-  int color = mBackend->WndProc(property, parameter, 0);
+  long color = mBackend->WndProc(property, parameter, 0);
   float red = (color & 0xFF) / 255.0;
   float green = ((color >> 8) & 0xFF) / 255.0;
   float blue = ((color >> 16) & 0xFF) / 255.0;
@@ -1481,8 +1504,8 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
 {
   // The current position is where we start searching. That is either the end of the current
   // (main) selection or the caret position. That ensures we do proper "search next" too.
-  int currentPosition = [self getGeneralProperty: SCI_GETCURRENTPOS parameter: 0];
-  int length = [self getGeneralProperty: SCI_GETTEXTLENGTH parameter: 0];
+  long currentPosition = [self getGeneralProperty: SCI_GETCURRENTPOS parameter: 0];
+  long length = [self getGeneralProperty: SCI_GETTEXTLENGTH parameter: 0];
 
   int searchFlags= 0;
   if (matchCase)
@@ -1494,7 +1517,7 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
   ttf.chrg.cpMin = currentPosition;
   ttf.chrg.cpMax = length;
   ttf.lpstrText = (char*) [searchText UTF8String];
-  int position = mBackend->WndProc(SCI_FINDTEXT, searchFlags, (sptr_t) &ttf);
+  long position = mBackend->WndProc(SCI_FINDTEXT, searchFlags, (sptr_t) &ttf);
   
   if (position < 0 && wrap)
   {

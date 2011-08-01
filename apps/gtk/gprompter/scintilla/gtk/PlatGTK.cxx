@@ -9,6 +9,9 @@
 #include <stddef.h>
 #include <math.h>
 
+#include <vector>
+#include <map>
+
 #include <glib.h>
 #include <gmodule.h>
 #include <gdk/gdk.h>
@@ -42,6 +45,28 @@
 
 #if GTK_CHECK_VERSION(2,22,0)
 #define USE_CAIRO 1
+#endif
+
+#ifdef USE_CAIRO
+
+static cairo_surface_t *CreateSimilarSurface(GdkWindow *window, cairo_content_t content, int width, int height) {
+#if GTK_CHECK_VERSION(2,22,0)
+	return gdk_window_create_similar_surface(window, content, width, height);
+#else
+	cairo_surface_t *window_surface, *surface;
+
+	g_return_val_if_fail(GDK_IS_WINDOW(window), NULL);
+
+	window_surface = GDK_DRAWABLE_GET_CLASS(window)->ref_cairo_surface(window);
+
+	surface = cairo_surface_create_similar(window_surface, content, width, height);
+
+	cairo_surface_destroy(window_surface);
+
+	return surface;
+#endif
+}
+
 #endif
 
 static GdkWindow *WindowFromWidget(GtkWidget *w) {
@@ -763,6 +788,7 @@ public:
 	void RoundedRectangle(PRectangle rc, ColourAllocated fore, ColourAllocated back);
 	void AlphaRectangle(PRectangle rc, int cornerSize, ColourAllocated fill, int alphaFill,
 		ColourAllocated outline, int alphaOutline, int flags);
+	void DrawRGBAImage(PRectangle rc, int width, int height, const unsigned char *pixelsImage);
 	void Ellipse(PRectangle rc, ColourAllocated fore, ColourAllocated back);
 	void Copy(PRectangle rc, Point from, Surface &surfaceSource);
 
@@ -976,8 +1002,8 @@ void SurfaceImpl::InitPixMap(int width, int height, Surface *surface_, WindowID 
 	PLATFORM_ASSERT(layout);
 #ifdef USE_CAIRO
 	if (height > 0 && width > 0)
-		psurf = gdk_window_create_similar_surface(
-			gtk_widget_get_window(PWidget(wid)),
+		psurf = CreateSimilarSurface(
+			WindowFromWidget(PWidget(wid)),
 			CAIRO_CONTENT_COLOR_ALPHA, width, height);
 #else
 	if (height > 0 && width > 0)
@@ -1220,7 +1246,12 @@ void SurfaceImpl::RoundedRectangle(PRectangle rc, ColourAllocated fore, ColourAl
 static void PathRoundRectangle(cairo_t *context, double left, double top, double width, double height, int radius) {
 	double degrees = M_PI / 180.0;
 
+#if CAIRO_VERSION >= CAIRO_VERSION_ENCODE(1, 2, 0)
 	cairo_new_sub_path(context);
+#else
+	// First arc is in the top-right corner and starts from a point on the top line
+	cairo_move_to(context, left + width - radius, top);
+#endif
 	cairo_arc(context, left + width - radius, top + radius, radius, -90 * degrees, 0 * degrees);
 	cairo_arc(context, left + width - radius, top + height - radius, radius, 0 * degrees, 90 * degrees);
 	cairo_arc(context, left + radius, top + height - radius, radius, 90 * degrees, 180 * degrees);
@@ -1274,7 +1305,10 @@ void SurfaceImpl::AlphaRectangle(PRectangle rc, int cornerSize, ColourAllocated 
 			cdFill.GetGreen() / 255.0,
 			cdFill.GetBlue() / 255.0,
 			alphaFill / 255.0);
-		PathRoundRectangle(context, rc.left + 1.0, rc.top+1.0, rc.right - rc.left - 2.0, rc.bottom - rc.top - 2.0, cornerSize);
+		if (cornerSize > 0)
+			PathRoundRectangle(context, rc.left + 1.0, rc.top + 1.0, rc.right - rc.left - 2.0, rc.bottom - rc.top - 2.0, cornerSize);
+		else
+			cairo_rectangle(context, rc.left + 1.0, rc.top + 1.0, rc.right - rc.left - 2.0, rc.bottom - rc.top - 2.0);
 		cairo_fill(context);
 
 		ColourDesired cdOutline(outline.AsLong());
@@ -1283,7 +1317,10 @@ void SurfaceImpl::AlphaRectangle(PRectangle rc, int cornerSize, ColourAllocated 
 			cdOutline.GetGreen() / 255.0,
 			cdOutline.GetBlue() / 255.0,
 			alphaOutline / 255.0);
-		PathRoundRectangle(context, rc.left +0.5, rc.top+0.5, rc.right - rc.left - 1, rc.bottom - rc.top - 1, cornerSize);
+		if (cornerSize > 0)
+			PathRoundRectangle(context, rc.left + 0.5, rc.top + 0.5, rc.right - rc.left - 1, rc.bottom - rc.top - 1, cornerSize);
+		else
+			cairo_rectangle(context, rc.left + 0.5, rc.top + 0.5, rc.right - rc.left - 1, rc.bottom - rc.top - 1);
 		cairo_stroke(context);
 	}
 #else
@@ -1326,6 +1363,51 @@ void SurfaceImpl::AlphaRectangle(PRectangle rc, int cornerSize, ColourAllocated 
 
 		g_object_unref(pixalpha);
 	}
+#endif
+}
+
+void SurfaceImpl::DrawRGBAImage(PRectangle rc, int width, int height, const unsigned char *pixelsImage) {
+	if (rc.Width() > width)
+		rc.left += (rc.Width() - width) / 2;
+	rc.right = rc.left + width;
+	if (rc.Height() > height)
+		rc.top += (rc.Height() - height) / 2;
+	rc.bottom = rc.top + height;
+
+#ifdef USE_CAIRO
+	int stride = cairo_format_stride_for_width(CAIRO_FORMAT_ARGB32, width);
+	int ucs = stride * height;
+	std::vector<unsigned char> image(ucs);
+	for (int y=0; y<height; y++) {
+		for (int x=0; x<width; x++) {
+			unsigned char *pixel = &image[0] + y*stride + x * 4;
+			unsigned char alpha = pixelsImage[3];
+			pixel[2] = (*pixelsImage++) * alpha / 255;
+			pixel[1] = (*pixelsImage++) * alpha / 255;
+			pixel[0] = (*pixelsImage++) * alpha / 255;
+			pixel[3] = *pixelsImage++;
+		}
+	}
+
+	cairo_surface_t *psurf = cairo_image_surface_create_for_data(&image[0], CAIRO_FORMAT_ARGB32, width, height, stride);
+	cairo_set_source_surface(context, psurf, rc.left, rc.top);
+	cairo_rectangle(context, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top);
+	cairo_fill(context);
+
+	cairo_surface_destroy(psurf);
+#else
+	GdkPixbuf *pixbuf = gdk_pixbuf_new_from_data(pixelsImage,
+                                                         GDK_COLORSPACE_RGB,
+                                                         TRUE,
+                                                         8,
+                                                         width,
+                                                         height,
+                                                         width * 4,
+                                                         NULL,
+                                                         NULL);
+	gdk_draw_pixbuf(drawable, gc, pixbuf,
+		0,0, rc.left,rc.top, width,height, GDK_RGB_DITHER_NORMAL, 0, 0);
+	g_object_unref(pixbuf);
 #endif
 }
 
@@ -2192,8 +2274,10 @@ PRectangle Window::GetMonitorRect(Point pt) {
 #endif
 }
 
+typedef std::map<int, RGBAImage*> ImageMap;
+
 struct ListImage {
-	const char *xpm_data;
+	const RGBAImage *rgba_data;
 	GdkPixbuf *pixbuf;
 };
 
@@ -2221,7 +2305,7 @@ class ListBoxX : public ListBox {
 	WindowID scroller;
 	void *pixhash;
 	GtkCellRenderer* pixbuf_renderer;
-	XPMSet xset;
+	RGBAImageSet images;
 	int desiredVisibleRows;
 	unsigned int maxItemCharacters;
 	unsigned int aveCharWidth;
@@ -2253,7 +2337,9 @@ public:
 	virtual int GetSelection();
 	virtual int Find(const char *prefix);
 	virtual void GetValue(int n, char *value, int len);
+	void RegisterRGBA(int type, RGBAImage *image);
 	virtual void RegisterImage(int type, const char *xpm_data);
+	virtual void RegisterRGBAImage(int type, int width, int height, const unsigned char *pixelsImage);
 	virtual void ClearRegisteredImages();
 	virtual void SetDoubleClickAction(CallBackAction action, void *data) {
 		doubleClickAction = action;
@@ -2478,25 +2564,21 @@ void ListBoxX::Clear() {
 }
 
 static void init_pixmap(ListImage *list_image) {
-	const char *textForm = list_image->xpm_data;
-	const char * const * xpm_lineform = reinterpret_cast<const char * const *>(textForm);
-	const char **xpm_lineformfromtext = 0;
-	// The XPM data can be either in atext form as will be read from a file
-	// or in a line form (array of char  *) as will be used for images defined in code.
-	// Test for text form and convert to line form
-	if ((0 == memcmp(textForm, "/* X", 4)) && (0 == memcmp(textForm, "/* XPM */", 9))) {
-		// Test done is two parts to avoid possibility of overstepping the memory
-		// if memcmp implemented strangely. Must be 4 bytes at least at destination.
-		xpm_lineformfromtext = XPM::LinesFormFromTextForm(textForm);
-		xpm_lineform = xpm_lineformfromtext;
+	if (list_image->rgba_data) {
+		// Drop any existing pixmap/bitmap as data may have changed
+		if (list_image->pixbuf)
+			g_object_unref(list_image->pixbuf);
+		list_image->pixbuf =
+			gdk_pixbuf_new_from_data(list_image->rgba_data->Pixels(),
+                                                         GDK_COLORSPACE_RGB,
+                                                         TRUE,
+                                                         8,
+                                                         list_image->rgba_data->GetWidth(),
+                                                         list_image->rgba_data->GetHeight(),
+                                                         list_image->rgba_data->GetWidth() * 4,
+                                                         NULL,
+                                                         NULL);
 	}
-
-	// Drop any existing pixmap/bitmap as data may have changed
-	if (list_image->pixbuf)
-		g_object_unref(list_image->pixbuf);
-	list_image->pixbuf =
-		gdk_pixbuf_new_from_xpm_data((const gchar**)xpm_lineform);
-	delete []xpm_lineformfromtext;
 }
 
 #define SPACING 5
@@ -2664,13 +2746,8 @@ void ListBoxX::GetValue(int n, char *value, int len) {
 #pragma warning(disable: 4127)
 #endif
 
-void ListBoxX::RegisterImage(int type, const char *xpm_data) {
-	g_return_if_fail(xpm_data);
-
-	// Saved and use the saved copy so caller's copy can disappear.
-	xset.Add(type, xpm_data);
-	XPM *pxpm = xset.Get(type);
-	xpm_data = reinterpret_cast<const char *>(pxpm->InLinesForm());
+void ListBoxX::RegisterRGBA(int type, RGBAImage *image) {
+	images.Add(type, image);
 
 	if (!pixhash) {
 		pixhash = g_hash_table_new(g_direct_hash, g_direct_equal);
@@ -2682,17 +2759,27 @@ void ListBoxX::RegisterImage(int type, const char *xpm_data) {
 		if (list_image->pixbuf)
 			g_object_unref(list_image->pixbuf);
 		list_image->pixbuf = NULL;
-		list_image->xpm_data = xpm_data;
+		list_image->rgba_data = image;
 	} else {
 		list_image = g_new0(ListImage, 1);
-		list_image->xpm_data = xpm_data;
+		list_image->rgba_data = image;
 		g_hash_table_insert((GHashTable *) pixhash, GINT_TO_POINTER(type),
 			(gpointer) list_image);
 	}
 }
 
+void ListBoxX::RegisterImage(int type, const char *xpm_data) {
+	g_return_if_fail(xpm_data);
+	XPM xpmImage(xpm_data);
+	RegisterRGBA(type, new RGBAImage(xpmImage));
+}
+
+void ListBoxX::RegisterRGBAImage(int type, int width, int height, const unsigned char *pixelsImage) {
+	RegisterRGBA(type, new RGBAImage(width, height, pixelsImage));
+}
+
 void ListBoxX::ClearRegisteredImages() {
-	xset.Clear();
+	images.Clear();
 }
 
 void ListBoxX::SetList(const char *listText, char separator, char typesep) {
@@ -2888,7 +2975,8 @@ bool Platform::IsDBCSLeadByte(int codePage, char ch) {
 		case 932:
 			// Shift_jis
 			return ((uch >= 0x81) && (uch <= 0x9F)) ||
-				((uch >= 0xE0) && (uch <= 0xEF));
+				((uch >= 0xE0) && (uch <= 0xFC));
+				// Lead bytes F0 to FC may be a Microsoft addition. 
 		case 936:
 			// GBK
 			return (uch >= 0x81) && (uch <= 0xFE);

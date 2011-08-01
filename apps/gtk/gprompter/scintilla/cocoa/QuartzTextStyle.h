@@ -15,7 +15,12 @@ class QuartzTextStyle
 public:
     QuartzTextStyle()
     {
-		styleDict = CFDictionaryCreateMutable(NULL, 1, NULL, NULL);
+		fontRef = NULL;
+		styleDict = CFDictionaryCreateMutable(kCFAllocatorDefault, 2,
+						   &kCFTypeDictionaryKeyCallBacks, 
+						   &kCFTypeDictionaryValueCallBacks);
+
+		characterSet = 0;
     }
 
     ~QuartzTextStyle()
@@ -24,6 +29,12 @@ public:
 		{
 			CFRelease(styleDict);
 			styleDict = NULL;
+		}
+
+		if (fontRef)
+		{
+			CFRelease(fontRef);
+			fontRef = NULL;
 		}
     }
 	
@@ -52,14 +63,17 @@ public:
 		return ::CTFontGetLeading(fontRef);
 	}
 	
-	void setFontRef(CTFontRef inRef)
+	void setFontRef(CTFontRef inRef, int characterSet_)
 	{
 		fontRef = inRef;
+		characterSet = characterSet_;
 		
 		if (styleDict != NULL)
 			CFRelease(styleDict);
 
-		styleDict = CFDictionaryCreateMutable(NULL, 1, NULL, NULL);
+		styleDict = CFDictionaryCreateMutable(kCFAllocatorDefault, 2,
+						      &kCFTypeDictionaryKeyCallBacks, 
+						      &kCFTypeDictionaryValueCallBacks);
 		
 		CFDictionaryAddValue(styleDict, kCTFontAttributeName, fontRef);
 	}
@@ -69,9 +83,15 @@ public:
 		return fontRef;
 	}
 	
+	int getCharacterSet()
+	{
+		return characterSet;
+	}
+	
 private:
 	CFMutableDictionaryRef styleDict;
 	CTFontRef fontRef;
+	int characterSet;
 };
 
 #endif
