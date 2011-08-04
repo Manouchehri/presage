@@ -65,7 +65,7 @@ int main()
     if (PRESAGE_OK == presage_predict (prsg, &prediction))
     {
 	for (i = 0; prediction[i] != 0; i++)
-	    printf ("prediction[%d]: %s\n", i, prediction[i]);
+	    printf ("prediction[%zu]: %s\n", i, prediction[i]);
 	presage_free_string_array (prediction);
     }
 
@@ -102,7 +102,7 @@ int main()
     if (PRESAGE_OK == presage_predict (prsg, &prediction))
     {
 	for (i = 0; prediction[i] != 0; i++)
-	    printf ("prediction[%d]: %s\n", i, prediction[i]);
+	    printf ("prediction[%zu]: %s\n", i, prediction[i]);
 	presage_free_string_array (prediction);    
     }
 
