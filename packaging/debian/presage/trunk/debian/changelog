@@ -5,7 +5,7 @@ presage (0.8.6-1) unstable; urgency=low
   * Fixed pyprompter module packaging.
   * Fixed embedded-javascript-library lintian warning.
 
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sun, 31 Jul 2011 15:00:30 +0100
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Fri, 5 Aug 2011 19:18:30 +0100
 
 presage (0.8.4-3) unstable; urgency=low
 
