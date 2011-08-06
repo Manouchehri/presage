@@ -3,7 +3,6 @@ Section: devel
 Priority: extra
 Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 Build-Depends: debhelper (>= 7.0.50~),
-	       autotools-dev,
 	       libsqlite3-dev,
 	       sqlite3,
 	       libtinyxml-dev (>= 2.5.3),
@@ -17,8 +16,8 @@ Build-Depends: debhelper (>= 7.0.50~),
 	       libgtk2.0-dev (>= 2.12)
 Standards-Version: 3.9.2
 Homepage: http://presage.sourceforge.net/
-Vcs-Svn: https://presage.svn.sourceforge.net/svnroot/presage/trunk/packaging/debian/presage
-Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/trunk/packaging/debian/presage
+Vcs-Svn: https://presage.svn.sourceforge.net/svnroot/presage/trunk/packaging/debian/presage/trunk
+Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/trunk/packaging/debian/presage/trunk
 
 Package: presage
 Section: misc
@@ -82,7 +81,7 @@ Description: intelligent predictive text entry platform (data files)
 Package: libpresage-dev
 Section: libdevel
 Suggests: libpresage-doc
-Architecture: any
+Architecture: all
 Depends: libpresage1 (= ${binary:Version}), ${misc:Depends}
 Description: intelligent predictive text entry platform (development files)
  Presage is an intelligent predictive text entry platform.
@@ -120,7 +119,7 @@ Description: intelligent predictive GTK+ text editor
 
 Package: pyprompter
 Section: misc
-Architecture: any
+Architecture: all
 Depends: ${python:Depends},
 	 ${misc:Depends},
 	 python-presage (= ${binary:Version}),
