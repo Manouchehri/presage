@@ -1,69 +1,29 @@
 presage (0.8.6-1) unstable; urgency=low
 
+  * Initial release (Closes: #468820)
+  * Fixed Vcs-Svn and Vcs-Browser fields.
   * Switched packaging from CDBS to debhelper dh.
   * Build python extension module for all pyversions.
   * Fixed pyprompter module packaging.
   * Fixed embedded-javascript-library lintian warning.
-
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Fri, 5 Aug 2011 19:18:30 +0100
-
-presage (0.8.4-3) unstable; urgency=low
-
   * Updated to latest policy.
   * Added entries for new files in debian/copyright.
   * Added DEP-3 headers to patches.
-  * Fixed pyprompter module, now shipping in pyprompter package.
-
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Fri, 14 Aug 2010 10:51:59 +0100
-
-presage (0.8.4-2) unstable; urgency=low
-
-  * Switched package from CDBS to debhelper dh.
   * Renamed presage-gprompter package to gprompter.
   * Renamed presage-pyprompter package to pyprompter.
   * Ship README NEWS TODO AUTHORS THANKS to libpresage1, presage, gprompter,
     pyprompter packages.
-
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sun, 11 Jul 2010 08:43:52 +0100
-
-presage (0.8.4-1) unstable; urgency=low
-
-  * Upstream new release, removed debian patches that were integrated upstream.
-  * Removed installation of LaTeX documentation.
-  * Removed explicit libc6-dev dependency of libpresage-dev package.
   * Install language models in /usr/share/presage.
   * Install API docs in /usr/share/doc/libpresage-doc.
   * Removed reference to info documentation from man pages.
-
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Mon, 05 Jul 2010 12:05:44 +0100
-
-presage (0.8.3-4) unstable; urgency=low
-
   * Added support for controlling and versioning symbols exported by libpresage.
-  * Updated to latest policy.
-
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Mon, 28 Jun 2010 15:03:26 +0100
-
-presage (0.8.3-3) unstable; urgency=low
-
   * Added rule to remove embedded tinyxml source and header files.
   * Fixed hyphen-used-as-minus-sign lintian warning.
   * Renamed binary package presage-doc to libpresage-doc.
-
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Tue, 22 Jun 2010 19:34:01 +0100
-
-presage (0.8.3-2) unstable; urgency=low
-
   * Added "-Wl,--as-needed" to LDFLAGS to resolve avoidable dependency warnings.
   * Fixed lintian extended-description-is-probably-too-short informational
     warnings.
   * Fixed FBTFS when building twice in a row.
 
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Fri, 18 Jun 2010 21:30:12 +0100
-
-presage (0.8.3-1) unstable; urgency=low
-
-  * Initial release (Closes: #468820)
-
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Wed, 12 Jun 2010 13:19:15 +0000
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sat, 6 Aug 2011 09:26:15 +0000
 

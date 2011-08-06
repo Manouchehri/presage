@@ -18,8 +18,8 @@ Build-Depends: debhelper (>= 7.0.50~),
 	       libgtk2.0-dev (>= 2.12)
 Standards-Version: 3.9.2
 Homepage: http://presage.sourceforge.net/
-Vcs-Svn: https://presage.svn.sourceforge.net/svnroot/presage/trunk
-Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/trunk
+Vcs-Svn: https://presage.svn.sourceforge.net/svnroot/presage/trunk/packaging/debian/presage
+Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/trunk/packaging/debian/presage
 
 Package: presage
 Section: misc
@@ -44,7 +44,7 @@ Description: intelligent predictive text entry platform (documentation)
  .
  This package contains the documentation for libpresage.
  .
- Documentation is available in HTML and LaTex format.
+ Documentation is available in HTML and LaTeX format.
 
 Package: libpresage1
 Section: libs
