@@ -1,7 +1,7 @@
-presage (0.8.6-2) unstable; urgency=low
+presage (0.8.6-3) unstable; urgency=low
 
   * Initial release (Closes: #468820)
-  * Removed autotools-dev from build deps.
+  * Use autotools-dev.
   * Fixed Vcs-Svn and Vcs-Browser fields.
   * Switched from python-support to dh_python2.
   * Switched packaging from CDBS to debhelper dh.

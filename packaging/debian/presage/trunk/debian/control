@@ -3,6 +3,7 @@ Section: devel
 Priority: extra
 Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 Build-Depends: debhelper (>= 7.0.50~),
+	       autotools-dev,
 	       libsqlite3-dev,
 	       sqlite3,
 	       libtinyxml-dev (>= 2.5.3),
@@ -81,7 +82,7 @@ Description: intelligent predictive text entry platform (data files)
 Package: libpresage-dev
 Section: libdevel
 Suggests: libpresage-doc
-Architecture: all
+Architecture: any
 Depends: libpresage1 (= ${binary:Version}), ${misc:Depends}
 Description: intelligent predictive text entry platform (development files)
  Presage is an intelligent predictive text entry platform.
@@ -122,7 +123,7 @@ Section: misc
 Architecture: all
 Depends: ${python:Depends},
 	 ${misc:Depends},
-	 python-presage (= ${binary:Version}),
+	 python-presage (>= ${binary:Version}),
 	 python-wxgtk2.8 (>= 2.8.7)
 Description: intelligent predictive wxPython text editor
  This package contains the wxPython predictive text editor pyprompter.
