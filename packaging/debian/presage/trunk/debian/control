@@ -12,8 +12,7 @@ Build-Depends: debhelper (>= 7.0.50~),
 	       libcppunit-dev (>= 1.9.6),
 	       doxygen,
 	       graphviz,
-	       python-all-dev (>= 2.3.5-11),
-	       python-support (>= 0.5.3),
+	       python-all-dev (>= 2.6.6-3~),
 	       swig2.0 (>= 2.0.4),
 	       libgtk2.0-dev (>= 2.12)
 Standards-Version: 3.9.2

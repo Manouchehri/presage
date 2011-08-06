@@ -10,7 +10,7 @@ LDFLAGS += -Wl,--as-needed
 PYVERS=$(shell pyversions -vs)
 
 %:
-	dh $@
+	dh $@ --with python2
 
 # Override needed to remove embedded tinyxml source code to ensure
 # that build uses system libtinyxml

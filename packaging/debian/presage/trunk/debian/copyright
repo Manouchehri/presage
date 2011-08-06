@@ -1,13 +1,13 @@
-Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
-Name: presage
-Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=174
+Upstream-Name: presage
+Upstream-Contact: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 Source: http://sourceforge.net/projects/presage/
 
 Files: *
 Copyright: Copyright 2004-2010 Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 License: GPL-2+
 
-License: GLP-2+
+License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation; either version 2 of the License, or
@@ -150,6 +150,14 @@ License: License for Scintilla and SciTE
 Files: apps/gtk/gprompter/scintilla/src/LexFlagship.cxx
 Copyright: Copyright 2005 by Randy Butler
 License: License for Scintilla and SciTE
+
+Files: apps/gtk/gprompter/scintilla/src/RESearch.h
+Copyright: None
+License: public-domain
+
+Files: apps/gtk/gprompter/scintilla/lexlib/StyleContext.cxx apps/gtk/gprompter/scintilla/lexlib/StyleContext.h
+Copyright: Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
+License: public-domain
 
 License: License for Scintilla and SciTE
  Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
