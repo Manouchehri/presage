@@ -1,0 +1,136 @@
+Source: presage
+Section: devel
+Priority: extra
+Maintainer: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Build-Depends: debhelper (>= 7.0.50~),
+ autotools-dev,
+ libsqlite3-dev,
+ sqlite3,
+ libtinyxml-dev (>= 2.5.3),
+ libncurses5-dev | libncurses-dev,
+ help2man,
+ libcppunit-dev (>= 1.9.6),
+ doxygen,
+ graphviz,
+ python-all-dev (>= 2.6.6-3~),
+ swig2.0 (>= 2.0.4),
+ libgtk2.0-dev (>= 2.12)
+Standards-Version: 3.9.2
+Homepage: http://presage.sourceforge.net/
+Vcs-Svn: https://presage.svn.sourceforge.net/svnroot/presage/trunk/packaging/debian/presage/trunk
+Vcs-Browser: http://presage.svn.sourceforge.net/viewvc/presage/trunk/packaging/debian/presage/trunk
+
+Package: presage
+Section: misc
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: intelligent predictive text entry platform (tools and demos)
+ Presage is an intelligent predictive text entry platform.
+ .
+ This package contains the tools required to generate custom
+ statistical data used by the presage predictive text engine to
+ generate predictions.
+ .
+ This package also contains simple demonstration programs and simulator.
+
+Package: libpresage-doc
+Section: doc
+Architecture: all
+Depends: libjs-jquery, ${misc:Depends}
+Recommends: presage
+Description: intelligent predictive text entry platform (documentation)
+ Presage is an intelligent predictive text entry platform.
+ .
+ This package contains the documentation for libpresage.
+ .
+ Documentation is available in HTML and LaTeX format.
+
+Package: libpresage1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends},
+ libpresage-data (= ${source:Version})
+Description: intelligent predictive text entry platform (shared library)
+ Presage is an intelligent predictive text entry platform.
+ .
+ A predictive text entry system attempts to improve the ease and speed
+ of textual input by predicting words. Word prediction consists in
+ computing which word tokens or word completions are most likely to be
+ entered next. The system analyses the text already entered and
+ combines the information thus extracted with other information sources
+ to calculate the set of most probable tokens.
+ .
+ Presage exploits redundant information embedded in natural
+ languages to generate word predictions. The modular architecture
+ allows its language model to be extended and customized to utilize
+ statistical, syntactic, and semantic information sources.
+ .
+ This package contains the shared library.
+
+Package: libpresage-data
+Section: libs
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: presage
+Description: intelligent predictive text entry platform (data files)
+ Presage is an intelligent predictive text entry platform.
+ .
+ This package contains the sample statistical data files and
+ abbreviation files needed by presage.
+
+Package: libpresage-dev
+Section: libdevel
+Suggests: libpresage-doc
+Architecture: any
+Depends: libpresage1 (= ${binary:Version}), ${misc:Depends}
+Description: intelligent predictive text entry platform (development files)
+ Presage is an intelligent predictive text entry platform.
+ .
+ This package contains development files.
+ .
+ This package contains the header files needed to compile applications
+ or shared objects that use libpresage.
+
+Package: python-presage
+Section: python
+Architecture: any
+Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Provides: ${python:Provides}
+Description: intelligent predictive text entry platform (Python binding)
+ Presage is an intelligent predictive text entry platform.
+ .
+ This package provides the Python binding for libpresage.
+ .
+ This package contains the Python extension module for libpresage.
+
+Package: gprompter
+Section: misc
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: intelligent predictive GTK+ text editor
+ This package contains the GTK+ predictive text editor gprompter.
+ .
+ gprompter is a cross-platform predictive text editor, based on
+ presage, the intelligent predictive text entry platform.
+ .
+ gprompter displays predictions in a contextual pop-up box as each
+ letter is typed. Predictions can be easily selected and inserted in
+ the document.
+
+Package: pyprompter
+Section: misc
+Architecture: all
+Depends: ${python:Depends},
+ ${misc:Depends},
+ python-presage (>= ${source:Version}),
+ python-wxgtk2.8 (>= 2.8.7)
+Description: intelligent predictive wxPython text editor
+ This package contains the wxPython predictive text editor pyprompter.
+ .
+ pyprompter is a cross-platform predictive text editor.
+ .
+ pyprompter displays predictions in a contextual pop-up box as each
+ letter is typed. Predictions can be easily selected and inserted in
+ the document.
+

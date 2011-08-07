@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE=1
+
+LDFLAGS += -Wl,--as-needed
+
+#CFLAGS   = -O0 -g
+#CXXFLAGS = -O0 -g
+
+PYVERS=$(shell pyversions -vs)
+
+%:
+	dh $@ --with autotools_dev --with python2
+
+# Override needed to remove embedded tinyxml source code to ensure
+# that build uses system libtinyxml
+#
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -f src/lib/tinyxml/*.h src/lib/tinyxml/*.cpp
+
+# Override needed to:
+# - fix embedded-javascript-library lintian warning
+# - install into python-presage and pyprompter for each supported python version
+#
+override_dh_auto_install:	
+	dh_auto_install
+	set -e; if test -f debian/tmp/usr/share/presage/html/jquery.js; \
+	then \
+		rm -f debian/tmp/usr/share/presage/html/jquery.js; \
+		ln -s /usr/share/javascript/jquery/jquery.js debian/tmp/usr/share/presage/html/jquery.js; \
+	fi
+	set -e; for i in $(PYVERS); do \
+		(cd bindings/python && python$$i setup.py install --root $(CURDIR)/debian/python-presage --prefix usr); \
+		(cd apps/python && python$$i setup.py install --root $(CURDIR)/debian/pyprompter --prefix usr); \
+	done
