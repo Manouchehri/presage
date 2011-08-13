@@ -34,3 +34,11 @@ override_dh_auto_install:
 		(cd bindings/python && python$$i setup.py install --root $(CURDIR)/debian/python-presage --prefix usr --install-layout=deb); \
 		(cd apps/python && python$$i setup.py install --root $(CURDIR)/debian/pyprompter --prefix usr --install-layout=deb); \
 	done
+
+# Override needed to create debug package
+#
+override_dh_strip:
+	dh_strip -plibpresage1 --dbg-package=libpresage1-dbg
+	dh_strip -ppresage --dbg-package=presage-dbg
+	dh_strip -pgprompter --dbg-package=gprompter-dbg
+	dh_strip -ppython-presage --dbg-package=python-presage-dbg

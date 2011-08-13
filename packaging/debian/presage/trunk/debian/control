@@ -33,6 +33,20 @@ Description: intelligent predictive text entry platform (tools and demos)
  .
  This package also contains simple demonstration programs and simulator.
 
+Package: presage-dbg
+Architecture: any
+Section: debug
+Depends: presage (= ${binary:Version}), ${misc:Depends}
+Description: intelligent predictive text entry platform (tools debugging symbols)
+ Presage is an intelligent predictive text entry platform.
+ .
+ This package contains the debugging symbols for the presage tools
+ required to generate custom statistical data used by the presage
+ predictive text engine to generate predictions.
+ .
+ This package also contains debugging symbols for simple demonstration
+ programs and simulator.
+
 Package: libpresage-doc
 Section: doc
 Architecture: all
@@ -67,6 +81,27 @@ Description: intelligent predictive text entry platform (shared library)
  statistical, syntactic, and semantic information sources.
  .
  This package contains the shared library.
+
+Package: libpresage1-dbg
+Architecture: any
+Section: debug
+Depends: libpresage1 (= ${binary:Version}), ${misc:Depends}
+Description: intelligent predictive text entry platform (shared library debugging symbols)
+ Presage is an intelligent predictive text entry platform.
+ .
+ A predictive text entry system attempts to improve the ease and speed
+ of textual input by predicting words. Word prediction consists in
+ computing which word tokens or word completions are most likely to be
+ entered next. The system analyses the text already entered and
+ combines the information thus extracted with other information sources
+ to calculate the set of most probable tokens.
+ .
+ Presage exploits redundant information embedded in natural
+ languages to generate word predictions. The modular architecture
+ allows its language model to be extended and customized to utilize
+ statistical, syntactic, and semantic information sources.
+ .
+ This package contains the debugging symbols for the shared library.
 
 Package: libpresage-data
 Section: libs
@@ -104,19 +139,37 @@ Description: intelligent predictive text entry platform (Python binding)
  .
  This package contains the Python extension module for libpresage.
 
+Package: python-presage-dbg
+Section: debug
+Architecture: any
+Depends: python-presage (= ${binary:Version}), ${misc:Depends}
+Description: intelligent predictive text entry platform (Python binding debugging symbols)
+ Presage is an intelligent predictive text entry platform.
+ .
+ This package contains the debugging symbols for the Python extension
+ module for libpresage.
+
 Package: gprompter
 Section: misc
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: intelligent predictive GTK+ text editor
- This package contains the GTK+ predictive text editor gprompter.
- .
  gprompter is a cross-platform predictive text editor, based on
  presage, the intelligent predictive text entry platform.
  .
  gprompter displays predictions in a contextual pop-up box as each
  letter is typed. Predictions can be easily selected and inserted in
  the document.
+
+Package: gprompter-dbg
+Architecture: any
+Section: debug
+Depends: gprompter (= ${binary:Version}), ${misc:Depends}
+Description: intelligent predictive GTK+ text editor (debugging symbols)
+ gprompter is a cross-platform predictive text editor, based on
+ presage, the intelligent predictive text entry platform.
+ .
+ This package contains the debugging symbols for gprompter.
 
 Package: pyprompter
 Section: misc
