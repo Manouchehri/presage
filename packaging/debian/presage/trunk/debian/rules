@@ -31,6 +31,6 @@ override_dh_auto_install:
 		ln -s /usr/share/javascript/jquery/jquery.js debian/tmp/usr/share/presage/html/jquery.js; \
 	fi
 	set -e; for i in $(PYVERS); do \
-		(cd bindings/python && python$$i setup.py install --root $(CURDIR)/debian/python-presage --prefix usr); \
-		(cd apps/python && python$$i setup.py install --root $(CURDIR)/debian/pyprompter --prefix usr); \
+		(cd bindings/python && python$$i setup.py install --root $(CURDIR)/debian/python-presage --prefix usr --install-layout=deb); \
+		(cd apps/python && python$$i setup.py install --root $(CURDIR)/debian/pyprompter --prefix usr --install-layout=deb); \
 	done
