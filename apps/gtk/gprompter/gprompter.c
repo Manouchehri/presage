@@ -892,6 +892,54 @@ static void on_menu_view_word_wrap( GtkWidget* widget, gpointer data )
     }
 }
 
+static void on_menu_view_invert_colours( GtkWidget* widget, gpointer data )
+{
+    ScintillaObject* scintilla;
+    GtkToggleAction* toggle_action;
+    gboolean active;
+
+
+    scintilla = SCINTILLA (data);
+    toggle_action = GTK_TOGGLE_ACTION (widget);
+    active = gtk_toggle_action_get_active (toggle_action);
+
+    g_print ("invert colours active: %d\n", active);
+
+    if (active)
+    {
+	scintilla_send_message (scintilla,
+				SCI_STYLESETFORE,
+				STYLE_DEFAULT,
+				(255 | 255 << 8 | 255 << 16));
+	scintilla_send_message (scintilla,
+				SCI_STYLESETBACK,
+				STYLE_DEFAULT,
+				0);
+	scintilla_send_message (scintilla,
+				SCI_STYLECLEARALL,
+				0,
+				0);
+
+    }
+    else
+    {
+	scintilla_send_message (scintilla,
+				SCI_STYLESETFORE,
+				STYLE_DEFAULT,
+				0);
+	scintilla_send_message (scintilla,
+				SCI_STYLESETBACK,
+				STYLE_DEFAULT,
+				(255 | 255 << 8 | 255 << 16));
+	scintilla_send_message (scintilla,
+				SCI_STYLECLEARALL,
+				0,
+				0);
+
+    }
+
+}
+
 static void on_menu_help_contents( GtkWidget* widget,
 				   gpointer data )
 {
@@ -1014,6 +1062,8 @@ static GtkWidget* create_menu_bar (GtkWidget* window, ScintillaObject* scintilla
 	"      <menuitem name=\"ZoomOut\" action=\"ViewMenuZoomOutAction\" />"
 	"      <separator />"
 	"      <menuitem name=\"WordWrap\" action=\"ViewMenuWordWrapAction\" />"
+	"      <separator />"
+	"      <menuitem name=\"InvertColours\" action=\"ViewMenuInvertColoursAction\" />"
 	"    </menu>"
 	"    <menu name=\"HelpMenu\" action=\"HelpMenuAction\">"
 	"      <menuitem name=\"Contents\" action=\"HelpMenuContentsAction\" />"
@@ -1115,7 +1165,14 @@ static GtkWidget* create_menu_bar (GtkWidget* window, ScintillaObject* scintilla
 	      "Word _Wrap","<control>W",
 	      "Wrap lines",
 	      G_CALLBACK (on_menu_view_word_wrap),
-	      TRUE }
+	      TRUE },
+
+	    { "ViewMenuInvertColoursAction", NULL,
+	      "Invert _Colours","<control>I",
+	      "Invert colours",
+	      G_CALLBACK (on_menu_view_invert_colours),
+	      FALSE }
+
 	};
     static guint n_toggle_action_entries = G_N_ELEMENTS (toggle_action_entries);
     
@@ -1277,7 +1334,6 @@ int main(int argc, char **argv) {
 
 #define SSM(m, w, l) scintilla_send_message(sci, m, w, l)
 
-   SSM(SCI_STYLECLEARALL, 0, 0);
    SSM(SCI_SETLEXER, SCLEX_NULL, 0);
 
    SSM(SCI_INSERTTEXT, 0, (sptr_t)
