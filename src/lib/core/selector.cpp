@@ -196,7 +196,7 @@ void Selector::thresholdFilter( std::vector<std::string>& v )
 	while (i != v.end()) {
 	    if( (i->size()-length) < greedy_suggestion_threshold) {
 		logger << INFO << "Removing token: " << *i << endl;
-		v.erase( i );
+		i = v.erase( i );
 	    } else {
 		i++;
 	    }

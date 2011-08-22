@@ -1,3 +1,10 @@
+2011-08-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/selector.cpp: fixed bug in erasing element while
+	iterating vector.
+
+	* resources/presage.svg, resources/Makefile.am: install SVG logo.
+
 2011-08-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c: added invert colours feature to

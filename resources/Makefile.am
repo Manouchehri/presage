@@ -34,6 +34,7 @@ EXTRA_DIST = \
 dist_pkgdata_DATA = \
 	presage.png \
 	presage.xpm \
+	presage.svg \
 	abbreviations_en.txt \
 	abbreviations_it.txt 
 
