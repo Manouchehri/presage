@@ -148,8 +148,16 @@ void ProfileManager::init_profiles (const std::string& profilename)
 std::string ProfileManager::get_user_home_dir() const
 {
     std::string result;
-  
-#ifdef HAVE_PWD_H
+
+#ifdef _WIN32
+    const char* USERPROFILE = "USERPROFILE";
+    char* value = getenv(USERPROFILE);
+    // check if USERPROFILE env var exists...
+    if (value) {
+        result = value;
+    }
+#else
+# ifdef HAVE_PWD_H
     uid_t me;
     struct passwd *my_passwd;
     
@@ -162,7 +170,7 @@ std::string ProfileManager::get_user_home_dir() const
     } else 
         // unable to get passwd struct,
         // read $HOME env variable
-#endif // HAVE_PWD_H
+# endif // HAVE_PWD_H
     {
         const char* HOME = "HOME";
         char* value = getenv(HOME);
@@ -173,6 +181,9 @@ std::string ProfileManager::get_user_home_dir() const
             result = value;
         }
     }
+#endif
+
+    std::cout << "get_home_dir: " << result << std::endl;
 
     return result;
 }
