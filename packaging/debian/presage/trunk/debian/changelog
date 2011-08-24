@@ -3,7 +3,7 @@ presage (0.8.6-2) unstable; urgency=low
   * Fixed install layout dh_python2 warning.
   * Added -dbg debug packages.
 
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sat, 13 Aug 2011 18:38:39 +0100
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sat, 24 Aug 2011 18:38:39 +0100
 
 presage (0.8.6-1) unstable; urgency=low
 
