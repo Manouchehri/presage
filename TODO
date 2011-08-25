@@ -59,9 +59,6 @@ Architectural restructure:
 
 
 Short term:
- - should Profile::getConfig() really throw exception? Why not just
-   return an empty string when config is not found? Is not finding a
-   config really an exceptional condition?
  - Consider removing the following public methods from Variable
    interface:
    . Variable(const std::vector<std::string>& variable);
@@ -76,14 +73,12 @@ Short term:
    should be taken care of as part of plump integration
 * add proper unicode support
 * enable dictionary plugin by default (dictionary file?)
-* put utility.h/utility.cpp functions in a Utility class
 * rewrite strtoupper and strtolower utility functions to use a pointer
    to function to do the individual char conversion
 * add ContextTracker tests for control chars
 * put everything inside the presage namespace
 * write more integration tests
 * write Combiner implementations (various combination strategies)
-* restructure directories regarding config files and plugins etc.
 * add more tests to increase coverage
 * bug: validate string passed to sql_exec query function, unsanitized
    string can cause security problems
@@ -91,14 +86,9 @@ Short term:
 
 - try to improve reverseTokenizer::progress() accuracy
    currently it uses a delta of 0.7, should try to get it down to 0.3
-- Class HistoryTracker could initialize Tokenizer's members separator
+- Class ContextTracker could initialize Tokenizer's members separator
    and blankspace on a member initializer list. Also, Tokenizer could
    take references to string instead of pointers.
-- add simulator tests - i.e. given a carefully crafted input text and
-  a purpose developed plugin and related resources, test that it
-  returns the correct simulation and keystroke reduction rates
-- add custom profile loading support and add more tests to
-   profileManager, use config file in user directory
 
 Medium term:
 * fix character codes

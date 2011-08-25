@@ -35,7 +35,7 @@
 /** Dejavu predictor learns and reproduces previously seen text tokens, once its memory is triggered by a known token sequence.
  *   
  * Dejavu predictor is able to learn and then later reproduce previously
- * seen text sequences. The goal is dejavu predictor is to write a simple
+ * seen text sequences. The goal of dejavu predictor is to write a simple
  * predictor that demonstrates how learning can be implemented in the
  * presage system and exposes what functionality is required for
  * learning predictors to work within the presage framework.
