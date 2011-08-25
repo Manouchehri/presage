@@ -462,7 +462,6 @@ AC_OUTPUT([
 	apps/dbus/presage_dbus_python_demo
 	doc/Doxyfile
 	doc/Makefile
-	setup.py
 	bindings/python/presage_python_demo
 ])
 
