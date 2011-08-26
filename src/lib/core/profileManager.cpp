@@ -183,8 +183,6 @@ std::string ProfileManager::get_user_home_dir() const
     }
 #endif
 
-    std::cout << "get_home_dir: " << result << std::endl;
-
     return result;
 }
 
