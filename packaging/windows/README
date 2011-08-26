@@ -11,6 +11,7 @@ in addition to presage build requirements:
 
 - py2exe
 - NSIS
+- GTK
 
 *BEWARE*
 The current Windows installer is experimental. Use at your own risk.
@@ -23,7 +24,8 @@ with --prefix configure option (i.e. /c/presage )
 2) Copy setup.py from the trunk/windows directory into the root of the
 installation directory (i.e. /c/presage )
 
-3) Check that the PATH is properly setup by running presage_prompter
+3) Check that the PATH is properly setup by running gprompter in your
+MinGW shell - i.e. prepend SQLite3, GTK, NSIS to the PATH
 
 4) Run: `python setup.py py2exe'. You might have to manually copy the
 redistributable MS runtime libraries into the bin directory.
