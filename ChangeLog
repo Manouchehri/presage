@@ -1,3 +1,8 @@
+2011-08-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging\windows\win-buildpackage.sh, packaging\windows\README:
+	updates to Windows kit building script
+
 2011-08-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/profileManager.cpp: get_home_dir() function reads
