@@ -68,6 +68,7 @@ private:
     Profile* create_profile_from_xml (const std::string& filename);
 
     std::string get_user_home_dir() const;
+    std::string get_system_etc_dir() const;
 
     bool loaded_at_least_one_profile;
     

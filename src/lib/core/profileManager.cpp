@@ -40,6 +40,10 @@
 # include <stdlib.h>
 #endif
 
+#if defined(_WIN32)
+# include <windows.h>
+#endif
+
 const char* ProfileManager::LOGGER = "Presage.ProfileManager.LOGGER";
 const char* ProfileManager::AUTOPERSIST = "Presage.ProfileManager.AUTOPERSIST";
 
@@ -118,7 +122,7 @@ void ProfileManager::init_profiles (const std::string& profilename)
 
 
     // system etc directory
-    profiles.push_back (static_cast<std::string>("/etc") + '/' + DefaultProfile::DEFAULT_PROFILE_FILENAME);
+    profiles.push_back (get_system_etc_dir() + '/' + DefaultProfile::DEFAULT_PROFILE_FILENAME);
     // installation config directory
     profiles.push_back (static_cast<std::string>(sysconfdir) + '/' + DefaultProfile::DEFAULT_PROFILE_FILENAME);
     // home dir dotfile
@@ -142,6 +146,58 @@ void ProfileManager::init_profiles (const std::string& profilename)
 
     // remember last profile as writable profile
     rw_profile = profile;
+}
+
+
+std::string ProfileManager::get_system_etc_dir() const
+{
+     std::string result;
+
+#if defined(_WIN32)
+     DWORD size;
+     DWORD type;
+     LONG res;
+     HKEY reg_key = NULL;
+     char *dst = NULL;
+
+     res = RegOpenKeyExA (HKEY_CURRENT_USER, "Software", 0,
+			  KEY_READ, &reg_key);
+
+     if (res == ERROR_SUCCESS) {
+	  res = RegOpenKeyExA (reg_key, "Presage", 0,
+			       KEY_READ, &reg_key);
+     }
+
+     if (res != ERROR_SUCCESS) {
+	  reg_key = (HKEY) INVALID_HANDLE_VALUE;
+	  return ".";
+     }
+  
+
+     size = 64;
+     dst = (char*) malloc (size);
+  
+     res = RegQueryValueExA (reg_key, "", 0, &type,
+			     (LPBYTE) dst, &size);
+     if (res == ERROR_MORE_DATA && type == REG_SZ) {
+	  dst = (char*) realloc (dst, size);
+	  res = RegQueryValueExA (reg_key, "", 0, &type,
+				  (LPBYTE) dst, &size);
+     }
+  
+     if (type != REG_SZ || res != ERROR_SUCCESS) {
+	  free (dst);
+	  dst = 0;
+     }
+
+     result = dst;
+     result += "\\etc";
+     free (dst);
+#else
+     result = "/etc";
+#endif
+
+     return result;
 }
 
 
