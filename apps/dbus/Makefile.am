@@ -42,4 +42,19 @@ org.gnome.presage.service:	org.gnome.presage.service.in Makefile
 
 CLEANFILES = org.gnome.presage.service
 
+if HAVE_HELP2MAN
+presage_dbus_service.1:	presage_dbus_service $(top_srcdir)/configure.ac
+	help2man --output=$@ --no-info --name="presage dbus service" $(srcdir)/presage_dbus_service
+
+presage_dbus_python_demo.1:	presage_dbus_python_demo $(top_srcdir)/configure.ac
+	chmod u+x ./presage_dbus_python_demo
+	help2man --output=$@ --no-info --name="presage dbus demo program" ./presage_dbus_python_demo
+
+dist_man_MANS =		presage_dbus_service.1 \
+			presage_dbus_python_demo.1
+
+DISTCLEANFILES =	presage_dbus_service.1 \
+			presage_dbus_python_demo.1
+endif
+
 endif

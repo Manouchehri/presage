@@ -21,13 +21,14 @@
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import presage_dbus_service
 import optparse
 
 def stop_service():
+    import presage_dbus_service
     presage_dbus_service.stop()
 
 def start_service():
+    import presage_dbus_service
     presage_dbus_service.start()
 
 
