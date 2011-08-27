@@ -1,5 +1,8 @@
 2011-08-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* src/lib/core/profileManager.*: read presage system etc directory
+	location from HKCU/Software/Presage registry key on Windows.
+
 	* apps/dbus/presage_dbus_service, apps/dbus/Makefile.am: generate
 	man pages for dbus service and demo program.
 
