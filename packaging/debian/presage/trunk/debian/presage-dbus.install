@@ -1,0 +1,5 @@
+usr/share/dbus-1/services/org.gnome.presage.service
+usr/bin/presage_dbus_service
+usr/bin/presage_dbus_python_demo
+usr/share/man/man1/presage_dbus_service.1
+usr/share/man/man1/presage_dbus_python_demo.1

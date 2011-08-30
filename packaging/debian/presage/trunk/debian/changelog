@@ -1,9 +1,15 @@
+presage (0.8.7b-1) unstable; urgency=low
+
+  * Added presage-dbus package.
+
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sun, 28 Aug 2011 12:42:00 +0100
+
 presage (0.8.6-2) unstable; urgency=low
 
   * Fixed install layout dh_python2 warning.
   * Added -dbg debug packages.
 
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sat, 24 Aug 2011 18:38:39 +0100
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Wed, 24 Aug 2011 18:38:39 +0100
 
 presage (0.8.6-1) unstable; urgency=low
 
