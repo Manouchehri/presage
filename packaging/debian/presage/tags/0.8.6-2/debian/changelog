@@ -1,0 +1,38 @@
+presage (0.8.6-2) unstable; urgency=low
+
+  * Fixed install layout dh_python2 warning.
+  * Added -dbg debug packages.
+
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sat, 24 Aug 2011 18:38:39 +0100
+
+presage (0.8.6-1) unstable; urgency=low
+
+  * Initial release (Closes: #468820)
+  * Use autotools-dev.
+  * Fixed Vcs-Svn and Vcs-Browser fields.
+  * Switched from python-support to dh_python2.
+  * Switched packaging from CDBS to debhelper dh.
+  * Build python extension module for all pyversions.
+  * Fixed pyprompter module packaging.
+  * Fixed embedded-javascript-library lintian warning.
+  * Updated to latest policy.
+  * Added entries for new files in debian/copyright.
+  * Added DEP-3 headers to patches.
+  * Renamed presage-gprompter package to gprompter.
+  * Renamed presage-pyprompter package to pyprompter.
+  * Ship README NEWS TODO AUTHORS THANKS to libpresage1, presage, gprompter,
+    pyprompter packages.
+  * Install language models in /usr/share/presage.
+  * Install API docs in /usr/share/doc/libpresage-doc.
+  * Removed reference to info documentation from man pages.
+  * Added support for controlling and versioning symbols exported by libpresage.
+  * Added rule to remove embedded tinyxml source and header files.
+  * Fixed hyphen-used-as-minus-sign lintian warning.
+  * Renamed binary package presage-doc to libpresage-doc.
+  * Added "-Wl,--as-needed" to LDFLAGS to resolve avoidable dependency warnings.
+  * Fixed lintian extended-description-is-probably-too-short informational
+    warnings.
+  * Fixed FBTFS when building twice in a row.
+
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sat, 6 Aug 2011 09:26:15 +0000
+
