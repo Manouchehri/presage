@@ -1,3 +1,8 @@
+2011-09-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging/windows/presage_installer.nsi: updated Windows
+	installer.
+
 2011-08-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/core/profileManager.*: read presage system etc directory

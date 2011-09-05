@@ -83,8 +83,8 @@
   
   !insertmacro MUI_PAGE_INSTFILES
 
-  !define MUI_FINISHPAGE_RUN $INSTDIR/bin/pyprompter
-  !define MUI_FINISHPAGE_RUN_TEXT "Run pyprompter"
+  !define MUI_FINISHPAGE_RUN $INSTDIR/bin/gprompter
+  !define MUI_FINISHPAGE_RUN_TEXT "Run gprompter"
   !define MUI_FINISHPAGE_LINK "For the latest news and updates, visit the website"
   !define MUI_FINISHPAGE_LINK_LOCATION http://presage.sourceforge.net/
   !insertmacro MUI_PAGE_FINISH
@@ -129,7 +129,7 @@ Section "Runtime" SecRuntime
     
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\pyprompter.lnk" "$INSTDIR\bin\pyprompter.exe"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\gprompter.lnk" "$INSTDIR\bin\gprompter.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -196,7 +196,7 @@ Section "Uninstall"
   
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
     
-  Delete "$SMPROGRAMS\$StartMenuFolder\pyprompter.lnk"
+  Delete "$SMPROGRAMS\$StartMenuFolder\gprompter.lnk"
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
   
