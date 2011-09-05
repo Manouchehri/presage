@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClCompile Include="NppPresage.cpp" />
     <ClCompile Include="PluginDefinition.cpp" />
+    <ClCompile Include="PresageUplink.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="menuCmdID.h" />
@@ -184,6 +185,7 @@
     <ClInclude Include="PluginDefinition.h" />
     <ClInclude Include="PluginInterface.h" />
     <ClInclude Include="DockingFeature\resource.h" />
+    <ClInclude Include="PresageUplink.h" />
     <ClInclude Include="Scintilla.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

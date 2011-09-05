@@ -1,3 +1,8 @@
+2011-09-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps\notepad++\PresageUplink.*, apps\notepad++\NppPresage.*:
+	began implementing dynamic loading of libpresage.
+
 2011-09-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/windows/presage_installer.nsi: updated Windows
