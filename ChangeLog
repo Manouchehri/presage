@@ -1,3 +1,10 @@
+2011-09-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps\notepad++\PluginDefinition.cpp,
+	apps\notepad++\PresageUplink.cpp,
+	apps\notepad++\NppPresage.vcxproj: changes to implement dynamic
+	presage loading from notepad++ plugin.
+
 2011-09-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps\notepad++\PresageUplink.*, apps\notepad++\NppPresage.*:

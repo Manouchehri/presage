@@ -59,7 +59,10 @@ bool LoadPresageDLL(void)
     if (ERROR_SUCCESS == ::RegOpenKeyEx(HKEY_CURRENT_USER, _T("Software\\Presage"), 0, KEY_READ, &hKey))
     {
 		if (ERROR_SUCCESS == ::RegQueryValueEx(hKey, _T(""), NULL ,NULL, (LPBYTE)pszPath, &size))
-			_tcscat(pszPath, _T("bin\\libpresage-1.dll"));
+		{
+			_tcscat(pszPath, _T("\\bin\\libpresage-1.dll"));
+			::MessageBox(NULL, pszPath, TEXT("Presage path to DLL"), MB_OK);
+		}
 		::RegCloseKey(hKey);
 	}
 	else

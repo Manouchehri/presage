@@ -24,9 +24,10 @@
 
 
 #include "PluginDefinition.h"
+#include "PresageUplink.h"
 #include "menuCmdID.h"
 
-#include "presage.h"
+//#include "presage.h"
 #include <cstdio>
 
 
@@ -49,12 +50,26 @@ static const char*	glob_autopunctuation_whitespace = " ";
 static const char*	glob_autopunctuation_chars = ".,;:'?!$%&";
 static bool			glob_function_keys_mode = false;
 
+extern PFUNC_presage_completion presage_completion;
+extern PFUNC_presage_config presage_config;
+extern PFUNC_presage_config_set presage_config_set;
+extern PFUNC_presage_context presage_context;
+extern PFUNC_presage_context_change presage_context_change;
+extern PFUNC_presage_free presage_free;
+extern PFUNC_presage_free_string presage_free_string;
+extern PFUNC_presage_free_string_array presage_free_string_array;
+extern PFUNC_presage_new presage_new;
+extern PFUNC_presage_new_with_config presage_new_with_config;
+extern PFUNC_presage_predict presage_predict;
+extern PFUNC_presage_prefix presage_prefix;
+extern PFUNC_presage_save_config presage_save_config;
+
 //
 // Initialize your plugin data here
 // It will be called while plugin loading   
 void pluginInit(HANDLE hModule)
 {
-
+	LoadPresageDLL();
 }
 
 //
@@ -63,6 +78,7 @@ void pluginInit(HANDLE hModule)
 void pluginCleanUp()
 {
 	presage_free (presage);
+	UnloadPresageDLL();
 }
 
 //
