@@ -23,8 +23,9 @@
 
 
 #include "PresageUplink.h"
+
 #include <tchar.h>
-#include <windows.h>
+#include <Windows.h>
 #include <Shlwapi.h>
 
 
@@ -45,36 +46,65 @@ PFUNC_presage_predict presage_predict = NULL;
 PFUNC_presage_prefix presage_prefix = NULL;
 PFUNC_presage_save_config presage_save_config = NULL;
 
+static bool read_presage_registry_key(TCHAR path[])
+{
+	bool    bRet = false;
+    HKEY    hKey = NULL;
+    DWORD   size = MAX_PATH;
+
+	path[0] = '\0';
+
+    if (ERROR_SUCCESS == ::RegOpenKeyEx(HKEY_CURRENT_USER, _T("Software\\Presage"), 0, KEY_READ, &hKey))
+    {
+		if (ERROR_SUCCESS == ::RegQueryValueEx(hKey, _T(""), NULL ,NULL, (LPBYTE)path, &size))
+		{
+			PathAppend(path, _T("\\bin"));
+			::MessageBox(NULL, path, _T("Presage bin path"), MB_OK);
+			bRet = true;
+		}
+		::RegCloseKey(hKey);
+	}
+
+	return bRet;
+}
 
 bool LoadPresageDLL(void)
 {
     bool    bRet = FALSE;
-    HKEY    hKey = NULL;
     DWORD   size = MAX_PATH;
     TCHAR   pszPath[MAX_PATH];
-	HMODULE hModule = NULL;
+	TCHAR   cwdPath[MAX_PATH];
 
     pszPath[0] = '\0';
+	cwdPath[0] = '\0';
 
-    if (ERROR_SUCCESS == ::RegOpenKeyEx(HKEY_CURRENT_USER, _T("Software\\Presage"), 0, KEY_READ, &hKey))
-    {
-		if (ERROR_SUCCESS == ::RegQueryValueEx(hKey, _T(""), NULL ,NULL, (LPBYTE)pszPath, &size))
-		{
-			_tcscat(pszPath, _T("\\bin\\libpresage-1.dll"));
-			::MessageBox(NULL, pszPath, TEXT("Presage path to DLL"), MB_OK);
-		}
-		::RegCloseKey(hKey);
-	}
-	else
+	if (! read_presage_registry_key(pszPath))
 	{
-        /* module path of notepad */
+		::MessageBox(NULL, _T("Error: cannot locate presage installation. Please reinstall presage."), _T("Presage not found"), MB_OK);
+		return bRet;
+
+		/* module path of notepad */
+		/*
 		GetModuleFileName((HMODULE)hModule, pszPath, sizeof(pszPath));
 		PathRemoveFileSpec(pszPath);
 		PathRemoveFileSpec(pszPath);
 		PathAppend(pszPath, _T("\\libpresage-1.dll"));
+		*/
 	}
-
-	hInstLib = LoadLibrary(pszPath);
+	
+	/* change current directory to presage\bin directory to allow loading
+	 * presage DLL and its dependencies, then revert to previous current
+	 * directory
+	 */
+	size = GetCurrentDirectory(MAX_PATH, cwdPath);
+	::MessageBox(NULL, cwdPath, _T("Notepad++ current directory"), MB_OK);
+	SetCurrentDirectory(pszPath);
+	//hInstLib = LoadLibrary(PRESAGE_DLL_FILENAME);
+	hInstLib = LoadLibrary(_T("libpresage-1.dll"));
+	if (size != 0 || size < MAX_PATH)
+	{
+		SetCurrentDirectory(cwdPath);
+	}
 
 	if (hInstLib != NULL)
 	{

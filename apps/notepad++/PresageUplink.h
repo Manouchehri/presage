@@ -25,6 +25,9 @@
 #ifndef PRESAGE_UPLINK_H
 #define PRESAGE_UPLINK_H
 
+/* must match the presage DLL filename */
+//const TCHAR PRESAGE_DLL_FILENAME[] = _T("libpresage-1.dll");
+
 /* must match declarations in presageException.h */
 typedef enum
 {

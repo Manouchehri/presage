@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(PRESAGE_ROOT)\include&quot;;.\DockingFeature;.\"
+				AdditionalIncludeDirectories=".\DockingFeature;.\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;NPPPLUGINTEMPLATE_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -201,7 +201,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(PRESAGE_ROOT)\include;.\DockingFeature;.\"
+				AdditionalIncludeDirectories=".\DockingFeature;.\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NPPPLUGINTEMPLATE_EXPORTS"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -221,10 +221,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libpresage-1.lib shlwapi.lib"
+				AdditionalDependencies="shlwapi.lib"
 				OutputFile="$(OutDir)/NppPresage.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(PRESAGE_ROOT)\lib"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -355,6 +355,10 @@
 				RelativePath=".\PluginDefinition.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\PresageUplink.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -375,6 +379,10 @@
 			</File>
 			<File
 				RelativePath=".\PluginInterface.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PresageUplink.h"
 				>
 			</File>
 			<File
