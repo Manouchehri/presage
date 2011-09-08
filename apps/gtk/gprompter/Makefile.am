@@ -228,7 +228,6 @@ if USE_GCC
 gprompter_LDADD +=	-lstdc++
 endif
 
-
 if HAVE_HELP2MAN
 gprompter.1:	gprompter$(EXEEXT) gprompter.c $(top_srcdir)/configure.ac
 	help2man --output=$@ --no-info --name="the intelligent predictive GTK+ text editor" ./gprompter$(EXEEXT)
@@ -237,5 +236,10 @@ dist_man_MANS =		gprompter.1
 
 DISTCLEANFILES =	gprompter.1
 endif
+
+desktopdir = $(datadir)/applications
+desktop_DATA = gprompter.desktop
+
+EXTRA_DIST += gprompter.desktop
 
 endif
