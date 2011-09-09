@@ -102,7 +102,7 @@
 
 ;----
 ;Runtime section
-Section "Runtime" SecRuntime
+Section "-Runtime" SecRuntime
 
   SetOutPath "$INSTDIR"
 
@@ -164,19 +164,20 @@ SectionEnd
 
 ;----
 ;Notepad++ plugin section
-Section "Notepad++ presage plugin" SecNpp
+Section "Notepad++ plugin" SecNpp
 
   ReadRegStr $0 HKLM "Software\Notepad++" ""
   StrCmp $0 "" npp_not_found npp_found
 
 npp_found:
   MessageBox MB_OK 'Notepad++ installation directory is "$0"'
+  IfFileExists "$0\plugins\*.*" 0 npp_not_found
   SetOutPath "$0\plugins"
   File NppPresage.dll
   Goto npp_done
 
 npp_not_found:
-  MessageBox MB_OK 'Notepad++ installation not found. NppPresage will not be installed.'
+  MessageBox MB_OK 'Notepad++ installation not found. Notepad++ presage intelligent predictive text entry plugin will not be installed.'
   Goto npp_done
 
 npp_done:
@@ -190,12 +191,14 @@ SectionEnd
   LangString DESC_SecRuntime ${LANG_ENGLISH} "Install presage core C++ native library runtime and required configuration files"
   LangString DESC_SecDevel ${LANG_ENGLISH} "Install presage development files (headers and libraries)"
   LangString DESC_SecPython ${LANG_ENGLISH} "Install presage Python binding and examples Python scripts"
+  LangString DESC_SecNpp ${LANG_ENGLISH} "Install Notepad++ presage intelligent predictive text entry plugin"
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
     !insertmacro MUI_DESCRIPTION_TEXT ${SecRuntime} $(DESC_SecRuntime)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecDevel} $(DESC_SecDevel)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecPython} $(DESC_SecPython)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecNpp} $(DESC_SecNpp)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
  
 ;--------------------------------
