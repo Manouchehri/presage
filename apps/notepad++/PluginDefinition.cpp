@@ -94,8 +94,6 @@ void commandMenuInit()
     //-- STEP 3. CUSTOMIZE YOUR PLUGIN COMMANDS --//
     //--------------------------------------------//
 
-	::MessageBox(NULL, TEXT("commandMenuInit()"), TEXT("Presage debugging"), MB_OK);
-
 	funcItem[CMD_ENABLED]._pFunc = on_enable;
     lstrcpy(funcItem[CMD_ENABLED]._itemName, TEXT("Enable"));
     funcItem[CMD_ENABLED]._pShKey = new ShortcutKey;
@@ -112,7 +110,7 @@ void commandMenuInit()
     funcItem[CMD_LEARN_MODE]._pShKey->_isCtrl = true;
     funcItem[CMD_LEARN_MODE]._pShKey->_isShift = true;
     funcItem[CMD_LEARN_MODE]._pShKey->_key = 'L';
-    funcItem[CMD_LEARN_MODE]._init2Check = false;
+    funcItem[CMD_LEARN_MODE]._init2Check = glob_learn_mode;
 
 	funcItem[CMD_AUTOPUNCTUATION]._pFunc = on_autopunctuation;
     lstrcpy(funcItem[CMD_AUTOPUNCTUATION]._itemName, TEXT("Autopunctuation"));
@@ -121,7 +119,7 @@ void commandMenuInit()
     funcItem[CMD_AUTOPUNCTUATION]._pShKey->_isCtrl = true;
     funcItem[CMD_AUTOPUNCTUATION]._pShKey->_isShift = true;
     funcItem[CMD_AUTOPUNCTUATION]._pShKey->_key = 'A';
-    funcItem[CMD_AUTOPUNCTUATION]._init2Check = true;
+    funcItem[CMD_AUTOPUNCTUATION]._init2Check = glob_autopunctuation;
 
 	funcItem[CMD_SEPARATOR_1]._pFunc = NULL;
 	lstrcpy(funcItem[CMD_SEPARATOR_1]._itemName, TEXT("-----------"));
@@ -179,10 +177,12 @@ void commandMenuInit()
 //
 void commandMenuCleanUp()
 {
-	delete funcItem[CMD_PREDICT]._pShKey;
-	delete funcItem[CMD_AUTOPUNCTUATION]._pShKey;
+	delete funcItem[CMD_ENABLED]._pShKey;
 	delete funcItem[CMD_LEARN_MODE]._pShKey;
+	delete funcItem[CMD_AUTOPUNCTUATION]._pShKey;
+	delete funcItem[CMD_PREDICT]._pShKey;
 	delete funcItem[CMD_ABOUT]._pShKey;
+	delete funcItem[CMD_HELP]._pShKey;
 }
 
 
@@ -249,13 +249,13 @@ static void init_presage (HWND sci)
 		if (PRESAGE_OK != presage_status)
 		{
 			/* TODO: should handle this better */
-			::MessageBox(NULL, TEXT("Error while init'ing presage."), TEXT("Error"), MB_OK);
+			::MessageBox(NULL, TEXT("presage init error"), TEXT("Presage error"), MB_OK);
 			abort();
 		}
 	}
 	else
 	{
-		::MessageBox(NULL, TEXT("presage_new function not available."), TEXT("Error"), MB_OK);
+		::MessageBox(NULL, TEXT("presage_new function not available"), TEXT("Presage error"), MB_OK);
 	}
 }
 
@@ -467,7 +467,7 @@ void on_learn_mode()
 			presage, 
 			"Presage.Predictors.SmoothedNgramPredictor.LEARN",
 			value)) {
-				::MessageBox(NULL, TEXT("Error while toggling Presage learn mode."), TEXT("Error"), MB_OK);
+				::MessageBox(NULL, TEXT("Error while toggling Presage learn mode."), TEXT("Presage error"), MB_OK);
 	}
 	if (hMenu) {
 		CheckMenuItem (hMenu,
@@ -668,14 +668,14 @@ void on_notification (struct SCNotification* notification)
 
 		switch (notification->nmhdr.code) {
 		case SCN_PAINTED:
-			//::MessageBoxA(NULL, "SCN_PAINTED", "notification", MB_OK);
+			//::MessageBox(NULL, TEXT("SCN_PAINTED"), TEXT("notification"), MB_OK);
 			break;
 		case SCN_UPDATEUI:
 			on_update_ui (notification, scintilla);
 			break;
 		case SCN_MODIFIED:
-			//::MessageBoxA(NULL, notification->text, "SCN_MODIFIED", MB_OK);
-			//::MessageBoxA(NULL, "SCN_MODIFIED", "notification", MB_OK);
+			//::MessageBox(NULL, TEXT(notification->text), TEXT("SCN_MODIFIED"), MB_OK);
+			//::MessageBox(NULL, TEXT("SCN_MODIFIED"), TEXT("notification"), MB_OK);
 			break;
 		case SCN_CHARADDED:
 			on_char_added (notification, scintilla);
@@ -684,7 +684,7 @@ void on_notification (struct SCNotification* notification)
 			on_user_list_selection (notification, scintilla);
 			break;
 		case SCN_AUTOCCANCELLED:
-			//::MessageBoxA(NULL, "SCN_AUTOCCANCELLED", "notification", MB_OK);
+			//::MessageBox(NULL, TEXT("SCN_AUTOCCANCELLED"), TEXT("notification"), MB_OK);
 			break;
 		case SCN_KEY:
 			// NOTE: this never gets invoked on Windows as SCN_KEY event is never fired
@@ -694,7 +694,7 @@ void on_notification (struct SCNotification* notification)
 		default:
 			//char str[2048];
 			//sprintf(str, "notification->nmhdr.code: %u\n", notification->nmhdr.code);
-			//::MessageBoxA(NULL, str, "notification", MB_OK);
+			//::MessageBox(NULL, TEXT(str), TEXT("notification"), MB_OK);
 			break;
 		}
 	}
