@@ -29,8 +29,7 @@
 #include <Shlwapi.h>
 
 
-HINSTANCE   hInstLib = NULL; 
-
+HINSTANCE hInstLib = NULL; 
 
 PFUNC_presage_completion presage_completion = NULL;
 PFUNC_presage_config presage_config = NULL;
@@ -46,6 +45,7 @@ PFUNC_presage_predict presage_predict = NULL;
 PFUNC_presage_prefix presage_prefix = NULL;
 PFUNC_presage_save_config presage_save_config = NULL;
 
+
 static bool read_presage_registry_key(TCHAR path[])
 {
 	bool    bRet = false;
@@ -59,7 +59,7 @@ static bool read_presage_registry_key(TCHAR path[])
 		if (ERROR_SUCCESS == ::RegQueryValueEx(hKey, _T(""), NULL ,NULL, (LPBYTE)path, &size))
 		{
 			PathAppend(path, _T("\\bin"));
-			::MessageBox(NULL, path, _T("Presage bin path"), MB_OK);
+			//::MessageBox(NULL, path, _T("Presage bin path"), MB_OK);
 			bRet = true;
 		}
 		::RegCloseKey(hKey);
@@ -97,7 +97,7 @@ bool LoadPresageDLL(void)
 	 * directory
 	 */
 	size = GetCurrentDirectory(MAX_PATH, cwdPath);
-	::MessageBox(NULL, cwdPath, _T("Notepad++ current directory"), MB_OK);
+	//::MessageBox(NULL, cwdPath, _T("Notepad++ current directory"), MB_OK);
 	SetCurrentDirectory(pszPath);
 	//hInstLib = LoadLibrary(PRESAGE_DLL_FILENAME);
 	hInstLib = LoadLibrary(_T("libpresage-1.dll"));
@@ -108,21 +108,22 @@ bool LoadPresageDLL(void)
 
 	if (hInstLib != NULL)
 	{
-		presage_completion = (PFUNC_presage_completion) GetProcAddress (hInstLib, "presage_completion");
-		presage_config = (PFUNC_presage_config) GetProcAddress (hInstLib, "presage_config");
-		presage_config_set = (PFUNC_presage_config_set) GetProcAddress (hInstLib, "presage_config_set");
-		presage_context = (PFUNC_presage_context) GetProcAddress (hInstLib, "presage_context");
-		presage_context_change = (PFUNC_presage_context_change) GetProcAddress (hInstLib, "presage_context_change");
-		presage_free = (PFUNC_presage_free) GetProcAddress (hInstLib, "presage_free");
-		presage_free_string = (PFUNC_presage_free_string) GetProcAddress (hInstLib, "presage_free_string");
-		presage_free_string_array = (PFUNC_presage_free_string_array) GetProcAddress (hInstLib, "presage_free_string_array");
-		presage_new = (PFUNC_presage_new) GetProcAddress (hInstLib, "presage_new");
-		presage_new_with_config = (PFUNC_presage_new_with_config) GetProcAddress (hInstLib, "presage_new_with_config");
-		presage_predict = (PFUNC_presage_predict) GetProcAddress (hInstLib, "presage_predict");
-		presage_prefix = (PFUNC_presage_prefix) GetProcAddress (hInstLib, "presage_prefix");
-		presage_save_config = (PFUNC_presage_save_config) GetProcAddress (hInstLib, "presage_save_config");
-
-		bRet = TRUE;
+		if ((presage_completion = (PFUNC_presage_completion) GetProcAddress (hInstLib, "presage_completion"))
+			&& (presage_config = (PFUNC_presage_config) GetProcAddress (hInstLib, "presage_config"))
+			&& (presage_config_set = (PFUNC_presage_config_set) GetProcAddress (hInstLib, "presage_config_set"))
+			&& (presage_context = (PFUNC_presage_context) GetProcAddress (hInstLib, "presage_context"))
+			&& (presage_context_change = (PFUNC_presage_context_change) GetProcAddress (hInstLib, "presage_context_change"))
+			&& (presage_free = (PFUNC_presage_free) GetProcAddress (hInstLib, "presage_free"))
+			&& (presage_free_string = (PFUNC_presage_free_string) GetProcAddress (hInstLib, "presage_free_string"))
+			&& (presage_free_string_array = (PFUNC_presage_free_string_array) GetProcAddress (hInstLib, "presage_free_string_array"))
+			&& (presage_new = (PFUNC_presage_new) GetProcAddress (hInstLib, "presage_new"))
+			&& (presage_new_with_config = (PFUNC_presage_new_with_config) GetProcAddress (hInstLib, "presage_new_with_config"))
+			&& (presage_predict = (PFUNC_presage_predict) GetProcAddress (hInstLib, "presage_predict"))
+			&& (presage_prefix = (PFUNC_presage_prefix) GetProcAddress (hInstLib, "presage_prefix"))
+			&& (presage_save_config = (PFUNC_presage_save_config) GetProcAddress (hInstLib, "presage_save_config")))
+		{
+			bRet = TRUE;
+		}
 	}
 
     return bRet;

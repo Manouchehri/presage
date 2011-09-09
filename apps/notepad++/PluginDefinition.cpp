@@ -44,11 +44,14 @@ NppData nppData;
 static presage_t            presage;
 static presage_error_code_t presage_status;
 
+bool                glob_presage_enabled = false;
 bool				glob_learn_mode = false;
 bool				glob_autopunctuation = true;
 static const char*	glob_autopunctuation_whitespace = " ";
 static const char*	glob_autopunctuation_chars = ".,;:'?!$%&";
 static bool			glob_function_keys_mode = false;
+
+extern HINSTANCE hInstLib;
 
 extern PFUNC_presage_completion presage_completion;
 extern PFUNC_presage_config presage_config;
@@ -69,7 +72,7 @@ extern PFUNC_presage_save_config presage_save_config;
 // It will be called while plugin loading   
 void pluginInit(HANDLE hModule)
 {
-	LoadPresageDLL();
+	glob_presage_enabled = LoadPresageDLL();
 }
 
 //
@@ -91,18 +94,16 @@ void commandMenuInit()
     //-- STEP 3. CUSTOMIZE YOUR PLUGIN COMMANDS --//
     //--------------------------------------------//
 
-	funcItem[CMD_PREDICT]._pFunc = on_predict;
-    lstrcpy(funcItem[CMD_PREDICT]._itemName, TEXT("Predict"));
-    funcItem[CMD_PREDICT]._pShKey = new ShortcutKey;
-    funcItem[CMD_PREDICT]._pShKey->_isAlt = true;
-    funcItem[CMD_PREDICT]._pShKey->_isCtrl = true;
-    funcItem[CMD_PREDICT]._pShKey->_isShift = true;
-    funcItem[CMD_PREDICT]._pShKey->_key = 'P';
-    funcItem[CMD_PREDICT]._init2Check = false;
+	::MessageBox(NULL, TEXT("commandMenuInit()"), TEXT("Presage debugging"), MB_OK);
 
-	funcItem[CMD_SEPARATOR_1]._pFunc = NULL;
-	lstrcpy(funcItem[CMD_SEPARATOR_1]._itemName, TEXT("-----------"));
-	funcItem[CMD_SEPARATOR_1]._pShKey = NULL;
+	funcItem[CMD_ENABLED]._pFunc = on_enable;
+    lstrcpy(funcItem[CMD_ENABLED]._itemName, TEXT("Enable"));
+    funcItem[CMD_ENABLED]._pShKey = new ShortcutKey;
+    funcItem[CMD_ENABLED]._pShKey->_isAlt = true;
+    funcItem[CMD_ENABLED]._pShKey->_isCtrl = true;
+    funcItem[CMD_ENABLED]._pShKey->_isShift = true;
+    funcItem[CMD_ENABLED]._pShKey->_key = 'E';
+    funcItem[CMD_ENABLED]._init2Check = glob_presage_enabled;
 
 	funcItem[CMD_LEARN_MODE]._pFunc = on_learn_mode;
     lstrcpy(funcItem[CMD_LEARN_MODE]._itemName, TEXT("Learn mode"));
@@ -122,6 +123,19 @@ void commandMenuInit()
     funcItem[CMD_AUTOPUNCTUATION]._pShKey->_key = 'A';
     funcItem[CMD_AUTOPUNCTUATION]._init2Check = true;
 
+	funcItem[CMD_SEPARATOR_1]._pFunc = NULL;
+	lstrcpy(funcItem[CMD_SEPARATOR_1]._itemName, TEXT("-----------"));
+	funcItem[CMD_SEPARATOR_1]._pShKey = NULL;
+
+	funcItem[CMD_PREDICT]._pFunc = on_predict;
+    lstrcpy(funcItem[CMD_PREDICT]._itemName, TEXT("Predict"));
+    funcItem[CMD_PREDICT]._pShKey = new ShortcutKey;
+    funcItem[CMD_PREDICT]._pShKey->_isAlt = true;
+    funcItem[CMD_PREDICT]._pShKey->_isCtrl = true;
+    funcItem[CMD_PREDICT]._pShKey->_isShift = true;
+    funcItem[CMD_PREDICT]._pShKey->_key = 'P';
+    funcItem[CMD_PREDICT]._init2Check = false;
+
 	funcItem[CMD_SEPARATOR_2]._pFunc = NULL;
 	lstrcpy(funcItem[CMD_SEPARATOR_2]._itemName, TEXT("-----------"));
 	funcItem[CMD_SEPARATOR_2]._pShKey = NULL;
@@ -135,6 +149,29 @@ void commandMenuInit()
     funcItem[CMD_ABOUT]._pShKey->_key = 'H';
     funcItem[CMD_ABOUT]._init2Check = false;
 
+	funcItem[CMD_HELP]._pFunc = on_help;
+	lstrcpy(funcItem[CMD_HELP]._itemName, TEXT("Help"));
+	funcItem[CMD_HELP]._pShKey = new ShortcutKey;
+	funcItem[CMD_HELP]._pShKey->_isAlt = true;
+	funcItem[CMD_HELP]._pShKey->_isCtrl = true;
+	funcItem[CMD_HELP]._pShKey->_isShift = true;
+	funcItem[CMD_HELP]._pShKey->_key = 'H';
+	funcItem[CMD_HELP]._init2Check = false;
+
+	if (! hInstLib)
+	{
+		HMENU hMenu = GetMenu (nppData._nppHandle);
+
+		if (hMenu)
+		{
+			::MessageBox(NULL, TEXT("graying out menu items..."), TEXT("Presage debugging"), MB_OK);
+
+			::EnableMenuItem (hMenu, funcItem[CMD_ENABLED]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+			::EnableMenuItem (hMenu, funcItem[CMD_LEARN_MODE]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+			::EnableMenuItem (hMenu, funcItem[CMD_AUTOPUNCTUATION]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+			::EnableMenuItem (hMenu, funcItem[CMD_PREDICT]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+		}
+	}
 }
 
 //
@@ -199,18 +236,26 @@ static const char* get_future_stream (void* scintilla)
 
 static void init_presage (HWND sci)
 {
-	// create presage
-	presage_status = presage_new (
-		get_past_stream,
-		sci,
-		get_future_stream,
-		sci,
-		&presage
-	);
-	if (PRESAGE_OK != presage_status)
+	if (presage_new)
 	{
-		/* TODO: should handle this better */
-		abort();
+		// create presage
+		presage_status = presage_new (
+			get_past_stream,
+			sci,
+			get_future_stream,
+			sci,
+			&presage
+			);
+		if (PRESAGE_OK != presage_status)
+		{
+			/* TODO: should handle this better */
+			::MessageBox(NULL, TEXT("Error while init'ing presage."), TEXT("Error"), MB_OK);
+			abort();
+		}
+	}
+	else
+	{
+		::MessageBox(NULL, TEXT("presage_new function not available."), TEXT("Error"), MB_OK);
 	}
 }
 
@@ -394,6 +439,20 @@ static void on_predict ()
 }
 
 
+void on_enable()
+{
+	HMENU hMenu = GetMenu (nppData._nppHandle);
+	glob_presage_enabled = !glob_presage_enabled;
+
+	if (hMenu) {
+		CheckMenuItem (hMenu,
+			funcItem[CMD_ENABLED]._cmdID,
+			MF_BYCOMMAND | (glob_presage_enabled ? MF_CHECKED : MF_UNCHECKED)
+			);
+	}
+}
+
+
 void on_learn_mode()
 {
 	HMENU hMenu = GetMenu (nppData._nppHandle);
@@ -437,6 +496,18 @@ void on_about()
     ::MessageBox(NULL, TEXT("Presage, the intelligent predictive text entry - Notepad++ plugin.\n\nCopyright (C) Matteo Vescovi"), TEXT("Presage Notepad++ plugin"), MB_OK);
 }
 
+
+void on_help()
+{
+	if (! hInstLib)
+	{
+		::MessageBox(NULL, TEXT("Presage, the intelligent predictive text entry platform, is not installed on your system. Please install presage."), TEXT("Presage Notepad++ plugin"), MB_OK);
+	}
+	else
+	{
+		::MessageBox(NULL, TEXT("Help not available yet."), TEXT("Presage Notepad++ plugin"), MB_OK);
+	}
+}
 
 static void on_user_list_selection(struct SCNotification* nt, HWND scintilla)
 {
@@ -585,42 +656,46 @@ static void on_key (struct SCNotification* nt, HWND scintilla)
 
 void on_notification (struct SCNotification* notification)
 {
-	// Get the current scintilla
-	int which = -1;
-	::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
-	if (which == -1)
-		return;
-	HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
+	// only do something if presage is activated
+	if (glob_presage_enabled)
+	{
+		// Get the current scintilla
+		int which = -1;
+		::SendMessage(nppData._nppHandle, NPPM_GETCURRENTSCINTILLA, 0, (LPARAM)&which);
+		if (which == -1)
+			return;
+		HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 
-	switch (notification->nmhdr.code) {
-	case SCN_PAINTED:
-		//::MessageBoxA(NULL, "SCN_PAINTED", "notification", MB_OK);
-		break;
-	case SCN_UPDATEUI:
-		on_update_ui (notification, scintilla);
-		break;
-	case SCN_MODIFIED:
-		//::MessageBoxA(NULL, notification->text, "SCN_MODIFIED", MB_OK);
-		//::MessageBoxA(NULL, "SCN_MODIFIED", "notification", MB_OK);
-		break;
-	case SCN_CHARADDED:
-		on_char_added (notification, scintilla);
-		break;
-	case SCN_USERLISTSELECTION:
-		on_user_list_selection (notification, scintilla);
-		break;
-	case SCN_AUTOCCANCELLED:
-		//::MessageBoxA(NULL, "SCN_AUTOCCANCELLED", "notification", MB_OK);
-		break;
-	case SCN_KEY:
-		// NOTE: this never gets invoked on Windows as SCN_KEY event is never fired
-		::MessageBoxA(NULL, "SCN_KEY", "notification", MB_OK);
-		on_key(notification, scintilla);
-		break;
-	default:
-		//char str[2048];
-		//sprintf(str, "notification->nmhdr.code: %u\n", notification->nmhdr.code);
-		//::MessageBoxA(NULL, str, "notification", MB_OK);
-		break;
+		switch (notification->nmhdr.code) {
+		case SCN_PAINTED:
+			//::MessageBoxA(NULL, "SCN_PAINTED", "notification", MB_OK);
+			break;
+		case SCN_UPDATEUI:
+			on_update_ui (notification, scintilla);
+			break;
+		case SCN_MODIFIED:
+			//::MessageBoxA(NULL, notification->text, "SCN_MODIFIED", MB_OK);
+			//::MessageBoxA(NULL, "SCN_MODIFIED", "notification", MB_OK);
+			break;
+		case SCN_CHARADDED:
+			on_char_added (notification, scintilla);
+			break;
+		case SCN_USERLISTSELECTION:
+			on_user_list_selection (notification, scintilla);
+			break;
+		case SCN_AUTOCCANCELLED:
+			//::MessageBoxA(NULL, "SCN_AUTOCCANCELLED", "notification", MB_OK);
+			break;
+		case SCN_KEY:
+			// NOTE: this never gets invoked on Windows as SCN_KEY event is never fired
+			::MessageBoxA(NULL, "SCN_KEY", "notification", MB_OK);
+			on_key(notification, scintilla);
+			break;
+		default:
+			//char str[2048];
+			//sprintf(str, "notification->nmhdr.code: %u\n", notification->nmhdr.code);
+			//::MessageBoxA(NULL, str, "notification", MB_OK);
+			break;
+		}
 	}
 }
