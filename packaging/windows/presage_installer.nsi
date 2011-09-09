@@ -162,6 +162,27 @@ Section "Python binding" SecPython
 
 SectionEnd
 
+;----
+;Notepad++ plugin section
+Section "Notepad++ presage plugin" SecNpp
+
+  ReadRegStr $0 HKLM "Software\Notepad++" ""
+  StrCmp $0 "" npp_not_found npp_found
+
+npp_found:
+  MessageBox MB_OK 'Notepad++ installation directory is "$0"'
+  SetOutPath "$0\plugins"
+  File NppPresage.dll
+  Goto npp_done
+
+npp_not_found:
+  MessageBox MB_OK 'Notepad++ installation not found. NppPresage will not be installed.'
+  Goto npp_done
+
+npp_done:
+
+SectionEnd
+
 ;--------------------------------
 ;Descriptions
 
