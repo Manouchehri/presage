@@ -156,20 +156,6 @@ void commandMenuInit()
 	funcItem[CMD_HELP]._pShKey->_key = 'H';
 	funcItem[CMD_HELP]._init2Check = false;
 
-	if (! hInstLib)
-	{
-		HMENU hMenu = GetMenu (nppData._nppHandle);
-
-		if (hMenu)
-		{
-			::MessageBox(NULL, TEXT("graying out menu items..."), TEXT("Presage debugging"), MB_OK);
-
-			::EnableMenuItem (hMenu, funcItem[CMD_ENABLED]._cmdID, MF_BYCOMMAND | MF_GRAYED);
-			::EnableMenuItem (hMenu, funcItem[CMD_LEARN_MODE]._cmdID, MF_BYCOMMAND | MF_GRAYED);
-			::EnableMenuItem (hMenu, funcItem[CMD_AUTOPUNCTUATION]._cmdID, MF_BYCOMMAND | MF_GRAYED);
-			::EnableMenuItem (hMenu, funcItem[CMD_PREDICT]._cmdID, MF_BYCOMMAND | MF_GRAYED);
-		}
-	}
 }
 
 //
@@ -441,7 +427,7 @@ static void on_predict ()
 
 void on_enable()
 {
-	HMENU hMenu = GetMenu (nppData._nppHandle);
+	HMENU hMenu = ::GetMenu (nppData._nppHandle);
 	glob_presage_enabled = !glob_presage_enabled;
 
 	if (hMenu) {
@@ -455,7 +441,7 @@ void on_enable()
 
 void on_learn_mode()
 {
-	HMENU hMenu = GetMenu (nppData._nppHandle);
+	HMENU hMenu = ::GetMenu (nppData._nppHandle);
 	glob_learn_mode = !glob_learn_mode;
 	const char *value = 0;
 	if (glob_learn_mode) {
@@ -480,7 +466,7 @@ void on_learn_mode()
 
 void on_autopunctuation()
 {
-	HMENU hMenu = GetMenu (nppData._nppHandle);
+	HMENU hMenu = ::GetMenu (nppData._nppHandle);
 	glob_autopunctuation = !glob_autopunctuation;
 	if (hMenu) {
 		CheckMenuItem (hMenu,
@@ -698,4 +684,20 @@ void on_notification (struct SCNotification* notification)
 			break;
 		}
 	}
+
+	/* if presage DLL loading failed, gray out menu items */
+	if ((notification->nmhdr.hwndFrom == nppData._nppHandle) && 
+		(notification->nmhdr.code == NPPN_TBMODIFICATION) &&
+		(hInstLib == NULL))
+	{
+		::MessageBox(NULL, TEXT("graying out menu items..."), TEXT("Presage debugging"), MB_OK);
+
+		HMENU hMenu = ::GetMenu (nppData._nppHandle);
+		
+		::EnableMenuItem (hMenu, funcItem[CMD_ENABLED]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+		::EnableMenuItem (hMenu, funcItem[CMD_LEARN_MODE]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+		::EnableMenuItem (hMenu, funcItem[CMD_AUTOPUNCTUATION]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+		::EnableMenuItem (hMenu, funcItem[CMD_PREDICT]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+	}
+
 }
