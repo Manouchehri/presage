@@ -3,6 +3,9 @@
 	* apps\notepad++\PluginDefinition.cpp: gray out notepad++ plugin
 	menu items when presage not found.
 
+	* packaging\windows\presage_installer.nsi: installer figures out
+	if notepad++ is installed or not and does the right thing.
+
 2011-09-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps\notepad++\PluginDefinition.*,

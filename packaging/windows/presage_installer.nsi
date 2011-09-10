@@ -170,14 +170,16 @@ Section "Notepad++ plugin" SecNpp
   StrCmp $0 "" npp_not_found npp_found
 
 npp_found:
-  MessageBox MB_OK 'Notepad++ installation directory is "$0"'
+  ;MessageBox MB_OK 'Notepad++ installation directory is "$0"'
   IfFileExists "$0\plugins\*.*" 0 npp_not_found
   SetOutPath "$0\plugins"
   File NppPresage.dll
   Goto npp_done
 
 npp_not_found:
-  MessageBox MB_OK 'Notepad++ installation not found. Notepad++ presage intelligent predictive text entry plugin will not be installed.'
+  MessageBox MB_OK 'Notepad++ installation not found.$\r$\nNotepad++ presage intelligent predictive text entry plugin will not be automatically installed in Notepad++ plugins directory.$\r$\nTo install manually, please copy $INSTDIR\bin\NppPresage.dll into <Notepad++ install directory>\plugins\'
+  SetOutPath "$INSTDIR\bin"
+  File NppPresage.dll
   Goto npp_done
 
 npp_done:
