@@ -690,7 +690,7 @@ void on_notification (struct SCNotification* notification)
 		(notification->nmhdr.code == NPPN_TBMODIFICATION) &&
 		(hInstLib == NULL))
 	{
-		::MessageBox(NULL, TEXT("graying out menu items..."), TEXT("Presage debugging"), MB_OK);
+		//::MessageBox(NULL, TEXT("graying out menu items..."), TEXT("Presage debugging"), MB_OK);
 
 		HMENU hMenu = ::GetMenu (nppData._nppHandle);
 		
