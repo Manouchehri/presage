@@ -1,3 +1,11 @@
+2011-09-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pyprompter.svg, apps/python/pyprompter.png,
+	apps/python/Makefile.am, apps/python/pyprompter.desktop,
+	apps/gtk/gprompter/gprompter.png, apps/gtk/gprompter/Makefile.am,
+	apps/gtk/gprompter/gprompter.svg: added (ugly) icons and .desktop
+	files for gprompter and pyprompter.
+
 2011-09-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps\notepad++\PluginDefinition.cpp: gray out notepad++ plugin

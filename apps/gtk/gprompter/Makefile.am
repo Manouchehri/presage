@@ -238,8 +238,9 @@ DISTCLEANFILES =	gprompter.1
 endif
 
 desktopdir = $(datadir)/applications
-desktop_DATA = gprompter.desktop
+dist_desktop_DATA = gprompter.desktop
 
-EXTRA_DIST += gprompter.desktop
+svgicondir = $(datadir)/icons/hicolor/scalable/apps
+dist_svgicon_DATA = gprompter.svg
 
 endif

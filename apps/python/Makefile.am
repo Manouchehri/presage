@@ -96,6 +96,12 @@ DISTCLEANFILES= pyprompter.1
 
 endif
 
+desktopdir = $(datadir)/applications
+dist_desktop_DATA = pyprompter.desktop
+
+svgicondir = $(datadir)/icons/hicolor/scalable/apps
+dist_svgicon_DATA = pyprompter.svg
+
 endif
 endif
 endif
