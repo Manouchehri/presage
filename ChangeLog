@@ -1,3 +1,8 @@
+2011-09-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging/windows/presage_installer.nsi: added welcome page and
+	finish page to installer.
+
 2011-09-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/pyprompter.svg, apps/python/pyprompter.png,
