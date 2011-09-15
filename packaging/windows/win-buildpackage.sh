@@ -86,7 +86,10 @@ function install_dependants()
 
     for i in $DEPENDANTS
     do
-	cp -f "`which $i`" "$INSTDIR/bin";
+	SRC="`which $i`";
+	DST="$INSTDIR/bin";
+	echo "cp -f $SRC $DST";
+	cp -f "$SRC" "$DST";
     done
 }
 
