@@ -243,4 +243,7 @@ dist_desktop_DATA = gprompter.desktop
 svgicondir = $(datadir)/icons/hicolor/scalable/apps
 dist_svgicon_DATA = gprompter.svg
 
+pixmapsdir = $(datadir)/pixmaps
+dist_pixmaps_DATA = gprompter.png
+
 endif

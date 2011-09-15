@@ -102,6 +102,9 @@ dist_desktop_DATA = pyprompter.desktop
 svgicondir = $(datadir)/icons/hicolor/scalable/apps
 dist_svgicon_DATA = pyprompter.svg
 
+pixmapsdir = $(datadir)/pixmaps
+dist_pixmaps_DATA = pyprompter.png
+
 endif
 endif
 endif
