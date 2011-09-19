@@ -43,9 +43,7 @@
 #define IS_WIDGET_FOCUSSED(w) (GTK_WIDGET_HAS_FOCUS(w))
 #endif
 
-#if GTK_CHECK_VERSION(2,22,0)
 #define USE_CAIRO 1
-#endif
 
 #ifdef USE_CAIRO
 
@@ -1592,7 +1590,6 @@ void SurfaceImpl::DrawTextBase(PRectangle rc, Font &font_, int ybase, const char
 		int xText = rc.left;
 		if (PFont(font_)->pfd) {
 			char *utfForm = 0;
-			bool useGFree = false;
 			if (et == UTF8) {
 				pango_layout_set_text(layout, s, len);
 			} else {
@@ -1626,11 +1623,7 @@ void SurfaceImpl::DrawTextBase(PRectangle rc, Font &font_, int ybase, const char
 #else
 			gdk_draw_layout_line(drawable, gc, xText, ybase, pll);
 #endif
-			if (useGFree) {
-				g_free(utfForm);
-			} else {
-				delete []utfForm;
-			}
+			delete []utfForm;
 			return;
 		}
 #ifndef DISABLE_GDK_FONT
@@ -1808,7 +1801,6 @@ void SurfaceImpl::MeasureWidths(Font &font_, const char *s, int len, int *positi
 				}
 				if (positionsCalculated < 1 ) {
 					// Either Latin1 or DBCS conversion failed so treat as Latin1.
-					bool useGFree = false;
 					SetConverter(PFont(font_)->characterSet);
 					char *utfForm = UTF8FromIconv(conv, s, len);
 					if (!utfForm) {
@@ -1830,11 +1822,7 @@ void SurfaceImpl::MeasureWidths(Font &font_, const char *s, int len, int *positi
 						}
 						clusterStart = clusterEnd;
 					}
-					if (useGFree) {
-						g_free(utfForm);
-					} else {
-						delete []utfForm;
-					}
+					delete []utfForm;
 					PLATFORM_ASSERT(i == lenPositions);
 				}
 			}
@@ -1910,7 +1898,6 @@ int SurfaceImpl::WidthText(Font &font_, const char *s, int len) {
 			char *utfForm = 0;
 			pango_layout_set_font_description(layout, PFont(font_)->pfd);
 			PangoRectangle pos;
-			bool useGFree = false;
 			if (et == UTF8) {
 				pango_layout_set_text(layout, s, len);
 			} else {
@@ -1933,11 +1920,7 @@ int SurfaceImpl::WidthText(Font &font_, const char *s, int len) {
 			PangoLayoutLine *pangoLine = pango_layout_get_line(layout,0);
 #endif
 			pango_layout_line_get_extents(pangoLine, NULL, &pos);
-			if (useGFree) {
-				g_free(utfForm);
-			} else {
-				delete []utfForm;
-			}
+			delete []utfForm;
 			return PANGO_PIXELS(pos.width);
 		}
 #ifndef DISABLE_GDK_FONT
@@ -2239,7 +2222,11 @@ void Window::SetCursor(Cursor curs) {
 
 	if (WindowFromWidget(PWidget(wid)))
 		gdk_window_set_cursor(WindowFromWidget(PWidget(wid)), gdkCurs);
+#if GTK_CHECK_VERSION(3,0,0)
+	g_object_unref(gdkCurs);
+#else
 	gdk_cursor_unref(gdkCurs);
+#endif
 }
 
 void Window::SetTitle(const char *s) {
@@ -2976,7 +2963,7 @@ bool Platform::IsDBCSLeadByte(int codePage, char ch) {
 			// Shift_jis
 			return ((uch >= 0x81) && (uch <= 0x9F)) ||
 				((uch >= 0xE0) && (uch <= 0xFC));
-				// Lead bytes F0 to FC may be a Microsoft addition. 
+				// Lead bytes F0 to FC may be a Microsoft addition.
 		case 936:
 			// GBK
 			return (uch >= 0x81) && (uch <= 0xFE);

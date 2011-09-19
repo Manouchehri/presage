@@ -1378,7 +1378,10 @@ static NSImage* ImageFromXPM(XPM* pxpm)
       img = [NSImage alloc];
       [img autorelease];
       CGImageRef imageRef = surfaceIXPM->GetImage();
-      [img initWithCGImage:imageRef size:NSZeroSize];
+      [img initWithSize:NSZeroSize];
+      NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage: imageRef];
+      [img addRepresentation: bitmapRep];
+      [bitmapRep release];
       CGImageRelease(imageRef);
       delete surfaceXPM;
     }
@@ -1459,7 +1462,10 @@ public:
 class ListBoxImpl;
 
 @interface AutoCompletionDataSource :
-NSObject <NSTableViewDataSource>
+NSObject
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
+<NSTableViewDataSource>
+#endif
 {
   ListBoxImpl* box;
 }
@@ -1836,7 +1842,10 @@ void ListBoxImpl::RegisterRGBAImage(int type, int width, int height, const unsig
 	[img autorelease];
 	CGImageRef imageRef = ImageFromRGBA(width, height, pixelsImage, false);
 	NSSize sz = {width, height};
-	[img initWithCGImage:imageRef size:sz];
+	[img initWithSize: sz];
+	NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage: imageRef];
+	[img addRepresentation: bitmapRep];
+	[bitmapRep release];
 	CGImageRelease(imageRef);
 	[img retain];
 	ImageMap::iterator it=images.find(type);
@@ -1873,7 +1882,6 @@ NSImage* ListBoxImpl::ImageForRow(NSInteger row)
   if (it != images.end())
   {
     NSImage* img = it->second;
-    [img retain];
     return img;
   }
   else
