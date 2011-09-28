@@ -1,4 +1,4 @@
-presage (0.8.7b-1) unstable; urgency=low
+presage (0.8.7-1) unstable; urgency=low
 
   * Added presage-dbus package.
   * Added .desktop and icon files for gprompter and pyprompter.
