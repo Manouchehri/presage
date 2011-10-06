@@ -1,4 +1,4 @@
-Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=174
+Format: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=174
 Upstream-Name: presage
 Upstream-Contact: Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 Source: http://sourceforge.net/projects/presage/
@@ -38,9 +38,9 @@ License: ZLIB
  3. This notice may not be removed or altered from any source
  distribution.
 
-Files: resources/the_picture_of_dorian_gray.txt, resources/l_innocente.txt, resources/el_quijote.txt
-Copyright: Public Domain
-License: other
+Files: resources/the_picture_of_dorian_gray.txt resources/l_innocente.txt resources/el_quijote.txt
+Copyright: None
+License: public-domain
  Please see file for full license details.
 
 Files: apps/gtk/gprompter/scintilla/*
@@ -154,10 +154,15 @@ License: License for Scintilla and SciTE
 Files: apps/gtk/gprompter/scintilla/src/RESearch.h
 Copyright: None
 License: public-domain
+ Written by Neil Hodgson <neilh@scintilla.org>
+ Based on the work of Ozan S. Yigit.
+ This file is in the public domain.
 
 Files: apps/gtk/gprompter/scintilla/lexlib/StyleContext.cxx apps/gtk/gprompter/scintilla/lexlib/StyleContext.h
 Copyright: Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
 License: public-domain
+ Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
+ This file is in the public domain.
 
 License: License for Scintilla and SciTE
  Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
@@ -179,7 +184,7 @@ License: License for Scintilla and SciTE
  TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE 
  OR PERFORMANCE OF THIS SOFTWARE.
 
-Files: apps/dbus/presage_dbus_service, apps/dbus/presage_dbus_service.py, apps/dbus/presage_dbus_python_demo.in
+Files: apps/dbus/presage_dbus_service apps/dbus/presage_dbus_service.py apps/dbus/presage_dbus_python_demo.in
 Copyright: Copyright 2010 David Pellicer <dpellicer@warp.es> and Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 License: GPL-2+
 
@@ -187,6 +192,6 @@ Files: apps/gtk/gpresagemate/gpresagemate.cpp
 Copyright: Copyright 2008 John Hills and Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 License: GPL-2+
 
-Files: apps/python/pypresagemate.in, apps/python/presagemate/presagemate.py
+Files: apps/python/pypresagemate.in apps/python/presagemate/presagemate.py
 Copyright: Copyright 2009 John Hills and Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 License: GPL-2+

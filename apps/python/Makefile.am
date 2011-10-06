@@ -103,7 +103,7 @@ svgicondir = $(datadir)/icons/hicolor/scalable/apps
 dist_svgicon_DATA = pyprompter.svg
 
 pixmapsdir = $(datadir)/pixmaps
-dist_pixmaps_DATA = pyprompter.png
+dist_pixmaps_DATA = pyprompter.png pyprompter.xpm
 
 endif
 endif

@@ -1,3 +1,12 @@
+2011-10-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pyprompter.xpm, apps/python/Makefile.am: added
+	(ugly) xpm icon for pyprompter.
+
+	* apps/gtk/gprompter/gprompter.xpm,
+	apps/gtk/gprompter/Makefile.am: added (ugly) xpm icon for
+	gprompter.
+
 2011-09-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/presage_database_dump.sql.gz, configure.ac, NEWS:
