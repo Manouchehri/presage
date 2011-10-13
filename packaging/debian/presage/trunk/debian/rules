@@ -33,6 +33,7 @@ override_dh_auto_install:
 	set -e; for i in $(PYVERS); do \
 		(cd bindings/python && python$$i setup.py install --root $(CURDIR)/debian/python-presage --prefix usr --install-layout=deb); \
 		(cd apps/python && python$$i setup.py install --root $(CURDIR)/debian/pyprompter --prefix usr --install-layout=deb); \
+		(cd apps/dbus && python$$i setup.py install --root $(CURDIR)/debian/presage-dbus --prefix usr --install-layout=deb); \
 	done
 
 # Override needed to create debug packages

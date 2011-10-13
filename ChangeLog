@@ -1,3 +1,8 @@
+2011-10-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/dbus/Makefile.am, apps/dbus/setup.py.in, configure.ac:
+	added setup.py for dbus service.
+
 2011-10-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/pyprompter.xpm, apps/python/Makefile.am: added
