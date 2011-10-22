@@ -3,7 +3,7 @@ presage (0.8.7-1) unstable; urgency=low
   * Added presage-dbus package.
   * Added .desktop and icon files for gprompter and pyprompter.
 
- -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Mon, 12 Sep 2011 12:42:00 +0100
+ -- Matteo Vescovi <matteo.vescovi@yahoo.co.uk>  Sat, 22 Oct 2011 20:28:00 +0100
 
 presage (0.8.6-2) unstable; urgency=low
 
