@@ -1,5 +1,6 @@
 presage (0.8.7-1) unstable; urgency=low
 
+  * New upstream release.
   * Added presage-dbus package.
   * Added .desktop and icon files for gprompter and pyprompter.
 
