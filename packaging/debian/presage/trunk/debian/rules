@@ -18,6 +18,7 @@ PYVERS=$(shell pyversions -vs)
 override_dh_auto_clean:
 	dh_auto_clean
 	rm -f src/lib/tinyxml/*.h src/lib/tinyxml/*.cpp
+	rm -rf apps/dbus/build
 
 # Override needed to:
 # - fix embedded-javascript-library lintian warning
