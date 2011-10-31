@@ -1,3 +1,13 @@
+2011-10-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* qt, qt/qprompter, qt/qprompter/application.pro,
+	qt/qprompter/images, qt/qprompter/images/copy.png,
+	qt/qprompter/images/cut.png, qt/qprompter/images/new.png,
+	qt/qprompter/images/open.png, qt/qprompter/images/paste.png,
+	qt/qprompter/images/save.png, qt/qprompter/main.cpp,
+	qt/qprompter/mainwindow.cpp, qt/qprompter/mainwindow.h: initial
+	commit of qprompter.
+
 2011-10-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c,
