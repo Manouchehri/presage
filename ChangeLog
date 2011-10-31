@@ -1,3 +1,8 @@
+2011-10-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.c,
+	apps/notepad++/PluginDefinition.cpp: fixed memory allocation bug.
+
 2011-10-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* presage-0.8.7: released.

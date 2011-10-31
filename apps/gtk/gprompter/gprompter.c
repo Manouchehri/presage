@@ -81,10 +81,15 @@ static const char* get_future_stream (void* scintilla)
 					      SCI_GETCURRENTPOS,
 					      0,
 					      0);
-    range.chrg.cpMax = -1;
+    range.chrg.cpMax = scintilla_send_message(sci,
+					      SCI_GETTEXTLENGTH,
+					      0,
+					      0);
 
     free (range.lpstrText);
     range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
+
+    g_print("malloc'ing block of size: %d\n", range.chrg.cpMax - range.chrg.cpMin + 1);
 
     scintilla_send_message(sci,
 			   SCI_GETTEXTRANGE,
