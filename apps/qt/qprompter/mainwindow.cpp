@@ -203,6 +203,8 @@ void MainWindow::documentWasModified()
 
 void MainWindow::showPrediction()
 {
+    bool glob_function_keys_mode = true;
+
     //  QMessageBox::information(this, tr("Presage"),
     //			   tr("This should trigger a prediction."));
 
@@ -212,41 +214,48 @@ void MainWindow::showPrediction()
     std::vector<std::string> prediction = prsg->predict();
 
     QStringList list;
-    for (std::vector<std::string>::const_iterator it = prediction.begin();
-	 it != prediction.end();
-	 it++) {
-        list << it->c_str();
+    for (size_t idx = 0;
+	 idx < prediction.size();
+	 idx++)
+    {
+        QString list_item;
+        if (glob_function_keys_mode) {
+            list_item = QString("F%1 ").arg(idx + 1);
+        }
+	list_item.append(prediction[idx].c_str());
+
+        list << list_item;
     }
 
     textEdit->showUserList(1, list);
 }
 
 void MainWindow::handleUserListSelection(int id,
-					 const QString &selection)
+					 const QString &sel)
 {
-    /*
+    bool glob_function_keys_mode = true;
+
+    QString selection = sel;
+
     if (glob_function_keys_mode)
     {
 	// strip function key from selection
-	const char* separator;
 
-	separator = strchr (nt->text, ' ');
-	if (NULL == separator)
+        // find location of space char
+        int idx = selection.indexOf(' ');
+	if (-1 == idx)
 	{
 	  // this happens when prediction is empty
 	    return;
 	}
-	selection = strdup (separator + 1);
+
+	selection.remove(0, idx + 1);
     }
-    else
-    {
-	selection = strdup (nt->text);
-    }
-    */
 
     std::string selection_str = selection.toUtf8().constData();
     std::string completion_str = prsg->completion(selection_str);
     QString completion = QString::fromUtf8(completion_str.c_str());
+
     if (! completion.isEmpty())
     {
         //textEdit->insert(completion);
@@ -254,9 +263,6 @@ void MainWindow::handleUserListSelection(int id,
 				completion_str.size(),
 				completion_str.c_str());
     }
-
-    //    QMessageBox::information(this, tr("completion"),
-    //			     completion);
 
 }
 

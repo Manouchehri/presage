@@ -1,3 +1,10 @@
+2011-11-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps\qt\qprompter\application.qrc: added resource file.
+
+	* apps\qt\qprompter\mainwindow.cpp: added initial function key to
+	autocompletion prediction.
+
 2011-10-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* qt, qt/qprompter, qt/qprompter/application.pro,
