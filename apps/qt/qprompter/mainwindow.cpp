@@ -266,6 +266,33 @@ void MainWindow::handleUserListSelection(int id,
 
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    bool glob_function_keys_mode = true;
+
+    if (glob_function_keys_mode)
+    {	
+	if (textEdit->isListActive()) {
+	    
+	    if (event->key() >= Qt::Key_F1 && event->key() <= Qt::Key_F35)
+	    {
+		int fkn = event->key() - Qt::Key_F1 + 1;
+		QString fk = QString("F%1 ").arg(fkn);
+
+		textEdit->SendScintilla(QsciScintillaBase::SCI_AUTOCSELECT,
+					fk.toUtf8().constData());
+
+		textEdit->SendScintilla(QsciScintillaBase::SCI_AUTOCCOMPLETE);
+		
+	    }
+	}
+    }
+    else
+    {
+        QMainWindow::keyPressEvent(event);
+    }
+}
+
 //! [17]
 void MainWindow::createActions()
 //! [17] //! [18]
