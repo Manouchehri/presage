@@ -106,6 +106,9 @@ MainWindow::MainWindow()
             this, SLOT(documentWasModified()));
 
     connect(textEdit, SIGNAL(SCN_CHARADDED(int)),
+	    this, SLOT(handleCharAdded(int)));
+
+    connect(textEdit, SIGNAL(SCN_UPDATEUI(int)),
 	    this, SLOT(showPrediction()));
 
     connect(textEdit, SIGNAL(userListActivated(int, const QString &)),
@@ -263,6 +266,11 @@ void MainWindow::handleUserListSelection(int id,
 				completion_str.size(),
 				completion_str.c_str());
     }
+
+}
+
+void MainWindow::handleCharAdded(int charadded)
+{
 
 }
 

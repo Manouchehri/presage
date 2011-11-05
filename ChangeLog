@@ -1,3 +1,8 @@
+2011-11-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps\qt\qprompter\mainwindow.*: show prediction on whenever
+	scintilla ui is updated.
+
 2011-11-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps\qt\qprompter\mainwindow.h,

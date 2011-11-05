@@ -74,6 +74,7 @@ protected:
 
     void showPrediction();
     void handleUserListSelection(int, const QString &);
+    void handleCharAdded(int);
 
 private:
     void createActions();
