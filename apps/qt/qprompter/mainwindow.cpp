@@ -95,6 +95,12 @@ MainWindow::MainWindow()
     qsci_prsg_cb = new QsciScintillaPresageCallback(textEdit);
     prsg = new Presage(qsci_prsg_cb);
 
+    /* set autocompletion box height
+    std::string value = prsg->config ("Presage.Selector.SUGGESTIONS");
+    int height = atoi (value.c_str());
+    textEdit->SendScintilla(QsciScintillaBase::SCI_AUTOCSETMAXHEIGHT, height);
+    */
+
     createActions();
     createMenus();
     createToolBars();
@@ -271,7 +277,43 @@ void MainWindow::handleUserListSelection(int id,
 
 void MainWindow::handleCharAdded(int charadded)
 {
+    QString glob_autopunctuation_chars = ".,;:'?!$%&";
+    QString glob_autopunctuation_whitespace = " ";
 
+    /* if added char is an autopunctuation char */
+    if (glob_autopunctuation_chars.contains(charadded))
+    {
+        qDebug() << "autopunctuation char: " << charadded;
+
+        long curr_pos = textEdit->SendScintilla(QsciScintillaBase::SCI_GETCURRENTPOS);
+
+	if (curr_pos > 1)
+        {
+            qDebug() << "current pos: " << curr_pos;
+
+            long prev_pos = curr_pos - 2;
+            long prev_char = textEdit->SendScintilla(QsciScintillaBase::SCI_GETCHARAT,
+						     prev_pos);
+
+	    qDebug() << "prev_pos: " << prev_pos;
+	    qDebug() << "prev_char: " << prev_char;
+
+            /* if previous char is a autopunctuation whitespace char */
+            if (glob_autopunctuation_whitespace.contains(static_cast<int>(prev_char)))
+            {
+                qDebug() << "autopunctuation activated";
+
+                char replacement[3] = { charadded, prev_char, 0 };
+
+                textEdit->SendScintilla(QsciScintillaBase::SCI_SETSELECTION,
+					prev_pos,
+					curr_pos);
+
+                textEdit->SendScintilla(QsciScintillaBase::SCI_REPLACESEL,
+					replacement);
+            }
+	}
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
