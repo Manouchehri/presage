@@ -1,3 +1,8 @@
+2011-11-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/qt/qprompter/mainwindow.*: fixed qprompter build issue on
+	slightly older qscintilla on Linux.
+
 2011-11-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps\qt\qprompter\mainwindow.*: show prediction on whenever

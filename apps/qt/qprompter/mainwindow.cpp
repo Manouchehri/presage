@@ -114,7 +114,7 @@ MainWindow::MainWindow()
     connect(textEdit, SIGNAL(SCN_CHARADDED(int)),
 	    this, SLOT(handleCharAdded(int)));
 
-    connect(textEdit, SIGNAL(SCN_UPDATEUI(int)),
+    connect(textEdit, SIGNAL(SCN_UPDATEUI()),
 	    this, SLOT(showPrediction()));
 
     connect(textEdit, SIGNAL(userListActivated(int, const QString &)),
@@ -305,8 +305,10 @@ void MainWindow::handleCharAdded(int charadded)
 
                 char replacement[3] = { charadded, prev_char, 0 };
 
-                textEdit->SendScintilla(QsciScintillaBase::SCI_SETSELECTION,
-					prev_pos,
+                textEdit->SendScintilla(QsciScintillaBase::SCI_SETSELECTIONSTART,
+					prev_pos);
+
+                textEdit->SendScintilla(QsciScintillaBase::SCI_SETSELECTIONEND,
 					curr_pos);
 
                 textEdit->SendScintilla(QsciScintillaBase::SCI_REPLACESEL,
