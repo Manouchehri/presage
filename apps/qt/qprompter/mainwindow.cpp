@@ -114,7 +114,7 @@ MainWindow::MainWindow()
     connect(textEdit, SIGNAL(SCN_CHARADDED(int)),
 	    this, SLOT(handleCharAdded(int)));
 
-    connect(textEdit, SIGNAL(SCN_UPDATEUI()),
+    connect(textEdit, SIGNAL(SCN_UPDATEUI(int)),
 	    this, SLOT(showPrediction()));
 
     connect(textEdit, SIGNAL(userListActivated(int, const QString &)),
