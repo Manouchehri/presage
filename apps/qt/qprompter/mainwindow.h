@@ -64,7 +64,7 @@ protected:
     void closeEvent(QCloseEvent *event);
     void keyPressEvent(QKeyEvent *event);
 
-    private slots:
+private slots:
     void newFile();
     void open();
     bool save();
@@ -75,6 +75,9 @@ protected:
     void showPrediction();
     void handleUserListSelection(int, const QString &);
     void handleCharAdded(int);
+
+    void toggleWordWrap();
+    void invertColours();
 
 private:
     void createActions();
@@ -110,6 +113,7 @@ private:
 
     QMenu *fileMenu;
     QMenu *editMenu;
+    QMenu *viewMenu;
     QMenu *helpMenu;
     QToolBar *fileToolBar;
     QToolBar *editToolBar;
@@ -121,6 +125,10 @@ private:
     QAction *cutAct;
     QAction *copyAct;
     QAction *pasteAct;
+    QAction *zoomInAct;
+    QAction *zoomOutAct;
+    QAction *wordWrapAct;
+    QAction *invertColoursAct;
     QAction *aboutAct;
     QAction *aboutQtAct;
 };

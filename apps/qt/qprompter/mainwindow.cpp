@@ -197,6 +197,9 @@ void MainWindow::about()
 			  "\n"
 			  "Think of Presage as the predictive backend that sits behind a shiny user "
 			  "interface and does all the predictive heavy lifting.\n"
+			  "\n"
+			  "Copyright (C) Matteo Vescovi\n"
+			  "http://presage.sourceforge.net\n"
 			   )
 	);
 }
@@ -345,6 +348,43 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void MainWindow::toggleWordWrap()
+{
+    if (textEdit->wrapMode() == QsciScintilla::WrapNone)
+    {
+	textEdit->setWrapMode(QsciScintilla::WrapWord);
+    }
+    else
+    {
+	textEdit->setWrapMode(QsciScintilla::WrapNone);
+    }
+}
+
+void MainWindow::invertColours()
+{
+    if (invertColoursAct->isChecked())
+    {
+	textEdit->SendScintilla(QsciScintillaBase::SCI_STYLESETFORE,
+				QsciScintillaBase::STYLE_DEFAULT,
+				(255 | 255 << 8 | 255 << 16));
+	textEdit->SendScintilla(QsciScintillaBase::SCI_STYLESETBACK,
+				QsciScintillaBase::STYLE_DEFAULT);
+	textEdit->SendScintilla(QsciScintillaBase::SCI_STYLECLEARALL);
+
+    }
+    else
+    {
+	textEdit->SendScintilla(QsciScintillaBase::SCI_STYLESETFORE,
+				QsciScintillaBase::STYLE_DEFAULT);
+	textEdit->SendScintilla(QsciScintillaBase::SCI_STYLESETBACK,
+				QsciScintillaBase::STYLE_DEFAULT,
+				(255 | 255 << 8 | 255 << 16));
+	textEdit->SendScintilla(QsciScintillaBase::SCI_STYLECLEARALL);
+
+    }
+
+}
+
 //! [17]
 void MainWindow::createActions()
 //! [17] //! [18]
@@ -398,6 +438,31 @@ void MainWindow::createActions()
                               "selection"));
     connect(pasteAct, SIGNAL(triggered()), textEdit, SLOT(paste()));
 
+    zoomInAct = new QAction(tr("Zoom &In"), this);
+    zoomInAct->setShortcuts(QKeySequence::ZoomIn);
+    zoomInAct->setStatusTip(tr("Zoom in"));
+    connect(zoomInAct, SIGNAL(triggered()), textEdit, SLOT(zoomIn()));
+
+    zoomOutAct = new QAction(tr("Zoom &Out"), this);
+    zoomOutAct->setShortcuts(QKeySequence::ZoomOut);
+    zoomOutAct->setStatusTip(tr("Zoom out"));
+    connect(zoomOutAct, SIGNAL(triggered()), textEdit, SLOT(zoomOut()));
+
+    wordWrapAct = new QAction(tr("Word &Wrap"), this);
+    wordWrapAct->setShortcut(QKeySequence(tr("Ctrl+W")));
+    wordWrapAct->setStatusTip(tr("Toggle line wrapping"));
+    wordWrapAct->setCheckable(true);
+    wordWrapAct->setChecked(true);
+    textEdit->setWrapMode(QsciScintilla::WrapWord);
+    connect(wordWrapAct, SIGNAL(triggered()), this, SLOT(toggleWordWrap()));
+
+    invertColoursAct = new QAction(tr("&Invert Colours"), this);
+    invertColoursAct->setShortcut(QKeySequence(tr("Ctrl+I")));
+    invertColoursAct->setStatusTip(tr("Invert colours"));
+    invertColoursAct->setCheckable(true);
+    invertColoursAct->setChecked(false);
+    connect(invertColoursAct, SIGNAL(triggered()), this, SLOT(invertColours()));
+
     aboutAct = new QAction(tr("&About"), this);
     aboutAct->setStatusTip(tr("Show the qprompter's About box"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
@@ -438,6 +503,14 @@ void MainWindow::createMenus()
     editMenu->addAction(cutAct);
     editMenu->addAction(copyAct);
     editMenu->addAction(pasteAct);
+
+    viewMenu = menuBar()->addMenu(tr("&View"));
+    viewMenu->addAction(zoomInAct);
+    viewMenu->addAction(zoomOutAct);
+    viewMenu->addSeparator();
+    viewMenu->addAction(wordWrapAct);
+    viewMenu->addSeparator();
+    viewMenu->addAction(invertColoursAct);
 
     menuBar()->addSeparator();
 
