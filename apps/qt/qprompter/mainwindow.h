@@ -122,9 +122,12 @@ private:
     QAction *saveAct;
     QAction *saveAsAct;
     QAction *exitAct;
+    QAction *undoAct;
+    QAction *redoAct;
     QAction *cutAct;
     QAction *copyAct;
     QAction *pasteAct;
+    QAction *selectAllAct;
     QAction *zoomInAct;
     QAction *zoomOutAct;
     QAction *wordWrapAct;

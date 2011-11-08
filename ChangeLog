@@ -1,5 +1,10 @@
 2011-11-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/qt/qprompter/mainwindow.*: added undo, redo, selectall
+	items to edit menu.
+
+2011-11-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* apps/qt/qprompter/mainwindow.*: added and implemented view menu.
 
 2011-11-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>

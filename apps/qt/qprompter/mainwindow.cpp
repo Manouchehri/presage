@@ -90,6 +90,11 @@ MainWindow::MainWindow()
 //! [1] //! [2]
 {
     textEdit = new QsciScintilla;
+    textEdit->setMarginWidth(0, 0);
+    textEdit->setMarginWidth(1, 0);
+    textEdit->setMarginWidth(2, 0);
+    textEdit->setMarginWidth(3, 0);
+    textEdit->setMarginWidth(4, 0);
     setCentralWidget(textEdit);
 
     qsci_prsg_cb = new QsciScintillaPresageCallback(textEdit);
@@ -418,6 +423,16 @@ void MainWindow::createActions()
     exitAct->setStatusTip(tr("Exit qprompter"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
+    undoAct = new QAction(tr("&Undo"), this);
+    undoAct->setShortcuts(QKeySequence::Undo);
+    undoAct->setStatusTip(tr("Undo the last action"));
+    connect(undoAct, SIGNAL(triggered()), textEdit, SLOT(undo()));
+
+    redoAct = new QAction(tr("&Redo"), this);
+    redoAct->setShortcuts(QKeySequence::Redo);
+    redoAct->setStatusTip(tr("Redo the last undone action"));
+    connect(redoAct, SIGNAL(triggered()), textEdit, SLOT(redo()));
+
 //! [21]
     cutAct = new QAction(QIcon(":/images/cut.png"), tr("Cu&t"), this);
 //! [21]
@@ -437,6 +452,11 @@ void MainWindow::createActions()
     pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current "
                               "selection"));
     connect(pasteAct, SIGNAL(triggered()), textEdit, SLOT(paste()));
+
+    selectAllAct = new QAction(tr("Select &All"), this);
+    selectAllAct->setShortcuts(QKeySequence::SelectAll);
+    selectAllAct->setStatusTip(tr("Select the entire contents"));
+    connect(selectAllAct, SIGNAL(triggered()), textEdit, SLOT(selectAll()));
 
     zoomInAct = new QAction(tr("Zoom &In"), this);
     zoomInAct->setShortcuts(QKeySequence::ZoomIn);
@@ -500,9 +520,14 @@ void MainWindow::createMenus()
     fileMenu->addAction(exitAct);
 
     editMenu = menuBar()->addMenu(tr("&Edit"));
+    editMenu->addAction(undoAct);
+    editMenu->addAction(redoAct);
+    editMenu->addSeparator();
     editMenu->addAction(cutAct);
     editMenu->addAction(copyAct);
     editMenu->addAction(pasteAct);
+    editMenu->addSeparator();
+    editMenu->addAction(selectAllAct);
 
     viewMenu = menuBar()->addMenu(tr("&View"));
     viewMenu->addAction(zoomInAct);
