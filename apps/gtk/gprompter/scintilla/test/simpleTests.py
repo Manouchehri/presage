@@ -674,6 +674,7 @@ class TestMarkers(unittest.TestCase):
 		self.ed.MarkerDeleteAll(-1)
 
 	def testMarkerNext(self):
+		self.assertEquals(self.ed.MarkerNext(0, 2), -1)
 		h1 = self.ed.MarkerAdd(0,1)
 		h2 = self.ed.MarkerAdd(2,1)
 		self.assertEquals(self.ed.MarkerNext(0, 2), 0)
@@ -682,6 +683,9 @@ class TestMarkers(unittest.TestCase):
 		self.assertEquals(self.ed.MarkerPrevious(0, 2), 0)
 		self.assertEquals(self.ed.MarkerPrevious(1, 2), 0)
 		self.assertEquals(self.ed.MarkerPrevious(2, 2), 2)
+
+	def testMarkerNegative(self):
+		self.assertEquals(self.ed.MarkerNext(-1, 2), -1)
 
 	def testLineState(self):
 		self.assertEquals(self.ed.MaxLineState, 0)

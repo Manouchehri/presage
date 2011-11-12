@@ -138,7 +138,7 @@ static const KeyToCommand macMapDefault[] =
 
 - (id) init: (void*) target
 {
-  [super init];
+  self = [super init];
   if (self != nil)
   {
     mTarget = target;
@@ -417,7 +417,7 @@ std::string ScintillaCocoa::CaseMapString(const std::string &s, int caseMapping)
       sMapped = [(NSString *)cfsVal lowercaseString];
       break;
     default:
-      sMapped = [(NSString *)cfsVal copy];
+      sMapped = (NSString *)cfsVal;
   }
 
   // Back to encoding
@@ -543,7 +543,7 @@ sptr_t ScintillaCocoa::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lPar
       // performed.
       if (IsUnicodeMode())
       {
-        NSString* input = [[NSString stringWithCharacters: (const unichar*) &wParam length: 1] autorelease];
+        NSString* input = [NSString stringWithCharacters: (const unichar*) &wParam length: 1];
         const char* utf8 = [input UTF8String];
         AddCharUTF((char*) utf8, static_cast<unsigned int>(strlen(utf8)), false);
         return 1;
@@ -702,7 +702,7 @@ void ScintillaCocoa::Paste(bool forceRectangular)
 
 void ScintillaCocoa::CTPaint(void* gc, NSRect rc) {
 #pragma unused(rc)
-    Surface *surfaceWindow = Surface::Allocate();
+    Surface *surfaceWindow = Surface::Allocate(SC_TECHNOLOGY_DEFAULT);
     if (surfaceWindow) {
         surfaceWindow->Init(gc, wMain.GetID());
         surfaceWindow->SetUnicodeMode(SC_CP_UTF8 == ct.codePage);
@@ -782,8 +782,7 @@ void ScintillaCocoa::CreateCallTipWindow(PRectangle rc) {
         [callTip setLevel:NSFloatingWindowLevel];
         [callTip setHasShadow:YES];
         NSRect ctContent = NSMakeRect(0,0, rc.Width(), rc.Height());
-        CallTipView *caption = [CallTipView alloc];
-        [caption initWithFrame: ctContent];
+        CallTipView *caption = [[CallTipView alloc] initWithFrame: ctContent];
         [caption setAutoresizingMask: NSViewWidthSizable | NSViewMaxYMargin];
         [caption setSci: this];
         [[callTip contentView] addSubview: caption];
@@ -1251,7 +1250,7 @@ void ScintillaCocoa::SyncPaint(void* gc, PRectangle rc)
   rcPaint = rc;
   PRectangle rcText = GetTextRectangle();
   paintingAllText = rcPaint.Contains(rcText);
-  Surface *sw = Surface::Allocate();
+  Surface *sw = Surface::Allocate(SC_TECHNOLOGY_DEFAULT);
   if (sw)
   {
     sw->Init(gc, wMain.GetID());
