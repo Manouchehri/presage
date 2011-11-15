@@ -13,10 +13,6 @@
 #include <time.h>
 #include <limits.h>
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4786)
-#endif
-
 #include <vector>
 #include <map>
 
@@ -27,7 +23,7 @@
 #include <richedit.h>
 #include <windowsx.h>
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) && (_MSC_VER > 1200)
 #define USE_D2D 1
 #endif
 
@@ -196,7 +192,7 @@ HFONT FormatAndMetrics::HFont() {
 	memset(&lf, 0, sizeof(lf));
 #if defined(USE_D2D)
 	if (technology == SCWIN_TECH_GDI) {
-		if (0 == ::GetObject(hfont, sizeof(lf), &lf)) {
+		if (0 == ::GetObjectW(hfont, sizeof(lf), &lf)) {
 			return 0;
 		}
 	} else {
@@ -209,7 +205,7 @@ HFONT FormatAndMetrics::HFont() {
 		lf.lfHeight = -static_cast<int>(pTextFormat->GetFontSize());
 	}
 #else
-	if (0 == ::GetObject(hfont, sizeof(lf), &lf)) {
+	if (0 == ::GetObjectW(hfont, sizeof(lf), &lf)) {
 		return 0;
 	}
 #endif
@@ -683,7 +679,12 @@ void SurfaceGDI::LineTo(int x_, int y_) {
 void SurfaceGDI::Polygon(Point *pts, int npts, ColourDesired fore, ColourDesired back) {
 	PenColour(fore);
 	BrushColor(back);
-	::Polygon(hdc, reinterpret_cast<POINT *>(pts), npts);
+	std::vector<POINT> outline;
+	for (int i=0;i<npts;i++) {
+		POINT pt = {pts[i].x, pts[i].y};
+		outline.push_back(pt);
+	}
+	::Polygon(hdc, &outline[0], npts);
 }
 
 void SurfaceGDI::RectangleDraw(PRectangle rc, ColourDesired fore, ColourDesired back) {

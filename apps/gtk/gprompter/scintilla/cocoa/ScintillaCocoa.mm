@@ -583,12 +583,11 @@ void ScintillaCocoa::SetTicking(bool on)
     if (timer.ticking)
     {
       // Scintilla ticks = milliseconds
-      // Using userInfo as flag to distinct between tick and idle timer.
-      NSTimer* tickTimer = [NSTimer scheduledTimerWithTimeInterval: timer.tickSize / 1000.0
-                                                            target: timerTarget
-                                                          selector: @selector(timerFired:)
-                                                          userInfo: nil
-                                                           repeats: YES];
+      tickTimer = [NSTimer scheduledTimerWithTimeInterval: timer.tickSize / 1000.0
+						   target: timerTarget
+						 selector: @selector(timerFired:)
+						 userInfo: nil
+						  repeats: YES];
       timer.tickerID = reinterpret_cast<TickerID>(tickTimer);
     }
     else
@@ -611,11 +610,11 @@ bool ScintillaCocoa::SetIdle(bool on)
     if (idler.state)
     {
       // Scintilla ticks = milliseconds
-      NSTimer* idleTimer = [NSTimer scheduledTimerWithTimeInterval: timer.tickSize / 1000.0
-                                                            target: timerTarget
-                                                          selector: @selector(idleTimerFired:)
-                                                          userInfo: nil
-                                                           repeats: YES];
+      idleTimer = [NSTimer scheduledTimerWithTimeInterval: timer.tickSize / 1000.0
+						   target: timerTarget
+						 selector: @selector(idleTimerFired:)
+						 userInfo: nil
+						  repeats: YES];
       idler.idlerID = reinterpret_cast<IdlerID>(idleTimer);
     }
     else
@@ -799,15 +798,15 @@ void ScintillaCocoa::AddToPopUp(const char *label, int cmd, bool enabled)
   [menu setOwner: this];
   [menu setAutoenablesItems: NO];
   
-  if (cmd == 0)
+  if (cmd == 0) {
     item = [NSMenuItem separatorItem];
-  else
-    item = [[NSMenuItem alloc] init];
-  
+  } else {
+    item = [[[NSMenuItem alloc] init] autorelease];
+    [item setTitle: [NSString stringWithUTF8String: label]];
+  }
   [item setTarget: menu];
   [item setAction: @selector(handleCommand:)];
   [item setTag: cmd];
-  [item setTitle: [NSString stringWithUTF8String: label]];
   [item setEnabled: enabled];
   
   [menu addItem: item];

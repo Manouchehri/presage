@@ -24,7 +24,7 @@
 #include <richedit.h>
 #include <windowsx.h>
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) && (_MSC_VER > 1200)
 #define USE_D2D 1
 #endif
 
@@ -2173,7 +2173,7 @@ void ScintillaWin::ImeStartComposition() {
 				deviceHeight = (sizeZoomed * surface->LogPixelsY()) / 72;
 			}
 			// The negative is to allow for leading
-			lf.lfHeight = -(abs(deviceHeight));
+			lf.lfHeight = -(abs(deviceHeight / SC_FONT_SIZE_MULTIPLIER));
 			lf.lfWeight = vs.styles[styleHere].weight;
 			lf.lfItalic = static_cast<BYTE>(vs.styles[styleHere].italic ? 1 : 0);
 			lf.lfCharSet = DEFAULT_CHARSET;
