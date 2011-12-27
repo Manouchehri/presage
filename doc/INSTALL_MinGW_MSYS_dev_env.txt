@@ -22,6 +22,8 @@ MinGW Compiler Suite
     C++ Compiler
 MSYS Basic System
 
+[Last tested with MinGW/MSYS 20110530]
+
 
 ______________
 Install Python
@@ -58,15 +60,14 @@ _____________
 Build SQLite3
 ~~~~~~~~~~~~~
 
-Get the SQLite3 amalgamation source distribution and unzip it
-    (i.e. C:\SQLite3 )
+Get the SQLite3 amalgamation source distribution and untar it.
 
-Start MSYS and change into the SQLite3 directory:
-    cd /c/SQLite3 
+Start the MSYS console and change into the SQLite3 source directory.
 
-Build the SQLite3 DLL, import library and definition file:
-    gcc -shared -o sqlite3.dll sqlite3.c \
-    -Wl,--output-def,sqlite3.def,--out-implib,libsqlite3.a
+Configure, build, and install:
+    ./configure --prefix=/mingw
+    make
+    make install
 
 
 _____________
@@ -79,8 +80,7 @@ Extract and configure presage, taking care of specifying where to
 find required binaries (Python and SWIG), headers, and libraries:
 
   PATH=/c/gtk/bin:/c/Python27:/c/SWIG:$PATH \
-  CPPFLAGS="-I/c/SQLite3 -I/c/Python27/include" \
-  LDFLAGS="-L/c/SQLite3" \
+  CPPFLAGS="-I/c/Python27/include" \
   ./configure --prefix=/c/presage
  
 
