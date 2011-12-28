@@ -198,7 +198,8 @@ scintilla/lexers/LexInno.cxx \
 scintilla/lexers/LexSpice.cxx \
 scintilla/lexers/LexPOV.cxx \
 scintilla/lexers/LexA68k.cxx \
-scintilla/lexers/LexModula.cxx 
+scintilla/lexers/LexModula.cxx \
+scintilla/lexers/LexCoffeeScript.cxx 
 
 libscintilla_la_SOURCES =	$(SCINTILLA_SRC) $(SCINTILLA_GTK) $(SCINTILLA_INCLUDE) $(SCINTILLA_LEXERS) $(SCINTILLA_LEXLIB)
 libscintilla_la_CXXFLAGS =	-DNDEBUG -DGTK -DSCI_LEXER -DG_THREADS_IMPL_NONE

@@ -1,3 +1,8 @@
+2011-12-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla 3.02
+	release.
+
 2011-12-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* doc/INSTALL_MinGW_MSYS_dev_env.txt: updated build instructions.

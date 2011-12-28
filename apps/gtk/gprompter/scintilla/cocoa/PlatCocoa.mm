@@ -481,6 +481,13 @@ void drawImageRefCallback(CGImageRef pattern, CGContextRef gc)
 
 //--------------------------------------------------------------------------------------------------
 
+void releaseImageRefCallback(CGImageRef pattern)
+{
+  CGImageRelease(pattern);
+}
+
+//--------------------------------------------------------------------------------------------------
+
 void SurfaceImpl::FillRectangle(PRectangle rc, Surface &surfacePattern)
 {
   SurfaceImpl& patternSurface = static_cast<SurfaceImpl &>(surfacePattern);
@@ -493,8 +500,9 @@ void SurfaceImpl::FillRectangle(PRectangle rc, Surface &surfacePattern)
     return;
   }
   
-  const CGPatternCallbacks drawImageCallbacks = { 0, 
-    reinterpret_cast<CGPatternDrawPatternCallback>(drawImageRefCallback), NULL };
+  const CGPatternCallbacks drawImageCallbacks = { 0,
+    reinterpret_cast<CGPatternDrawPatternCallback>(drawImageRefCallback),
+    reinterpret_cast<CGPatternReleaseInfoCallback>(releaseImageRefCallback) };
   
   CGPatternRef pattern = CGPatternCreate(image,
                                          CGRectMake(0, 0, patternSurface.bitmapWidth, patternSurface.bitmapHeight),
@@ -526,8 +534,6 @@ void SurfaceImpl::FillRectangle(PRectangle rc, Surface &surfacePattern)
     colorSpace = NULL;
     CGPatternRelease( pattern );
     pattern = NULL;
-    CGImageRelease( image );
-    image = NULL;
   } /* pattern != NULL */
 }
 
@@ -1333,8 +1339,7 @@ static NSImage* ImageFromXPM(XPM* pxpm)
       SurfaceImpl* surfaceIXPM = static_cast<SurfaceImpl*>(surfaceXPM);
       CGContextClearRect(surfaceIXPM->GetContext(), CGRectMake(0, 0, width, height));
       pxpm->Draw(surfaceXPM, rcxpm);
-      img = [[NSImage alloc] initWithSize:NSZeroSize];
-      [img autorelease];
+      img = [[[NSImage alloc] initWithSize:NSZeroSize] autorelease];
       CGImageRef imageRef = surfaceIXPM->GetImage();
       NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage: imageRef];
       [img addRepresentation: bitmapRep];
@@ -1796,8 +1801,7 @@ void ListBoxImpl::RegisterImage(int type, const char* xpm_data)
 void ListBoxImpl::RegisterRGBAImage(int type, int width, int height, const unsigned char *pixelsImage) {
 	CGImageRef imageRef = ImageCreateFromRGBA(width, height, pixelsImage, false);
 	NSSize sz = {width, height};
-	NSImage *img = [[NSImage alloc] initWithSize: sz];
-	[img autorelease];
+	NSImage *img = [[[NSImage alloc] initWithSize: sz] autorelease];
 	NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage: imageRef];
 	[img addRepresentation: bitmapRep];
 	[bitmapRep release];
