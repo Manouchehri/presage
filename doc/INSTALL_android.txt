@@ -1,0 +1,27 @@
+___________________
+presage for android
+~~~~~~~~~~~~~~~~~~~
+
+* Create standalone ndk toolchain
+
+  export ANDROID_NDK=/home/matt/ndk-r7
+  build/tools/make-standalone-toolchain.sh --install-dir=$ANDROID_NDK
+
+  export PATH=$ANDROID_NDK/bin:$PATH
+
+
+* Build sqlite for android
+
+  tar zxvf /home/matt/Downloads/sqlite-autoconf-3070900.tar.gz 
+  cd sqlite-autoconf-3070900/
+  ./configure --host=arm-linux-androideabi --prefix=$ANDROID_NDK
+  make
+  make install
+
+
+* Build presage for android
+
+  ./configure --host=arm-linux-androideabi LDFLAGS="-L$ANDROID_NDK/lib" CXXFLAGS="-I$ANDROID_NDK/include"  CFLAGS="-I$ANDROID_NDK/include" --disable-gprompter --disable-python-binding --prefix=$ANDROID_NDK
+  make
+  make install
+
