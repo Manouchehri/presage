@@ -23,7 +23,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 
 AC_INIT([presage],
-	[0.8.7],
+	[0.8.8b],
 	[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 

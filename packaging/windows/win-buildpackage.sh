@@ -82,7 +82,7 @@ function build_py2exe()
 
 function install_dependants()
 {
-    DEPENDANTS="libstdc++-6.dll libgcc_s_dw2-1.dll sqlite3.dll libcairo-2.dll libgdk-win32-2.0-0.dll libgdk_pixbuf-2.0-0.dll libglib-2.0-0.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-win32-2.0-0.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libfontconfig-1.dll libexpat-1.dll freetype6.dll libpng14-14.dll intl.dll libgio-2.0-0.dll libatk-1.0-0.dll libgthread-2.0-0.dll libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll zlib1.dll"
+    DEPENDANTS="libstdc++-6.dll libgcc_s_dw2-1.dll libsqlite3-0.dll libcairo-2.dll libgdk-win32-2.0-0.dll libgdk_pixbuf-2.0-0.dll libglib-2.0-0.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-win32-2.0-0.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libfontconfig-1.dll libexpat-1.dll freetype6.dll libpng14-14.dll intl.dll libgio-2.0-0.dll libatk-1.0-0.dll libgthread-2.0-0.dll libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll zlib1.dll"
 
     for i in $DEPENDANTS
     do
