@@ -2,15 +2,18 @@ ___________________
 presage for android
 ~~~~~~~~~~~~~~~~~~~
 
-* Create standalone ndk toolchain
+* Create standalone ndk toolchain and set up environment
 
   export ANDROID_NDK=/home/matt/ndk-r7
   build/tools/make-standalone-toolchain.sh --install-dir=$ANDROID_NDK
-
   export PATH=$ANDROID_NDK/bin:$PATH
 
 
 * Build sqlite for android
+
+  PLEASE NOTE: you need to use the latest config.sub and config.guess
+               (get them from the autoconf repository)
+	       copy them in place of the ones currently distributed in the source tarball
 
   tar zxvf /home/matt/Downloads/sqlite-autoconf-3070900.tar.gz 
   cd sqlite-autoconf-3070900/
@@ -21,7 +24,19 @@ presage for android
 
 * Build presage for android
 
+  PLEASE NOTE: you need to use the latest config.sub and config.guess
+               (get them from the autoconf repository)
+	       copy them in place of the ones currently distributed in the source tarball
+
   ./configure --host=arm-linux-androideabi LDFLAGS="-L$ANDROID_NDK/lib" CXXFLAGS="-I$ANDROID_NDK/include"  CFLAGS="-I$ANDROID_NDK/include" --disable-gprompter --disable-python-binding --prefix=$ANDROID_NDK
   make
   make install
+
+
+  N.B. compilation will fail when generating statistical ngram models:
+       this is due to the fact that the build system will attempt to
+       execute text2ngram binary (cross-compile for armeabi) on the 
+       host machine.
+       To work around this issue, copy the *.db models from a previous
+       presage installation or presage build.
 
