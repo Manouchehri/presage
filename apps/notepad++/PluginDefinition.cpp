@@ -44,9 +44,9 @@ NppData nppData;
 static presage_t            presage;
 static presage_error_code_t presage_status;
 
-bool                glob_presage_enabled = false;
-bool				glob_learn_mode = false;
-bool				glob_autopunctuation = true;
+static bool         glob_presage_enabled = false;
+static bool			glob_learn_mode = false;
+static bool			glob_autopunctuation = true;
 static const char*	glob_autopunctuation_whitespace = " ";
 static const char*	glob_autopunctuation_chars = ".,;:'?!$%&";
 static bool			glob_function_keys_mode = false;
@@ -80,8 +80,10 @@ void pluginInit(HANDLE hModule)
 //
 void pluginCleanUp()
 {
+	//::MessageBox(NULL, TEXT("Entered pluginCleanUp()"), TEXT("Debug"), MB_OK);
 	presage_free (presage);
 	UnloadPresageDLL();
+	//::MessageBox(NULL, TEXT("Exiting pluginCleanUp()"), TEXT("Debug"), MB_OK);
 }
 
 //
@@ -163,12 +165,14 @@ void commandMenuInit()
 //
 void commandMenuCleanUp()
 {
+	//::MessageBox(NULL, TEXT("Entered commandMenuCleanup()"), TEXT("Debug"), MB_OK);
 	delete funcItem[CMD_ENABLED]._pShKey;
 	delete funcItem[CMD_LEARN_MODE]._pShKey;
 	delete funcItem[CMD_AUTOPUNCTUATION]._pShKey;
 	delete funcItem[CMD_PREDICT]._pShKey;
 	delete funcItem[CMD_ABOUT]._pShKey;
 	delete funcItem[CMD_HELP]._pShKey;
+	//::MessageBox(NULL, TEXT("Exiting commandMenuCleanup()"), TEXT("Debug"), MB_OK);
 }
 
 
