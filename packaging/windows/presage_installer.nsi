@@ -233,6 +233,7 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
   
+  DeleteRegValue HKCU "Software\Presage" "Start Menu Folder"
   DeleteRegKey /ifempty HKCU "Software\Presage"
 
   DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "DisplayName"

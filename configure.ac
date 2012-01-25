@@ -279,6 +279,13 @@ AC_ARG_ENABLE([documentation],
 AM_CONDITIONAL([BUILD_DOCUMENTATION], [test "x$enable_documentation" = "xyes"])
 
 
+dnl ===================
+dnl Checks for unix2dos
+dnl ===================
+AC_PATH_PROG([UNIX2DOS], [unix2dos])
+AM_CONDITIONAL([HAVE_UNIX2DOS], [test "$UNIX2DOS"])
+
+
 dnl ==================
 dnl Checks for Doxygen
 dnl ==================

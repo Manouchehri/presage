@@ -3,6 +3,9 @@
 	* packaging\windows\presage_installer.nsi: unchecked final page
 	checkboxes and added show getting started checkbox option.
 
+	* configure.ac, doc\Makefile.am: convert text files to DOS line
+	endings when installing on MINGW.
+
 2012-01-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging\windows\win-buildpackage.sh, packaging\windows\README:

@@ -29,6 +29,18 @@ dist_pkgdata_DATA = \
 	getting_started.txt \
 	python_binding.txt
 
+if HAVE_UNIX2DOS
+install-data-hook:
+	case `uname` in \
+	MINGW*) \
+		unix2dos $(DESTDIR)$(pkgdatadir)/getting_started.txt; \
+		unix2dos $(DESTDIR)$(pkgdatadir)/python_binding.txt; \
+		;; \
+	*) \
+		;; \
+	esac
+endif
+
 if BUILD_DOCUMENTATION
 if HAVE_DOXYGEN
 #pkgdata_DATA =	html latex
