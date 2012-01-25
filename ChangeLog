@@ -1,5 +1,10 @@
 2012-01-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* packaging\windows\presage_installer.nsi: unchecked final page
+	checkboxes and added show getting started checkbox option.
+
+2012-01-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* packaging\windows\win-buildpackage.sh, packaging\windows\README:
 	updated windows packaging scripts.
 

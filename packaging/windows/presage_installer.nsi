@@ -86,6 +86,10 @@
 
   !define MUI_FINISHPAGE_RUN $INSTDIR/bin/gprompter
   !define MUI_FINISHPAGE_RUN_TEXT "Run gprompter"
+  !define MUI_FINISHPAGE_RUN_NOTCHECKED
+  !define MUI_FINISHPAGE_SHOWREADME $INSTDIR/share/presage/getting_started.txt
+  !define MUI_FINISHPAGE_SHOWREADME_TEXT "Show getting started text file"
+  !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
   !define MUI_FINISHPAGE_LINK "For the latest news and updates, visit the website"
   !define MUI_FINISHPAGE_LINK_LOCATION http://presage.sourceforge.net/
   !insertmacro MUI_PAGE_FINISH
