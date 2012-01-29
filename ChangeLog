@@ -1,3 +1,8 @@
+2012-01-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla 3.03
+	release.
+
 2012-01-25  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging\windows\presage_installer.nsi: unchecked final page

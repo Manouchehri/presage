@@ -141,7 +141,7 @@ static void FontMutexUnlock() {
 // On GTK+ 1.x holds a GdkFont* but on GTK+ 2.x can hold a GdkFont* or a
 // PangoFontDescription*.
 class FontHandle {
-	int width[128];
+	XYPOSITION width[128];
 	encodingType et;
 public:
 	int ascent;
@@ -168,8 +168,8 @@ public:
 			width[i] = 0;
 		}
 	}
-	int CharWidth(unsigned char ch, encodingType et_) {
-		int w = 0;
+	XYPOSITION CharWidth(unsigned char ch, encodingType et_) {
+		XYPOSITION w = 0;
 		FontMutexLock();
 		if ((ch <= 127) && (et == et_)) {
 			w = width[ch];
@@ -177,7 +177,7 @@ public:
 		FontMutexUnlock();
 		return w;
 	}
-	void SetCharWidth(unsigned char ch, int w, encodingType et_) {
+	void SetCharWidth(unsigned char ch, XYPOSITION w, encodingType et_) {
 		if (ch <= 127) {
 			FontMutexLock();
 			if (et != et_) {
@@ -346,7 +346,7 @@ void Font::Release() {
 namespace Scintilla {
 #endif
 
-// On GTK+ 2.x, SurfaceID is a GdkDrawable* and on GTK+ 3.x, it is a cairo_t*
+// SurfaceID is a cairo_t*
 class SurfaceImpl : public Surface {
 	encodingType et;
 	cairo_t *context;
@@ -534,11 +534,7 @@ void SurfaceImpl::Init(SurfaceID sid, WindowID wid) {
 	PLATFORM_ASSERT(sid);
 	Release();
 	PLATFORM_ASSERT(wid);
-#if GTK_CHECK_VERSION(3,0,0)
 	context = cairo_reference(reinterpret_cast<cairo_t *>(sid));
-#else
-	context = gdk_cairo_create(reinterpret_cast<GdkDrawable *>(sid));
-#endif
 	pcontext = gtk_widget_create_pango_context(PWidget(wid));
 	layout = pango_layout_new(pcontext);
 	cairo_set_line_width(context, 1);
