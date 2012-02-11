@@ -84,8 +84,8 @@
   
   !insertmacro MUI_PAGE_INSTFILES
 
-  !define MUI_FINISHPAGE_RUN $INSTDIR/bin/gprompter
-  !define MUI_FINISHPAGE_RUN_TEXT "Run gprompter"
+  !define MUI_FINISHPAGE_RUN $INSTDIR/bin/qprompter
+  !define MUI_FINISHPAGE_RUN_TEXT "Run qprompter"
   !define MUI_FINISHPAGE_RUN_NOTCHECKED
   !define MUI_FINISHPAGE_SHOWREADME $INSTDIR/share/presage/getting_started.txt
   !define MUI_FINISHPAGE_SHOWREADME_TEXT "Show getting started text file"
@@ -136,6 +136,7 @@ Section "-Runtime" SecRuntime
     
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\qprompter.lnk" "$INSTDIR\bin\qprompter.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\gprompter.lnk" "$INSTDIR\bin\gprompter.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   
@@ -229,6 +230,7 @@ Section "Uninstall"
   
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
     
+  Delete "$SMPROGRAMS\$StartMenuFolder\qprompter.lnk"
   Delete "$SMPROGRAMS\$StartMenuFolder\gprompter.lnk"
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"

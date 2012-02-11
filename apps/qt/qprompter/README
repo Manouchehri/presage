@@ -1,0 +1,14 @@
+Copyright (C) 2012  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
+
+Building qprompter
+~~~~~~~~~~~~~~~~~~
+
+On Windows, start the Qt MinGW shell and run the following commands:
+
+  qmake
+  c:\QtSDK\mingw\bin\mingw32-make.exe
+ 
+ 
