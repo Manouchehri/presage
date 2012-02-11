@@ -132,5 +132,6 @@ bool LoadPresageDLL(void)
 void UnloadPresageDLL(void)
 {
     if (hInstLib != NULL)
-        FreeLibrary(hInstLib);
+        if (FreeLibrary(hInstLib))
+			hInstLib = NULL;
 }

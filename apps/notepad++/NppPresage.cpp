@@ -40,7 +40,6 @@ BOOL APIENTRY DllMain( HANDLE hModule,
         break;
 
       case DLL_PROCESS_DETACH:
-		commandMenuCleanUp();
         pluginCleanUp();
         break;
 

@@ -146,7 +146,7 @@ void commandMenuInit()
     funcItem[CMD_ABOUT]._pShKey->_isAlt = true;
     funcItem[CMD_ABOUT]._pShKey->_isCtrl = true;
     funcItem[CMD_ABOUT]._pShKey->_isShift = true;
-    funcItem[CMD_ABOUT]._pShKey->_key = 'H';
+    funcItem[CMD_ABOUT]._pShKey->_key = 'B';
     funcItem[CMD_ABOUT]._init2Check = false;
 
 	funcItem[CMD_HELP]._pFunc = on_help;
@@ -660,6 +660,9 @@ void on_notification (struct SCNotification* notification)
 		HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 
 		switch (notification->nmhdr.code) {
+		case NPPN_SHUTDOWN:
+			commandMenuCleanUp();
+			break;
 		case SCN_PAINTED:
 			//::MessageBox(NULL, TEXT("SCN_PAINTED"), TEXT("notification"), MB_OK);
 			break;

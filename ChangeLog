@@ -1,5 +1,11 @@
 2012-02-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps\notepad++\NppPresage.cpp,
+	apps\notepad++\PluginDefinition.cpp,
+	apps\notepad++\PresageUplink.cpp: fixes to Notepad++ plugin.
+
+2012-02-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* packaging\windows\win-buildpackage.sh,
 	packaging\windows\presage_installer.nsi, packaging\windows\README:
 	package qprompter in Windows installer.
