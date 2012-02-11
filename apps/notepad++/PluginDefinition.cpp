@@ -82,6 +82,7 @@ void pluginCleanUp()
 {
 	//::MessageBox(NULL, TEXT("Entered pluginCleanUp()"), TEXT("Debug"), MB_OK);
 	presage_free (presage);
+	presage = 0;
 	UnloadPresageDLL();
 	//::MessageBox(NULL, TEXT("Exiting pluginCleanUp()"), TEXT("Debug"), MB_OK);
 }
