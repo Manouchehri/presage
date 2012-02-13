@@ -1,0 +1,30 @@
+Copyright (C) 2012  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
+
+NppPresage is a presage predictive Notepad++ plugin. NppPresage
+integrates presage predictive functionality into Notepad++, a powerful
+free text editor and source code editor for Windows.
+http://notepad-plus-plus.org/
+
+
+Building Notepad++ presage plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Building NppPresage requires Visual Studio 2010.  Visual Studio
+Express edition will work just fine.
+
+To build, simply open the NppPresage.sln solution in Visual Studio IDE
+and build it.
+
+Alternatively, to rebuild on the command line:
+
+  devenv /Rebuild "Unicode Release" NppPresage.sln
+
+To rebuild in Unicode Debug mode:
+
+  devenv /Rebuild "Unicode Debug" NppPresage.sln
+
+
+A Visual Studio 2008 solution is also provided (NppPresage_vc8.sln).

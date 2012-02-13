@@ -80,11 +80,12 @@ void pluginInit(HANDLE hModule)
 //
 void pluginCleanUp()
 {
-	//::MessageBox(NULL, TEXT("Entered pluginCleanUp()"), TEXT("Debug"), MB_OK);
+	::MessageBox(NULL, TEXT("Entered pluginCleanUp()"), TEXT("Debug"), MB_OK);
+	glob_presage_enabled = false;
 	presage_free (presage);
 	presage = 0;
 	UnloadPresageDLL();
-	//::MessageBox(NULL, TEXT("Exiting pluginCleanUp()"), TEXT("Debug"), MB_OK);
+	::MessageBox(NULL, TEXT("Exiting pluginCleanUp()"), TEXT("Debug"), MB_OK);
 }
 
 //
@@ -166,14 +167,14 @@ void commandMenuInit()
 //
 void commandMenuCleanUp()
 {
-	//::MessageBox(NULL, TEXT("Entered commandMenuCleanup()"), TEXT("Debug"), MB_OK);
+	::MessageBox(NULL, TEXT("Entered commandMenuCleanup()"), TEXT("Debug"), MB_OK);
 	delete funcItem[CMD_ENABLED]._pShKey;
 	delete funcItem[CMD_LEARN_MODE]._pShKey;
 	delete funcItem[CMD_AUTOPUNCTUATION]._pShKey;
 	delete funcItem[CMD_PREDICT]._pShKey;
 	delete funcItem[CMD_ABOUT]._pShKey;
 	delete funcItem[CMD_HELP]._pShKey;
-	//::MessageBox(NULL, TEXT("Exiting commandMenuCleanup()"), TEXT("Debug"), MB_OK);
+	::MessageBox(NULL, TEXT("Exiting commandMenuCleanup()"), TEXT("Debug"), MB_OK);
 }
 
 
@@ -650,7 +651,30 @@ static void on_key (struct SCNotification* nt, HWND scintilla)
 
 void on_notification (struct SCNotification* notification)
 {
-	// only do something if presage is activated
+	switch (notification->nmhdr.code) {
+	case NPPN_SHUTDOWN:
+		::MessageBox(NULL, TEXT("NPPN_SHUTDOWN"), TEXT("notification"), MB_OK);
+		glob_presage_enabled = false;
+		commandMenuCleanUp();
+		break;
+	case NPPN_TBMODIFICATION:
+		/* if presage DLL loading failed, gray out menu items */
+		if ((notification->nmhdr.hwndFrom == nppData._nppHandle) && 
+			(hInstLib == NULL))
+		{
+			//::MessageBox(NULL, TEXT("graying out menu items..."), TEXT("Presage debugging"), MB_OK);
+
+			HMENU hMenu = ::GetMenu (nppData._nppHandle);
+		
+			::EnableMenuItem (hMenu, funcItem[CMD_ENABLED]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+			::EnableMenuItem (hMenu, funcItem[CMD_LEARN_MODE]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+			::EnableMenuItem (hMenu, funcItem[CMD_AUTOPUNCTUATION]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+			::EnableMenuItem (hMenu, funcItem[CMD_PREDICT]._cmdID, MF_BYCOMMAND | MF_GRAYED);
+		}
+		break;
+	}
+
+	// handle scintilla notifications only if presage is activated
 	if (glob_presage_enabled)
 	{
 		// Get the current scintilla
@@ -661,9 +685,6 @@ void on_notification (struct SCNotification* notification)
 		HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 
 		switch (notification->nmhdr.code) {
-		case NPPN_SHUTDOWN:
-			commandMenuCleanUp();
-			break;
 		case SCN_PAINTED:
 			//::MessageBox(NULL, TEXT("SCN_PAINTED"), TEXT("notification"), MB_OK);
 			break;
@@ -671,7 +692,7 @@ void on_notification (struct SCNotification* notification)
 			on_update_ui (notification, scintilla);
 			break;
 		case SCN_MODIFIED:
-			//::MessageBox(NULL, TEXT(notification->text), TEXT("SCN_MODIFIED"), MB_OK);
+			//::MessageBox(NULL, TEXT(notification->text), TEXT("SCNs_MODIFIED"), MB_OK);
 			//::MessageBox(NULL, TEXT("SCN_MODIFIED"), TEXT("notification"), MB_OK);
 			break;
 		case SCN_CHARADDED:
@@ -685,7 +706,7 @@ void on_notification (struct SCNotification* notification)
 			break;
 		case SCN_KEY:
 			// NOTE: this never gets invoked on Windows as SCN_KEY event is never fired
-			::MessageBoxA(NULL, "SCN_KEY", "notification", MB_OK);
+			::MessageBox(NULL, TEXT("SCN_KEY"), TEXT("notification"), MB_OK);
 			on_key(notification, scintilla);
 			break;
 		default:
@@ -695,20 +716,4 @@ void on_notification (struct SCNotification* notification)
 			break;
 		}
 	}
-
-	/* if presage DLL loading failed, gray out menu items */
-	if ((notification->nmhdr.hwndFrom == nppData._nppHandle) && 
-		(notification->nmhdr.code == NPPN_TBMODIFICATION) &&
-		(hInstLib == NULL))
-	{
-		//::MessageBox(NULL, TEXT("graying out menu items..."), TEXT("Presage debugging"), MB_OK);
-
-		HMENU hMenu = ::GetMenu (nppData._nppHandle);
-		
-		::EnableMenuItem (hMenu, funcItem[CMD_ENABLED]._cmdID, MF_BYCOMMAND | MF_GRAYED);
-		::EnableMenuItem (hMenu, funcItem[CMD_LEARN_MODE]._cmdID, MF_BYCOMMAND | MF_GRAYED);
-		::EnableMenuItem (hMenu, funcItem[CMD_AUTOPUNCTUATION]._cmdID, MF_BYCOMMAND | MF_GRAYED);
-		::EnableMenuItem (hMenu, funcItem[CMD_PREDICT]._cmdID, MF_BYCOMMAND | MF_GRAYED);
-	}
-
 }
