@@ -167,14 +167,14 @@ void commandMenuInit()
 //
 void commandMenuCleanUp()
 {
-	::MessageBox(NULL, TEXT("Entered commandMenuCleanup()"), TEXT("Debug"), MB_OK);
+	::MessageBox(NULL, TEXT("Entered commandMenuCleanUp()"), TEXT("Debug"), MB_OK);
 	delete funcItem[CMD_ENABLED]._pShKey;
 	delete funcItem[CMD_LEARN_MODE]._pShKey;
 	delete funcItem[CMD_AUTOPUNCTUATION]._pShKey;
 	delete funcItem[CMD_PREDICT]._pShKey;
 	delete funcItem[CMD_ABOUT]._pShKey;
 	delete funcItem[CMD_HELP]._pShKey;
-	::MessageBox(NULL, TEXT("Exiting commandMenuCleanup()"), TEXT("Debug"), MB_OK);
+	::MessageBox(NULL, TEXT("Exiting commandMenuCleanUp()"), TEXT("Debug"), MB_OK);
 }
 
 
@@ -653,7 +653,7 @@ void on_notification (struct SCNotification* notification)
 {
 	switch (notification->nmhdr.code) {
 	case NPPN_SHUTDOWN:
-		::MessageBox(NULL, TEXT("NPPN_SHUTDOWN"), TEXT("notification"), MB_OK);
+		//::MessageBox(NULL, TEXT("NPPN_SHUTDOWN"), TEXT("notification"), MB_OK);
 		glob_presage_enabled = false;
 		commandMenuCleanUp();
 		break;
