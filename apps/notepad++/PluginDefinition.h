@@ -45,17 +45,17 @@ const TCHAR NPP_PLUGIN_NAME[] = TEXT("Presage");
 // Here define the number of your plugin commands
 //
 enum MENU_COMMANDS
-{
-	CMD_ENABLED = 0,
-	CMD_LEARN_MODE,
-	CMD_AUTOPUNCTUATION,
-	CMD_SEPARATOR_1,
-	CMD_PREDICT,
-	CMD_SEPARATOR_2,
-	CMD_ABOUT,
-	CMD_HELP,
-	NB_MENU_COMMANDS
-};
+  {
+    CMD_ENABLED = 0,
+    CMD_LEARN_MODE,
+    CMD_AUTOPUNCTUATION,
+    CMD_SEPARATOR_1,
+    CMD_PREDICT,
+    CMD_SEPARATOR_2,
+    CMD_ABOUT,
+    CMD_HELP,
+    NB_MENU_COMMANDS
+  };
 
 const int nbFunc = NB_MENU_COMMANDS;
 

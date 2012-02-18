@@ -35,18 +35,18 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 {
     switch (reasonForCall)
     {
-      case DLL_PROCESS_ATTACH:
+    case DLL_PROCESS_ATTACH:
         pluginInit(hModule);
         break;
 
-      case DLL_PROCESS_DETACH:
+    case DLL_PROCESS_DETACH:
         pluginCleanUp();
         break;
 
-      case DLL_THREAD_ATTACH:
+    case DLL_THREAD_ATTACH:
         break;
 
-      case DLL_THREAD_DETACH:
+    case DLL_THREAD_DETACH:
         break;
     }
 
@@ -56,25 +56,25 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
 extern "C" __declspec(dllexport) void setInfo(NppData notpadPlusData)
 {
-	nppData = notpadPlusData;
-	commandMenuInit();
+    nppData = notpadPlusData;
+    commandMenuInit();
 }
 
 extern "C" __declspec(dllexport) const TCHAR * getName()
 {
-	return NPP_PLUGIN_NAME;
+    return NPP_PLUGIN_NAME;
 }
 
 extern "C" __declspec(dllexport) FuncItem * getFuncsArray(int *nbF)
 {
-	*nbF = nbFunc;
-	return funcItem;
+    *nbF = nbFunc;
+    return funcItem;
 }
 
 
 extern "C" __declspec(dllexport) void beNotified(SCNotification *notification)
 {
-	on_notification (notification);
+    on_notification (notification);
 }
 
 
@@ -85,18 +85,18 @@ extern "C" __declspec(dllexport) void beNotified(SCNotification *notification)
 //
 extern "C" __declspec(dllexport) LRESULT messageProc(UINT Message, WPARAM wParam, LPARAM lParam)
 {/*
-	if (Message == WM_MOVE)
-	{
-		::MessageBox(NULL, "move", "", MB_OK);
-	}
-*/
+   if (Message == WM_MOVE)
+   {
+   ::MessageBox(NULL, "move", "", MB_OK);
+   }
+ */
 /*
-	if (Message == WM_KEYDOWN)
-	{
-		::MessageBox(NULL, TEXT("WM_KEYDOWN"), TEXT("messageProc"), MB_OK);
-	}
+  if (Message == WM_KEYDOWN)
+  {
+  ::MessageBox(NULL, TEXT("WM_KEYDOWN"), TEXT("messageProc"), MB_OK);
+  }
 */
-	return TRUE;
+    return TRUE;
 }
 
 #ifdef UNICODE
