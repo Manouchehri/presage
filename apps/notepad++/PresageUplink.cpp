@@ -131,6 +131,20 @@ bool LoadPresageDLL(void)
 
 void UnloadPresageDLL(void)
 {
+    presage_completion = NULL;
+    presage_config = NULL;
+    presage_config_set = NULL;
+    presage_context = NULL;
+    presage_context_change = NULL;
+    presage_free = NULL;
+    presage_free_string = NULL;
+    presage_free_string_array = NULL;
+    presage_new = NULL;
+    presage_new_with_config = NULL;
+    presage_predict = NULL;
+    presage_prefix = NULL;
+    presage_save_config = NULL;
+
     if (hInstLib != NULL)
         if (FreeLibrary(hInstLib))
 	    hInstLib = NULL;

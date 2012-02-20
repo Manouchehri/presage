@@ -1,3 +1,9 @@
+2012-02-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps\notepad++\PluginDefinition.cpp,
+	apps\notepad++\PresageUplink.cpp, apps\notepad++\PresageUplink.h:
+	reindenting, changes to plugin unloading logic.
+
 2012-02-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps\notepad++\PluginDefinition.cpp, apps\notepad++\README:

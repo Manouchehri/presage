@@ -31,16 +31,16 @@
 /* must match declarations in presageException.h */
 typedef enum
 {
-	PRESAGE_OK = 0,    /* successful result */
-	PRESAGE_ERROR,     /* generic/unknown presage error */
-	PRESAGE_TOKEN_PREFIX_MISMATCH_ERROR,
-	PRESAGE_SMOOTHED_NGRAM_PREDICTOR_LEARN_ERROR,
-	PRESAGE_CONFIG_VARIABLE_ERROR,
-	PRESAGE_INVALID_CALLBACK_ERROR,
-	PRESAGE_INVALID_SUGGESTION_ERROR,
-	PRESAGE_INIT_PREDICTOR_ERROR,
-	PRESAGE_SQLITE_OPEN_DATABASE_ERROR,
-	PRESAGE_SQLITE_EXECUTE_SQL_ERROR
+    PRESAGE_OK = 0,    /* successful result */
+    PRESAGE_ERROR,     /* generic/unknown presage error */
+    PRESAGE_TOKEN_PREFIX_MISMATCH_ERROR,
+    PRESAGE_SMOOTHED_NGRAM_PREDICTOR_LEARN_ERROR,
+    PRESAGE_CONFIG_VARIABLE_ERROR,
+    PRESAGE_INVALID_CALLBACK_ERROR,
+    PRESAGE_INVALID_SUGGESTION_ERROR,
+    PRESAGE_INIT_PREDICTOR_ERROR,
+    PRESAGE_SQLITE_OPEN_DATABASE_ERROR,
+    PRESAGE_SQLITE_EXECUTE_SQL_ERROR
 } presage_error_code_t;
 
 /* must match declarations in presageCallback.h */
@@ -51,62 +51,62 @@ typedef const char* (*_presage_callback_get_future_stream) (void*);
 typedef struct _presage* presage_t;
 
 typedef presage_error_code_t (__cdecl * PFUNC_presage_new)
-                             (_presage_callback_get_past_stream past_stream_cb,
-						      void* past_stream_cb_arg,
-						      _presage_callback_get_future_stream future_stream_cb,
-						      void* future_stream_cb_arg,
-						      presage_t* result);
+    (_presage_callback_get_past_stream past_stream_cb,
+     void* past_stream_cb_arg,
+     _presage_callback_get_future_stream future_stream_cb,
+     void* future_stream_cb_arg,
+     presage_t* result);
     
 typedef presage_error_code_t (__cdecl * PFUNC_presage_new_with_config)
-	                         (_presage_callback_get_past_stream past,
-						      void* past_stream_cb_arg,
-						      _presage_callback_get_future_stream future_stream_cb,
-						      void* future_stream_cb_arg,
-						      const char* config,
-						      presage_t* result);
+    (_presage_callback_get_past_stream past,
+     void* past_stream_cb_arg,
+     _presage_callback_get_future_stream future_stream_cb,
+     void* future_stream_cb_arg,
+     const char* config,
+     presage_t* result);
     
 typedef void                 (__cdecl * PFUNC_presage_free)
-                             (presage_t prsg);
+(presage_t prsg);
     
 typedef void                 (__cdecl * PFUNC_presage_free_string)
-	                         (char* str);
+(char* str);
 
 typedef void                 (__cdecl * PFUNC_presage_free_string_array)
-	                         (char** str);
+(char** str);
 
 typedef presage_error_code_t (__cdecl * PFUNC_presage_predict)
-	                         (presage_t prsg,
-						      char*** result);
+    (presage_t prsg,
+     char*** result);
     
 typedef presage_error_code_t (__cdecl * PFUNC_presage_completion)
-	                         (presage_t prsg,
-						      const char* token,
-						      char** result);
+    (presage_t prsg,
+     const char* token,
+     char** result);
 
 typedef presage_error_code_t (__cdecl * PFUNC_presage_context)
-	                         (presage_t prsg, 
-						      char** result);
+    (presage_t prsg, 
+     char** result);
 
 typedef presage_error_code_t (__cdecl * PFUNC_presage_context_change)
-	                         (presage_t prsg,
-						      int* result);
+    (presage_t prsg,
+     int* result);
 
 typedef presage_error_code_t (__cdecl * PFUNC_presage_prefix)
-	                         (presage_t prsg,
-						      char** result);
+    (presage_t prsg,
+     char** result);
 
 typedef presage_error_code_t (__cdecl * PFUNC_presage_config)
-	                         (presage_t prsg,
-						      const char* variable,
-						      char** result);
+    (presage_t prsg,
+     const char* variable,
+     char** result);
 
 typedef presage_error_code_t (__cdecl * PFUNC_presage_config_set)
-	                         (presage_t prsg,
-						      const char* variable,
-						      const char* value);
+    (presage_t prsg,
+     const char* variable,
+     const char* value);
     
 typedef presage_error_code_t (__cdecl * PFUNC_presage_save_config)
-	                         (presage_t prsg);
+    (presage_t prsg);
 
 
 bool LoadPresageDLL(void);

@@ -27,7 +27,6 @@
 #include "PresageUplink.h"
 #include "menuCmdID.h"
 
-//#include "presage.h"
 #include <cstdio>
 
 
@@ -44,12 +43,12 @@ NppData nppData;
 static presage_t            presage;
 static presage_error_code_t presage_status;
 
-static bool         glob_presage_enabled = false;
-static bool			glob_learn_mode = false;
-static bool			glob_autopunctuation = true;
-static const char*	glob_autopunctuation_whitespace = " ";
-static const char*	glob_autopunctuation_chars = ".,;:'?!$%&";
-static bool			glob_function_keys_mode = false;
+static bool        glob_presage_enabled = false;
+static bool        glob_learn_mode = false;
+static bool        glob_autopunctuation = true;
+static const char* glob_autopunctuation_whitespace = " ";
+static const char* glob_autopunctuation_chars = ".,;:'?!$%&";
+static bool        glob_function_keys_mode = false;
 
 extern HINSTANCE hInstLib;
 
@@ -72,7 +71,9 @@ extern PFUNC_presage_save_config presage_save_config;
 // It will be called while plugin loading   
 void pluginInit(HANDLE hModule)
 {
+    ::MessageBox(NULL, TEXT("Entered pluginInit()"), TEXT("Debug"), MB_OK);
     glob_presage_enabled = LoadPresageDLL();
+    ::MessageBox(NULL, TEXT("Exiting pluginInit()"), TEXT("Debug"), MB_OK);
 }
 
 //
@@ -81,9 +82,6 @@ void pluginInit(HANDLE hModule)
 void pluginCleanUp()
 {
     ::MessageBox(NULL, TEXT("Entered pluginCleanUp()"), TEXT("Debug"), MB_OK);
-    glob_presage_enabled = false;
-    presage_free (presage);
-    presage = 0;
     UnloadPresageDLL();
     ::MessageBox(NULL, TEXT("Exiting pluginCleanUp()"), TEXT("Debug"), MB_OK);
 }
@@ -653,9 +651,11 @@ void on_notification (struct SCNotification* notification)
 {
     switch (notification->nmhdr.code) {
     case NPPN_SHUTDOWN:
-	//::MessageBox(NULL, TEXT("NPPN_SHUTDOWN"), TEXT("notification"), MB_OK);
-	glob_presage_enabled = false;
+	::MessageBox(NULL, TEXT("NPPN_SHUTDOWN"), TEXT("notification"), MB_OK);
 	commandMenuCleanUp();
+	glob_presage_enabled = false;
+	presage_free (presage);
+	presage = 0;
 	break;
     case NPPN_TBMODIFICATION:
 	/* if presage DLL loading failed, gray out menu items */
