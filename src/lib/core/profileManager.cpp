@@ -160,39 +160,39 @@ std::string ProfileManager::get_system_etc_dir() const
      HKEY reg_key = NULL;
      char *dst = NULL;
 
-     res = RegOpenKeyExA (HKEY_CURRENT_USER, "Software", 0,
+     res = RegOpenKeyExA (HKEY_CURRENT_USER, "Software\\Presage", 0,
 			  KEY_READ, &reg_key);
 
-     if (res == ERROR_SUCCESS) {
-	  res = RegOpenKeyExA (reg_key, "Presage", 0,
-			       KEY_READ, &reg_key);
-     }
+     if (res == ERROR_SUCCESS) 
+     {
+	 size = 64;
+	 dst = (char*) malloc (size);
+	 
+	 res = RegQueryValueExA (reg_key, "", 0, &type,
+				 (LPBYTE) dst, &size);
+	 if (res == ERROR_MORE_DATA && type == REG_SZ) {
+	     dst = (char*) realloc (dst, size);
+	     res = RegQueryValueExA (reg_key, "", 0, &type,
+				     (LPBYTE) dst, &size);
+	 }
+	 
+	 if (type != REG_SZ || res != ERROR_SUCCESS) {
+	     free (dst);
+	     dst = 0;
+	 }
+	 
+	 result = dst;
+	 result += "\\etc";
 
-     if (res != ERROR_SUCCESS) {
+	 free (dst);
+	 RegCloseKey (reg_key);
+     }
+     else
+     {
 	  reg_key = (HKEY) INVALID_HANDLE_VALUE;
 	  return ".";
      }
-  
 
-     size = 64;
-     dst = (char*) malloc (size);
-  
-     res = RegQueryValueExA (reg_key, "", 0, &type,
-			     (LPBYTE) dst, &size);
-     if (res == ERROR_MORE_DATA && type == REG_SZ) {
-	  dst = (char*) realloc (dst, size);
-	  res = RegQueryValueExA (reg_key, "", 0, &type,
-				  (LPBYTE) dst, &size);
-     }
-  
-     if (type != REG_SZ || res != ERROR_SUCCESS) {
-	  free (dst);
-	  dst = 0;
-     }
-
-     result = dst;
-     result += "\\etc";
-     free (dst);
 #else
      result = "/etc";
 #endif

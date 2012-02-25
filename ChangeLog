@@ -1,3 +1,7 @@
+2012-02-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src\libcore\profileManager.cpp: fixed HKEY leak.
+
 2012-02-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps\notepad++\PluginDefinition.cpp,
