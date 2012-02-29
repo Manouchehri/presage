@@ -88,12 +88,6 @@ Prediction PredictorActivator::predict(unsigned int multiplier, const char** fil
 
     // ...and return final prediction
     return result;
-
-    ////////
-    // PLUMP
-    //
-    //plump.registerCallback(callback_predict, &p);
-    //plump.run();
 }
 
 

@@ -24,12 +24,6 @@
 
 #include "predictorRegistry.h"
 
-// REVISIT: including predictors here because Plump is temporarily
-// disabled. Predictor lifetime management is currently disabled.
-//
-// IMPORTANT: remove following includes when moving back to dynamically
-// loaded predictors.
-//
 #ifdef USE_SQLITE
 # include "predictors/smoothedNgramPredictor.h"
 #endif

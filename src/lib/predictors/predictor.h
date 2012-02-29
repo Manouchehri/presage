@@ -25,9 +25,6 @@
 #ifndef PRESAGE_PREDICTOR
 #define PRESAGE_PREDICTOR
 
-//PLUMP
-//#include "plump/src/pluginInterface.h"
-
 #include "../core/prediction.h"
 #include "../core/context_tracker/contextTracker.h"
 #include "../core/configuration.h"
@@ -47,7 +44,6 @@
  *
  */
 class Predictor {
-//PLUMP    : public plump::PluginInterface {
 public:
     Predictor(Configuration*  configuration,
 	      ContextTracker* contextTracker,
@@ -87,40 +83,6 @@ protected:
 private:
 
 };
-
-////
-// Excerpt taken from C++-dlopen HOWTO
-//
-// Loading classes is a bit more difficult because we need an instance
-// of a class, not just a pointer to a function.
-//
-// We cannot create the instance of the class using new because the
-// class is not defined in the executable, and because (under some
-// circumstances) we don't even know its name.
-//
-// The solution is achieved through polymorphism. We define a base,
-// interface class with virtual members in the executable, and a
-// derived, implementation class in the module. Generally the
-// interface class is abstract (a class is abstract if it has pure
-// virtual functions).
-//
-// As dynamic loading of classes is generally used for plug-ins which
-// must expose a clearly defined interface we would have had to define
-// an interface and derived implementation classes anyway.
-//
-// Next, while still in the module, we define two additional helper
-// functions, known as class factory functions. One of these functions
-// creates an instance of the class and returns a pointer to it. The
-// other function takes a pointer to a class created by the factory
-// and destroys it. These two functions are qualified as extern "C".
-//
-// To use the class from the module, load the two factory functions
-// using dlsym just as we loaded the the hello function; then, we can
-// create and destroy as many instances as we wish.
-
-// Class factory function types
-// typedef Predictor* create_t (HistoryTracker&, Profile*);
-// typedef void    destroy_t(Predictor*);
 
 
 #endif // PRESAGE_PREDICTOR

@@ -1,3 +1,13 @@
+2012-02-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src\lib\presage.cpp, src\lib\core\predictorActivator.h,
+	src\lib\core\predictorRegistry.cpp, src\lib\core\variable.cpp,
+	src\lib\core\pluginManager.h, src\lib\core\predictorActivator.cpp,
+	src\lib\core\selector.cpp, src\lib\core\Makefile.am,
+	src\lib\core\pluginManager.cpp,
+	src\lib\predictors\ARPAPredictor.cpp,
+	src\lib\predictors\predictor.h: cleaned up sources.
+
 2012-02-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src\libcore\profileManager.cpp: fixed HKEY leak.

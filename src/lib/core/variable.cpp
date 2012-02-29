@@ -101,30 +101,6 @@ std::vector<std::string> Variable::string_to_vector(const std::string& str)
 	result.push_back(acc);
     }
 
-/*
-    std::string::size_type start_pos = 0;
-    std::string::size_type end_pos = str.find_first_of(SEPARATOR);
-    while (start_pos != std::string::npos && end_pos != std::string::npos) {
-	result.push_back(str.substr(start_pos, end_pos - start_pos));
-	start_pos = end_pos + 1;
-	end_pos = str.find_first_of(SEPARATOR, start_pos);
-    }
-*/
-
-    // DEBUG
-    // std::cout << "string_to_vector():" << std::endl
-    // 	      << "string  : " << str << std::endl
-    // 	      << "variable: ";
-    // for (size_t i = 0; i < result.size(); i++) {
-    // 	std::cout << result[i];
-    // 	if (i < result.size() - 1) {
-    // 	    std::cout << '.';
-    // 	}
-    // }
-    // std::cout << "| variable size: " << result.size() << std::endl;
-    // std::cout << std::endl;
-    // DEBUG
-
     return result;
 }
 
@@ -137,19 +113,6 @@ std::string Variable::vector_to_string(const std::vector<std::string>& variable)
             result += '.';
         }
     }
-
-    // DEBUG
-    // std::cout << "vector_to_string():" << std::endl
-    // 	      << "variable: ";
-    // for (size_t i = 0; i < variable.size(); i++) {
-    // 	std::cout << variable[i];
-    // 	if (i < variable.size() - 1) {
-    // 	    std::cout << '.';
-    // 	}
-    // }
-    // std::cout << "| variable size: " << variable.size() << std::endl;
-    // std::cout << "string  : " << result << std::endl;
-    // DEBUG
 
     return result;
 }

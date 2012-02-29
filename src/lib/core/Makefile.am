@@ -73,9 +73,6 @@ libcore_la_SOURCES =	\
 	progress.cpp \
 	progress.h 
 
-# Temporarily disabled
-#                       pluginManager.cpp pluginManager.h
-
 libcore_la_LIBADD =	\
 	tokenizer/libtokenizer.la \
 	context_tracker/libcontexttracker.la

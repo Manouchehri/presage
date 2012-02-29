@@ -39,11 +39,6 @@ Presage::Presage (PresageCallback* callback)
     contextTracker = new ContextTracker(configuration, predictorRegistry, callback);
     predictorActivator = new PredictorActivator(configuration, predictorRegistry, contextTracker);
     selector = new Selector(configuration, contextTracker);
-
-    //plump::Logger::getLogger()->setLevel(plump::Logger::DEBUG);
-    //plump.appendPath("./predictors");
-    //plump.registerCallback(callback_helloworld, 0);
-    //plump.discoverPredictors();
 }
 
 Presage::Presage (PresageCallback* callback, const std::string config_filename)
@@ -51,7 +46,6 @@ Presage::Presage (PresageCallback* callback, const std::string config_filename)
 {
     profileManager = new ProfileManager(config_filename);
     configuration = profileManager->get_configuration();
-
     predictorRegistry = new PredictorRegistry(configuration);
     contextTracker = new ContextTracker(configuration, predictorRegistry, callback);
     predictorActivator = new PredictorActivator(configuration, predictorRegistry, contextTracker);

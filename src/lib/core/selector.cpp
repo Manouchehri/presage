@@ -79,26 +79,9 @@ std::vector<std::string> Selector::select( Prediction p )
     if( greedy_suggestion_threshold > 0 )
 	thresholdFilter( result );
 
-    // build result
-	
-    // check that we have enough selected words
-    if( result.size() < static_cast<unsigned int>(suggestions) ) {
-	// Job's not done, got to get a bigger Prediction
-	// we should invoke predict() to get more Suggestions
-
-	// could throw an exception that would be caught by predictor
-	// which would reissue the predict call to get more
-	// suggestions
-			
-	// TODO <============================================
-			
-	// just abort for now
-	//std::cerr << "Not enough Suggestions" << std::endl;
-	//abort();
-		
-    } else {
-	// erase the requested number of words
-	result.erase( result.begin() + suggestions, result.end() );
+    // if more suggestions than required, trim suggestions down to requested number
+    if( result.size() > suggestions ) {
+	result.erase (result.begin() + suggestions, result.end());
     }
 
     // update suggested words set

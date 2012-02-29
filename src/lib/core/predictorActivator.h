@@ -29,11 +29,6 @@
 # include "config.h"
 #endif
 
-// PLUMP
-// REVISIT uncomment this when reenabling plump
-//#include "plump/src/plump.h"
-//namespace plump { typedef int Plump; }
-
 #include "configuration.h"
 #include "predictorRegistry.h"
 #include "context_tracker/contextTracker.h"
@@ -50,8 +45,6 @@
 #ifdef STDC_HEADERS
 # include <stdlib.h>  // needed for abort function
 #endif
-
-//#include <dlfcn.h>   // needed for shared library dynamic loading
 
 
 /** PredictorActivator, the heart of Presage system, coordinates the execution of predictors and returns the combination of their predictions.
@@ -176,10 +169,6 @@ public:
     static const char* COMBINATION_POLICY;
 
 private:
-    // PLUMP
-    //plump::Plump& plump;
-
-
     // execute predictor function (invoked in thread)
     void *execute(void *);
 
