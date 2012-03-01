@@ -25,7 +25,7 @@ if BUILD_TINYXML
 MAYBE_TINYXML =	tinyxml
 endif
 
-SUBDIRS =	$(MAYBE_TINYXML) core simulator predictors
+SUBDIRS =	$(MAYBE_TINYXML) core predictors
 
 include_HEADERS =		presage.h \
 				presageException.h \
@@ -38,7 +38,6 @@ libpresage_la_SOURCES = 	presage.cpp \
 				presageCallback.h \
 				libpresage.map
 libpresage_la_LIBADD =		core/libcore.la \
-				simulator/libsimulator.la \
 				predictors/libpredictors.la
 libpresage_la_LDFLAGS =		-no-undefined \
 				-version-info 2:1:1

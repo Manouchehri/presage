@@ -1,3 +1,14 @@
+2012-03-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test\lib\simulator, test\lib\simulator\Makefile.am,
+	test\lib\Makefile.am, src\tools\simulator,
+	src\tools\simulator\simulator.cpp,
+	src\tools\simulator\simulator.h, src\tools\simulator\Makefile.am,
+	src\tools\Makefile.am, src\lib\simulator\simulator.cpp,
+	src\lib\simulator\simulator.h, src\lib\simulator\Makefile.am,
+	src\lib\Makefile.am, configure.ac: cleaned up and moved simulator
+	code.
+
 2012-02-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src\lib\presage.cpp, src\lib\core\predictorActivator.h,

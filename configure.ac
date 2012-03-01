@@ -434,11 +434,11 @@ AC_OUTPUT([
 	src/lib/core/Makefile
 	src/lib/core/tokenizer/Makefile
 	src/lib/core/context_tracker/Makefile
-	src/lib/simulator/Makefile
 	src/lib/tinyxml/Makefile
 	src/lib/predictors/Makefile
 	src/lib/predictors/dbconnector/Makefile
 	src/tools/Makefile
+	src/tools/simulator/Makefile
 	test/Makefile
 	test/lib/Makefile
 	test/lib/common/Makefile
@@ -447,7 +447,6 @@ AC_OUTPUT([
 	test/lib/core/context_tracker/Makefile
 	test/lib/predictors/Makefile
 	test/lib/predictors/dbconnector/Makefile
-	test/lib/simulator/Makefile
 	test/tools/Makefile
 	test/integration/Makefile
 	resources/Makefile
