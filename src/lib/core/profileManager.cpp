@@ -176,21 +176,19 @@ std::string ProfileManager::get_system_etc_dir() const
 				     (LPBYTE) dst, &size);
 	 }
 	 
-	 if (type != REG_SZ || res != ERROR_SUCCESS) {
-	     free (dst);
-	     dst = 0;
+	 if (type != REG_SZ || res != ERROR_SUCCESS) 
+	 {
+	     result = ".";
 	 }
-	 
-	 result = dst;
-	 result += "\\etc";
+	 else
+	 {
+	     result = dst;
+	     result += "\\etc";
+	 }
 
 	 free (dst);
+	 dst = 0;
 	 RegCloseKey (reg_key);
-     }
-     else
-     {
-	  reg_key = (HKEY) INVALID_HANDLE_VALUE;
-	  return ".";
      }
 
 #else
