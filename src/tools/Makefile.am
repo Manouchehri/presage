@@ -24,7 +24,7 @@
 SUBDIRS =		simulator 
 
 noinst_LTLIBRARIES =	libtools.la
-libtools_la_SOURCES =	ngram.cpp ngram.h                 
+libtools_la_SOURCES =	ngram.cpp ngram.h
 
 bin_PROGRAMS =		presage_demo_text \
 			presage_simulator
@@ -51,9 +51,9 @@ presage_demo_text_SOURCES = 	presageDemoText.cpp
 presage_demo_text_LDADD = 	../lib/libpresage.la
 
 presage_simulator_SOURCES =	presageSimulator.cpp
-presage_simulator_LDADD =	../lib/core/libcore.la \
-				../lib/simulator/libsimulator.la \
-				../lib/libpresage.la
+presage_simulator_LDADD =	simulator/libsimulator.la \
+				../lib/libpresage.la \
+				../lib/core/libcore.la 
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src
 

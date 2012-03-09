@@ -1,3 +1,8 @@
+2012-03-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/tools/Makefile.am: fixed build issue following libsimulator
+	relocation.
+
 2012-03-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src\lib\core\profileManager.cpp: fixed bug in accessing presage
