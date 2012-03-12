@@ -1133,8 +1133,10 @@ void ScintillaGTK::ScrollText(int linesToMove) {
 	//	rc.left, rc.top, rc.right, rc.bottom);
 	GtkWidget *wi = PWidget(wText);
 
-	gdk_window_scroll(WindowFromWidget(wi), 0, -diff);
-	gdk_window_process_updates(WindowFromWidget(wi), FALSE);
+	if (IS_WIDGET_REALIZED(wi)) {
+		gdk_window_scroll(WindowFromWidget(wi), 0, -diff);
+		gdk_window_process_updates(WindowFromWidget(wi), FALSE);
+	}
 }
 
 void ScintillaGTK::SetVerticalScrollPos() {
@@ -1398,21 +1400,9 @@ std::string ScintillaGTK::CaseMapString(const std::string &s, int caseMapping) {
 }
 
 int ScintillaGTK::KeyDefault(int key, int modifiers) {
-	if (!(modifiers & SCI_CTRL) && !(modifiers & SCI_ALT)) {
-		if (key < 256) {
-			NotifyKey(key, modifiers);
-			return 0;
-		} else {
-			// Pass up to container in case it is an accelerator
-			NotifyKey(key, modifiers);
-			return 0;
-		}
-	} else {
-		// Pass up to container in case it is an accelerator
-		NotifyKey(key, modifiers);
-		return 0;
-	}
-	//Platform::DebugPrintf("SK-key: %d %x %x\n",key, modifiers);
+	// Pass up to container in case it is an accelerator
+	NotifyKey(key, modifiers);
+	return 0;
 }
 
 void ScintillaGTK::CopyToClipboard(const SelectionText &selectedText) {
@@ -2201,8 +2191,7 @@ gboolean ScintillaGTK::KeyThis(GdkEventKey *event) {
 		bool added = KeyDown(key, shift, ctrl, alt, &consumed) != 0;
 #else
 		bool meta = ctrl;
-		ctrl = alt;
-		alt = (event->state & GDK_MOD5_MASK) != 0;
+		ctrl = (event->state & GDK_META_MASK) != 0;
 		bool added = KeyDownWithModifiers(key, (shift ? SCI_SHIFT : 0) |
 		                                       (ctrl ? SCI_CTRL : 0) |
 		                                       (alt ? SCI_ALT : 0) |
