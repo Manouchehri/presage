@@ -25,10 +25,10 @@
 #include "dummyPredictor.h"
 
 
-DummyPredictor::DummyPredictor(Configuration* config, ContextTracker* ct)
+DummyPredictor::DummyPredictor(Configuration* config, ContextTracker* ct, const char* name)
     : Predictor(config,
 		ct,
-		"DummyPredictor",
+		name,
 		"DummyPredictor, a fake predictor",
 		"DummyPredictor is a fake predictor.\n"
 		"It does not perform any actual computation nor implement any prediction mechanism.\n"

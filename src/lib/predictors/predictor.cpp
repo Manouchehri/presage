@@ -46,6 +46,7 @@ Predictor::Predictor(Configuration* config,
       longDescription (longDesc  ),
       contextTracker  (ct        ),
       configuration   (config    ),
+      PREDICTORS      ("Presage.Predictors."),
       logger          (predictorName, std::cerr)
 {
     // NOTE: predictor implementations deriving from this class should

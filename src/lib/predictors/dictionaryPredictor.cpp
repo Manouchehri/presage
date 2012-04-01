@@ -26,19 +26,20 @@
 
 #include <assert.h>
 
-const char* DictionaryPredictor::LOGGER  = "Presage.Predictors.DictionaryPredictor.LOGGER";
-const char* DictionaryPredictor::DICTIONARY  = "Presage.Predictors.DictionaryPredictor.DICTIONARY";
-const char* DictionaryPredictor::PROBABILITY = "Presage.Predictors.DictionaryPredictor.PROBABILITY";
 
-DictionaryPredictor::DictionaryPredictor(Configuration* config, ContextTracker* ht)
+DictionaryPredictor::DictionaryPredictor(Configuration* config, ContextTracker* ht, const char* name)
     : Predictor(config,
 	     ht,
-	     "DictionaryPredictor",
+	     name,
 	     "DictionaryPredictor, dictionary lookup",
 	     "DictionaryPredictor, a dictionary based predictor that generates a prediction by extracting tokens that start with the current prefix from a given dictionary"
 	     ),
       dispatcher (this)
 {
+    LOGGER      = PREDICTORS + name + ".LOGGER";
+    DICTIONARY  = PREDICTORS + name + ".DICTIONARY";
+    PROBABILITY = PREDICTORS + name + ".PROBABILITY";
+
     // build notification dispatch map
     dispatcher.map (config->find (LOGGER), & DictionaryPredictor::set_logger);
     dispatcher.map (config->find (DICTIONARY), & DictionaryPredictor::set_dictionary);

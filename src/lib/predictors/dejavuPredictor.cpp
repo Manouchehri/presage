@@ -25,10 +25,6 @@
 
 #include <algorithm>
 
-const char* DejavuPredictor::LOGGER = "Presage.Predictors.DejavuPredictor.LOGGER";
-const char* DejavuPredictor::MEMORY = "Presage.Predictors.DejavuPredictor.MEMORY";
-const char* DejavuPredictor::TRIGGER = "Presage.Predictors.DejavuPredictor.TRIGGER";
-
 /*
  * Implementation idea: predictor remembers previously entered text (by
  * storing it in a config defined file); when current token is found
@@ -37,15 +33,19 @@ const char* DejavuPredictor::TRIGGER = "Presage.Predictors.DejavuPredictor.TRIGG
  *
  */
 
-DejavuPredictor::DejavuPredictor(Configuration* config, ContextTracker* ct)
+DejavuPredictor::DejavuPredictor(Configuration* config, ContextTracker* ct, const char* name)
     : Predictor(config,
 		ct,
-		"DejavuPredictor",
+		name,
 		"DejavuPredictor, a parrot predictor",
 		"DejavuPredictor is a parrot predictor.\n"
 		"It always returns what it has heard before.\n"),
       dispatcher (this)
 {
+    LOGGER = PREDICTORS + name + ".LOGGER";
+    MEMORY = PREDICTORS + name + ".MEMORY";
+    TRIGGER = PREDICTORS + name + ".TRIGGER";
+
     // build notification dispatch map
     dispatcher.map (config->find (LOGGER), & DejavuPredictor::set_logger);
     dispatcher.map (config->find (MEMORY), & DejavuPredictor::set_memory);

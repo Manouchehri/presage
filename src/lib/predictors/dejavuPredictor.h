@@ -43,7 +43,7 @@
  */
 class DejavuPredictor : public Predictor, public Observer {
 public:
-    DejavuPredictor(Configuration*, ContextTracker*);
+    DejavuPredictor(Configuration*, ContextTracker*, const char*);
     ~DejavuPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;
@@ -64,9 +64,9 @@ private:
     void set_memory  (const std::string& filename);
     void set_trigger (const std::string& number);
 
-    static const char* LOGGER;
-    static const char* MEMORY;
-    static const char* TRIGGER;
+    std::string LOGGER;
+    std::string MEMORY;
+    std::string TRIGGER;
 
     std::string memory;
     int trigger;

@@ -47,6 +47,8 @@ private:
     PredictorRegistry* predictorRegistry;
 
     static const int SIZE;
+    static const char* NAME;
+    static const char* PREDICTOR;
     static const char* LOGGER;
     static const char* TRIGGER;
     static const char* MEMORY;

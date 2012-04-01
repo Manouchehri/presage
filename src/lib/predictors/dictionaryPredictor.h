@@ -39,7 +39,7 @@
  */
 class DictionaryPredictor : public Predictor, public Observer {
 public:
-    DictionaryPredictor(Configuration*, ContextTracker*);
+    DictionaryPredictor(Configuration*, ContextTracker*, const char*);
     ~DictionaryPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;
@@ -52,9 +52,9 @@ public:
     void set_probability (const std::string& value);
 
 private:
-    static const char* LOGGER;
-    static const char* DICTIONARY;
-    static const char* PROBABILITY;
+    std::string LOGGER;
+    std::string DICTIONARY;
+    std::string PROBABILITY;
 
     std::string dictionary_path;
     double probability;

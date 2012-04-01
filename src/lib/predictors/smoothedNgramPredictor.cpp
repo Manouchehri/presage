@@ -27,21 +27,22 @@
 #include <sstream>
 #include <algorithm>
 
-const char* SmoothedNgramPredictor::LOGGER     = "Presage.Predictors.SmoothedNgramPredictor.LOGGER";
-const char* SmoothedNgramPredictor::DBFILENAME = "Presage.Predictors.SmoothedNgramPredictor.DBFILENAME";
-const char* SmoothedNgramPredictor::DELTAS     = "Presage.Predictors.SmoothedNgramPredictor.DELTAS";
-const char* SmoothedNgramPredictor::LEARN      = "Presage.Predictors.SmoothedNgramPredictor.LEARN";
-const char* SmoothedNgramPredictor::DATABASE_LOGGER = "Presage.Predictors.SmoothedNgramPredictor.DatabaseConnector.LOGGER";
 
-SmoothedNgramPredictor::SmoothedNgramPredictor(Configuration* config, ContextTracker* ct)
+SmoothedNgramPredictor::SmoothedNgramPredictor(Configuration* config, ContextTracker* ct, const char* name)
     : Predictor(config,
 		ct,
-		"SmoothedNgramPredictor",
+		name,
 		"SmoothedNgramPredictor, a linear interpolating n-gram predictor",
 		"SmoothedNgramPredictor, long description." ),
       db (0),
       dispatcher (this)
 {
+    LOGGER     = PREDICTORS + name + ".LOGGER";
+    DBFILENAME = PREDICTORS + name + ".DBFILENAME";
+    DELTAS     = PREDICTORS + name + ".DELTAS";
+    LEARN      = PREDICTORS + name + ".LEARN";
+    DATABASE_LOGGER = PREDICTORS + name + ".DatabaseConnector.LOGGER";
+
     // build notification dispatch map
     dispatcher.map (config->find (LOGGER), & SmoothedNgramPredictor::set_logger);
     dispatcher.map (config->find (DATABASE_LOGGER), & SmoothedNgramPredictor::set_database_logger_level);

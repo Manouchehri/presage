@@ -1,3 +1,42 @@
+2012-03-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test/integration/integration.sh,
+	test/lib/core/predictorRegistryTest.cpp,
+	test/lib/predictors/dejavuPredictorTest.h,
+	test/lib/predictors/recencyPredictorTest.cpp,
+	test/lib/predictors/abbreviationExpansionPredictorTest.cpp,
+	test/lib/predictors/recencyPredictorTest.h,
+	test/lib/predictors/smoothedNgramPredictorTest.cpp,
+	test/lib/predictors/dejavuPredictorTest.cpp,
+	test/lib/predictors/newSmoothedNgramPredictorTest.cpp,
+	src/lib/core/defaultProfile.cpp,
+	src/lib/core/predictorRegistry.cpp, src/lib/core/defaultProfile.h,
+	src/lib/predictors/dejavuPredictor.h,
+	src/lib/predictors/ARPAPredictor.cpp,
+	src/lib/predictors/predictor.h,
+	src/lib/predictors/recencyPredictor.cpp,
+	src/lib/predictors/ARPAPredictor.h,
+	src/lib/predictors/abbreviationExpansionPredictor.cpp,
+	src/lib/predictors/dummyPredictor.cpp,
+	src/lib/predictors/recencyPredictor.h,
+	src/lib/predictors/abbreviationExpansionPredictor.h,
+	src/lib/predictors/dummyPredictor.h,
+	src/lib/predictors/dictionaryPredictor.cpp,
+	src/lib/predictors/smoothedNgramPredictor.cpp,
+	src/lib/predictors/dictionaryPredictor.h,
+	src/lib/predictors/smoothedNgramPredictor.h,
+	src/lib/predictors/dejavuPredictor.cpp,
+	src/lib/predictors/predictor.cpp,
+	resources/profiles/presage.xml.template: multiple instances of the
+	same predictor class can now be instantiated and enabled at
+	runtime through configuration.
+	Presage.PredictorRegistry.PREDICTORS controls which predictors are
+	enabled. Each predictor instance is defined as a child of
+	Presage.Predictors and has it own configuration. For example, the
+	additional flexibility allows one to enable several instances of a
+	SmoothedNgram predictors, each instance pointing at a different
+	language model.
+
 2012-03-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla 3.04

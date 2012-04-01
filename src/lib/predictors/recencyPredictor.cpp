@@ -26,20 +26,20 @@
 
 #include <math.h>  // for exp()
 
-// RecencyPredictor config variables
-const char* RecencyPredictor::LOGGER           = "Presage.Predictors.RecencyPredictor.LOGGER";
-const char* RecencyPredictor::LAMBDA           = "Presage.Predictors.RecencyPredictor.LAMBDA";
-const char* RecencyPredictor::N_0              = "Presage.Predictors.RecencyPredictor.N_0";
-const char* RecencyPredictor::CUTOFF_THRESHOLD = "Presage.Predictors.RecencyPredictor.CUTOFF_THRESHOLD";
-
-RecencyPredictor::RecencyPredictor(Configuration* config, ContextTracker* ct)
+RecencyPredictor::RecencyPredictor(Configuration* config, ContextTracker* ct, const char* name)
     : Predictor(config,
 		ct,
-		"RecencyPredictor",
+		name,
 		"RecencyPredictor, a statistical recency promotion predictor",
 		"RecencyPredictor, based on a recency promotion principle, generates predictions by assigning exponentially decaying probability values to previously encountered tokens. Tokens are assigned a probability value that decays exponentially with their distance from the current token, thereby promoting context recency." ),
       dispatcher (this)
 {
+    // RecencyPredictor config variables
+    LOGGER           = PREDICTORS + name + ".LOGGER";
+    LAMBDA           = PREDICTORS + name + ".LAMBDA";
+    N_0              = PREDICTORS + name + ".N_0";
+    CUTOFF_THRESHOLD = PREDICTORS + name + ".CUTOFF_THRESHOLD";
+
     // init default values
     lambda = 1;
     n_0 = 1;

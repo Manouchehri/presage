@@ -72,7 +72,7 @@ generate_config()
 #
 
     cp -f ${CONFIG_TEMPLATE} ${CONFIG}
-    replace_config_entry PREDICTORS SmoothedNgramPredictor
+    replace_config_entry PREDICTORS DefaultSmoothedNgramPredictor
     replace_config_entry DBFILENAME ${DATABASE}
     NGRAM_DELTAS=""
     COUNTER=1

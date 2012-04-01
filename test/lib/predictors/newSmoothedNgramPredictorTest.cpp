@@ -52,6 +52,7 @@ void NewSmoothedNgramPredictorTest::setUp()
     config->insert ("Presage.PredictorRegistry.LOGGER", "ERROR");
     config->insert ("Presage.PredictorRegistry.PREDICTORS", "SmoothedNgramPredictor");
     // set predictor config variables
+    config->insert ("Presage.Predictors.SmoothedNgramPredictor.PREDICTOR", "SmoothedNgramPredictor");
     config->insert ("Presage.Predictors.SmoothedNgramPredictor.LOGGER", "ALL");
     config->insert ("Presage.Predictors.SmoothedNgramPredictor.DELTAS", "0.001 0.01 0.889");
     config->insert ("Presage.Predictors.SmoothedNgramPredictor.DBFILENAME", DATABASE);

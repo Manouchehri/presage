@@ -44,7 +44,7 @@
  */
 class AbbreviationExpansionPredictor : public Predictor, public Observer {
 public:
-    AbbreviationExpansionPredictor(Configuration*, ContextTracker*);
+    AbbreviationExpansionPredictor(Configuration*, ContextTracker*, const char*);
     ~AbbreviationExpansionPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;
@@ -54,8 +54,8 @@ public:
     virtual void update (const Observable* variable);
 
 private:
-    static const char* LOGGER;
-    static const char* ABBREVIATIONS;
+    std::string LOGGER;
+    std::string ABBREVIATIONS;
 
     void set_abbreviations (const std::string& filename);
     void cacheAbbreviationsExpansions();

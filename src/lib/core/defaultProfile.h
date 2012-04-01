@@ -46,17 +46,6 @@ public:
     ~DefaultProfile();
 
     static const char*        DEFAULT_PROFILE_FILENAME;
-    static const std::string  DEFAULT_LOGGER_LEVEL;
-    static const int          DEFAULT_PREDICT_TIME;
-    static const int          DEFAULT_MAX_PARTIAL_PREDICTION_SIZE;
-    static const std::string  DEFAULT_COMBINATION_POLICY;
-    static const std::string  DEFAULT_PREDICTIVE_PREDICTORS;
-    static const int          DEFAULT_SLIDING_WINDOW_SIZE;
-    static const size_t       DEFAULT_SUGGESTIONS;
-    static const bool         DEFAULT_REPEAT_SUGGESTION;
-    static const size_t       DEFAULT_GREEDY_SUGGESTION_THRESHOLD;
-    static const std::string  DEFAULT_PREDICTORS;
-    static const char*        DEFAULT_AUTOPERSIST;
 
 private:
 

@@ -29,25 +29,25 @@
 #include <algorithm>
 #include <cmath>
 
-const char* ARPAPredictor::LOGGER     = "Presage.Predictors.ARPAPredictor.LOGGER";
-const char* ARPAPredictor::ARPAFILENAME = "Presage.Predictors.ARPAPredictor.ARPAFILENAME";
-const char* ARPAPredictor::VOCABFILENAME = "Presage.Predictors.ARPAPredictor.VOCABFILENAME";
-const char* ARPAPredictor::TIMEOUT = "Presage.Predictors.ARPAPredictor.TIMEOUT";
-
 
 #define OOV "<UNK>"
 
 
 
-ARPAPredictor::ARPAPredictor(Configuration* config, ContextTracker* ct)
+ARPAPredictor::ARPAPredictor(Configuration* config, ContextTracker* ct, const char* name)
     : Predictor(config,
 		ct,
-		"ARPAPredictor",
+		name,
 		"ARPAPredictor, a predictor relying on an ARPA language model",
 		"ARPAPredictor, long description."
 	),
       dispatcher (this)
 {
+    LOGGER     = PREDICTORS + name + ".LOGGER";
+    ARPAFILENAME = PREDICTORS + name + ".ARPAFILENAME";
+    VOCABFILENAME = PREDICTORS + name + ".VOCABFILENAME";
+    TIMEOUT = PREDICTORS + name + ".TIMEOUT";
+
     // build notification dispatch map
     dispatcher.map (config->find (LOGGER), & ARPAPredictor::set_logger);
     dispatcher.map (config->find (VOCABFILENAME), & ARPAPredictor::set_vocab_filename);

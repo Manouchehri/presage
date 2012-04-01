@@ -133,11 +133,12 @@ void SmoothedNgramPredictorTest::tearDown()
 Configuration* SmoothedNgramPredictorTest::prepareConfiguration(const char* config[]) const
 {
     Configuration* configuration = new Configuration();
-    configuration->insert ("Presage.Predictors.SmoothedNgramPredictor.LOGGER", "ERROR");
-    configuration->insert ("Presage.Predictors.SmoothedNgramPredictor.DELTAS", config[0]);
-    configuration->insert ("Presage.Predictors.SmoothedNgramPredictor.DBFILENAME", config[1]);
-    configuration->insert ("Presage.Predictors.SmoothedNgramPredictor.DatabaseConnector.LOGGER", "ERROR");
-    configuration->insert ("Presage.Predictors.SmoothedNgramPredictor.LEARN", "FALSE");
+    configuration->insert ("Presage.Predictors.TestSmoothedNgramPredictor.PREDICTOR", "TestSmoothedNgramPredictor");
+    configuration->insert ("Presage.Predictors.TestSmoothedNgramPredictor.LOGGER", "ERROR");
+    configuration->insert ("Presage.Predictors.TestSmoothedNgramPredictor.DELTAS", config[0]);
+    configuration->insert ("Presage.Predictors.TestSmoothedNgramPredictor.DBFILENAME", config[1]);
+    configuration->insert ("Presage.Predictors.TestSmoothedNgramPredictor.DatabaseConnector.LOGGER", "ERROR");
+    configuration->insert ("Presage.Predictors.TestSmoothedNgramPredictor.LEARN", "FALSE");
     
     return configuration;
 }
@@ -161,7 +162,7 @@ void SmoothedNgramPredictorTest::assertCorrectPrediction(const char** config,
 Predictor* SmoothedNgramPredictorTest::createPredictor(Configuration* config,
 						       ContextTracker* contextTracker) const
 {
-    return new SmoothedNgramPredictor(config, contextTracker);
+    return new SmoothedNgramPredictor(config, contextTracker, "TestSmoothedNgramPredictor");
 }
 
 void SmoothedNgramPredictorTest::testUnigramWeight()

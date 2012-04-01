@@ -27,18 +27,18 @@
 #include <fstream>
 
 
-const char* AbbreviationExpansionPredictor::LOGGER        = "Presage.Predictors.AbbreviationExpansionPredictor.LOGGER";
-const char* AbbreviationExpansionPredictor::ABBREVIATIONS = "Presage.Predictors.AbbreviationExpansionPredictor.ABBREVIATIONS";
-
-AbbreviationExpansionPredictor::AbbreviationExpansionPredictor(Configuration* config, ContextTracker* ct)
+AbbreviationExpansionPredictor::AbbreviationExpansionPredictor(Configuration* config, ContextTracker* ct, const char* name)
     : Predictor(config,
 		ct,
-		"AbbreviationExpansionPredictor",
+		name,
 		"AbbreviationExpansionPredictor, maps abbreviations to the corresponding fully expanded token.",
 		"AbbreviationExpansionPredictor maps abbreviations to the corresponding fully expanded token (i.e. word or phrase).\n\nThe mapping between abbreviations and expansions is stored in the file specified by the predictor configuration section.\n\nThe format for the abbreviation-expansion database is a simple tab separated text file format, with each abbreviation-expansion pair per line."
 	),
       dispatcher (this)
 {
+    LOGGER        = PREDICTORS + name + ".LOGGER";
+    ABBREVIATIONS = PREDICTORS + name + ".ABBREVIATIONS";
+
     // build notification dispatch map
     dispatcher.map (config->find (LOGGER), & AbbreviationExpansionPredictor::set_logger);
     dispatcher.map (config->find (ABBREVIATIONS), & AbbreviationExpansionPredictor::set_abbreviations);
@@ -53,7 +53,7 @@ AbbreviationExpansionPredictor::~AbbreviationExpansionPredictor()
 void AbbreviationExpansionPredictor::set_abbreviations (const std::string& filename)
 {
     abbreviations = filename;
-    logger << INFO << "ABBREVIATIONS:" << abbreviations << endl;
+    logger << INFO << "ABBREVIATIONS: " << abbreviations << endl;
 
     cacheAbbreviationsExpansions();
 }

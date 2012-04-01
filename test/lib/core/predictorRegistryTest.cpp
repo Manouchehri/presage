@@ -30,7 +30,11 @@ void PredictorRegistryTest::setUp()
 {
     config = new Configuration;
     config->insert ("Presage.PredictorRegistry.LOGGER", "ALL");
-    config->insert ("Presage.PredictorRegistry.PREDICTORS", "DummyPredictor DummyPredictor DummyPredictor DummyPredictor");
+    config->insert ("Presage.PredictorRegistry.PREDICTORS", "DummyPredictor1 DummyPredictor2 DummyPredictor3 DummyPredictor4");
+    config->insert ("Presage.Predictors.DummyPredictor1.PREDICTOR", "DummyPredictor");
+    config->insert ("Presage.Predictors.DummyPredictor2.PREDICTOR", "DummyPredictor");
+    config->insert ("Presage.Predictors.DummyPredictor3.PREDICTOR", "DummyPredictor");
+    config->insert ("Presage.Predictors.DummyPredictor4.PREDICTOR", "DummyPredictor");
 
     registry = new PredictorRegistry(config);
 }

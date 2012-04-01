@@ -46,7 +46,7 @@
  */
 class SmoothedNgramPredictor : public Predictor, public Observer {
 public:
-    SmoothedNgramPredictor(Configuration*, ContextTracker*);
+    SmoothedNgramPredictor(Configuration*, ContextTracker*, const char*);
     ~SmoothedNgramPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;
@@ -56,11 +56,11 @@ public:
     virtual void update (const Observable* variable);
 
 private:
-    static const char* LOGGER;
-    static const char* DBFILENAME;
-    static const char* DELTAS;
-    static const char* LEARN;
-    static const char* DATABASE_LOGGER;
+    std::string LOGGER;
+    std::string DBFILENAME;
+    std::string DELTAS;
+    std::string LEARN;
+    std::string DATABASE_LOGGER;
 
     unsigned int count(const std::vector<std::string>& tokens, int offset, int ngram_size) const;
     void check_learn_consistency(const Ngram& name) const;

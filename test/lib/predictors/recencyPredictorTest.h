@@ -48,6 +48,8 @@ private:
     ContextTracker* ct;
 
     static const int SIZE;
+    static const char* NAME;
+    static const char* PREDICTOR;
     static const char* LOGGER;
     static const char* LAMBDA;
     static const char* CUTOFF;

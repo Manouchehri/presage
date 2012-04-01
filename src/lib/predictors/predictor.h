@@ -74,6 +74,8 @@ protected:
     const std::string shortDescription; // predictor's descriptive name
     const std::string longDescription;  // predictor's exhaustive description
 
+    const std::string PREDICTORS;
+
     ContextTracker* contextTracker;
 
     Configuration* configuration;

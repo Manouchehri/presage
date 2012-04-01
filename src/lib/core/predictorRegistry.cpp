@@ -82,7 +82,7 @@ void PredictorRegistry::setPredictors(const std::string& predictorList)
         std::stringstream ss(predictors_list);
         std::string predictor;
 	while (ss >> predictor) {
-	    logger << INFO << "Initializing predictive predictor: " << predictor << endl;
+	    logger << INFO << "Initializing predictor: " << predictor << endl;
 	    addPredictor(predictor);
 	}
     }
@@ -90,39 +90,70 @@ void PredictorRegistry::setPredictors(const std::string& predictorList)
 
 void PredictorRegistry::addPredictor(const std::string& predictorName)
 {
-    Predictor* predictor = 0;
-    try {
-	// TODO: this will have to do for now, until a proper predictor
-	// framework (i.e. plump) is integrated into presage. Until
-	// then, all known predictors have to be listed here and explicitly
-	// created based on their name.
-	//
-	if (predictorName == "AbbreviationExpansionPredictor") {
-	    predictor = new AbbreviationExpansionPredictor(config, contextTracker);
-	} else if (predictorName == "DummyPredictor") {
-	    predictor = new DummyPredictor(config, contextTracker);
-	} else if (predictorName == "DictionaryPredictor" ) {
-	    predictor = new DictionaryPredictor(config, contextTracker);
-#ifdef USE_SQLITE
-	} else if (predictorName == "SmoothedNgramPredictor") {
-	    predictor = new SmoothedNgramPredictor(config, contextTracker);
-#endif
-	} else if (predictorName == "RecencyPredictor") {
-	    predictor = new RecencyPredictor(config, contextTracker);
-	} else if (predictorName == "DejavuPredictor") {
-	    predictor = new DejavuPredictor(config, contextTracker);
-	} else if (predictorName == "ARPAPredictor") {
-	      predictor = new ARPAPredictor(config,contextTracker);
+    Predictor*  predictor = 0;
+    const char* name = predictorName.c_str();
+    std::string predictor_class_variable_key = "Presage.Predictors." + predictorName + ".PREDICTOR";
+    Variable*   predictor_class_variable = 0;
+
+    // TODO: this will have to do for now, until a proper predictor
+    // framework (i.e. plump) is integrated into presage. Until then,
+    // all known predictors have to be listed here and explicitly
+    // created based on their name.
+    //
+
+    try
+    {
+	predictor_class_variable = config->find (predictor_class_variable_key);
+
+	std::string predictor_class = predictor_class_variable->get_value();
+
+	if (predictor_class == "AbbreviationExpansionPredictor")
+	{
+	    predictor = new AbbreviationExpansionPredictor(config, contextTracker, name);
 	}
-    } catch (PresageException ex) {
+	else if (predictor_class == "DummyPredictor") 
+	{
+	    predictor = new DummyPredictor(config, contextTracker, name);
+	}
+	else if (predictor_class == "DictionaryPredictor" )
+	{
+	    predictor = new DictionaryPredictor(config, contextTracker, name);
+#ifdef USE_SQLITE
+	}
+	else if (predictor_class == "SmoothedNgramPredictor") 
+	{
+	    predictor = new SmoothedNgramPredictor(config, contextTracker, name);
+#endif
+	}
+	else if (predictor_class == "RecencyPredictor") 
+	{
+	    predictor = new RecencyPredictor(config, contextTracker, name);
+	}
+	else if (predictor_class == "DejavuPredictor")
+	{
+	    predictor = new DejavuPredictor(config, contextTracker, name);
+	}
+	else if (predictor_class == "ARPAPredictor") 
+	{
+	    predictor = new ARPAPredictor(config, contextTracker, name);
+	}
+	else
+	{
+	    logger << ERROR <<  predictor_class_variable_key << " class is unknown." << endl;
+	}
+    }
+    catch (PresageException ex) 
+    {
 	logger << ERROR << "Predictor " + predictorName + " failed to initialize." << endl;
     }
 
-    if (predictor != 0) {
+    if (predictor != 0) 
+    {
 	predictors.push_back (predictor);
 	logger << INFO << "Activated predictive predictor: " << predictorName << endl;
-    } else {
-	// TODO: raise exception
+    }
+    else
+    {
 	logger << FATAL << "Unable to initialize predictor: " << predictorName << endl;
 	throw PredictorRegistryException(PRESAGE_INIT_PREDICTOR_ERROR, "Unable to initialize predictor: " + predictorName);
     }

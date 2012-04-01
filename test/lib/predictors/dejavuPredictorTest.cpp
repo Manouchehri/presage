@@ -32,9 +32,11 @@
 CPPUNIT_TEST_SUITE_REGISTRATION( DejavuPredictorTest );
 
 const int DejavuPredictorTest::SIZE = 20;
-const char* DejavuPredictorTest::LOGGER  = "Presage.Predictors.DejavuPredictor.LOGGER";
-const char* DejavuPredictorTest::TRIGGER = "Presage.Predictors.DejavuPredictor.TRIGGER";
-const char* DejavuPredictorTest::MEMORY  = "Presage.Predictors.DejavuPredictor.MEMORY";
+const char* DejavuPredictorTest::NAME       = "DejavuPredictor";
+const char* DejavuPredictorTest::PREDICTOR  = "Presage.Predictors.DejavuPredictor.PREDICTOR";
+const char* DejavuPredictorTest::LOGGER     = "Presage.Predictors.DejavuPredictor.LOGGER";
+const char* DejavuPredictorTest::TRIGGER    = "Presage.Predictors.DejavuPredictor.TRIGGER";
+const char* DejavuPredictorTest::MEMORY     = "Presage.Predictors.DejavuPredictor.MEMORY";
 const char* DejavuPredictorTest::MEMORY_FILENAME = "memory.txt";
 
 void DejavuPredictorTest::setUp()
@@ -47,9 +49,10 @@ void DejavuPredictorTest::setUp()
     config->insert ("Presage.PredictorRegistry.LOGGER", "ERROR");
     config->insert ("Presage.PredictorRegistry.PREDICTORS", "DejavuPredictor");
     // set dejavu predictor config variables
-    config->insert (LOGGER,  "ALL");
+    config->insert (PREDICTOR, NAME);
+    config->insert (LOGGER, "ALL");
     config->insert (TRIGGER, "3");
-    config->insert (MEMORY,  MEMORY_FILENAME);
+    config->insert (MEMORY, MEMORY_FILENAME);
 
     predictorRegistry = new PredictorRegistry(config);
     stream = new std::stringstream();

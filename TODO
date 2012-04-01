@@ -53,17 +53,17 @@ Architectural restructure:
   between ContextTracker and Predictor would disappear, being
   substituted by a single dependency on Registry and the introduction
   of a new Learner class (name still to decide).
- 
+
   The registry should eventually just be a simple wrapper around
   plump.
 
 
 Short term:
- - Consider removing the following public methods from Variable
+* Consider removing the following public methods from Variable
    interface:
    . Variable(const std::vector<std::string>& variable);
    . size_t size() const;
- - pluginManagerDriver, pluginManager are currently not necessary, as
+* pluginManagerDriver, pluginManager are currently not necessary, as
    dynamic plug-in loading is disabled. This functionality will
    eventually be reinstated and supplied by the plump project.
    files:
@@ -92,7 +92,7 @@ Short term:
 
 Medium term:
 * fix character codes
-* overhaul of presage architecture and integration of the plump framework
+* integration of the plump framework
 
 Long term:
 * use timer alarm to implement threaded plugins controller

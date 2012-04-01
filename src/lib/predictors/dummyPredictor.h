@@ -33,7 +33,7 @@
  */
 class DummyPredictor : public Predictor {
 public:
-    DummyPredictor(Configuration*, ContextTracker*);
+    DummyPredictor(Configuration*, ContextTracker*, const char*);
     ~DummyPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;

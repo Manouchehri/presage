@@ -63,7 +63,7 @@
  */
 class RecencyPredictor : public Predictor, public Observer {
 public:
-    RecencyPredictor(Configuration*, ContextTracker*);
+    RecencyPredictor(Configuration*, ContextTracker*, const char*);
     ~RecencyPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;
@@ -77,10 +77,10 @@ private:
     void set_n_0              (const std::string& value);
     void set_cutoff_threshold (const std::string& value);
 
-    static const char* LOGGER;
-    static const char* LAMBDA;
-    static const char* N_0;
-    static const char* CUTOFF_THRESHOLD;
+    std::string LOGGER;
+    std::string LAMBDA;
+    std::string N_0;
+    std::string CUTOFF_THRESHOLD;
     
     double lambda;
     double n_0;

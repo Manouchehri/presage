@@ -112,7 +112,7 @@ class BigramKey
 class ARPAPredictor : public Predictor, public Observer {
 
 public:
-    ARPAPredictor(Configuration*, ContextTracker*);
+    ARPAPredictor(Configuration*, ContextTracker*, const char*);
     ~ARPAPredictor();
 
     virtual Prediction predict(const size_t size, const char** filter) const;
@@ -126,10 +126,10 @@ public:
     void set_timeout (const std::string& value);
 
 private:
-    static const char* LOGGER;
-    static const char* ARPAFILENAME;
-    static const char* VOCABFILENAME;
-    static const char* TIMEOUT;
+    std::string LOGGER;
+    std::string ARPAFILENAME;
+    std::string VOCABFILENAME;
+    std::string TIMEOUT;
 
     std::string arpaFilename;
     std::string vocabFilename;
