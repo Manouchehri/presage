@@ -447,11 +447,10 @@ void SqliteDatabaseConnectorTest::assertExistsAndRemoveFile(const char* filename
     // remove file if it exists
     if (result) {
         result = unlink(filename);
-        assert(result == 0);
     }
 #else
     // fail test
-    std::string message = "Unable to remove database file ";
+    std::string message = "Unable to remove file: ";
     message += filename;
     CPPUNIT_FAIL( message.c_str() );
     //exit(-1);
@@ -467,10 +466,11 @@ void SqliteDatabaseConnectorTest::assertDatabaseDumpEqualsBenchmark(std::strings
 #elif defined(HAVE_SQLITE_H)
 	static_cast<std::string>("sqlite ")
 #endif
-        + DEFAULT_DATABASE_FILENAME + " '.dump' > " + DATABASE_DUMP;
+        + DEFAULT_DATABASE_FILENAME + " \".dump\" > " + DATABASE_DUMP;
 
-    int result = system(command.c_str());
-    CPPUNIT_ASSERT(result == 0);
+    std::cout << "Executing `" << command << "'" << std::endl;
+    int command_exit_value = system(command.c_str());
+    CPPUNIT_ASSERT(command_exit_value == 0);
 
     std::ifstream database_dump_stream(DATABASE_DUMP);
 
@@ -504,8 +504,8 @@ void SqliteDatabaseConnectorTest::assertDatabaseDumpEqualsBenchmark(std::strings
     std::string actual;
     std::string expected;
     bool        equal = true;;
-    while (getline(stripped_database_dump_stream, actual)
-	   && getline(benchmark, expected)) {
+    while (getline(benchmark, expected)
+	   && getline(stripped_database_dump_stream, actual)) {
         // remove " and ' from strings, because different versions of
         // sqlite insert either double quotes or single quotes or no
         // quotes at all.
@@ -521,7 +521,8 @@ void SqliteDatabaseConnectorTest::assertDatabaseDumpEqualsBenchmark(std::strings
 	
 	equal = (expected == actual);
 	    //if (!equal)
-	std::cout << "[expected} " << expected << " [actual] " << actual << std::endl;
+	std::cout << "[expected] " << expected << std::endl
+		  << "[actual  ] " << actual << std::endl;
 	CPPUNIT_ASSERT(equal);
     }
 

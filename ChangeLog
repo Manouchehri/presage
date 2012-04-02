@@ -1,3 +1,10 @@
+2012-04-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/tinyxml/*: upgraded to TinyXML 2.6.2.
+
+	* test\lib\predictors\dbconnector\sqliteDatabaseConnectorTest.cpp:
+	fixed test failure on MinGW/MSYS.
+
 2012-03-31  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test/integration/integration.sh,
