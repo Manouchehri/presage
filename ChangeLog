@@ -1,3 +1,9 @@
+2012-04-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* test\lib\predictors\dbconnector\sqliteDatabaseConnectorTest.cpp:
+	close database.dump file before attempting to unlink from
+	filesystem (failed on MinGW/MSYS).
+
 2012-04-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/tinyxml/*: upgraded to TinyXML 2.6.2.

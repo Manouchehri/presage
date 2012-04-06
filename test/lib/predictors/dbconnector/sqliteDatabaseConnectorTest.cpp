@@ -418,6 +418,9 @@ void SqliteDatabaseConnectorTest::assertEqualNgramTable(const NgramTable* const 
 
 void SqliteDatabaseConnectorTest::assertExistsAndRemoveFile(const char* filename) const
 {
+  std::cerr << "SqliteDatabaseConnectorTest::assertExistsAndRemoveFile ("
+	    << filename << ")" << std::endl;
+
 #ifdef HAVE_DIRENT_H
     bool result = false;
     DIR* dp;
@@ -446,7 +449,9 @@ void SqliteDatabaseConnectorTest::assertExistsAndRemoveFile(const char* filename
 #ifdef HAVE_UNISTD_H
     // remove file if it exists
     if (result) {
-        result = unlink(filename);
+        if (unlink(filename)) {
+            perror ("Unable to remove file");
+        }
     }
 #else
     // fail test
@@ -499,6 +504,8 @@ void SqliteDatabaseConnectorTest::assertDatabaseDumpEqualsBenchmark(std::strings
             stripped_database_dump_stream << buffer << std::endl;
         }
     }
+
+    database_dump_stream.close();
 
     // assert streams contain same characters
     std::string actual;
