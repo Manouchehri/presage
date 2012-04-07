@@ -91,3 +91,28 @@ void Predictor::set_logger (const std::string& level)
     logger << INFO << "LOGGER: " << level << endl;
 }
 
+
+bool Predictor::token_satisfies_filter (const std::string& token,
+					const std::string& prefix,
+					const char** filter) const
+{
+    bool result = false;
+
+    if (filter) {
+	// filter is not empty, examine each filter token
+	int i = 0;
+	while (filter[i] && !result) {
+	    std::string candidate = prefix + filter[i];
+
+	    // if token starts with candidate
+	    if (token.find (candidate) == 0) {
+		result = true;
+	    }
+	}
+    } else {
+	// filter is empty, token matches
+	result = true;
+    }
+
+    return result;
+}

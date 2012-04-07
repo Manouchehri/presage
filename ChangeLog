@@ -1,3 +1,14 @@
+2012-04-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/abbreviationExpansionPredictor.cpp,
+	src/lib/predictors/abbreviationExpansionPredictor.h,
+	src/lib/predictors/predictor.cpp, src/lib/predictors/predictor.h,
+	src/lib/predictors/recencyPredictor.cpp,
+	src/lib/predictors/recencyPredictor.h: add support for filters to
+	predictors.
+
+	* src/lib/presage.h: fixed comments.
+
 2012-04-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test\lib\predictors\dbconnector\sqliteDatabaseConnectorTest.cpp:

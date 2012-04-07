@@ -138,32 +138,25 @@ public:
      */
     ~Presage();
 
-    /** \brief Obtain a prediction, and notify presage of newly
-     *         entered text (if any, else empty string).
+    /** \brief Obtain a prediction.
      *
-     * This method notifies presage that new text was entered by
-     * the user and requests that presage generates a prediction
-     * based on the newly updated context.
+     * This method requests that presage generates a prediction based
+     * on the current context.
      *
-     * It is possible to invoke this method passing an empty string as
-     * argument, in cases where no text was entered by the user since
-     * the previous invocation.
-     *
-     * This method returns a prediction based on the current
-     * context. The prediction is a std::vector of std::string's.
-     *
-     * \return prediction
+     * \return prediction (vector of strings) based on the current
+     * context.
      *
      */
     std::vector<std::string> predict() throw (PresageException);
 
-    /** \brief Obtains a prediction that matches the supplied token
+    /** \brief Obtain a prediction that matches the supplied token
      *         filter.
      *
      * \param filter a vector of strings to use to filter the
      * prediction for desired tokens.  I.e. If the current prefix is
      * "gr" and the filter is ["ea", "an"], then only words starting
-     * with "grea" or "gran" such as "great" or "grand"
+     * with "grea" or "gran" such as "great" or "grand" will be
+     * returned in the prediction.
      *
      * \return prediction containing only tokens that begin with one
      * of the filter tokens.

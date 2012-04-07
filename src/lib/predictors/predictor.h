@@ -66,10 +66,14 @@ public:
     const std::string getShortDescription() const;
     const std::string getLongDescription() const;
 
-    virtual void set_logger (const std::string& level);
-
 
 protected:
+    virtual bool token_satisfies_filter (const std::string& token,
+					 const std::string& prefix,
+					 const char** filter) const;
+
+    virtual void set_logger (const std::string& level);
+
     const std::string name;
     const std::string shortDescription; // predictor's descriptive name
     const std::string longDescription;  // predictor's exhaustive description

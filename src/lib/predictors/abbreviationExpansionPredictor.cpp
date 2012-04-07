@@ -63,15 +63,14 @@ Prediction AbbreviationExpansionPredictor::predict(const size_t max_partial_pred
 {
     Prediction result;
 
-    std::map< std::string, std::string >::const_iterator it = 
-        cache.find(contextTracker->getPrefix());
+    std::string prefix = contextTracker->getPrefix();
 
-    if (it != cache.end()){
-        //result.addSuggestion(Suggestion(it->second, 1.0));
+    std::map< std::string, std::string >::const_iterator it = cache.find(prefix);
 
+    if (it != cache.end()) {
         // prepend expansion with enough backspaces to erase
         // abbreviation
-        std::string expansion(contextTracker->getPrefix().size(), '\b');
+        std::string expansion(prefix.size(), '\b');
 
         // concatenate actual expansion
         expansion += it->second;
@@ -79,14 +78,16 @@ Prediction AbbreviationExpansionPredictor::predict(const size_t max_partial_pred
         result.addSuggestion(Suggestion(expansion, 1.0));
 
     } else {
-        logger << NOTICE << "Could not find expansion for abbreviation: " << contextTracker->getPrefix() << endl;
+        logger << NOTICE << "Could not find expansion for abbreviation: " << prefix << endl;
     }
 
     return result;
 }
 
-void AbbreviationExpansionPredictor::learn(const std::vector<std::string>& change)
-{}
+void AbbreviationExpansionPredictor::learn (const std::vector<std::string>& change)
+{
+    // intentionally empty
+}
 
 void AbbreviationExpansionPredictor::cacheAbbreviationsExpansions()
 {
@@ -127,4 +128,3 @@ void AbbreviationExpansionPredictor::update (const Observable* var)
     logger << DEBUG << "About to invoke dispatcher: " << var->get_name () << " - " << var->get_value() << endl;
     dispatcher.dispatch (var);
 }
-

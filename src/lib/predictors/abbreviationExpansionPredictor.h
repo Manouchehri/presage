@@ -59,7 +59,7 @@ private:
 
     void set_abbreviations (const std::string& filename);
     void cacheAbbreviationsExpansions();
-    
+
     std::string abbreviations;
     std::map< std::string, std::string> cache;
 

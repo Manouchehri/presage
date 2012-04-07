@@ -76,7 +76,7 @@ void RecencyPredictor::set_cutoff_threshold (const std::string& value)
 }
 
 
-Prediction RecencyPredictor::predict(const size_t max, const char** filter) const
+Prediction RecencyPredictor::predict (const size_t max, const char** filter) const
 {
     Prediction result;
 
@@ -101,14 +101,18 @@ Prediction RecencyPredictor::predict(const size_t max, const char** filter) cons
 	    logger << INFO << "token: " << token << endl;
 
             if (token.find(prefix) == 0) { // if token starts with prefix
-		// compute probability according to exponential decay
-		// formula
-		//
-		prob = n_0 * exp(-(lambda * (index - 1)));
-		logger << INFO << "probability: " << prob << endl;
-                suggestion.setWord(token);
-                suggestion.setProbability(prob);
-                result.addSuggestion(suggestion);
+
+		if (token_satisfies_filter (token, prefix, filter)) {
+		    // compute probability according to exponential decay
+		    // formula
+		    //
+		    prob = n_0 * exp(-(lambda * (index - 1)));
+		    logger << INFO << "probability: " << prob << endl;
+		    suggestion.setWord(token);
+		    suggestion.setProbability(prob);
+		    result.addSuggestion(suggestion);
+		}
+
             }
 
             index++;

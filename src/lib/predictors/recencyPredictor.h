@@ -63,12 +63,12 @@
  */
 class RecencyPredictor : public Predictor, public Observer {
 public:
-    RecencyPredictor(Configuration*, ContextTracker*, const char*);
+    RecencyPredictor (Configuration*, ContextTracker*, const char*);
     ~RecencyPredictor();
 
-    virtual Prediction predict(const size_t size, const char** filter) const;
+    virtual Prediction predict (const size_t size, const char** filter) const;
 
-    virtual void learn(const std::vector<std::string>& change);
+    virtual void learn (const std::vector<std::string>& change);
 
     virtual void update (const Observable* variable);
 
