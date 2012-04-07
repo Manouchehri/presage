@@ -4,8 +4,10 @@
 	src/lib/predictors/abbreviationExpansionPredictor.h,
 	src/lib/predictors/predictor.cpp, src/lib/predictors/predictor.h,
 	src/lib/predictors/recencyPredictor.cpp,
-	src/lib/predictors/recencyPredictor.h: add support for filters to
-	predictors.
+	src/lib/predictors/recencyPredictor.h,
+	test/lib/predictors/recencyPredictorTest.cpp,
+	test/lib/predictors/recencyPredictorTest.h : add support for
+	filters to predictors.
 
 	* src/lib/presage.h: fixed comments.
 

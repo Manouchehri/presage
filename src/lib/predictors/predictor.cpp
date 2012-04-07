@@ -108,6 +108,8 @@ bool Predictor::token_satisfies_filter (const std::string& token,
 	    if (token.find (candidate) == 0) {
 		result = true;
 	    }
+
+	    i++;
 	}
     } else {
 	// filter is empty, token matches

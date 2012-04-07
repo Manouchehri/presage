@@ -136,3 +136,51 @@ void RecencyPredictorTest::testCutoffThreshold()
     }
 
 }
+void RecencyPredictorTest::testFilter()
+{
+    std::cerr << "RecencyPredictorTest::testFilter()" << std::endl;
+
+    *stream << "foo bar foobar baz f";
+
+    {
+	const char* filter[] = {"oob", 0};
+
+	Prediction expected;
+	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
+
+	RecencyPredictor predictor(config, ct, NAME);
+	CPPUNIT_ASSERT_EQUAL(expected, predictor.predict(SIZE, filter));
+    }
+
+    {
+	const char* filter[] = {"oo", 0};
+
+	Prediction expected;
+	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
+	expected.addSuggestion(Suggestion("foo",    1.0 * exp(-1.0 * 3))); // skip bar, foo is fourth token (offset 3)
+
+	RecencyPredictor predictor(config, ct, NAME);
+	CPPUNIT_ASSERT_EQUAL(expected, predictor.predict(SIZE, filter));
+    }
+
+    {
+	const char* filter[] = {"ar", 0};
+
+	Prediction expected;
+
+	RecencyPredictor predictor(config, ct, NAME);
+	CPPUNIT_ASSERT_EQUAL(expected, predictor.predict(SIZE, filter));
+    }
+
+    {
+	const char** filter = 0;
+
+	Prediction expected;
+	expected.addSuggestion(Suggestion("foobar", 1.0 * exp(-1.0 * 1))); // foobar is second token (offset 1)
+	expected.addSuggestion(Suggestion("foo",    1.0 * exp(-1.0 * 3))); // skip bar, foo is fourth token (offset 3)
+
+	RecencyPredictor predictor(config, ct, NAME);
+	CPPUNIT_ASSERT_EQUAL(expected, predictor.predict(SIZE, filter));
+    }
+
+}

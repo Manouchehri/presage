@@ -39,6 +39,7 @@ public:
     
     void testMaxPartialPredictionSize();
     void testCutoffThreshold();
+    void testFilter();
 
 private:
     Configuration*  config;
@@ -58,6 +59,7 @@ private:
     CPPUNIT_TEST_SUITE( RecencyPredictorTest );
     CPPUNIT_TEST( testMaxPartialPredictionSize );
     CPPUNIT_TEST( testCutoffThreshold );
+    CPPUNIT_TEST( testFilter );
     CPPUNIT_TEST_SUITE_END();
 };
 
