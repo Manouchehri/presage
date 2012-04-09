@@ -6,19 +6,15 @@ The Presage project
 TODO list
 ---------
 
+First:
+ - make predictive plugins support filters and write related tests
+
 GUI apps:
 * gprompter
 ** gray in and out redo and undo menu items
 ** toolbar icon size
 ** autocomp max height
 ** would be nice to have status bar with KSR rate
-
-Absolute first:
- - make predictive plugins support filters and write related tests
- - implement logger level inheritance from parent module
- - SqliteDatabaseConnector callback: had to disable logging there because
-   static method, investigate on how it can be re-enabled
- - test performance with different n values in n-gram
 
 Architectural restructure: 
 - selector
@@ -59,6 +55,11 @@ Architectural restructure:
 
 
 Short term:
+* Logger
+ - implement logger level inheritance from parent module
+ - SqliteDatabaseConnector callback: had to disable logging there because
+   static method, investigate on how it can be re-enabled
+* test performance with different n values in n-gram
 * Consider removing the following public methods from Variable
    interface:
    . Variable(const std::vector<std::string>& variable);

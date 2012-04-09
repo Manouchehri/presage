@@ -1,3 +1,11 @@
+2012-04-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/profiles/presage.xml.template,
+	src/lib/core/predictorRegistry.cpp,
+	src/lib/predictors/dictionaryPredictor.cpp,
+	src/lib/predictors/dictionaryPredictor.h: add support for filters
+	to dictionary predictor.
+
 2012-04-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/predictors/abbreviationExpansionPredictor.cpp,

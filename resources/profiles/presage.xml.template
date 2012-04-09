@@ -81,6 +81,7 @@
         </DefaultRecencyPredictor>
         <DefaultDictionaryPredictor>
             <PREDICTOR>DictionaryPredictor</PREDICTOR>
+            <LOGGER>ERROR</LOGGER>
             <DICTIONARY>/usr/share/dict/words</DICTIONARY>
             <!-- fixed probability assigned to prediction -->
             <PROBABILITY>0.000001</PROBABILITY>

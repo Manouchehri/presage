@@ -39,12 +39,12 @@
  */
 class DictionaryPredictor : public Predictor, public Observer {
 public:
-    DictionaryPredictor(Configuration*, ContextTracker*, const char*);
+    DictionaryPredictor (Configuration*, ContextTracker*, const char*);
     ~DictionaryPredictor();
 
-    virtual Prediction predict(const size_t size, const char** filter) const;
+    virtual Prediction predict (const size_t size, const char** filter) const;
 
-    virtual void learn(const std::vector<std::string>& change);
+    virtual void learn (const std::vector<std::string>& change);
 
     virtual void update (const Observable* variable);
 

@@ -144,7 +144,8 @@ void PredictorRegistry::addPredictor(const std::string& predictorName)
     }
     catch (PresageException ex) 
     {
-	logger << ERROR << "Predictor " + predictorName + " failed to initialize." << endl;
+	logger << ERROR << ex.what() << endl
+	       << ERROR << "Predictor " + predictorName + " failed to initialize." << endl;
     }
 
     if (predictor != 0) 
