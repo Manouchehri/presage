@@ -19,7 +19,8 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
                                                                              *
-									     **********(*)*/
+                                                                **********(*)*/
+
 
 #include "dejavuPredictor.h"
 
@@ -35,11 +36,11 @@
 
 DejavuPredictor::DejavuPredictor(Configuration* config, ContextTracker* ct, const char* name)
     : Predictor(config,
-		ct,
-		name,
-		"DejavuPredictor, a parrot predictor",
-		"DejavuPredictor is a parrot predictor.\n"
-		"It always returns what it has heard before.\n"),
+                ct,
+                name,
+                "DejavuPredictor, a parrot predictor",
+                "DejavuPredictor is a parrot predictor.\n"
+                "It always returns what it has heard before.\n"),
       dispatcher (this)
 {
     LOGGER = PREDICTORS + name + ".LOGGER";
@@ -75,35 +76,38 @@ Prediction DejavuPredictor::predict(const size_t max_partial_predictions_size, c
     
     std::ifstream memory_file(memory.c_str());
     if (!memory_file) {
-	logger << ERROR << "Error opening memory file: " << memory << endl;
+        logger << ERROR << "Error opening memory file: " << memory << endl;
     } else {
-	if (init_memory_trigger(memory_trigger)) {
-	    logger << INFO << "Memory trigger init'ed" << endl;
+        if (init_memory_trigger(memory_trigger)) {
+            logger << INFO << "Memory trigger init'ed" << endl;
 
-	    std::list<std::string> rolling_window;
-	    if (init_rolling_window(rolling_window, memory_file)) {
-		logger << INFO << "Rolling window init'ed" << endl;
+            std::list<std::string> rolling_window;
+            if (init_rolling_window(rolling_window, memory_file)) {
+                logger << INFO << "Rolling window init'ed" << endl;
 
-		std::string token;
-		while (memory_file >> token) {
-		    logger << INFO << "Considering token: " << token << endl;
+                std::string token;
+                while (memory_file >> token) {
+                    logger << INFO << "Analyzing token: " << token << endl;
 
-		    if (match(memory_trigger, rolling_window)) {
-			logger << INFO << "Adding suggestion: " << token << endl;
-			result.addSuggestion(Suggestion(token, 1.0));
-		    }
+                    if (match(memory_trigger, rolling_window)) {
+                        logger << INFO << "Token triggered memory: " << token << endl;
+                        if (token_satisfies_filter (token, contextTracker->getPrefix(), filter)) {
+                            logger << INFO << "Adding suggestion: " << token << endl;
+                            result.addSuggestion(Suggestion(token, 1.0));
+                        }
+                    }
 
-		    update_rolling_window(rolling_window, token);
-		}
+                    update_rolling_window(rolling_window, token);
+                }
 
-	    } else {
-		logger << INFO << "Rolling window initialized unsuccessful" << endl;
-	    }
-	} else {
-	    logger << INFO << "Memory trigger initialized unsuccessful" << endl;
-	}
+            } else {
+                logger << INFO << "Rolling window initialization failed." << endl;
+            }
+        } else {
+            logger << INFO << "Memory trigger initialization failed." << endl;
+        }
 
-	memory_file.close();
+        memory_file.close();
     }
 
     return result;
@@ -113,18 +117,18 @@ void DejavuPredictor::learn(const std::vector<std::string>& change)
 {
     // loop through all tokens in change vector
     for (std::vector<std::string>::const_iterator it = change.begin();
-	 it != change.end();
-	 it++)
+         it != change.end();
+         it++)
     {
-	std::string new_token = *it;
-	logger << INFO << "Committing new token to memory: " << new_token << endl;
-	std::ofstream memory_file(memory.c_str(), std::ios::app);
-	if (!memory_file) {
-	    logger << ERROR << "Error opening memory file: " << memory << endl;
-	} else {
-	    memory_file << new_token << std::endl;
-	    memory_file.close();
-	}
+        std::string new_token = *it;
+        logger << INFO << "Committing new token to memory: " << new_token << endl;
+        std::ofstream memory_file(memory.c_str(), std::ios::app);
+        if (!memory_file) {
+            logger << ERROR << "Error opening memory file: " << memory << endl;
+        } else {
+            memory_file << new_token << std::endl;
+            memory_file.close();
+        }
     }
 }
 
@@ -154,14 +158,14 @@ bool DejavuPredictor::init_memory_trigger(std::list<std::string>& memory_trigger
     // fill up the token window list that contains the tokens that
     // will trigger a recollection
     for (int i = trigger; i > 0; i--) {
-	logger << INFO << "Memory trigger list: " << contextTracker->getToken(i) << endl;
-	memory_trigger.push_back(contextTracker->getToken(i));
+        logger << INFO << "Memory trigger list: " << contextTracker->getToken(i) << endl;
+        memory_trigger.push_back(contextTracker->getToken(i));
     }
 
     // check that the current context is rich enough to trigger a
     // recollection
     if (memory_trigger.end() == find(memory_trigger.begin(), memory_trigger.end(), "")) {
-	result = true;
+        result = true;
     }
 
     logger << INFO << "Memory trigger valid: " << result << endl;
@@ -184,9 +188,9 @@ bool DejavuPredictor::init_rolling_window(std::list<std::string>& rolling_window
     // other words, a token will not be read from file if count is not
     // less than trigger.
     while (count < trigger && memory_file >> token) {
-	logger << INFO << "Rolling window list: " << token << endl;
-	rolling_window.push_back(token);
-	count++;
+        logger << INFO << "Rolling window list: " << token << endl;
+        rolling_window.push_back(token);
+        count++;
     }
 
     return (count == trigger);

@@ -82,77 +82,110 @@ void DejavuPredictorTest::testPredict()
     Predictor* predictor = predictorRegistry->iterator().next();
     
     {
-	*stream << "polly ";
-	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
-	ct->update();
+        *stream << "polly ";
+        Prediction expected;
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
+        ct->update();
     }
 
     {
-	*stream << "wants ";
-	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
-	ct->update();
+        *stream << "wants ";
+        Prediction expected;
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
+        ct->update();
     }
 
     {
-	*stream << "a ";
-	Prediction expected;
-	expected.addSuggestion(Suggestion("cracker", 1.0));
-	CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
-	ct->update();
+        *stream << "a ";
+        Prediction expected;
+        expected.addSuggestion(Suggestion("cracker", 1.0));
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
+        ct->update();
     }
 
     *stream << "soda ";
     ct->update();
 
     {
-	*stream << "polly ";
-	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
-	ct->update();
+        *stream << "polly ";
+        Prediction expected;
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
+        ct->update();
     }
 
     {
-	*stream << "wants ";
-	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
-	ct->update();
+        *stream << "wants ";
+        Prediction expected;
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
+        ct->update();
     }
 
     {
-	*stream << "a ";
-	Prediction expected;
-	expected.addSuggestion(Suggestion("cracker", 1.0));
-	expected.addSuggestion(Suggestion("soda",    1.0));
-	CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
-	ct->update();
+        *stream << "a ";
+        Prediction expected;
+        expected.addSuggestion(Suggestion("cracker", 1.0));
+        expected.addSuggestion(Suggestion("soda",    1.0));
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
+        ct->update();
     }
 
     *stream << "cake ";
     ct->update();
 
     {
-	*stream << "polly ";
-	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
-	ct->update();
+        *stream << "polly ";
+        Prediction expected;
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
+        ct->update();
     }
 
     {
-	*stream << "wants ";
-	Prediction expected;
-	CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
-	ct->update();
+        *stream << "wants ";
+        Prediction expected;
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
+        ct->update();
     }
 
     {
-	*stream << "a ";
-	Prediction expected;
-	expected.addSuggestion(Suggestion("cake",    1.0));
-	expected.addSuggestion(Suggestion("cracker", 1.0));
-	expected.addSuggestion(Suggestion("soda",    1.0));
-	CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
-	ct->update();
+        *stream << "a ";
+        Prediction expected;
+        expected.addSuggestion(Suggestion("cake",    1.0));
+        expected.addSuggestion(Suggestion("cracker", 1.0));
+        expected.addSuggestion(Suggestion("soda",    1.0));
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, 0));
+        ct->update();
     }
+
+    *stream << "crumble ";
+    ct->update();
+
+    {
+        // test filter
+        const char* filter[] = { "cra", "so", 0 };
+
+        *stream << "polly wants a ";
+        Prediction expected;
+        expected.addSuggestion(Suggestion("cracker",    1.0));
+        expected.addSuggestion(Suggestion("soda",    1.0));
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, filter));
+        ct->update();
+    }
+
+    *stream << "break ";
+    ct->update();
+
+    {
+        // test filter
+        const char* filter[] = { "r", 0 };
+
+        *stream << "polly wants a c";
+        Prediction expected;
+        expected.addSuggestion(Suggestion("cracker",    1.0));
+        expected.addSuggestion(Suggestion("crumble",    1.0));
+        CPPUNIT_ASSERT_EQUAL(expected, predictor->predict(SIZE, filter));
+        ct->update();
+    }
+
+    *stream << "uddle ";
+    ct->update();
 }
