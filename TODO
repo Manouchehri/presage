@@ -6,10 +6,9 @@ The Presage project
 TODO list
 ---------
 
-First:
- - make predictive plugins support filters and write related tests
-
 GUI apps:
+* qprompter
+** integrate into build system
 * gprompter
 ** gray in and out redo and undo menu items
 ** toolbar icon size
@@ -64,23 +63,17 @@ Short term:
    interface:
    . Variable(const std::vector<std::string>& variable);
    . size_t size() const;
-* pluginManagerDriver, pluginManager are currently not necessary, as
-   dynamic plug-in loading is disabled. This functionality will
-   eventually be reinstated and supplied by the plump project.
-   files:
-      src/core/pluginManager.h
-      src/core/pluginManager.cpp
-      test/core/pluginManagerDriver.cpp
-   should be taken care of as part of plump integration
+* consider removing src/tools/ngram.* code
 * add proper unicode support
-* enable dictionary plugin by default (dictionary file?)
+* determine whether to enable dictionary plugin by default
+   (dictionary file?)
 * rewrite strtoupper and strtolower utility functions to use a pointer
    to function to do the individual char conversion
 * add ContextTracker tests for control chars
 * put everything inside the presage namespace
 * write more integration tests
 * write Combiner implementations (various combination strategies)
-* add more tests to increase coverage
+* add more tests, increase test coverage
 * bug: validate string passed to sql_exec query function, unsanitized
    string can cause security problems
 * implement activation map predictive plugin
@@ -96,7 +89,7 @@ Medium term:
 * integration of the plump framework
 
 Long term:
-* use timer alarm to implement threaded plugins controller
+* use timer alarm to implement threaded predictor activator
 * improve exceptions handling
 * add more predictive plugins
 
