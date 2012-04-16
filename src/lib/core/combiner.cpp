@@ -37,6 +37,21 @@ Combiner::~Combiner()
     // intentionally empty
 }
 
+/** Uniquify duplicate tokens and accumulate their probability
+ *
+ *  input prediction  ->  output combined prediction
+ *  -                     -
+ *  foo, 0.2              foo, MAX_PREDICTION
+ *  bar, 0.1              bar, 0.3
+ *  foobar, 0.1           foobar, 0.1
+ *  foo, 0.8              foz, 0.1
+ *  bar, 0.2
+ *  foo, 0.3
+ *  foz, 0.1
+ *
+ * FIXME : current implementation is O(n^2) ... it doesn't have to be.
+ *
+ */
 Prediction Combiner::filter(const Prediction& prediction) const
 {
     Prediction result;
