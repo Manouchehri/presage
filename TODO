@@ -6,6 +6,17 @@ The Presage project
 TODO list
 ---------
 
+
+* add a user-specific smoothed n-gram predictor instance to default configuration profile
+  - points to user specific language model
+  - learning should be turned on
+  - if language model file does not exist, a new empty database should be initialised
+  - (apps could use existing text files in home directory to init user-specific lm)
+
+* rationalise user-specific and system data files location and config files location
+  - option to comply with XDG basedir spec for config files and data files
+  
+
 GUI apps:
 * qprompter
 ** integrate into build system
