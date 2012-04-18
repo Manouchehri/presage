@@ -31,14 +31,14 @@
 SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name)
     : DatabaseConnector()
 {
-    db_name = database_name;
+    set_database_filename (database_name);
     openDatabase();
 }
 
 SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name, const std::string logger_level)
     : DatabaseConnector(logger_level)
 {
-    db_name = database_name;
+    set_database_filename (database_name);
     openDatabase();
 }
 
@@ -50,15 +50,15 @@ SqliteDatabaseConnector::~SqliteDatabaseConnector()
 void SqliteDatabaseConnector::openDatabase()
 {
 #if defined(HAVE_SQLITE3_H)
-    int result = sqlite3_open(db_name.c_str(), &db);
+    int result = sqlite3_open(get_database_filename().c_str(), &db);
     if (result != SQLITE_OK) {
 	std::string error = sqlite3_errmsg(db);
-	logger << ERROR << "Unable to open database: " << db_name << " : " << endl;
+	logger << ERROR << "Unable to open database: " << get_database_filename() << " : " << endl;
 	throw SqliteDatabaseConnectorException(PRESAGE_SQLITE_OPEN_DATABASE_ERROR, error);
     }
 #elif defined(HAVE_SQLITE_H)
     char* errormsg = 0;
-    db = sqlite_open(db_name.c_str(), 0, &errormsg);
+    db = sqlite_open(get_database_filename().c_str(), 0, &errormsg);
     if (db == 0) {
 	std::string error;
 	if (errormsg != 0) {
@@ -67,7 +67,7 @@ void SqliteDatabaseConnector::openDatabase()
 #ifdef HAVE_STDLIB_H
         free(errormsg);
 #endif
-	logger << ERROR << "Unable to open database: " << db_name << " : " << endl;
+	logger << ERROR << "Unable to open database: " << get_database_filename() << " : " << endl;
 	throw SqliteDatabaseConnectorException(error);
     }
 #endif
@@ -118,7 +118,7 @@ NgramTable SqliteDatabaseConnector::executeSql(const std::string query) const
 # endif
 #endif
 	logger << ERROR << "Error executing SQL: '" 
-	       << query << "' on database: '" << db_name
+	       << query << "' on database: '" << get_database_filename()
 	       << "' : " << error << endl;
 	throw SqliteDatabaseConnectorException(PRESAGE_SQLITE_EXECUTE_SQL_ERROR, error);
     }

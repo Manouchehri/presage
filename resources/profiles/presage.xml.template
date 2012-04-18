@@ -5,7 +5,7 @@
         <!-- PREDICTORS
           Space separated list of predictors to use to generate predictions
         -->
-        <PREDICTORS>DefaultAbbreviationExpansionPredictor DefaultSmoothedNgramPredictor DefaultRecencyPredictor</PREDICTORS>
+        <PREDICTORS>DefaultAbbreviationExpansionPredictor DefaultSmoothedNgramPredictor UserSmoothedNgramPredictor DefaultRecencyPredictor</PREDICTORS>
     </PredictorRegistry>
     <ContextTracker>
         <LOGGER>ERROR</LOGGER>
@@ -72,6 +72,17 @@
                 <LOGGER>ERROR</LOGGER>
             </DatabaseConnector>
         </DefaultSmoothedNgramPredictor>
+        <UserSmoothedNgramPredictor>
+            <PREDICTOR>SmoothedNgramPredictor</PREDICTOR>
+            <LOGGER>ERROR</LOGGER>
+            <DBFILENAME>${HOME}/.presage/lm.db</DBFILENAME>
+            <!-- \delta_0, \delta_1, ..., \delta_{n-1} -->
+            <DELTAS>0.01 0.1 0.89</DELTAS>
+            <LEARN>true</LEARN>
+            <DatabaseConnector>
+                <LOGGER>ERROR</LOGGER>
+            </DatabaseConnector>
+        </UserSmoothedNgramPredictor>
         <DefaultRecencyPredictor>
             <PREDICTOR>RecencyPredictor</PREDICTOR>
             <LOGGER>ERROR</LOGGER>

@@ -65,7 +65,6 @@ class SqliteDatabaseConnector : public DatabaseConnector {
   private:
     static int callback(void *pArg, int argc, char **argv, char **columnNames);
 
-    std::string db_name;
 #if defined(HAVE_SQLITE3_H)
     sqlite3* db;
 #elif defined(HAVE_SQLITE_H)

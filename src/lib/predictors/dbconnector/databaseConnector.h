@@ -110,6 +110,9 @@ protected:
     virtual void closeDatabase()                                 = 0;
     virtual NgramTable executeSql(const std::string query) const = 0;
 
+    std::string get_database_filename () const;
+    std::string set_database_filename (const std::string& filename);
+
     Logger<char> logger;
 
 private:
@@ -142,6 +145,12 @@ private:
     /** Returns the first element of the ngramtable as an integer.
      */
     int extractFirstInteger(const NgramTable&) const;
+
+
+    std::string expand_variables (std::string filename) const;
+    void substitute_variable_in_string (const std::string& variable_name, std::string& filepath) const;
+
+    std::string database_filename;
 
 };
 
