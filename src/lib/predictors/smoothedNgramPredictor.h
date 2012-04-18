@@ -71,9 +71,9 @@ private:
     void set_learn (const std::string& deltas);
 
     DatabaseConnector*  db;
-    std::string         dbfilename;
     std::string         dbloglevel;
     std::vector<double> deltas;
+    size_t              cardinality; // cardinality == what is the n in n-gram?
     bool                wanna_learn;
 
     Dispatcher<SmoothedNgramPredictor> dispatcher;

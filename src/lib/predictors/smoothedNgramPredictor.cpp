@@ -61,18 +61,17 @@ SmoothedNgramPredictor::~SmoothedNgramPredictor()
 
 void SmoothedNgramPredictor::set_dbfilename (const std::string& filename)
 {
-    dbfilename = filename;
     logger << INFO << "DBFILENAME: " << filename << endl;
 
     delete db;
 
     if (dbloglevel.empty ()) {
 	// open database connector
-	db = new SqliteDatabaseConnector(dbfilename);
+	db = new SqliteDatabaseConnector(filename);
 
     } else {
 	// open database connector with logger lever
-	db = new SqliteDatabaseConnector(dbfilename, dbloglevel);
+	db = new SqliteDatabaseConnector(filename, dbloglevel);
     }
 }
 
@@ -86,12 +85,15 @@ void SmoothedNgramPredictor::set_database_logger_level (const std::string& value
 void SmoothedNgramPredictor::set_deltas (const std::string& value)
 {
     std::stringstream ss_deltas(value);
+    cardinality = 0;
     std::string delta;
     while (ss_deltas >> delta) {
         logger << DEBUG << "Pushing delta: " << delta << endl;
 	deltas.push_back (Utility::toDouble (delta));
+	cardinality++;
     }
     logger << INFO << "DELTAS: " << value << endl;
+    logger << INFO << "CARDINALITY: " << cardinality << endl;
 }
 
 
@@ -144,9 +146,6 @@ Prediction SmoothedNgramPredictor::predict(const size_t max_partial_prediction_s
 
     // Result prediction
     Prediction prediction;
-
-    // n-gram cardinality (i.e. what is the n in n-gram?)
-    int cardinality = deltas.size();
 
     // Cache all the needed tokens.
     // tokens[k] corresponds to w_{i-k} in the generalized smoothed
@@ -292,9 +291,6 @@ void SmoothedNgramPredictor::learn(const std::vector<std::string>& change)
 
     if (wanna_learn) {
 	// learning is turned on
-
-	// n-gram cardinality (i.e. what is the n in n-gram?)
-	size_t cardinality = deltas.size();
 
 	std::string token;
 	for (size_t curr_cardinality = 1;
