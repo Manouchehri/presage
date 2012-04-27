@@ -28,17 +28,20 @@
 # include <stdlib.h> // for free()
 #endif
 
-SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name)
-    : DatabaseConnector()
+SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name,
+						 const size_t cardinality,
+						 const bool read_write)
+  : DatabaseConnector(database_name, cardinality, read_write)
 {
-    set_database_filename (database_name);
     openDatabase();
 }
 
-SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name, const std::string logger_level)
-    : DatabaseConnector(logger_level)
+SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name,
+						 const size_t cardinality,
+						 const bool read_write,
+						 const std::string logger_level)
+  : DatabaseConnector(database_name, cardinality, read_write, logger_level)
 {
-    set_database_filename (database_name);
     openDatabase();
 }
 

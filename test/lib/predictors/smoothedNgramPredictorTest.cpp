@@ -32,6 +32,8 @@
 CPPUNIT_TEST_SUITE_REGISTRATION( SmoothedNgramPredictorTest );
 
 const std::string SmoothedNgramPredictorTest::DATABASE = "database.db";
+const size_t      SmoothedNgramPredictorTest::CARDINALITY = 3;
+const bool        SmoothedNgramPredictorTest::READ_WRITE_MODE = true;
 
 const std::string SmoothedNgramPredictorTest::FOO("foo");
 const std::string SmoothedNgramPredictorTest::BAR("bar");
@@ -40,7 +42,7 @@ const std::string SmoothedNgramPredictorTest::FOOBAR("foobar");
 void SmoothedNgramPredictorTest::setUp()
 {
     // prepare database
-    SqliteDatabaseConnector db(DATABASE);
+    SqliteDatabaseConnector db(DATABASE, CARDINALITY, READ_WRITE_MODE);
 
     // unigrams
     db.createUnigramTable();

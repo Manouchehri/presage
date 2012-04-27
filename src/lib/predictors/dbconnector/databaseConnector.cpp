@@ -28,13 +28,26 @@
 #include <stdlib.h>
 #include <assert.h>
 
-DatabaseConnector::DatabaseConnector()
+DatabaseConnector::DatabaseConnector(const std::string database_name,
+				     const size_t cardinality,
+				     const bool read_write)
     : logger("DatabaseConnector", std::cerr)
-{}
+{
+    set_database_filename (database_name);
+    set_cardinality (cardinality);
+    set_read_write_mode (read_write);
+}
 
-DatabaseConnector::DatabaseConnector(const std::string& log_level)
+DatabaseConnector::DatabaseConnector(const std::string database_name,
+				     const size_t cardinality,
+				     const bool read_write,
+				     const std::string& log_level)
     : logger("DatabaseConnector", std::cerr, log_level)
-{}
+{
+    set_database_filename (database_name);
+    set_cardinality (cardinality);
+    set_read_write_mode (read_write);
+}
 
 DatabaseConnector::~DatabaseConnector()
 {}
@@ -380,4 +393,24 @@ void DatabaseConnector::substitute_variable_in_string (const std::string& variab
                               variable_name);
         }
     }
+}
+
+void DatabaseConnector::set_cardinality (const size_t card)
+{
+    cardinality = card;
+}
+
+size_t DatabaseConnector::get_cardinality () const
+{
+    return cardinality;
+}
+
+void DatabaseConnector::set_read_write_mode (const bool read_write)
+{
+    read_write_mode = read_write;
+}
+
+bool DatabaseConnector::get_read_write_mode () const
+{
+    return read_write_mode;
 }

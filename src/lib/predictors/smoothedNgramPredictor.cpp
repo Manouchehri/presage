@@ -35,6 +35,8 @@ SmoothedNgramPredictor::SmoothedNgramPredictor(Configuration* config, ContextTra
 		"SmoothedNgramPredictor, a linear interpolating n-gram predictor",
 		"SmoothedNgramPredictor, long description." ),
       db (0),
+      cardinality (0),
+      learn_mode_set (false),
       dispatcher (this)
 {
     LOGGER     = PREDICTORS + name + ".LOGGER";
@@ -61,18 +63,10 @@ SmoothedNgramPredictor::~SmoothedNgramPredictor()
 
 void SmoothedNgramPredictor::set_dbfilename (const std::string& filename)
 {
-    logger << INFO << "DBFILENAME: " << filename << endl;
+    dbfilename = filename;
+    logger << INFO << "DBFILENAME: " << dbfilename << endl;
 
-    delete db;
-
-    if (dbloglevel.empty ()) {
-	// open database connector
-	db = new SqliteDatabaseConnector(filename);
-
-    } else {
-	// open database connector with logger lever
-	db = new SqliteDatabaseConnector(filename, dbloglevel);
-    }
+    init_database_connector_if_ready ();
 }
 
 
@@ -94,6 +88,8 @@ void SmoothedNgramPredictor::set_deltas (const std::string& value)
     }
     logger << INFO << "DELTAS: " << value << endl;
     logger << INFO << "CARDINALITY: " << cardinality << endl;
+
+    init_database_connector_if_ready ();
 }
 
 
@@ -101,6 +97,41 @@ void SmoothedNgramPredictor::set_learn (const std::string& value)
 {
     wanna_learn = Utility::isTrue (value);
     logger << INFO << "LEARN: " << value << endl;
+
+    learn_mode_set = true;
+
+    init_database_connector_if_ready ();
+}
+
+
+void SmoothedNgramPredictor::init_database_connector_if_ready ()
+{
+    // we can only init the sqlite database connector once we know the
+    // following:
+    //  - what database file we need to open
+    //  - what cardinality we expect the database file to be
+    //  - whether we need to open the database in read only or
+    //    read/write mode (learning requires read/write access)
+    //
+    if (! dbfilename.empty()
+        && cardinality > 0
+        && learn_mode_set ) {
+
+        delete db;
+
+        if (dbloglevel.empty ()) {
+	    // open database connector
+	    db = new SqliteDatabaseConnector(dbfilename,
+					     cardinality,
+					     wanna_learn);
+        } else {
+            // open database connector with logger lever
+            db = new SqliteDatabaseConnector(dbfilename,
+					     cardinality,
+					     wanna_learn,
+					     dbloglevel);
+        }
+    }
 }
 
 

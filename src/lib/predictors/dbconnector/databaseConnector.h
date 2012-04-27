@@ -43,8 +43,13 @@ typedef std::vector<Ngram> NgramTable;
  */
 class DatabaseConnector {
 public:
-    DatabaseConnector();
-    DatabaseConnector(const std::string& log_level);
+    DatabaseConnector(const std::string database_name,
+		      const size_t cardinality,
+		      const bool read_write);
+    DatabaseConnector(const std::string database_name,
+		      const size_t cardinality,
+		      const bool read_write,
+		      const std::string& log_level);
     virtual ~DatabaseConnector();
 
     /** Creates a table to store N-grams.
@@ -113,6 +118,12 @@ protected:
     std::string get_database_filename () const;
     std::string set_database_filename (const std::string& filename);
 
+    void   set_cardinality (const size_t cardinality);
+    size_t get_cardinality () const;
+
+    void set_read_write_mode (const bool read_write);
+    bool get_read_write_mode () const;
+
     Logger<char> logger;
 
 private:
@@ -151,6 +162,8 @@ private:
     void substitute_variable_in_string (const std::string& variable_name, std::string& filepath) const;
 
     std::string database_filename;
+    size_t cardinality;
+    bool read_write_mode;
 
 };
 

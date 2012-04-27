@@ -62,7 +62,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION( SqliteDatabaseConnectorTest );
 
 void SqliteDatabaseConnectorTest::setUp()
 {
-    CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector = new SqliteDatabaseConnector(DEFAULT_DATABASE_FILENAME));
+    CPPUNIT_ASSERT_NO_THROW
+	(
+	    sqliteDatabaseConnector = new SqliteDatabaseConnector(DEFAULT_DATABASE_FILENAME,
+								  DEFAULT_DATABASE_CARDINALITY,
+								  DEFAULT_DATABASE_READ_WRITE_MODE)
+	);
 
     unigram = new Ngram;
     unigram->push_back("foo");

@@ -31,15 +31,18 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION( NewSmoothedNgramPredictorTest );
 
-const char* NewSmoothedNgramPredictorTest::DATABASE = "database.db";
-const int   NewSmoothedNgramPredictorTest::SIZE     = 20;
+const char*  NewSmoothedNgramPredictorTest::DATABASE = "database.db";
+const size_t NewSmoothedNgramPredictorTest::CARDINALITY = 3;
+const bool   NewSmoothedNgramPredictorTest::READ_WRITE_MODE = true;
+
+const int    NewSmoothedNgramPredictorTest::SIZE     = 20;
 
 void NewSmoothedNgramPredictorTest::setUp()
 {
     remove(DATABASE);
 
     // prepare database
-    SqliteDatabaseConnector db(DATABASE);
+    SqliteDatabaseConnector db(DATABASE, CARDINALITY, READ_WRITE_MODE);
     db.createUnigramTable();
     db.createBigramTable();
     db.createTrigramTable();

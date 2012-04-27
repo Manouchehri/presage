@@ -245,7 +245,7 @@ int main(int argc, char* argv[])
 	// output to SQLITE
 	// 
 
-	SqliteDatabaseConnector sqliteDbCntr(output);
+	SqliteDatabaseConnector sqliteDbCntr(output, ngrams, true);
         sqliteDbCntr.beginTransaction();
         sqliteDbCntr.createNgramTable(ngrams);
 
