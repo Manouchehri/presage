@@ -52,7 +52,7 @@ DatabaseConnector::DatabaseConnector(const std::string database_name,
 DatabaseConnector::~DatabaseConnector()
 {}
 
-void DatabaseConnector::createNgramTable(const int n) const
+void DatabaseConnector::createNgramTable(const size_t n) const
 {
     if (n > 0) {
         std::stringstream query;

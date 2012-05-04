@@ -54,7 +54,7 @@ public:
 
     /** Creates a table to store N-grams.
      */
-    void createNgramTable(const int n) const;
+    void createNgramTable(const size_t cardinality) const;
     void createUnigramTable() const { createNgramTable(1); }
     void createBigramTable()  const { createNgramTable(2); }
     void createTrigramTable() const { createNgramTable(3); }

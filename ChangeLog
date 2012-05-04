@@ -1,3 +1,12 @@
+2012-05-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/dbconnector/databaseConnector.cpp,
+	src/lib/predictors/dbconnector/databaseConnector.h,
+	src/lib/predictors/dbconnector/sqliteDatabaseConnector.cpp,
+	test/lib/predictors/dbconnector/sqliteDatabaseConnectorTest.cpp:
+	create language model database if it does not exist; initialise an
+	empty database of specified cardinality.
+
 2012-04-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/predictors/dejavuPredictor.cpp,
