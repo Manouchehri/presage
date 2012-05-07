@@ -15,7 +15,12 @@ TODO list
 
 * rationalise user-specific and system data files location and config files location
   - option to comply with XDG basedir spec for config files and data files
-  
+
+* smoothed n-gram predictor invokes count() twice when learning is enabled
+  - fixing that will increase performance
+  - bug occurs when learning is enabled and backspace is pressed
+    + spurious word is learnt
+
 
 GUI apps:
 * qprompter
