@@ -49,7 +49,7 @@ void NewSmoothedNgramPredictorTest::setUp()
 
     config = new Configuration();
     // set context tracker config variables
-    config->insert ("Presage.ContextTracker.LOGGER", "ERROR");
+    config->insert ("Presage.ContextTracker.LOGGER", "ALL");
     config->insert ("Presage.ContextTracker.SLIDING_WINDOW_SIZE", "80");
     // set predictor registry config variables
     config->insert ("Presage.PredictorRegistry.LOGGER", "ERROR");

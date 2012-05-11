@@ -108,26 +108,13 @@ bool ContextTracker::contextChange()
 
 void ContextTracker::update()
 {
+    // the first step in the update procedure is to learn from the
+    // newly entered text.
+
     std::stringstream change;
 
-    // prepend partially entered token to change if exists, need to
-    // look into sliding_window to get previously partially entered
-    // token if it exists
-    std::stringstream sliding_window_stream;
-    sliding_window_stream << contextChangeDetector->get_sliding_window();
-    ReverseTokenizer rTok(sliding_window_stream,
-			  blankspaceChars,
-			  separatorChars);
-    std::string first_token = rTok.nextToken();
-    if (!first_token.empty()) {
-	change << first_token;
-    }
-
-    logger << DEBUG << "update(): getPastStream(): " << getPastStream() << endl;
-
-    // append change detected by context change detector
+    // detect change that needs to be learned
     change << contextChangeDetector->change(getPastStream());
-
     logger << INFO << "update(): change: " << change.str() << endl;
 
     // split change up into tokens
@@ -139,7 +126,7 @@ void ContextTracker::update()
     while (tok.hasMoreTokens()) {
 	std::string token = tok.nextToken();
 	change_tokens.push_back(token);
-	logger << INFO << token << ':';
+	logger << INFO << token << '|';
     }
     logger << INFO << endl;
 
@@ -148,11 +135,11 @@ void ContextTracker::update()
 	change_tokens.pop_back();
     }
 
-    logger << INFO << "update(): change tokens: ";
+    logger << INFO << "update(): sanitized change tokens: ";
     for (std::vector<std::string>::const_iterator it = change_tokens.begin();
 	 it != change_tokens.end();
 	 it++) {
-	logger << INFO << *it << ':';
+	logger << INFO << *it << '|';
     }
     logger << INFO << endl;
 

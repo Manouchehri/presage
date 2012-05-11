@@ -315,10 +315,26 @@ Prediction SmoothedNgramPredictor::predict(const size_t max_partial_prediction_s
     return prediction;
 }
 
+// convenience function to convert ngram to string
+//
+static std::string ngram_to_string(const Ngram& ngram)
+{
+    const char separator[] = "|";
+    std::string result = separator;
+
+    for (Ngram::const_iterator it = ngram.begin();
+	 it != ngram.end();
+	 it++)
+    {
+	result += *it + separator;
+    }
+
+    return result;
+}
 
 void SmoothedNgramPredictor::learn(const std::vector<std::string>& change)
 {
-    logger << INFO << "learn()" << endl;
+    logger << INFO << "learn(\"" << ngram_to_string(change) << "\")" << endl;
 
     if (wanna_learn) {
 	// learning is turned on
@@ -327,6 +343,8 @@ void SmoothedNgramPredictor::learn(const std::vector<std::string>& change)
 	for (size_t curr_cardinality = 1;
 	     curr_cardinality < cardinality + 1;
 	     curr_cardinality++) {
+
+	    logger << DEBUG << "Learning for n-gram cardinality: " << curr_cardinality << endl;
 
 	    // idx walks the change vector back to front
 	    for (std::vector<std::string>::const_reverse_iterator idx = change.rbegin();
@@ -343,6 +361,8 @@ void SmoothedNgramPredictor::learn(const std::vector<std::string>& change)
 		{
 		    ngram.insert(ngram.begin(), *inner_idx);
 		}
+
+		logger << DEBUG << "after filling n-gram with change tokens: " << ngram_to_string(ngram) << endl;
 
 		// then use past stream if ngram not filled in yet
 		for (int tk_idx = 1;

@@ -230,6 +230,32 @@ std::string ContextChangeDetector::change(const std::string& past_stream) const
 	    // substring found in curr_context
 
 	    result = curr_context.substr(ctx_idx + prev_context.size());
+
+	    // handle case where a context change has occured and
+	    // remainder string only contains part of the last token,
+	    // i.e.:
+	    //
+	    // sliding_window = "The quick bro";
+	    // past_stream    = "The quick brown ";
+	    //
+	    // In this case, the remainder will only contain "wn", and
+	    // the last token in the sliding window must be prepended
+	    // to the change to be learnt
+	    //
+	    if (context_change(past_stream)) {
+		// prepend partially entered token to change if it
+		// exists, need to look into sliding_window to get
+		// previously partially entered token if it exists
+		std::stringstream sliding_window_stream;
+		sliding_window_stream << get_sliding_window();
+		ReverseTokenizer rTok(sliding_window_stream,
+				      blankspaceChars,
+				      separatorChars);
+		std::string first_token = rTok.nextToken();
+		if (!first_token.empty()) {
+		    result = first_token + result;
+		}
+	    }
 	}
     }
 
