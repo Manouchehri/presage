@@ -35,19 +35,20 @@ const std::string::size_type ContextChangeDetector::DEFAULT_SLIDING_WINDOW_SIZE 
 ContextChangeDetector::ContextChangeDetector(const std::string wChars,
 					     const std::string tChars,
 					     const std::string bChars,
-					     const std::string cChars)
+					     const std::string cChars,
+					     bool lowercase)
     : wordChars      (wChars),
       separatorChars (tChars),
       blankspaceChars(bChars),
-      controlChars   (cChars)
+      controlChars   (cChars),
+      lowercase_mode (lowercase)
 {
-    //std::cerr << "ContextChangeDetector::ContextChangeDetector()" << std::endl
-    //          << "wordChars: " << wordChars << std::endl;
+    // intentionally empty
 }
 
 ContextChangeDetector::~ContextChangeDetector()
 {
-
+    // intentionally empty
 }
 
 void ContextChangeDetector::set_sliding_window_size(const std::string& str)
@@ -251,6 +252,7 @@ std::string ContextChangeDetector::change(const std::string& past_stream) const
 		ReverseTokenizer rTok(sliding_window_stream,
 				      blankspaceChars,
 				      separatorChars);
+		rTok.lowercaseMode(lowercase_mode);
 		std::string first_token = rTok.nextToken();
 		if (!first_token.empty()) {
 		    result = first_token + result;

@@ -184,7 +184,7 @@ Prediction SmoothedNgramPredictor::predict(const size_t max_partial_prediction_s
     //
     std::vector<std::string> tokens(cardinality);
     for (int i = 0; i < cardinality; i++) {
-	tokens[cardinality - 1 - i] = Utility::strtolower(contextTracker->getToken(i));
+	tokens[cardinality - 1 - i] = contextTracker->getToken(i);
 	logger << DEBUG << "Cached tokens[" << cardinality - 1 - i << "] = " << tokens[cardinality - 1 - i] << endl;
     }
 

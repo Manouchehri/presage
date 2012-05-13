@@ -13,6 +13,10 @@
           Size of buffer used by context tracker to detect context changes
         -->
         <SLIDING_WINDOW_SIZE>80</SLIDING_WINDOW_SIZE>
+        <!-- LOWERCASE_MODE
+          Instruct context tracker to track text as lowercase
+        -->
+	<LOWERCASE_MODE>yes</LOWERCASE_MODE>
     </ContextTracker>
     <Selector>
         <LOGGER>ERROR</LOGGER>

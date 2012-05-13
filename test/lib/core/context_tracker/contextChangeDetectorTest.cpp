@@ -33,7 +33,8 @@ void ContextChangeDetectorTest::setUp()
     detector = new ContextChangeDetector(DEFAULT_WORD_CHARS,
 					 DEFAULT_SEPARATOR_CHARS,
 					 DEFAULT_BLANKSPACE_CHARS,
-					 DEFAULT_CONTROL_CHARS );
+					 DEFAULT_CONTROL_CHARS,
+					 false);
 }
 
 void ContextChangeDetectorTest::tearDown()

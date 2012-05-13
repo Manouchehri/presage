@@ -39,6 +39,7 @@ void ContextTrackerTest::setUp()
     configuration->insert (PredictorRegistry::PREDICTORS, "");
     configuration->insert (ContextTracker::LOGGER, "ALL");
     configuration->insert (ContextTracker::SLIDING_WINDOW_SIZE, "80");
+    configuration->insert (ContextTracker::LOWERCASE_MODE, "no");
 
     predictorRegistry = new PredictorRegistry(configuration);
 }
