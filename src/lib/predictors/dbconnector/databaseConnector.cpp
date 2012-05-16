@@ -24,6 +24,7 @@
 
 #include "databaseConnector.h"
 
+#include <list>
 #include <sstream>
 #include <stdlib.h>
 #include <assert.h>
@@ -356,14 +357,33 @@ std::string DatabaseConnector::set_database_filename (const std::string& filenam
 
 std::string DatabaseConnector::expand_variables (std::string filepath) const
 {
-    // here we could scan the filepath for variables, which follow the
-    // same pattern as shell variables - strings enclosed in '${' and '}'
+    // scan the filepath for variables, which follow the same pattern
+    // as shell variables - strings enclosed in '${' and '}'
     //
-    // for the time being, just substitute well-known tokens
-    //
+    const std::string start_marker = "${";
+    const std::string   end_marker = "}";
 
-    // ${HOME}
-    substitute_variable_in_string ("HOME", filepath);
+    std::list<std::string> variables;
+
+    std::string::size_type pos_start = filepath.find (start_marker);
+    while (pos_start != std::string::npos)
+    {
+	std::string::size_type pos_end = filepath.find (end_marker, pos_start);
+	if (pos_end != std::string::npos) {
+	    variables.push_back (filepath.substr(pos_start + start_marker.size(), pos_end - end_marker.size() - pos_start - 1));
+	}
+
+	pos_start = filepath.find (start_marker, pos_end);
+    }
+
+    for (std::list<std::string>::const_iterator it = variables.begin();
+	 it != variables.end();
+	 it++)
+    {
+	std::cerr << "about to call substitute_variable_in_string(" << *it << " , " << filepath << ");" << std::endl;
+
+	substitute_variable_in_string(*it, filepath);
+    }
 
     return filepath;
 }
@@ -374,7 +394,7 @@ void DatabaseConnector::substitute_variable_in_string (const std::string& variab
 
     for (std::string::size_type pos = filepath.find (variable_token);
          pos != std::string::npos;
-         pos = filepath.find (variable_token))
+         pos = filepath.find (variable_token, pos))
     {
         const char* value = getenv(variable_name.c_str());
         if (value)
@@ -385,13 +405,27 @@ void DatabaseConnector::substitute_variable_in_string (const std::string& variab
         }
         else
         {
-            // FIXME: maybe throw exception instead of leaving
-            // variable name in string?
-            //
-            filepath.replace (pos,
-                              variable_token.size(),
-                              variable_name);
-        }
+	    // handle "special" variables
+	    if (variable_name == "HOME")
+	    {
+		value = getenv("USERPROFILE");
+		if (value)
+		{
+		    filepath.replace (pos,
+				      variable_token.size(),
+				      value);
+		}
+	    }
+	    else
+	    {
+		// FIXME: maybe throw exception instead of leaving
+		// variable name in string?
+		//
+		filepath.replace (pos,
+				  variable_token.size(),
+				  variable_name);
+	    }
+	}
     }
 }
 
