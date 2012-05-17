@@ -34,8 +34,8 @@ bin_PROGRAMS +=		text2ngram
 
 text2ngram_SOURCES =	text2ngram.cpp
 text2ngram_LDADD =	libtools.la \
-			../lib/core/libcore.la \
 			../lib/predictors/dbconnector/libdbconnector.la \
+			../lib/core/libcore.la \
 			../lib/libpresage.la
 endif
 
@@ -52,8 +52,8 @@ presage_demo_text_LDADD = 	../lib/libpresage.la
 
 presage_simulator_SOURCES =	presageSimulator.cpp
 presage_simulator_LDADD =	simulator/libsimulator.la \
-				../lib/libpresage.la \
-				../lib/core/libcore.la 
+				../lib/core/libcore.la \
+				../lib/libpresage.la
 
 AM_CPPFLAGS =	-I$(top_srcdir)/src/lib -I$(top_srcdir)/src
 

@@ -24,6 +24,8 @@
 
 #include "databaseConnector.h"
 
+#include "../../core/utility.h"
+
 #include <list>
 #include <sstream>
 #include <stdlib.h>
@@ -352,6 +354,19 @@ std::string DatabaseConnector::set_database_filename (const std::string& filenam
 
     database_filename = expand_variables (filename);
 
+    // make an attempt at determining whether directory where language
+    // model database is located exists and try to create it if it
+    // does not... only cater for one directory level to create it.
+    //
+    std::string dir = Utility::dirname (database_filename);
+    if (! dir.empty()) {
+	// check that specified directory exists and accessible
+	if (! Utility::is_directory_usable (dir)) {
+	    // create it if not
+	    Utility::create_directory (dir);
+	}
+    }
+
     return prev_filename;
 }
 
@@ -380,8 +395,6 @@ std::string DatabaseConnector::expand_variables (std::string filepath) const
 	 it != variables.end();
 	 it++)
     {
-	std::cerr << "about to call substitute_variable_in_string(" << *it << " , " << filepath << ");" << std::endl;
-
 	substitute_variable_in_string(*it, filepath);
     }
 
