@@ -330,6 +330,10 @@ bool Utility::is_directory_usable (const std::string& dir)
 void Utility::create_directory (const std::string& dir)
 {
 #ifdef HAVE_SYS_STAT_H
-    mkdir (dir.c_str(), S_IRWXU);
+    mkdir (dir.c_str()
+#ifndef _WIN32
+	   , S_IRWXU
+#endif
+	   );
 #endif
 }
