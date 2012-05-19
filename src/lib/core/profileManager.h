@@ -44,7 +44,7 @@
  * 
  * 1. write config with data from /etc/presage.xml if it exists
  * 2. overwrite config with data from  $(sysconfdir)/presage.xml if it exists
- * 3. overwrite config with data from  ~/.presage.xml if it exists
+ * 3. overwrite config with data from  ~/.presage/presage.xml if it exists
  * 4. overwrite config with data from profile passed to constructor (if non-empty string)
  *
  */
