@@ -143,19 +143,6 @@ class PrompterFrame(wx.Frame):
       self.ID_PROMPT_ME = wx.NewId()
       BindMenu(self.presageMenu.Append(self.ID_PROMPT_ME, "&Prompt me\tCTRL+P"), self.OnPresageMenuPromptMe)
 
-      learn_mode = self.editor.prsg.config(self.editor.learn_mode_config_var)
-      if learn_mode.lower() == 'true':
-         learn_mode = True
-      elif learn_mode.lower() == 'false':
-         learn_mode = False
-      self.ID_TOGGLE_LEARN_MODE = wx.NewId()
-      self.learn_presage_menu_item = self.presageMenu.Append(self.ID_TOGGLE_LEARN_MODE,
-                                                             "&Learn mode\tCTRL+L",
-                                                             "Toggle learn mode",
-                                                             wx.ITEM_CHECK)
-      self.presageMenu.Check(self.ID_TOGGLE_LEARN_MODE, learn_mode)
-      BindMenu(self.learn_presage_menu_item, self.OnPresageMenuToggleLearnMode)
-
       self.ID_TOGGLE_FUNCTION_KEYS_MODE = wx.NewId()
       self.function_mode_presage_menu_item = self.presageMenu.Append(self.ID_TOGGLE_FUNCTION_KEYS_MODE,
                                                                      "&Function keys\tCTRL+F",
@@ -382,10 +369,6 @@ class PrompterFrame(wx.Frame):
    def OnPresageMenuPromptMe(self, event):
       self.editor.ShowPrediction()
 
-   def OnPresageMenuToggleLearnMode(self, event):
-      self.editor.prsg.config(self.editor.learn_mode_config_var, str(event.Checked()))
-      print "Learn mode switched to " + str(event.Checked())
-
    def OnPresageMenuToggleFunctionMode(self, event):
       self.editor.function_keys_enabled = event.Checked()
 
@@ -482,7 +465,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       self.autopunctuation_whitespace = ' '
       self.autopunctuation_chars = ".,;:'?!$%&"
       self.function_keys_enabled = True
-      self.learn_mode_config_var = "Presage.Predictors.SmoothedNgramPredictor.LEARN"
+
 
       self.Bind(wx.EVT_CHAR, self.OnChar)
       self.Bind(wx.stc.EVT_STC_USERLISTSELECTION, self.OnUserListSelection)
@@ -576,15 +559,6 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
          print '  code: %d' % (ex.code())
          print '  what: %s' % (ex.what())
          
-         if ex.code() == presage.PRESAGE_SQLITE_EXECUTE_SQL_ERROR:
-            # switch off learning and update menu checkbox
-            self.prsg.config(self.learn_mode_config_var, "false")
-            self.parent.presageMenu.Check(self.parent.ID_TOGGLE_LEARN_MODE, False)
-
-            # notify user
-            dialog = wx.MessageDialog(self.parent, "The adaptive text learning component of the presage predictive text entry engine has detected an error. Learning has been switched off.", "Learning error in presage predictive text engine", wx.OK)
-            dialog.ShowModal()
-            dialog.Destroy()
 
       print "String:         " + string
       print "Prefix:         " + prefix

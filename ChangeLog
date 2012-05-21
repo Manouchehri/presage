@@ -1,3 +1,9 @@
+2012-05-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/prompter/prompter.py: removed learning presage menu
+	toggle to accomodate user specific learning smoothed n-gram
+	predictor changes.
+
 2012-05-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/predictors/smoothedNgramPredictor.cpp: Improve smoothed
