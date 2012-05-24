@@ -34,7 +34,10 @@ dbconnectorTestRunner_SOURCES =	dbconnectorTestRunner.cpp       \
 				sqliteDatabaseConnectorTest.cpp \
 				sqliteDatabaseConnectorTest.h   \
 				$(top_srcdir)/src/lib/presageException.h	\
-				$(top_srcdir)/src/lib/core/presageException.cpp
+				$(top_srcdir)/src/lib/core/presageException.cpp \
+				$(top_srcdir)/src/lib/core/utility.h		\
+				$(top_srcdir)/src/lib/core/utility.cpp
+
 # presageException files are included in sources since sqlite
 # database connector defines an exception that inherits from
 # presage base exception

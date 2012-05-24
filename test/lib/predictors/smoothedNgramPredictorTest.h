@@ -70,6 +70,8 @@ private:
 
 
     static const std::string DATABASE;
+    static const size_t      CARDINALITY;
+    static const bool        READ_WRITE_MODE;
 
     static const std::string FOO;
     static const std::string BAR;

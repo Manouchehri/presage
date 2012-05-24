@@ -1,3 +1,105 @@
+2012-05-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/profiles/presage.xml.template,
+	src/lib/core/defaultProfile.cpp: add comment to describe use of
+	$HOME variable in configuration.
+
+2012-05-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/prompter/prompter.py: removed learning presage menu
+	toggle to accomodate user specific learning smoothed n-gram
+	predictor changes.
+
+2012-05-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/smoothedNgramPredictor.cpp: Improve smoothed
+	n-gram predictor learning performance.
+
+	* src/lib/core/profileManager.*: hange user-specific default
+	presage.xml location to ~/.presage/
+
+2012-05-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/utility.*,
+	src/lib/predictors/dbconnector/databaseConnector.cpp,
+	src/tools/Makefile.am,
+	test/lib/predictors/dbconnector/Makefile.am: Add ability to create
+	directory containing language model if it doesn't exist.
+
+	* src/lib/core/utility.cpp: Fix build issue on MinGW/MSYS.
+
+2012-05-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/dbconnector/databaseConnector.cpp: Add
+	support for multiple vars in configuration. Add support for
+	special ${HOME} var, it expands to both content of HOME
+	environment variable or USERPROFILE if HOME is empty.
+
+2012-05-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* resources/profile/presage.xml.template,
+	src/lib/core/context_tracker/contextChangeDetector.*,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/core/defaultProfile.cpp,
+	src/lib/predictors/smoothedNgramPredictor.cpp,
+	test/lib/core/context_tracker/contextChangeDetectorTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/selectorTest.cpp,
+	test/lib/predictors/dejavuPredictorTest.cpp,
+	test/lib/predictors/newSmoothedNgramPredictorTest.cpp,
+	test/lib/predictors/recencyPredictorTest.cpp: Add
+	Presage.ContextTracker.LOWERCASE_MODE configuration variable
+
+2012-05-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/context_tracker/contextChangeDetector.cpp,
+	src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/predictors/smoothedNgramPredictor.cpp,
+	test/lib/core/context_tracker/contextChangeDetectorTest.*,
+	test/lib/predictors/smoothedNgramPredictor.cpp, TODO: Fix bug that
+	occurs when learning is enabled and spurious work is learnt. Bug
+	was discovered in gprompter and occurred when learning is enabled
+	and backspace is entered.
+
+2012-05-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* TODO: Add TODO items, description of bug to be fixed.
+
+	* apps/gtk/gprompter/gprompter.c: tracing printouts.
+
+2012-05-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/dbconnector/databaseConnector.cpp,
+	src/lib/predictors/dbconnector/databaseConnector.h,
+	src/lib/predictors/dbconnector/sqliteDatabaseConnector.cpp,
+	test/lib/predictors/dbconnector/sqliteDatabaseConnectorTest.cpp:
+	create language model database if it does not exist; initialise an
+	empty database of specified cardinality.
+
+2012-04-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/smoothedNgramPredictor.*,
+	src/lib/predictors/dbconnector/databaseConnector.*,
+	src/lib/predictors/dbconnector/sqliteDatabaseConnector.*,
+	src/tools/text2ngram.cpp,
+	test/lib/predictors/dbconnector/databaseConnectorTest.*,
+	test/lib/predictors/dbconnector/sqliteDatabaseConnectorTest.*,
+	test/lib/predictors/newSmoothedNgramPredictorTest.*,
+	test/lib/predictors/smoothedNgramPredictorTest.*: Add n-gram
+	cardinality and read/write mode parameters to database connector.
+
+2012-04-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/smoothedNgramPredictor.*: Refactor n-gram
+	cardinality.
+
+	* resources/profiles/presage.xml.template,
+	src/lib/predictors/dbconnector/databaseConnector.*,
+	src/lib/predictors/dbconnector/sqliteDatabaseConnector.*: Add user
+	specific learning smoothed ngram predictor. User specific smoothed
+	ngram predictor uses a user-specific language model stored in the
+	user's home directory. Learning mode is enabled.
+
 2012-04-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/predictors/dejavuPredictor.cpp,

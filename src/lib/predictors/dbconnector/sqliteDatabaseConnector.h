@@ -42,8 +42,13 @@
 
 class SqliteDatabaseConnector : public DatabaseConnector {
   public:
-    SqliteDatabaseConnector(const std::string db);
-    SqliteDatabaseConnector(const std::string db, const std::string logger_level);
+    SqliteDatabaseConnector(const std::string db,
+			    const size_t cardinality,
+			    const bool read_write);
+    SqliteDatabaseConnector(const std::string db,
+			    const size_t cardinality,
+			    const bool read_write,
+			    const std::string logger_level);
     ~SqliteDatabaseConnector();
 
     virtual void openDatabase();
@@ -65,7 +70,6 @@ class SqliteDatabaseConnector : public DatabaseConnector {
   private:
     static int callback(void *pArg, int argc, char **argv, char **columnNames);
 
-    std::string db_name;
 #if defined(HAVE_SQLITE3_H)
     sqlite3* db;
 #elif defined(HAVE_SQLITE_H)

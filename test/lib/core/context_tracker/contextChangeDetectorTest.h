@@ -36,11 +36,13 @@ public:
     
     void testCharChanges();
     void testBlockChanges();
+    void testGetChange();
 
 private:
     CPPUNIT_TEST_SUITE( ContextChangeDetectorTest );
     CPPUNIT_TEST( testCharChanges                 );
     CPPUNIT_TEST( testBlockChanges                );
+    CPPUNIT_TEST( testGetChange                   );
     CPPUNIT_TEST_SUITE_END();
 
     ContextChangeDetector* detector;

@@ -35,19 +35,20 @@ const std::string::size_type ContextChangeDetector::DEFAULT_SLIDING_WINDOW_SIZE 
 ContextChangeDetector::ContextChangeDetector(const std::string wChars,
 					     const std::string tChars,
 					     const std::string bChars,
-					     const std::string cChars)
+					     const std::string cChars,
+					     bool lowercase)
     : wordChars      (wChars),
       separatorChars (tChars),
       blankspaceChars(bChars),
-      controlChars   (cChars)
+      controlChars   (cChars),
+      lowercase_mode (lowercase)
 {
-    //std::cerr << "ContextChangeDetector::ContextChangeDetector()" << std::endl
-    //          << "wordChars: " << wordChars << std::endl;
+    // intentionally empty
 }
 
 ContextChangeDetector::~ContextChangeDetector()
 {
-
+    // intentionally empty
 }
 
 void ContextChangeDetector::set_sliding_window_size(const std::string& str)
@@ -230,6 +231,33 @@ std::string ContextChangeDetector::change(const std::string& past_stream) const
 	    // substring found in curr_context
 
 	    result = curr_context.substr(ctx_idx + prev_context.size());
+
+	    // handle case where a context change has occured and
+	    // remainder string only contains part of the last token,
+	    // i.e.:
+	    //
+	    // sliding_window = "The quick bro";
+	    // past_stream    = "The quick brown ";
+	    //
+	    // In this case, the remainder will only contain "wn", and
+	    // the last token in the sliding window must be prepended
+	    // to the change to be learnt
+	    //
+	    if (context_change(past_stream)) {
+		// prepend partially entered token to change if it
+		// exists, need to look into sliding_window to get
+		// previously partially entered token if it exists
+		std::stringstream sliding_window_stream;
+		sliding_window_stream << get_sliding_window();
+		ReverseTokenizer rTok(sliding_window_stream,
+				      blankspaceChars,
+				      separatorChars);
+		rTok.lowercaseMode(lowercase_mode);
+		std::string first_token = rTok.nextToken();
+		if (!first_token.empty()) {
+		    result = first_token + result;
+		}
+	    }
 	}
     }
 

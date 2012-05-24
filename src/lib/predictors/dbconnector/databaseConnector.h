@@ -43,13 +43,18 @@ typedef std::vector<Ngram> NgramTable;
  */
 class DatabaseConnector {
 public:
-    DatabaseConnector();
-    DatabaseConnector(const std::string& log_level);
+    DatabaseConnector(const std::string database_name,
+		      const size_t cardinality,
+		      const bool read_write);
+    DatabaseConnector(const std::string database_name,
+		      const size_t cardinality,
+		      const bool read_write,
+		      const std::string& log_level);
     virtual ~DatabaseConnector();
 
     /** Creates a table to store N-grams.
      */
-    void createNgramTable(const int n) const;
+    void createNgramTable(const size_t cardinality) const;
     void createUnigramTable() const { createNgramTable(1); }
     void createBigramTable()  const { createNgramTable(2); }
     void createTrigramTable() const { createNgramTable(3); }
@@ -110,6 +115,15 @@ protected:
     virtual void closeDatabase()                                 = 0;
     virtual NgramTable executeSql(const std::string query) const = 0;
 
+    std::string get_database_filename () const;
+    std::string set_database_filename (const std::string& filename);
+
+    void   set_cardinality (const size_t cardinality);
+    size_t get_cardinality () const;
+
+    void set_read_write_mode (const bool read_write);
+    bool get_read_write_mode () const;
+
     Logger<char> logger;
 
 private:
@@ -142,6 +156,14 @@ private:
     /** Returns the first element of the ngramtable as an integer.
      */
     int extractFirstInteger(const NgramTable&) const;
+
+
+    std::string expand_variables (std::string filename) const;
+    void substitute_variable_in_string (const std::string& variable_name, std::string& filepath) const;
+
+    std::string database_filename;
+    size_t cardinality;
+    bool read_write_mode;
 
 };
 

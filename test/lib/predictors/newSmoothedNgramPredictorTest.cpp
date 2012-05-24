@@ -31,23 +31,27 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION( NewSmoothedNgramPredictorTest );
 
-const char* NewSmoothedNgramPredictorTest::DATABASE = "database.db";
-const int   NewSmoothedNgramPredictorTest::SIZE     = 20;
+const char*  NewSmoothedNgramPredictorTest::DATABASE = "database.db";
+const size_t NewSmoothedNgramPredictorTest::CARDINALITY = 3;
+const bool   NewSmoothedNgramPredictorTest::READ_WRITE_MODE = true;
+
+const int    NewSmoothedNgramPredictorTest::SIZE     = 20;
 
 void NewSmoothedNgramPredictorTest::setUp()
 {
     remove(DATABASE);
 
     // prepare database
-    SqliteDatabaseConnector db(DATABASE);
+    SqliteDatabaseConnector db(DATABASE, CARDINALITY, READ_WRITE_MODE);
     db.createUnigramTable();
     db.createBigramTable();
     db.createTrigramTable();
 
     config = new Configuration();
     // set context tracker config variables
-    config->insert ("Presage.ContextTracker.LOGGER", "ERROR");
+    config->insert ("Presage.ContextTracker.LOGGER", "ALL");
     config->insert ("Presage.ContextTracker.SLIDING_WINDOW_SIZE", "80");
+    config->insert ("Presage.ContextTracker.LOWERCASE_MODE", "no");
     // set predictor registry config variables
     config->insert ("Presage.PredictorRegistry.LOGGER", "ERROR");
     config->insert ("Presage.PredictorRegistry.PREDICTORS", "SmoothedNgramPredictor");

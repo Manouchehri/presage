@@ -35,6 +35,8 @@ SmoothedNgramPredictor::SmoothedNgramPredictor(Configuration* config, ContextTra
 		"SmoothedNgramPredictor, a linear interpolating n-gram predictor",
 		"SmoothedNgramPredictor, long description." ),
       db (0),
+      cardinality (0),
+      learn_mode_set (false),
       dispatcher (this)
 {
     LOGGER     = PREDICTORS + name + ".LOGGER";
@@ -62,18 +64,9 @@ SmoothedNgramPredictor::~SmoothedNgramPredictor()
 void SmoothedNgramPredictor::set_dbfilename (const std::string& filename)
 {
     dbfilename = filename;
-    logger << INFO << "DBFILENAME: " << filename << endl;
+    logger << INFO << "DBFILENAME: " << dbfilename << endl;
 
-    delete db;
-
-    if (dbloglevel.empty ()) {
-	// open database connector
-	db = new SqliteDatabaseConnector(dbfilename);
-
-    } else {
-	// open database connector with logger lever
-	db = new SqliteDatabaseConnector(dbfilename, dbloglevel);
-    }
+    init_database_connector_if_ready ();
 }
 
 
@@ -86,12 +79,17 @@ void SmoothedNgramPredictor::set_database_logger_level (const std::string& value
 void SmoothedNgramPredictor::set_deltas (const std::string& value)
 {
     std::stringstream ss_deltas(value);
+    cardinality = 0;
     std::string delta;
     while (ss_deltas >> delta) {
         logger << DEBUG << "Pushing delta: " << delta << endl;
 	deltas.push_back (Utility::toDouble (delta));
+	cardinality++;
     }
     logger << INFO << "DELTAS: " << value << endl;
+    logger << INFO << "CARDINALITY: " << cardinality << endl;
+
+    init_database_connector_if_ready ();
 }
 
 
@@ -99,6 +97,59 @@ void SmoothedNgramPredictor::set_learn (const std::string& value)
 {
     wanna_learn = Utility::isTrue (value);
     logger << INFO << "LEARN: " << value << endl;
+
+    learn_mode_set = true;
+
+    init_database_connector_if_ready ();
+}
+
+
+void SmoothedNgramPredictor::init_database_connector_if_ready ()
+{
+    // we can only init the sqlite database connector once we know the
+    // following:
+    //  - what database file we need to open
+    //  - what cardinality we expect the database file to be
+    //  - whether we need to open the database in read only or
+    //    read/write mode (learning requires read/write access)
+    //
+    if (! dbfilename.empty()
+        && cardinality > 0
+        && learn_mode_set ) {
+
+        delete db;
+
+        if (dbloglevel.empty ()) {
+	    // open database connector
+	    db = new SqliteDatabaseConnector(dbfilename,
+					     cardinality,
+					     wanna_learn);
+        } else {
+            // open database connector with logger lever
+            db = new SqliteDatabaseConnector(dbfilename,
+					     cardinality,
+					     wanna_learn,
+					     dbloglevel);
+        }
+    }
+}
+
+
+// convenience function to convert ngram to string
+//
+static std::string ngram_to_string(const Ngram& ngram)
+{
+    const char separator[] = "|";
+    std::string result = separator;
+
+    for (Ngram::const_iterator it = ngram.begin();
+	 it != ngram.end();
+	 it++)
+    {
+	result += *it + separator;
+    }
+
+    return result;
 }
 
 
@@ -119,23 +170,22 @@ void SmoothedNgramPredictor::set_learn (const std::string& value)
  */
 unsigned int SmoothedNgramPredictor::count(const std::vector<std::string>& tokens, int offset, int ngram_size) const
 {
-    assert(offset <= 0); // TODO: handle this better
+    unsigned int result = 0;
+
+    assert(offset <= 0);      // TODO: handle this better
     assert(ngram_size >= 0);
 
     if (ngram_size > 0) {
 	Ngram ngram(ngram_size);
 	copy(tokens.end() - ngram_size + offset , tokens.end() + offset, ngram.begin());
-
-	logger << DEBUG << "count ngram: ";
-	for (size_t j = 0; j < ngram.size(); j++) {
-	    logger << DEBUG << ngram[j] << ' ';
-	}
-	logger << DEBUG << endl;
-
-	return db->getNgramCount(ngram);
+	result = db->getNgramCount(ngram);
+	logger << DEBUG << "count ngram: " << ngram_to_string (ngram) << " : " << result << endl;
     } else {
-	return db->getUnigramCountsSum();
+	result = db->getUnigramCountsSum();
+	logger << DEBUG << "unigram counts sum: " << result << endl;
     }
+
+    return result;
 }
 
 Prediction SmoothedNgramPredictor::predict(const size_t max_partial_prediction_size, const char** filter) const
@@ -145,16 +195,13 @@ Prediction SmoothedNgramPredictor::predict(const size_t max_partial_prediction_s
     // Result prediction
     Prediction prediction;
 
-    // n-gram cardinality (i.e. what is the n in n-gram?)
-    int cardinality = deltas.size();
-
     // Cache all the needed tokens.
     // tokens[k] corresponds to w_{i-k} in the generalized smoothed
     // n-gram probability formula
     //
     std::vector<std::string> tokens(cardinality);
     for (int i = 0; i < cardinality; i++) {
-	tokens[cardinality - 1 - i] = Utility::strtolower(contextTracker->getToken(i));
+	tokens[cardinality - 1 - i] = contextTracker->getToken(i);
 	logger << DEBUG << "Cached tokens[" << cardinality - 1 - i << "] = " << tokens[cardinality - 1 - i] << endl;
     }
 
@@ -285,83 +332,83 @@ Prediction SmoothedNgramPredictor::predict(const size_t max_partial_prediction_s
     return prediction;
 }
 
-
 void SmoothedNgramPredictor::learn(const std::vector<std::string>& change)
 {
-    logger << INFO << "learn()" << endl;
+    logger << INFO << "learn(\"" << ngram_to_string(change) << "\")" << endl;
 
     if (wanna_learn) {
 	// learning is turned on
 
-	// n-gram cardinality (i.e. what is the n in n-gram?)
-	size_t cardinality = deltas.size();
+	try
+	{
+	    db->beginTransaction();
 
-	std::string token;
-	for (size_t curr_cardinality = 1;
-	     curr_cardinality < cardinality + 1;
-	     curr_cardinality++) {
+	    for (size_t curr_cardinality = 1;
+		 curr_cardinality < cardinality + 1;
+		 curr_cardinality++) {
 
-	    // idx walks the change vector back to front
-	    for (std::vector<std::string>::const_reverse_iterator idx = change.rbegin();
-		 idx != change.rend();
-		 idx++)
-	    {
-		Ngram ngram;
+		logger << DEBUG << "Learning for n-gram cardinality: " << curr_cardinality << endl;
 
-		// try to fill in the ngram to be learnt with change
-		// tokens first
-		for (std::vector<std::string>::const_reverse_iterator inner_idx = idx;
-		     inner_idx != change.rend() && ngram.size() < curr_cardinality;
-		     inner_idx++)
+		// idx walks the change vector back to front
+		for (std::vector<std::string>::const_reverse_iterator idx = change.rbegin();
+		     idx != change.rend();
+		     idx++)
 		{
-		    ngram.insert(ngram.begin(), *inner_idx);
-		}
+		    Ngram ngram;
 
-		// then use past stream if ngram not filled in yet
-		for (int tk_idx = 1;
-		     ngram.size() < curr_cardinality;
-		     tk_idx++)
-		{		     
-		    // ContextTracker already sees latest tokens that
-		    // we need to learn, hence we need to look at the
-		    // sliding window and obtain tokens from there.
-		    //
-		    // getSlidingWindowToken returns tokens from
-		    // stream tied to sliding window from context
-		    // change detector
-
-		    ngram.insert(ngram.begin(), contextTracker->getSlidingWindowToken(tk_idx));
-		}
-
-		// now we have built the ngram we have to learn
-		logger << INFO << "Considering to learn ngram: |";
-		for (size_t j = 0; j < ngram.size(); j++) {
-		    logger << INFO << ngram[j] << '|';
-		}
-		logger << INFO << endl;
-		
-		if (ngram.end() == find(ngram.begin(), ngram.end(), "")) {
-		    // only learn ngram if it doesn't contain empty strings
-		    try
+		    // try to fill in the ngram to be learnt with change
+		    // tokens first
+		    for (std::vector<std::string>::const_reverse_iterator inner_idx = idx;
+			 inner_idx != change.rend() && ngram.size() < curr_cardinality;
+			 inner_idx++)
 		    {
-			db->beginTransaction();
-		    
+			ngram.insert(ngram.begin(), *inner_idx);
+		    }
+
+		    logger << DEBUG << "after filling n-gram with change tokens: " << ngram_to_string(ngram) << endl;
+
+		    // then use past stream if ngram not filled in yet
+		    for (int tk_idx = 1;
+			 ngram.size() < curr_cardinality;
+			 tk_idx++)
+		    {
+			// ContextTracker already sees latest tokens that
+			// we need to learn, hence we need to look at the
+			// sliding window and obtain tokens from there.
+			//
+			// getSlidingWindowToken returns tokens from
+			// stream tied to sliding window from context
+			// change detector
+			//
+			ngram.insert(ngram.begin(), contextTracker->getSlidingWindowToken(tk_idx));
+		    }
+
+		    // now we have built the ngram we have to learn
+		    logger << INFO << "Considering to learn ngram: |";
+		    for (size_t j = 0; j < ngram.size(); j++) {
+			logger << INFO << ngram[j] << '|';
+		    }
+		    logger << INFO << endl;
+
+		    if (ngram.end() == find(ngram.begin(), ngram.end(), "")) {
+			// only learn ngram if it doesn't contain empty strings
 			db->incrementNgramCount(ngram);
 			check_learn_consistency(ngram);
-			
-			db->endTransaction();
-			logger << INFO << "Committed ngram update to database" << endl;
+			logger << INFO << "Learnt ngram" << endl;
+		    } else {
+			logger << INFO << "Discarded ngram" << endl;
 		    }
-		    catch (SqliteDatabaseConnector::SqliteDatabaseConnectorException& ex)
-		    {
-			db->rollbackTransaction();
-			logger << ERROR << ex.what() << endl;
-			throw;
-		    }
-		} else {
-		    logger << INFO << "Discarded ngram" << endl;
 		}
 	    }
+
+            db->endTransaction();
+            logger << INFO << "Committed learning update to database" << endl;
+	}
+	catch (SqliteDatabaseConnector::SqliteDatabaseConnectorException& ex)
+	{
+	    db->rollbackTransaction();
+	    logger << ERROR << "Rolling back learning update : " << ex.what() << endl;
+	    throw;
 	}
     }
 
@@ -374,7 +421,7 @@ void SmoothedNgramPredictor::check_learn_consistency(const Ngram& ngram) const
     // within an existing transaction from learn()
 
     // BEWARE: if the previous sentence is not true, then performance
-    // will suffer!
+    // WILL suffer!
 
     size_t size = ngram.size();
     for (size_t i = 0; i < size; i++) {

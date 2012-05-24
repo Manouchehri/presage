@@ -29,6 +29,12 @@
 #ifdef HAVE_STDLIB_H
 # include <stdlib.h>
 #endif
+#ifdef HAVE_DIRENT_H
+# include <dirent.h>
+#endif
+#ifdef HAVE_SYS_STAT_H
+# include <sys/stat.h>
+#endif
 
 /** Convert string to lower case
  *
@@ -260,4 +266,74 @@ double Utility::toDouble(const std::string str)
 int Utility::toInt(const std::string str)
 {
     return atoi(str.c_str());
+}
+
+
+/** Return directory name from filepath
+ *
+ */
+std::string Utility::dirname (const std::string& filepath)
+{
+    std::string result;
+
+    std::string::size_type pos = filepath.find_last_of ("\\/");
+    if (std::string::npos != pos) {
+	result = filepath.substr (0, pos);
+    }
+
+    return result;
+}
+
+
+/** Return file name from filepath
+ *
+ */
+std::string Utility::filename (const std::string& filepath)
+{
+    std::string result;
+
+    std::string::size_type pos = filepath.find_last_of ("\\/");
+    if (std::string::npos != pos) {
+	result = filepath.substr (pos + 1);
+    }
+
+    return result;
+}
+
+
+/** Attempt to open directory and return true if successful
+ *
+ */
+bool Utility::is_directory_usable (const std::string& dir)
+{
+    DIR *dp;
+#ifdef HAVE_DIRENT_H
+    dp = opendir (dir.c_str());
+    if (dp != NULL)
+    {
+	closedir (dp);
+	return true;
+    }
+    else
+    {
+	return false;
+    }
+#else
+    return true;
+#endif
+}
+
+
+/** Create directory
+ *
+ */
+void Utility::create_directory (const std::string& dir)
+{
+#ifdef HAVE_SYS_STAT_H
+    mkdir (dir.c_str()
+#ifndef _WIN32
+	   , S_IRWXU
+#endif
+	   );
+#endif
 }

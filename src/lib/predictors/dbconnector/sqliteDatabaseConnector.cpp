@@ -28,17 +28,20 @@
 # include <stdlib.h> // for free()
 #endif
 
-SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name)
-    : DatabaseConnector()
+SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name,
+						 const size_t cardinality,
+						 const bool read_write)
+  : DatabaseConnector(database_name, cardinality, read_write)
 {
-    db_name = database_name;
     openDatabase();
 }
 
-SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name, const std::string logger_level)
-    : DatabaseConnector(logger_level)
+SqliteDatabaseConnector::SqliteDatabaseConnector(const std::string database_name,
+						 const size_t cardinality,
+						 const bool read_write,
+						 const std::string logger_level)
+  : DatabaseConnector(database_name, cardinality, read_write, logger_level)
 {
-    db_name = database_name;
     openDatabase();
 }
 
@@ -50,15 +53,53 @@ SqliteDatabaseConnector::~SqliteDatabaseConnector()
 void SqliteDatabaseConnector::openDatabase()
 {
 #if defined(HAVE_SQLITE3_H)
-    int result = sqlite3_open(db_name.c_str(), &db);
-    if (result != SQLITE_OK) {
-	std::string error = sqlite3_errmsg(db);
-	logger << ERROR << "Unable to open database: " << db_name << " : " << endl;
-	throw SqliteDatabaseConnectorException(PRESAGE_SQLITE_OPEN_DATABASE_ERROR, error);
+    int rc;
+
+    // attempt to connect to existing database
+    if (! get_read_write_mode()) {
+	// attempt to open read-only, no create
+	rc = sqlite3_open_v2(get_database_filename().c_str(),
+			     &db,
+			     SQLITE_OPEN_READONLY,
+			     NULL);
+    } else {
+	// attempt to open read-write, no create
+	rc = sqlite3_open_v2(get_database_filename().c_str(),
+			     &db,
+			     SQLITE_OPEN_READWRITE,
+			     NULL);
     }
+
+    // if database no-create open connection operation failed, open
+    // database read-write/create mode and create tables
+    if (rc != SQLITE_OK) {
+	// attempt to open read-write, create
+	rc = sqlite3_open_v2(get_database_filename().c_str(),
+			     &db,
+			     SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
+			     NULL);
+
+	// throw exception if database cannot be opened/created
+	if (rc != SQLITE_OK) {
+	    std::string error = sqlite3_errmsg(db);
+	    logger << ERROR << "Unable to open database: " << get_database_filename() << endl;
+	    throw SqliteDatabaseConnectorException(PRESAGE_SQLITE_OPEN_DATABASE_ERROR, error);
+	} else {
+	    logger << WARN << "Creating new language model database: " << get_database_filename() << endl;
+	}
+
+	// create n-gram tables up to specified cardinality
+	for (size_t cardinality = 1;
+	     cardinality <= get_cardinality ();
+	     cardinality++)
+	{
+	    createNgramTable(cardinality);
+	}
+    }
+
 #elif defined(HAVE_SQLITE_H)
     char* errormsg = 0;
-    db = sqlite_open(db_name.c_str(), 0, &errormsg);
+    db = sqlite_open(get_database_filename().c_str(), 0, &errormsg);
     if (db == 0) {
 	std::string error;
 	if (errormsg != 0) {
@@ -67,7 +108,7 @@ void SqliteDatabaseConnector::openDatabase()
 #ifdef HAVE_STDLIB_H
         free(errormsg);
 #endif
-	logger << ERROR << "Unable to open database: " << db_name << " : " << endl;
+	logger << ERROR << "Unable to open database: " << get_database_filename() << " : " << endl;
 	throw SqliteDatabaseConnectorException(error);
     }
 #endif
@@ -118,7 +159,7 @@ NgramTable SqliteDatabaseConnector::executeSql(const std::string query) const
 # endif
 #endif
 	logger << ERROR << "Error executing SQL: '" 
-	       << query << "' on database: '" << db_name
+	       << query << "' on database: '" << get_database_filename()
 	       << "' : " << error << endl;
 	throw SqliteDatabaseConnectorException(PRESAGE_SQLITE_EXECUTE_SQL_ERROR, error);
     }

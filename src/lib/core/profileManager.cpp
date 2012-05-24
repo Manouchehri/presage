@@ -126,7 +126,7 @@ void ProfileManager::init_profiles (const std::string& profilename)
     // installation config directory
     profiles.push_back (static_cast<std::string>(sysconfdir) + '/' + DefaultProfile::DEFAULT_PROFILE_FILENAME);
     // home dir dotfile
-    profiles.push_back (get_user_home_dir() + '/' + '.' + DefaultProfile::DEFAULT_PROFILE_FILENAME);
+    profiles.push_back (get_user_home_dir() + "/.presage/" + DefaultProfile::DEFAULT_PROFILE_FILENAME);
     // user specified profile (if any)
     if (! profilename.empty()) {
         profiles.push_back(profilename);

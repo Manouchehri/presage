@@ -62,7 +62,12 @@ CPPUNIT_TEST_SUITE_REGISTRATION( SqliteDatabaseConnectorTest );
 
 void SqliteDatabaseConnectorTest::setUp()
 {
-    CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector = new SqliteDatabaseConnector(DEFAULT_DATABASE_FILENAME));
+    CPPUNIT_ASSERT_NO_THROW
+	(
+	    sqliteDatabaseConnector = new SqliteDatabaseConnector(DEFAULT_DATABASE_FILENAME,
+								  DEFAULT_DATABASE_CARDINALITY,
+								  DEFAULT_DATABASE_READ_WRITE_MODE)
+	);
 
     unigram = new Ngram;
     unigram->push_back("foo");
@@ -118,24 +123,15 @@ void SqliteDatabaseConnectorTest::testInsertNgram()
 {
     std::cout << "SqliteDatabaseConnectorTest::testInsertNgram()" << std::endl;
 
-    // test that no insertion occurs since tables have not been
-    // yet created and an exception is thrown
-    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER),
-                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
-    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->insertNgram(*bigram, MAGIC_NUMBER),
-                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
-    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->insertNgram(*trigram, MAGIC_NUMBER),
-                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
-
     // populate database
-    sqliteDatabaseConnector->createNgramTable(1);
-    sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER);
+    CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER));
+    CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector->insertNgram(*bigram, MAGIC_NUMBER));
+    CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector->insertNgram(*trigram, MAGIC_NUMBER));
 
-    sqliteDatabaseConnector->createNgramTable(2);
-    sqliteDatabaseConnector->insertNgram(*bigram, MAGIC_NUMBER);
-
-    sqliteDatabaseConnector->createNgramTable(3);
-    sqliteDatabaseConnector->insertNgram(*trigram, MAGIC_NUMBER);
+    // test no exception occurs when attempting to recreate existing tables
+    CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector->createNgramTable(1));
+    CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector->createNgramTable(2));
+    CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector->createNgramTable(3));
     
     // compare database dump with benchmark string
     std::stringstream benchmark;
@@ -166,15 +162,6 @@ void SqliteDatabaseConnectorTest::testInsertNgram()
 void SqliteDatabaseConnectorTest::testUpdateNgram()
 {
     std::cout << "SqliteDatabaseConnectorTest::testUpdateNgram()" << std::endl;
-
-    // test that no insertion occurs since tables have not been
-    // yet created and an exception is thrown
-    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->updateNgram(*unigram, MAGIC_NUMBER),
-                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
-    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->updateNgram(*bigram, MAGIC_NUMBER),
-                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
-    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->updateNgram(*trigram, MAGIC_NUMBER),
-                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
 
     // populate database
     sqliteDatabaseConnector->createNgramTable(1);
@@ -264,31 +251,19 @@ void SqliteDatabaseConnectorTest::testIncrementNgramCount()
 {
     std::cout << "SqliteDatabaseConnectorTest::testIncrementNgramCount()" << std::endl;
 
-    // test that no insertion occurs since tables have not been
-    // yet created
-    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->incrementNgramCount(*unigram),
-                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
-    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->incrementNgramCount(*bigram),
-                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
-    CPPUNIT_ASSERT_THROW(sqliteDatabaseConnector->incrementNgramCount(*trigram),
-                         SqliteDatabaseConnector::SqliteDatabaseConnectorException);
-
     // populate database
-    sqliteDatabaseConnector->createNgramTable(1);
     sqliteDatabaseConnector->incrementNgramCount(*unigram);
     sqliteDatabaseConnector->incrementNgramCount(*unigram);
     sqliteDatabaseConnector->incrementNgramCount(*unigram);
 
-    sqliteDatabaseConnector->createNgramTable(2);
     sqliteDatabaseConnector->incrementNgramCount(*bigram);
     sqliteDatabaseConnector->incrementNgramCount(*bigram);
     sqliteDatabaseConnector->incrementNgramCount(*bigram);
 
-    sqliteDatabaseConnector->createNgramTable(3);
     sqliteDatabaseConnector->incrementNgramCount(*trigram);
     sqliteDatabaseConnector->incrementNgramCount(*trigram);
     sqliteDatabaseConnector->incrementNgramCount(*trigram);
-    
+
     // compare database dump with benchmark string
     std::stringstream benchmark;
     benchmark

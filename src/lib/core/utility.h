@@ -61,6 +61,12 @@ public:
     static double toDouble(const std::string);
     static int    toInt   (const std::string);
 
+    static std::string dirname (const std::string&);
+    static std::string filename (const std::string&);
+
+    static bool is_directory_usable (const std::string& dir);
+    static void create_directory (const std::string& dir);
+
 };
 
 #endif // PRESAGE_UTILITY

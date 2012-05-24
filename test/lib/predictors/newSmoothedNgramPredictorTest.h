@@ -53,8 +53,11 @@ private:
     PredictorRegistry* predictorRegistry;
     Predictor*         predictor;
 
-    static const char* DATABASE;
-    static const int   SIZE;
+    static const char*  DATABASE;
+    static const size_t CARDINALITY;
+    static const bool   READ_WRITE_MODE;
+
+    static const int SIZE;
 
     CPPUNIT_TEST_SUITE( NewSmoothedNgramPredictorTest );
     CPPUNIT_TEST( testLearning );

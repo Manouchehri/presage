@@ -46,6 +46,7 @@ void RecencyPredictorTest::setUp()
     // set context tracker config variables
     config->insert ("Presage.ContextTracker.LOGGER", "ERROR");
     config->insert ("Presage.ContextTracker.SLIDING_WINDOW_SIZE", "80");
+    config->insert ("Presage.ContextTracker.LOWERCASE_MODE", "no");
     // set predictor registry config variables
     config->insert ("Presage.PredictorRegistry.LOGGER", "ERROR");
     config->insert ("Presage.PredictorRegistry.PREDICTORS", "");

@@ -32,8 +32,10 @@
 #include <iostream>
 #include <sstream>
 
-static const char DEFAULT_DATABASE_FILENAME[] = "database.db";
-static const char DATABASE_DUMP[] = "database.dump";
+static const char   DEFAULT_DATABASE_FILENAME[] = "database.db";
+static const size_t DEFAULT_DATABASE_CARDINALITY = 3;
+static const bool   DEFAULT_DATABASE_READ_WRITE_MODE = true;
+static const char   DATABASE_DUMP[] = "database.dump";
 
 class SqliteDatabaseConnectorTest : public CppUnit::TestFixture { 
 public:

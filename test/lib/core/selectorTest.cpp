@@ -387,6 +387,7 @@ void SelectorTest::setUp()
     configuration->insert (PredictorRegistry::PREDICTORS, "");
     configuration->insert (ContextTracker::LOGGER, "ALL");
     configuration->insert (ContextTracker::SLIDING_WINDOW_SIZE, "80");
+    configuration->insert (ContextTracker::LOWERCASE_MODE, "no");
     configuration->insert (Selector::LOGGER, "ALL");
     configuration->insert (Selector::SUGGESTIONS, "6");
     configuration->insert (Selector::REPEAT_SUGGESTIONS, "no");

@@ -38,7 +38,8 @@ public:
     ContextChangeDetector(const std::string,
 			  const std::string,
 			  const std::string,
-			  const std::string);
+			  const std::string,
+			  bool);
     ~ContextChangeDetector();
 
     bool context_change(const std::string& past_stream) const;
@@ -60,6 +61,7 @@ private:
     const std::string separatorChars;
     const std::string blankspaceChars;
     const std::string controlChars;
+    bool lowercase_mode;
 
 };
 

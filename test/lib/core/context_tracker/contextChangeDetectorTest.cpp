@@ -33,7 +33,8 @@ void ContextChangeDetectorTest::setUp()
     detector = new ContextChangeDetector(DEFAULT_WORD_CHARS,
 					 DEFAULT_SEPARATOR_CHARS,
 					 DEFAULT_BLANKSPACE_CHARS,
-					 DEFAULT_CONTROL_CHARS );
+					 DEFAULT_CONTROL_CHARS,
+					 false);
 }
 
 void ContextChangeDetectorTest::tearDown()
@@ -84,4 +85,41 @@ void ContextChangeDetectorTest::testBlockChanges()
     CPPUNIT_ASSERT_EQUAL(false, detector->context_change("The quick"));
     // still no changes, should still be false
     CPPUNIT_ASSERT_EQUAL(false, detector->context_change("The quick"));
+}
+
+void ContextChangeDetectorTest::testGetChange()
+{
+    std::string str = "The quick brown fox jumped over the lazy dog";
+
+    detector->set_sliding_window_size("10");
+
+    // when sliding window is empty, change is equal to stream
+    CPPUNIT_ASSERT_EQUAL(detector->change(str), str);
+
+    // when sliding window contains part of stream, change is equal to text that is in stream and not in sliding window
+    detector->update_sliding_window ("The quick bro");
+    CPPUNIT_ASSERT_EQUAL(detector->get_sliding_window(), std::string(" quick bro"));
+    CPPUNIT_ASSERT_EQUAL(detector->change(str), std::string("wn fox jumped over the lazy dog"));
+
+    detector->update_sliding_window ("The quick brow");
+    CPPUNIT_ASSERT_EQUAL(detector->get_sliding_window(), std::string("quick brow"));
+    CPPUNIT_ASSERT_EQUAL(detector->change(str), std::string("n fox jumped over the lazy dog"));
+
+    detector->update_sliding_window ("The quick brown");
+    CPPUNIT_ASSERT_EQUAL(detector->get_sliding_window(), std::string("uick brown"));
+    CPPUNIT_ASSERT_EQUAL(detector->change(str), std::string(" fox jumped over the lazy dog"));
+
+    detector->update_sliding_window ("The quick brown ");
+    CPPUNIT_ASSERT_EQUAL(detector->get_sliding_window(), std::string("ick brown "));
+    CPPUNIT_ASSERT_EQUAL(detector->change(str), std::string("fox jumped over the lazy dog"));
+
+    // remove last char from stream
+    detector->update_sliding_window ("The quick brown");
+    CPPUNIT_ASSERT_EQUAL(detector->get_sliding_window(), std::string("uick brown"));
+    CPPUNIT_ASSERT_EQUAL(detector->change(str), std::string(" fox jumped over the lazy dog"));
+
+    // remove last char from stream again
+    detector->update_sliding_window ("The quick brow");
+    CPPUNIT_ASSERT_EQUAL(detector->get_sliding_window(), std::string("quick brow"));
+    CPPUNIT_ASSERT_EQUAL(detector->change(str), std::string("n fox jumped over the lazy dog"));
 }

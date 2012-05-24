@@ -62,8 +62,9 @@ public:
     class DatabaseConnectorImpl : public DatabaseConnector {
     public:
 	DatabaseConnectorImpl(std::string* query)
-	    : m_query(query),
-	      MAGIC_NUMBER(GLOBAL_MAGIC_NUMBER)
+	    : DatabaseConnector("", 0, false),
+	    m_query(query),
+	    MAGIC_NUMBER(GLOBAL_MAGIC_NUMBER)
 	    {}
 	virtual ~DatabaseConnectorImpl() {}
 	

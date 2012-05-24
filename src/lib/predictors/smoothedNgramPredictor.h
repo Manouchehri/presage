@@ -67,14 +67,18 @@ private:
 
     void set_dbfilename (const std::string& filename);
     void set_deltas (const std::string& deltas);
-    void set_database_logger_level (const std::string& value);
-    void set_learn (const std::string& deltas);
+    void set_database_logger_level (const std::string& level);
+    void set_learn (const std::string& learn_mode);
+
+    void init_database_connector_if_ready ();
 
     DatabaseConnector*  db;
     std::string         dbfilename;
     std::string         dbloglevel;
     std::vector<double> deltas;
+    size_t              cardinality; // cardinality == what is the n in n-gram?
     bool                wanna_learn;
+    bool                learn_mode_set;
 
     Dispatcher<SmoothedNgramPredictor> dispatcher;
 };
