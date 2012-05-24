@@ -7,20 +7,6 @@ TODO list
 ---------
 
 
-* add a user-specific smoothed n-gram predictor instance to default configuration profile
-  - points to user specific language model
-  - learning should be turned on
-  - if language model file does not exist, a new empty database should be initialised
-  - (apps could use existing text files in home directory to init user-specific lm)
-
-* rationalise user-specific and system data files location and config files location
-  - option to comply with XDG basedir spec for config files and data files
-
-* smoothed n-gram predictor
-  - invokes count() twice when learning is enabled, fixing that will increase performance
-  - case sensitivity in learning, should be turned off
-
-
 GUI apps:
 * qprompter
 ** integrate into build system
@@ -79,6 +65,10 @@ Short term:
    . Variable(const std::vector<std::string>& variable);
    . size_t size() const;
 * consider removing src/tools/ngram.* code
+* smoothed n-gram predictor
+  - is it possible to reduce calls to count() to improve performance?
+* rationalise user-specific and system data files location and config files location
+  - option to comply with XDG basedir spec for config files and data files
 * add proper unicode support
 * determine whether to enable dictionary plugin by default
    (dictionary file?)

@@ -7,51 +7,95 @@ NEWS
 ----
 
 
+Presage 0.8.8 beta (BETA ANNOUNCEMENT)
+----------------------
+Presage 0.8.8b is now available for download.
+
+Presage 0.8.8b allows to enabled multiple instances of the same predictor class at runtime through configuration. Each predictor instance is independently configured to allow greater flexibility. Predictive performance can be more finely tailor to the users' specific needs by tuning the resources and configuration of each predictor. The default configuration has been changed to add a custom user smoothed ngram predictor, which adaptively learns its language model. The user-specific default configuration file location is now ~/.presage/presage.xml (~/.presage.xml is no longer used). The configuration now supports and expands environment variables.
+
+Presage 0.8.8b adds support for filters to dictionary predictor, recency predictor, abbreviation expansion predictor, and dejavu predictor. The smoothed n-gram predictor will create and initialize a language model database if it does not already exist. Learning performance of the smoothed n-gram predictor has been improved. A new configuration variable has been added to control context tracking case sensitivity.
+
+Presage 0.8.8b fixes a bug that caused learning of spurious text. A bug was discovered in gprompter when learning is enabled. A memory allocation bug and a memory leak were fixed in the Notepad++ plugin. The embedded XML configuration parser library and the text editing component have been updated.
+
+Presage 0.8.8b comes with a number of other enhancements and fixes. Please see the ChangeLog for more details.
+
+
 Presage 0.8.7 released
 ----------------------
 Presage 0.8.7 is now available for download.
 
-Presage 0.8.7 now integrates into the Notepad++, a powerful Windows text editor, thanks to the new presage predictive Notepad++ plugin, NppPresage. NppPresage is able to detect a presage installation and dynamically load presage to add predictive text functionality to Notepad++.
+Presage 0.8.7 now integrates into the Notepad++, a powerful Windows
+text editor, thanks to the new presage predictive Notepad++ plugin,
+NppPresage. NppPresage is able to detect a presage installation and
+dynamically load presage to add predictive text functionality to
+Notepad++.
 
-Presage 0.8.7 comes with improved configuration profile handling on Windows: presage now locates the system profile configuration directory from HKCU/Software/Presage registry key on Windows, and correctly locates the user profile directory.
+Presage 0.8.7 comes with improved configuration profile handling on
+Windows: presage now locates the system profile configuration
+directory from HKCU/Software/Presage registry key on Windows, and
+correctly locates the user profile directory.
 
-Presage 0.8.7 brings improvements to gprompter, including an updated text editing widget and a new invert colours feature. gprompter and pyprompter also come with new (and somewhat ugly) icons on the GNOME desktop.
+Presage 0.8.7 brings improvements to gprompter, including an updated
+text editing widget and a new invert colours feature. gprompter and
+pyprompter also come with new (and somewhat ugly) icons on the GNOME
+desktop.
 
-Presage 0.8.7 comes with a number of other enhancements and fixes. Please see the ChangeLog for more details.
+Presage 0.8.7 comes with a number of other enhancements and
+fixes. Please see the ChangeLog for more details.
 
 
 Presage 0.8.6 released
 ----------------------
 Presage 0.8.6 is now available for download.
 
-Presage 0.8.6 brings improved support for Visual Studio compilers on Windows through the presage C API.
+Presage 0.8.6 brings improved support for Visual Studio compilers on
+Windows through the presage C API.
 
-Presage 0.8.6 also comes with improvements to the predictive text editor gprompter.
+Presage 0.8.6 also comes with improvements to the predictive text
+editor gprompter.
 
-Presage 0.8.6 comes with a number of other enhancements and fixes. Please see the ChangeLog for more details.
+Presage 0.8.6 comes with a number of other enhancements and
+fixes. Please see the ChangeLog for more details.
 
-This is a source release only. No precompiled packages or installers are provided.
+This is a source release only. No precompiled packages or installers
+are provided.
 
-Users wishing to try out Presage should follow the (easy) steps needed to build presage, as detailed in the README file and in the documentation available in the doc/ directory.
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
 
-Presage has been built and tested on various Linux platforms (including 32-bit and 64-bit architectures), Solaris 10, Windows (Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues while building or running presage, please report them to the author.
+Presage has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+(Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues
+while building or running presage, please report them to the author.
 
 
 Presage 0.8.5 released
 ----------------------
 Presage 0.8.5 is now available for download.
 
-Presage 0.8.5 now offers a new C API to libpresage, in addition to the C++ and Python APIs. gprompter is now written in plain C and uses the new libpresage C API.
+Presage 0.8.5 now offers a new C API to libpresage, in addition to the
+C++ and Python APIs. gprompter is now written in plain C and uses the
+new libpresage C API.
 
-Presage 0.8.5 brings improvements to the experimental D-BUS service interface and start-stop scripts. A D-BUS python example client is also provided.
+Presage 0.8.5 brings improvements to the experimental D-BUS service
+interface and start-stop scripts. A D-BUS python example client is
+also provided.
 
-Presage 0.8.5 comes with a number of other enhancements and fixes. Please see the ChangeLog for more details.
+Presage 0.8.5 comes with a number of other enhancements and
+fixes. Please see the ChangeLog for more details.
 
-This is a source release only. No precompiled packages or installers are provided.
+This is a source release only. No precompiled packages or installers
+are provided.
 
-Users wishing to try out Presage should follow the (easy) steps needed to build presage, as detailed in the README file and in the documentation available in the doc/ directory.
+Users wishing to try out Presage should follow the (easy) steps needed
+to build presage, as detailed in the README file and in the
+documentation available in the doc/ directory.
 
-Presage 0.8.5 has been built and tested on various Linux platforms (including 32-bit and 64-bit architectures), Solaris 10, Windows (Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues while building or running presage, please report them to the author.
+Presage 0.8.5 has been built and tested on various Linux platforms
+(including 32-bit and 64-bit architectures), Solaris 10, Windows
+(Cygwin and MinGW/MSYS), and MacOS X. If you encounter any issues
+while building or running presage, please report them to the author.
 
 
 Presage 0.8.4 released
