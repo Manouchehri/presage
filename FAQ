@@ -6,10 +6,77 @@ The Presage project
 Frequently Asked Questions
 --------------------------
 
-Q. Why are there no questions? And more importantly, why are there no answers?
 
-A. Because nobody has asked any questions yet, hence there are no answers here.
-   Nothing to see here, move along.
+How can I improve presage's predictive performance for user X?
+==
+
+Users' needs vary widly and there is not one sure way to improve predictive performance, but here is how I would approach the problem of configuring presage for a specific user's needs.
+
+First of all, let's state our goal in terms of something we can measure. The aim is to tune presage's predictions to minimize the number of keystrokes that a specific user is required to type to produce a given reference text. The reference text could be chosen from a collection of texts that the user has previously written, or it could be a collation of various texts (emails, text files in home directory, etc.).
+
+The chosen reference text will serve as the reference benchmark. Once we have a benchmark text, we can measure the effectiveness of the predictive resources used against the benchmark text.
+
+Presage provides tools to accomplish to generate custom predictive resources (in particular, language models for the smoothed n-gram predictor):
+- text2ngram tool generates n-gram language models from a given training text corpora.
+- presage_simulator tool computes the Keystroke Savings Rate on a benchmark text, given the current predictive resources and configuration in use (i.e. n-gram database, abbreviations, recency, etc.).
+
+Ideally, one would collect a vast amount of text that the user has produced and feed this training text to the text2ngram tool to generate a n-gram language model database (1-gram, 2-gram and 3-gram tables seem to work well, but one can also generate higher order n-gram language models and set the SmoothedNgram DELTAS variable value accordingly).
+
+Once the ngram language model is generated, its effectiveness can be validated by running the presage_simulator and observing the KSR. KSR's around 80% are very good. Higher values are obviously better.
+
+Obviously, the higher n-gram order used in the language model, the higher the risk of overtraining the model and overfitting the training corpora (wikipedia has good articles about machine learning and overfitting).
+
+Other things to look at are creating custom abbreviations for the abbreviation expansion plugin, or tweaking the weight DELTAS of the smoothed n-gram predictor, or providing a more suited dictionary file to the dictionary plugin.
+
+Regenerating n-gram language model from a representative training text corpus is probably the most effective way to significantly increase predictive performance.
+The default language model for the English language is generated from single novel "The picture of Dorian Gray" by Oscar Wilde, which might be turn out to be representative of a particular user's writing style or vocabulary.
+
+In conclusion, it is likely that the most effective way to achieve good predictive results is to generate predictive resources based on a "good" training corpus of text. All the predictive mechanisms currently used by presage are based on statistical/heuristic methods, so the more representative the resources are, the better the predictive performance will be.
+
+There are plans to work on syntactical/semantic predictors (able to take grammar or semantic context information into account), but I just haven't had time to work on those tasks yet.
+
+
+
+How can I configure presage to predict in a specific natural language?
+==
+
+Presage is designed to provide support for any natural language. One core design feature of presage is the ability to make use of different sources of information and predictive algorithms to generate predictions. The sources of information and predictive algorithms used to generate a prediction are controlled by presage configuration. The default build of presage, for example, is configured to use three predictors:
+- the smoothed n-gram predictive algorithm with a language model that is generated from a single training text (the novel "The picture of Dorian Gray" by Oscar Wilde)
+- the abbreviation expansion predictor
+- the recency predictor
+
+The Presage.PredictorRegistry.PREDICTORS configuration variable controls what predictors should be instantiated. The elements nested within the Presage.Predictors element control the configuration of each instance of the predictors.
+
+By default, presage currently builds language models for the English, Italian, and Spanish languages. These language models are generated during the build from source and are installed in the share/presage/ directory of your presage installation.
+
+In order to switch to a different language, you need to modify the configuration used by presage to suit your needs. You can achieve that by editing your presage.xml configuration file. The configuration file is read from the following locations:
+ 1. /etc/presage.xml if it exists
+ 2. <installation_directory>/etc/presage.xml if it exists
+ 3. ~/.presage/presage.xml if it exists ($HOME/.presage/presage.xml on Unix, %USERPROFILE%/.presage/presage.xml on Windows)
+
+Configuration values in 3. take priority over configuration values in 2. and 1.
+
+You can also modify the configuration programmatically through the Presage::config(...) calls or a variant of the Presage class constructor.
+
+The Predictor.SmoothedNgramPredictor.DBFILENAME config variable controls the language model database used by the Smoothed Ngram predictive plugin, i.e.:
+
+<Predictors>
+  <SmoothedNgramPredictor>
+    <DBFILENAME>/home/matt/presage_local_install/share/presage/database_en.db</DBFILENAME>
+
+For example, suppose that our goal is to enable support for the German language.
+In order to achieve that, you will want to modify this variable to point to a German language model.
+presage provides the tools to generate predictive resources required by the predictors to suit any natural language or specific users' needs.
+You can generate a German language model database using the text2ngram tool. The text2ngram tool generates n-gram language models from a given corpus of text.
+Ideally, you would collect a representative set of text (text that the user has produced or text that matches the writing style and context of the user) and then feed that to the text2ngram tool to generate a n-gram database (1-gram, 2-gram and 3-gram tables, but you can also generate higher order n-gram and set the SmoothedNgram DELTAS values accordingly).
+
+Obviously, the higher n-gram order used, the higher the risk of overtraining the model and overfitting the training corpus (wikipedia has good articles about machine learning and overfitting).
+
+Assuming you have a German training text corpus in a file named training_de.txt, you can generated a 3-gram language model database for use with the smoothed n-gram predictor by running the following commands:
+
+     for i in 1 2 3; do text2ngram -n $i -l -f sqlite -o database_de.db training_de.txt; done
+
+
 
 
 ########/
