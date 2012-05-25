@@ -269,6 +269,22 @@ fi
 AM_CONDITIONAL([ENABLE_PYTHON_BINDING], [test "x$ac_enable_python_binding" = "xyes"])
 
 
+dnl ======================
+dnl Checks for dbus python
+dnl ======================
+have_dbus_python=no
+AC_MSG_CHECKING(for python dbus module)
+$PYTHON -c "import dbus" 2&>/dev/null
+if test $? -eq 0;
+then
+	have_dbus_python=yes
+else
+	have_dbus_python=no
+fi
+AC_MSG_RESULT($have_dbus_python)
+AM_CONDITIONAL([HAVE_DBUS_PYTHON], [test "x$have_dbus_python" = "xyes"])
+
+
 dnl ========================
 dnl Checks for documentation
 dnl ========================
@@ -418,13 +434,6 @@ AM_CONDITIONAL([BUILD_ARPA_NGRAM], [test "x$build_arpa_ngram_resources" = "xyes"
 ############################
 # Temporarily disabling this
 #AC_CONFIG_SUBDIRS(src/plump)
-
-
-dnl ======================
-dnl Checks for dbus python
-dnl ======================
-PKG_CHECK_EXISTS([dbus-python], [have_dbus_python=yes], [have_dbus_python=no])
-AM_CONDITIONAL([HAVE_DBUS_PYTHON], [test "x$have_dbus_python" = "xyes"])
 
 
 AC_OUTPUT([
