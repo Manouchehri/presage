@@ -1,7 +1,0 @@
-?package(gprompter):\
-    needs="X11" \
-    section="Applications/Accessibility" \
-    title="Gprompter" \
-    longtitle="Predictive text editor based on presage" \
-    icon="/usr/share/pixmaps/gprompter.xpm" \
-    command="/usr/bin/gprompter"

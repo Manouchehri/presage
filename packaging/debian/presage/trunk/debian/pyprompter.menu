@@ -1,7 +1,0 @@
-?package(pyprompter):\
-    needs="X11" \
-    section="Applications/Accessibility" \
-    title="pyprompter" \
-    longtitle="Predictive wxPython text editor based on presage" \
-    icon="/usr/share/pixmaps/pyprompter.xpm" \
-    command="/usr/bin/pyprompter"
