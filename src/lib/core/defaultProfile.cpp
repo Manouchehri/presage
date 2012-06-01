@@ -130,7 +130,7 @@ void DefaultProfile::build_xml_document (const std::string& filename)
 "                  - %USERPROFILE% on Windows"
 "              -->"
 "            <DBFILENAME>${HOME}/.presage/lm.db</DBFILENAME>"
-"            <!-- \delta_0, \delta_1, ..., \delta_{n-1} -->"
+"            <!-- delta_0, delta_1, ..., delta_{n-1} -->"
 "            <DELTAS>0.01 0.1 0.89</DELTAS>"
 "            <LEARN>true</LEARN>"
 "            <DatabaseConnector>"
