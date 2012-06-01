@@ -22,9 +22,7 @@ dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 dnl Process this file with autoconf to produce a configure script.
 
 
-AC_INIT([presage],
-	[0.8.8b],
-	[matteo.vescovi@yahoo.co.uk])
+AC_INIT([presage],[0.8.8b],[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 
 AC_CONFIG_SRCDIR([src/lib/presage.cpp])
@@ -46,15 +44,7 @@ AM_CONDITIONAL([USE_GCC], [test "x$GCC" = "xyes"])
 dnl ==================
 dnl Checks for libtool
 dnl ==================
-############################
-# Temporarily disabling this
-#AC_LIB_LTDL
-#AC_LIBLTDL_CONVENIENCE
-#AC_SUBST(LTDLINCL)
-#AC_SUBST(LIBLTDL)
-AC_LIBTOOL_WIN32_DLL
-#AC_LIBTOOL_DLOPEN
-AC_PROG_LIBTOOL
+LT_INIT([win32-dll])
 
 
 dnl ============================
@@ -108,7 +98,7 @@ dnl ====================
 dnl =======================
 dnl Checks for header files
 dnl =======================
-AC_STDC_HEADERS
+AC_HEADER_STDC
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS([pwd.h])
 
@@ -269,6 +259,22 @@ fi
 AM_CONDITIONAL([ENABLE_PYTHON_BINDING], [test "x$ac_enable_python_binding" = "xyes"])
 
 
+dnl ======================
+dnl Checks for dbus python
+dnl ======================
+have_dbus_python=no
+AC_MSG_CHECKING(for python dbus module)
+$PYTHON -c "import dbus" 2&>/dev/null
+if test $? -eq 0;
+then
+	have_dbus_python=yes
+else
+	have_dbus_python=no
+fi
+AC_MSG_RESULT($have_dbus_python)
+AM_CONDITIONAL([HAVE_DBUS_PYTHON], [test "x$have_dbus_python" = "xyes"])
+
+
 dnl ========================
 dnl Checks for documentation
 dnl ========================
@@ -420,14 +426,7 @@ AM_CONDITIONAL([BUILD_ARPA_NGRAM], [test "x$build_arpa_ngram_resources" = "xyes"
 #AC_CONFIG_SUBDIRS(src/plump)
 
 
-dnl ======================
-dnl Checks for dbus python
-dnl ======================
-PKG_CHECK_EXISTS([dbus-python], [have_dbus_python=yes], [have_dbus_python=no])
-AM_CONDITIONAL([HAVE_DBUS_PYTHON], [test "x$have_dbus_python" = "xyes"])
-
-
-AC_OUTPUT([
+AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
 	src/lib/Makefile
@@ -471,6 +470,7 @@ AC_OUTPUT([
 	doc/Makefile
 	bindings/python/presage_python_demo
 ])
+AC_OUTPUT
 
 if test "x$have_curses_library" = "xtrue" -a "x$have_curses_header" = "xtrue"
 then

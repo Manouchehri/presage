@@ -21,7 +21,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-noinst_LTLIBRARIES = \
+check_LTLIBRARIES = \
 	libcommon.la
 
 libcommon_la_SOURCES = \

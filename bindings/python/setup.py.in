@@ -21,6 +21,14 @@
 
 # Process this file with configure to produce setup.py
 
+def getenv_list(var_name):
+    from os import getenv
+    var = getenv(var_name)
+    if var:
+        return var.split()
+    else:
+        return []
+
 from distutils.core import setup, Extension
 setup(name='python-@PACKAGE_NAME@',
       version='@PACKAGE_VERSION@',
@@ -35,5 +43,7 @@ setup(name='python-@PACKAGE_NAME@',
       ext_modules=[Extension('_presage', ['presage_wrap.cpp'],
                              include_dirs=['@top_srcdir@/src/lib'],
                              library_dirs=['../../src/lib/.libs'],
-                             libraries=['presage'])],
+                             libraries=['presage'],
+                             extra_compile_args=getenv_list('CPPFLAGS') + getenv_list('CXXFLAGS'),
+                             extra_link_args=getenv_list('LDFLAGS'))]
       )

@@ -4,6 +4,11 @@
 	src/lib/core/defaultProfile.cpp: add comment to describe use of
 	$HOME variable in configuration.
 
+2012-05-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: rewrote python dbus module autoconf check to use
+	python import statement.
+
 2012-05-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/prompter/prompter.py: removed learning presage menu
