@@ -1,3 +1,20 @@
+2012-06-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/python/Makefile.am, bindigs/python/setup.py.in: Pass
+	CPPFLAGS, CXXFLAGS, LDFLAGS to python extension build/link lines.
+
+	* configure.ac, INSTALL: autoupdated autoconf files.
+
+	* test/lib/common/Makefile.am: Build common test library for make
+	check target, not make all target.
+
+	* src/lib/core/defaultProfile.cpp,
+	resources/profiles/presage.xml.template: Fix spurious compilation
+	warning.
+
+	* apps/gtk/gprompter/scintilla/*: updated to latest scintilla 3.20
+	release.
+
 2012-05-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* resources/profiles/presage.xml.template,

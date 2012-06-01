@@ -25,6 +25,11 @@
 #include "UniConversion.h"
 #include "XPM.h"
 
+#if defined(__clang__)
+// Clang 3.0 incorrectly displays  sentinel warnings. Fixed by clang 3.1.
+#pragma GCC diagnostic ignored "-Wsentinel"
+#endif
+
 /* GLIB must be compiled with thread support, otherwise we
    will bail on trying to use locks, and that could lead to
    problems for someone.  `glib-config --libs gthread` needs
@@ -1355,7 +1360,7 @@ struct ListImage {
 };
 
 static void list_image_free(gpointer, gpointer value, gpointer) {
-	ListImage *list_image = (ListImage *) value;
+	ListImage *list_image = static_cast<ListImage *>(value);
 	if (list_image->pixbuf)
 		g_object_unref(list_image->pixbuf);
 	g_free(list_image);
@@ -1577,6 +1582,11 @@ PRectangle ListBoxX::GetDesiredRect() {
 			rows = desiredVisibleRows;
 
 		GtkRequisition req;
+#if GTK_CHECK_VERSION(3,0,0)
+		// This, apparently unnecessary call, ensures gtk_tree_view_column_cell_get_size
+		// returns reasonable values. 
+		gtk_widget_get_preferred_size(GTK_WIDGET(scroller), NULL, &req);
+#endif
 		int height;
 
 		// First calculate height of the clist for our desired visible
@@ -1610,7 +1620,7 @@ PRectangle ListBoxX::GetDesiredRect() {
 		gtk_widget_size_request(GTK_WIDGET(scroller), &req);
 #endif
 		rc.right = req.width;
-		rc.bottom = req.height;
+		rc.bottom = Platform::Maximum(height, req.height);
 
 		gtk_widget_set_size_request(GTK_WIDGET(list), -1, -1);
 		int width = maxItemCharacters;
@@ -1659,8 +1669,8 @@ static void init_pixmap(ListImage *list_image) {
 void ListBoxX::Append(char *s, int type) {
 	ListImage *list_image = NULL;
 	if ((type >= 0) && pixhash) {
-		list_image = (ListImage *) g_hash_table_lookup((GHashTable *) pixhash
-		             , (gconstpointer) GINT_TO_POINTER(type));
+		list_image = static_cast<ListImage *>(g_hash_table_lookup((GHashTable *) pixhash
+		             , (gconstpointer) GINT_TO_POINTER(type)));
 	}
 	GtkTreeIter iter;
 	GtkListStore *store =
@@ -1825,8 +1835,8 @@ void ListBoxX::RegisterRGBA(int type, RGBAImage *image) {
 	if (!pixhash) {
 		pixhash = g_hash_table_new(g_direct_hash, g_direct_equal);
 	}
-	ListImage *list_image = (ListImage *) g_hash_table_lookup((GHashTable *) pixhash,
-		(gconstpointer) GINT_TO_POINTER(type));
+	ListImage *list_image = static_cast<ListImage *>(g_hash_table_lookup((GHashTable *) pixhash,
+		(gconstpointer) GINT_TO_POINTER(type)));
 	if (list_image) {
 		// Drop icon already registered
 		if (list_image->pixbuf)

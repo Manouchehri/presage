@@ -26,6 +26,13 @@ class TestSimple(unittest.TestCase):
 		self.ed.ClearAll()
 		self.assertEquals(self.ed.Length, 0)
 
+	def testDeleteRange(self):
+		self.ed.AddText(5, b"abcde")
+		self.assertEquals(self.ed.Length, 5)
+		self.ed.DeleteRange(1, 2)
+		self.assertEquals(self.ed.Length, 3)
+		self.assertEquals(self.ed.Contents(), b"ade")
+
 	def testAddStyledText(self):
 		self.assertEquals(self.ed.EndStyled, 0)
 		self.ed.AddStyledText(2, b"x\002")
@@ -211,10 +218,12 @@ class TestSimple(unittest.TestCase):
 				self.assertEquals(self.ed.FindColumn(0, col), 0)
 			elif col == 1:
 				self.assertEquals(self.ed.FindColumn(0, col), 1)
+			elif col == 8:
+				self.assertEquals(self.ed.FindColumn(0, col), 2)
 			elif col == 9:
 				self.assertEquals(self.ed.FindColumn(0, col), 3)
 			else:
-				self.assertEquals(self.ed.FindColumn(0, col), 2)
+				self.assertEquals(self.ed.FindColumn(0, col), 1)
 		self.ed.TabWidth = 4
 		self.assertEquals(self.ed.TabWidth, 4)
 		self.assertEquals(self.ed.GetColumn(0), 0)
@@ -1229,7 +1238,7 @@ class TestAutoComplete(unittest.TestCase):
 		self.ed = self.xite.ed
 		self.ed.ClearAll()
 		self.ed.EmptyUndoBuffer()
-		# 3 lines of 3 characters
+		# 1 line of 3 characters
 		t = b"xxx\n"
 		self.ed.AddText(len(t), t)
 
@@ -1308,6 +1317,36 @@ class TestAutoComplete(unittest.TestCase):
 
 		self.assertEquals(self.ed.AutoCActive(), 0)
 
+class TestDirectAccess(unittest.TestCase):
+
+	def setUp(self):
+		self.xite = XiteWin.xiteFrame
+		self.ed = self.xite.ed
+		self.ed.ClearAll()
+		self.ed.EmptyUndoBuffer()
+
+	def testGapPosition(self):
+		text = b"abcd"
+		self.ed.SetText(len(text), text)
+		self.assertEquals(self.ed.GapPosition, 4)
+		self.ed.TargetStart = 1
+		self.ed.TargetEnd = 1
+		rep = b"-"
+		self.ed.ReplaceTarget(len(rep), rep)
+		self.assertEquals(self.ed.GapPosition, 2)
+
+	def testCharacterPointerAndRangePointer(self):
+		text = b"abcd"
+		self.ed.SetText(len(text), text)
+		characterPointer = self.ed.CharacterPointer
+		rangePointer = self.ed.GetRangePointer(0,3)
+		self.assertEquals(characterPointer, rangePointer)
+		cpBuffer = ctypes.c_char_p(characterPointer)
+		self.assertEquals(cpBuffer.value, text)
+		# Gap will not be moved as already moved for CharacterPointer call
+		rangePointer = self.ed.GetRangePointer(1,3)
+		cpBuffer = ctypes.c_char_p(rangePointer)
+		self.assertEquals(cpBuffer.value, text[1:])
 
 #~ import os
 #~ for x in os.getenv("PATH").split(";"):
