@@ -41,7 +41,7 @@ all-local:	presage_wrap.cpp presage_wrap.h presage.py
 		$(PYTHON) setup.py build --compiler=mingw32 \
 	  ;; \
 	  *) \
-		$(PYTHON) setup.py build \
+		CPPFLAGS=$(CPPFLAGS) CXXFLAGS="$(CXXFLAGS)" LDFLAGS="$(LDFLAGS)" $(PYTHON) setup.py build \
 	  ;; \
 	esac;
 
