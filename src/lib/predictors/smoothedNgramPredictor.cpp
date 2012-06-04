@@ -365,22 +365,20 @@ void SmoothedNgramPredictor::learn(const std::vector<std::string>& change)
 			ngram.insert(ngram.begin(), *inner_idx);
 		    }
 
-		    logger << DEBUG << "after filling n-gram with change tokens: " << ngram_to_string(ngram) << endl;
+		    logger << DEBUG << "After filling n-gram with change tokens: " << ngram_to_string(ngram) << endl;
 
-		    // then use past stream if ngram not filled in yet
+		    // then use (past stream - change) if ngram not filled in yet
 		    for (int tk_idx = 1;
 			 ngram.size() < curr_cardinality;
 			 tk_idx++)
 		    {
-			// ContextTracker already sees latest tokens that
-			// we need to learn, hence we need to look at the
-			// sliding window and obtain tokens from there.
+			// getExtraTokenToLearn returns tokens from
+			// past stream that come before and are not in
+			// change vector
 			//
-			// getSlidingWindowToken returns tokens from
-			// stream tied to sliding window from context
-			// change detector
-			//
-			ngram.insert(ngram.begin(), contextTracker->getSlidingWindowToken(tk_idx));
+			std::string extra_token = contextTracker->getExtraTokenToLearn(tk_idx, change);
+			logger << DEBUG << "Adding extra token: " << extra_token << endl;
+			ngram.insert(ngram.begin(), extra_token);
 		    }
 
 		    // now we have built the ngram we have to learn

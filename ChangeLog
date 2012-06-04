@@ -1,3 +1,16 @@
+2012-06-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/context_tracker/contextChangeDetector.cpp,
+	src/lib/core/context_tracker/contextTracker.*,
+	src/lib/predictors/smoothedNgramPredictor.cpp,
+	test/lib/predictors/predictorsTestMockObjects.cpp: Fix bug in
+	smoothed n-gram predictor where spurious text was learned when
+	change detected that entire past stream needed to be learnt, such
+	as when triggered by entering backspace in gprompter. Tokens from
+	past stream were incorrectly used to fill n-gram to be learned.
+
+	* apps/gtk/gprompter/gprompter.c: removed debugging printouts.
+
 2012-06-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/python/Makefile.am, bindigs/python/setup.py.in: Pass

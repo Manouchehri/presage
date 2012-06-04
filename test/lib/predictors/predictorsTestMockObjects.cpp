@@ -74,7 +74,7 @@ std::string ContextTracker::getToken(const int index) const
     return result;
 }
 
-std::string ContextTracker::getSlidingWindowToken(const int index) const
+std::string ContextTracker::getExtraTokenToLearn(const int index, const std::vector<std::string>& change) const
 { std::string result; return result; }
 
 std::string ContextTracker::getFutureStream() const

@@ -170,7 +170,8 @@ public:
     std::string getPrefix() const;
     std::string getToken (const int) const;
 
-    std::string getSlidingWindowToken(const int index) const;
+    std::string getExtraTokenToLearn(const int index,
+				     const std::vector<std::string>& change) const;
 
     std::string getFutureStream() const;
     std::string getPastStream  () const;

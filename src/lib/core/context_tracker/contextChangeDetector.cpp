@@ -108,9 +108,7 @@ bool ContextChangeDetector::context_change_helper(const std::string& prev_contex
 	} else {
 	    // current context changed, previous context is empty,
 	    // first change happened
-	    result = true;  // REVISIT: this should really be true,
-			    // but setting it to true screws up
-			    // learning
+	    result = true;
 	}
     } else {
 	// find position of previous context in current context

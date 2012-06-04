@@ -211,23 +211,33 @@ std::string ContextTracker::getToken(const int index) const
 //    return result;
 }
 
-std::string ContextTracker::getSlidingWindowToken(const int index) const
+std::string ContextTracker::getExtraTokenToLearn(const int index, const std::vector<std::string>& change) const
 {
-    std::stringstream slidingWindowStream(contextChangeDetector->get_sliding_window());
-    ReverseTokenizer tokenizer(slidingWindowStream, blankspaceChars, separatorChars);
-    tokenizer.lowercaseMode(lowercase_mode);
+    //logger << DEBUG
+    //	   << "past_stream   : " << getPastStream() << endl
+    //	   << "change        : " << contextChangeDetector->change(getPastStream()) << endl
+    //	   << "sliding_window: " << contextChangeDetector->get_sliding_window() + "\n" << endl;
 
-    std::string token;
-    int i = 0;
-    while (tokenizer.hasMoreTokens() && i <= index) {
-        token = tokenizer.nextToken();
-        i++;
-    }
-    if (i <= index) {
-	// in case the index points too far back
-	token = "";
-    }
-    return token;
+
+    // Extra tokens to learn are to be found in (past_stream - change)
+    //
+    // The change tokens are tokens that have not been seen or learnt
+    // before.
+    //
+    // The extra tokens to learn are tokens that have been seen and
+    // learn before, but that we need to reuse to fill out the n-gram
+    // of required cardinality that we are about to learn.
+    //
+    // To find the extra tokens to learn, we use the size of tokenized
+    // change vector to offset the index and extract the extra tokens
+    // to learn from the past stream.
+    //
+    // For example:
+    //   past_stream : "The quick brown fox jumped over the "
+    //   change      : |over|the|
+    //   extra_tokens: |The|quick|brown|fox|jumped|
+    //
+    return getToken(index + change.size());
 }
 
 std::string ContextTracker::getFutureStream() const
