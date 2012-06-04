@@ -64,14 +64,18 @@ static const char* get_past_stream (void* scintilla)
 
     free (range.lpstrText);  // safe to free on first call, static struct members init'ed to zero
     range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
+    /*
     g_print("malloc'ing block of size: %d\n", range.chrg.cpMax - range.chrg.cpMin + 1);
+    */
 
     scintilla_send_message(sci,
 			   SCI_GETTEXTRANGE,
 			   0,
 			   (sptr_t) &range);
 
+    /*
     g_print("get_past_stream(): %s\n", range.lpstrText);
+    */
 	
     return range.lpstrText;
 }
@@ -91,15 +95,18 @@ static const char* get_future_stream (void* scintilla)
 
     free (range.lpstrText);  // safe to free on first call, static struct members init'ed to zero
     range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
-
+    /*
     g_print("malloc'ing block of size: %d\n", range.chrg.cpMax - range.chrg.cpMin + 1);
+    */
 
     scintilla_send_message(sci,
 			   SCI_GETTEXTRANGE,
 			   0,
 			   (sptr_t) &range);
-	
+
+    /*
     g_print("get_future_stream(): %s\n", range.lpstrText);
+    */
 
     return range.lpstrText;
 }
