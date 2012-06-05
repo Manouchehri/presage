@@ -167,7 +167,7 @@ void parseCommandLineArgs(int argc, char* argv[])
 void printVersion()
 {
     std::cout << PROGRAM_NAME << " (" << PACKAGE << ") version " << VERSION << std::endl
-	      << "Copyright (C) 2004 Matteo Vescovi." << std::endl
+	      << "Copyright (C) Matteo Vescovi." << std::endl
 	      << "This is free software; see the source for copying conditions.  There is NO" << std::endl
 	      << "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE," << std::endl
 	      << "to the extent permitted by law." << std::endl;

@@ -1,4 +1,4 @@
-Copyright (C) 2011  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Copyright (C) 2012  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 ___________________
 The Presage project
 ~~~~~~~~~~~~~~~~~~~
@@ -7,17 +7,38 @@ NEWS
 ----
 
 
-Presage 0.8.8 beta (BETA ANNOUNCEMENT)
-----------------------
-Presage 0.8.8b is now available for download.
+Presage 0.8.8
+-------------
+Presage 0.8.8 is now available for download.
 
-Presage 0.8.8b allows to enabled multiple instances of the same predictor class at runtime through configuration. Each predictor instance is independently configured to allow greater flexibility. Predictive performance can be more finely tailor to the users' specific needs by tuning the resources and configuration of each predictor. The default configuration has been changed to add a custom user smoothed ngram predictor, which adaptively learns its language model. The user-specific default configuration file location is now ~/.presage/presage.xml (~/.presage.xml is no longer used). The configuration now supports and expands environment variables.
+Presage 0.8.8 allows to enabled multiple instances of the same
+predictor class at runtime through configuration. Each predictor
+instance is independently configured to allow greater
+flexibility. Predictive performance can be more finely tailor to the
+users' specific needs by tuning the resources and configuration of
+each predictor. The default configuration has been changed to add a
+custom user smoothed ngram predictor, which adaptively learns its
+language model. The user-specific default configuration file location
+is now ~/.presage/presage.xml (~/.presage.xml is no longer used). The
+configuration now supports and expands environment variables.
 
-Presage 0.8.8b adds support for filters to dictionary predictor, recency predictor, abbreviation expansion predictor, and dejavu predictor. The smoothed n-gram predictor will create and initialize a language model database if it does not already exist. Learning performance of the smoothed n-gram predictor has been improved. A new configuration variable has been added to control context tracking case sensitivity.
+Presage 0.8.8 adds support for filters to dictionary predictor,
+recency predictor, abbreviation expansion predictor, and dejavu
+predictor. The smoothed n-gram predictor will create and initialize a
+language model database if it does not already exist. Learning
+performance of the smoothed n-gram predictor has been improved. A new
+configuration variable has been added to control context tracking case
+sensitivity.
 
-Presage 0.8.8b fixes a bug that caused learning of spurious text. A bug was discovered in gprompter when learning is enabled. A memory allocation bug and a memory leak were fixed in the Notepad++ plugin. The embedded XML configuration parser library and the text editing component have been updated.
+Presage 0.8.8 fixes a bug that caused learning of spurious text. A bug
+affecting gprompter when learning is enabled was fixed. A memory
+allocation bug and a memory leak were fixed in the Notepad++ plugin.
 
-Presage 0.8.8b comes with a number of other enhancements and fixes. Please see the ChangeLog for more details.
+Presage 0.8.8 ships with an updated embedded XML configuration parser
+library and update text editing component.
+
+Presage 0.8.8 comes with a number of other enhancements and
+fixes. Please see the ChangeLog for more details.
 
 
 Presage 0.8.7 released

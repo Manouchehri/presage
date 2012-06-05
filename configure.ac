@@ -3,7 +3,7 @@ dnl configure.ac for Presage
 dnl Presage, an extensible predictive text entry system
 dnl ---------------------------------------------------
 dnl
-dnl Copyright (C) 2008  Matteo Vescovi <matteo.vescovi\@yahoo.co.uk>
+dnl Copyright (C) 2012  Matteo Vescovi <matteo.vescovi\@yahoo.co.uk>
 dnl
 dnl This program is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 dnl Process this file with autoconf to produce a configure script.
 
 
-AC_INIT([presage],[0.8.8b],[matteo.vescovi@yahoo.co.uk])
+AC_INIT([presage],[0.8.8],[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 
 AC_CONFIG_SRCDIR([src/lib/presage.cpp])
