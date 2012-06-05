@@ -162,6 +162,11 @@
 
 	* src/lib/presage.h: fixed comments.
 
+2012-04-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/combiner.cpp: cleaned up combiner filter base class
+	implementation.
+
 2012-04-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* test\lib\predictors\dbconnector\sqliteDatabaseConnectorTest.cpp:
