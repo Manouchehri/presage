@@ -1,3 +1,8 @@
+2011-06-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.c: Fix compilation errors triggered
+	by hardening flags.
+
 2011-06-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac, NEWS, website/presage_database_dump.sql.gz:
