@@ -22,12 +22,14 @@
 									     **********(*)*/
 
 
+
+#include "smoothedNgramPredictorTest.h"
+
 // for unlink(), getcwd()
 #ifdef HAVE_UNISTD_H
 # include <unistd.h>
 #endif
 
-#include "smoothedNgramPredictorTest.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION( SmoothedNgramPredictorTest );
 
