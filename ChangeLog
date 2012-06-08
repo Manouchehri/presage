@@ -1,3 +1,7 @@
+2011-06-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* presage-0.8.8: released.
+
 2011-06-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c: Fix compilation errors triggered
