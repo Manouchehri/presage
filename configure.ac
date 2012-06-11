@@ -276,6 +276,62 @@ AM_CONDITIONAL([HAVE_DBUS_PYTHON], [test "x$have_dbus_python" = "xyes"])
 
 
 dnl ========================
+dnl Checks for pypresagemate
+dnl ========================
+AC_MSG_CHECKING(for pyatspi)
+$PYTHON -c "import pyatspi" 2&>/dev/null
+if test $? -eq 0;
+then
+	have_pyatspi=yes
+else
+	have_pyatspi=no
+fi
+AC_MSG_RESULT($have_pyatspi)
+
+AC_MSG_CHECKING(for python gtk)
+$PYTHON -c "import gtk" 2&>/dev/null
+if test $? -eq 0;
+then
+	have_python_gtk=yes
+else
+	have_python_gtk=no
+fi
+AC_MSG_RESULT($have_python_gtk)
+
+AC_MSG_CHECKING(for python pango)
+$PYTHON -c "import pango" 2&>/dev/null
+if test $? -eq 0;
+then
+	have_python_pango=yes
+else
+	have_python_pango=no
+fi
+AC_MSG_RESULT($have_python_pango)
+
+AC_MSG_CHECKING(for python Xlib)
+$PYTHON -c "import Xlib" 2&>/dev/null
+if test $? -eq 0;
+then
+	have_python_Xlib=yes
+else
+	have_python_Xlib=no
+fi
+AC_MSG_RESULT($have_python_Xlib)
+
+if test "$PYTHON" -a \
+        "x$have_pyatspi" = "xyes" -a \
+	"x$have_python_gtk" = "xyes" -a \
+	"x$have_python_pango" = "xyes" -a \
+	"x$have_python_Xlib" = "xyes"
+then
+	enable_pypresagemate=yes
+else
+	enable_pypresagemate=no
+fi
+AM_CONDITIONAL([ENABLE_PYPRESAGEMATE], [test "x$enable_pypresagemate" = "xyes"])
+
+
+dnl ========================
 dnl Checks for documentation
 dnl ========================
 AC_ARG_ENABLE([documentation],
@@ -517,10 +573,11 @@ AC_MSG_RESULT([
 
   Additional applications:
 
-    wxPython prompter: .......... ${build_python_binding}
+    D-BUS presage service: ...... ${have_dbus_python}
+    wxPython pyprompter: ........ ${build_python_binding}
+    pypresagemate: .............. ${enable_pypresagemate}
     GTK+ presage mate: .......... ${build_gtk_presage_mate}
     GTK+ prompter: .............. ${build_gtk_prompter}
-    D-BUS presage service: ...... ${have_dbus_python}
 
 
   Additional resources:

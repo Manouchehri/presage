@@ -1,3 +1,8 @@
+2011-06-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/Makefile.am, configure.ac: Add checks for python
+	modules required for pypresagemate.
+
 2011-06-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* presage-0.8.8: released.
