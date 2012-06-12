@@ -1,3 +1,8 @@
+2011-06-12  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/Makefile.am, configure.ac: Add checks for python
+	modules required for pyprompter.
+
 2011-06-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/Makefile.am, configure.ac: Add checks for python

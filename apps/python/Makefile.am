@@ -27,7 +27,6 @@ if ENABLE_PYTHON_BINDING
 
 
 if ENABLE_PYPRESAGEMATE
-
 # pypresagemate uses autotools
 dist_bin_SCRIPTS = \
 	pypresagemate
@@ -38,7 +37,9 @@ presagemate_PYTHON = \
 	presagemate/presagemate.py 
 
 endif
+#     ENABLE_PYPRESAGEMATE
 
+if ENABLE_PYPROMPTER
 # pyprompter delegates to setup.py
 EXTRA_DIST =	pyprompter \
 		prompter/__init__.py \
@@ -108,6 +109,9 @@ dist_svgicon_DATA = pyprompter.svg
 
 pixmapsdir = $(datadir)/pixmaps
 dist_pixmaps_DATA = pyprompter.png pyprompter.xpm
+
+endif
+#     ENABLE_PYPROMPTER
 
 endif
 endif

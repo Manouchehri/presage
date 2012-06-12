@@ -22,7 +22,7 @@ dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 dnl Process this file with autoconf to produce a configure script.
 
 
-AC_INIT([presage],[0.8.8],[matteo.vescovi@yahoo.co.uk])
+AC_INIT([presage],[0.8.9-beta],[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 
 AC_CONFIG_SRCDIR([src/lib/presage.cpp])
@@ -331,6 +331,41 @@ fi
 AM_CONDITIONAL([ENABLE_PYPRESAGEMATE], [test "x$enable_pypresagemate" = "xyes"])
 
 
+dnl =====================
+dnl Checks for pyprompter
+dnl =====================
+AC_MSG_CHECKING(for python wx)
+$PYTHON -c "import wx" 2&>/dev/null
+if test $? -eq 0;
+then
+	have_python_wx=yes
+else
+	have_python_wx=no
+fi
+AC_MSG_RESULT($have_python_wx)
+
+
+AC_MSG_CHECKING(for python wx.stc)
+$PYTHON -c "import gtk" 2&>/dev/null
+if test $? -eq 0;
+then
+	have_python_wx_stc=yes
+else
+	have_python_wx_stc=no
+fi
+AC_MSG_RESULT($have_python_wx_stc)
+
+if test "$PYTHON" -a \
+	"x$have_python_wx" = "xyes" -a \
+	"x$have_python_wx_stc" = "xyes"
+then
+	enable_pyprompter=yes
+else
+	enable_pyprompter=no
+fi
+AM_CONDITIONAL([ENABLE_PYPROMPTER], [test "x$enable_pyprompter" = "xyes"])
+
+
 dnl ========================
 dnl Checks for documentation
 dnl ========================
@@ -571,10 +606,15 @@ AC_MSG_RESULT([
     ARPA: ....................... yes
 
 
+  Bindings:
+    C++ ......................... yes
+    C ........................... yes
+    Python ...................... ${build_python_binding}
+
   Additional applications:
 
     D-BUS presage service: ...... ${have_dbus_python}
-    wxPython pyprompter: ........ ${build_python_binding}
+    wxPython pyprompter: ........ ${enable_pyprompter}
     pypresagemate: .............. ${enable_pypresagemate}
     GTK+ presage mate: .......... ${build_gtk_presage_mate}
     GTK+ prompter: .............. ${build_gtk_prompter}
