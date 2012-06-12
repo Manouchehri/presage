@@ -44,8 +44,6 @@ void ContextChangeDetectorTest::tearDown()
 
 void ContextChangeDetectorTest::testCharChanges()
 {
-    std::cerr << "ContextChangeDetectorTest::testCharChanges()" << std::endl;
-
     detector->set_sliding_window_size("10");
 
     const std::string line   = "foo bar foobar, foo   bar! Foobar foo bar... foobar. ";
@@ -56,7 +54,6 @@ void ContextChangeDetectorTest::testCharChanges()
 	bool expected = (change[i] == '0' ? false : true);
 	
 	std::string stream = line.substr(0, i+1);
-	std::cerr << "Stream: " << stream << std::endl;
 
 	std::stringstream ss;
 	ss << "Error detected at: " << stream << '|';
@@ -67,8 +64,6 @@ void ContextChangeDetectorTest::testCharChanges()
 
 void ContextChangeDetectorTest::testBlockChanges()
 {
-    std::cerr << "ContextChangeDetectorTest::testBlockChanges()" << std::endl;
-
     std::string str = "The quick brown fox jumped over the lazy dog";
 
     detector->set_sliding_window_size("10");

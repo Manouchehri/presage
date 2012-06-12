@@ -35,9 +35,9 @@ void ContextTrackerTest::setUp()
     testStringSuite = new TestStringSuite();
 
     configuration = new Configuration();
-    configuration->insert (PredictorRegistry::LOGGER, "ALL");
+    configuration->insert (PredictorRegistry::LOGGER, "ERROR");
     configuration->insert (PredictorRegistry::PREDICTORS, "");
-    configuration->insert (ContextTracker::LOGGER, "ALL");
+    configuration->insert (ContextTracker::LOGGER, "ERROR");
     configuration->insert (ContextTracker::SLIDING_WINDOW_SIZE, "80");
     configuration->insert (ContextTracker::LOWERCASE_MODE, "no");
 
@@ -58,8 +58,6 @@ void ContextTrackerTest::testConstructor()
 
 void ContextTrackerTest::testGetPrefix()
 {
-    std::cerr << "ContextTrackerTest::testGetPrefix()" << std::endl;
-
     while (testStringSuite->hasMoreTestStrings()) {
 	std::stringstream buffer;
 	StringstreamPresageCallback callback(buffer);
@@ -67,19 +65,19 @@ void ContextTrackerTest::testGetPrefix()
 	buffer << testStringSuite->currentTestString()->getstr();
 
 	assert(testStringSuite->currentTestString() != 0);
-	std::cerr << "Test getting prefix from string: "
-		  << testStringSuite->currentTestString()->getstr() 
-		  << std::endl;
+	//std::cerr << "Test getting prefix from string: "
+	//	  << testStringSuite->currentTestString()->getstr() 
+	//	  << std::endl;
 
 	std::string actual_prefix   = hT.getPrefix();
 	std::string expected_prefix = testStringSuite->currentTestString()->token(testStringSuite->currentTestString()->tokencount() - 1);
 
-	std::cerr << "actual_prefix  : " << actual_prefix << std::endl;
-	std::cerr << "expected_prefix: " << expected_prefix << std::endl;
+	//std::cerr << "actual_prefix  : " << actual_prefix << std::endl;
+	//std::cerr << "expected_prefix: " << expected_prefix << std::endl;
 	
 	CPPUNIT_ASSERT_EQUAL( expected_prefix, actual_prefix );
 
-	std::cerr << "past assert" << std::endl;
+	//std::cerr << "past assert" << std::endl;
 
 	testStringSuite->nextTestString();
     }
@@ -87,8 +85,6 @@ void ContextTrackerTest::testGetPrefix()
 
 void ContextTrackerTest::testGetToken()
 {
-    std::cerr << "ContextTrackerTest::testGetToken()" << std::endl;
-
     while (testStringSuite->hasMoreTestStrings()) {
 	std::stringstream buffer;
 	StringstreamPresageCallback callback(buffer);
@@ -96,7 +92,7 @@ void ContextTrackerTest::testGetToken()
 	buffer << testStringSuite->currentTestString()->getstr();
 
 	assert(testStringSuite->currentTestString() != 0);
-	std::cerr << "pastStream: " << hT.getPastStream() << std::endl;
+	//std::cerr << "pastStream: " << hT.getPastStream() << std::endl;
         
         const int TOKENS = testStringSuite->currentTestString()->tokencount();
         for (int i = 0; i < TOKENS; i++) {
@@ -104,8 +100,8 @@ void ContextTrackerTest::testGetToken()
             std::string actual_token   = hT.getToken(i);
             std::string expected_token = testStringSuite->currentTestString()->token(TOKENS - i - 1);
             
-            std::cerr << "expected_token: " << expected_token << std::endl;
-            std::cerr << "actual_token  : " << actual_token << std::endl;
+            //std::cerr << "expected_token: " << expected_token << std::endl;
+            //std::cerr << "actual_token  : " << actual_token << std::endl;
 	
             CPPUNIT_ASSERT_EQUAL( expected_token, actual_token );
         }
@@ -120,8 +116,6 @@ void ContextTrackerTest::testGetFutureStream()
 
 void ContextTrackerTest::testGetPastStream()
 {
-    std::cerr << "ContextTrackerTest::testGetPastBuffer()" << std::endl;
-
     while (testStringSuite->hasMoreTestStrings()) {
 	std::stringstream buffer;
 	StringstreamPresageCallback callback(buffer);
@@ -162,8 +156,8 @@ void ContextTrackerTest::testContextChange()
 
 	bool expected = (change[i] == '0' ? false : true);
 	
-	std::cerr << "contextChange: " << expected
-		  << " - context: " << contextTracker->getPastStream() << '|' << std::endl;
+	//std::cerr << "contextChange: " << expected
+	//	  << " - context: " << contextTracker->getPastStream() << '|' << std::endl;
 
 	std::stringstream ss;
 	ss << "Error detected at: " << line.substr(0, i) << '|';
@@ -216,6 +210,4 @@ void ContextTrackerTest::testCumulativeContextChange()
     }
 
     delete contextTracker;
-
-    std::cerr << "ContextTrackerTest::testCumulativeContextChange() completed" << std::endl;
 }

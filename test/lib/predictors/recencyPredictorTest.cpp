@@ -40,8 +40,6 @@ const char* RecencyPredictorTest::N_0       = "Presage.Predictors.RecencyPredict
 
 void RecencyPredictorTest::setUp()
 {
-    //std::cerr << "RecencyPredictorTest::setUp()" << std::endl;
-
     config = new Configuration();
     // set context tracker config variables
     config->insert ("Presage.ContextTracker.LOGGER", "ERROR");
@@ -52,7 +50,7 @@ void RecencyPredictorTest::setUp()
     config->insert ("Presage.PredictorRegistry.PREDICTORS", "");
     // set recency predictor config variables
     config->insert (PREDICTOR, NAME);
-    config->insert (LOGGER, "ALL");
+    config->insert (LOGGER, "ERROR");
     config->insert (LAMBDA, "1");
     config->insert (N_0,    "1");
     config->insert (CUTOFF, "20");
@@ -65,8 +63,6 @@ void RecencyPredictorTest::setUp()
 
 void RecencyPredictorTest::tearDown()
 {
-    //std::cerr << "RecencyPredictorTest::tearDown()" << std::endl;
-    
     delete ct;
     delete callback;
     delete stream;
@@ -76,8 +72,6 @@ void RecencyPredictorTest::tearDown()
 
 void RecencyPredictorTest::testMaxPartialPredictionSize()
 {
-    std::cerr << "RecencyPredictorTest::testMaxPartialPredictionSize()" << std::endl;
-
     RecencyPredictor* predictor = new RecencyPredictor(config, ct, NAME);
 
     *stream << "foo foobar foobaz foo";
@@ -85,7 +79,6 @@ void RecencyPredictorTest::testMaxPartialPredictionSize()
     for (size_t i = 1; i <= 3; i++) {
         Prediction prediction = predictor->predict(i, 0);
         CPPUNIT_ASSERT_EQUAL(i, prediction.size());
-        std::cout << prediction << std::endl;
     }
 
     delete predictor;
@@ -93,8 +86,6 @@ void RecencyPredictorTest::testMaxPartialPredictionSize()
 
 void RecencyPredictorTest::testCutoffThreshold()
 {
-    std::cerr << "RecencyPredictorTest::testCutoffThreshold()" << std::endl;
-
     *stream << "foo bar foobar baz f";
 
     {
@@ -139,8 +130,6 @@ void RecencyPredictorTest::testCutoffThreshold()
 }
 void RecencyPredictorTest::testFilter()
 {
-    std::cerr << "RecencyPredictorTest::testFilter()" << std::endl;
-
     *stream << "foo bar foobar baz f";
 
     {

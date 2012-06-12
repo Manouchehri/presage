@@ -47,7 +47,7 @@ void CrossCheckTokenizerTest::runCrossCheck(
     ForwardTokenizer& forTok,
     ReverseTokenizer& revTok)
 {
-    std::cerr << "CrossCheckTokenizerTest::runCrossCheck()" << std::endl;
+    //std::cerr << "CrossCheckTokenizerTest::runCrossCheck()" << std::endl;
 
     while (stringSuite->hasMoreTestStrings()) {
 	std::list<std::string> forwardTokenization;
@@ -76,7 +76,7 @@ void CrossCheckTokenizerTest::runCrossCheck(
 
 void CrossCheckTokenizerTest::testNextToken()
 {
-    std::cerr << "CrossCheckTokenizerTest::testNextToken()" << std::endl;
+    //std::cerr << "CrossCheckTokenizerTest::testNextToken()" << std::endl;
     assert(stringSuite->currentTestString() != 0);
 
     std::stringstream forss;
@@ -92,7 +92,7 @@ void CrossCheckTokenizerTest::testNextToken()
 
 void CrossCheckTokenizerTest::testLowercaseMode()
 {
-    std::cerr << "CrossCheckTokenizerTest::testLowercaseMode()" << std::endl;
+    //std::cerr << "CrossCheckTokenizerTest::testLowercaseMode()" << std::endl;
     assert(stringSuite->currentTestString() != 0);
 
     std::stringstream forss;
@@ -109,7 +109,7 @@ void CrossCheckTokenizerTest::testLowercaseMode()
 
 void CrossCheckTokenizerTest::testProgress()
 {
-    std::cerr << "CrossCheckTokenizerTest::testProgress()" << std::endl;
+    //std::cerr << "CrossCheckTokenizerTest::testProgress()" << std::endl;
     std::stringstream forss;
     std::stringstream revss;
     const std::string str("01 02 03 04 05 06 07 08 09 10");

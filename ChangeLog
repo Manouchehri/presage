@@ -3,6 +3,24 @@
 	* apps/python/Makefile.am, configure.ac: Add checks for python
 	modules required for pyprompter.
 
+	* test/lib/core/context_tracker/contextChangeDetectorTest.cpp,
+	test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/predictorRegistryTest.cpp,
+	test/lib/core/profileManagerTest.cpp,
+	test/lib/core/profileTest.cpp, test/lib/core/selectorTest.cpp,
+	test/lib/core/tokenizer/crossCheckTokenizerTest.cpp,
+	test/lib/core/tokenizer/reverseTokenizerTest.cpp,
+	test/lib/core/variableTest.cpp,
+	test/lib/predictors/abbreviationExpansionPredictorTest.cpp,
+	test/lib/predictors/dbconnector/databaseConnectorTest.cpp,
+	test/lib/predictors/dbconnector/databaseConnectorTest.h,
+	test/lib/predictors/dbconnector/sqliteDatabaseConnectorTest.cpp,
+	test/lib/predictors/dejavuPredictorTest.cpp,
+	test/lib/predictors/newSmoothedNgramPredictorTest.cpp,
+	test/lib/predictors/recencyPredictorTest.cpp,
+	test/lib/predictors/smoothedNgramPredictorTest.cpp: Make check
+	target quiet.
+
 2011-06-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/Makefile.am, configure.ac: Add checks for python

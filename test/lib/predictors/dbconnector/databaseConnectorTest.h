@@ -76,7 +76,7 @@ public:
 	 * correct SQL query are generated.
 	 */
 	virtual NgramTable executeSql(const std::string query) const {
-	    std::cout << "[query] " << query << std::endl;
+	    //std::cout << "[query] " << query << std::endl;
 	    *m_query = query;
 	    std::stringstream ss;
 	    ss << MAGIC_NUMBER;

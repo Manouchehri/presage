@@ -111,8 +111,6 @@ void SqliteDatabaseConnectorTest::tearDown()
 
 void SqliteDatabaseConnectorTest::testConstructor()
 {
-    std::cout << "SqliteDatabaseConnectorTest::testConstructor()" << std::endl;
-
     // This tests that an empty database is created when an instance
     // of SqliteDatabaseConstructor is created.  The SqliteDatabase
     // instantiation is done in the setUp() method and the testing is
@@ -121,8 +119,6 @@ void SqliteDatabaseConnectorTest::testConstructor()
 
 void SqliteDatabaseConnectorTest::testInsertNgram()
 {
-    std::cout << "SqliteDatabaseConnectorTest::testInsertNgram()" << std::endl;
-
     // populate database
     CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER));
     CPPUNIT_ASSERT_NO_THROW(sqliteDatabaseConnector->insertNgram(*bigram, MAGIC_NUMBER));
@@ -161,8 +157,6 @@ void SqliteDatabaseConnectorTest::testInsertNgram()
 
 void SqliteDatabaseConnectorTest::testUpdateNgram()
 {
-    std::cout << "SqliteDatabaseConnectorTest::testUpdateNgram()" << std::endl;
-
     // populate database
     sqliteDatabaseConnector->createNgramTable(1);
     sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER);
@@ -210,8 +204,6 @@ void SqliteDatabaseConnectorTest::testRemoveNgram()
 
 void SqliteDatabaseConnectorTest::testGetNgramCount()
 {
-    std::cout << "SqliteDatabaseConnectorTest::testGetNgramCount()" << std::endl;
-
     // populate database
     sqliteDatabaseConnector->createNgramTable(1);
     sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER);
@@ -249,8 +241,6 @@ void SqliteDatabaseConnectorTest::testGetNgramCount()
 
 void SqliteDatabaseConnectorTest::testIncrementNgramCount()
 {
-    std::cout << "SqliteDatabaseConnectorTest::testIncrementNgramCount()" << std::endl;
-
     // populate database
     sqliteDatabaseConnector->incrementNgramCount(*unigram);
     sqliteDatabaseConnector->incrementNgramCount(*unigram);
@@ -293,8 +283,6 @@ void SqliteDatabaseConnectorTest::testIncrementNgramCount()
 
 void SqliteDatabaseConnectorTest::testGetNgramLikeTable()
 {
-    std::cout << "SqliteDatabaseConnectorTest::testGetNgramLikeTable()" << std::endl;
-
     // populate database
     sqliteDatabaseConnector->createNgramTable(1);
     sqliteDatabaseConnector->insertNgram(*unigram, MAGIC_NUMBER);
@@ -385,7 +373,7 @@ void SqliteDatabaseConnectorTest::assertEqualNgramTable(const NgramTable* const 
     for (size_t i = 0; i < expected->size(); i++) {
 	CPPUNIT_ASSERT_EQUAL((*expected)[i].size(), actual[i].size());
 	for (size_t j = 0; j < (*expected)[i].size(); j++) {
-	    std::cout << "[assertEqualNgramTable] (" << (*expected)[i][j] << ", " << actual[i][j] << ")" << std::endl;
+	    //std::cout << "[assertEqualNgramTable] (" << (*expected)[i][j] << ", " << actual[i][j] << ")" << std::endl;
 	    CPPUNIT_ASSERT((*expected)[i][j] == actual[i][j]);
 	}
     }
@@ -393,9 +381,6 @@ void SqliteDatabaseConnectorTest::assertEqualNgramTable(const NgramTable* const 
 
 void SqliteDatabaseConnectorTest::assertExistsAndRemoveFile(const char* filename) const
 {
-  std::cerr << "SqliteDatabaseConnectorTest::assertExistsAndRemoveFile ("
-	    << filename << ")" << std::endl;
-
 #ifdef HAVE_DIRENT_H
     bool result = false;
     DIR* dp;
@@ -448,7 +433,7 @@ void SqliteDatabaseConnectorTest::assertDatabaseDumpEqualsBenchmark(std::strings
 #endif
         + DEFAULT_DATABASE_FILENAME + " \".dump\" > " + DATABASE_DUMP;
 
-    std::cout << "Executing `" << command << "'" << std::endl;
+    //std::cout << "Executing `" << command << "'" << std::endl;
     int command_exit_value = system(command.c_str());
     CPPUNIT_ASSERT(command_exit_value == 0);
 
@@ -503,8 +488,8 @@ void SqliteDatabaseConnectorTest::assertDatabaseDumpEqualsBenchmark(std::strings
 	
 	equal = (expected == actual);
 	    //if (!equal)
-	std::cout << "[expected] " << expected << std::endl
-		  << "[actual  ] " << actual << std::endl;
+	//std::cout << "[expected] " << expected << std::endl
+	//	  << "[actual  ] " << actual << std::endl;
 	CPPUNIT_ASSERT(equal);
     }
 

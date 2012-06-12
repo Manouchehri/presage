@@ -56,8 +56,6 @@ void DatabaseConnectorTest::tearDown()
 
 void DatabaseConnectorTest::testCreateNgramTable()
 {
-    std::cout << "DatabaseConnectorTest::testCreateNgramTable()" << std::endl;
-
     for (int i = 1; i < 4; i++) {
 	databaseConnector->createNgramTable(i);
     }
@@ -65,8 +63,6 @@ void DatabaseConnectorTest::testCreateNgramTable()
 
 void DatabaseConnectorTest::testGetNgramCount()
 {
-    std::cout << "DatabaseConnectorTest::testGetNgramCount()" << std::endl;
-
     CPPUNIT_ASSERT_EQUAL( GLOBAL_MAGIC_NUMBER,
 			  databaseConnector->getNgramCount(*unigram) );
     CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("SELECT count FROM _1_gram WHERE word = 'foo';"),
@@ -106,8 +102,6 @@ void DatabaseConnectorTest::assertCorrectMockNgramTable(NgramTable ngramTable)
 
 void DatabaseConnectorTest::testGetNgramLikeTable()
 {
-    std::cout << "DatabaseConnectorTest::testGetNgramLikeTable()" << std::endl;
-
     std::string* lastLikeQuery = new std::string();
     DatabaseConnectorLikeImpl* databaseConnectorLike = new DatabaseConnectorLikeImpl(lastLikeQuery);
 
@@ -129,8 +123,6 @@ void DatabaseConnectorTest::testGetNgramLikeTable()
 
 void DatabaseConnectorTest::testGetNgramLikeTableLimit()
 {
-    std::cout << "DatabaseConnectorTest::testGetNgramLikeTableLimit()" << std::endl;
-
     std::string* lastLikeQuery = new std::string();
     DatabaseConnectorLikeImpl* databaseConnectorLike = new DatabaseConnectorLikeImpl(lastLikeQuery);
 
@@ -152,8 +144,6 @@ void DatabaseConnectorTest::testGetNgramLikeTableLimit()
 
 void DatabaseConnectorTest::testInsertNgram()
 {
-    std::cout << "DatabaseConnectorTest::testInsertNgram()" << std::endl;
-
     databaseConnector->insertNgram(*unigram, GLOBAL_MAGIC_NUMBER);
     CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("INSERT INTO _1_gram VALUES('foo', 1337);"),
 			  *lastQuery );
@@ -169,8 +159,6 @@ void DatabaseConnectorTest::testInsertNgram()
 
 void DatabaseConnectorTest::testUpdateNgram()
 {
-    std::cout << "DatabaseConnectorTest::testUpdateNgram()" << std::endl;
-
     databaseConnector->updateNgram(*unigram, GLOBAL_MAGIC_NUMBER);
     CPPUNIT_ASSERT_EQUAL( static_cast<std::string>("UPDATE _1_gram SET count = 1337 WHERE word = 'foo';"),
 			  *lastQuery );
@@ -186,8 +174,6 @@ void DatabaseConnectorTest::testUpdateNgram()
 
 void DatabaseConnectorTest::testRemoveNgram()
 {
-    std::cout << "DatabaseConnectorTest::testRemoveNgram()" << std::endl;
-
     databaseConnector->removeNgram(*unigram);
     databaseConnector->removeNgram(*bigram);
     databaseConnector->removeNgram(*trigram);

@@ -383,12 +383,12 @@ void SelectorTest::setUp()
     tds_S6_R_T3 = new TestDataSuite_S6_R_T3();
 
     configuration = new Configuration();
-    configuration->insert (PredictorRegistry::LOGGER, "ALL");
+    configuration->insert (PredictorRegistry::LOGGER, "ERROR");
     configuration->insert (PredictorRegistry::PREDICTORS, "");
-    configuration->insert (ContextTracker::LOGGER, "ALL");
+    configuration->insert (ContextTracker::LOGGER, "ERROR");
     configuration->insert (ContextTracker::SLIDING_WINDOW_SIZE, "80");
     configuration->insert (ContextTracker::LOWERCASE_MODE, "no");
-    configuration->insert (Selector::LOGGER, "ALL");
+    configuration->insert (Selector::LOGGER, "ERROR");
     configuration->insert (Selector::SUGGESTIONS, "6");
     configuration->insert (Selector::REPEAT_SUGGESTIONS, "no");
     configuration->insert (Selector::GREEDY_SUGGESTION_THRESHOLD, "0");
@@ -418,8 +418,6 @@ void SelectorTest::tearDown()
 void SelectorTest::testSelect(TestDataSuite* tds)
 {
     while (tds->hasMoreTestData()) {
-	std::cerr << "Updating strstream: " << strstream->str() << '|' << std::endl
-		  << " with: " << tds->getUpdateString() << '|' << std::endl;
 	*strstream << tds->getUpdateString();
 	std::vector<std::string> selectedTokens;
 	selectedTokens = selector->select(tds->getInputPrediction());
@@ -430,8 +428,6 @@ void SelectorTest::testSelect(TestDataSuite* tds)
 	std::vector<std::string>::const_iterator actual_it = selectedTokens.begin();
 	int index = 0;
 	while (actual_it != selectedTokens.end()) {
-	    std::cerr << "[expected] " << expected.getSuggestion(index).getWord()
-		      << "  [actual] " << *actual_it << std::endl;
 	    CPPUNIT_ASSERT_EQUAL(expected.getSuggestion(index).getWord(),
 				 *actual_it);
 	    
@@ -446,8 +442,6 @@ void SelectorTest::testSelect(TestDataSuite* tds)
 
 void SelectorTest::testSelect_S6_R_T0()
 {
-    std::cerr << "SelectorTest::testSelect_S6_R_T0()" << std::endl;
-
     configuration->find (Selector::SUGGESTIONS)->set_value ("6");
     configuration->find (Selector::REPEAT_SUGGESTIONS)->set_value ("true");
     configuration->find (Selector::GREEDY_SUGGESTION_THRESHOLD)->set_value ("0");
@@ -457,8 +451,6 @@ void SelectorTest::testSelect_S6_R_T0()
 
 void SelectorTest::testSelect_S6_NR_T0()
 {
-    std::cerr << "SelectorTest::testSelect_S6_NR_T0()" << std::endl;
-
     configuration->find (Selector::SUGGESTIONS)->set_value ("6");
     configuration->find (Selector::REPEAT_SUGGESTIONS)->set_value ("false");
     configuration->find (Selector::GREEDY_SUGGESTION_THRESHOLD)->set_value ("0");
@@ -468,8 +460,6 @@ void SelectorTest::testSelect_S6_NR_T0()
 
 void SelectorTest::testSelect_S6_R_T3()
 {
-    std::cerr << "SelectorTest::testSelect_S6_R_T3()" << std::endl;
-
     configuration->find (Selector::SUGGESTIONS)->set_value ("6");
     configuration->find (Selector::REPEAT_SUGGESTIONS)->set_value ("true");
     configuration->find (Selector::GREEDY_SUGGESTION_THRESHOLD)->set_value ("3");
@@ -479,8 +469,6 @@ void SelectorTest::testSelect_S6_R_T3()
 
 void SelectorTest::testSelect_S6_NR_T3()
 {
-    std::cerr << "SelectorTest::testSelect_S6_NR_T3()" << std::endl;
-
     configuration->find (Selector::SUGGESTIONS)->set_value ("6");
     configuration->find (Selector::REPEAT_SUGGESTIONS)->set_value ("false");
     configuration->find (Selector::GREEDY_SUGGESTION_THRESHOLD)->set_value ("3");

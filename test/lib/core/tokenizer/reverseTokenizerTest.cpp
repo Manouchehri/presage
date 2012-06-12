@@ -31,8 +31,6 @@ CPPUNIT_TEST_SUITE_REGISTRATION( ReverseTokenizerTest );
 
 void ReverseTokenizerTest::setUp()
 {
-    std::cerr << "ReverseTokenizerTest::setUp()" << std::endl;
-
     blankspaces = " \n\t";
     separators = ".,!";
 
@@ -41,15 +39,11 @@ void ReverseTokenizerTest::setUp()
 
 void ReverseTokenizerTest::tearDown()
 {
-    std::cerr << "ReverseTokenizerTest::tearDown()" << std::endl;
-
     delete stringSuite;
 }
 
 void ReverseTokenizerTest::testConstructor()
 {
-    std::cerr << "ReverseTokenizerTest::testConstructor()" << std::endl;
-
     std::stringstream ss;
     ReverseTokenizer tok1(ss, blankspaces, separators);
     
@@ -59,8 +53,6 @@ void ReverseTokenizerTest::testConstructor()
 
 void ReverseTokenizerTest::testNextToken()
 {
-    std::cerr << "ReverseTokenizerTest::testNextToken()" << std::endl;
-
     int i;
     while (stringSuite->hasMoreTestStrings()) {
 	std::stringstream ss;
@@ -68,14 +60,14 @@ void ReverseTokenizerTest::testNextToken()
 	ss << stringSuite->currentTestString()->getstr();
 	ReverseTokenizer tok(ss, blankspaces, separators);
         int tokenCount = stringSuite->currentTestString()->tokencount();
-        std::cerr << "[string] " << ss.str() << std::endl;
+        //std::cerr << "[string] " << ss.str() << std::endl;
 	for (i = 0; tok.hasMoreTokens(); i++) {
             //CPPUNIT_ASSERT_EQUAL( stringSuite->currentTestString()->token(tokenCount-1-i),
             //tok.nextToken() );
             std::string token = tok.nextToken();
-            std::cerr << "[token] " << token
-                      << " [expected] " << stringSuite->currentTestString()->token(tokenCount-1-i)
-                      << std::endl;
+            //std::cerr << "[token] " << token
+            //          << " [expected] " << stringSuite->currentTestString()->token(tokenCount-1-i)
+            //          << std::endl;
 	    CPPUNIT_ASSERT_EQUAL( stringSuite->currentTestString()->token(tokenCount-1-i),
 				  token );
 	}
@@ -85,8 +77,6 @@ void ReverseTokenizerTest::testNextToken()
 
 void ReverseTokenizerTest::testCountTokens()
 {
-    std::cerr << "ReverseTokenizerTest::testCountTokens()" << std::endl;
-
     while (stringSuite->hasMoreTestStrings()) {
 	std::stringstream ss;
 	assert(stringSuite->currentTestString() != 0);
@@ -100,8 +90,6 @@ void ReverseTokenizerTest::testCountTokens()
 
 void ReverseTokenizerTest::testLowercaseMode()
 {
-    std::cerr << "ReverseTokenizerTest::testLowercaseMode()" << std::endl;
-
     int i;
     while (stringSuite->hasMoreTestStrings()) {
 	std::stringstream ss;
@@ -128,8 +116,6 @@ void ReverseTokenizerTest::testLowercaseMode()
 
 void ReverseTokenizerTest::testProgress()
 {
-    std::cerr << "ReverseTokenizerTest::testProgress()" << std::endl;
-
     std::stringstream ss;
     ss << "01 02 03 04 05 06 07 08 09 10";
     ReverseTokenizer tok(ss, " ", " ");
@@ -139,8 +125,8 @@ void ReverseTokenizerTest::testProgress()
     while (tok.hasMoreTokens()) {
         expectedProgress += expectedProgressIncrement;
         tok.nextToken();
-        std::cerr << "[expected] " << expectedProgress 
-                  << " [progress] " << tok.progress() << std::endl;
+        //std::cerr << "[expected] " << expectedProgress 
+        //          << " [progress] " << tok.progress() << std::endl;
         CPPUNIT_ASSERT( (expectedProgress - delta) < tok.progress() );
         CPPUNIT_ASSERT( tok.progress() < (expectedProgress + delta) );
     }
@@ -148,8 +134,6 @@ void ReverseTokenizerTest::testProgress()
 
 void ReverseTokenizerTest::testRepeatability()
 {
-    std::cerr << "ReverseTokenizerTest::testRepeatability()" << std::endl;
-
     const int REPETITIONS = 3;
 
     std::stringstream ss;
@@ -185,15 +169,15 @@ void ReverseTokenizerTest::testRepeatability()
     for (int i = 0; i < REPETITIONS; i++ ) {
 	index = 0;
 	ReverseTokenizer rT(ss, blankspaces, separators);
-	std::cerr << "[stream] " << rT.streamToString() << std::endl;
+	//std::cerr << "[stream] " << rT.streamToString() << std::endl;
 	while (rT.hasMoreTokens()) {
 	    std::string token = rT.nextToken();
-	    std::cerr << "[repeatability] " << token << std::endl;
+	    //std::cerr << "[repeatability] " << token << std::endl;
 	    actual_ss << token << std::endl;
 	    CPPUNIT_ASSERT_EQUAL( tokens[index], token );
 	    index++;
 	}
-        std::cerr << "ss.str() " << ss.str() << std::endl;
+        //std::cerr << "ss.str() " << ss.str() << std::endl;
     }
 
     CPPUNIT_ASSERT_EQUAL( expected_ss.str(), actual_ss.str() );

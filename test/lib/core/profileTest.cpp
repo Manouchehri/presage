@@ -71,8 +71,6 @@ void ProfileTest::testGetConfig()
 
 void ProfileTest::testGetNonExistantConfig()
 {
-    std::cout << "void ProfileTest::testGetNonExistantConfig()" << std::endl;
-
     CPPUNIT_ASSERT_THROW(configuration->find (""), Configuration::ConfigurationException);
 
     CPPUNIT_ASSERT_THROW(configuration->find ("foo"), Configuration::ConfigurationException);
@@ -82,8 +80,6 @@ void ProfileTest::testGetNonExistantConfig()
 
 void ProfileTest::testNonExistantProfile()
 {
-    std::cout << "ProfileTest::testNonExistantProfile()" << std::endl;
-
     // hopefully a file with the following name will not exists
     const std::string wacky_profile("this_IS_a_wAckY_profileName.xml");
 

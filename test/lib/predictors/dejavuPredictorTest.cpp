@@ -51,7 +51,7 @@ void DejavuPredictorTest::setUp()
     config->insert ("Presage.PredictorRegistry.PREDICTORS", "DejavuPredictor");
     // set dejavu predictor config variables
     config->insert (PREDICTOR, NAME);
-    config->insert (LOGGER, "ALL");
+    config->insert (LOGGER, "ERROR");
     config->insert (TRIGGER, "3");
     config->insert (MEMORY, MEMORY_FILENAME);
 

@@ -62,8 +62,6 @@ void ProfileManagerTest::testProfile()
 
 void ProfileManagerTest::testCustomProfile()
 {
-    std::cout << "ProfileManagerTest::testCustomProfile()" << std::endl;
-
     // create custom profile
     const std::string custom_profile = "custom_profile.xml";
     std::ofstream profile_stream(custom_profile.c_str());

@@ -76,11 +76,9 @@ void AbbreviationExpansionPredictorTest::testUnknownAbbreviation()
 
 Configuration* AbbreviationExpansionPredictorTest::prepareConfiguration(const char* config[]) const
 {
-    std::cerr << "AbbreviationExpansionPredictorTest::prepareConfigMap" << std::endl;
-
     Configuration* result = new Configuration();
     result->insert ("Presage.Predictors.AbbreviationExpansionPredictor.PREDICTOR", "AbbreviationExpansionPredictor");
-    result->insert ("Presage.Predictors.AbbreviationExpansionPredictor.LOGGER", "ALL");
+    result->insert ("Presage.Predictors.AbbreviationExpansionPredictor.LOGGER", "ERROR");
     result->insert ("Presage.Predictors.AbbreviationExpansionPredictor.ABBREVIATIONS", config[0]);
 
     return result;
@@ -88,6 +86,5 @@ Configuration* AbbreviationExpansionPredictorTest::prepareConfiguration(const ch
 
 Predictor* AbbreviationExpansionPredictorTest::createPredictor(Configuration* configuration, ContextTracker* ct) const
 {
-    std::cerr << "AbbreviationExpansionPredictorTest::createPredictor" << std::endl;
     return new AbbreviationExpansionPredictor(configuration, ct, "AbbreviationExpansionPredictor");
 }

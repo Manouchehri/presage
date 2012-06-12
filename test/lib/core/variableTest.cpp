@@ -36,8 +36,6 @@ void VariableTest::tearDown()
 
 void VariableTest::test_string_to_variable()
 {
-    std::cout << "void VariableTest::test_string_to_variable()" << std::endl;
-
     Variable* variable = new Variable("");
     size_t expected_size = 0;
     CPPUNIT_ASSERT_EQUAL(expected_size, variable->size());
@@ -67,8 +65,6 @@ void VariableTest::test_string_to_variable()
 
 void VariableTest::test_variable_to_string()
 {
-    std::cout << "void VariableTest::test_variable_to_string()" << std::endl;
-
     std::vector<std::string>* expected = new std::vector<std::string>();
     Variable* var = new Variable(*expected);
     CPPUNIT_ASSERT_EQUAL(static_cast<std::string>(""), var->get_name ());

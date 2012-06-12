@@ -154,8 +154,6 @@ void SmoothedNgramPredictorTest::assertCorrectPrediction(const char** config,
 {
     Prediction prediction = runPredict(config, history);
 
-    std::cout << "assertCorrectPrediction: " << prediction << std::endl;
-
     CPPUNIT_ASSERT_EQUAL(expected_prediction_size, prediction.size());
     
     for (size_t i = 0; i < expected_prediction_size; i++) {

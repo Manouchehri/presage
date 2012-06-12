@@ -29,7 +29,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( PredictorRegistryTest );
 void PredictorRegistryTest::setUp()
 {
     config = new Configuration;
-    config->insert ("Presage.PredictorRegistry.LOGGER", "ALL");
+    config->insert ("Presage.PredictorRegistry.LOGGER", "ERROR");
     config->insert ("Presage.PredictorRegistry.PREDICTORS", "DummyPredictor1 DummyPredictor2 DummyPredictor3 DummyPredictor4");
     config->insert ("Presage.Predictors.DummyPredictor1.PREDICTOR", "DummyPredictor");
     config->insert ("Presage.Predictors.DummyPredictor2.PREDICTOR", "DummyPredictor");
@@ -82,11 +82,8 @@ void PredictorRegistryTest::testNext()
     Predictor* predictor = 0;
 
     while (it.hasNext()) {
-	std::cerr << "entered testNext() hasNext() while" << std::endl;
 	predictor = it.next();
     }
-
-    std::cerr << "predictor: " << (void*) predictor << std::endl;
 
     // since we've iterated till the end of the predictors list, predictor
     // is now pointing to the DummyPredictor, so let's test we got the
