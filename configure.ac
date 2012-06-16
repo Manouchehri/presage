@@ -22,7 +22,7 @@ dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 dnl Process this file with autoconf to produce a configure script.
 
 
-AC_INIT([presage],[0.8.9-beta],[matteo.vescovi@yahoo.co.uk])
+AC_INIT([presage],[0.8.9~beta],[matteo.vescovi@yahoo.co.uk])
 AM_INIT_AUTOMAKE([-Wall -Werror])
 
 AC_CONFIG_SRCDIR([src/lib/presage.cpp])
@@ -278,7 +278,7 @@ AM_CONDITIONAL([HAVE_DBUS_PYTHON], [test "x$have_dbus_python" = "xyes"])
 dnl ========================
 dnl Checks for pypresagemate
 dnl ========================
-AC_MSG_CHECKING(for pyatspi)
+AC_MSG_CHECKING(for pyatspi module)
 $PYTHON -c "import pyatspi" 2&>/dev/null
 if test $? -eq 0;
 then
@@ -288,7 +288,7 @@ else
 fi
 AC_MSG_RESULT($have_pyatspi)
 
-AC_MSG_CHECKING(for python gtk)
+AC_MSG_CHECKING(for python gtk module)
 $PYTHON -c "import gtk" 2&>/dev/null
 if test $? -eq 0;
 then
@@ -298,7 +298,7 @@ else
 fi
 AC_MSG_RESULT($have_python_gtk)
 
-AC_MSG_CHECKING(for python pango)
+AC_MSG_CHECKING(for python pango module)
 $PYTHON -c "import pango" 2&>/dev/null
 if test $? -eq 0;
 then
@@ -308,7 +308,7 @@ else
 fi
 AC_MSG_RESULT($have_python_pango)
 
-AC_MSG_CHECKING(for python Xlib)
+AC_MSG_CHECKING(for python Xlib module)
 $PYTHON -c "import Xlib" 2&>/dev/null
 if test $? -eq 0;
 then
@@ -334,7 +334,7 @@ AM_CONDITIONAL([ENABLE_PYPRESAGEMATE], [test "x$enable_pypresagemate" = "xyes"])
 dnl =====================
 dnl Checks for pyprompter
 dnl =====================
-AC_MSG_CHECKING(for python wx)
+AC_MSG_CHECKING(for python wx module)
 $PYTHON -c "import wx" 2&>/dev/null
 if test $? -eq 0;
 then
@@ -345,8 +345,8 @@ fi
 AC_MSG_RESULT($have_python_wx)
 
 
-AC_MSG_CHECKING(for python wx.stc)
-$PYTHON -c "import gtk" 2&>/dev/null
+AC_MSG_CHECKING(for python wx.stc module)
+$PYTHON -c "import wx.stc" 2&>/dev/null
 if test $? -eq 0;
 then
 	have_python_wx_stc=yes
