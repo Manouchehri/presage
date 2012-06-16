@@ -2,12 +2,16 @@ CONFIG       += release
 HEADERS       = mainwindow.h
 SOURCES       = main.cpp \
                 mainwindow.cpp
-#! [0]
 RESOURCES     = qprompter.qrc
-#! [0]
 
-LIBS         += -lqscintilla2 -Lc:/presage/bin -lpresage-1
-INCLUDEPATH   = c:/presage/include
+win32 {
+        LIBS         += -lqscintilla2 -Lc:/presage/bin -lpresage-1
+        INCLUDEPATH   = c:/presage/include
+}
+unix {
+        LIBS         += -lqscintilla2 -L/home/matt/git/presage_local_install/lib -lpresage
+        INCLUDEPATH   = /home/matt/git/presage_local_install/include
+}
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/mainwindows/qprompter
