@@ -1,17 +1,26 @@
+
+PRESAGE_ROOT = $$(PRESAGE_ROOT)
+isEmpty(PRESAGE_ROOT) {
+        win32 {
+                error(Environment variable PRESAGE_ROOT must be set)
+        }
+        unix {
+                PRESAGE_ROOT = /usr
+        }
+}
+! exists($${PRESAGE_ROOT}) {
+        error(PRESAGE_ROOT does not exist. Please set environment variable PRESAGE_ROOT to a valid presage installation.)
+}
+
 CONFIG       += release
 HEADERS       = mainwindow.h
 SOURCES       = main.cpp \
                 mainwindow.cpp
 RESOURCES     = qprompter.qrc
 
-win32 {
-        LIBS         += -lqscintilla2 -Lc:/presage/bin -lpresage-1
-        INCLUDEPATH   = c:/presage/include
-}
-unix {
-        LIBS         += -lqscintilla2 -L/home/matt/git/presage_local_install/lib -lpresage
-        INCLUDEPATH   = /home/matt/git/presage_local_install/include
-}
+LIBS         += -lqscintilla2 -L$${PRESAGE_ROOT}/lib -lpresage
+INCLUDEPATH   = $${PRESAGE_ROOT}/include
+
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/mainwindows/qprompter
