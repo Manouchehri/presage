@@ -468,6 +468,12 @@ then
 			  [have_gthread=no])
 	AC_SUBST([GTHREAD_CFLAGS])
 	AC_SUBST([GTHREAD_LIBS])
+	PKG_CHECK_MODULES([GMODULE],
+			  [gmodule-2.0],
+			  [have_gmodule=yes],
+			  [have_gmodule=no])
+	AC_SUBST([GMODULE_CFLAGS])
+	AC_SUBST([GMODULE_LIBS])
 fi
 
 if test "x$enable_gpresagemate" = "xyes" -a \
