@@ -563,6 +563,7 @@ AC_CONFIG_FILES([
 	apps/dbus/Makefile
 	apps/dbus/setup.py
 	apps/dbus/presage_dbus_python_demo
+	apps/notepad++/Makefile
 	doc/Doxyfile
 	doc/Makefile
 	bindings/python/presage_python_demo

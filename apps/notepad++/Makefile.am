@@ -3,7 +3,7 @@
 #  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
-#  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+#  Copyright (C) 2012  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,8 +21,21 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = \
-	gtk \
-	python \
-	dbus \
-	notepad++
+EXTRA_DIST = \
+	menuCmdID.h \
+	no_ms_shit.props \
+	no_ms_shit.vsprops \
+	Notepad_plus_msgs.h \
+	NppPresage.cpp \
+	NppPresage.sln \
+	NppPresage_vc8.sln \
+	NppPresage.vcxproj \
+	NppPresage.vcxproj.filters \
+	NppPresage.vcxproj.user \
+	PluginDefinition.cpp \
+	PluginDefinition.h \
+	PluginInterface.h \
+	PresageUplink.cpp \
+	PresageUplink.h \
+	README \
+	Scintilla.h 
