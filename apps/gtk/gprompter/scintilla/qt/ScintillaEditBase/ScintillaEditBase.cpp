@@ -469,7 +469,7 @@ QVariant ScintillaEditBase::inputMethodQuery(Qt::InputMethodQuery query) const
 		{
 			char fontName[64];
 			int style = send(SCI_GETSTYLEAT, pos);
-			int len = send(SCI_STYLEGETFONT, style, (long)fontName);
+			int len = send(SCI_STYLEGETFONT, style, (sptr_t)fontName);
 			int size = send(SCI_STYLEGETSIZE, style);
 			bool italic = send(SCI_STYLEGETITALIC, style);
 			int weight = send(SCI_STYLEGETBOLD, style) ? QFont::Bold : -1;
@@ -496,7 +496,7 @@ QVariant ScintillaEditBase::inputMethodQuery(Qt::InputMethodQuery query) const
 			textRange.chrg = charRange;
 			textRange.lpstrText = buffer.data();
 
-			send(SCI_GETTEXTRANGE, 0, (long)&textRange);
+			send(SCI_GETTEXTRANGE, 0, (sptr_t)&textRange);
 
 			return sqt->StringFromDocument(buffer.constData());
 		}
@@ -504,7 +504,7 @@ QVariant ScintillaEditBase::inputMethodQuery(Qt::InputMethodQuery query) const
 		case Qt::ImCurrentSelection:
 		{
 			QVarLengthArray<char,1024> buffer(send(SCI_GETSELTEXT));
-			send(SCI_GETSELTEXT, 0, (long)buffer.data());
+			send(SCI_GETSELTEXT, 0, (sptr_t)buffer.data());
 
 			return sqt->StringFromDocument(buffer.constData());
 		}
@@ -622,6 +622,10 @@ void ScintillaEditBase::notifyParent(SCNotification scn)
 
 		case SCN_AUTOCSELECTION:
 			emit autoCompleteSelection(scn.lParam, QString::fromUtf8(scn.text));
+			break;
+
+		case SCN_AUTOCCANCELLED:
+			emit autoCompleteCancelled();
 			break;
 
 		default:

@@ -204,7 +204,8 @@ scintilla/lexers/LexAVS.cxx \
 scintilla/lexers/LexTCMD.cxx \
 scintilla/lexers/LexECL.cxx \
 scintilla/lexers/LexOScript.cxx \
-scintilla/lexers/LexVisualProlog.cxx
+scintilla/lexers/LexVisualProlog.cxx \
+scintilla/lexers/LexPO.cxx
 
 
 libscintilla_la_SOURCES =	$(SCINTILLA_SRC) $(SCINTILLA_GTK) $(SCINTILLA_INCLUDE) $(SCINTILLA_LEXERS) $(SCINTILLA_LEXLIB)

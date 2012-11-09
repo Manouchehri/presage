@@ -15,7 +15,9 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
 #import <QuartzCore/CAGradientLayer.h>
+#endif
 #import <QuartzCore/CAAnimation.h>
 #import <QuartzCore/CATransaction.h>
 
@@ -137,6 +139,10 @@ static const KeyToCommand macMapDefault[] =
 
 //--------------------------------------------------------------------------------------------------
 
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
+
+// Only implement FindHighlightLayer on OS X 10.6+
+
 /**
  * Class to display the animated gold roundrect used on OS X for matches.
  */
@@ -235,13 +241,15 @@ const CGFloat paddingHighlightY = 2;
 	CGFloat width = self.widthText + paddingHighlightX * 2;
 	CGFloat height = self.heightLine + paddingHighlightY * 2;
 
+	CGFloat flipper = self.geometryFlipped ? -1.0 : 1.0;
+
 	// Adjust for padding
 	ptText.x -= paddingHighlightX;
-	ptText.y += paddingHighlightY;
+	ptText.y += flipper * paddingHighlightY;
 
 	// Shift point to centre as expanding about centre
 	ptText.x += width / 2.0;
-	ptText.y -= height / 2.0;
+	ptText.y -= flipper * height / 2.0;
 
 	[CATransaction begin];
 	[CATransaction setValue:[NSNumber numberWithFloat:0.0] forKey:kCATransactionAnimationDuration];
@@ -294,6 +302,8 @@ const CGFloat paddingHighlightY = 2;
 }
 
 @end
+
+#endif
 
 //--------------------------------------------------------------------------------------------------
 
@@ -1431,29 +1441,24 @@ bool ScintillaCocoa::HaveMouseCapture()
 /**
  * Synchronously paint a rectangle of the window.
  */
-void ScintillaCocoa::SyncPaint(void* gc, PRectangle rc)
+bool ScintillaCocoa::SyncPaint(void* gc, PRectangle rc)
 {
   paintState = painting;
   rcPaint = rc;
   PRectangle rcText = GetTextRectangle();
   paintingAllText = rcPaint.Contains(rcText);
+  bool succeeded = true;
   Surface *sw = Surface::Allocate(SC_TECHNOLOGY_DEFAULT);
   if (sw)
   {
     sw->Init(gc, wMain.GetID());
     Paint(sw, rc);
-    if (paintState == paintAbandoned)
-    {
-      // Do a full paint.
-      rcPaint = GetClientRectangle();
-      paintState = painting;
-      paintingAllText = true;
-      Paint(sw, rcPaint);
-    }
+    succeeded = paintState != paintAbandoned;
     sw->Release();
     delete sw;
   }
   paintState = notPainting;
+  return succeeded;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1530,7 +1535,12 @@ void ScintillaCocoa::SetHorizontalScrollPos()
   
   // Convert absolute coordinate into the range [0..1]. Keep in mind that the visible area
   // does *not* belong to the scroll range.
-  float relativePosition = (float) xOffset / (scrollWidth - textRect.Width());
+  int maxXOffset = scrollWidth - textRect.Width();
+  if (maxXOffset < 0)
+    maxXOffset = 0;
+  if (xOffset > maxXOffset)
+    xOffset = maxXOffset;
+  float relativePosition = (float) xOffset / maxXOffset;
   [topContainer setHorizontalScrollPosition: relativePosition];
   MoveFindIndicatorWithBounce(NO);
 }
@@ -1758,9 +1768,9 @@ void ScintillaCocoa::IdleTimerFired()
  * @param rect The area to paint, given in the sender's coordinate system.
  * @param gc The context we can use to paint.
  */
-void ScintillaCocoa::Draw(NSRect rect, CGContextRef gc)
+bool ScintillaCocoa::Draw(NSRect rect, CGContextRef gc)
 {
-  SyncPaint(gc, NSRectToPRectangle(rect));
+  return SyncPaint(gc, NSRectToPRectangle(rect));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2038,11 +2048,13 @@ void ScintillaCocoa::ActiveStateChanged(bool isActive)
 
 void ScintillaCocoa::ShowFindIndicatorForRange(NSRange charRange, BOOL retaining)
 {
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
   NSView *content = ContentView();
   if (!layerFindIndicator)
   {
     layerFindIndicator = [[FindHighlightLayer alloc] init];
     [content setWantsLayer: YES];
+    layerFindIndicator.geometryFlipped = content.layer.geometryFlipped;
     [[content layer] addSublayer:layerFindIndicator];
   }
   [layerFindIndicator removeAnimationForKey:@"animateFound"];
@@ -2078,27 +2090,35 @@ void ScintillaCocoa::ShowFindIndicatorForRange(NSRange charRange, BOOL retaining
   {
     [layerFindIndicator hideMatch];
   }
+#endif
 }
 
 void ScintillaCocoa::MoveFindIndicatorWithBounce(BOOL bounce)
 {
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
   if (layerFindIndicator)
   {
-    NSView *content = ContentView();
-    NSRect rcBounds = [content bounds];
-    CGPoint ptText;
-    ptText.x = WndProc(SCI_POINTXFROMPOSITION, 0, layerFindIndicator.positionFind);
-    ptText.y = rcBounds.size.height - WndProc(SCI_POINTYFROMPOSITION, 0, layerFindIndicator.positionFind);
+    CGPoint ptText = CGPointMake(
+      WndProc(SCI_POINTXFROMPOSITION, 0, layerFindIndicator.positionFind),
+      WndProc(SCI_POINTYFROMPOSITION, 0, layerFindIndicator.positionFind));
+    if (!layerFindIndicator.geometryFlipped)
+    {
+      NSView *content = ContentView();
+      ptText.y = content.bounds.size.height - ptText.y;
+    }
     [layerFindIndicator animateMatch:ptText bounce:bounce];
   }
+#endif
 }
 
 void ScintillaCocoa::HideFindIndicator()
 {
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
   if (layerFindIndicator)
   {
     [layerFindIndicator hideMatch];
   }
+#endif
 }
 
 

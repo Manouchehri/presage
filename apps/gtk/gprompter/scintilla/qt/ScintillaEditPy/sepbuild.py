@@ -139,8 +139,15 @@ class SepBuilder:
 			version = f.read()
 			self.ScintillaVersion = version[0] + '.' + version[1] + '.' + version[2]
 
+		# Find out what qmake is called
+		self.QMakeCommand = "qmake"
+		if not PLAT_WINDOWS:
+			# On Unix qmake may not be present but qmake-qt4 may be so check
+			pathToQMake = textFromRun("which qmake-qt4 || which qmake").rstrip()
+			self.QMakeCommand = os.path.basename(pathToQMake)
+
 		# Qt default location from qmake
-		self._SetQtIncludeBase(textFromRun("qmake -query QT_INSTALL_HEADERS").rstrip())
+		self._SetQtIncludeBase(textFromRun(self.QMakeCommand + " -query QT_INSTALL_HEADERS").rstrip())
 
 		# PySide default location
 		# No standard for installing PySide development headers and libs on Windows so
@@ -232,16 +239,19 @@ class SepBuilder:
 				f.write("CONFIG += release\n")
 
 	def make(self):
-		runProgram(["qmake", self.QMakeOptions], exitOnFailure=True)
+		runProgram([self.QMakeCommand, self.QMakeOptions], exitOnFailure=True)
 		runProgram([self.MakeCommand, self.MakeTarget], exitOnFailure=True)
 
 	def cleanEverything(self):
 		self.generateAPI(["--clean"])
 		runProgram([self.MakeCommand, "distclean"], exitOnFailure=False)
-		try:
-			os.remove(self.ProInclude)
-		except OSError:
-			pass
+		filesToRemove = [self.ProInclude, "typesystem_ScintillaEdit.xml", 
+			"../../bin/ScintillaEditPy.so", "../../bin/ScintillaConstants.py"]
+		for file in filesToRemove:
+			try:
+				os.remove(file)
+			except OSError:
+				pass
 		for logFile in glob.glob("*.log"):
 			try:
 				os.remove(logFile)
