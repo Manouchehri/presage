@@ -303,12 +303,14 @@ presage_error_code_t presage_new (_presage_callback_get_past_stream past_stream_
     presage_exception_handler_with_result
     (
 	(*result) = (presage_t) malloc (sizeof (_presage));
-	
-	(*result)->presage_callback_object = new CPresageCallback (past_stream_cb,
-								   past_stream_cb_arg,
-								   future_stream_cb,
-								   future_stream_cb_arg);
-	(*result)->presage_object          = new Presage          ((*result)->presage_callback_object);
+        if (*result != NULL)
+        {
+            (*result)->presage_callback_object = new CPresageCallback (past_stream_cb,
+                                                                       past_stream_cb_arg,
+                                                                       future_stream_cb,
+                                                                       future_stream_cb_arg);
+            (*result)->presage_object          = new Presage          ((*result)->presage_callback_object);
+        }
 	
     );
 }
@@ -323,12 +325,15 @@ presage_error_code_t presage_new_with_config (_presage_callback_get_past_stream 
     presage_exception_handler_with_result
     (
 	(*result) = (presage_t) malloc (sizeof (_presage));
+        if (*result != NULL)
+        {
 	
-	(*result)->presage_callback_object = new CPresageCallback (past_stream_cb,
-								   past_stream_cb_arg,
-								   future_stream_cb,
-								   future_stream_cb_arg);
-	(*result)->presage_object          = new Presage          ((*result)->presage_callback_object, config);
+            (*result)->presage_callback_object = new CPresageCallback (past_stream_cb,
+                                                                       past_stream_cb_arg,
+                                                                       future_stream_cb,
+                                                                       future_stream_cb_arg);
+            (*result)->presage_object          = new Presage          ((*result)->presage_callback_object, config);
+        }
     );
 }
 
@@ -366,15 +371,19 @@ presage_error_code_t presage_predict (presage_t prsg, char*** result)
 	
 	size_t prediction_c_str_size = prediction.size() + 1;
 	char** prediction_c_str      = (char**) malloc (prediction_c_str_size * sizeof(char*));
-	memset (prediction_c_str, 0, prediction_c_str_size * sizeof(char*));
+        if (prediction_c_str != NULL)
+        {
+            memset (prediction_c_str, 0, prediction_c_str_size * sizeof(char*));
 
-	size_t i = 0;
-	while (i < prediction_c_str_size - 1) {
-	    prediction_c_str[i] = (char*) malloc (prediction[i].size() + 1);
-	    strcpy (prediction_c_str[i], prediction[i].c_str());
-	    i++;
-	}
-	prediction_c_str[i] = 0;
+            size_t i = 0;
+            while (i < prediction_c_str_size - 1) {
+                prediction_c_str[i] = (char*) malloc (prediction[i].size() + 1);
+                if (prediction_c_str[i] != NULL)
+                    strcpy (prediction_c_str[i], prediction[i].c_str());
+                i++;
+            }
+            prediction_c_str[i] = 0;
+        }
 	
 	*result = prediction_c_str;
     );

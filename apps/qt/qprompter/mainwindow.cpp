@@ -66,7 +66,7 @@ MainWindow::QsciScintillaPresageCallback::get_past_stream() const {
     qsci->SendScintilla(QsciScintillaBase::SCI_GETTEXTRANGE, 0, curpos, buf);
     
     std::string result = buf;
-    delete buf;
+    delete[] buf;
     return result;
 }
 
@@ -80,7 +80,7 @@ MainWindow::QsciScintillaPresageCallback::get_future_stream() const {
     qsci->SendScintilla(QsciScintillaBase::SCI_GETTEXTRANGE, curpos, endpos, buf);
     
     std::string result = buf;
-    delete buf;
+    delete[] buf;
     return result;
 }
 

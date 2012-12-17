@@ -171,9 +171,21 @@ std::string ProfileManager::get_system_etc_dir() const
 	 res = RegQueryValueExA (reg_key, "", 0, &type,
 				 (LPBYTE) dst, &size);
 	 if (res == ERROR_MORE_DATA && type == REG_SZ) {
-	     dst = (char*) realloc (dst, size);
-	     res = RegQueryValueExA (reg_key, "", 0, &type,
-				     (LPBYTE) dst, &size);
+	     char* tmp_dst = (char*) realloc (dst, size);
+             if (tmp_dst != NULL) {
+                 dst = tmp_dst;
+             } else {
+		 // realloc failed, try to free and malloc
+		 free (dst);
+		 dst = malloc (size);
+		 if (dst == NULL) {
+		     // malloc failed, cannot recover, just return empty result
+		     return result;
+		 }
+	     }
+	     res = RegQueryValueExA (reg_key, "", 0,
+				     &type, (LPBYTE) dst,
+				     &size);
 	 }
 	 
 	 if (type != REG_SZ || res != ERROR_SUCCESS) 

@@ -193,11 +193,13 @@ static const char* get_past_stream (void* scintilla)
 
     free (range.lpstrText);
     range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
-
-    ::SendMessage(sci,
-		  SCI_GETTEXTRANGE,
-		  0,
-		  (sptr_t) &range);
+    if (range.lpstrText != NULL)
+    {
+        ::SendMessage(sci,
+                      SCI_GETTEXTRANGE,
+                      0,
+                      (sptr_t) &range);
+    }
 	
     return range.lpstrText;
 }
@@ -218,11 +220,13 @@ static const char* get_future_stream (void* scintilla)
 
     free (range.lpstrText);
     range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
-
-    ::SendMessage(sci,
-		  SCI_GETTEXTRANGE,
-		  0,
-		  (sptr_t) &range);
+    if (range.lpstrText != NULL)
+    {
+        ::SendMessage(sci,
+                      SCI_GETTEXTRANGE,
+                      0,
+                      (sptr_t) &range);
+    }
 	
     return range.lpstrText;
 }
@@ -275,18 +279,32 @@ static char* stringify_prediction (char** prediction)
 		char* function_string = (char*) malloc (sizeof(char) * function_string_len);
 
 		/* stringify 'F' (i+1) ' ' into function_string */
-		nchars = sprintf (function_string,
-				  "F%d ", i + 1);
+		nchars = snprintf (function_string,
+				   function_string_len,
+				   "F%d ", i + 1);
 		if (nchars >= function_string_len)
 		{
 		    /* realloc buffer */
-		    function_string = (char*) realloc (function_string, nchars + 1);
-		    if (function_string != NULL)
+		    char* tmp_string = (char*) realloc (function_string, nchars + 1);
+		    if (tmp_string != NULL)
 		    {
-			function_string_len = nchars + 1;
-			nchars = sprintf (function_string,
-					  "F%d ", i + 1);
+			function_string = tmp_string;
 		    }
+		    else
+		    {
+			/* if it cannot be reallocated, try malloc */
+			free (function_string);
+			function_string = malloc (sizeof(char) * (nchars + 1));
+			if (function_string == NULL)
+			{
+			    /* we must be running out of memory... cannot recover */
+			    return NULL;
+			}
+		    }
+		    function_string_len = nchars + 1;
+		    nchars = snprintf (function_string,
+				       function_string_len,
+				       "F%d ", i + 1);
 		}
 
 		/* realloc if necessary to write 'F\d+ ' into result */

@@ -145,14 +145,26 @@ static char* stringify_prediction (char** prediction)
 		if (nchars >= function_string_len)
 		{
 		    /* realloc buffer */
-		    function_string = (char*) realloc (function_string, nchars + 1);
-		    if (function_string != NULL)
+		    char* tmp_string = (char*) realloc (function_string, nchars + 1);
+		    if (tmp_string != NULL)
 		    {
-			function_string_len = nchars + 1;
-			nchars = snprintf (function_string,
-					   function_string_len,
-					   "F%d ", i + 1);
+			function_string = tmp_string;
 		    }
+		    else
+		    {
+			/* if it cannot be reallocated, try malloc */
+			free (function_string);
+			function_string = malloc (sizeof(char) * (nchars + 1));
+			if (function_string == NULL)
+			{
+			    /* we must be running out of memory... cannot recover */
+			    return NULL;
+			}
+		    }
+		    function_string_len = nchars + 1;
+		    nchars = snprintf (function_string,
+				       function_string_len,
+				       "F%d ", i + 1);
 		}
 
 		/* realloc if necessary to write 'F\d+ ' into result */
