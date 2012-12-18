@@ -1,7 +1,7 @@
 2012-12-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/notepad++/PluginDefinition.cpp: fix build failure with
-	Visual Studio 2010.
+	Visual Studio 2010, remove debugging MessageBox() calls.
 
 	* src/lib/core/profileManager.cpp: fix build failure with g++ 4.6.
 

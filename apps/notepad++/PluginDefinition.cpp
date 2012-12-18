@@ -71,9 +71,7 @@ extern PFUNC_presage_save_config presage_save_config;
 // It will be called while plugin loading   
 void pluginInit(HANDLE hModule)
 {
-    ::MessageBox(NULL, TEXT("Entered pluginInit()"), TEXT("Debug"), MB_OK);
     glob_presage_enabled = LoadPresageDLL();
-    ::MessageBox(NULL, TEXT("Exiting pluginInit()"), TEXT("Debug"), MB_OK);
 }
 
 //
@@ -81,9 +79,7 @@ void pluginInit(HANDLE hModule)
 //
 void pluginCleanUp()
 {
-    ::MessageBox(NULL, TEXT("Entered pluginCleanUp()"), TEXT("Debug"), MB_OK);
     UnloadPresageDLL();
-    ::MessageBox(NULL, TEXT("Exiting pluginCleanUp()"), TEXT("Debug"), MB_OK);
 }
 
 //
@@ -165,14 +161,12 @@ void commandMenuInit()
 //
 void commandMenuCleanUp()
 {
-    ::MessageBox(NULL, TEXT("Entered commandMenuCleanUp()"), TEXT("Debug"), MB_OK);
     delete funcItem[CMD_ENABLED]._pShKey;
     delete funcItem[CMD_LEARN_MODE]._pShKey;
     delete funcItem[CMD_AUTOPUNCTUATION]._pShKey;
     delete funcItem[CMD_PREDICT]._pShKey;
     delete funcItem[CMD_ABOUT]._pShKey;
     delete funcItem[CMD_HELP]._pShKey;
-    ::MessageBox(NULL, TEXT("Exiting commandMenuCleanUp()"), TEXT("Debug"), MB_OK);
 }
 
 
@@ -669,7 +663,6 @@ void on_notification (struct SCNotification* notification)
 {
     switch (notification->nmhdr.code) {
     case NPPN_SHUTDOWN:
-	::MessageBox(NULL, TEXT("NPPN_SHUTDOWN"), TEXT("notification"), MB_OK);
 	commandMenuCleanUp();
 	glob_presage_enabled = false;
 	presage_free (presage);
