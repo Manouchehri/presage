@@ -177,7 +177,7 @@ std::string ProfileManager::get_system_etc_dir() const
              } else {
 		 // realloc failed, try to free and malloc
 		 free (dst);
-		 dst = malloc (size);
+		 dst = (char*) malloc (size);
 		 if (dst == NULL) {
 		     // malloc failed, cannot recover, just return empty result
 		     return result;

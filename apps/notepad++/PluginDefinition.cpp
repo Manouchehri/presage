@@ -279,9 +279,9 @@ static char* stringify_prediction (char** prediction)
 		char* function_string = (char*) malloc (sizeof(char) * function_string_len);
 
 		/* stringify 'F' (i+1) ' ' into function_string */
-		nchars = snprintf (function_string,
-				   function_string_len,
-				   "F%d ", i + 1);
+		nchars = sprintf (function_string,
+				  "F%d ",
+				  i + 1);
 		if (nchars >= function_string_len)
 		{
 		    /* realloc buffer */
@@ -294,7 +294,7 @@ static char* stringify_prediction (char** prediction)
 		    {
 			/* if it cannot be reallocated, try malloc */
 			free (function_string);
-			function_string = malloc (sizeof(char) * (nchars + 1));
+			function_string = (char*) malloc (sizeof(char) * (nchars + 1));
 			if (function_string == NULL)
 			{
 			    /* we must be running out of memory... cannot recover */
@@ -302,9 +302,9 @@ static char* stringify_prediction (char** prediction)
 			}
 		    }
 		    function_string_len = nchars + 1;
-		    nchars = snprintf (function_string,
-				       function_string_len,
-				       "F%d ", i + 1);
+		    nchars = sprintf (function_string,
+				      "F%d ",
+				      i + 1);
 		}
 
 		/* realloc if necessary to write 'F\d+ ' into result */
