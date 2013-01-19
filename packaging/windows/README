@@ -11,14 +11,15 @@ in addition to presage build requirements:
 
 - NSIS
 - GTK
+- QT
 
 *BEWARE*
 The current Windows installer is experimental. Use at your own risk.
 
 Steps:
 
-1) Build presage with MinGW/MSYS and install to a location specified
-with --prefix configure option (i.e. /c/presage )
+1) Build presage with MinGW/MSYS and install to a clean location
+specified with --prefix configure option (i.e. /c/presage )
 
 2.a) Build the Notepad++ presage plugin (requires MS Visual Studio)
 and copy DLL to the root of presage installation directory
@@ -29,9 +30,9 @@ qprompter.exe to the bin directory of presage installation
 (i.e. /c/presage/bin)
 
 3) Check that the PATH is properly setup by running gprompter in your
-MinGW shell - i.e. append GTK, NSIS to the PATH
+MinGW shell - i.e. add GTK, QT, NSIS to the PATH
 
-  export PATH=$PATH:/c/gtk/bin:/c/Program\ Files\ \(x86\)/NSIS
+  export PATH=/c/gtk/bin:/c/QtSDK/Desktop/Qt/4.8.0/mingw/bin:/c/Program\ Files\ \(x86\)/NSIS:$PATH
 
 4) In a MinGW/MSYS shell, run the win-buildpackage script:
 
