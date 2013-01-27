@@ -44,7 +44,7 @@ static presage_t            presage;
 static presage_error_code_t presage_status;
 
 static bool        glob_presage_enabled = false;
-static bool        glob_learn_mode = false;
+static bool        glob_learn_mode = true;
 static bool        glob_autopunctuation = true;
 static const char* glob_autopunctuation_whitespace = " ";
 static const char* glob_autopunctuation_chars = ".,;:'?!$%&";
@@ -470,7 +470,7 @@ void on_learn_mode()
     }
     if (PRESAGE_OK != presage_config_set (
 	    presage, 
-	    "Presage.Predictors.SmoothedNgramPredictor.LEARN",
+	    "Presage.Predictors.UserSmoothedNgramPredictor.LEARN",
 	    value)) {
 	::MessageBox(NULL, TEXT("Error while toggling Presage learn mode."), TEXT("Presage error"), MB_OK);
     }
@@ -498,7 +498,14 @@ void on_autopunctuation()
 
 void on_about()
 {
-    ::MessageBox(NULL, TEXT("Presage, the intelligent predictive text entry - Notepad++ plugin.\n\nCopyright (C) Matteo Vescovi"), TEXT("Presage Notepad++ plugin"), MB_OK);
+    ::MessageBox(NULL, 
+		 TEXT("Presage Notepad++ plugin.\n")
+		 TEXT("\n")
+		 TEXT("Presage, the intelligent predictive text entry system.\n")
+		 TEXT("\n")
+		 TEXT("Copyright (C) 2012 Matteo Vescovi"),
+		 TEXT("Presage Notepad++ plugin"),
+		 MB_OK);
 }
 
 
