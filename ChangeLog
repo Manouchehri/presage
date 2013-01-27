@@ -1,3 +1,7 @@
+2013-01-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: Use AM_PROG_AR if automake understands it.
+
 2013-01-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c: Use scintilla UTF8 codepage
