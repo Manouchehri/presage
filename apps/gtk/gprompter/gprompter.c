@@ -1366,13 +1366,6 @@ int main(int argc, char **argv) {
 
    SSM(SCI_SETLEXER, SCLEX_NULL, 0);
 
-   SSM(SCI_INSERTTEXT, 0, (sptr_t)
-       "Some text to get star"
-   );
-
-   uptr_t text_length = SSM(SCI_GETTEXTLENGTH, 0, 0);
-   SSM(SCI_GOTOPOS, text_length, 0);       /* position cursor at end */
-   
    if (PRESAGE_OK == presage_config (presage, "Presage.Selector.SUGGESTIONS", &value))
    {
        uptr_t height = atoi (value);
@@ -1387,13 +1380,15 @@ int main(int argc, char **argv) {
    SSM(SCI_SETMARGINWIDTHN, 3, 0);         /* hide margin */
    SSM(SCI_SETMARGINWIDTHN, 4, 0);         /* hide margin */
 
-/* SETCODEPAGE to UTF8 produces garbled text on Win32/GTK
- */
-#ifndef _WIN32
    SSM(SCI_SETCODEPAGE, SC_CP_UTF8, 0);    /* set UTF-8 Unicode */
-#endif
 
+   SSM(SCI_INSERTTEXT, 0, (sptr_t)         /* insert some text */
+       "Some text to get star"
+   );
 
+   uptr_t text_length = SSM(SCI_GETTEXTLENGTH, 0, 0);
+   SSM(SCI_GOTOPOS, text_length, 0);       /* position cursor at end */
+   
    gtk_widget_show_all(window);
    gtk_widget_grab_focus(GTK_WIDGET(editor));
    gtk_main();

@@ -1,3 +1,11 @@
+2013-01-26  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.c: Use scintilla UTF8 codepage
+	encoding on all platforms (Win32 GTK included).
+
+	* src/lib/core/predictorRegistry.cpp: Make log message (slightly)
+	more informative.
+
 2012-12-18  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/notepad++/PluginDefinition.cpp: fix build failure with
