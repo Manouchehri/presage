@@ -139,7 +139,8 @@ void PredictorRegistry::addPredictor(const std::string& predictorName)
 	}
 	else
 	{
-	    logger << ERROR <<  predictor_class_variable_key << " class is unknown." << endl;
+	    logger << ERROR <<  predictor_class_variable_key << " class \""
+		   << predictor_class << "\" is unknown." << endl;
 	}
     }
     catch (PresageException ex) 
