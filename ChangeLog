@@ -1,5 +1,10 @@
 2013-01-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/gtk/gprompter/scintilla/*: Update to latest scintilla 3.24
+	release.
+
+2013-01-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* configure.ac: Use AM_PROG_AR if automake understands it.
 
 	* apps/notepad++/PluginDefinition.cpp: Fix Notepad++ plugin learn
