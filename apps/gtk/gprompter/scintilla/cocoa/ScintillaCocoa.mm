@@ -112,7 +112,7 @@ static const KeyToCommand macMapDefault[] =
   {SCK_BACK,      SCI_NORM,   SCI_DELETEBACK},
   {SCK_BACK,      SCI_SHIFT,  SCI_DELETEBACK},
   {SCK_BACK,      SCI_CTRL,   SCI_DELWORDLEFT},
-  {SCK_BACK,      SCI_ALT,    SCI_UNDO},
+  {SCK_BACK,      SCI_ALT,    SCI_DELWORDLEFT},
   {SCK_BACK,      SCI_CSHIFT, SCI_DELLINELEFT},
   {'z',           SCI_CMD,    SCI_UNDO},
   {'z',           SCI_SCMD,   SCI_REDO},
@@ -329,6 +329,8 @@ const CGFloat paddingHighlightY = 2;
 
 - (void) dealloc
 {
+  NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+  [center removeObserver:self];
   [notificationQueue release];
   [super dealloc];
 }
@@ -381,8 +383,8 @@ const CGFloat paddingHighlightY = 2;
 
 ScintillaCocoa::ScintillaCocoa(NSView* view)
 {
-  wMain= [view retain];
-  timerTarget = [[[TimerTarget alloc] init: this] retain];
+  wMain = view; // Don't retain since we're owned by view, which would cause a cycle
+  timerTarget = [[TimerTarget alloc] init: this];
   layerFindIndicator = NULL;
   Initialise();
 }
@@ -393,8 +395,6 @@ ScintillaCocoa::~ScintillaCocoa()
 {
   SetTicking(false);
   [timerTarget release];
-  NSView* container = ContentView();
-  [container release];
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1522,7 +1522,8 @@ void ScintillaCocoa::SetVerticalScrollPos()
   
   // Convert absolute coordinate into the range [0..1]. Keep in mind that the visible area
   // does *not* belong to the scroll range.
-  float relativePosition = (float) topLine / MaxScrollPos();
+  int maxScrollPos = MaxScrollPos();
+  float relativePosition = (maxScrollPos > 0) ? ((float) topLine / maxScrollPos) : 0.0f;
   [topContainer setVerticalScrollPosition: relativePosition];
 }
 
