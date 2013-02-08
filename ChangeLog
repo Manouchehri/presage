@@ -7,6 +7,9 @@
 	detects and offers choice to uninstall previous presage
 	installation.
 
+	* bindings/c/presage_c_demo.c: Use correct printf specifier for
+	size_t.
+
 2013-01-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*: Update to latest scintilla 3.24

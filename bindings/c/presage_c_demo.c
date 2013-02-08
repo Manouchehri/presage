@@ -26,6 +26,12 @@
 
 #include <stdio.h>
 
+#ifdef _WIN32
+#  define PRI_SIZE_T_SPECIFIER "%Iu"
+#else
+#  define PRI_SIZE_T_SPECIFIER "%zu"
+#endif
+
 static const char* PAST   = "did you not sa";
 static const char* FUTURE = "";
 
@@ -65,7 +71,7 @@ int main()
     if (PRESAGE_OK == presage_predict (prsg, &prediction))
     {
 	for (i = 0; prediction[i] != 0; i++)
-	    printf ("prediction[%d]: %s\n", i, prediction[i]);
+	    printf ("prediction[" PRI_SIZE_T_SPECIFIER "]: %s\n", i, prediction[i]);
 	presage_free_string_array (prediction);
     }
 
@@ -102,7 +108,7 @@ int main()
     if (PRESAGE_OK == presage_predict (prsg, &prediction))
     {
 	for (i = 0; prediction[i] != 0; i++)
-	    printf ("prediction[%d]: %s\n", i, prediction[i]);
+	    printf ("prediction[" PRI_SIZE_T_SPECIFIER "]: %s\n", i, prediction[i]);
 	presage_free_string_array (prediction);    
     }
 
