@@ -503,7 +503,9 @@ void on_about()
 		 TEXT("\n")
 		 TEXT("Presage, the intelligent predictive text entry system.\n")
 		 TEXT("\n")
-		 TEXT("Copyright (C) 2012 Matteo Vescovi"),
+		 TEXT("Built on ") TEXT(__DATE__) TEXT(" at ") TEXT(__TIME__) TEXT("\n")
+		 TEXT("\n")
+		 TEXT("Copyright (C) 2013 Matteo Vescovi"),
 		 TEXT("Presage Notepad++ plugin"),
 		 MB_OK);
 }
