@@ -252,4 +252,25 @@ SectionEnd
 
 
 Function .onInit
+
+  ReadRegStr $R0 HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "UninstallString"
+  StrCmp $R0 "" onInitDone
+  ReadRegStr $R1 HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "InstallLocation"
+ 
+  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "presage is already installed. $\n$\nClick `OK` to uninstall the previous version or `Cancel` to cancel this upgrade." IDOK onInitUninstallPrevious
+  Abort
+ 
+onInitUninstallPrevious:
+  ClearErrors
+
+  ;Run the uninstaller
+  ExecWait '$R0 _?=$INSTDIR' ;Do not copy the uninstaller to a temp file
+ 
+  IfErrors onInitDone 0
+    Delete $R0
+    StrCmp $R1 "" onInitDone
+      RMDir $R1
+ 
+onInitDone:
+
 FunctionEnd
