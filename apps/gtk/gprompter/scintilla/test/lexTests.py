@@ -58,8 +58,11 @@ class TestLexers(unittest.TestCase):
 		self.ed.AddText(lenDocument, prog)
 		self.ed.Colourise(0, lenDocument)
 		self.assertEquals(self.ed.EndStyled, lenDocument)
-		with open(namePrevious, "rb") as f:
-			prevStyled = f.read()
+		try:
+			with open(namePrevious, "rb") as f:
+				prevStyled = f.read()
+		except FileNotFoundError:
+			prevStyled = ""
 		progStyled = self.AsStyled()
 		if progStyled != prevStyled:
 			with open(nameNew, "wb") as f:
@@ -103,6 +106,15 @@ class TestLexers(unittest.TestCase):
 
 	def testVB(self):
 		self.LexExample("x.vb", b"vb", [b"as dim or string"])
+
+	def testLua(self):
+		self.LexExample("x.lua", b"lua", [b"function end"])
+
+	def testRuby(self):
+		self.LexExample("x.rb", b"ruby", [b"class def end"])
+
+	def testPerl(self):
+		self.LexExample("x.pl", b"perl", [b"printf sleep use while"])
 
 	def testD(self):
 		self.LexExample("x.d", b"d",

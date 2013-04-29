@@ -1,3 +1,8 @@
+2013-04-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*: Update to latest scintilla 3.31
+	release.
+
 2013-02-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/notepad++/PluginDefinition.cpp: Include build timestamp in

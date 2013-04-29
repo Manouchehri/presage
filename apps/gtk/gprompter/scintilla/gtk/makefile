@@ -8,11 +8,8 @@
 
 .SUFFIXES: .cxx .c .o .h .a
 ifdef CLANG
-ifdef CLANG_ANALYZE
-ANALYZE=--analyze
-endif
-CC = clang $(ANALYZE)
-CCOMP = clang $(ANALYZE)
+CC = clang --std=c++0x
+CCOMP = clang
 else
 CC = g++
 CCOMP = gcc
@@ -49,7 +46,7 @@ INCLUDEDIRS=-I ../include -I ../src -I ../lexlib
 ifdef CHECK_DEPRECATED
 DEPRECATED=-DGDK_PIXBUF_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DDISABLE_GDK_FONT
 endif
-CXXBASEFLAGS=-Wall -Wno-missing-braces -Wno-char-subscripts -Wno-long-long -pedantic -DGTK -DSCI_LEXER $(INCLUDEDIRS) $(DEPRECATED)
+CXXBASEFLAGS=-Wall -Wno-missing-braces -Wno-char-subscripts -pedantic -DGTK -DSCI_LEXER $(INCLUDEDIRS) $(DEPRECATED)
 
 ifdef NOTHREADS
 THREADFLAGS=-DG_THREADS_IMPL_NONE
@@ -58,9 +55,9 @@ THREADFLAGS=
 endif
 
 ifdef DEBUG
-CXXTFLAGS=-DDEBUG -g $(CXXFLAGS) $(CXXBASEFLAGS) $(THREADFLAGS)
+CXXTFLAGS=-DDEBUG -g $(CXXBASEFLAGS) $(THREADFLAGS)
 else
-CXXTFLAGS=-DNDEBUG -Os $(CXXFLAGS) $(CXXBASEFLAGS) $(THREADFLAGS)
+CXXTFLAGS=-DNDEBUG -Os $(CXXBASEFLAGS) $(THREADFLAGS)
 endif
 
 CFLAGS:=$(CXXTFLAGS)
@@ -69,7 +66,7 @@ CONFIGFLAGS:=$(shell pkg-config --cflags $(GTKVERSION))
 MARSHALLER=scintilla-marshal.o
 
 .cxx.o:
-	$(CC) $(CONFIGFLAGS) $(CXXTFLAGS) -c $<
+	$(CC) $(CONFIGFLAGS) $(CXXTFLAGS) $(CXXFLAGS) -c $<
 .c.o:
 	$(CCOMP) $(CONFIGFLAGS) $(CFLAGS) -w -c $<
 
@@ -79,6 +76,9 @@ all: $(COMPLIB)
 
 clean:
 	$(DEL) *.o $(COMPLIB) *.plist
+
+analyze:
+	clang --analyze $(CONFIGFLAGS) $(CXXTFLAGS) $(CXXFLAGS) *.cxx ../src/*.cxx ../lexlib/*.cxx ../lexers/*.cxx
 
 deps:
 	$(CC) -MM $(CONFIGFLAGS) $(CXXTFLAGS) *.cxx ../src/*.cxx | sed -e 's/\/usr.* //' | grep [a-zA-Z] >deps.mak

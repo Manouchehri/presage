@@ -115,7 +115,8 @@ scintilla/lexlib/CharacterSet.cxx \
 scintilla/lexlib/OptionSet.h \
 scintilla/lexlib/LexerModule.h \
 scintilla/lexlib/LexerBase.cxx \
-scintilla/lexlib/SparseState.h 
+scintilla/lexlib/SparseState.h \
+scintilla/lexlib/SubStyles.h 
 
 SCINTILLA_LEXERS = \
 scintilla/lexers/LexLisp.cxx \
