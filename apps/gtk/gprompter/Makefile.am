@@ -79,7 +79,6 @@ scintilla/src/Selection.h \
 scintilla/src/SplitVector.h \
 scintilla/src/Style.cxx \
 scintilla/src/Style.h \
-scintilla/src/SVector.h \
 scintilla/src/UniConversion.cxx \
 scintilla/src/UniConversion.h \
 scintilla/src/ViewStyle.cxx \
@@ -207,7 +206,8 @@ scintilla/lexers/LexECL.cxx \
 scintilla/lexers/LexOScript.cxx \
 scintilla/lexers/LexVisualProlog.cxx \
 scintilla/lexers/LexPO.cxx \
-scintilla/lexers/LexLaTeX.cxx
+scintilla/lexers/LexLaTeX.cxx \
+scintilla/lexers/LexSTTXT.cxx 
 
 
 libscintilla_la_SOURCES =	$(SCINTILLA_SRC) $(SCINTILLA_GTK) $(SCINTILLA_INCLUDE) $(SCINTILLA_LEXERS) $(SCINTILLA_LEXLIB)

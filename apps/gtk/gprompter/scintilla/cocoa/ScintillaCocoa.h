@@ -29,7 +29,6 @@
 #include "PropSetSimple.h"
 #endif
 
-#include "SVector.h"
 #include "SplitVector.h"
 #include "Partitioning.h"
 #include "RunStyles.h"
@@ -199,6 +198,7 @@ public:
   virtual void QueueIdleWork(WorkNeeded::workItems items, int upTo);
   int InsertText(NSString* input);
   void SelectOnlyMainSelection();
+  virtual void SetDocPointer(Document *document);
 
   bool KeyboardInput(NSEvent* event);
   void MouseDown(NSEvent* event);

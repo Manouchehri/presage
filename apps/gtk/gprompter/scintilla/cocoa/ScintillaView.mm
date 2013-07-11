@@ -292,9 +292,9 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
 
 //--------------------------------------------------------------------------------------------------
 
-// Adoption of NSTextInput protocol.
+// Adoption of NSTextInputClient protocol.
 
-- (NSAttributedString*) attributedSubstringFromRange: (NSRange) range
+- (NSAttributedString *)attributedSubstringForProposedRange:(NSRange)aRange actualRange:(NSRangePointer)actualRange
 {
   return nil;
 }
@@ -308,14 +308,6 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
 
 //--------------------------------------------------------------------------------------------------
 
-- (NSInteger) conversationIdentifier
-{
-  return (NSInteger) self;
-
-}
-
-//--------------------------------------------------------------------------------------------------
-
 - (void) doCommandBySelector: (SEL) selector
 {
   if ([self respondsToSelector: @selector(selector)])
@@ -324,9 +316,41 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
 
 //--------------------------------------------------------------------------------------------------
 
-- (NSRect) firstRectForCharacterRange: (NSRange) range
+- (NSRect) firstRectForCharacterRange: (NSRange) aRange actualRange: (NSRangePointer) actualRange
 {
-  return NSZeroRect;
+  NSRect rect;
+  rect.origin.x = [ScintillaView directCall: mOwner
+				    message: SCI_POINTXFROMPOSITION
+				     wParam: 0
+				     lParam: aRange.location];
+  rect.origin.y = [ScintillaView directCall: mOwner
+				    message: SCI_POINTYFROMPOSITION
+				     wParam: 0
+				     lParam: aRange.location];
+  int rangeEnd = aRange.location + aRange.length;
+  rect.size.width = [ScintillaView directCall: mOwner
+				      message: SCI_POINTXFROMPOSITION
+				       wParam: 0
+				       lParam: rangeEnd] - rect.origin.x;
+  rect.size.height = [ScintillaView directCall: mOwner
+				       message: SCI_POINTYFROMPOSITION
+					wParam: 0
+					lParam: rangeEnd] - rect.origin.y;
+  rect.size.height += [ScintillaView directCall: mOwner
+					message: SCI_TEXTHEIGHT
+					 wParam: 0
+					 lParam: 0];
+  rect = [[[self superview] superview] convertRect:rect toView:nil];
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_6
+  if ([self.window respondsToSelector:@selector(convertRectToScreen:)])
+      rect = [self.window convertRectToScreen:rect];
+  else // convertRectToScreen not available on 10.6
+      rect.origin = [self.window convertBaseToScreen:rect.origin];
+#else
+  rect.origin = [self.window convertBaseToScreen:rect.origin];
+#endif
+
+  return rect;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -341,11 +365,26 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
 /**
  * General text input. Used to insert new text at the current input position, replacing the current
  * selection if there is any.
+ * First removes the replacementRange.
  */
-- (void) insertText: (id) aString
+- (void) insertText: (id) aString replacementRange: (NSRange) replacementRange
 {
 	// Remove any previously marked text first.
 	[self removeMarkedText];
+
+	if (replacementRange.location == (NSNotFound-1))
+		// This occurs when the accent popup is visible and menu selected.
+		// Its replacing a non-existant position so do nothing.
+		return;
+
+	if (replacementRange.length > 0)
+	{
+		[ScintillaView directCall: mOwner
+				  message: SCI_DELETERANGE
+				   wParam: replacementRange.location
+				   lParam: replacementRange.length];
+	}
+
 	NSString* newText = @"";
 	if ([aString isKindOfClass:[NSString class]])
 		newText = (NSString*) aString;
@@ -380,8 +419,9 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
  * @param aString The text to insert, either what has been marked already or what is selected already
  *                or simply added at the current insertion point. Depending on what is available.
  * @param range The range of the new text to select (given relative to the insertion point of the new text).
+ * @param replacementRange The range to remove before insertion.
  */
-- (void) setMarkedText: (id) aString selectedRange: (NSRange) range
+- (void) setMarkedText: (id) aString selectedRange: (NSRange)range replacementRange: (NSRange)replacementRange
 {
   NSString* newText = @"";
   if ([aString isKindOfClass:[NSString class]])
@@ -403,14 +443,24 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
   }
   else
   {
+    // Switching into composition so remember if collecting undo.
+    undoCollectionWasActive = [mOwner getGeneralProperty: SCI_GETUNDOCOLLECTION] != 0;
+
+    // Keep Scintilla from collecting undo actions for the composition task.
+    [mOwner setGeneralProperty: SCI_SETUNDOCOLLECTION value: 0];
+
     // Ensure only a single selection
     mOwner.backend->SelectOnlyMainSelection();
   }
 
-  // Keep Scintilla from collecting undo actions for the composition task.
-  undoCollectionWasActive = [mOwner getGeneralProperty: SCI_GETUNDOCOLLECTION] != 0;
-  [mOwner setGeneralProperty: SCI_SETUNDOCOLLECTION value: 0];
-  
+  if (replacementRange.length > 0)
+  {
+    [ScintillaView directCall: mOwner
+		      message: SCI_DELETERANGE
+		       wParam: replacementRange.location
+		       lParam: replacementRange.length];
+  }
+
   // Note: Scintilla internally works almost always with bytes instead chars, so we need to take
   //       this into account when determining selection ranges and such.
   std::string raw_text = [newText UTF8String];
@@ -437,10 +487,14 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
   // Select the part which is indicated in the given range. It does not scroll the caret into view.
   if (range.length > 0)
   {
-    [mOwner setGeneralProperty: SCI_SETSELECTIONSTART
-                     value: currentPosition + range.location];
-    [mOwner setGeneralProperty: SCI_SETSELECTIONEND 
-                     value: currentPosition + range.location + range.length];
+    // range is in characters so convert to bytes for selection.
+    int rangeStart = currentPosition;
+    for (size_t characterInComposition=0; characterInComposition<range.location; characterInComposition++)
+      rangeStart = [mOwner getGeneralProperty: SCI_POSITIONAFTER parameter: rangeStart];
+    int rangeEnd = rangeStart;
+    for (size_t characterInRange=0; characterInRange<range.length; characterInRange++)
+      rangeEnd = [mOwner getGeneralProperty: SCI_POSITIONAFTER parameter: rangeEnd];
+    [mOwner setGeneralProperty: SCI_SETSELECTION parameter: rangeEnd value: rangeStart];
   }
 }
 
@@ -492,14 +546,14 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
   return nil;
 }
 
-// End of the NSTextInput protocol adoption.
+// End of the NSTextInputClient protocol adoption.
 
 //--------------------------------------------------------------------------------------------------
 
 /**
  * Generic input method. It is used to pass on keyboard input to Scintilla. The control itself only
  * handles shortcuts. The input is then forwarded to the Cocoa text input system, which in turn does
- * its own input handling (character composition via NSTextInput protocol):
+ * its own input handling (character composition via NSTextInputClient protocol):
  */
 - (void) keyDown: (NSEvent *) theEvent
 {
@@ -740,6 +794,28 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
   return mOwner.backend->CanRedo();
 }
 
+- (BOOL) validateUserInterfaceItem: (id <NSValidatedUserInterfaceItem>) anItem
+{
+  SEL action = [anItem action];
+  if (action==@selector(undo:)) {
+    return [self canUndo];
+  }
+  else if (action==@selector(redo:)) {
+    return [self canRedo];
+  }
+  else if (action==@selector(cut:) || action==@selector(copy:) || action==@selector(clear:)) {
+    return mOwner.backend->HasSelection();
+  }
+  else if (action==@selector(paste:)) {
+    return mOwner.backend->CanPaste();
+  }
+  return YES;
+}
+
+- (void) clear: (id) sender
+{
+  [self deleteBackward:sender];
+}
 
 - (BOOL) isEditable
 {
@@ -1154,22 +1230,18 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
 {
   NSString *result = @"";
   
-  char *buffer(0);
   const long length = mBackend->WndProc(SCI_GETSELTEXT, 0, 0);
   if (length > 0)
   {
-    buffer = new char[length + 1];
+    std::string buffer(length + 1, '\0');
     try
     {
-      mBackend->WndProc(SCI_GETSELTEXT, length + 1, (sptr_t) buffer);
+      mBackend->WndProc(SCI_GETSELTEXT, length + 1, (sptr_t) &buffer[0]);
       
-      result = [NSString stringWithUTF8String: buffer];
-      delete[] buffer;
+      result = [NSString stringWithUTF8String: buffer.c_str()];
     }
     catch (...)
     {
-      delete[] buffer;
-      buffer = 0;
     }
   }
   
@@ -1186,22 +1258,18 @@ static void notification(intptr_t windowid, unsigned int iMessage, uintptr_t wPa
 {
   NSString *result = @"";
   
-  char *buffer(0);
   const long length = mBackend->WndProc(SCI_GETLENGTH, 0, 0);
   if (length > 0)
   {
-    buffer = new char[length + 1];
+    std::string buffer(length + 1, '\0');
     try
     {
-      mBackend->WndProc(SCI_GETTEXT, length + 1, (sptr_t) buffer);
+      mBackend->WndProc(SCI_GETTEXT, length + 1, (sptr_t) &buffer[0]);
       
-      result = [NSString stringWithUTF8String: buffer];
-      delete[] buffer;
+      result = [NSString stringWithUTF8String: buffer.c_str()];
     }
     catch (...)
     {
-      delete[] buffer;
-      buffer = 0;
     }
   }
   

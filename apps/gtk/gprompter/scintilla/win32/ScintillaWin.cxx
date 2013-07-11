@@ -16,6 +16,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 #undef _WIN32_WINNT
 #define _WIN32_WINNT 0x0500
@@ -276,7 +277,7 @@ class ScintillaWin :
 	void FullPaint();
 	void FullPaintDC(HDC dc);
 	bool IsCompatibleDC(HDC dc);
-	DWORD EffectFromState(DWORD grfKeyState);
+	DWORD EffectFromState(DWORD grfKeyState) const;
 
 	virtual int SetScrollInfo(int nBar, LPCSCROLLINFO lpsi, BOOL bRedraw);
 	virtual bool GetScrollInfo(int nBar, LPSCROLLINFO lpsi);
@@ -310,13 +311,13 @@ public:
 	friend class DropSource;
 	friend class DataObject;
 	friend class DropTarget;
-	bool DragIsRectangularOK(CLIPFORMAT fmt) {
+	bool DragIsRectangularOK(CLIPFORMAT fmt) const {
 		return drag.rectangular && (fmt == cfColumnSelect);
 	}
 
 private:
 	// For use in creating a system caret
-	bool HasCaretSizeChanged();
+	bool HasCaretSizeChanged() const;
 	BOOL CreateSystemCaret();
 	BOOL DestroySystemCaret();
 	HBITMAP sysCaretBitmap;
@@ -425,10 +426,21 @@ void ScintillaWin::EnsureRenderTarget() {
 
 		// Create a Direct2D render target.
 #if 1
-		pD2DFactory->CreateHwndRenderTarget(
-			D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT, D2D1::PixelFormat(), 96.0, 96.0),
-			D2D1::HwndRenderTargetProperties(hw, size),
-			&pRenderTarget);
+		D2D1_HWND_RENDER_TARGET_PROPERTIES dhrtp;
+		dhrtp.hwnd = hw;
+		dhrtp.pixelSize = size;
+		dhrtp.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
+
+		D2D1_RENDER_TARGET_PROPERTIES drtp;
+		drtp.type = D2D1_RENDER_TARGET_TYPE_DEFAULT;
+		drtp.pixelFormat.format = DXGI_FORMAT_UNKNOWN;
+		drtp.pixelFormat.alphaMode = D2D1_ALPHA_MODE_UNKNOWN;
+		drtp.dpiX = 96.0;
+		drtp.dpiY = 96.0;
+		drtp.usage = D2D1_RENDER_TARGET_USAGE_NONE;
+		drtp.minLevel = D2D1_FEATURE_LEVEL_DEFAULT;
+
+		pD2DFactory->CreateHwndRenderTarget(drtp, dhrtp, &pRenderTarget);
 #else
 		pD2DFactory->CreateHwndRenderTarget(
 			D2D1::RenderTargetProperties(
@@ -569,29 +581,30 @@ LRESULT ScintillaWin::WndPaint(uptr_t wParam) {
 		pps = &ps;
 		::BeginPaint(MainHWND(), pps);
 	}
+	rcPaint = PRectangle(pps->rcPaint.left, pps->rcPaint.top, pps->rcPaint.right, pps->rcPaint.bottom);
+	PRectangle rcClient = GetClientRectangle();
+	paintingAllText = rcPaint.Contains(rcClient);
 	if (technology == SC_TECHNOLOGY_DEFAULT) {
 		AutoSurface surfaceWindow(pps->hdc, this);
 		if (surfaceWindow) {
-			rcPaint = PRectangle(pps->rcPaint.left, pps->rcPaint.top, pps->rcPaint.right, pps->rcPaint.bottom);
-			PRectangle rcClient = GetClientRectangle();
-			paintingAllText = rcPaint.Contains(rcClient);
 			Paint(surfaceWindow, rcPaint);
 			surfaceWindow->Release();
 		}
 	} else {
 #if defined(USE_D2D)
-		EnsureRenderTarget();
-		AutoSurface surfaceWindow(pRenderTarget, this);
-		if (surfaceWindow) {
-			pRenderTarget->BeginDraw();
-			rcPaint = PRectangle(pps->rcPaint.left, pps->rcPaint.top, pps->rcPaint.right, pps->rcPaint.bottom);
-			PRectangle rcClient = GetClientRectangle();
-			paintingAllText = rcPaint.Contains(rcClient);
-			Paint(surfaceWindow, rcPaint);
-			surfaceWindow->Release();
-			HRESULT hr = pRenderTarget->EndDraw();
-			if (hr == D2DERR_RECREATE_TARGET) {
-				DropRenderTarget();
+		for (int attempt=0;attempt<2;attempt++) {
+			EnsureRenderTarget();
+			AutoSurface surfaceWindow(pRenderTarget, this);
+			if (surfaceWindow) {
+				pRenderTarget->BeginDraw();
+				Paint(surfaceWindow, rcPaint);
+				surfaceWindow->Release();
+				HRESULT hr = pRenderTarget->EndDraw();
+				if (hr == D2DERR_RECREATE_TARGET) {
+					DropRenderTarget();
+				} else {
+					break;
+				}
 			}
 		}
 #endif
@@ -694,7 +707,7 @@ UINT CodePageFromCharSet(DWORD characterSet, UINT documentCodePage) {
 	}
 	switch (characterSet) {
 	case SC_CHARSET_ANSI: return 1252;
-	case SC_CHARSET_DEFAULT: return 0;
+	case SC_CHARSET_DEFAULT: return documentCodePage;
 	case SC_CHARSET_BALTIC: return 1257;
 	case SC_CHARSET_CHINESEBIG5: return 950;
 	case SC_CHARSET_EASTEUROPE: return 1250;
@@ -780,7 +793,7 @@ sptr_t ScintillaWin::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam
 				::SendMessage(hWnd, iMessage, wParam, lParam);
 				break;
 			}
-			
+
 			// Don't handle datazoom.
 			// (A good idea for datazoom would be to "fold" or "unfold" details.
 			// i.e. if datazoomed out only class structures are visible, when datazooming in the control
@@ -1167,7 +1180,7 @@ sptr_t ScintillaWin::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam
 
 		case SCI_GETKEYSUNICODE:
 			return keysAlwaysUnicode;
-		
+
 		case SCI_SETTECHNOLOGY:
 			if ((wParam == SC_TECHNOLOGY_DEFAULT) || (wParam == SC_TECHNOLOGY_DIRECTWRITE)) {
 				if (technology != static_cast<int>(wParam)) {
@@ -1721,11 +1734,12 @@ void ScintillaWin::InsertPasteText(const char *text, int len, SelectionPosition 
 	if (isRectangular) {
 		PasteRectangular(selStart, text, len);
 	} else {
-		char *convertedText = 0;
+		std::string convertedText;
 		if (convertPastes) {
 			// Convert line endings of the paste into our local line-endings mode
-			convertedText = Document::TransformLineEnds(&len, text, len, pdoc->eolMode);
-			text = convertedText;
+			convertedText = Document::TransformLineEnds(text, len, pdoc->eolMode);
+			len = static_cast<int>(convertedText.length());
+			text = convertedText.c_str();
 		}
 		if (isLine) {
 			int insertPos = pdoc->LineStart(pdoc->LineFromPosition(sel.MainCaret()));
@@ -1742,7 +1756,6 @@ void ScintillaWin::InsertPasteText(const char *text, int len, SelectionPosition 
 		} else {
 			InsertPaste(selStart, text, len);
 		}
-		delete []convertedText;
 	}
 }
 
@@ -1763,26 +1776,25 @@ void ScintillaWin::Paste() {
 		wchar_t *uptr = static_cast<wchar_t *>(memUSelection.ptr);
 		if (uptr) {
 			unsigned int len;
-			char *putf;
+			std::vector<char> putf;
 			// Default Scintilla behaviour in Unicode mode
 			if (IsUnicodeMode()) {
 				unsigned int bytes = memUSelection.Size();
 				len = UTF8Length(uptr, bytes / 2);
-				putf = new char[len + 1];
-				UTF8FromUTF16(uptr, bytes / 2, putf, len);
+				putf.resize(len + 1);
+				UTF8FromUTF16(uptr, bytes / 2, &putf[0], len);
 			} else {
 				// CF_UNICODETEXT available, but not in Unicode mode
 				// Convert from Unicode to current Scintilla code page
 				UINT cpDest = CodePageOfDocument();
 				len = ::WideCharToMultiByte(cpDest, 0, uptr, -1,
 				                            NULL, 0, NULL, NULL) - 1; // subtract 0 terminator
-				putf = new char[len + 1];
+				putf.resize(len + 1);
 				::WideCharToMultiByte(cpDest, 0, uptr, -1,
-					                      putf, len + 1, NULL, NULL);
+					                      &putf[0], len + 1, NULL, NULL);
 			}
 
-			InsertPasteText(putf, len, selStart, isRectangular, isLine);
-			delete []putf;
+			InsertPasteText(&putf[0], len, selStart, isRectangular, isLine);
 		}
 		memUSelection.Unlock();
 	} else {
@@ -1800,24 +1812,17 @@ void ScintillaWin::Paste() {
 
 				// In Unicode mode, convert clipboard text to UTF-8
 				if (IsUnicodeMode()) {
-					wchar_t *uptr = new wchar_t[len+1];
+					std::vector<wchar_t> uptr(len+1);
 
 					unsigned int ulen = ::MultiByteToWideChar(CP_ACP, 0,
-					                    ptr, len, uptr, len+1);
+					                    ptr, len, &uptr[0], len+1);
 
-					unsigned int mlen = UTF8Length(uptr, ulen);
-					char *putf = new char[mlen + 1];
-					if (putf) {
+					unsigned int mlen = UTF8Length(&uptr[0], ulen);
+					std::vector<char> putf(mlen+1);
 						// CP_UTF8 not available on Windows 95, so use UTF8FromUTF16()
-						UTF8FromUTF16(uptr, ulen, putf, mlen);
-					}
+					UTF8FromUTF16(&uptr[0], ulen, &putf[0], mlen);
 
-					delete []uptr;
-
-					if (putf) {
-						InsertPasteText(putf, mlen, selStart, isRectangular, isLine);
-						delete []putf;
-					}
+					InsertPasteText(&putf[0], mlen, selStart, isRectangular, isLine);
 				} else {
 					InsertPasteText(ptr, len, selStart, isRectangular, isLine);
 				}
@@ -2263,20 +2268,24 @@ void ScintillaWin::CopyToClipboard(const SelectionText &selectedText) {
 
 	// Default Scintilla behaviour in Unicode mode
 	if (IsUnicodeMode()) {
-		int uchars = UTF16Length(selectedText.s, selectedText.len);
+		int uchars = UTF16Length(selectedText.Data(),
+			static_cast<int>(selectedText.LengthWithTerminator()));
 		uniText.Allocate(2 * uchars);
 		if (uniText) {
-			UTF16FromUTF8(selectedText.s, selectedText.len, static_cast<wchar_t *>(uniText.ptr), uchars);
+			UTF16FromUTF8(selectedText.Data(), static_cast<int>(selectedText.LengthWithTerminator()),
+				static_cast<wchar_t *>(uniText.ptr), uchars);
 		}
 	} else {
 		// Not Unicode mode
 		// Convert to Unicode using the current Scintilla code page
 		UINT cpSrc = CodePageFromCharSet(
 					selectedText.characterSet, selectedText.codePage);
-		int uLen = ::MultiByteToWideChar(cpSrc, 0, selectedText.s, selectedText.len, 0, 0);
+		int uLen = ::MultiByteToWideChar(cpSrc, 0, selectedText.Data(),
+			static_cast<int>(selectedText.LengthWithTerminator()), 0, 0);
 		uniText.Allocate(2 * uLen);
 		if (uniText) {
-			::MultiByteToWideChar(cpSrc, 0, selectedText.s, selectedText.len,
+			::MultiByteToWideChar(cpSrc, 0, selectedText.Data(),
+				static_cast<int>(selectedText.LengthWithTerminator()),
 				static_cast<wchar_t *>(uniText.ptr), uLen);
 		}
 	}
@@ -2288,10 +2297,11 @@ void ScintillaWin::CopyToClipboard(const SelectionText &selectedText) {
 			// paste the text
 			// Windows NT, 2k, XP automatically generates CF_TEXT
 			GlobalMemory ansiText;
-			ansiText.Allocate(selectedText.len);
+			ansiText.Allocate(selectedText.LengthWithTerminator());
 			if (ansiText) {
 				::WideCharToMultiByte(CP_ACP, 0, static_cast<wchar_t *>(uniText.ptr), -1,
-					static_cast<char *>(ansiText.ptr), selectedText.len, NULL, NULL);
+					static_cast<char *>(ansiText.ptr),
+					static_cast<int>(selectedText.LengthWithTerminator()), NULL, NULL);
 				ansiText.SetClip(CF_TEXT);
 			}
 		}
@@ -2299,9 +2309,9 @@ void ScintillaWin::CopyToClipboard(const SelectionText &selectedText) {
 	} else {
 		// There was a failure - try to copy at least ANSI text
 		GlobalMemory ansiText;
-		ansiText.Allocate(selectedText.len);
+		ansiText.Allocate(selectedText.LengthWithTerminator());
 		if (ansiText) {
-			memcpy(static_cast<char *>(ansiText.ptr), selectedText.s, selectedText.len);
+			memcpy(static_cast<char *>(ansiText.ptr), selectedText.Data(), selectedText.LengthWithTerminator());
 			ansiText.SetClip(CF_TEXT);
 		}
 	}
@@ -2453,7 +2463,7 @@ bool ScintillaWin::IsCompatibleDC(HDC hOtherDC) {
 	return isCompatible;
 }
 
-DWORD ScintillaWin::EffectFromState(DWORD grfKeyState) {
+DWORD ScintillaWin::EffectFromState(DWORD grfKeyState) const {
 	// These are the Wordpad semantics.
 	DWORD dwEffect;
 	if (inDragDrop == ddDragging)	// Internal defaults to move
@@ -2556,21 +2566,20 @@ STDMETHODIMP ScintillaWin::Drop(LPDATAOBJECT pIDataSource, DWORD grfKeyState,
 
 		STGMEDIUM medium = {0, {0}, 0};
 
-		char *data = 0;
-		bool dataAllocated = false;
+		std::vector<char> data;	// Includes terminating NUL
 
 		FORMATETC fmtu = {CF_UNICODETEXT, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 		HRESULT hr = pIDataSource->GetData(&fmtu, &medium);
 		if (SUCCEEDED(hr) && medium.hGlobal) {
-			wchar_t *udata = static_cast<wchar_t *>(::GlobalLock(medium.hGlobal));
+			GlobalMemory memUDrop(medium.hGlobal);
+			wchar_t *udata = static_cast<wchar_t *>(memUDrop.ptr);
 			if (udata) {
 				if (IsUnicodeMode()) {
-					int tlen = ::GlobalSize(medium.hGlobal);
+					int tlen = memUDrop.Size();
 					// Convert UTF-16 to UTF-8
 					int dataLen = UTF8Length(udata, tlen/2);
-					data = new char[dataLen+1];
-					UTF8FromUTF16(udata, tlen/2, data, dataLen);
-					dataAllocated = true;
+					data.resize(dataLen+1);
+					UTF8FromUTF16(udata, tlen/2, &data[0], dataLen);
 				} else {
 					// Convert UTF-16 to ANSI
 					//
@@ -2580,34 +2589,31 @@ STDMETHODIMP ScintillaWin::Drop(LPDATAOBJECT pIDataSource, DWORD grfKeyState,
 					UINT cpDest = CodePageOfDocument();
 					int tlen = ::WideCharToMultiByte(cpDest, 0, udata, -1,
 						NULL, 0, NULL, NULL) - 1; // subtract 0 terminator
-					data = new char[tlen + 1];
-					memset(data, 0, (tlen+1));
+					data.resize(tlen + 1);
 					::WideCharToMultiByte(cpDest, 0, udata, -1,
-							data, tlen + 1, NULL, NULL);
-					dataAllocated = true;
+							&data[0], tlen + 1, NULL, NULL);
 				}
 			}
-		}
-
-		if (!data) {
+			memUDrop.Unlock();
+		} else {
 			FORMATETC fmte = {CF_TEXT, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 			hr = pIDataSource->GetData(&fmte, &medium);
 			if (SUCCEEDED(hr) && medium.hGlobal) {
-				data = static_cast<char *>(::GlobalLock(medium.hGlobal));
+				GlobalMemory memDrop(medium.hGlobal);
+				const char *cdata = static_cast<char *>(memDrop.ptr);
+				if (cdata)
+					data.assign(cdata, cdata+strlen(cdata)+1);
+				memDrop.Unlock();
 			}
 		}
 
-		if (data && convertPastes) {
+		if (!data.empty() && convertPastes) {
 			// Convert line endings of the drop into our local line-endings mode
-			int len = static_cast<int>(strlen(data));
-			char *convertedText = Document::TransformLineEnds(&len, data, len, pdoc->eolMode);
-			if (dataAllocated)
-				delete []data;
-			data = convertedText;
-			dataAllocated = true;
+			std::string convertedText = Document::TransformLineEnds(&data[0], data.size() - 1, pdoc->eolMode);
+			data.assign(convertedText.c_str(), convertedText.c_str()+convertedText.length()+1);
 		}
 
-		if (!data) {
+		if (data.empty()) {
 			//Platform::DebugPrintf("Bad data format: 0x%x\n", hres);
 			return hr;
 		}
@@ -2619,18 +2625,13 @@ STDMETHODIMP ScintillaWin::Drop(LPDATAOBJECT pIDataSource, DWORD grfKeyState,
 		::ScreenToClient(MainHWND(), &rpt);
 		SelectionPosition movePos = SPositionFromLocation(Point(rpt.x, rpt.y), false, false, UserVirtualSpace());
 
-		DropAt(movePos, data, *pdwEffect == DROPEFFECT_MOVE, hrRectangular == S_OK);
-
-		::GlobalUnlock(medium.hGlobal);
+		DropAt(movePos, &data[0], data.size() - 1, *pdwEffect == DROPEFFECT_MOVE, hrRectangular == S_OK);
 
 		// Free data
 		if (medium.pUnkForRelease != NULL)
 			medium.pUnkForRelease->Release();
 		else
 			::GlobalFree(medium.hGlobal);
-
-		if (dataAllocated)
-			delete []data;
 
 		return S_OK;
 	} catch (...) {
@@ -2657,15 +2658,16 @@ STDMETHODIMP ScintillaWin::GetData(FORMATETC *pFEIn, STGMEDIUM *pSTM) {
 
 	GlobalMemory text;
 	if (pFEIn->cfFormat == CF_UNICODETEXT) {
-		int uchars = UTF16Length(drag.s, drag.len);
+		int uchars = UTF16Length(drag.Data(), static_cast<int>(drag.LengthWithTerminator()));
 		text.Allocate(2 * uchars);
 		if (text) {
-			UTF16FromUTF8(drag.s, drag.len, static_cast<wchar_t *>(text.ptr), uchars);
+			UTF16FromUTF8(drag.Data(), static_cast<int>(drag.LengthWithTerminator()),
+				static_cast<wchar_t *>(text.ptr), uchars);
 		}
 	} else {
-		text.Allocate(drag.len);
+		text.Allocate(drag.LengthWithTerminator());
 		if (text) {
-			memcpy(static_cast<char *>(text.ptr), drag.s, drag.len);
+			memcpy(static_cast<char *>(text.ptr), drag.Data(), drag.LengthWithTerminator());
 		}
 	}
 	pSTM->hGlobal = text ? text.Unlock() : 0;
@@ -2744,7 +2746,7 @@ bool ScintillaWin::Unregister() {
 	return result;
 }
 
-bool ScintillaWin::HasCaretSizeChanged() {
+bool ScintillaWin::HasCaretSizeChanged() const {
 	if (
 		( (0 != vs.caretWidth) && (sysCaretWidth != vs.caretWidth) )
 		|| ((0 != vs.lineHeight) && (sysCaretHeight != vs.lineHeight))
@@ -2762,11 +2764,9 @@ BOOL ScintillaWin::CreateSystemCaret() {
 	sysCaretHeight = vs.lineHeight;
 	int bitmapSize = (((sysCaretWidth + 15) & ~15) >> 3) *
 		sysCaretHeight;
-	char *bits = new char[bitmapSize];
-	memset(bits, 0, bitmapSize);
+	std::vector<char> bits(bitmapSize);
 	sysCaretBitmap = ::CreateBitmap(sysCaretWidth, sysCaretHeight, 1,
-		1, reinterpret_cast<BYTE *>(bits));
-	delete []bits;
+		1, reinterpret_cast<BYTE *>(&bits[0]));
 	BOOL retval = ::CreateCaret(
 		MainHWND(), sysCaretBitmap,
 		sysCaretWidth, sysCaretHeight);
@@ -2818,10 +2818,21 @@ sptr_t PASCAL ScintillaWin::CTWndProc(
 						surfaceWindow->Init(ps.hdc, hWnd);
 					} else {
 #if defined(USE_D2D)
-						pD2DFactory->CreateHwndRenderTarget(
-							D2D1::RenderTargetProperties(D2D1_RENDER_TARGET_TYPE_DEFAULT, D2D1::PixelFormat(), 96.0, 96.0),
-							D2D1::HwndRenderTargetProperties(hWnd, D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top)),
-							&pCTRenderTarget);
+						D2D1_HWND_RENDER_TARGET_PROPERTIES dhrtp;
+						dhrtp.hwnd = hWnd;
+						dhrtp.pixelSize = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
+						dhrtp.presentOptions = D2D1_PRESENT_OPTIONS_NONE;
+
+						D2D1_RENDER_TARGET_PROPERTIES drtp;
+						drtp.type = D2D1_RENDER_TARGET_TYPE_DEFAULT;
+						drtp.pixelFormat.format = DXGI_FORMAT_UNKNOWN;
+						drtp.pixelFormat.alphaMode = D2D1_ALPHA_MODE_UNKNOWN;
+						drtp.dpiX = 96.0;
+						drtp.dpiY = 96.0;
+						drtp.usage = D2D1_RENDER_TARGET_USAGE_NONE;
+						drtp.minLevel = D2D1_FEATURE_LEVEL_DEFAULT;
+
+						pD2DFactory->CreateHwndRenderTarget(drtp, dhrtp, &pCTRenderTarget);
 						surfaceWindow->Init(pCTRenderTarget, hWnd);
 						pCTRenderTarget->BeginDraw();
 #endif

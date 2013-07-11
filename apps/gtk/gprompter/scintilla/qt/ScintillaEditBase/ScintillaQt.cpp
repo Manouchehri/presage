@@ -17,7 +17,9 @@
 
 #include <QApplication>
 #include <QDrag>
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 #include <QInputContext>
+#endif
 #include <QMimeData>
 #include <QMenu>
 #include <QScrollBar>
@@ -169,11 +171,11 @@ bool ScintillaQt::DragThreshold(Point ptStart, Point ptNow)
 static QString StringFromSelectedText(const SelectionText &selectedText)
 {
 	if (selectedText.codePage == SC_CP_UTF8) {
-		return QString::fromUtf8(selectedText.s, selectedText.len-1);
+		return QString::fromUtf8(selectedText.Data(), selectedText.Length());
 	} else {
 		QTextCodec *codec = QTextCodec::codecForName(
 				CharacterSetID(selectedText.characterSet));
-		return codec->toUnicode(selectedText.s, selectedText.len-1);
+		return codec->toUnicode(selectedText.Data(), selectedText.Length());
 	}
 }
 
@@ -337,9 +339,9 @@ void ScintillaQt::PasteFromMode(QClipboard::Mode clipboardMode_)
 	QString text = clipboard->text(clipboardMode_);
 	QByteArray utext = BytesForDocument(text);
 	int len = utext.length();
-	char *dest = Document::TransformLineEnds(&len, utext, len, pdoc->eolMode);
+	std::string dest = Document::TransformLineEnds(utext, len, pdoc->eolMode);
 	SelectionText selText;
-	selText.Set(dest, len, pdoc->dbcsCodePage, CharacterSetOfDocument(), isRectangular, false);
+	selText.Copy(dest, pdoc->dbcsCodePage, CharacterSetOfDocument(), isRectangular, false);
 
 	UndoGroup ug(pdoc);
 	ClearSelection(multiPasteMode == SC_MULTIPASTE_EACH);
@@ -347,9 +349,9 @@ void ScintillaQt::PasteFromMode(QClipboard::Mode clipboardMode_)
 		sel.Rectangular().Start() :
 		sel.Range(sel.Main()).Start();
 	if (selText.rectangular) {
-		PasteRectangular(selStart, selText.s, selText.len);
+		PasteRectangular(selStart, selText.Data(), selText.Length());
 	} else {
-		InsertPaste(selStart, selText.s, selText.len);
+		InsertPaste(selStart, selText.Data(), selText.Length());
 	}
 	EnsureCaretVisible();
 }
@@ -611,7 +613,7 @@ void ScintillaQt::StartDrag()
 {
 	inDragDrop = ddDragging;
 	dropWentOutside = true;
-	if (drag.len) {
+	if (drag.Length()) {
 		QMimeData *mimeData = new QMimeData;
 		QString sText = StringFromSelectedText(drag);
 		mimeData->setText(sText);
@@ -761,12 +763,10 @@ void ScintillaQt::Drop(const Point &point, const QMimeData *data, bool move)
 	bool rectangular = IsRectangularInMime(data);
 	QByteArray bytes = BytesForDocument(text);
 	int len = bytes.length();
-	char *dest = Document::TransformLineEnds(&len, bytes, len, pdoc->eolMode);
+	std::string dest = Document::TransformLineEnds(bytes, len, pdoc->eolMode);
 
 	SelectionPosition movePos = SPositionFromLocation(point,
 				false, false, UserVirtualSpace());
 
-	DropAt(movePos, dest, move, rectangular);
-
-	delete []dest;
+	DropAt(movePos, dest.c_str(), dest.length(), move, rectangular);
 }

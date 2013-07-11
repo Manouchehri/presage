@@ -5,12 +5,13 @@
 #-------------------------------------------------
 
 QT       += core gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = ScintillaEditBase
 TEMPLATE = lib
 CONFIG += lib_bundle
 
-VERSION = 3.3.1
+VERSION = 3.3.3
 
 SOURCES += \
     PlatQt.cpp \
@@ -57,7 +58,6 @@ HEADERS  += \
     ../../src/XPM.h \
     ../../src/ViewStyle.h \
     ../../src/UniConversion.h \
-    ../../src/SVector.h \
     ../../src/Style.h \
     ../../src/SplitVector.h \
     ../../src/Selection.h \

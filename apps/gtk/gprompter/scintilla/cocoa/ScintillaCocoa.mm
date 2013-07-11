@@ -403,7 +403,7 @@ ScintillaCocoa::ScintillaCocoa(InnerView* view, MarginView* viewMargin)
 
 ScintillaCocoa::~ScintillaCocoa()
 {
-  SetTicking(false);
+  Finalise();
   [timerTarget release];
 }
 
@@ -956,20 +956,20 @@ void ScintillaCocoa::Paste(bool forceRectangular)
   if (forceRectangular)
     selectedText.rectangular = forceRectangular;
   
-  if (!ok || !selectedText.s)
+  if (!ok || selectedText.Empty())
     // No data or no flavor we support.
     return;
   
   pdoc->BeginUndoAction();
   ClearSelection(false);
-  int length = selectedText.len - 1; // One less to avoid inserting the terminating 0 character.
+  int length = selectedText.Length();
   if (selectedText.rectangular)
   {
     SelectionPosition selStart = sel.RangeMain().Start();
-    PasteRectangular(selStart, selectedText.s, length);
+    PasteRectangular(selStart, selectedText.Data(), length);
   }
   else 
-    if (pdoc->InsertString(sel.RangeMain().caret.Position(), selectedText.s, length))
+    if (pdoc->InsertString(sel.RangeMain().caret.Position(), selectedText.Data(), length))
       SetEmptySelection(sel.RangeMain().caret.Position() + length);
   
   pdoc->EndUndoAction();
@@ -1410,12 +1410,12 @@ bool ScintillaCocoa::PerformDragOperation(id <NSDraggingInfo> info)
     SelectionText text;
     GetPasteboardData(pasteboard, &text);
     
-    if (text.len > 0)
+    if (text.Length() > 0)
     {
       NSDragOperation operation = [info draggingSourceOperationMask];
       bool moving = (operation & NSDragOperationMove) != 0;
       
-      DropAt(posDrag, text.s, moving, text.rectangular);
+      DropAt(posDrag, text.Data(), text.Length(), moving, text.rectangular);
     };
   }
 
@@ -1426,14 +1426,14 @@ bool ScintillaCocoa::PerformDragOperation(id <NSDraggingInfo> info)
 
 void ScintillaCocoa::SetPasteboardData(NSPasteboard* board, const SelectionText &selectedText)
 {
-  if (selectedText.len == 0)
+  if (selectedText.Length() == 0)
     return;
 
   CFStringEncoding encoding = EncodingFromCharacterSet(selectedText.codePage == SC_CP_UTF8,
                                                        selectedText.characterSet);
   CFStringRef cfsVal = CFStringCreateWithBytes(kCFAllocatorDefault,
-                                               reinterpret_cast<const UInt8 *>(selectedText.s), 
-                                               selectedText.len-1, encoding, false);
+                                               reinterpret_cast<const UInt8 *>(selectedText.Data()),
+                                               selectedText.Length(), encoding, false);
 
   NSArray *pbTypes = selectedText.rectangular ?
     [NSArray arrayWithObjects: NSStringPboardType, ScintillaRecPboardType, nil] :
@@ -1476,19 +1476,18 @@ bool ScintillaCocoa::GetPasteboardData(NSPasteboard* board, SelectionText* selec
       CFStringGetBytes((CFStringRef)data, rangeAll, encoding, '?',
                        false, NULL, 0, &usedLen);
 
-      UInt8 *buffer = new UInt8[usedLen];
+      std::vector<UInt8> buffer(usedLen);
     
       CFStringGetBytes((CFStringRef)data, rangeAll, encoding, '?',
-                       false, buffer,usedLen, NULL);
+                       false, buffer.data(),usedLen, NULL);
 
       bool rectangular = bestType == ScintillaRecPboardType;
 
       int len = static_cast<int>(usedLen);
-      char *dest = Document::TransformLineEnds(&len, (char *)buffer, len, pdoc->eolMode);
+      std::string dest = Document::TransformLineEnds((char *)buffer.data(), len, pdoc->eolMode);
 
-      selectedText->Set(dest, len+1, pdoc->dbcsCodePage, 
+      selectedText->Copy(dest, pdoc->dbcsCodePage,
                          vs.styles[STYLE_DEFAULT].characterSet , rectangular, false);
-      delete []buffer;
     }
     return true;
   }
@@ -1525,6 +1524,14 @@ bool ScintillaCocoa::SyncPaint(void* gc, PRectangle rc)
   Surface *sw = Surface::Allocate(SC_TECHNOLOGY_DEFAULT);
   if (sw)
   {
+    CGContextSetAllowsAntialiasing((CGContextRef)gc,
+                                   vs.extraFontFlag != SC_EFF_QUALITY_NON_ANTIALIASED);
+#if MAC_OS_X_VERSION_MAX_ALLOWED > MAC_OS_X_VERSION_10_5
+    if (CGContextSetAllowsFontSubpixelPositioning != NULL)
+      CGContextSetAllowsFontSubpixelPositioning((CGContextRef)gc,
+						vs.extraFontFlag == SC_EFF_QUALITY_DEFAULT ||
+						vs.extraFontFlag == SC_EFF_QUALITY_LCD_OPTIMIZED);
+#endif
     sw->Init(gc, wMain.GetID());
     Paint(sw, rc);
     succeeded = paintState != paintAbandoned;
@@ -1904,13 +1911,12 @@ int ScintillaCocoa::InsertText(NSString* input)
   CFStringGetBytes((CFStringRef)input, rangeAll, encoding, '?',
                    false, NULL, 0, &usedLen);
     
-  UInt8 *buffer = new UInt8[usedLen];
+  std::vector<UInt8> buffer(usedLen);
     
   CFStringGetBytes((CFStringRef)input, rangeAll, encoding, '?',
-                     false, buffer,usedLen, NULL);
+                     false, buffer.data(),usedLen, NULL);
     
-  AddCharUTF((char*) buffer, static_cast<unsigned int>(usedLen), false);
-  delete []buffer;
+  AddCharUTF((char*) buffer.data(), static_cast<unsigned int>(usedLen), false);
   return static_cast<int>(usedLen);
 }
 
@@ -1927,6 +1933,21 @@ void ScintillaCocoa::SelectOnlyMainSelection()
   mainSel.ClearVirtualSpace();
   sel.SetSelection(mainSel);
   Redraw();
+}
+
+//--------------------------------------------------------------------------------------------------
+/**
+ * When switching documents discard any incomplete character composition state as otherwise tries to
+ * act on the new document.
+ */
+void ScintillaCocoa::SetDocPointer(Document *document)
+{
+  // Drop input composition.
+  NSTextInputContext *inctxt = [NSTextInputContext currentInputContext];
+  [inctxt discardMarkedText];
+  InnerView *inner = ContentView();
+  [inner unmarkText];
+  Editor::SetDocPointer(document);
 }
 
 //--------------------------------------------------------------------------------------------------
