@@ -11,7 +11,7 @@ TARGET = ScintillaEdit
 TEMPLATE = lib
 CONFIG += lib_bundle
 
-VERSION = 3.3.3
+VERSION = 3.3.4
 
 SOURCES += \
     ScintillaEdit.cpp \
@@ -40,6 +40,8 @@ SOURCES += \
     ../../src/CharClassify.cxx \
     ../../src/CellBuffer.cxx \
     ../../src/Catalogue.cxx \
+    ../../src/CaseFolder.cxx \
+    ../../src/CaseConvert.cxx \
     ../../src/CallTip.cxx \
     ../../src/AutoComplete.cxx \
     ../../lexlib/WordList.cxx \
@@ -50,6 +52,7 @@ SOURCES += \
     ../../lexlib/LexerModule.cxx \
     ../../lexlib/LexerBase.cxx \
     ../../lexlib/CharacterSet.cxx \
+    ../../lexlib/CharacterCategory.cxx \
     ../../lexlib/Accessor.cxx \
     ../../lexers/*.cxx
 

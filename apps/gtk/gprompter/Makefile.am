@@ -84,7 +84,12 @@ scintilla/src/UniConversion.h \
 scintilla/src/ViewStyle.cxx \
 scintilla/src/ViewStyle.h \
 scintilla/src/XPM.cxx \
-scintilla/src/XPM.h
+scintilla/src/XPM.h \
+scintilla/src/CaseConvert.cxx \
+scintilla/src/CaseConvert.h \
+scintilla/src/CaseFolder.cxx \
+scintilla/src/CaseFolder.h \
+scintilla/src/UnicodeFromUTF8.h 
 
 SCINTILLA_INCLUDE = \
 scintilla/include/ILexer.h \
@@ -115,7 +120,9 @@ scintilla/lexlib/OptionSet.h \
 scintilla/lexlib/LexerModule.h \
 scintilla/lexlib/LexerBase.cxx \
 scintilla/lexlib/SparseState.h \
-scintilla/lexlib/SubStyles.h 
+scintilla/lexlib/SubStyles.h \
+scintilla/lexlib/CharacterCategory.h \
+scintilla/lexlib/CharacterCategory.cxx 
 
 SCINTILLA_LEXERS = \
 scintilla/lexers/LexLisp.cxx \

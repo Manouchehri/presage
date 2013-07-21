@@ -2,11 +2,12 @@
 
 from __future__ import with_statement
 
-import io
-import os
-import unittest
+import io, os, sys, unittest
 
-import XiteWin
+if sys.platform == "win32":
+	import XiteWin as Xite
+else:
+	import XiteQt as Xite
 
 keywordsHTML = [
 b"b body content head href html link meta "
@@ -18,7 +19,7 @@ b"sub"
 class TestLexers(unittest.TestCase):
 
 	def setUp(self):
-		self.xite = XiteWin.xiteFrame
+		self.xite = Xite.xiteFrame
 		self.ed = self.xite.ed
 		self.ed.ClearAll()
 		self.ed.EmptyUndoBuffer()
@@ -39,6 +40,7 @@ class TestLexers(unittest.TestCase):
 	def LexExample(self, name, lexerName, keywords=None):
 		if keywords is None:
 			keywords = []
+		self.ed.SetCodePage(65001)
 		self.ed.LexerLanguage = lexerName
 		bits = self.ed.StyleBitsNeeded
 		mask = 2 << bits - 1
@@ -122,4 +124,4 @@ class TestLexers(unittest.TestCase):
 			b"keyword6", b"keyword7"])
 
 if __name__ == '__main__':
-	XiteWin.main("lexTests")
+	Xite.main("lexTests")
