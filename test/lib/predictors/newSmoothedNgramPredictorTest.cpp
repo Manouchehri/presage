@@ -31,7 +31,7 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION( NewSmoothedNgramPredictorTest );
 
-const char*  NewSmoothedNgramPredictorTest::DATABASE = "database.db";
+const char*  NewSmoothedNgramPredictorTest::DATABASE = "new_database.db";
 const size_t NewSmoothedNgramPredictorTest::CARDINALITY = 3;
 const bool   NewSmoothedNgramPredictorTest::READ_WRITE_MODE = true;
 

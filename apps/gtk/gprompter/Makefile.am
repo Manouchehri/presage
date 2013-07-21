@@ -232,6 +232,7 @@ gprompter_CFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) $(GMODULE_CFLAGS) \
 			-I$(top_srcdir)/src/lib \
 			-I$(srcdir)/scintilla/include 
 gprompter_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) $(GMODULE_LIBS) \
+			-lm \
 			../../../src/lib/libpresage.la \
 			libscintilla.la
 if USE_GCC
