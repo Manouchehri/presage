@@ -1,3 +1,10 @@
+2013-08-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging/windows/README, packaging/windows/ReplaceInFile.nsh,
+	packaging/windows/presage_installer.nsi: enhanced Windows
+	installer install and uninstall code to specify each file and
+	directory to install/uninstall (except lib/site-packages).
+
 2013-07-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*: Update to latest scintilla 3.34

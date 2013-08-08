@@ -22,8 +22,8 @@ Steps:
 specified with --prefix configure option (i.e. /c/presage )
 
 2.a) Build the Notepad++ presage plugin (requires MS Visual Studio)
-and copy DLL to the root of presage installation directory
-(i.e. /c/presage/)
+and copy NppPresage.DLL to the bin directory of presage installation
+(i.e. /c/presage/bin)
 
 2.b) Build the qprompter application (requires Qt SDK) and copy
 qprompter.exe to the bin directory of presage installation

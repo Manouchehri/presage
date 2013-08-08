@@ -111,11 +111,78 @@
 ;Runtime section
 Section "-Runtime" SecRuntime
 
-  SetOutPath "$INSTDIR"
+  ; bin/
+  SetOutPath "$INSTDIR\bin"
 
-  File /r bin
-  File /r etc
-  File /r share
+  File "bin\text2ngram.exe"
+  File "bin\presage_demo_text.exe"
+  File "bin\presage_simulator.exe"
+  File "bin\presage_dbus_python_demo"
+  File "bin\presage_dbus_service"
+  File "bin\gprompter.exe"
+  File "bin\qprompter.exe"
+  File "bin\libpresage-1.dll"
+
+  ; MinGW deps
+  File "bin\libstdc++-6.dll"
+  File "bin\libgcc_s_dw2-1.dll"
+
+  ; SQLite deps
+  File "bin\libsqlite3-0.dll"
+
+  ; QT deps
+  File "bin\qscintilla2.dll"
+  File "bin\QtCore4.dll"
+  File "bin\QtGui4.dll"
+  File "bin\mingwm10.dll"
+
+  ; GTK deps
+  File "bin\freetype6.dll"
+  File "bin\intl.dll"
+  File "bin\libatk-1.0-0.dll"
+  File "bin\libcairo-2.dll"
+  File "bin\libexpat-1.dll"
+  File "bin\libfontconfig-1.dll"
+  File "bin\libgdk-win32-2.0-0.dll"
+  File "bin\libgdk_pixbuf-2.0-0.dll"
+  File "bin\libgio-2.0-0.dll"
+  File "bin\libglib-2.0-0.dll"
+  File "bin\libgmodule-2.0-0.dll"
+  File "bin\libgobject-2.0-0.dll"
+  File "bin\libgthread-2.0-0.dll"
+  File "bin\libgtk-win32-2.0-0.dll"
+  File "bin\libpango-1.0-0.dll"
+  File "bin\libpangocairo-1.0-0.dll"
+  File "bin\libpangoft2-1.0-0.dll"
+  File "bin\libpangowin32-1.0-0.dll"
+  File "bin\libpng14-14.dll"
+  File "bin\zlib1.dll"
+
+  ; etc/
+  SetOutPath "$INSTDIR\etc"
+  File "etc\presage.xml"
+
+  ; share/
+  SetOutPath "$INSTDIR\share\dbus-1\services"
+  File "share\dbus-1\services\org.gnome.presage.service"
+
+  SetOutPath "$INSTDIR\share\pixmaps"
+  File "share\pixmaps\gprompter.png"
+  File "share\pixmaps\gprompter.xpm"
+  File "share\pixmaps\pyprompter.png"
+  File "share\pixmaps\pyprompter.xpm"
+
+  SetOutPath "$INSTDIR\share\presage"
+  File "share\presage\abbreviations_en.txt"
+  File "share\presage\abbreviations_it.txt"
+  File "share\presage\database_en.db"
+  File "share\presage\database_es.db"
+  File "share\presage\database_it.db"
+  File "share\presage\getting_started.txt"
+  File "share\presage\presage.png"
+  File "share\presage\presage.svg"
+  File "share\presage\presage.xpm"
+  File "share\presage\python_binding.txt"
   
   ;Store installation folder
   WriteRegStr HKCU "Software\Presage" "" $INSTDIR
@@ -152,10 +219,18 @@ SectionEnd
 ;Devel section
 Section "Development files" SecDevel
 
-  SetOutPath "$INSTDIR"
-  File /r include
+  ; include/
+  SetOutPath "$INSTDIR\include"
+  File "include\presage.h"
+  File "include\presageCallback.h"
+  File "include\presageException.h"
+
+  ; lib/
   SetOutPath "$INSTDIR\lib"
-  File /r lib\libpresage.*
+  File "lib\libpresage.a"
+  File "lib\libpresage.dll.a"
+  File "lib\libpresage.la"
+
 
 SectionEnd
 
@@ -163,10 +238,15 @@ SectionEnd
 ;Python section
 Section "Python binding" SecPython
 
-  SetOutPath "$INSTDIR"
-  File /r Scripts
+  ; Scripts
+  SetOutPath "$INSTDIR\Scripts"
+  File "Scripts\presage_python_demo"
+  File "Scripts\pyprompter"
+
+  ; lib/site-packages
   SetOutPath "$INSTDIR\lib"
   File /r lib\site-packages
+
 
 SectionEnd
 
@@ -181,13 +261,13 @@ npp_found:
   ;MessageBox MB_OK 'Notepad++ installation directory is "$0"'
   IfFileExists "$0\plugins\*.*" 0 npp_not_found
   SetOutPath "$0\plugins"
-  File NppPresage.dll
+  File "bin\NppPresage.dll"
   Goto npp_done
 
 npp_not_found:
   MessageBox MB_OK 'Notepad++ installation not found.$\r$\nNotepad++ presage intelligent predictive text entry plugin will not be automatically installed in Notepad++ plugins directory.$\r$\nTo install manually, please copy $INSTDIR\bin\NppPresage.dll into <Notepad++ install directory>\plugins\'
   SetOutPath "$INSTDIR\bin"
-  File NppPresage.dll
+  File "bin\NppPresage.dll"
   Goto npp_done
 
 npp_done:
@@ -216,16 +296,104 @@ SectionEnd
 
 Section "Uninstall"
 
-  RMDir /r "$INSTDIR\bin"
-  RMDir /r "$INSTDIR\etc"
-  RMDir /r "$INSTDIR\include"
-  RMDir /r "$INSTDIR\lib"
-  RMDir /r "$INSTDIR\Scripts"
-  RMDir /r "$INSTDIR\share"
-  RMDir /r "$INSTDIR\var"
+  ; bin/
+  Delete "$INSTDIR\bin\text2ngram.exe"
+  Delete "$INSTDIR\bin\presage_demo_text.exe"
+  Delete "$INSTDIR\bin\presage_simulator.exe"
+  Delete "$INSTDIR\bin\presage_dbus_python_demo"
+  Delete "$INSTDIR\bin\presage_dbus_service"
+  Delete "$INSTDIR\bin\gprompter.exe"
+  Delete "$INSTDIR\bin\qprompter.exe"
+  Delete "$INSTDIR\bin\libpresage-1.dll"
 
+  ; MinGW deps
+  Delete "$INSTDIR\bin\libstdc++-6.dll"
+  Delete "$INSTDIR\bin\libgcc_s_dw2-1.dll"
+
+  ; SQLite deps
+  Delete "$INSTDIR\bin\libsqlite3-0.dll"
+
+  ; QT deps
+  Delete "$INSTDIR\bin\qscintilla2.dll"
+  Delete "$INSTDIR\bin\QtCore4.dll"
+  Delete "$INSTDIR\bin\QtGui4.dll"
+  Delete "$INSTDIR\bin\mingwm10.dll"
+
+  ; GTK deps
+  Delete "$INSTDIR\bin\freetype6.dll"
+  Delete "$INSTDIR\bin\intl.dll"
+  Delete "$INSTDIR\bin\libatk-1.0-0.dll"
+  Delete "$INSTDIR\bin\libcairo-2.dll"
+  Delete "$INSTDIR\bin\libexpat-1.dll"
+  Delete "$INSTDIR\bin\libfontconfig-1.dll"
+  Delete "$INSTDIR\bin\libgdk-win32-2.0-0.dll"
+  Delete "$INSTDIR\bin\libgdk_pixbuf-2.0-0.dll"
+  Delete "$INSTDIR\bin\libgio-2.0-0.dll"
+  Delete "$INSTDIR\bin\libglib-2.0-0.dll"
+  Delete "$INSTDIR\bin\libgmodule-2.0-0.dll"
+  Delete "$INSTDIR\bin\libgobject-2.0-0.dll"
+  Delete "$INSTDIR\bin\libgthread-2.0-0.dll"
+  Delete "$INSTDIR\bin\libgtk-win32-2.0-0.dll"
+  Delete "$INSTDIR\bin\libpango-1.0-0.dll"
+  Delete "$INSTDIR\bin\libpangocairo-1.0-0.dll"
+  Delete "$INSTDIR\bin\libpangoft2-1.0-0.dll"
+  Delete "$INSTDIR\bin\libpangowin32-1.0-0.dll"
+  Delete "$INSTDIR\bin\libpng14-14.dll"
+  Delete "$INSTDIR\bin\zlib1.dll"
+
+  RMDir "$INSTDIR\bin"
+
+  ; etc/
+  Delete "$INSTDIR\etc\presage.xml"
+  RMDir "$INSTDIR\etc"
+
+  ; include/
+  Delete "$INSTDIR\include\presage.h"
+  Delete "$INSTDIR\include\presageCallback.h"
+  Delete "$INSTDIR\include\presageException.h"
+  RMDir "$INSTDIR\include"
+
+  ; lib/
+  Delete "$INSTDIR\lib\libpresage.a"
+  Delete "$INSTDIR\lib\libpresage.dll.a"
+  Delete "$INSTDIR\lib\libpresage.la"
+  RMDir /r "$INSTDIR\lib\site-packages"
+  RMDir "$INSTDIR\lib"
+
+  ; Scripts/
+  Delete "$INSTDIR\Scripts\presage_python_demo"
+  Delete "$INSTDIR\Scripts\pyprompter"
+  RMDir "$INSTDIR\Scripts"
+
+  ; share/
+  Delete "$INSTDIR\share\dbus-1\services\org.gnome.presage.service"
+  RMDir "$INSTDIR\share\dbus-1\services"
+  RMDir "$INSTDIR\share\dbus-1"
+
+  Delete "$INSTDIR\share\pixmaps\gprompter.png"
+  Delete "$INSTDIR\share\pixmaps\gprompter.xpm"
+  Delete "$INSTDIR\share\pixmaps\pyprompter.png"
+  Delete "$INSTDIR\share\pixmaps\pyprompter.xpm"
+  RMDir "$INSTDIR\share\pixmaps"
+
+  Delete "$INSTDIR\share\presage\abbreviations_en.txt"
+  Delete "$INSTDIR\share\presage\abbreviations_it.txt"
+  Delete "$INSTDIR\share\presage\database_en.db"
+  Delete "$INSTDIR\share\presage\database_es.db"
+  Delete "$INSTDIR\share\presage\database_it.db"
+  Delete "$INSTDIR\share\presage\getting_started.txt"
+  Delete "$INSTDIR\share\presage\presage.png"
+  Delete "$INSTDIR\share\presage\presage.svg"
+  Delete "$INSTDIR\share\presage\presage.xpm"
+  Delete "$INSTDIR\share\presage\python_binding.txt"
+  RMDir "$INSTDIR\share\presage"
+
+  RMDir "$INSTDIR\share"
+
+  ; uninstall
   Delete "$INSTDIR\Uninstall.exe"
-
+  
+  ; instdir
   RMDir "$INSTDIR"
   
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
