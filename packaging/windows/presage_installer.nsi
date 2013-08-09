@@ -341,6 +341,17 @@ Section "Uninstall"
   Delete "$INSTDIR\bin\libpng14-14.dll"
   Delete "$INSTDIR\bin\zlib1.dll"
 
+  ; Notepad++ plugin
+  ReadRegStr $0 HKLM "Software\Notepad++" ""
+  StrCmp $0 "" npp_not_found_uninstall npp_found_uninstall
+
+npp_found_uninstall:
+  IfFileExists "$0\plugins\NppPresage.dll" 0 +2
+    Delete "$0\plugins\NppPresage.dll"
+npp_not_found_uninstall:
+  IfFileExists "$INSTDIR\bin\NppPresage.dll" 0 +2
+    Delete "$INSTDIR\bin\NppPresage.dll"
+
   RMDir "$INSTDIR\bin"
 
   ; etc/
