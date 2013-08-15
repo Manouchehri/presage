@@ -231,7 +231,7 @@ dnl =================
 AM_PATH_PYTHON([2.0],
                [],
                [AC_MSG_WARN([Python not found. Python is required to build presage python binding. Python can be obtained from http://www.python.org])])
-if test "$PYTHON"
+if test "$PYTHON" != :
 then
     python_include_path=`$PYTHON -c "import distutils.sysconfig; print distutils.sysconfig.get_python_inc();"`
     AC_CHECK_HEADERS([${python_include_path}/Python.h],
@@ -239,7 +239,7 @@ then
                      [AC_MSG_WARN([Python.h header file not found. Python development files are required to build presage python binding. Python can be obtained from http://www.python.org])],
                      [])
 fi
-AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" -a "x$have_python_header" = "xtrue"])
+AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" != : -a "x$have_python_header" = "xtrue"])
 
 
 AC_ARG_ENABLE([python-binding],
@@ -249,7 +249,7 @@ AC_ARG_ENABLE([python-binding],
               [ac_enable_python_binding=yes])
 if test "x$ac_enable_python_binding" = "xyes"
 then
-    if test ! "$SWIG" -o ! "$PYTHON" -o ! "x$have_python_header" = "xtrue"
+    if test ! "$SWIG" -o ! "$PYTHON" != : -o ! "x$have_python_header" = "xtrue"
     then
         AC_MSG_WARN([Python binding for presage cannot be built. Ensure that SWIG and Python packages are available.])
     fi
@@ -264,62 +264,68 @@ dnl ======================
 dnl Checks for dbus python
 dnl ======================
 have_dbus_python=no
-AC_MSG_CHECKING(for python dbus module)
-$PYTHON -c "import dbus" 2&>/dev/null
-if test $? -eq 0;
+if test "$PYTHON" != :
 then
-	have_dbus_python=yes
-else
-	have_dbus_python=no
+    AC_MSG_CHECKING(for python dbus module)
+    $PYTHON -c "import dbus" 2&>/dev/null
+    if test $? -eq 0;
+    then
+    	have_dbus_python=yes
+    else
+    	have_dbus_python=no
+    fi
+    AC_MSG_RESULT($have_dbus_python)
 fi
-AC_MSG_RESULT($have_dbus_python)
 AM_CONDITIONAL([HAVE_DBUS_PYTHON], [test "x$have_dbus_python" = "xyes"])
 
 
 dnl ========================
 dnl Checks for pypresagemate
 dnl ========================
-AC_MSG_CHECKING(for pyatspi module)
-$PYTHON -c "import pyatspi" 2&>/dev/null
-if test $? -eq 0;
+if "$PYTHON" != :
 then
-	have_pyatspi=yes
-else
-	have_pyatspi=no
+    AC_MSG_CHECKING(for pyatspi module)
+    $PYTHON -c "import pyatspi" 2&>/dev/null
+    if test $? -eq 0;
+    then
+    	have_pyatspi=yes
+    else
+    	have_pyatspi=no
+    fi
+    AC_MSG_RESULT($have_pyatspi)
+    
+    AC_MSG_CHECKING(for python gtk module)
+    $PYTHON -c "import gtk" 2&>/dev/null
+    if test $? -eq 0;
+    then
+    	have_python_gtk=yes
+    else
+    	have_python_gtk=no
+    fi
+    AC_MSG_RESULT($have_python_gtk)
+    
+    AC_MSG_CHECKING(for python pango module)
+    $PYTHON -c "import pango" 2&>/dev/null
+    if test $? -eq 0;
+    then
+    	have_python_pango=yes
+    else
+    	have_python_pango=no
+    fi
+    AC_MSG_RESULT($have_python_pango)
+    
+    AC_MSG_CHECKING(for python Xlib module)
+    $PYTHON -c "import Xlib" 2&>/dev/null
+    if test $? -eq 0;
+    then
+    	have_python_Xlib=yes
+    else
+    	have_python_Xlib=no
+    fi
+    AC_MSG_RESULT($have_python_Xlib)
 fi
-AC_MSG_RESULT($have_pyatspi)
 
-AC_MSG_CHECKING(for python gtk module)
-$PYTHON -c "import gtk" 2&>/dev/null
-if test $? -eq 0;
-then
-	have_python_gtk=yes
-else
-	have_python_gtk=no
-fi
-AC_MSG_RESULT($have_python_gtk)
-
-AC_MSG_CHECKING(for python pango module)
-$PYTHON -c "import pango" 2&>/dev/null
-if test $? -eq 0;
-then
-	have_python_pango=yes
-else
-	have_python_pango=no
-fi
-AC_MSG_RESULT($have_python_pango)
-
-AC_MSG_CHECKING(for python Xlib module)
-$PYTHON -c "import Xlib" 2&>/dev/null
-if test $? -eq 0;
-then
-	have_python_Xlib=yes
-else
-	have_python_Xlib=no
-fi
-AC_MSG_RESULT($have_python_Xlib)
-
-if test "$PYTHON" -a \
+if test "$PYTHON" != : -a \
         "x$have_pyatspi" = "xyes" -a \
 	"x$have_python_gtk" = "xyes" -a \
 	"x$have_python_pango" = "xyes" -a \
@@ -335,28 +341,31 @@ AM_CONDITIONAL([ENABLE_PYPRESAGEMATE], [test "x$enable_pypresagemate" = "xyes"])
 dnl =====================
 dnl Checks for pyprompter
 dnl =====================
-AC_MSG_CHECKING(for python wx module)
-$PYTHON -c "import wx" 2&>/dev/null
-if test $? -eq 0;
+if "$PYTHON" != :
 then
-	have_python_wx=yes
-else
-	have_python_wx=no
+    AC_MSG_CHECKING(for python wx module)
+    $PYTHON -c "import wx" 2&>/dev/null
+    if test $? -eq 0;
+    then
+    	have_python_wx=yes
+    else
+    	have_python_wx=no
+    fi
+    AC_MSG_RESULT($have_python_wx)
+    
+    
+    AC_MSG_CHECKING(for python wx.stc module)
+    $PYTHON -c "import wx.stc" 2&>/dev/null
+    if test $? -eq 0;
+    then
+    	have_python_wx_stc=yes
+    else
+    	have_python_wx_stc=no
+    fi
+    AC_MSG_RESULT($have_python_wx_stc)
 fi
-AC_MSG_RESULT($have_python_wx)
 
-
-AC_MSG_CHECKING(for python wx.stc module)
-$PYTHON -c "import wx.stc" 2&>/dev/null
-if test $? -eq 0;
-then
-	have_python_wx_stc=yes
-else
-	have_python_wx_stc=no
-fi
-AC_MSG_RESULT($have_python_wx_stc)
-
-if test "$PYTHON" -a \
+if test "$PYTHON" != : -a \
 	"x$have_python_wx" = "xyes" -a \
 	"x$have_python_wx_stc" = "xyes"
 then
@@ -583,7 +592,7 @@ then
 else
     build_unit_tests="no"
 fi
-if test "$SWIG" -a "$PYTHON" -a "x$have_python_header" = "xtrue" -a "x$ac_enable_python_binding" = "xyes"
+if test "$SWIG" -a "$PYTHON" != : -a "x$have_python_header" = "xtrue" -a "x$ac_enable_python_binding" = "xyes"
 then
     build_python_binding="yes"
 else

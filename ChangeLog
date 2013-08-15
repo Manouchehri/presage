@@ -1,3 +1,9 @@
+2013-08-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/dbus/Makefile.am: fix automake dependency for dbus service.
+
+	* configure.ac: fix python autoconf checks.
+
 2013-08-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/windows/README, packaging/windows/ReplaceInFile.nsh,
