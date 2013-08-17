@@ -7,6 +7,13 @@ TODO list
 ---------
 
 
+Fix Presage 0.8.8 release (D) news section on website
+check content and spelling too
+add links to videos/articles on documentation page
+  http://www.igalia.com/nc/work/project/item/predictor-input-method/ 
+create video page?
+
+
 GUI apps:
 * qprompter
 ** integrate into build system

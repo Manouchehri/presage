@@ -21,7 +21,7 @@ Presage release checklist
      - make all check install
      - and test python binding
 
- o tag release in SVN
+ o tag release in source control system
 
  o upload release to SourceForge.net
 

@@ -7,8 +7,26 @@ NEWS
 ----
 
 
-Presage 0.8.8
--------------
+Presage 0.8.9 released
+----------------------
+Presage 0.8.9 is now available for download.
+
+Presage 0.8.9 comes with a number of small enhancements and several
+fixes. No major features were added in this release. Presage 0.8.9 is
+a minor mantainance release.
+
+Presage 0.8.9 fixes several issues uncovered by static code analysis
+tools. Enhancements to the Notepad++ plugin and the Windows installer
+have been added. Bugs affecting the concurrent execution of the
+internal testsuite have been fixed. Issues affecting the build system
+have been fixed.
+
+Presage 0.8.9 also includes other bug fixes and enhancements. Please
+see the ChangeLog for more details.
+
+
+Presage 0.8.8 released
+----------------------
 Presage 0.8.8 is now available for download.
 
 Presage 0.8.8 allows to enabled multiple instances of the same
