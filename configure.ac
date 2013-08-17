@@ -282,7 +282,7 @@ AM_CONDITIONAL([HAVE_DBUS_PYTHON], [test "x$have_dbus_python" = "xyes"])
 dnl ========================
 dnl Checks for pypresagemate
 dnl ========================
-if "$PYTHON" != :
+if test "$PYTHON" != :
 then
     AC_MSG_CHECKING(for pyatspi module)
     $PYTHON -c "import pyatspi" 2&>/dev/null
@@ -341,7 +341,7 @@ AM_CONDITIONAL([ENABLE_PYPRESAGEMATE], [test "x$enable_pypresagemate" = "xyes"])
 dnl =====================
 dnl Checks for pyprompter
 dnl =====================
-if "$PYTHON" != :
+if test "$PYTHON" != :
 then
     AC_MSG_CHECKING(for python wx module)
     $PYTHON -c "import wx" 2&>/dev/null
