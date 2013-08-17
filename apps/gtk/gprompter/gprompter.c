@@ -1373,6 +1373,7 @@ int main(int argc, char **argv) {
        SSM(SCI_AUTOCSETMAXHEIGHT, height, 0);  /* set autocompletion box height */
    }
    SSM(SCI_AUTOCSETSEPARATOR, '\t', 0);    /* set autocompletion separator */
+   SSM(SCI_AUTOCSETORDER, SC_ORDER_CUSTOM, 0); /* set autocompletion order */
    SSM(SCI_SETWRAPMODE, SC_WRAP_WORD, 0);  /* set word wrapping */
    SSM(SCI_SETMARGINWIDTHN, 0, 0);         /* hide margin */
    SSM(SCI_SETMARGINWIDTHN, 1, 0);         /* hide margin */

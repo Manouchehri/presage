@@ -376,9 +376,13 @@ static void on_predict ()
     HWND scintilla = (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 
     if (!presage) {
-	init_presage (scintilla);
+        // we only get here if the static global presage instance
+        // hasn't been initialized yet.
+        //
+        init_presage (scintilla);
 
-	::SendMessage(scintilla, SCI_AUTOCSETSEPARATOR, '\t', 0);    /* set autocompletion separator */
+	::SendMessage(scintilla, SCI_AUTOCSETSEPARATOR, '\t', 0);        /* set autocompletion separator */
+	::SendMessage(scintilla, SCI_AUTOCSETORDER, SC_ORDER_CUSTOM, 0); /* set autocompletion order */
 
 	char* value = 0;
 	if (PRESAGE_OK == presage_config (presage, "Presage.Selector.SUGGESTIONS", &value))

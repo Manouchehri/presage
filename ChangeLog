@@ -1,5 +1,13 @@
 2013-08-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/notepad++/Scintilla.h: update to latest 3.3.4.
+
+	* apps/gtk/gprompter/gprompter.c,
+	apps/notepad++/PluginDefinition.cpp: set custom order in user
+	completion list.
+
+2013-08-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
 	* apps/dbus/Makefile.am: fix automake dependency for dbus service.
 
 	* configure.ac: fix python autoconf checks.
