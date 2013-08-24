@@ -196,7 +196,7 @@ bool PredictorRegistry::Iterator::hasNext() const
 Predictor* PredictorRegistry::Iterator::next()
 {
     Predictor* result = *iter_curr;
-    iter_curr++;
+    ++iter_curr;
     return result;
 }
 

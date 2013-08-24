@@ -1,4 +1,12 @@
-2013-08-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+2013-08-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/notepad++/PluginDefinition.cpp,
+	src/lib/core/prediction.cpp, src/lib/core/predictorRegistry.cpp,
+	src/lib/predictors/ARPAPredictor.cpp,
+	src/lib/predictors/dejavuPredictor.cpp: fix issues uncovered with
+	cppcheck and reported by Hugh Sasse.
+
+2013-08-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/windows/presage_installer.nsi: remove D-BUS files from
 	Windows packaging.

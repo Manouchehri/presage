@@ -97,7 +97,7 @@ void Prediction::addSuggestion(Suggestion s)
     } else {
 	std::vector< Suggestion >::iterator i = suggestions.begin();
 	while( i != suggestions.end() && s < *i ) {
-	    i++;
+	    ++i;
 	}
 	suggestions.insert( i, s );
     }
@@ -107,7 +107,7 @@ std::string Prediction::toString() const
 {
     std::string str;
     std::vector<Suggestion>::const_iterator i;
-    for( i=suggestions.begin(); i!=suggestions.end(); i++ ) {
+    for( i=suggestions.begin(); i!=suggestions.end(); ++i ) {
 	str += i->toString();
     }
     return str;
@@ -116,7 +116,7 @@ std::string Prediction::toString() const
 std::ostream &operator<<( std::ostream &output, const Prediction &p )
 {
     std::vector<Suggestion>::const_iterator i;
-    for( i=p.suggestions.begin(); i!=p.suggestions.end(); i++ ) {
+    for( i=p.suggestions.begin(); i!=p.suggestions.end(); ++i ) {
 	output << *i << std::endl;
     }
 

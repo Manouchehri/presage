@@ -347,7 +347,7 @@ Prediction ARPAPredictor::predict(const size_t max_partial_prediction_size, cons
     if(wd1It!=vocabCode.end() && wd2It!=vocabCode.end())
     {
 	//iterate over all vocab words
-	for(std::map<int,std::string>::const_iterator it = vocabDecode.begin(); it!=vocabDecode.end(); it++)
+	for(std::map<int,std::string>::const_iterator it = vocabDecode.begin(); it!=vocabDecode.end(); ++it)  //cppcheck: Prefer prefix ++/-- operators for non-primitive types.
 	{
 	    //if wd3 matches prefix and filter -> compute its backoff probability and add to the result set
 	    if(matchesPrefixAndFilter(it->second,prefix,filter))
@@ -363,7 +363,7 @@ Prediction ARPAPredictor::predict(const size_t max_partial_prediction_size, cons
     else if(wd2It!=vocabCode.end())
     {
 	//iterate over all vocab words
-	for(std::map<int,std::string>::const_iterator it = vocabDecode.begin(); it!=vocabDecode.end(); it++)
+	for(std::map<int,std::string>::const_iterator it = vocabDecode.begin(); it!=vocabDecode.end(); ++it)
 	{
 	    //if wd3 matches prefix and filter -> compute its backoff probability and add to the result set
 	    if(matchesPrefixAndFilter(it->second,prefix,filter))
@@ -379,7 +379,7 @@ Prediction ARPAPredictor::predict(const size_t max_partial_prediction_size, cons
     else
     {
 	//iterate over all vocab words
-	for(std::map<int,std::string>::const_iterator it = vocabDecode.begin(); it!=vocabDecode.end(); it++)
+	for(std::map<int,std::string>::const_iterator it = vocabDecode.begin(); it!=vocabDecode.end(); ++it)
 	{
 	    //if wd3 matches prefix and filter -> compute its backoff probability and add to the result set
 	    if(matchesPrefixAndFilter(it->second,prefix,filter))
@@ -395,7 +395,7 @@ Prediction ARPAPredictor::predict(const size_t max_partial_prediction_size, cons
     size_t numSuggestions = 0;
     for(std::multimap< float, std::string, cmp >::const_iterator it = result.begin();
 	it != result.end() && numSuggestions < max_partial_prediction_size;
-	it++)
+	++it)
     {
 	prediction.addSuggestion(Suggestion(it->second,exp(it->first)));
 	numSuggestions++;

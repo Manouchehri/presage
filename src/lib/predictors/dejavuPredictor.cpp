@@ -118,7 +118,7 @@ void DejavuPredictor::learn(const std::vector<std::string>& change)
     // loop through all tokens in change vector
     for (std::vector<std::string>::const_iterator it = change.begin();
          it != change.end();
-         it++)
+         ++it)
     {
         std::string new_token = *it;
         logger << INFO << "Committing new token to memory: " << new_token << endl;
