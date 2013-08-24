@@ -117,8 +117,8 @@ Section "-Runtime" SecRuntime
   File "bin\text2ngram.exe"
   File "bin\presage_demo_text.exe"
   File "bin\presage_simulator.exe"
-  File "bin\presage_dbus_python_demo"
-  File "bin\presage_dbus_service"
+;  File "bin\presage_dbus_python_demo"
+;  File "bin\presage_dbus_service"
   File "bin\gprompter.exe"
   File "bin\qprompter.exe"
   File "bin\libpresage-1.dll"
@@ -163,8 +163,8 @@ Section "-Runtime" SecRuntime
   File "etc\presage.xml"
 
   ; share/
-  SetOutPath "$INSTDIR\share\dbus-1\services"
-  File "share\dbus-1\services\org.gnome.presage.service"
+;  SetOutPath "$INSTDIR\share\dbus-1\services"
+;  File "share\dbus-1\services\org.gnome.presage.service"
 
   SetOutPath "$INSTDIR\share\pixmaps"
   File "share\pixmaps\gprompter.png"
@@ -300,8 +300,8 @@ Section "Uninstall"
   Delete "$INSTDIR\bin\text2ngram.exe"
   Delete "$INSTDIR\bin\presage_demo_text.exe"
   Delete "$INSTDIR\bin\presage_simulator.exe"
-  Delete "$INSTDIR\bin\presage_dbus_python_demo"
-  Delete "$INSTDIR\bin\presage_dbus_service"
+;  Delete "$INSTDIR\bin\presage_dbus_python_demo"
+;  Delete "$INSTDIR\bin\presage_dbus_service"
   Delete "$INSTDIR\bin\gprompter.exe"
   Delete "$INSTDIR\bin\qprompter.exe"
   Delete "$INSTDIR\bin\libpresage-1.dll"
@@ -377,9 +377,9 @@ npp_not_found_uninstall:
   RMDir "$INSTDIR\Scripts"
 
   ; share/
-  Delete "$INSTDIR\share\dbus-1\services\org.gnome.presage.service"
-  RMDir "$INSTDIR\share\dbus-1\services"
-  RMDir "$INSTDIR\share\dbus-1"
+;  Delete "$INSTDIR\share\dbus-1\services\org.gnome.presage.service"
+;  RMDir "$INSTDIR\share\dbus-1\services"
+;  RMDir "$INSTDIR\share\dbus-1"
 
   Delete "$INSTDIR\share\pixmaps\gprompter.png"
   Delete "$INSTDIR\share\pixmaps\gprompter.xpm"
