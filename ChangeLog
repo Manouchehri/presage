@@ -1,3 +1,8 @@
+2013-11-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/c/README_Visual_Studio.txt: update instructions to
+	build and link in 64-bit mode.
+
 2013-11-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/Makefile.am, bindings/python/Makefile.am: fix build
