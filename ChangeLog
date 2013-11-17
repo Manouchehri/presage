@@ -1,3 +1,8 @@
+2013-11-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/Makefile.am, bindings/python/Makefile.am: fix build
+	issue in mingw-w64 mingw-buils toolchain.
+
 2013-08-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/notepad++/PluginDefinition.cpp,

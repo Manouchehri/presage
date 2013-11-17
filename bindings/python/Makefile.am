@@ -86,7 +86,7 @@ presage_wrap.cpp presage_wrap.h presage.py:	$(SWIG_INTERFACE) $(PRESAGE_INTERFAC
 if HAVE_HELP2MAN
 presage_python_demo.1:	presage_python_demo.in $(top_srcdir)/configure.ac
 	chmod u+x ./presage_python_demo
-	help2man --output=$@ --no-info --name="presage demo program (Python)" ./presage_python_demo
+	help2man --output=$@ --no-info --name="presage demo program (Python)" "$(PYTHON) ./presage_python_demo"
 
 dist_man_MANS =		presage_python_demo.1
 
