@@ -1,0 +1,141 @@
+Copyright (C) 2013  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+___________________
+The Presage project
+~~~~~~~~~~~~~~~~~~~
+
+Building Presage 32-bit on MinGW-w64/MSYS 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following steps will enable your system to build and execute
+presage in native 32-bit Windows.
+
+
+______________________
+Install MinGW-w64/MSYS
+~~~~~~~~~~~~~~~~~~~~~~
+
+Download the current MinGW-w64 32-bit toolchain
+[http://mingw-w64.sourceforge.net/] from the MinGW-builds project
+(tested with the Windows 32 host, DWARF exception handling, i686
+target) and install the latest, i.e.:
+
+  /c/presage_x86_sdk/mingw-builds/x32-4.8.1-posix-dwarf-rev5
+
+
+Download the ultra-inclusive mingw-builds MSYS package from the
+MinGW-builds external-binary-packages download page and extract:
+
+  /c/presage_x86_sdk/mingw-builds/msys
+
+Edit the /etc/fstab to add the following mount point:
+
+  c:/presage_x86_sdk/mingw-builds/x32-4.8.1-posix-dwarf-rev5/mingw32 /mingw
+
+
+______________
+Install Python
+~~~~~~~~~~~~~~
+
+(Optional) Install using Python x86-x64 Windows Installer. No special
+notes here, just click next. The examples below assume Python is
+installed in:
+
+  /c/presage_x86_sdk/Python27
+
+
+________________
+Install wxPython
+~~~~~~~~~~~~~~~~
+
+(Optional) Install using wxPython runtime installer matching the
+installed Python version.  Just click next, and make sure that
+site-packages directory the installer picks up is correct.
+
+
+____________
+Install SWIG
+~~~~~~~~~~~~
+
+(Optional) Install SWIG for Windows by simply unzipping it. The
+examples below assume SWIG is installed in:
+
+  /c/presage_x86_sdk/SWIG
+
+
+___________
+Install GTK
+~~~~~~~~~~~
+
+(Optional) Install GTK for Windows 64-bit by simply unzipping the
+latest all-in-one bundle. The examples below assume GTK is installed
+in:
+
+  /c/presage_x86_sdk/GTK
+
+
+__________
+Install QT
+~~~~~~~~~~
+
+(Optional) Download QT x64 from the MinGW-builds
+external-binary-packages download page, mking sure that it matches the
+MinGW-builds toolchain and extract, i.e.:
+
+  /c/presage_x86_sdk/x32-Qt-4.8.5+qtcreator-2.8.0-RC-gcc-4.8.1-dwarf-rev1
+
+
+_______________
+Install SQLite3
+~~~~~~~~~~~~~~~
+
+Get the SQLite3 amalgamation source distribution and untar it.
+
+Start the MSYS console and change into the SQLite3 source directory.
+
+Configure, build, and install:
+    ./configure
+    make
+    make install
+
+
+_____________
+Build presage
+~~~~~~~~~~~~~
+
+Start MSYS shell
+
+Extract and configure presage, taking care of specifying where to
+find required binaries (Python and SWIG), headers, and libraries:
+
+  PATH=/c/presage_x86_sdk/gtk/bin:/c/presage_x86_sdk/Python27:/c/presage_x86_sdk/SWIG:$PATH \
+  CPPFLAGS="-I/c/Python27/include -I/usr/local/include" \
+  LIBS="-L/usr/local/lib" \
+  ./configure --prefix=/c/presage
+ 
+  make
+  make install
+
+
+Presage is now installed in c:\presage
+
+
+
+########/
+
+Copyright (C) 2013  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+
+Presage is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+########\
