@@ -78,10 +78,21 @@ Install QT
 ~~~~~~~~~~
 
 (Optional) Download QT x64 from the MinGW-builds
-external-binary-packages download page, mking sure that it matches the
+external-binary-packages download page, making sure that it matches the
 MinGW-builds toolchain and extract, i.e.:
 
   /c/presage_x86_sdk/x32-Qt-4.8.5+qtcreator-2.8.0-RC-gcc-4.8.1-dwarf-rev1
+
+Remember to execute qtbinpatcher to reset hardcoded paths in the
+binaries to your actual QT installation directory.
+
+
+__________________
+Install QScintilla
+~~~~~~~~~~~~~~~~~~
+
+(Optional) Download QScintilla, extract, build and install following
+the instructions provided in the QScintilla README file.
 
 
 _______________
