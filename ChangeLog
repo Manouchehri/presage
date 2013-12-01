@@ -1,3 +1,17 @@
+2013-11-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/c/README_Visual_Studio.txt: update instructions to
+	build and link in 64-bit mode.
+
+	* doc/INSTALL_MinGW32_MSYS_dev_env.txt,
+	doc/INSTALL_MinGW64_MSYS_dev_env.txt: add build and install
+	instructions to build with mingw-w64 mingw-builds toolchain.
+
+2013-11-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/Makefile.am, bindings/python/Makefile.am: fix build
+	issue in mingw-w64 mingw-buils toolchain.
+
 2013-11-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* website/presage_database_dump.sql.gz: update documentation and
