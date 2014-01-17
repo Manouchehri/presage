@@ -28,75 +28,66 @@
 #include "presageException.h"
 #include "presageCallback.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+/** \mainpage
 
-/*
- *    Presage C API starts here
- */
+    \section intro_section Introduction
 
-    typedef struct _presage* presage_t;
+    Presage is an intelligent predictive text entry
+    platform. Presage exploits <a
+    href="http://en.wikipedia.org/wiki/Redundancy_%28information_theory%29">redundant
+    information</a> embedded in natural languages to generate
+    predictions. Presage's modular and pluggable <a
+    href="?q=node/14">architecture</a> allows its <a
+    href="http://en.wikipedia.org/wiki/Language_modeling">language
+    model</a> to be extended and customized to utilize statistical,
+    syntactic, and semantic information sources.
 
-    presage_error_code_t presage_new                 (_presage_callback_get_past_stream past_stream_cb,
-						      void* past_stream_cb_arg,
-						      _presage_callback_get_future_stream future_stream_cb,
-						      void* future_stream_cb_arg,
-						      presage_t* result);
-    
-    presage_error_code_t presage_new_with_config     (_presage_callback_get_past_stream past,
-						      void* past_stream_cb_arg,
-						      _presage_callback_get_future_stream future_stream_cb,
-						      void* future_stream_cb_arg,
-						      const char* config,
-						      presage_t* result);
-    
-    void                 presage_free                (presage_t prsg);
-    
-    void                 presage_free_string         (char* str);
-    void                 presage_free_string_array   (char** str);
+    A predictive text entry system attempts to improve ease and speed of
+    textual input. Word prediction consists in computing which word tokens
+    or word completions are most likely to be entered next. The system
+    analyses the text already entered and combines the information thus
+    extracted with other information sources to calculate a set of most
+    probable tokens.
 
-    presage_error_code_t presage_predict             (presage_t prsg,
-						      char*** result);
-    
-    presage_error_code_t presage_completion          (presage_t prsg,
-						      const char* token,
-						      char** result);
+    A typical presage-based application would display the set of most
+    probable tokens (i.e. a list of suggestions) to the user and
+    automatically enter the desired token after the user selects it. If
+    the list of suggestions does not contain the desired word, the user
+    continues entering text until the correct suggestion is offered or
+    until the user is done entering text.
 
-    presage_error_code_t presage_context             (presage_t prsg, 
-						      char** result);
+    Presage is fundamentally different from predictive <a
+    href="http://en.wikipedia.org/wiki/T9_%28predictive_text%29">input
+    technologies commonly found on mobile phones</a>, which might more
+    accurately be described as 'disambiguating text entry' rather than
+    'predictive text entry' systems.  Such systems do not try to guess
+    what the user intends to write in the future, only to determine what
+    they most-likely intend to write in the present, given their past
+    input.  Presage, on the other hand, actively predicts the what the
+    user intends to write, and only reverts to <a
+    href="http://en.wikipedia.org/wiki/Word_completion">word
+    completion</a> mode if the prediction did not contain the desired
+    token.
 
-    presage_error_code_t presage_context_change      (presage_t prsg,
-						      int* result);
+    Presage is <a
+    href="http://www.gnu.org/philosophy/free-sw.html">free
+    software</a>. It is distributed under the term of the <a
+    href="http://www.gnu.org/copyleft/gpl.html">General Public
+    License</a>.
 
-    presage_error_code_t presage_prefix              (presage_t prsg,
-						      char** result);
+    \author Matteo Vescovi
 
-    presage_error_code_t presage_config              (presage_t prsg,
-						      const char* variable,
-						      char** result);
+    \section getting_started_section Getting started
+    \include getting_started.txt
 
-    presage_error_code_t presage_config_set          (presage_t prsg,
-						      const char* variable,
-						      const char* value);
-    
-    presage_error_code_t presage_save_config         (presage_t prsg);
+*/
 
-
-/*
- *    Presage C API ends here
- */
-#ifdef __cplusplus
-}
-#endif
-
-
-#ifdef __cplusplus
-#ifndef _MSC_VER
-/*
+/********************************
  *    Presage C++ API starts here
  */
 
+#ifdef __cplusplus
+#ifndef _MSC_VER
 
 #include <string>
 #include <vector>
@@ -247,64 +238,75 @@ private:
 
 };
 
-/*
- *    Presage C++ API ends here
- */
 #endif /* _MSC_VER */
 #endif /* __cplusplus */
 
-/** \mainpage
+/*
+ *    Presage C++ API ends here
+ *******************************/
 
-    \section intro_section Introduction
 
-    Presage is an intelligent predictive text entry
-    platform. Presage exploits <a
-    href="http://en.wikipedia.org/wiki/Redundancy_%28information_theory%29">redundant
-    information</a> embedded in natural languages to generate
-    predictions. Presage's modular and pluggable <a
-    href="?q=node/14">architecture</a> allows its <a
-    href="http://en.wikipedia.org/wiki/Language_modeling">language
-    model</a> to be extended and customized to utilize statistical,
-    syntactic, and semantic information sources.
+/*******************************
+ *    Presage C API starts here
+ */
 
-    A predictive text entry system attempts to improve ease and speed of
-    textual input. Word prediction consists in computing which word tokens
-    or word completions are most likely to be entered next. The system
-    analyses the text already entered and combines the information thus
-    extracted with other information sources to calculate a set of most
-    probable tokens.
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-    A typical presage-based application would display the set of most
-    probable tokens (i.e. a list of suggestions) to the user and
-    automatically enter the desired token after the user selects it. If
-    the list of suggestions does not contain the desired word, the user
-    continues entering text until the correct suggestion is offered or
-    until the user is done entering text.
+    typedef struct _presage* presage_t;
 
-    Presage is fundamentally different from predictive <a
-    href="http://en.wikipedia.org/wiki/T9_%28predictive_text%29">input
-    technologies commonly found on mobile phones</a>, which might more
-    accurately be described as 'disambiguating text entry' rather than
-    'predictive text entry' systems.  Such systems do not try to guess
-    what the user intends to write in the future, only to determine what
-    they most-likely intend to write in the present, given their past
-    input.  Presage, on the other hand, actively predicts the what the
-    user intends to write, and only reverts to <a
-    href="http://en.wikipedia.org/wiki/Word_completion">word
-    completion</a> mode if the prediction did not contain the desired
-    token.
+    presage_error_code_t presage_new                 (_presage_callback_get_past_stream past_stream_cb,
+                                                      void* past_stream_cb_arg,
+                                                      _presage_callback_get_future_stream future_stream_cb,
+                                                      void* future_stream_cb_arg,
+                                                      presage_t* result);
+    
+    presage_error_code_t presage_new_with_config     (_presage_callback_get_past_stream past,
+                                                      void* past_stream_cb_arg,
+                                                      _presage_callback_get_future_stream future_stream_cb,
+                                                      void* future_stream_cb_arg,
+                                                      const char* config,
+                                                      presage_t* result);
+    
+    void                 presage_free                (presage_t prsg);
+    
+    void                 presage_free_string         (char* str);
+    void                 presage_free_string_array   (char** str);
 
-    Presage is <a
-    href="http://www.gnu.org/philosophy/free-sw.html">free
-    software</a>. It is distributed under the term of the <a
-    href="http://www.gnu.org/copyleft/gpl.html">General Public
-    License</a>.
+    presage_error_code_t presage_predict             (presage_t prsg,
+                                                      char*** result);
+    
+    presage_error_code_t presage_completion          (presage_t prsg,
+                                                      const char* token,
+                                                      char** result);
 
-    \author Matteo Vescovi
+    presage_error_code_t presage_context             (presage_t prsg, 
+                                                      char** result);
 
-    \section getting_started_section Getting started
-    \include getting_started.txt
+    presage_error_code_t presage_context_change      (presage_t prsg,
+                                                      int* result);
 
-*/
+    presage_error_code_t presage_prefix              (presage_t prsg,
+                                                      char** result);
+
+    presage_error_code_t presage_config              (presage_t prsg,
+                                                      const char* variable,
+                                                      char** result);
+
+    presage_error_code_t presage_config_set          (presage_t prsg,
+                                                      const char* variable,
+                                                      const char* value);
+    
+    presage_error_code_t presage_save_config         (presage_t prsg);
+
+#ifdef __cplusplus
+}
+#endif
+
+/*
+ *    Presage C API ends here
+ ****************************/
+
 
 #endif /* PRESAGE */

@@ -1,3 +1,10 @@
+2014-01-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/presage.h: rearrange C++ and C APIs layout in header.
+
+	* doc/INSTALL_MinGW32_MSYS_dev_env.txt: add steps to generate
+	Python import library on Windows.
+
 2013-11-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* doc/INSTALL_MinGW64_MSYS_dev_env.txt,
