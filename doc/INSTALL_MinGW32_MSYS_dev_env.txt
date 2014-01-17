@@ -42,6 +42,17 @@ installed in:
 
   /c/presage_x86_sdk/Python27
 
+N.B. The python x86 distribution does not currently ship a working
+import library. To build a python extension module, we need to
+generate an import library for python27.dll (which, in case of a
+system wide python installation, resides in the System32 Windows
+folder, or in case of a single user installation, resides in the root
+of the python installation):
+
+  cd /c/presage_x86_sdk/Python27/libs
+  gendef /c/presage_x86_sdk/Python27/python27.dll
+  dlltool.exe --dllname python27.dll --def python27.def --output-lib libpython27.a
+
 
 ________________
 Install wxPython
