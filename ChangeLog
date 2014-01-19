@@ -1,3 +1,14 @@
+2014-01-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* c#/README.txt, c#/presage_csharp.sln,
+	c#/presage_csharp/Presage.cs,
+	c#/presage_csharp/Properties/AssemblyInfo.cs,
+	c#/presage_csharp/presage_csharp.csproj,
+	c#/presage_csharp_demo/App.config,
+	c#/presage_csharp_demo/presage_csharp_demo.cs,
+	c#/presage_csharp_demo/presage_csharp_demo.csproj: add
+	experimental C# binding.
+
 2014-01-17  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/presage.h: rearrange C++ and C APIs layout in header.
