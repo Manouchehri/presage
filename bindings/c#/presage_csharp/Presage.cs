@@ -4,6 +4,19 @@ using System.Collections.Generic;
 
 namespace presage_csharp
 {
+    [Serializable()]
+    public class PresageException : System.Exception
+    {
+        public PresageException() : base() { }
+        public PresageException(string message) : base(message) { }
+        public PresageException(string message, System.Exception inner) : base(message, inner) { }
+
+        // A constructor is needed for serialization when an 
+        // exception propagates from a remoting server to the client.  
+        protected PresageException(System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) { }
+    }
+
     public class Presage
     {
         [DllImport("libpresage-1.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -26,17 +39,17 @@ namespace presage_csharp
         );
 
         [DllImport("libpresage-1.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int presage_free(
+        private static extern void presage_free(
             IntPtr presage
         );
 
         [DllImport("libpresage-1.dll", CallingConvention = CallingConvention.Cdecl)]
-        private unsafe static extern int presage_free_string(
+        private unsafe static extern void presage_free_string(
             IntPtr str
         );
 
         [DllImport("libpresage-1.dll", CallingConvention = CallingConvention.Cdecl)]
-        private unsafe static extern int presage_free_string_array(
+        private unsafe static extern void presage_free_string_array(
             IntPtr str_array
         );
 
@@ -107,7 +120,11 @@ namespace presage_csharp
             past_cb = get_past_stream_cb;
             future_cb = get_future_stream_cb;
 
-            presage_new(past_cb, System.IntPtr.Zero, future_cb, System.IntPtr.Zero, out prsg);
+            int rc = presage_new(past_cb, System.IntPtr.Zero, future_cb, System.IntPtr.Zero, out prsg);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_new() error code: {0}", rc));
+            }
         }
 
         public Presage(
@@ -120,7 +137,11 @@ namespace presage_csharp
             future_cb = get_future_stream_cb;
 
             // call presage_new_with_config
-            presage_new_with_config(past_cb, System.IntPtr.Zero, future_cb, System.IntPtr.Zero, config, out prsg);
+            int rc = presage_new_with_config(past_cb, System.IntPtr.Zero, future_cb, System.IntPtr.Zero, config, out prsg);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_new_with_config() error code: {0}", rc));
+            }
         }
 
         ~Presage()
@@ -135,7 +156,11 @@ namespace presage_csharp
             IntPtr prediction;
 
             // call presage_predict
-            presage_predict(prsg, out prediction);
+            int rc = presage_predict(prsg, out prediction);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_predict() error code: {0}", rc));
+            }
 
             if (prediction != null)
             {
@@ -163,7 +188,11 @@ namespace presage_csharp
 
             IntPtr str_ptr;
 
-            presage_context(prsg, out str_ptr);
+            int rc = presage_context(prsg, out str_ptr);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_context() error code: {0}", rc));
+            }
 
             result = Marshal.PtrToStringAnsi(str_ptr);
 
@@ -176,7 +205,11 @@ namespace presage_csharp
 
             IntPtr int_ptr;
             
-            presage_context_change(prsg, out int_ptr);
+            int rc = presage_context_change(prsg, out int_ptr);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_context_change() error code: {0}", rc));
+            }
 
             result = ! int_ptr.Equals(0);
 
@@ -189,7 +222,11 @@ namespace presage_csharp
 
             IntPtr str_ptr;
 
-            presage_prefix(prsg, out str_ptr);
+            int rc = presage_prefix(prsg, out str_ptr);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_prefix() error code: {0}", rc));
+            }
 
             result = Marshal.PtrToStringAnsi(str_ptr);
 
@@ -200,7 +237,11 @@ namespace presage_csharp
         {
             IntPtr str_ptr;
 
-            presage_completion(prsg, token, out str_ptr);
+            int rc = presage_completion(prsg, token, out str_ptr);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_completion() error code: {0}", rc));
+            }
 
             string result = Marshal.PtrToStringAnsi(str_ptr);
 
@@ -213,7 +254,11 @@ namespace presage_csharp
 
             IntPtr str_ptr;
 
-            presage_config(prsg, variable, out str_ptr);
+            int rc = presage_config(prsg, variable, out str_ptr);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_config() error code: {0}", rc));
+            }
 
             result = Marshal.PtrToStringAnsi(str_ptr);
 
@@ -222,12 +267,21 @@ namespace presage_csharp
 
         public void config(string variable, string value)
         {
-            presage_config_set(prsg, variable, value);
+            int rc = presage_config_set(prsg, variable, value);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_config_set() error code: {0}", rc));
+            }
         }
 
         public void save_config()
         {
-            presage_save_config(prsg);
+            int rc = presage_save_config(prsg);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_save_config() error code: {0}", rc));
+            }
+
         }
     }
 }
