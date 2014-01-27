@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
-namespace presage_csharp
+namespace presage
 {
     [Serializable()]
     public class PresageException : System.Exception

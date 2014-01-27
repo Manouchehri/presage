@@ -84,9 +84,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\presage_csharp\presage_csharp.csproj">
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\presage.net\presage.net.csproj">
       <Project>{1b7c7fe2-761a-43db-a220-5f334f3e6097}</Project>
-      <Name>presage_csharp</Name>
+      <Name>presage.net</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

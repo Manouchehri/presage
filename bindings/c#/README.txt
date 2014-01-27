@@ -19,26 +19,26 @@ Building the presage C# binding requires Visual Studio 2013.
 Visual Studio Express edition should work just fine.
 
 
-To build, simply open the presage_csharp.sln solution in Visual Studio
+To build, simply open the presage.net.sln solution in Visual Studio
 IDE and build it.
 
 Alternatively, to rebuild on the command line in a Visual Studio
 shell:
 
-  devenv /Rebuild "Release|x86" presage_csharp.sln
+  devenv /Rebuild "Release|x86" presage.net.sln
 
 or:
 
-  devenv /Rebuild "Release|x64" presage_csharp.sln
+  devenv /Rebuild "Release|x64" presage.net.sln
 
 
 To rebuild in Debug mode:
 
-  devenv /Rebuild "Debug|x86" presage_csharp.sln
+  devenv /Rebuild "Debug|x86" presage.net.sln
 
 or:
 
-  devenv /Rebuild "Debug|x86" presage_csharp.sln
+  devenv /Rebuild "Debug|x86" presage.net.sln
 
 
 

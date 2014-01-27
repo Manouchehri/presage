@@ -7,8 +7,8 @@
     <ProjectGuid>{1B7C7FE2-761A-43DB-A220-5F334F3E6097}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>presage_csharp</RootNamespace>
-    <AssemblyName>presage_csharp</AssemblyName>
+    <RootNamespace>presage.net</RootNamespace>
+    <AssemblyName>presage.net</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
