@@ -12,7 +12,7 @@ http://notepad-plus-plus.org/
 Building Notepad++ presage plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Building NppPresage requires Visual Studio 2010.  Visual Studio
+Building NppPresage requires Visual Studio 2013.  Visual Studio
 Express edition will work just fine.
 
 To build, simply open the NppPresage.sln solution in Visual Studio IDE

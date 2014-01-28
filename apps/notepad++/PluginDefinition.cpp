@@ -528,10 +528,10 @@ void on_help()
     }
     else
     {
-        ::MessageBox(NULL, TEXT("Only limited help available for now."),
-                           TEXT("To insert a suggestion from the prediction autocompletion menu, press <Enter>."),
-                           TEXT("To insert a newline, press <Ctrl-Shift-Alt-Enter>."),
-                           TEXT("To see more choices, press <Ctrl-Shift-Alt-P>."),
+        ::MessageBox(NULL, TEXT("Only limited help available for now.\n\n")
+                           TEXT("To insert a suggestion from the prediction autocompletion menu, press <Enter>.\n")
+                           TEXT("To insert a newline, press <Ctrl-Shift-Alt-Enter>.\n")
+                           TEXT("To see more choices, press <Ctrl-Shift-Alt-P>.\n")
                            TEXT("To configure NppPresage, see the Plugins->NppPlugin menu."),
                            TEXT("Presage Notepad++ plugin"), MB_OK);
     }

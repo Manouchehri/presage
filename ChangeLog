@@ -1,8 +1,14 @@
 2014-01-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* apps/notepad++/PluginDefinition.cpp: fix bug in Notepad++
+	presage plugin help menu item.
+
+	* apps/notepad++/NppPresage.vcxproj: upgrade presage Notepad++
+	plugin project to VS2013.
+
 	* packaging/windows/README,
 	packaging/windows/presage_installer.nsi,
-	packaging/windows/win-buildpackage.sh: add C# artifacts to Windows
+	packaging/windows/win-buildpackage.sh: add C# artefacts to Windows
 	installer.
 
 2014-01-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
