@@ -1,6 +1,13 @@
+2014-01-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging/windows/README,
+	packaging/windows/presage_installer.nsi,
+	packaging/windows/win-buildpackage.sh: add C# artifacts to Windows
+	installer.
+
 2014-01-27  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
-	* c#/presage_csharp*: rename presage_sharp project to presage.net
+	* c#/presage_csharp*: rename presage_csharp project to presage.net
 
 2014-01-24  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 

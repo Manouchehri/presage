@@ -85,7 +85,7 @@ function install_dependants()
     MINGW_DEPS="libstdc++-6.dll libgcc_s_dw2-1.dll"
     SQLITE_DEPS="libsqlite3-0.dll"
     GTK_DEPS="libcairo-2.dll libgdk-win32-2.0-0.dll libgdk_pixbuf-2.0-0.dll libglib-2.0-0.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-win32-2.0-0.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libfontconfig-1.dll libexpat-1.dll freetype6.dll libpng14-14.dll intl.dll libgio-2.0-0.dll libatk-1.0-0.dll libgthread-2.0-0.dll libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll zlib1.dll"
-    QT_DEPS="QtCore4.dll QtGui4.dll qscintilla2.dll mingwm10.dll"
+    QT_DEPS="QtCore4.dll QtGui4.dll libwinpthread-1.dll libpng16-16.dll qscintilla2.dll"
 
     for i in $MINGW_DEPS $SQLITE_DEPS $GTK_DEPS $QT_DEPS
     do

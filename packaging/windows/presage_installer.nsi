@@ -134,7 +134,8 @@ Section "-Runtime" SecRuntime
   File "bin\qscintilla2.dll"
   File "bin\QtCore4.dll"
   File "bin\QtGui4.dll"
-  File "bin\mingwm10.dll"
+  File "bin\libwinpthread-1.dll"
+  File "bin\libpng16-16.dll"
 
   ; GTK deps
   File "bin\freetype6.dll"
@@ -251,6 +252,17 @@ Section "Python binding" SecPython
 SectionEnd
 
 ;----
+;.NET section
+Section ".NET binding" SecNET
+
+  ; bin/
+  SetOutPath "$INSTDIR\bin"
+  File "bin\presage.net.dll"
+  File "bin\presage_csharp_demo.exe"
+
+SectionEnd
+
+;----
 ;Notepad++ plugin section
 Section "Notepad++ plugin" SecNpp
 
@@ -281,6 +293,7 @@ SectionEnd
   LangString DESC_SecRuntime ${LANG_ENGLISH} "Install presage core C++ native library runtime and required configuration files"
   LangString DESC_SecDevel ${LANG_ENGLISH} "Install presage development files (headers and libraries)"
   LangString DESC_SecPython ${LANG_ENGLISH} "Install presage Python binding and examples Python scripts"
+  LangString DESC_SecNET ${LANG_ENGLISH} "Install presage .NET binding and C# demo program"
   LangString DESC_SecNpp ${LANG_ENGLISH} "Install Notepad++ presage intelligent predictive text entry plugin"
 
   ;Assign language strings to sections
@@ -288,6 +301,7 @@ SectionEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecRuntime} $(DESC_SecRuntime)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecDevel} $(DESC_SecDevel)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecPython} $(DESC_SecPython)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecNET} $(DESC_SecNET)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecNpp} $(DESC_SecNpp)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
  
@@ -317,7 +331,8 @@ Section "Uninstall"
   Delete "$INSTDIR\bin\qscintilla2.dll"
   Delete "$INSTDIR\bin\QtCore4.dll"
   Delete "$INSTDIR\bin\QtGui4.dll"
-  Delete "$INSTDIR\bin\mingwm10.dll"
+  Delete "$INSTDIR\bin\libwinpthread-1.dll"
+  Delete "$INSTDIR\bin\libpng16-16.dll"
 
   ; GTK deps
   Delete "$INSTDIR\bin\freetype6.dll"
@@ -340,6 +355,10 @@ Section "Uninstall"
   Delete "$INSTDIR\bin\libpangowin32-1.0-0.dll"
   Delete "$INSTDIR\bin\libpng14-14.dll"
   Delete "$INSTDIR\bin\zlib1.dll"
+
+  ; .NET binding deps
+  Delete "$INSTDIR\bin\presage.net.dll"
+  Delete "$INSTDIR\bin\presage_csharp_demo.exe"
 
   ; Notepad++ plugin
   ReadRegStr $0 HKLM "Software\Notepad++" ""
