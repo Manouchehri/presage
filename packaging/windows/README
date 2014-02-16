@@ -37,7 +37,9 @@ directory of presage installation
 3) Check that the PATH is properly setup by running gprompter in your
 MinGW shell - i.e. add GTK, QT, NSIS to the PATH
 
-  export PATH=/c/presage_x86_sdk/GTK/bin:/c/presage_x86_sdk/x32-Qt-4.8.5+qtcreator-2.8.0-RC-gcc-4.8.1-dwarf-rev1/Qt32-4.8.5/bin:/c/Program\ Files\ \(x86\)/NSIS:$PATH
+  export PATH=/c/presage_x86_sdk/GTK/bin:\
+/c/presage_x86_sdk/x32-Qt-4.8.5+qtcreator-2.8.0-RC-gcc-4.8.1-dwarf-rev1\
+/Qt32-4.8.5/bin:/c/Program\ Files\ \(x86\)/NSIS:$PATH
 
 4) In a MinGW/MSYS shell, run the win-buildpackage script:
 

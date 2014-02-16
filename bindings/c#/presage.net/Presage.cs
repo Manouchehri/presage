@@ -2,6 +2,9 @@
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
+using Microsoft.Win32;
+
+
 namespace presage
 {
     [Serializable()]
@@ -103,7 +106,10 @@ namespace presage
             IntPtr presage
         );
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool SetDllDirectory(string lpPathName);
         
+
         private IntPtr prsg;
         private callback_get_past_stream_t past_cb;
         private callback_get_future_stream_t future_cb;
@@ -120,6 +126,8 @@ namespace presage
             past_cb = get_past_stream_cb;
             future_cb = get_future_stream_cb;
 
+            set_presage_dll_directory();
+
             int rc = presage_new(past_cb, System.IntPtr.Zero, future_cb, System.IntPtr.Zero, out prsg);
             if (rc != 0)
             {
@@ -135,6 +143,8 @@ namespace presage
         {
             past_cb = get_past_stream_cb;
             future_cb = get_future_stream_cb;
+
+            set_presage_dll_directory();
 
             // call presage_new_with_config
             int rc = presage_new_with_config(past_cb, System.IntPtr.Zero, future_cb, System.IntPtr.Zero, config, out prsg);
@@ -282,6 +292,38 @@ namespace presage
                 throw new PresageException(String.Format("presage_save_config() error code: {0}", rc));
             }
 
+        }
+
+        private string read_presage_registy_key()
+        {
+            string result = null;
+
+            try
+            {
+                result = Registry.GetValue("HKEY_CURRENT_USER\\Software\\Presage", "", string.Empty).ToString();
+            }
+            catch (System.Security.SecurityException ex)
+            {
+                System.Console.WriteLine("Caught exception: {0}", ex.ToString());
+                result = string.Empty;
+            }
+            catch (System.IO.IOException ex)
+            {
+                System.Console.WriteLine("Caught exception: {0}", ex.ToString()); 
+                result = string.Empty;
+            }
+
+            return result;
+        }
+
+        private void set_presage_dll_directory()
+        {
+            string presage_root = read_presage_registy_key();
+            if (presage_root != string.Empty)
+            {
+                string presage_bin_path = presage_root + "\\bin";
+                SetDllDirectory(presage_bin_path);
+            }
         }
     }
 }

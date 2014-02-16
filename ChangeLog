@@ -1,3 +1,13 @@
+2014-02-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac: bumped version up to 0.9~beta
+
+	* bindings/c#/presage.net/Presage.cs,
+	bindings/c#/presage.net/Properties/AssemblyInfo.cs,
+	bindings/c#/presage_csharp_demo/presage_csharp_demo.cs: fix
+	presage.net assembly name and version, add ability to find presage
+	installation using the Windows registry to presage.net assembly.
+
 2014-01-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/notepad++/PluginDefinition.cpp: fix bug in Notepad++

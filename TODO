@@ -7,13 +7,6 @@ TODO list
 ---------
 
 
-Fix Presage 0.8.8 release (D) news section on website
-check content and spelling too
-add links to videos/articles on documentation page
-  http://www.igalia.com/nc/work/project/item/predictor-input-method/ 
-create video page?
-
-
 GUI apps:
 * qprompter
 ** integrate into build system
@@ -24,6 +17,40 @@ GUI apps:
 ** would be nice to have status bar with KSR rate
 
 Architectural restructure: 
+- n-gram language model database format and database connector
+
+  The current database format stores the string in all n-grams,
+  i.e. for "the quick brown" fragment we'll have
+
+  1-gram: <word, count>
+  <the, 20>
+
+  2-gram: <word_1, word, count>
+  <the, brown, 10>
+
+  3-gram: <word_2, word_1, word, count>
+  <the, quick, brown, 1>
+
+  A possibly more time-efficient and space-efficient approach to
+  structuring the language model involves having n-gram records refer
+  to (n-1)-gram records instead of repeating the word strings, i.e.:
+
+  1-gram: <uid, word, count>
+  <1023, the, 20>
+
+  2-gram: <uid, 1-gram, word, count>
+  <2204, 1023, brown, 10>
+
+  3-gram: <uid, 2-gram, word, count>
+  <3452, 2204, brown, 1>
+
+  To build up the full 3-gram string "the quick brown", the references
+  to the 2-gram and 1-gram need to be walked. However, the predictive
+  algorithm needs to look at the counts for all k-grams where k is in
+  [1, n], so this would not be an additional time cost. The database
+  size would reduce as it would not need to store repetitions of the
+  words in each n-gram table.
+
 - selector
   should be a class similar to current PredictorActivator i.e. a class
   that invokes other classes' method to perform work.
