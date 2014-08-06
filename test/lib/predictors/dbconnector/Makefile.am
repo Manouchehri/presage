@@ -32,11 +32,7 @@ dbconnectorTestRunner_SOURCES =	dbconnectorTestRunner.cpp       \
 				databaseConnectorTest.cpp       \
 				databaseConnectorTest.h         \
 				sqliteDatabaseConnectorTest.cpp \
-				sqliteDatabaseConnectorTest.h   \
-				$(top_srcdir)/src/lib/presageException.h	\
-				$(top_srcdir)/src/lib/core/presageException.cpp \
-				$(top_srcdir)/src/lib/core/utility.h		\
-				$(top_srcdir)/src/lib/core/utility.cpp
+				sqliteDatabaseConnectorTest.h
 
 # presageException files are included in sources since sqlite
 # database connector defines an exception that inherits from
@@ -44,7 +40,9 @@ dbconnectorTestRunner_SOURCES =	dbconnectorTestRunner.cpp       \
 
 dbconnectorTestRunner_CXXFLAGS =	$(CPPUNIT_CFLAGS)
 dbconnectorTestRunner_LDFLAGS =		$(CPPUNIT_LIBS)
-dbconnectorTestRunner_LDADD =		$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la
+dbconnectorTestRunner_LDADD =		$(top_builddir)/src/lib/predictors/dbconnector/libdbconnector.la \
+					$(top_builddir)/src/lib/core/libcore.la \
+					$(top_builddir)/src/lib/libpresage.la
 dbconnectorTestRunner_CPPFLAGS =	-I$(top_srcdir)/src/lib
 
 # Clean out files created during tests.

@@ -1,3 +1,11 @@
+2014-08-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/Makefile.am,
+	test/lib/core/context_tracker/Makefile.am,
+	test/lib/predictors/dbconnector/Makefile.am,
+	test/lib/core/context_tracker/contextTrackerTestRunner.cpp: fix
+	problems caused by subdir-objects automake option.
+
 2014-02-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac: bumped version up to 0.9~beta

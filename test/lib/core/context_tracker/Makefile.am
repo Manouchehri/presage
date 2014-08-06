@@ -21,13 +21,15 @@
 
 ## Process this file with automake to produce Makefile.in
 
+AUTOMAKE_OPTIONS = subdir-objects
+
 if HAVE_CPPUNIT
 
 TESTS =		contextTrackerTestRunner
 
 check_PROGRAMS = $(TESTS)
 
-contextTrackerTestRunner_SOURCES =	../coreTestRunner.cpp \
+contextTrackerTestRunner_SOURCES =	contextTrackerTestRunner.cpp \
 					contextChangeDetectorTest.h \
 					contextChangeDetectorTest.cpp \
 					contextTrackerTest.h \
