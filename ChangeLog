@@ -1,3 +1,11 @@
+2014-09-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/pyprompter.desktop,
+	apps/gtk/gprompter/gprompter.desktop: Add categories.
+
+	* apps/gtk/gprompter/scintilla/*: Update to latest scintilla 3.50
+	release.
+
 2014-08-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/Makefile.am,

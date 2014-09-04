@@ -19,6 +19,8 @@ namespace Scintilla {
 typedef int Position;
 const Position invalidPosition = -1;
 
+enum EncodingFamily { efEightBit, efUnicode, efDBCS };
+
 /**
  * The range class represents a range of text in a document.
  * The two values are not sorted as one end may be more significant than the other
@@ -30,15 +32,27 @@ public:
 	Position start;
 	Position end;
 
-	Range(Position pos=0) :
+	explicit Range(Position pos=0) :
 		start(pos), end(pos) {
 	}
 	Range(Position start_, Position end_) :
 		start(start_), end(end_) {
 	}
 
+	bool operator==(const Range &other) const {
+		return (start == other.start) && (end == other.end);
+	}
+
 	bool Valid() const {
 		return (start != invalidPosition) && (end != invalidPosition);
+	}
+
+	Position First() const {
+		return (start <= end) ? start : end;
+	}
+
+	Position Last() const {
+		return (start > end) ? start : end;
 	}
 
 	// Is the position within the range?
@@ -163,7 +177,7 @@ protected:
 	ILexer *instance;
 	bool performingStyle;	///< Prevent reentrance
 public:
-	LexInterface(Document *pdoc_) : pdoc(pdoc_), instance(0), performingStyle(false) {
+	explicit LexInterface(Document *pdoc_) : pdoc(pdoc_), instance(0), performingStyle(false) {
 	}
 	virtual ~LexInterface() {
 	}
@@ -196,12 +210,14 @@ private:
 	CellBuffer cb;
 	CharClassify charClass;
 	CaseFolder *pcf;
-	char stylingMask;
 	int endStyled;
 	int styleClock;
 	int enteredModification;
 	int enteredStyling;
 	int enteredReadOnlyCount;
+
+	bool insertionSet;
+	std::string insertion;
 
 	std::vector<WatcherWithUserData> watchers;
 
@@ -215,9 +231,6 @@ private:
 public:
 
 	LexInterface *pli;
-
-	int stylingBits;
-	int stylingBitsMask;
 
 	int eolMode;
 	/// Can also be SC_CP_UTF8 to enable UTF-8 mode
@@ -266,12 +279,14 @@ public:
 	int SCI_METHOD CodePage() const;
 	bool SCI_METHOD IsDBCSLeadByte(char ch) const;
 	int SafeSegment(const char *text, int length, int lengthSegment) const;
+	EncodingFamily CodePageFamily() const;
 
 	// Gateways to modifying document
 	void ModifiedAt(int pos);
 	void CheckReadOnly();
 	bool DeleteChars(int pos, int len);
-	bool InsertString(int position, const char *s, int insertLength);
+	int InsertString(int position, const char *s, int insertLength);
+	void ChangeInsertion(const char *s, int length);
 	int SCI_METHOD AddData(char *data, int length);
 	void * SCI_METHOD ConvertToDocument();
 	int Undo();
@@ -288,12 +303,18 @@ public:
 	void AddUndoAction(int token, bool mayCoalesce) { cb.AddUndoAction(token, mayCoalesce); }
 	void SetSavePoint();
 	bool IsSavePoint() const { return cb.IsSavePoint(); }
+
+	void TentativeStart() { cb.TentativeStart(); }
+	void TentativeCommit() { cb.TentativeCommit(); }
+	void TentativeUndo();
+	bool TentativeActive() const { return cb.TentativeActive(); }
+
 	const char * SCI_METHOD BufferPointer() { return cb.BufferPointer(); }
 	const char *RangePointer(int position, int rangeLength) { return cb.RangePointer(position, rangeLength); }
 	int GapPosition() const { return cb.GapPosition(); }
 
 	int SCI_METHOD GetLineIndentation(int line);
-	void SetLineIndentation(int line, int indent);
+	int SetLineIndentation(int line, int indent);
 	int GetLineIndentPosition(int line) const;
 	int GetColumn(int position);
 	int CountCharacters(int startPos, int endPos);
@@ -304,8 +325,6 @@ public:
 	void SetReadOnly(bool set) { cb.SetReadOnly(set); }
 	bool IsReadOnly() const { return cb.IsReadOnly(); }
 
-	bool InsertChar(int pos, char ch);
-	bool InsertCString(int position, const char *s);
 	void DelChar(int pos);
 	void DelCharBack(int pos);
 
@@ -355,8 +374,7 @@ public:
 
 	void SetDefaultCharClasses(bool includeWordClass);
 	void SetCharClasses(const unsigned char *chars, CharClassify::cc newCharClass);
-	int GetCharsOfClass(CharClassify::cc charClass, unsigned char *buffer);
-	void SetStylingBits(int bits);
+	int GetCharsOfClass(CharClassify::cc characterClass, unsigned char *buffer);
 	void SCI_METHOD StartStyling(int position, char mask);
 	bool SCI_METHOD SetStyleFor(int length, char style);
 	bool SCI_METHOD SetStyles(int length, const char *styles);
@@ -387,7 +405,7 @@ public:
 	void AnnotationSetStyles(int line, const unsigned char *styles);
 	int AnnotationLines(int line) const;
 	void AnnotationClearAll();
-
+	
 	bool AddWatcher(DocWatcher *watcher, void *userData);
 	bool RemoveWatcher(DocWatcher *watcher, void *userData);
 
@@ -440,12 +458,12 @@ public:
  */
 class DocModification {
 public:
-  	int modificationType;
+	int modificationType;
 	int position;
- 	int length;
- 	int linesAdded;	/**< Negative if lines deleted. */
- 	const char *text;	/**< Only valid for changes to text, not for changes to style. */
- 	int line;
+	int length;
+	int linesAdded;	/**< Negative if lines deleted. */
+	const char *text;	/**< Only valid for changes to text, not for changes to style. */
+	int line;
 	int foldLevelNow;
 	int foldLevelPrev;
 	int annotationLinesAdded;

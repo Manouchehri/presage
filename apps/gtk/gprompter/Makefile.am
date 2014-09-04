@@ -91,7 +91,13 @@ scintilla/src/CaseConvert.cxx \
 scintilla/src/CaseConvert.h \
 scintilla/src/CaseFolder.cxx \
 scintilla/src/CaseFolder.h \
-scintilla/src/UnicodeFromUTF8.h 
+scintilla/src/UnicodeFromUTF8.h \
+scintilla/src/EditModel.cxx \
+scintilla/src/EditModel.h \
+scintilla/src/EditView.cxx \
+scintilla/src/EditView.h \
+scintilla/src/MarginView.cxx \
+scintilla/src/MarginView.h
 
 SCINTILLA_INCLUDE = \
 scintilla/include/ILexer.h \
@@ -124,7 +130,8 @@ scintilla/lexlib/LexerBase.cxx \
 scintilla/lexlib/SparseState.h \
 scintilla/lexlib/SubStyles.h \
 scintilla/lexlib/CharacterCategory.h \
-scintilla/lexlib/CharacterCategory.cxx 
+scintilla/lexlib/CharacterCategory.cxx \
+scintilla/lexlib/StringCopy.h
 
 SCINTILLA_LEXERS = \
 scintilla/lexers/LexLisp.cxx \
@@ -216,7 +223,13 @@ scintilla/lexers/LexOScript.cxx \
 scintilla/lexers/LexVisualProlog.cxx \
 scintilla/lexers/LexPO.cxx \
 scintilla/lexers/LexLaTeX.cxx \
-scintilla/lexers/LexSTTXT.cxx 
+scintilla/lexers/LexSTTXT.cxx \
+scintilla/lexers/LexDMAP.cxx \
+scintilla/lexers/LexDMIS.cxx \
+scintilla/lexers/LexKVIrc.cxx \
+scintilla/lexers/LexRegistry.cxx \
+scintilla/lexers/LexRust.cxx
+
 
 
 libscintilla_la_SOURCES =	$(SCINTILLA_SRC) $(SCINTILLA_GTK) $(SCINTILLA_INCLUDE) $(SCINTILLA_LEXERS) $(SCINTILLA_LEXLIB)

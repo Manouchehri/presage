@@ -31,7 +31,7 @@ public:
 class RESearch {
 
 public:
-	RESearch(CharClassify *charClassTable);
+	explicit RESearch(CharClassify *charClassTable);
 	~RESearch();
 	void GrabMatches(CharacterIndexer &ci);
 	const char *Compile(const char *pattern, int length, bool caseSensitive, bool posix);
@@ -46,7 +46,6 @@ public:
 	std::string pat[MAXTAG];
 
 private:
-	void Init();
 	void Clear();
 	void ChSet(unsigned char c);
 	void ChSetWithCase(unsigned char c, bool caseSensitive);
