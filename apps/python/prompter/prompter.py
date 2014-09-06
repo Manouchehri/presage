@@ -520,6 +520,9 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
       print "------------ OnChar() handler"
 
       if event.HasModifiers():
+         if self.AutoCompActive():
+            self.AutoCompCancel()
+
          # CTRL or ALT pressed
          # let the default menu handlers handle the command event
          event.Skip()
@@ -544,10 +547,7 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
             else:
                self.AddText(key)
 
-      # schedule showing of prediction after current and pending events
-      # are dealt with
-      wx.CallAfter(self.__ShowPrediction)
-
+               self.__ShowPrediction()
 
    def ShowPrediction(self, string = ''):
       self.__ShowPrediction(string)
