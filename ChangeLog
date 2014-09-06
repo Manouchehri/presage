@@ -1,3 +1,8 @@
+2014-09-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/python/prompter/prompter.py: Fix key press event handling
+	with modifiers enabled using latest wxPython.
+
 2014-09-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/pyprompter.desktop,
