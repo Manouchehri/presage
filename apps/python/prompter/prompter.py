@@ -523,19 +523,13 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
          # CTRL or ALT pressed
          # let the default menu handlers handle the command event
          event.Skip()
-         # schedule showing of prediction after current and pending events
-         # are dealt with (thanks to Robin Dunn for pointing this out)
-         wx.CallAfter(self.__ShowPrediction)
 
       else:
          key = event.GetUnicodeKey()
 
-         if key == wx.WXK_NONE:
-            # non-character keycode value
-            keycode = event.GetKeyCode()
-
-            if self.__FunctionKey(keycode):
-               self.__HandleFunctionKey(keycode)
+         keycode = event.GetKeyCode()
+         if self.__FunctionKey(keycode):
+            self.__HandleFunctionKey(keycode)
 
          else:
             key = unichr(key)
@@ -550,7 +544,10 @@ class PrompterEditor(wx.stc.StyledTextCtrl):
             else:
                self.AddText(key)
 
-            self.__ShowPrediction()
+      # schedule showing of prediction after current and pending events
+      # are dealt with
+      wx.CallAfter(self.__ShowPrediction)
+
 
    def ShowPrediction(self, string = ''):
       self.__ShowPrediction(string)
