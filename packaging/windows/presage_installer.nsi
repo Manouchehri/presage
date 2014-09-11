@@ -125,7 +125,7 @@ Section "-Runtime" SecRuntime
 
   ; MinGW deps
   File "bin\libstdc++-6.dll"
-  File "bin\libgcc_s_dw2-1.dll"
+  File "bin\libgcc_s_seh-1.dll"
 
   ; SQLite deps
   File "bin\libsqlite3-0.dll"
@@ -138,8 +138,8 @@ Section "-Runtime" SecRuntime
   File "bin\libpng16-16.dll"
 
   ; GTK deps
-  File "bin\freetype6.dll"
-  File "bin\intl.dll"
+  File "bin\libfreetype-6.dll"
+  File "bin\libintl-8.dll"
   File "bin\libatk-1.0-0.dll"
   File "bin\libcairo-2.dll"
   File "bin\libexpat-1.dll"

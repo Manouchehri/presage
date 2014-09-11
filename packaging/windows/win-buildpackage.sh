@@ -20,6 +20,8 @@
 #  with this program; if not, write to the Free Software Foundation, Inc.,
 #  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+set -e 
+
 if [ $# -lt 2 ]
 then
     echo "Usage: $0 presage_instdir presage_release"
@@ -39,6 +41,10 @@ function set_up()
              $SCRIPTDIR/StrRep.nsh \
              $SCRIPTDIR/ReplaceInFile.nsh
     do
+	if [ -f $INSTDIR/$i ]
+	then
+		rm $INSTDIR/$i
+	fi
         cp $i $INSTDIR
     done
 
@@ -82,17 +88,21 @@ function build_py2exe()
 
 function install_dependants()
 {
-    MINGW_DEPS="libstdc++-6.dll libgcc_s_dw2-1.dll"
+    MINGW_DEPS="libstdc++-6.dll libgcc_s_seh-1.dll"
     SQLITE_DEPS="libsqlite3-0.dll"
-    GTK_DEPS="libcairo-2.dll libgdk-win32-2.0-0.dll libgdk_pixbuf-2.0-0.dll libglib-2.0-0.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-win32-2.0-0.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libfontconfig-1.dll libexpat-1.dll freetype6.dll libpng14-14.dll intl.dll libgio-2.0-0.dll libatk-1.0-0.dll libgthread-2.0-0.dll libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll zlib1.dll"
+    GTK_DEPS="libcairo-2.dll libgdk-win32-2.0-0.dll libgdk_pixbuf-2.0-0.dll libglib-2.0-0.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-win32-2.0-0.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libfontconfig-1.dll libexpat-1.dll libfreetype-6.dll libpng14-14.dll libintl-8.dll libgio-2.0-0.dll libatk-1.0-0.dll libgthread-2.0-0.dll libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll zlib1.dll"
     QT_DEPS="QtCore4.dll QtGui4.dll libwinpthread-1.dll libpng16-16.dll qscintilla2.dll"
 
     for i in $MINGW_DEPS $SQLITE_DEPS $GTK_DEPS $QT_DEPS
     do
 	SRC="`which $i`";
 	DST="$INSTDIR/bin";
-	echo "cp -f $SRC $DST";
-	cp -f "$SRC" "$DST";
+	echo "cp $SRC $DST";
+	if [ -f $DST/$i ]
+	then
+		rm $DST/$i
+	fi
+	cp "$SRC" "$DST";
     done
 }
 
