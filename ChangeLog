@@ -1,3 +1,8 @@
+2014-09-11  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* configure.ac, NEWS, website/presage_database_dump.sql.gz:
+	preparing for 0.9 release.
+
 2014-09-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/python/prompter/prompter.py: Fix key press event handling

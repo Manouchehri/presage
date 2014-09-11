@@ -8,12 +8,6 @@ Building the presage C# binding with Visual Studio
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-Experimental code.
-
-Currently requires a presage installation in C:\presage.
-
-
-
 Building the presage C# binding requires Visual Studio 2013.
 
 Visual Studio Express edition should work just fine.
