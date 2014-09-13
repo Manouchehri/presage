@@ -1,5 +1,7 @@
 2014-09-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* presage-0.9: released.
+
 	* packaging/windows/presage_installer.nsi,
 	packaging/windows/win-buildpackage.sh: Improve Windows packaging
 	scripts to handle 32-bit and 64-bit builds.
