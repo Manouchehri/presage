@@ -54,7 +54,7 @@
   OutFile "${PRESAGE_NAME}-${PRESAGE_VERSION}-setup.exe"
 
   ;Default installation folder
-  InstallDir "$PROGRAMFILES\${PRESAGE_NAME}"
+  InstallDir "$PROGRAMFILES${BITNESS}\${PRESAGE_NAME}"
   
   ;Get installation folder from registry if available
   InstallDirRegKey HKCU "Software\Presage" ""

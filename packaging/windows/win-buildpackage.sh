@@ -48,9 +48,23 @@ function set_up()
         cp $i $INSTDIR
     done
 
+    # determine presage installation bitness
+    BITNESS=""
+    if [ -f $INSTDIR/bin/text2ngram.exe ]
+    then
+	if file $INSTDIR/bin/text2ngram.exe | grep "PE32+ executable"
+	then
+	    BITNESS="64"
+        elif file $INSTDIR/bin/text2ngram.exe | grep "PE32 executable"
+	then
+	    BITNESS="32"
+	fi
+    fi
+
     # generate NSIS include file
     echo "!define PRESAGE_VERSION \"${RELEASE}\"" > $INSTDIR/defines.nsh
     echo "!define PRESAGE_NAME \"presage\"" >> $INSTDIR/defines.nsh
+    echo "!define BITNESS \"${BITNESS}\"" >> $INSTDIR/defines.nsh
 
     # license
     LICENSE="$SCRIPTDIR/../../COPYING"
