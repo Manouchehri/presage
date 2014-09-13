@@ -102,9 +102,23 @@ function build_py2exe()
 
 function install_dependants()
 {
-    MINGW_DEPS="libstdc++-6.dll libgcc_s_seh-1.dll"
+    if [ "x$BITNESS" == "x64" ]
+    then
+        MINGW_EXCEPT_LIB="libgcc_s_seh-1.dll"
+    else
+        MINGW_EXCEPT_LIB="libgcc_s_dw2-1.dll"
+    fi
+    MINGW_DEPS="libstdc++-6.dll ${MINGW_EXCEPT_LIB}"
     SQLITE_DEPS="libsqlite3-0.dll"
-    GTK_DEPS="libcairo-2.dll libgdk-win32-2.0-0.dll libgdk_pixbuf-2.0-0.dll libglib-2.0-0.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-win32-2.0-0.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libfontconfig-1.dll libexpat-1.dll libfreetype-6.dll libpng14-14.dll libintl-8.dll libgio-2.0-0.dll libatk-1.0-0.dll libgthread-2.0-0.dll libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll zlib1.dll"
+    if [ "x$BITNESS" == "x64" ]
+    then
+        GTK_FREETYPE_LIB="libfreetype-6.dll"
+	GTK_INTL_LIB="libintl-8.dll"
+    else
+        GTK_FREETYPE_LIB="freetype6.dll"
+	GTK_INTL_LIB="intl.dll"
+    fi
+    GTK_DEPS="libcairo-2.dll libgdk-win32-2.0-0.dll libgdk_pixbuf-2.0-0.dll libglib-2.0-0.dll libgmodule-2.0-0.dll libgobject-2.0-0.dll libgtk-win32-2.0-0.dll libpango-1.0-0.dll libpangocairo-1.0-0.dll libfontconfig-1.dll libexpat-1.dll libpng14-14.dll libgio-2.0-0.dll libatk-1.0-0.dll libgthread-2.0-0.dll libpangoft2-1.0-0.dll libpangowin32-1.0-0.dll zlib1.dll ${GTK_FREETYPE_LIB} ${GTK_INTL_LIB}"
     QT_DEPS="QtCore4.dll QtGui4.dll libwinpthread-1.dll libpng16-16.dll qscintilla2.dll"
 
     for i in $MINGW_DEPS $SQLITE_DEPS $GTK_DEPS $QT_DEPS
