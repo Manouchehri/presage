@@ -125,7 +125,7 @@ Section "-Runtime" SecRuntime
 
   ; MinGW deps
   File "bin\libstdc++-6.dll"
-!if BITNESS == "64"
+!if "${BITNESS}" == "64"
   File "bin\libgcc_s_seh-1.dll"
 !else
   File "bin\libgcc_s_dw2-1.dll"
@@ -160,7 +160,7 @@ Section "-Runtime" SecRuntime
   File "bin\libpangowin32-1.0-0.dll"
   File "bin\libpng14-14.dll"
   File "bin\zlib1.dll"
-!if BITNESS == "64"
+!if "${BITNESS}" == "64"
   File "bin\libfreetype-6.dll"
   File "bin\libintl-8.dll"
 !else
