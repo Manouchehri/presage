@@ -331,7 +331,11 @@ Section "Uninstall"
 
   ; MinGW deps
   Delete "$INSTDIR\bin\libstdc++-6.dll"
+!if "${BITNESS}" == "64"
+  Delete "$INSTDIR\bin\libgcc_s_seh-1.dll"
+!else
   Delete "$INSTDIR\bin\libgcc_s_dw2-1.dll"
+!endif
 
   ; SQLite deps
   Delete "$INSTDIR\bin\libsqlite3-0.dll"
@@ -344,8 +348,13 @@ Section "Uninstall"
   Delete "$INSTDIR\bin\libpng16-16.dll"
 
   ; GTK deps
+!if "${BITNESS}" == "64"
+  Delete "$INSTDIR\bin\libfreetype-6.dll"
+  Delete "$INSTDIR\bin\libintl-8.dll"
+!else
   Delete "$INSTDIR\bin\freetype6.dll"
   Delete "$INSTDIR\bin\intl.dll"
+!endif
   Delete "$INSTDIR\bin\libatk-1.0-0.dll"
   Delete "$INSTDIR\bin\libcairo-2.dll"
   Delete "$INSTDIR\bin\libexpat-1.dll"
