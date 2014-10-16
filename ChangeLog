@@ -1,3 +1,7 @@
+2014-10-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging/windows/presage_installer.nsi:
+
 2014-09-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* doc/Doxyfile.in, doc/Makefile.am: stop building LaTeX
