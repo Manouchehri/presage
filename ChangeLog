@@ -1,6 +1,7 @@
 2014-10-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
-	* packaging/windows/presage_installer.nsi:
+	* packaging/windows/presage_installer.nsi: fix Windows uninstaller
+	so that all installed files are removed during uninstallation.
 
 2014-09-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
