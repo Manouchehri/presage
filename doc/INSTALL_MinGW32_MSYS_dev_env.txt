@@ -1,4 +1,4 @@
-Copyright (C) 2013  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Copyright (C) 2015  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 ___________________
 The Presage project
 ~~~~~~~~~~~~~~~~~~~
@@ -129,22 +129,23 @@ Start MSYS shell
 Extract and configure presage, taking care of specifying where to
 find required binaries (Python and SWIG), headers, and libraries:
 
-  PATH=/c/presage_x86_sdk/gtk/bin:/c/presage_x86_sdk/Python27:/c/presage_x86_sdk/SWIG:$PATH \
-  CPPFLAGS="-I/c/Python27/include -I/usr/local/include" \
+  PATH=$PATH:/c/presage_x86_sdk/gtk/bin:/c/presage_x86_sdk/Python27:/c/presage_x86_sdk/SWIG \
+  PKG_CONFIG_PATH=/c/presage_x86_sdk/GTK/lib/pkgconfig:/usr/local/lib/pkgconfig \
+  CPPFLAGS="-I/c//presage_x86_sdk/Python27/include -I/usr/local/include" \
   LIBS="-L/usr/local/lib" \
-  ./configure --prefix=/c/presage
+  ./configure --prefix=/c/presage_x86_install
  
   make
   make install
 
 
-Presage is now installed in c:\presage
+Presage is now installed in c:\presage_x86_install
 
 
 
 ########/
 
-Copyright (C) 2013  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Copyright (C) 2015  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 
 Presage is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -5,6 +5,10 @@
 
 	* bindings/python/Makefile.am: fix build issue on Windows 64-bit.
 
+	* doc/INSTALL_MinGW32_MSYS_dev_env.txt,
+	doc/INSTALL_MinGW64_MSYS_dev_env.txt, apps/qt/qprompter/README:
+	update READMEs.
+
 2014-10-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/windows/presage_installer.nsi: fix Windows uninstaller

@@ -6,9 +6,9 @@ The Presage project
 Building qprompter
 ~~~~~~~~~~~~~~~~~~
 
-On Windows, start the Qt MinGW shell and run the following commands:
-
+  export PATH=$PATH:/c/presage_x64_sdk/x64-Qt-4.8.5+qtcreator-3.0.0-beta-\(gcc-4.8.2-seh-rt_v3-rev0\)/Qt-4.8.5-x86_64/bin
+  export PRESAGE_ROOT=/c/presage_x64_install
   qmake
-  c:\QtSDK\mingw\bin\mingw32-make.exe
- 
- 
+  make
+
+
