@@ -38,10 +38,10 @@ EXTRA_DIST =	presage_python_demo
 all-local:	presage_wrap.cpp presage_wrap.h presage.py
 	@case "`uname`" in \
 	  MINGW*) \
-		$(PYTHON) setup.py build --compiler=mingw32 \
+		CPPFLAGS="-DMS_WIN64 $(CPPFLAGS)" $(PYTHON) setup.py build --compiler=mingw32 \
 	  ;; \
 	  *) \
-		CPPFLAGS=$(CPPFLAGS) CXXFLAGS="$(CXXFLAGS)" LDFLAGS="$(LDFLAGS)" $(PYTHON) setup.py build \
+		CPPFLAGS="$(CPPFLAGS)" CXXFLAGS="$(CXXFLAGS)" LDFLAGS="$(LDFLAGS)" $(PYTHON) setup.py build \
 	  ;; \
 	esac;
 

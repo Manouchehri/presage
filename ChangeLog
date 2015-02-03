@@ -1,3 +1,10 @@
+2015-02-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/presage.i: change to C-style comments in interface file
+	to fix problem with latest SWIG.
+
+	* bindings/python/Makefile.am: fix build issue on Windows 64-bit.
+
 2014-10-16  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/windows/presage_installer.nsi: fix Windows uninstaller
