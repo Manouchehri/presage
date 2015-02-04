@@ -1,3 +1,8 @@
+2015-02-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/c#/presage_csharp_demo/presage_csharp_demo.cs: make
+	demo a bit more verbose.
+
 2015-02-03  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/presage.i: change to C-style comments in interface file

@@ -30,24 +30,25 @@ namespace presage_csharp_demo
                         "presage_csharp_demo.xml"
                     );
 
+                System.Console.WriteLine("predict: ");
                 foreach (string str in prsg.predict())
                 {
-                    System.Console.WriteLine(str);
+                    System.Console.WriteLine("    " + str);
                 }
 
-                System.Console.WriteLine(prsg.context());
+                System.Console.WriteLine("context: " + prsg.context());
 
-                System.Console.WriteLine(prsg.prefix());
+                System.Console.WriteLine("prefix: " + prsg.prefix());
 
-                System.Console.WriteLine(prsg.context_change());
+                System.Console.WriteLine("context_change: " + prsg.context_change());
 
-                System.Console.WriteLine(prsg.completion("started"));
+                System.Console.WriteLine("completion: " + prsg.completion("started"));
 
-                System.Console.WriteLine(prsg.config("Presage.Selector.SUGGESTIONS"));
+                System.Console.WriteLine("suggestions: " + prsg.config("Presage.Selector.SUGGESTIONS"));
 
                 prsg.config("Presage.Selector.SUGGESTIONS", "10");
 
-                System.Console.WriteLine(prsg.config("Presage.Selector.SUGGESTIONS"));
+                System.Console.WriteLine("suggestions: " + prsg.config("Presage.Selector.SUGGESTIONS"));
 
                 prsg.save_config();
             }
