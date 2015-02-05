@@ -35,3 +35,11 @@ global:
 	presage_prefix;
 	presage_save_config;
 } PRESAGE_0.8.3;
+
+PRESAGE_0.9.1 {
+global:
+	extern "C++" {
+		Presage::learn*;
+	};
+	presage_learn;
+} PRESAGE_0.8.5;

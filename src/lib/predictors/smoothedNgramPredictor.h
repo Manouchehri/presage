@@ -77,7 +77,7 @@ private:
     std::string         dbloglevel;
     std::vector<double> deltas;
     size_t              cardinality; // cardinality == what is the n in n-gram?
-    bool                wanna_learn;
+    bool                learn_mode;
     bool                learn_mode_set;
 
     Dispatcher<SmoothedNgramPredictor> dispatcher;

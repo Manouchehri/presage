@@ -32,7 +32,7 @@
 #  define PRI_SIZE_T_SPECIFIER "%zu"
 #endif
 
-static const char* PAST   = "did you not sa";
+static const char* PAST   = "Prediction is very difficult, especially about the f";
 static const char* FUTURE = "";
 
 static const char* get_past_stream(void* arg)
@@ -75,7 +75,7 @@ int main()
 	presage_free_string_array (prediction);
     }
 
-    if (PRESAGE_OK == presage_completion (prsg, "savages", &completion))
+    if (PRESAGE_OK == presage_completion (prsg, "future", &completion))
     {
 	printf ("completion: %s\n", completion);
 	presage_free_string (completion);
@@ -105,6 +105,9 @@ int main()
     }
 
     presage_config_set (prsg, "Presage.Selector.SUGGESTIONS", "10");
+
+    presage_learn (prsg, "Prediction is very difficult, especially about the future.");
+
     if (PRESAGE_OK == presage_predict (prsg, &prediction))
     {
 	for (i = 0; prediction[i] != 0; i++)

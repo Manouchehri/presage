@@ -136,6 +136,13 @@ std::multimap<double, std::string> Presage::predict (std::vector<std::string> fi
     return result;
 }
 
+void Presage::learn(const std::string text) const
+    throw (PresageException)
+{
+    contextTracker->learn(text); // TODO: can pass additional param to
+				 // learn to specify offline learning
+}
+
 PresageCallback* Presage::callback (PresageCallback* callback)
     throw (PresageException)
 {
@@ -386,6 +393,14 @@ presage_error_code_t presage_predict (presage_t prsg, char*** result)
         }
 	
 	*result = prediction_c_str;
+    );
+}
+
+presage_error_code_t presage_learn (presage_t prsg, const char* text)
+{
+    presage_exception_handler
+    (
+	prsg->presage_object->learn (text);
     );
 }
 

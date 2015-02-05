@@ -8,6 +8,7 @@ presage_context_change
 presage_free
 presage_free_string
 presage_free_string_array
+presage_learn
 presage_new
 presage_new_with_config
 presage_predict

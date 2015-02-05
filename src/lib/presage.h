@@ -155,6 +155,20 @@ public:
      */
     std::multimap<double, std::string> predict(std::vector<std::string> filter) throw (PresageException);
 
+    /** \brief Learn from text offline.
+     *
+     * Requests presage to offline learn from \param text. Active
+     * predictors in presage are capable of online learning (dynamic
+     * learning triggered by context changes - context-awareness
+     * enables presage to train predictors on changes in context
+     * dynamically). This method provides a way to instruct presage to
+     * learn from a specific body of text, separate from the context.
+     *
+     * \param text a text string to learn from.
+     *
+     */
+    void learn(const std::string text) const throw (PresageException);
+
     /** \brief Callback getter/setter.
      *
      * \param callback to be used by presage (pass a null pointer to
@@ -231,7 +245,7 @@ public:
 private:
     ProfileManager*     profileManager;
     Configuration*      configuration;
-    PredictorRegistry*     predictorRegistry;
+    PredictorRegistry*  predictorRegistry;
     ContextTracker*     contextTracker;
     PredictorActivator* predictorActivator;
     Selector*           selector;
@@ -277,6 +291,9 @@ extern "C" {
     presage_error_code_t presage_predict             (presage_t prsg,
                                                       char*** result);
     
+    presage_error_code_t presage_learn               (presage_t prsg,
+						      const char* text);
+
     presage_error_code_t presage_completion          (presage_t prsg,
                                                       const char* token,
                                                       char** result);

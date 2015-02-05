@@ -95,7 +95,7 @@ void SmoothedNgramPredictor::set_deltas (const std::string& value)
 
 void SmoothedNgramPredictor::set_learn (const std::string& value)
 {
-    wanna_learn = Utility::isTrue (value);
+    learn_mode = Utility::isTrue (value);
     logger << INFO << "LEARN: " << value << endl;
 
     learn_mode_set = true;
@@ -123,12 +123,12 @@ void SmoothedNgramPredictor::init_database_connector_if_ready ()
 	    // open database connector
 	    db = new SqliteDatabaseConnector(dbfilename,
 					     cardinality,
-					     wanna_learn);
+					     learn_mode);
         } else {
             // open database connector with logger lever
             db = new SqliteDatabaseConnector(dbfilename,
 					     cardinality,
-					     wanna_learn,
+					     learn_mode,
 					     dbloglevel);
         }
     }
@@ -336,7 +336,7 @@ void SmoothedNgramPredictor::learn(const std::vector<std::string>& change)
 {
     logger << INFO << "learn(\"" << ngram_to_string(change) << "\")" << endl;
 
-    if (wanna_learn) {
+    if (learn_mode) {
 	// learning is turned on
 
 	try

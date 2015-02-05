@@ -188,6 +188,15 @@ public:
 
     void update();
 
+    /** \brief Learn from text
+     *
+     * Train the predictors on \param text. Each active predictor will
+     * apply their machine learning algorithm to learn from the \param
+     * text.
+     *
+     */
+    void learn(const std::string& text) const;
+
     virtual void update (const Observable* variable);
 
     void set_logger (const std::string& value);
