@@ -63,6 +63,12 @@ namespace presage
         );
 
         [DllImport("libpresage-1.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int presage_learn(
+            IntPtr presage,
+            string token
+        );
+
+        [DllImport("libpresage-1.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int presage_completion(
             IntPtr presage,
             string token,
@@ -241,6 +247,15 @@ namespace presage
             result = Marshal.PtrToStringAnsi(str_ptr);
 
             return result;
+        }
+
+        public void learn(string text)
+        {
+            int rc = presage_learn(prsg, text);
+            if (rc != 0)
+            {
+                throw new PresageException(String.Format("presage_learn() error code: {0}", rc));
+            }
         }
 
         public string completion(string token)

@@ -1,12 +1,20 @@
+2015-02-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/c#/presage.net/Presage.cs,
+	bindings/c#/presage_csharp_demo/presage_csharp_demo.cs: add
+	offline learn method to presage .NET binding.
+
 2015-02-05  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/presage.cpp, src/lib/presage.h, src/lib/libpresage.map,
 	src/lib/core/context_tracker/contextTracker.cpp,
 	src/lib/core/context_tracker/contextTracker.h,
 	src/lib/predictors/smoothedNgramPredictor.cpp,
-	src/lib/predictors/smoothedNgramPredictor.h,
-	bindings/c/libpresage-1.def, bindings/c/presage_c_demo.c: add
-	offline learn method to presage API.
+	src/lib/predictors/smoothedNgramPredictor.h: add offline learn
+	method to presage C++ API.
+
+	* bindings/c/libpresage-1.def, bindings/c/presage_c_demo.c: add
+	offline learn method to presage C API.
 
 2015-02-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 

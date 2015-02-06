@@ -5,7 +5,7 @@ namespace presage_csharp_demo
 {
     class presage_csharp_demo
     {
-        private string buffer = "some text to get st";
+        private string buffer = "Prediction is very difficult, especially about the f";
         
         private string callback_get_past_stream()
         {
@@ -42,13 +42,21 @@ namespace presage_csharp_demo
 
                 System.Console.WriteLine("context_change: " + prsg.context_change());
 
-                System.Console.WriteLine("completion: " + prsg.completion("started"));
+                System.Console.WriteLine("completion: " + prsg.completion("future"));
 
                 System.Console.WriteLine("suggestions: " + prsg.config("Presage.Selector.SUGGESTIONS"));
 
                 prsg.config("Presage.Selector.SUGGESTIONS", "10");
 
                 System.Console.WriteLine("suggestions: " + prsg.config("Presage.Selector.SUGGESTIONS"));
+
+                prsg.learn("Prediction is very difficult, especially about the future.");
+
+                System.Console.WriteLine("predict: ");
+                foreach (string str in prsg.predict())
+                {
+                    System.Console.WriteLine("    " + str);
+                }
 
                 prsg.save_config();
             }
