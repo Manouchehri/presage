@@ -46,6 +46,7 @@ void DejavuPredictorTest::setUp()
     config->insert ("Presage.ContextTracker.LOGGER", "ERROR");
     config->insert ("Presage.ContextTracker.SLIDING_WINDOW_SIZE", "80");
     config->insert ("Presage.ContextTracker.LOWERCASE_MODE", "no");
+    config->insert ("Presage.ContextTracker.ONLINE_LEARNING", "yes");
     // set predictor registry config variables
     config->insert ("Presage.PredictorRegistry.LOGGER", "ERROR");
     config->insert ("Presage.PredictorRegistry.PREDICTORS", "DejavuPredictor");

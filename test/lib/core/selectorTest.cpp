@@ -388,6 +388,7 @@ void SelectorTest::setUp()
     configuration->insert (ContextTracker::LOGGER, "ERROR");
     configuration->insert (ContextTracker::SLIDING_WINDOW_SIZE, "80");
     configuration->insert (ContextTracker::LOWERCASE_MODE, "no");
+    configuration->insert (ContextTracker::ONLINE_LEARNING, "yes");
     configuration->insert (Selector::LOGGER, "ERROR");
     configuration->insert (Selector::SUGGESTIONS, "6");
     configuration->insert (Selector::REPEAT_SUGGESTIONS, "no");

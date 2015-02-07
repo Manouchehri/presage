@@ -52,6 +52,8 @@ void NewSmoothedNgramPredictorTest::setUp()
     config->insert ("Presage.ContextTracker.LOGGER", "ERROR");
     config->insert ("Presage.ContextTracker.SLIDING_WINDOW_SIZE", "80");
     config->insert ("Presage.ContextTracker.LOWERCASE_MODE", "no");
+    config->insert ("Presage.ContextTracker.ONLINE_LEARNING", "yes");
+
     // set predictor registry config variables
     config->insert ("Presage.PredictorRegistry.LOGGER", "ERROR");
     config->insert ("Presage.PredictorRegistry.PREDICTORS", "SmoothedNgramPredictor");
@@ -79,7 +81,7 @@ void NewSmoothedNgramPredictorTest::tearDown()
     remove(DATABASE);
 }
 
-void NewSmoothedNgramPredictorTest::testLearning()
+void NewSmoothedNgramPredictorTest::testOnlineLearning()
 {
     // get pointer to predictor
     Predictor* predictor = predictorRegistry->iterator().next();
@@ -125,6 +127,74 @@ void NewSmoothedNgramPredictorTest::testLearning()
     {
 	*stream << "foobar ";
 	ct->update();
+	Prediction actual = predictor->predict(SIZE, 0);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), actual.size());
+	CPPUNIT_ASSERT_EQUAL(std::string("foobar"), actual.getSuggestion(0).getWord());
+	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(1).getWord());
+	CPPUNIT_ASSERT_EQUAL(std::string("bar"), actual.getSuggestion(2).getWord());
+    }
+
+    {
+	*stream << "f";
+	ct->update();
+	Prediction actual = predictor->predict(SIZE, 0);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(2), actual.size());
+	CPPUNIT_ASSERT_EQUAL(std::string("foobar"), actual.getSuggestion(0).getWord());
+	CPPUNIT_ASSERT_EQUAL(std::string("foo"), actual.getSuggestion(1).getWord());
+    }
+}
+
+void NewSmoothedNgramPredictorTest::testOfflineLearning()
+{
+    // turns off online learning
+    config->find("Presage.ContextTracker.ONLINE_LEARNING")->set_value("no");
+
+    // get pointer to predictor
+    Predictor* predictor = predictorRegistry->iterator().next();
+
+    {
+	*stream << "f";
+	ct->update();
+	Prediction actual = predictor->predict(SIZE, 0);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
+    }
+
+    {
+	*stream << "o";
+	ct->update();
+	Prediction actual = predictor->predict(SIZE, 0);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
+    }
+
+    {
+	*stream << "o ";
+	ct->update();
+	Prediction actual = predictor->predict(SIZE, 0);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
+    }
+
+    {
+	*stream << "bar";
+	ct->update();
+	Prediction actual = predictor->predict(SIZE, 0);
+    }
+
+    {
+	*stream << " ";
+	ct->update();
+	Prediction actual = predictor->predict(SIZE, 0);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
+    }
+
+    {
+	*stream << "foobar ";
+	ct->update();
+	Prediction actual = predictor->predict(SIZE, 0);
+	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(0), actual.size());
+    }
+
+    {
+	ct->learn(stream->str());
 	Prediction actual = predictor->predict(SIZE, 0);
 	CPPUNIT_ASSERT_EQUAL(static_cast<size_t>(3), actual.size());
 	CPPUNIT_ASSERT_EQUAL(std::string("foobar"), actual.getSuggestion(0).getWord());

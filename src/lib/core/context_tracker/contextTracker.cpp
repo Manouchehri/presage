@@ -32,6 +32,7 @@
 const char* ContextTracker::LOGGER = "Presage.ContextTracker.LOGGER";
 const char* ContextTracker::SLIDING_WINDOW_SIZE = "Presage.ContextTracker.SLIDING_WINDOW_SIZE";
 const char* ContextTracker::LOWERCASE_MODE = "Presage.ContextTracker.LOWERCASE_MODE";
+const char* ContextTracker::ONLINE_LEARNING = "Presage.ContextTracker.ONLINE_LEARNING";
 
 ContextTracker::ContextTracker(Configuration* config,
 			       PredictorRegistry* registry,
@@ -73,6 +74,7 @@ ContextTracker::ContextTracker(Configuration* config,
     dispatcher.map (config->find (LOGGER), & ContextTracker::set_logger);
     dispatcher.map (config->find (SLIDING_WINDOW_SIZE), & ContextTracker::set_sliding_window_size);
     dispatcher.map (config->find (LOWERCASE_MODE), & ContextTracker::set_lowercase_mode);
+    dispatcher.map (config->find (ONLINE_LEARNING), & ContextTracker::set_online_learning);
 }
 
 ContextTracker::~ContextTracker()
@@ -98,6 +100,12 @@ void ContextTracker::set_lowercase_mode (const std::string& value)
     logger << INFO << "LOWERCASE_MODE: " << value << endl;
 }
 
+void ContextTracker::set_online_learning(const std::string& value)
+{
+    online_learning = Utility::isYes(value);
+    logger << INFO << "ONLINE_LEARNING: " << value << endl;
+}
+
 const PresageCallback* ContextTracker::callback(const PresageCallback* new_callback)
 {
     const PresageCallback* result = context_tracker_callback;
@@ -120,8 +128,10 @@ void ContextTracker::update()
     // detect change that needs to be learned
     std::string change = contextChangeDetector->change(getPastStream());
 
-    learn(change); // TODO: can pass additional param to learn to
-		   // specify online learning
+    if (online_learning)
+    {
+	learn (change);
+    }
 
     // update sliding window
     contextChangeDetector->update_sliding_window(getPastStream());

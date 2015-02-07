@@ -42,7 +42,8 @@ public:
     void setUp();
     void tearDown();
     
-    void testLearning();
+    void testOnlineLearning();
+    void testOfflineLearning();
     void testFilter();
 
 private:
@@ -60,7 +61,8 @@ private:
     static const int SIZE;
 
     CPPUNIT_TEST_SUITE( NewSmoothedNgramPredictorTest );
-    CPPUNIT_TEST( testLearning );
+    CPPUNIT_TEST( testOnlineLearning );
+    CPPUNIT_TEST( testOfflineLearning );
     CPPUNIT_TEST( testFilter );
     CPPUNIT_TEST_SUITE_END();
 };

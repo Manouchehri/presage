@@ -202,10 +202,12 @@ public:
     void set_logger (const std::string& value);
     void set_sliding_window_size (const std::string& value);
     void set_lowercase_mode (const std::string& value);
+    void set_online_learning (const std::string& value);
 
     static const char* LOGGER;
     static const char* SLIDING_WINDOW_SIZE;
     static const char* LOWERCASE_MODE;
+    static const char* ONLINE_LEARNING;
 
 private:
     std::string wordChars;
@@ -214,6 +216,7 @@ private:
     std::string controlChars;
 
     bool lowercase_mode;
+    bool online_learning;
 
     // REVISIT: this was removed since a tokenizer is created with
     // each method invocation that needs it

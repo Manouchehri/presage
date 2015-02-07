@@ -3,36 +3,46 @@
     <PredictorRegistry>
         <LOGGER>ERROR</LOGGER>
         <!-- PREDICTORS
-          Space separated list of predictors to use to generate predictions
+	     Space separated list of predictors to use to generate predictions
         -->
         <PREDICTORS>DefaultAbbreviationExpansionPredictor DefaultSmoothedNgramPredictor UserSmoothedNgramPredictor DefaultRecencyPredictor</PREDICTORS>
     </PredictorRegistry>
     <ContextTracker>
         <LOGGER>ERROR</LOGGER>
         <!-- SLIDING_WINDOW_SIZE
-          Size of buffer used by context tracker to detect context changes
+	     Size of buffer used by context tracker to detect context changes
         -->
         <SLIDING_WINDOW_SIZE>80</SLIDING_WINDOW_SIZE>
         <!-- LOWERCASE_MODE
-          Instruct context tracker to track text as lowercase
+	     Instruct context tracker to track text as lowercase
         -->
 	<LOWERCASE_MODE>yes</LOWERCASE_MODE>
+	<!-- ONLINE_LEARNING
+	     Controls presage online machine learning feature.
+	     Presage is context-aware and capable of dynamic online learning.
+	     Setting this to yes/true will enable online learning mode.
+	     Setting this to no/false will disable online learning mode.
+
+             When online learning mode is disabled, it is still
+             possible to instruct presage to learn through its API.
+	-->
+	<ONLINE_LEARNING>yes</ONLINE_LEARNING>
     </ContextTracker>
     <Selector>
         <LOGGER>ERROR</LOGGER>
         <!-- SUGGESTIONS
-          Controls how many suggestions are returned in each prediction.
+	     Controls how many suggestions are returned in each prediction.
         -->
         <SUGGESTIONS>6</SUGGESTIONS>
         <!-- REPEAT_SUGGESTIONS
-          Allow the same suggestion to be offered in subsequent
-          predictions, even if no context change has been detected.
+	     Allow the same suggestion to be offered in subsequent
+	     predictions, even if no context change has been detected.
         -->
         <REPEAT_SUGGESTIONS>no</REPEAT_SUGGESTIONS>
         <!-- GREEDY_SUGGESTION_THRESHOLD
-          Select only tokens whose completion length is greater than
-          the specified greedy suggestion threshold.
-          i.e. If this option is set to 2 and the current prefix is
+	     Select only tokens whose completion length is greater than
+	     the specified greedy suggestion threshold.
+	     i.e. If this option is set to 2 and the current prefix is
                "cu", then the word "cub" will not offered as a
                suggestion, because the completion's length is only one
                character long. Tokens "curb" or "cube" or "cubicle" or
@@ -44,16 +54,16 @@
     <PredictorActivator>
         <LOGGER>ERROR</LOGGER>
         <!-- PREDICT_TIME
-          Maximum time allowed for predictors to return their prediction.
+	     Maximum time allowed for predictors to return their prediction.
         -->
         <PREDICT_TIME>1000</PREDICT_TIME>
         <!-- MAX_PARTIAL_PREDICTION_SIZE
-          Desired size of each prediction prior to combination phase.
+	     Desired size of each prediction prior to combination phase.
         -->
         <MAX_PARTIAL_PREDICTION_SIZE>60</MAX_PARTIAL_PREDICTION_SIZE>
         <!-- COMBINATION_POLICY
-          policy used by predictor to combine predictions returned
-          by the active predictors into one prediction.
+	     policy used by predictor to combine predictions returned
+	     by the active predictors into one prediction.
         -->
         <COMBINATION_POLICY>Meritocracy</COMBINATION_POLICY>
     </PredictorActivator>
@@ -69,7 +79,9 @@
             <PREDICTOR>SmoothedNgramPredictor</PREDICTOR>
             <LOGGER>ERROR</LOGGER>
             <DBFILENAME>::PACKAGEDATADIR::/database_en.db</DBFILENAME>
-            <!-- delta_0, delta_1, ..., delta_{n-1} -->
+            <!-- delta_0, delta_1, ..., delta_{n-1}
+		 Deltas also control the value of n in the n-gram model.
+	    -->
             <DELTAS>0.01 0.1 0.89</DELTAS>
             <LEARN>false</LEARN>
             <DatabaseConnector>
@@ -84,7 +96,9 @@
                   - %USERPROFILE% on Windows
 	      -->
             <DBFILENAME>${HOME}/.presage/lm.db</DBFILENAME>
-            <!-- \delta_0, \delta_1, ..., \delta_{n-1} -->
+            <!-- delta_0, delta_1, ..., delta_{n-1}
+		 Deltas also control the value of n in the n-gram model.
+	    -->
             <DELTAS>0.01 0.1 0.89</DELTAS>
             <LEARN>true</LEARN>
             <DatabaseConnector>

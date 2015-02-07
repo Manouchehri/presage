@@ -1,3 +1,20 @@
+2015-02-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/core/context_tracker/contextTracker.cpp,
+	src/lib/core/context_tracker/contextTracker.h,
+	resources/profiles/presage.xml.template: implemented
+	ONLINE_LEARNING configuration variable to control when online
+	machine learning is enabled.
+
+	* test/lib/core/context_tracker/contextTrackerTest.cpp,
+	test/lib/core/selectorTest.cpp,
+	test/lib/predictors/dejavuPredictorTest.cpp,
+	test/lib/predictors/newSmoothedNgramPredictorTest.cpp,
+	test/lib/predictors/newSmoothedNgramPredictorTest.h,
+	test/lib/predictors/recencyPredictorTest.cpp: updated tests and
+	added online and offline learning test for smoothed n-gram
+	predictor.
+
 2015-02-06  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/c#/presage.net/Presage.cs,
