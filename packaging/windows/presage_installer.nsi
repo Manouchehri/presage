@@ -221,7 +221,7 @@ Section "-Runtime" SecRuntime
 
 
  ;!insertmacro ReplaceInFile SOURCE_FILE SEARCH_TEXT REPLACEMENT
-  !insertmacro ReplaceInFile "$INSTDIR\etc\presage.xml" "c:\presage" "$INSTDIR"
+  !insertmacro ReplaceInFile "$INSTDIR\etc\presage.xml" "${LOCAL_INSTALL_WIN_DIR}" "$INSTDIR"
 
 SectionEnd
 

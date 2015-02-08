@@ -24,11 +24,11 @@ set -e
 
 if [ $# -lt 2 ]
 then
-    echo "Usage: $0 presage_instdir presage_release"
+    echo "Usage: $0 presage_install_dir presage_release"
     exit 1
 fi
 
-INSTDIR=$1
+INSTALLDIR=$1
 RELEASE=$2
 
 MAKENSIS=makensis.exe
@@ -41,38 +41,43 @@ function set_up()
              $SCRIPTDIR/StrRep.nsh \
              $SCRIPTDIR/ReplaceInFile.nsh
     do
-	if [ -f $INSTDIR/$i ]
+	if [ -f $INSTALLDIR/$i ]
 	then
-		rm $INSTDIR/$i
+		rm $INSTALLDIR/$i
 	fi
-        cp $i $INSTDIR
+        cp $i $INSTALLDIR
     done
 
     # determine presage installation bitness
     BITNESS=""
-    if [ -f $INSTDIR/bin/text2ngram.exe ]
+    if [ -f $INSTALLDIR/bin/text2ngram.exe ]
     then
-	if file $INSTDIR/bin/text2ngram.exe | grep "PE32+ executable"
+	if file $INSTALLDIR/bin/text2ngram.exe | grep "PE32+ executable"
 	then
 	    BITNESS="64"
-        elif file $INSTDIR/bin/text2ngram.exe | grep "PE32 executable"
+        elif file $INSTALLDIR/bin/text2ngram.exe | grep "PE32 executable"
 	then
 	    BITNESS="32"
 	fi
     fi
 
+    # figure out Windows-style local installation path
+    LOCAL_INSTALL_WIN_DIR=`(cd $INSTALLDIR; pwd -W)`
+    LOCAL_INSTALL_WIN_DIR=`echo ${LOCAL_INSTALL_WIN_DIR} | sed 's/\//\\\\/g'`
+
     # generate NSIS include file
-    echo "!define PRESAGE_VERSION \"${RELEASE}\"" > $INSTDIR/defines.nsh
-    echo "!define PRESAGE_NAME \"presage\"" >> $INSTDIR/defines.nsh
-    echo "!define BITNESS \"${BITNESS}\"" >> $INSTDIR/defines.nsh
+    echo "!define PRESAGE_VERSION \"${RELEASE}\"" > $INSTALLDIR/defines.nsh
+    echo "!define PRESAGE_NAME \"presage\"" >> $INSTALLDIR/defines.nsh
+    echo "!define BITNESS \"${BITNESS}\"" >> $INSTALLDIR/defines.nsh
+    echo "!define LOCAL_INSTALL_WIN_DIR \"${LOCAL_INSTALL_WIN_DIR}\"" >> $INSTALLDIR/defines.nsh
 
     # license
     LICENSE="$SCRIPTDIR/../../COPYING"
-    cp $LICENSE $INSTDIR/license.txt
+    cp $LICENSE $INSTALLDIR/license.txt
 
     # py2exe
     SETUP_PY="$SCRIPTDIR/setup.py"
-    cp $SETUP_PY $INSTDIR/
+    cp $SETUP_PY $INSTALLDIR/
 }
 
 function clean_up()
@@ -84,18 +89,18 @@ function clean_up()
              license.txt \
              setup.py
     do
-        rm $INSTDIR/$i
+        rm $INSTALLDIR/$i
     done
 }
 
 function build_installer()
 {
-    (cd $INSTDIR && $MAKENSIS presage_installer.nsi)
+    (cd $INSTALLDIR && $MAKENSIS presage_installer.nsi)
 }
 
 function build_py2exe()
 {
-    (cd $INSTDIR \
+    (cd $INSTALLDIR \
      && $PYTHON setup.py py2exe \
      && cp dist/* bin/)
 }
@@ -124,7 +129,7 @@ function install_dependants()
     for i in $MINGW_DEPS $SQLITE_DEPS $GTK_DEPS $QT_DEPS
     do
 	SRC="`which $i`";
-	DST="$INSTDIR/bin";
+	DST="$INSTALLDIR/bin";
 	echo "cp $SRC $DST";
 	if [ -f $DST/$i ]
 	then
