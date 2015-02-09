@@ -105,6 +105,8 @@ private:
 
     private:
 	QsciScintilla* qsci;
+
+	static const long max_callback_context_range_size;
     };
 
     QsciScintillaPresageCallback* qsci_prsg_cb;

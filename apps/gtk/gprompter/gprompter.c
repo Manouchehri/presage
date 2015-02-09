@@ -44,10 +44,11 @@
 #include "dirs.h"
 
 
-char*       glob_filename;
-int         glob_function_keys_mode;
-const char* glob_autopunctuation_whitespace = " ";
-const char* glob_autopunctuation_chars = ".,;:'?!$%&";
+static char*       glob_filename;
+static int         glob_function_keys_mode;
+static const char* glob_autopunctuation_whitespace = " ";
+static const char* glob_autopunctuation_chars = ".,;:'?!$%&";
+static const long  glob_max_callback_context_range_size = 2048;
 
 #define PROGRAM_NAME "gprompter"
 
@@ -61,6 +62,11 @@ static const char* get_past_stream (void* scintilla)
 					      SCI_GETCURRENTPOS,
 					      0,
 					      0);
+    range.chrg.cpMin = range.chrg.cpMax - glob_max_callback_context_range_size;
+    if (range.chrg.cpMin < 0)
+    {
+	range.chrg.cpMin = 0;
+    }
 
     free (range.lpstrText);  // safe to free on first call, static struct members init'ed to zero
     range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
@@ -92,6 +98,10 @@ static const char* get_future_stream (void* scintilla)
 					      SCI_GETTEXTLENGTH,
 					      0,
 					      0);
+    if (range.chrg.cpMax > range.chrg.cpMin + glob_max_callback_context_range_size)
+    {
+	range.chrg.cpMax = range.chrg.cpMin + glob_max_callback_context_range_size;
+    }
 
     free (range.lpstrText);  // safe to free on first call, static struct members init'ed to zero
     range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);

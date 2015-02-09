@@ -57,13 +57,21 @@ MainWindow::QsciScintillaPresageCallback::~QsciScintillaPresageCallback()
     // complete
 }
 
+const long MainWindow::QsciScintillaPresageCallback::max_callback_context_range_size = 2048;
+
 std::string
 MainWindow::QsciScintillaPresageCallback::get_past_stream() const {
     long curpos = qsci->SendScintilla(QsciScintillaBase::SCI_GETCURRENTPOS);
+
+    long startpos = curpos - max_callback_context_range_size;
+    if (startpos < 0)
+    {
+	startpos = 0;
+    }
+
+    char *buf = new char[curpos - startpos + 1];
     
-    char *buf = new char[curpos + 1];
-    
-    qsci->SendScintilla(QsciScintillaBase::SCI_GETTEXTRANGE, 0, curpos, buf);
+    qsci->SendScintilla(QsciScintillaBase::SCI_GETTEXTRANGE, startpos, curpos, buf);
     
     std::string result = buf;
     delete[] buf;
@@ -75,6 +83,11 @@ MainWindow::QsciScintillaPresageCallback::get_future_stream() const {
     long curpos = qsci->SendScintilla(QsciScintillaBase::SCI_GETCURRENTPOS);
     long endpos = qsci->SendScintilla(QsciScintillaBase::SCI_GETTEXTLENGTH);
     
+    if (endpos > curpos + max_callback_context_range_size)
+    {
+	endpos = curpos + max_callback_context_range_size;
+    }
+
     char *buf = new char[endpos - curpos + 1];
     
     qsci->SendScintilla(QsciScintillaBase::SCI_GETTEXTRANGE, curpos, endpos, buf);

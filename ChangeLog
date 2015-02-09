@@ -1,3 +1,11 @@
+2015-02-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/gprompter.c,
+	apps/notepad++/PluginDefinition.cpp,
+	apps/qt/qprompter/mainwindow.cpp, apps/qt/qprompter/mainwindow.h:
+	restrict the size of the context range returned by presage
+	callback object in the demo applications.
+
 2015-02-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/windows/presage_installer.nsi,

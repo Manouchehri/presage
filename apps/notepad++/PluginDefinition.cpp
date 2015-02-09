@@ -49,6 +49,7 @@ static bool        glob_autopunctuation = true;
 static const char* glob_autopunctuation_whitespace = " ";
 static const char* glob_autopunctuation_chars = ".,;:'?!$%&";
 static bool        glob_function_keys_mode = false;
+static const long  glob_max_callback_context_range_size = 2048;
 
 extern HINSTANCE hInstLib;
 
@@ -179,11 +180,15 @@ static const char* get_past_stream (void* scintilla)
     HWND sci = (HWND) scintilla;
 
     static struct TextRange range;
-    range.chrg.cpMin = 0;
     range.chrg.cpMax = ::SendMessage(sci,
                                      SCI_GETCURRENTPOS,
                                      0,
                                      0);
+    range.chrg.cpMin = range.chrg.cpMax - glob_max_callback_context_range_size;
+    if (range.chrg.cpMin < 0)
+    {
+	range.chrg.cpMin = 0;
+    }
 
     free (range.lpstrText);
     range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
@@ -211,6 +216,10 @@ static const char* get_future_stream (void* scintilla)
                                      SCI_GETTEXTLENGTH,
                                      0,
                                      0);
+    if (range.chrg.cpMax > range.chrg.cpMin + glob_max_callback_context_range_size)
+    {
+	range.chrg.cpMax = range.chrg.cpMin + glob_max_callback_context_range_size;
+    }
 
     free (range.lpstrText);
     range.lpstrText = (char*) malloc (range.chrg.cpMax - range.chrg.cpMin + 1);
@@ -227,7 +236,7 @@ static const char* get_future_stream (void* scintilla)
 
 static void init_presage (HWND sci)
 {
-    if (presage_new)
+    if (presage_new && presage == 0)
     {
         // create presage
         presage_status = presage_new (
@@ -398,20 +407,6 @@ static void on_predict ()
         }
 
     }
-
-/*
-  const char *str = get_past_stream (sci);
-  size_t wcstrsize = strlen(str) + 1;
-  wchar_t* wcstr = (wchar_t*) malloc (wcstrsize * sizeof(wchar_t));
-
-  // Convert char* string to a wchar_t* string.
-  size_t convertedChars = 0;
-  mbstowcs_s(&convertedChars, wcstr, wcstrsize, str, _TRUNCATE);
-
-  ::MessageBox(NULL, wcstr, TEXT("Presage Notepad++ past stream"), MB_OK);
-
-  free (wcstr);
-*/
 
     char** prediction = 0;
     char* list = 0;
