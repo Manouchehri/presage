@@ -3,7 +3,7 @@
 #  Presage, an extensible predictive text entry system
 #  ------------------------------------------------------
 #
-#  Copyright (C) 2008  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+#  Copyright (C) 2015  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS =	python c csharp
-
-EXTRA_DIST =	presage.i
+EXTRA_DIST = \
+	Presage.cs \
+	presage.net.csproj \
+	Properties/AssemblyInfo.cs

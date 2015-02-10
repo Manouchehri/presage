@@ -1,3 +1,12 @@
+2015-02-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/csharp: renamed from bindings/c# to appease autoconf.
+
+	* bindings/Makefile.am, bindings/csharp/Makefile.am,
+	bindings/csharp/presage.net/Makefile.am,
+	bindings/csharp/presage_csharp_demo/Makefile.am, configure.ac:
+	distribute .NET binding code in tarball.
+
 2015-02-09  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c,

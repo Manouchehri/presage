@@ -562,6 +562,9 @@ AC_CONFIG_FILES([
 	bindings/c/Makefile
 	bindings/python/setup.py
 	bindings/python/Makefile
+	bindings/csharp/Makefile
+	bindings/csharp/presage.net/Makefile
+	bindings/csharp/presage_csharp_demo/Makefile
 	apps/Makefile
 	apps/gtk/Makefile
 	apps/gtk/gpresagemate/Makefile
@@ -626,6 +629,7 @@ AC_MSG_RESULT([
   Bindings:
     C++ ......................... yes
     C ........................... yes
+    C# .NET ..................... manual build required
     Python ...................... ${build_python_binding}
 
   Additional applications:
@@ -635,7 +639,8 @@ AC_MSG_RESULT([
     pypresagemate: .............. ${enable_pypresagemate}
     GTK+ presage mate: .......... ${build_gtk_presage_mate}
     GTK+ prompter: .............. ${build_gtk_prompter}
-
+    Notepad++ plugin: ........... manual build required
+    QT prompter: ................ manual build required
 
   Additional resources:
     ARPA format ngram: .......... ${build_arpa_ngram_resources}
