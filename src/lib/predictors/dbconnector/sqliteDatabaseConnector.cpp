@@ -55,47 +55,51 @@ void SqliteDatabaseConnector::openDatabase()
 #if defined(HAVE_SQLITE3_H)
     int rc;
 
-    // attempt to connect to existing database
-    if (! get_read_write_mode()) {
-	// attempt to open read-only, no create
-	rc = sqlite3_open_v2(get_database_filename().c_str(),
-			     &db,
-			     SQLITE_OPEN_READONLY,
-			     NULL);
-    } else {
+    if (get_read_write_mode())
+    {
 	// attempt to open read-write, no create
 	rc = sqlite3_open_v2(get_database_filename().c_str(),
 			     &db,
 			     SQLITE_OPEN_READWRITE,
 			     NULL);
-    }
 
-    // if database no-create open connection operation failed, open
-    // database read-write/create mode and create tables
-    if (rc != SQLITE_OK) {
-	// attempt to open read-write, create
+	if (rc != SQLITE_OK) {
+	    // attempt to open read-write, create
+	    rc = sqlite3_open_v2(get_database_filename().c_str(),
+				 &db,
+				 SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
+				 NULL);
+
+	    logger << WARN << "Created new language model database: " << get_database_filename() << endl;
+	}
+
+	if (rc == SQLITE_OK) {
+	    // create n-gram tables up to specified cardinality if they
+	    // don't yet exist
+	    for (size_t cardinality = 1;
+		 cardinality <= get_cardinality ();
+		 cardinality++)
+	    {
+		createNgramTable(cardinality);
+	    }
+	}
+    }
+    else
+    {
+	// open read-only, no create
 	rc = sqlite3_open_v2(get_database_filename().c_str(),
 			     &db,
-			     SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
+			     SQLITE_OPEN_READONLY,
 			     NULL);
-
-	// throw exception if database cannot be opened/created
-	if (rc != SQLITE_OK) {
-	    std::string error = sqlite3_errmsg(db);
-	    logger << ERROR << "Unable to open database: " << get_database_filename() << endl;
-	    throw SqliteDatabaseConnectorException(PRESAGE_SQLITE_OPEN_DATABASE_ERROR, error);
-	} else {
-	    logger << WARN << "Creating new language model database: " << get_database_filename() << endl;
-	}
-
-	// create n-gram tables up to specified cardinality
-	for (size_t cardinality = 1;
-	     cardinality <= get_cardinality ();
-	     cardinality++)
-	{
-	    createNgramTable(cardinality);
-	}
     }
+
+    // throw exception if database cannot be opened/created
+    if (rc != SQLITE_OK) {
+	std::string error = sqlite3_errmsg(db);
+	logger << ERROR << "Unable to create/open database: " << get_database_filename() << endl;
+	throw SqliteDatabaseConnectorException(PRESAGE_SQLITE_OPEN_DATABASE_ERROR, error);
+    }
+
 
 #elif defined(HAVE_SQLITE_H)
     char* errormsg = 0;
@@ -112,7 +116,6 @@ void SqliteDatabaseConnector::openDatabase()
 	throw SqliteDatabaseConnectorException(error);
     }
 #endif
-
 
 }
 

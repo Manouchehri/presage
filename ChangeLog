@@ -2,6 +2,9 @@
 
 	* apps/gtk/gprompter/gprompter.c: fix crash when prediction empty.
 
+	* src/lib/predictors/dbconnector/sqliteDatabaseConnector.cpp: add
+	support for in-memory SQLite databases :memory:
+
 2015-02-10  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/csharp: renamed from bindings/c# to appease autoconf.
