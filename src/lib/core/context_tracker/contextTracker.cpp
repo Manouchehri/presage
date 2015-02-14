@@ -162,13 +162,16 @@ void ContextTracker::learn(const std::string& text) const
 	tokens.pop_back();
     }
 
-    logger << INFO << "learn(): sanitized change tokens: ";
-    for (std::vector<std::string>::const_iterator it = tokens.begin();
-	 it != tokens.end();
-	 it++) {
-	logger << INFO << *it << '|';
+    if ((logger << INFO).shouldLog())
+    {
+	logger << "learn(): sanitized change: ";
+	for (std::vector<std::string>::const_iterator it = tokens.begin();
+	     it != tokens.end();
+	     it++) {
+	    logger << *it << '|';
+	}
+	logger << endl;
     }
-    logger << INFO << endl;
 
     // time to learn
     PredictorRegistry::Iterator it = predictorRegistry->iterator();
