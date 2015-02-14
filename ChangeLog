@@ -1,3 +1,8 @@
+2015-02-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* src/lib/predictors/smoothedNgramPredictor.cpp: enhance learning
+	performance.
+
 2015-02-13  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/gprompter.c: fix crash when prediction empty.

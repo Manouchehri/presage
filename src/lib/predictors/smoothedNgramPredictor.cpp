@@ -95,7 +95,7 @@ void SmoothedNgramPredictor::set_deltas (const std::string& value)
 
 void SmoothedNgramPredictor::set_learn (const std::string& value)
 {
-    learn_mode = Utility::isTrue (value);
+    learn_mode = Utility::isYes (value);
     logger << INFO << "LEARN: " << value << endl;
 
     learn_mode_set = true;
@@ -339,68 +339,116 @@ void SmoothedNgramPredictor::learn(const std::vector<std::string>& change)
     if (learn_mode) {
 	// learning is turned on
 
+	std::map<std::list<std::string>, int> ngramMap;
+
+	// build up ngram map for all cardinalities
+	// i.e. learn all ngrams and counts in memory
+	for (size_t curr_cardinality = 1;
+	     curr_cardinality < cardinality + 1;
+	     curr_cardinality++)
+	{
+	    int change_idx = 0;
+	    int change_size = change.size();
+
+	    std::list<std::string> ngram_list;
+
+	    // take care of first N-1 tokens
+	    for (int i = 0;
+		 (i < curr_cardinality - 1 && change_idx < change_size);
+		 i++)
+	    {
+		ngram_list.push_back(change[change_idx]);
+		change_idx++;
+	    }
+
+	    while (change_idx < change_size)
+	    {
+		ngram_list.push_back(change[change_idx++]);
+		ngramMap[ngram_list] = ngramMap[ngram_list] + 1;
+		ngram_list.pop_front();
+	    }
+	}
+
+	// use (past stream - change) to learn token at the boundary
+	// change, i.e.
+	//
+
+	// if change is "bar foobar", then "bar" will only occur in a
+	// 1-gram, since there are no token before it. By dipping in
+	// the past stream, we additional context to learn a 2-gram by
+	// getting extra tokens (assuming past stream ends with token
+	// "foo":
+	//
+	// <"foo", "bar"> will be learnt
+	//
+	// We do this till we build up to n equal to cardinality.
+	//
+	// First check that change is not empty (nothing to learn) and
+	// that change and past stream match by sampling first and
+	// last token in change and comparing them with corresponding
+	// tokens from past stream
+	//
+	if (change.size() > 0 &&
+	    change.back() == contextTracker->getToken(1) &&
+	    change.front() == contextTracker->getToken(change.size()))
+	{
+	    // create ngram list with first (oldest) token from change
+	    std::list<std::string> ngram_list(change.begin(), change.begin() + 1);
+
+	    // prepend token to ngram list by grabbing extra tokens
+	    // from past stream (if there are any) till we have built
+	    // up to n==cardinality ngrams, and commit them to
+	    // ngramMap
+	    //
+	    for (int tk_idx = 1;
+		 ngram_list.size() < cardinality;
+		 tk_idx++)
+	    {
+		// getExtraTokenToLearn returns tokens from
+		// past stream that come before and are not in
+		// change vector
+		//
+		std::string extra_token = contextTracker->getExtraTokenToLearn(tk_idx, change);
+		logger << DEBUG << "Adding extra token: " << extra_token << endl;
+
+		if (extra_token.empty())
+		{
+		    break;
+		}
+		ngram_list.push_front(extra_token);
+
+		ngramMap[ngram_list] = ngramMap[ngram_list] + 1;
+	    }
+	}
+
+	// then write out to language model database
 	try
 	{
 	    db->beginTransaction();
 
-	    for (size_t curr_cardinality = 1;
-		 curr_cardinality < cardinality + 1;
-		 curr_cardinality++) {
+	    std::map<std::list<std::string>, int>::const_iterator it;
+	    for (it = ngramMap.begin(); it != ngramMap.end(); it++)
+	    {
+		// convert ngram from list to vector based Ngram
+		Ngram ngram((it->first).begin(), (it->first).end());
 
-		logger << DEBUG << "Learning for n-gram cardinality: " << curr_cardinality << endl;
-
-		// idx walks the change vector back to front
-		for (std::vector<std::string>::const_reverse_iterator idx = change.rbegin();
-		     idx != change.rend();
-		     idx++)
+		// update the counts
+		int count = db->getNgramCount(ngram);
+		if (count > 0)
 		{
-		    Ngram ngram;
-
-		    // try to fill in the ngram to be learnt with change
-		    // tokens first
-		    for (std::vector<std::string>::const_reverse_iterator inner_idx = idx;
-			 inner_idx != change.rend() && ngram.size() < curr_cardinality;
-			 inner_idx++)
-		    {
-			ngram.insert(ngram.begin(), *inner_idx);
-		    }
-
-		    logger << DEBUG << "After filling n-gram with change tokens: " << ngram_to_string(ngram) << endl;
-
-		    // then use (past stream - change) if ngram not filled in yet
-		    for (int tk_idx = 1;
-			 ngram.size() < curr_cardinality;
-			 tk_idx++)
-		    {
-			// getExtraTokenToLearn returns tokens from
-			// past stream that come before and are not in
-			// change vector
-			//
-			std::string extra_token = contextTracker->getExtraTokenToLearn(tk_idx, change);
-			logger << DEBUG << "Adding extra token: " << extra_token << endl;
-			ngram.insert(ngram.begin(), extra_token);
-		    }
-
-		    // now we have built the ngram we have to learn
-		    logger << INFO << "Considering to learn ngram: |";
-		    for (size_t j = 0; j < ngram.size(); j++) {
-			logger << INFO << ngram[j] << '|';
-		    }
-		    logger << INFO << endl;
-
-		    if (ngram.end() == find(ngram.begin(), ngram.end(), "")) {
-			// only learn ngram if it doesn't contain empty strings
-			db->incrementNgramCount(ngram);
-			check_learn_consistency(ngram);
-			logger << INFO << "Learnt ngram" << endl;
-		    } else {
-			logger << INFO << "Discarded ngram" << endl;
-		    }
+		    // ngram already in database, update count
+		    db->updateNgram(ngram, count + it->second);
+		    check_learn_consistency(ngram);
+		}
+		else
+		{
+		    // ngram not in database, insert it
+		    db->insertNgram(ngram, it->second);
 		}
 	    }
 
-            db->endTransaction();
-            logger << INFO << "Committed learning update to database" << endl;
+	    db->endTransaction();
+	    logger << INFO << "Committed learning update to database" << endl;
 	}
 	catch (SqliteDatabaseConnector::SqliteDatabaseConnectorException& ex)
 	{
