@@ -91,23 +91,6 @@ public:
      */
     Prediction predict(unsigned int multiplier, const char** filter);
 
-    /** Set active predictors.
-     *
-     * @param predictorList space separated list of predictors
-     */
-    void setPredictors(const std::string& predictorList);
-
-    /** Adds a predictor to the active runtime predictors list.
-     *
-     * @param predictorName predictor name string
-     */
-    void addPredictor(const std::string& predictorName);
-
-    /** Removes all predictors from the active predictors list.
-     *
-     */
-    void removePredictors();
-
     /** Gets PREDICT_TIME option value.
      *
      * Returns the maximum time predictors are allowed to execute before

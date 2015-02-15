@@ -80,15 +80,6 @@ void PredictorRegistry::setPredictors(const std::string& predictorList)
     if (contextTracker) {
 	// predictors need tracker, only initialize them if available
 
-/*
-        removePredictors();
-
-        std::stringstream ss(predictors_list);
-        std::string predictor;
-	while (ss >> predictor) {
-	    logger << INFO << "Initializing predictor: " << predictor << endl;
-	    addPredictor(predictor);
-*/
 	// build set of names of active predictors
 	std::set<std::string> active_predictors;
 	for (std::vector<Predictor*>::const_iterator it = predictors.begin();

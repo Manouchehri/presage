@@ -4,6 +4,8 @@
 	src/lib/core/predictorRegistry.cpp: implement incremental
 	activation and deactivation of predictors.
 
+	* src/lib/core/predictorActivator.h: clean up stale code.
+
 2015-02-14  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* src/lib/predictors/smoothedNgramPredictor.cpp: enhance learning
