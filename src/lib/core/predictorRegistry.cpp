@@ -34,6 +34,9 @@
 #include "predictors/recencyPredictor.h"
 #include "predictors/dejavuPredictor.h"
 
+#include <set>
+#include <algorithm>
+
 const char* PredictorRegistry::LOGGER  = "Presage.PredictorRegistry.LOGGER";
 const char* PredictorRegistry::PREDICTORS = "Presage.PredictorRegistry.PREDICTORS";
 
@@ -62,9 +65,9 @@ void PredictorRegistry::setLogger (const std::string& value)
 
 
 void PredictorRegistry::setContextTracker(ContextTracker* ct) {
-    if (contextTracker != ct) {
+    if (contextTracker != ct)
+    {
 	contextTracker = ct;
-	removePredictors ();
 	setPredictors (predictors_list);
     }
 }
@@ -77,6 +80,7 @@ void PredictorRegistry::setPredictors(const std::string& predictorList)
     if (contextTracker) {
 	// predictors need tracker, only initialize them if available
 
+/*
         removePredictors();
 
         std::stringstream ss(predictors_list);
@@ -84,6 +88,51 @@ void PredictorRegistry::setPredictors(const std::string& predictorList)
 	while (ss >> predictor) {
 	    logger << INFO << "Initializing predictor: " << predictor << endl;
 	    addPredictor(predictor);
+*/
+	// build set of names of active predictors
+	std::set<std::string> active_predictors;
+	for (std::vector<Predictor*>::const_iterator it = predictors.begin();
+	     it != predictors.end();
+	     it++)
+	{
+	    active_predictors.insert((*it)->getName());
+	}
+
+	// build set of names of desired predictors
+	std::set<std::string> desired_predictors;
+        std::stringstream ss(predictors_list);
+        std::string predictor;
+	while (ss >> predictor)
+	{
+	    desired_predictors.insert(predictor);
+	}
+
+	// build set of names of predictors to remove
+	std::set<std::string> predictors_to_remove;
+	std::set_difference(active_predictors.begin(), active_predictors.end(),
+			    desired_predictors.begin(), desired_predictors.end(),
+			    std::inserter(predictors_to_remove, predictors_to_remove.begin()));
+
+	// build set of names of predictors to add
+	std::set<std::string> predictors_to_add;
+	std::set_difference(desired_predictors.begin(), desired_predictors.end(),
+			    active_predictors.begin(), active_predictors.end(),
+			    std::inserter(predictors_to_add, predictors_to_add.begin()));
+
+	// remove predictors
+	for (std::set<std::string>::const_iterator it = predictors_to_remove.begin();
+	     it != predictors_to_remove.end();
+	     it++)
+	{
+	    removePredictor(*it);
+	}
+
+	// add predictors
+	for (std::set<std::string>::const_iterator it = predictors_to_add.begin();
+	     it != predictors_to_add.end();
+	     it++)
+	{
+	    addPredictor(*it);
 	}
     }
 }
@@ -152,12 +201,31 @@ void PredictorRegistry::addPredictor(const std::string& predictorName)
     if (predictor != 0) 
     {
 	predictors.push_back (predictor);
-	logger << INFO << "Activated predictive predictor: " << predictorName << endl;
+	logger << INFO << "Activated predictor: " << predictorName << endl;
     }
     else
     {
 	logger << FATAL << "Unable to initialize predictor: " << predictorName << endl;
 	throw PredictorRegistryException(PRESAGE_INIT_PREDICTOR_ERROR, "Unable to initialize predictor: " + predictorName);
+    }
+}
+
+void PredictorRegistry::removePredictor(const std::string& predictor_name)
+{
+    logger << DEBUG << "Removing predictor: " << predictor_name << endl;
+    std::vector<Predictor*>::iterator it = predictors.begin();
+    while (it != predictors.end())
+    {
+	if ((*it)->getName() == predictor_name)
+	{
+	    delete *it;
+	    it = predictors.erase(it);
+	    logger << DEBUG << "Removed predictor: " << predictor_name << endl;
+	}
+	else
+	{
+	    ++it;
+	}
     }
 }
 

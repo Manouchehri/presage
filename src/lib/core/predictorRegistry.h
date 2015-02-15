@@ -84,13 +84,14 @@ private:
     void setLogger (const std::string& level);
     void setPredictors(const std::string& predictor_list);
     void addPredictor(const std::string& predictor_name);
+    void removePredictor(const std::string& predictor_name);
     void removePredictors();
 
     Configuration*  config;
     ContextTracker* contextTracker;
     Logger<char>    logger;
 
-    std::string          predictors_list;
+    std::string             predictors_list;
     std::vector<Predictor*> predictors;        // active Predictors
 
     Dispatcher<PredictorRegistry> dispatcher;
