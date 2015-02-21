@@ -23,7 +23,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 
 AC_INIT([presage],[0.9.1~beta],[matteo.vescovi@yahoo.co.uk])
-AM_INIT_AUTOMAKE([-Wall])
+AM_INIT_AUTOMAKE([1.9 tar-ustar -Wall])
 
 AC_CONFIG_SRCDIR([src/lib/presage.cpp])
 AC_CONFIG_HEADERS([config.h:config.hin])
