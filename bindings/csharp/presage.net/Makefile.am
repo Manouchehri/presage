@@ -22,6 +22,7 @@
 ## Process this file with automake to produce Makefile.in
 
 EXTRA_DIST = \
+	IPresage.cs \
 	Presage.cs \
 	presage.net.csproj \
 	Properties/AssemblyInfo.cs

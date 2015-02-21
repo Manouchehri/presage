@@ -1,5 +1,8 @@
 2015-02-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* bindings/csharp/*: first stab at implementing a WCF presage
+	service.
+
 	* src/lib/presage.cpp: fix problem with programmatically setting
 	new configuration variable.
 

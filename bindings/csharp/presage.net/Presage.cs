@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 using Microsoft.Win32;
 
-
 namespace presage
 {
     [Serializable()]
@@ -20,7 +19,7 @@ namespace presage
             System.Runtime.Serialization.StreamingContext context) { }
     }
 
-    public class Presage
+    public class Presage : IPresage
     {
         [DllImport("libpresage-1.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern int presage_new(
@@ -113,28 +112,32 @@ namespace presage
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool SetDllDirectory(string lpPathName);
+        private static extern bool SetDllDirectory(string lpPathName);
         
-
-        private IntPtr prsg;
-        private callback_get_past_stream_t past_cb;
-        private callback_get_future_stream_t future_cb;
-
 
         public delegate string callback_get_past_stream_t();
         public delegate string callback_get_future_stream_t();
+
+        private callback_get_past_stream_t get_past_stream_cb;
+        private callback_get_future_stream_t get_future_stream_cb;
+
+        private IntPtr prsg;
 
         public Presage(
             callback_get_past_stream_t get_past_stream_cb,
             callback_get_future_stream_t get_future_stream_cb
             )
         {
-            past_cb = get_past_stream_cb;
-            future_cb = get_future_stream_cb;
+            // ensure that delegate lifetime persists as long as presage object
+            this.get_past_stream_cb = get_past_stream_cb;
+            this.get_future_stream_cb = get_future_stream_cb;
 
             set_presage_dll_directory();
 
-            int rc = presage_new(past_cb, System.IntPtr.Zero, future_cb, System.IntPtr.Zero, out prsg);
+            int rc = presage_new(
+                get_past_stream_cb, System.IntPtr.Zero,
+                get_future_stream_cb, System.IntPtr.Zero,
+                out prsg);
             if (rc != 0)
             {
                 throw new PresageException(String.Format("presage_new() error code: {0}", rc));
@@ -147,13 +150,17 @@ namespace presage
             string config
             )
         {
-            past_cb = get_past_stream_cb;
-            future_cb = get_future_stream_cb;
+            // ensure that delegate lifetime persists as long as presage object
+            this.get_past_stream_cb = get_past_stream_cb;
+            this.get_future_stream_cb = get_future_stream_cb;
 
             set_presage_dll_directory();
 
             // call presage_new_with_config
-            int rc = presage_new_with_config(past_cb, System.IntPtr.Zero, future_cb, System.IntPtr.Zero, config, out prsg);
+            int rc = presage_new_with_config(
+                get_past_stream_cb, System.IntPtr.Zero,
+                get_future_stream_cb, System.IntPtr.Zero,
+                config, out prsg);
             if (rc != 0)
             {
                 throw new PresageException(String.Format("presage_new_with_config() error code: {0}", rc));
@@ -273,7 +280,7 @@ namespace presage
             return result;
         }
 
-        public string config(string variable)
+        public string get_config(string variable)
         {
             string result;
 
@@ -290,7 +297,7 @@ namespace presage
             return result;
         }
 
-        public void config(string variable, string value)
+        public void set_config(string variable, string value)
         {
             int rc = presage_config_set(prsg, variable, value);
             if (rc != 0)

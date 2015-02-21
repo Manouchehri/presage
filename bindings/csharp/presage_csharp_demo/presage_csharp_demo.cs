@@ -44,11 +44,11 @@ namespace presage_csharp_demo
 
                 System.Console.WriteLine("completion: " + prsg.completion("future"));
 
-                System.Console.WriteLine("suggestions: " + prsg.config("Presage.Selector.SUGGESTIONS"));
+                System.Console.WriteLine("suggestions: " + prsg.get_config("Presage.Selector.SUGGESTIONS"));
 
-                prsg.config("Presage.Selector.SUGGESTIONS", "10");
+                prsg.set_config("Presage.Selector.SUGGESTIONS", "10");
 
-                System.Console.WriteLine("suggestions: " + prsg.config("Presage.Selector.SUGGESTIONS"));
+                System.Console.WriteLine("suggestions: " + prsg.get_config("Presage.Selector.SUGGESTIONS"));
 
                 prsg.learn("Prediction is very difficult, especially about the future.");
 

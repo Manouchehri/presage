@@ -565,6 +565,8 @@ AC_CONFIG_FILES([
 	bindings/csharp/Makefile
 	bindings/csharp/presage.net/Makefile
 	bindings/csharp/presage_csharp_demo/Makefile
+	bindings/csharp/presage_wcf_service/Makefile
+	bindings/csharp/presage_wcf_service_console_host/Makefile
 	apps/Makefile
 	apps/gtk/Makefile
 	apps/gtk/gpresagemate/Makefile

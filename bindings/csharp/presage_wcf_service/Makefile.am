@@ -21,12 +21,9 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = \
-	presage.net \
-	presage_csharp_demo \
-	presage_wcf_service \
-	presage_wcf_service_console_host
-
 EXTRA_DIST = \
-	presage.net.sln \
-	README.txt 
+	App.config \
+	IPresageService.cs \
+	PresageService.cs \
+	Properties/AssemblyInfo.cs \
+	presage_wcf_service.csproj
