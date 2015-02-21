@@ -224,7 +224,7 @@ std::string Presage::config (const std::string variable) const
 void Presage::config (const std::string variable, const std::string value) const
     throw (PresageException)
 {
-    configuration->find (variable)->set_value (value);
+    configuration->insert (variable, value);
 }
 
 void Presage::save_config () const
