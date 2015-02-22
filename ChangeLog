@@ -1,3 +1,8 @@
+2015-02-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging/windows/presage_installer.nsi,
+	packaging/windows/README: add WCF service binaries to installer.
+
 2015-02-21  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/csharp/*: first stab at implementing a WCF presage

@@ -272,6 +272,17 @@ Section ".NET binding" SecNET
 SectionEnd
 
 ;----
+;WCF .NET service
+Section "WCF .NET service" SecWCF
+
+  ; bin/
+  SetOutPath "$INSTDIR\bin"
+  File "bin\presage_wcf_service.dll"
+  File "bin\presage_wcf_service_console_host.exe"
+
+SectionEnd
+
+;----
 ;Notepad++ plugin section
 Section "Notepad++ plugin" SecNpp
 
@@ -303,6 +314,7 @@ SectionEnd
   LangString DESC_SecDevel ${LANG_ENGLISH} "Install presage development files (headers and libraries)"
   LangString DESC_SecPython ${LANG_ENGLISH} "Install presage Python binding and examples Python scripts"
   LangString DESC_SecNET ${LANG_ENGLISH} "Install presage .NET binding and C# demo program"
+  LangString DESC_SecWCF ${LANG_ENGLISH} "Install presage WCF .NET service"
   LangString DESC_SecNpp ${LANG_ENGLISH} "Install Notepad++ presage intelligent predictive text entry plugin"
 
   ;Assign language strings to sections
@@ -311,6 +323,7 @@ SectionEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecDevel} $(DESC_SecDevel)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecPython} $(DESC_SecPython)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecNET} $(DESC_SecNET)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecWCF} $(DESC_SecWCF)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecNpp} $(DESC_SecNpp)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
  
@@ -377,6 +390,10 @@ Section "Uninstall"
   ; .NET binding deps
   Delete "$INSTDIR\bin\presage.net.dll"
   Delete "$INSTDIR\bin\presage_csharp_demo.exe"
+
+  ; WCF .NET service deps
+  File "bin\presage_wcf_service.dll"
+  File "bin\presage_wcf_service_console_host.exe"
 
   ; Notepad++ plugin
   ReadRegStr $0 HKLM "Software\Notepad++" ""

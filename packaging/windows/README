@@ -29,9 +29,10 @@ and copy NppPresage.DLL to the bin directory of presage installation
 qprompter.exe to the bin directory of presage installation
   (i.e. /c/presage/bin/)
 
-2.c) Build the C# presage binding and demo (requires MS Visual Studio)
-and copy presage.net.dll and presage_csharp_demo.exe to the bin
-directory of presage installation
+2.c) Build the C# presage binding, demo, and WCF service (requires MS
+Visual Studio) and copy presage.net.dll, presage_csharp_demo.exe,
+presage_wcf_service.dll and presage_wcf_service_console_host.exe to
+the bin directory of presage installation
   (i.e. /c/presage/bin/)
 
 3) Check that the PATH is properly setup by running gprompter in your
