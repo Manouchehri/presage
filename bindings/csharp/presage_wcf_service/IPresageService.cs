@@ -1,35 +1,40 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.Text;
 
 namespace presage_wcf_service
 {
     [ServiceContract]
     public interface IPresageService
     {
-        [OperationContractAttribute]
+        [OperationContract]
         string[] predict(string previous_words, string current_word);
 
-        [OperationContractAttribute]
+        [OperationContract]
         string context();
 
-        [OperationContractAttribute]
+        [OperationContract]
         bool context_change();
 
-        [OperationContractAttribute]
+        [OperationContract]
         string prefix();
 
-        [OperationContractAttribute]
+        [OperationContract]
         void learn(string text);
 
-        [OperationContractAttribute]
+        [OperationContract]
         string completion(string token);
 
-        [OperationContractAttribute]
+        [OperationContract]
         string get_config(string variable);
 
-        [OperationContractAttribute]
+        [OperationContract]
         void set_config(string variable, string value);
 
-        [OperationContractAttribute]
+        [OperationContract]
         void save_config();
     }
 }
