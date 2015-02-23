@@ -84,9 +84,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\presage.net\presage.net.csproj">
       <Project>{1b7c7fe2-761a-43db-a220-5f334f3e6097}</Project>
       <Name>presage.net</Name>

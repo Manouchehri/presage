@@ -1,3 +1,13 @@
+2015-02-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/csharp/presage_csharp_demo/presage_csharp_demo.csproj,
+	bindings/csharp/presage_wcf_service/App.config,
+	bindings/csharp/presage_wcf_service/PresageService.cs,
+	bindings/csharp/presage_wcf_service_console_host/Program.cs: use
+	NetNamedPipeBinding, "a secure, reliable, optimized binding that
+	is suitable for on-machine communication between WCF
+	applications".
+
 2015-02-22  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/windows/presage_installer.nsi,

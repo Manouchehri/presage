@@ -31,7 +31,12 @@ namespace presage_wcf_service
             future_buffer = "";
             prsg = new Presage(get_past_stream, get_future_stream);
 
-            System.Console.WriteLine("New instance created");
+            System.Console.WriteLine("New PresageService instance created");
+        }
+
+        ~PresageService()
+        {
+            System.Console.WriteLine("PresageService instance destroyed");
         }
 
         public string[] predict(string previous_words, string current_word)

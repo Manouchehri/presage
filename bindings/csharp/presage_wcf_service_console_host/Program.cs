@@ -13,7 +13,8 @@ namespace presage_wcf_service_console_host
     {
         static void Main(string[] args)
         {
-            Uri baseAddress = new Uri("http://localhost:8080/presage");
+            Uri baseAddress = new Uri("http://localhost:8733/Design_Time_Addresses/presage_wcf_service/PresageService/");
+            string address = "net.pipe://localhost/PresageService";
 
             // Create the ServiceHost.
             using (ServiceHost host = new ServiceHost(typeof(PresageService), baseAddress))
@@ -28,8 +29,7 @@ namespace presage_wcf_service_console_host
                 var behaviour = host.Description.Behaviors.Find<ServiceBehaviorAttribute>();
                 behaviour.InstanceContextMode = InstanceContextMode.Single;
                 */
-
-                host.AddServiceEndpoint(typeof(IPresageService), new WSHttpBinding(), "PresageService");
+                host.AddServiceEndpoint(typeof(IPresageService), new NetNamedPipeBinding(), address);
 
                 // Open the ServiceHost to start listening for messages. Since
                 // no endpoints are explicitly configured, the runtime will create
