@@ -632,6 +632,7 @@ AC_MSG_RESULT([
     C++ ......................... yes
     C ........................... yes
     C# .NET ..................... manual build required
+    .NET WCF service ............ manual build required
     Python ...................... ${build_python_binding}
 
   Additional applications:
