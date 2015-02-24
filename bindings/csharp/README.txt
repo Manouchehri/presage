@@ -1,4 +1,4 @@
-Copyright (C) 2013  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
+Copyright (C) 2015  Matteo Vescovi <matteo.vescovi@yahoo.co.uk>
 ___________________
 The Presage project
 ~~~~~~~~~~~~~~~~~~~
