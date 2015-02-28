@@ -1,3 +1,28 @@
+2015-02-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/csharp/presage.net.sln,
+	bindings/csharp/presage_wcf_service/App.config,
+	bindings/csharp/presage_wcf_service/presage_wcf_service.csproj,
+	bindings/csharp/presage_wcf_service_console_host/Program.cs,
+	bindings/csharp/presage_wcf_service_system_tray/App.config,
+	bindings/csharp/presage_wcf_service_system_tray/ClassDiagram1.cd,
+	bindings/csharp/presage_wcf_service_system_tray/PresageSystemTray.cs,
+	bindings/csharp/presage_wcf_service_system_tray/PresageWCFHostForm.Designer.cs,
+	bindings/csharp/presage_wcf_service_system_tray/PresageWCFHostForm.cs,
+	bindings/csharp/presage_wcf_service_system_tray/Program.cs,
+	bindings/csharp/presage_wcf_service_system_tray/Properties/AssemblyInfo.cs,
+	bindings/csharp/presage_wcf_service_system_tray/Properties/Resources.Designer.cs,
+	bindings/csharp/presage_wcf_service_system_tray/Properties/Resources.resx,
+	bindings/csharp/presage_wcf_service_system_tray/Properties/Settings.Designer.cs,
+	bindings/csharp/presage_wcf_service_system_tray/Properties/Settings.settings,
+	bindings/csharp/presage_wcf_service_system_tray/Resources/presage.ico,
+	bindings/csharp/presage_wcf_service_system_tray/Resources/presage.png,
+	bindings/csharp/presage_wcf_service_system_tray/Resources/presage.svg,
+	bindings/csharp/presage_wcf_service_system_tray/presage_wcf_service_system_tray.csproj,
+	resources/presage.ico: Add initial implementation of presage WCF
+	service system tray hosting application, change mex Metadata
+	Exchance endpoint to use named pipe binding.
+
 2015-02-23  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/csharp/presage_csharp_demo/presage_csharp_demo.csproj,
