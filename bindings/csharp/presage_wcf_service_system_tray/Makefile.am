@@ -21,13 +21,19 @@
 
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = \
-	presage.net \
-	presage_csharp_demo \
-	presage_wcf_service \
-	presage_wcf_service_console_host \
-	presage_wcf_service_system_tray
-
 EXTRA_DIST = \
-	presage.net.sln \
-	README.txt 
+	App.config \
+	ClassDiagram1.cd \
+	PresageSystemTray.cs \
+	PresageWCFHostForm.Designer.cs \
+	PresageWCFHostForm.cs \
+	Program.cs \
+	Properties/AssemblyInfo.cs \
+	Properties/Resources.Designer.cs \
+	Properties/Resources.resx \
+	Properties/Settings.Designer.cs \
+	Properties/Settings.settings \
+	Resources/presage.ico \
+	Resources/presage.png \
+	Resources/presage.svg \
+	presage_wcf_service_system_tray.csproj

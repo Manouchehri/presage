@@ -32,7 +32,7 @@ To rebuild in Debug mode:
 
 or:
 
-  devenv /Rebuild "Debug|x86" presage.net.sln
+  devenv /Rebuild "Debug|x64" presage.net.sln
 
 
 

@@ -55,7 +55,12 @@ namespace presage_wcf_service_system_tray
             host.AddServiceEndpoint(typeof(IPresageService), new NetNamedPipeBinding(), "presage");
 
             // Enable metadata publishing.
-            ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
+            // Enable metadata publishing.
+            // Check to see if the service host already has a ServiceMetadataBehavior
+            ServiceMetadataBehavior smb = host.Description.Behaviors.Find<ServiceMetadataBehavior>();
+            // If not, add one
+            if (smb == null)
+                smb = new ServiceMetadataBehavior();
             smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
             host.Description.Behaviors.Add(smb);
 

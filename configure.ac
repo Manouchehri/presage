@@ -567,6 +567,7 @@ AC_CONFIG_FILES([
 	bindings/csharp/presage_csharp_demo/Makefile
 	bindings/csharp/presage_wcf_service/Makefile
 	bindings/csharp/presage_wcf_service_console_host/Makefile
+	bindings/csharp/presage_wcf_service_system_tray/Makefile
 	apps/Makefile
 	apps/gtk/Makefile
 	apps/gtk/gpresagemate/Makefile
@@ -633,6 +634,8 @@ AC_MSG_RESULT([
     C ........................... yes
     C# .NET ..................... manual build required
     .NET WCF service ............ manual build required
+    .NET WCF service tray app.... manual build required
+    .NET WCF service console app. manual build required
     Python ...................... ${build_python_binding}
 
   Additional applications:

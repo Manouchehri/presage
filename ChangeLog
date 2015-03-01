@@ -1,3 +1,13 @@
+2015-02-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/csharp/presage_wcf_service_console_host/Program.cs,
+	bindings/csharp/presage_wcf_service_system_tray/PresageWCFHostForm.cs:
+	check for existance of behaviour prior to setting it.
+
+	* configure.ac, bindings/csharp/Makefile.am,
+	bindings/csharp/presage_wcf_service_system_tray/Makefile.am:
+	package systray app in tarball.
+
 2015-02-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/csharp/presage.net.sln,
