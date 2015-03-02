@@ -84,9 +84,9 @@
   
   !insertmacro MUI_PAGE_INSTFILES
 
-  !define MUI_FINISHPAGE_RUN $INSTDIR/bin/qprompter
-  !define MUI_FINISHPAGE_RUN_TEXT "Run qprompter"
-  !define MUI_FINISHPAGE_RUN_NOTCHECKED
+  !define MUI_FINISHPAGE_RUN $INSTDIR/bin/presage_wcf_service_system_tray.exe
+  !define MUI_FINISHPAGE_RUN_TEXT "Start presage WCF service"
+  !define MUI_FINISHPAGE_RUN_CHECKED
   !define MUI_FINISHPAGE_SHOWREADME $INSTDIR/share/presage/getting_started.txt
   !define MUI_FINISHPAGE_SHOWREADME_TEXT "Show getting started text file"
   !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
@@ -215,6 +215,7 @@ Section "-Runtime" SecRuntime
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\qprompter.lnk" "$INSTDIR\bin\qprompter.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\gprompter.lnk" "$INSTDIR\bin\gprompter.exe"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\presage_wcf_service_system_tray.lnk" "$INSTDIR\bin\presage_wcf_service_system_tray.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -279,6 +280,8 @@ Section "WCF .NET service" SecWCF
   SetOutPath "$INSTDIR\bin"
   File "bin\presage_wcf_service.dll"
   File "bin\presage_wcf_service_console_host.exe"
+  File "bin\presage_wcf_service_system_tray.exe"
+  CreateShortCut "$SMSTARTUP\presage_wcf_service_system_tray.lnk" "$INSTDIR\bin\presage_wcf_service_system_tray.exe"
 
 SectionEnd
 
@@ -392,8 +395,10 @@ Section "Uninstall"
   Delete "$INSTDIR\bin\presage_csharp_demo.exe"
 
   ; WCF .NET service deps
-  File "bin\presage_wcf_service.dll"
-  File "bin\presage_wcf_service_console_host.exe"
+  Delete "bin\presage_wcf_service.dll"
+  Delete "bin\presage_wcf_service_console_host.exe"
+  Delete "bin\presage_wcf_service_system_tray.exe"
+  Delete "$SMSTARTUP\presage_wcf_service_system_tray.lnk"
 
   ; Notepad++ plugin
   ReadRegStr $0 HKLM "Software\Notepad++" ""
@@ -465,6 +470,7 @@ npp_not_found_uninstall:
     
   Delete "$SMPROGRAMS\$StartMenuFolder\qprompter.lnk"
   Delete "$SMPROGRAMS\$StartMenuFolder\gprompter.lnk"
+  Delete "$SMPROGRAMS\$StartMenuFolder\presage_wcf_service_system_tray.lnk"
   Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
   RMDir "$SMPROGRAMS\$StartMenuFolder"
   

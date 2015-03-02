@@ -1,4 +1,10 @@
-2015-02-29  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+2015-03-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* packaging/windows/README,
+	packaging/windows/presage_installer.nsi: add WCF service tray app
+	to Windows installer.
+
+2015-03-01  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/csharp/presage_wcf_service_console_host/Program.cs,
 	bindings/csharp/presage_wcf_service_system_tray/PresageWCFHostForm.cs:
