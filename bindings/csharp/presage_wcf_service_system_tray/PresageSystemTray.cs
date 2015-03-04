@@ -30,6 +30,7 @@ namespace presage_wcf_service_system_tray
     class PresageSystemTray : IDisposable
     {
         private NotifyIcon icon;
+        private AboutForm aboutForm;
 
         public PresageSystemTray()
         {
@@ -65,16 +66,11 @@ namespace presage_wcf_service_system_tray
 
         private void AboutClick(object sender, EventArgs e)
         {
-            MessageBox.Show(
-                "Presage WCF service.\n" +
-                "\n" +
-                "Presage, the intelligent predictive text entry system.\n" +
-                "\n" +
-                "http://presage.sourceforge.net\n" +
-                "\n" +
-                "Copyright (C) 2015 Matteo Vescovi",
-                "Presage WCF Service"
-            );
+            if (aboutForm == null)
+            {
+                aboutForm = new AboutForm();
+            }
+            aboutForm.ShowDialog();
         }
 
         private void ExitClick(object sender, EventArgs e)

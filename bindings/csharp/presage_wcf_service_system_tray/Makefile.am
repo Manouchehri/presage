@@ -22,6 +22,9 @@
 ## Process this file with automake to produce Makefile.in
 
 EXTRA_DIST = \
+	AboutForm.Designer.cs \
+	AboutForm.cs \
+	AboutForm.resx \
 	App.config \
 	ClassDiagram1.cd \
 	PresageSystemTray.cs \
