@@ -74,9 +74,10 @@ namespace presage_wcf_service_system_tray
             host.Open();
         }
 
-        public void Dispose()
+        new public void Dispose()
         {
             host.Close();
+            base.Dispose();
         }
     }
 }

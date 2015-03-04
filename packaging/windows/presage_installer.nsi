@@ -395,9 +395,9 @@ Section "Uninstall"
   Delete "$INSTDIR\bin\presage_csharp_demo.exe"
 
   ; WCF .NET service deps
-  Delete "bin\presage_wcf_service.dll"
-  Delete "bin\presage_wcf_service_console_host.exe"
-  Delete "bin\presage_wcf_service_system_tray.exe"
+  Delete "$INSTDIR\bin\presage_wcf_service.dll"
+  Delete "$INSTDIR\bin\presage_wcf_service_console_host.exe"
+  Delete "$INSTDIR\bin\presage_wcf_service_system_tray.exe"
   Delete "$SMSTARTUP\presage_wcf_service_system_tray.lnk"
 
   ; Notepad++ plugin

@@ -1,5 +1,8 @@
 2015-03-04  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* packaging/windows/presage_installer.nsi: remove missed files in
+	uninstaller.
+
 	* bindings/csharp/presage_wcf_service_system_tray/AboutForm.Designer.cs,
 	bindings/csharp/presage_wcf_service_system_tray/AboutForm.cs,
 	bindings/csharp/presage_wcf_service_system_tray/AboutForm.resx,
