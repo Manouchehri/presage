@@ -58,5 +58,10 @@ namespace presage_wcf_service_system_tray
                 MessageBoxButtons.OK
                 );
         }
+
+        private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://presage.sourceforge.net");
+        }
     }
 }

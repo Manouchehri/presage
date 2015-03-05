@@ -180,6 +180,7 @@ namespace presage_wcf_service_system_tray
             this.linkLabel.TabStop = true;
             this.linkLabel.Text = "http://presage.sourceforge.net";
             this.linkLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.linkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_LinkClicked);
             // 
             // tableLayoutPanel1
             // 
