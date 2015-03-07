@@ -97,6 +97,10 @@ typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, 
 #define SCI_GETNEXTTABSTOP 2677
 #define SC_CP_UTF8 65001
 #define SCI_SETCODEPAGE 2037
+#define SC_IME_WINDOWED 0
+#define SC_IME_INLINE 1
+#define SCI_GETIMEINTERACTION 2678
+#define SCI_SETIMEINTERACTION 2679
 #define MARKER_MAX 31
 #define SC_MARK_CIRCLE 0
 #define SC_MARK_ROUNDRECT 1
@@ -270,7 +274,12 @@ typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, 
 #define INDIC_DOTBOX 12
 #define INDIC_SQUIGGLEPIXMAP 13
 #define INDIC_COMPOSITIONTHICK 14
-#define INDIC_MAX 31
+#define INDIC_COMPOSITIONTHIN 15
+#define INDIC_FULLBOX 16
+#define INDIC_TEXTFORE 17
+#define INDIC_IME 32
+#define INDIC_IME_MAX 35
+#define INDIC_MAX 35
 #define INDIC_CONTAINER 8
 #define INDIC0_MASK 0x20
 #define INDIC1_MASK 0x40
@@ -282,6 +291,15 @@ typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, 
 #define SCI_INDICGETFORE 2083
 #define SCI_INDICSETUNDER 2510
 #define SCI_INDICGETUNDER 2511
+#define SCI_INDICSETHOVERSTYLE 2680
+#define SCI_INDICGETHOVERSTYLE 2681
+#define SCI_INDICSETHOVERFORE 2682
+#define SCI_INDICGETHOVERFORE 2683
+#define SC_INDICVALUEBIT 0x1000000
+#define SC_INDICVALUEMASK 0xFFFFFF
+#define SC_INDICFLAG_VALUEFORE 1
+#define SCI_INDICSETFLAGS 2684
+#define SCI_INDICGETFLAGS 2685
 #define SCI_SETWHITESPACEFORE 2084
 #define SCI_SETWHITESPACEBACK 2085
 #define SCI_SETWHITESPACESIZE 2086
@@ -368,6 +386,7 @@ typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, 
 #define SCFIND_WORDSTART 0x00100000
 #define SCFIND_REGEXP 0x00200000
 #define SCFIND_POSIX 0x00400000
+#define SCFIND_CXX11REGEX 0x00800000
 #define SCI_FINDTEXT 2150
 #define SCI_FORMATRANGE 2151
 #define SCI_GETFIRSTVISIBLELINE 2152
@@ -413,6 +432,8 @@ typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, 
 #define SCI_GETTARGETSTART 2191
 #define SCI_SETTARGETEND 2192
 #define SCI_GETTARGETEND 2193
+#define SCI_SETTARGETRANGE 2686
+#define SCI_GETTARGETTEXT 2687
 #define SCI_REPLACETARGET 2194
 #define SCI_REPLACETARGETRE 2195
 #define SCI_SEARCHINTARGET 2197
@@ -639,6 +660,8 @@ typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, 
 #define SC_STATUS_OK 0
 #define SC_STATUS_FAILURE 1
 #define SC_STATUS_BADALLOC 2
+#define SC_STATUS_WARN_START 1000
+#define SC_STATUS_WARN_REGEX 1001
 #define SCI_SETSTATUS 2382
 #define SCI_GETSTATUS 2383
 #define SCI_SETMOUSEDOWNCAPTURES 2384
@@ -809,6 +832,7 @@ typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, 
 #define ANNOTATION_HIDDEN 0
 #define ANNOTATION_STANDARD 1
 #define ANNOTATION_BOXED 2
+#define ANNOTATION_INDENTED 3
 #define SCI_ANNOTATIONSETVISIBLE 2548
 #define SCI_ANNOTATIONGETVISIBLE 2549
 #define SCI_ANNOTATIONSETSTYLEOFFSET 2550
@@ -888,6 +912,8 @@ typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, 
 #define SCI_SCROLLTOEND 2629
 #define SC_TECHNOLOGY_DEFAULT 0
 #define SC_TECHNOLOGY_DIRECTWRITE 1
+#define SC_TECHNOLOGY_DIRECTWRITERETAIN 2
+#define SC_TECHNOLOGY_DIRECTWRITEDC 3
 #define SCI_SETTECHNOLOGY 2630
 #define SCI_GETTECHNOLOGY 2631
 #define SCI_CREATELOADER 2632

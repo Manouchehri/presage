@@ -32,7 +32,7 @@ enum DrawPhase {
 	drawLineTranslucent = 0x40,
 	drawFoldLines = 0x80,
 	drawCarets = 0x100,
-	drawAll = 0x1FF,
+	drawAll = 0x1FF
 };
 
 bool ValidStyledText(const ViewStyle &vs, size_t styleOffset, const StyledText &st);
@@ -41,6 +41,8 @@ void DrawTextNoClipPhase(Surface *surface, PRectangle rc, const Style &style, XY
 	const char *s, int len, DrawPhase phase);
 void DrawStyledText(Surface *surface, const ViewStyle &vs, int styleOffset, PRectangle rcText,
 	const StyledText &st, size_t start, size_t length, DrawPhase phase);
+
+typedef void (*DrawTabArrowFn)(Surface *surface, PRectangle rcTab, int ymid);
 
 /**
 * EditView draws the main text area.
@@ -78,6 +80,14 @@ public:
 	LineLayoutCache llc;
 	PositionCache posCache;
 
+	int tabArrowHeight; // draw arrow heads this many pixels above/below line midpoint
+	/** Some platforms, notably PLAT_CURSES, do not support Scintilla's native
+	 * DrawTabArrow function for drawing tab characters. Allow those platforms to
+	 * override it instead of creating a new method in the Surface class that
+	 * existing platforms must implement as empty. */
+	DrawTabArrowFn customDrawTabArrow;
+	DrawWrapMarkerFn customDrawWrapMarker;
+
 	EditView();
 	virtual ~EditView();
 
@@ -86,7 +96,7 @@ public:
 	bool LinesOverlap() const;
 
 	void ClearAllTabstops();
-	int NextTabstopPos(int line, int x, int tabWidth) const;
+	XYPOSITION NextTabstopPos(int line, XYPOSITION x, XYPOSITION tabWidth) const;
 	bool ClearTabstops(int line);
 	bool AddTabstop(int line, int x);
 	int GetNextTabstop(int line, int x) const;

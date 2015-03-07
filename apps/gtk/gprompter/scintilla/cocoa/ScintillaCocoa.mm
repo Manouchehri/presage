@@ -395,6 +395,7 @@ ScintillaCocoa::ScintillaCocoa(SCIContentView* view, SCIMarginView* viewMargin)
   idleTimer = NULL;
   observer = NULL;
   layerFindIndicator = NULL;
+  imeInteraction = imeInline;
   for (TickReason tr=tickCaret; tr<=tickPlatform; tr = static_cast<TickReason>(tr+1))
   {
     timers[tr] = nil;
@@ -448,7 +449,7 @@ void ScintillaCocoa::Finalise()
 
 //--------------------------------------------------------------------------------------------------
 
-void ScintillaCocoa::UpdateObserver(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info) {
+void ScintillaCocoa::UpdateObserver(CFRunLoopObserverRef /* observer */, CFRunLoopActivity /* activity */, void *info) {
   ScintillaCocoa* sci = reinterpret_cast<ScintillaCocoa*>(info);
   sci->IdleWork();
 }
@@ -525,6 +526,26 @@ static char *EncodedBytes(CFStringRef cfsRef, CFStringEncoding encoding) {
 //--------------------------------------------------------------------------------------------------
 
 /**
+ * Convert a core foundation string into a std::string in a particular encoding
+ */
+
+static std::string EncodedBytesString(CFStringRef cfsRef, CFStringEncoding encoding) {
+	const CFRange rangeAll = {0, CFStringGetLength(cfsRef)};
+	CFIndex usedLen = 0;
+	CFStringGetBytes(cfsRef, rangeAll, encoding, '?', false,
+                         NULL, 0, &usedLen);
+	
+	std::string buffer(usedLen, '\0');
+	if (usedLen > 0) {
+		CFStringGetBytes(cfsRef, rangeAll, encoding, '?', false,
+                                 reinterpret_cast<UInt8 *>(&buffer[0]), usedLen, NULL);
+	}
+	return buffer;
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
  * Case folders.
  */
 
@@ -559,9 +580,6 @@ public:
             CFRelease(cfsVal);
 			return lenMapped;
 		}
-		// Something failed so return a single NUL byte
-		folded[0] = '\0';
-		return 1;
 	}
 };
 
@@ -577,7 +595,7 @@ CaseFolder *ScintillaCocoa::CaseFolderForEncoding() {
             // Only for single byte encodings
             for (int i=0x80; i<0x100; i++) {
                 char sCharacter[2] = "A";
-                sCharacter[0] = i;
+                sCharacter[0] = static_cast<char>(i);
                 CFStringRef cfsVal = CFStringCreateWithBytes(kCFAllocatorDefault,
                                                              reinterpret_cast<const UInt8 *>(sCharacter),
                                                              1, encoding, false);
@@ -704,7 +722,8 @@ PRectangle ScintillaCocoa::GetClientRectangle() const
   NSScrollView *scrollView = ScrollContainer();
   NSSize size = [[scrollView contentView] bounds].size;
   Point origin = GetVisibleOriginInMain();
-  return PRectangle(origin.x, origin.y, origin.x+size.width, origin.y + size.height);
+  return PRectangle(origin.x, origin.y, static_cast<XYPOSITION>(origin.x+size.width),
+		    static_cast<XYPOSITION>(origin.y + size.height));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -825,6 +844,17 @@ sptr_t ScintillaCocoa::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lPar
 
     case SCI_GETDIRECTPOINTER:
       return reinterpret_cast<sptr_t>(this);
+
+    case SCI_TARGETASUTF8:
+      return TargetAsUTF8(reinterpret_cast<char*>(lParam));
+
+    case SCI_ENCODEDFROMUTF8:
+      return EncodedFromUTF8(reinterpret_cast<char*>(wParam),
+                             reinterpret_cast<char*>(lParam));
+
+    case SCI_SETIMEINTERACTION:
+      // Only inline IME supported on Cocoa
+      break;
 
     case SCI_GRABFOCUS:
       [[ContentView() window] makeFirstResponder:ContentView()];
@@ -1018,7 +1048,7 @@ void ScintillaCocoa::Paste(bool forceRectangular)
 
   pdoc->BeginUndoAction();
   ClearSelection(false);
-  InsertPasteShape(selectedText.Data(), selectedText.Length(),
+  InsertPasteShape(selectedText.Data(), static_cast<int>(selectedText.Length()),
 	  selectedText.rectangular ? pasteRectangular : pasteStream);
   pdoc->EndUndoAction();
 
@@ -1095,7 +1125,8 @@ void ScintillaCocoa::CTPaint(void* gc, NSRect rc) {
 
 void ScintillaCocoa::CallTipMouseDown(NSPoint pt) {
     NSRect rectBounds = [(NSView *)(ct.wDraw.GetID()) bounds];
-    Point location(pt.x, static_cast<XYPOSITION>(rectBounds.size.height - pt.y));
+    Point location(static_cast<XYPOSITION>(pt.x),
+		   static_cast<XYPOSITION>(rectBounds.size.height - pt.y));
     ct.MouseClick(location);
     CallTipClick();
 }
@@ -1156,10 +1187,11 @@ void ScintillaCocoa::ClaimSelection()
  */
 NSPoint ScintillaCocoa::GetCaretPosition()
 {
+  const int line = pdoc->LineFromPosition(sel.RangeMain().caret.Position());
   NSPoint result;
 
-  result.y = pdoc->LineFromPosition(sel.RangeMain().caret.Position());
-  result.x = sel.RangeMain().caret.Position() - pdoc->LineStart(result.y);
+  result.y = line;
+  result.x = sel.RangeMain().caret.Position() - pdoc->LineStart(line);
   return result;
 }
 
@@ -1318,7 +1350,7 @@ void ScintillaCocoa::StartDrag()
     {
       PRectangle imageRect = rcSel;
       paintState = painting;
-      sw->InitPixMap(client.Width(), client.Height(), NULL, NULL);
+      sw->InitPixMap(static_cast<int>(client.Width()), static_cast<int>(client.Height()), NULL, NULL);
       paintingAllText = true;
       // Have to create a new context and make current as text drawing goes
       // to the current context, not a passed context.
@@ -1330,7 +1362,7 @@ void ScintillaCocoa::StartDrag()
       Paint(sw, client);
       paintState = notPainting;
 
-      pixmap->InitPixMap(imageRect.Width(), imageRect.Height(), NULL, NULL);
+      pixmap->InitPixMap(static_cast<int>(imageRect.Width()), static_cast<int>(imageRect.Height()), NULL, NULL);
 
       CGContextRef gc = pixmap->GetContext();
       // To make Paint() work on a bitmap, we have to flip our coordinates and translate the origin
@@ -1538,6 +1570,68 @@ bool ScintillaCocoa::GetPasteboardData(NSPasteboard* board, SelectionText* selec
 
 //--------------------------------------------------------------------------------------------------
 
+// Returns the target converted to UTF8.
+// Return the length in bytes.
+int ScintillaCocoa::TargetAsUTF8(char *text)
+{
+  const int targetLength = targetEnd - targetStart;
+  if (IsUnicodeMode())
+  {
+    if (text)
+      pdoc->GetCharRange(text, targetStart, targetLength);
+  }
+  else
+  {
+    // Need to convert
+    const CFStringEncoding encoding = EncodingFromCharacterSet(IsUnicodeMode(),
+                                                         vs.styles[STYLE_DEFAULT].characterSet);
+    const std::string s = RangeText(targetStart, targetEnd);
+    CFStringRef cfsVal = CFStringCreateWithBytes(kCFAllocatorDefault,
+                                                 reinterpret_cast<const UInt8 *>(s.c_str()),
+                                                 s.length(), encoding, false);
+	  
+    const std::string tmputf = EncodedBytesString(cfsVal, kCFStringEncodingUTF8);
+    
+    if (text)
+      memcpy(text, tmputf.c_str(), tmputf.length());
+    CFRelease(cfsVal);
+    return tmputf.length();
+  }
+  return targetLength;
+}
+
+//--------------------------------------------------------------------------------------------------
+
+// Translates a UTF8 string into the document encoding.
+// Return the length of the result in bytes.
+int ScintillaCocoa::EncodedFromUTF8(char *utf8, char *encoded) const
+{
+  const int inputLength = (lengthForEncode >= 0) ? lengthForEncode : strlen(utf8);
+  if (IsUnicodeMode())
+  {
+    if (encoded)
+      memcpy(encoded, utf8, inputLength);
+    return inputLength;
+  }
+  else
+  {
+    // Need to convert
+    const CFStringEncoding encoding = EncodingFromCharacterSet(IsUnicodeMode(),
+                                                         vs.styles[STYLE_DEFAULT].characterSet);
+    
+    CFStringRef cfsVal = CFStringCreateWithBytes(kCFAllocatorDefault,
+                                                 reinterpret_cast<const UInt8 *>(utf8),
+                                                 inputLength, kCFStringEncodingUTF8, false);
+    const std::string sEncoded = EncodedBytesString(cfsVal, encoding);
+    if (encoded)
+      memcpy(encoded, sEncoded.c_str(), sEncoded.length());
+    CFRelease(cfsVal);
+    return sEncoded.length();
+  }
+}
+
+//--------------------------------------------------------------------------------------------------
+
 void ScintillaCocoa::SetMouseCapture(bool on)
 {
   capturedMouse = on;
@@ -1649,7 +1743,7 @@ void ScintillaCocoa::WillDraw(NSRect rect)
 /**
  * ScrollText is empty because scrolling is handled by the NSScrollView.
  */
-void ScintillaCocoa::ScrollText(int linesToMove)
+void ScintillaCocoa::ScrollText(int)
 {
 }
 
@@ -1678,7 +1772,7 @@ void ScintillaCocoa::SetHorizontalScrollPos()
 {
   PRectangle textRect = GetTextRectangle();
 
-  int maxXOffset = scrollWidth - textRect.Width();
+  int maxXOffset = scrollWidth - static_cast<int>(textRect.Width());
   if (maxXOffset < 0)
     maxXOffset = 0;
   if (xOffset > maxXOffset)
@@ -1731,7 +1825,7 @@ bool ScintillaCocoa::SetScrollingSize(void) {
 			!Wrapping();
 		if (!showHorizontalScroll)
 			docWidth = clipRect.size.width;
-		NSRect contentRect = {0, 0, docWidth, docHeight};
+		NSRect contentRect = {{0, 0}, {docWidth, docHeight}};
 		NSRect contentRectNow = [inner frame];
 		changes = (contentRect.size.width != contentRectNow.size.width) ||
 			(contentRect.size.height != contentRectNow.size.height);
@@ -1762,8 +1856,8 @@ void ScintillaCocoa::Resize()
  */
 void ScintillaCocoa::UpdateForScroll() {
   Point ptOrigin = GetVisibleOriginInMain();
-  xOffset = ptOrigin.x;
-  int newTop = Platform::Minimum(ptOrigin.y / vs.lineHeight, MaxScrollPos());
+  xOffset = static_cast<int>(ptOrigin.x);
+  int newTop = Platform::Minimum(static_cast<int>(ptOrigin.y / vs.lineHeight), MaxScrollPos());
   SetTopLine(newTop);
 }
 
@@ -1804,7 +1898,7 @@ void ScintillaCocoa::RegisterNotifyCallback(intptr_t windowid, SciNotifyFunc cal
 void ScintillaCocoa::NotifyChange()
 {
   if (notifyProc != NULL)
-    notifyProc(notifyObj, WM_COMMAND, Platform::LongFromTwoShorts(GetCtrlID(), SCEN_CHANGE),
+    notifyProc(notifyObj, WM_COMMAND, Platform::LongFromTwoShorts(static_cast<short>(GetCtrlID()), SCEN_CHANGE),
 	       (uintptr_t) this);
 }
 
@@ -1813,7 +1907,8 @@ void ScintillaCocoa::NotifyChange()
 void ScintillaCocoa::NotifyFocus(bool focus)
 {
   if (notifyProc != NULL)
-    notifyProc(notifyObj, WM_COMMAND, Platform::LongFromTwoShorts(GetCtrlID(), (focus ? SCEN_SETFOCUS : SCEN_KILLFOCUS)),
+    notifyProc(notifyObj, WM_COMMAND, Platform::LongFromTwoShorts(static_cast<short>(GetCtrlID()),
+	       (focus ? SCEN_SETFOCUS : SCEN_KILLFOCUS)),
 	       (uintptr_t) this);
 
   Editor::NotifyFocus(focus);
@@ -2007,22 +2102,42 @@ bool ScintillaCocoa::KeyboardInput(NSEvent* event)
 int ScintillaCocoa::InsertText(NSString* input)
 {
   CFStringEncoding encoding = EncodingFromCharacterSet(IsUnicodeMode(),
-                                                         vs.styles[STYLE_DEFAULT].characterSet);
-  CFRange rangeAll = {0, static_cast<CFIndex>([input length])};
-  CFIndex usedLen = 0;
-  CFStringGetBytes((CFStringRef)input, rangeAll, encoding, '?',
-                   false, NULL, 0, &usedLen);
-
-  if (usedLen > 0)
+                                                       vs.styles[STYLE_DEFAULT].characterSet);
+  std::string encoded = EncodedBytesString((CFStringRef)input, encoding);
+  
+  if (encoded.length() > 0)
   {
-    std::vector<UInt8> buffer(usedLen);
-
-    CFStringGetBytes((CFStringRef)input, rangeAll, encoding, '?',
-                       false, buffer.data(),usedLen, NULL);
-
-    AddCharUTF((char*) buffer.data(), static_cast<unsigned int>(usedLen), false);
+    AddCharUTF((char*) encoded.c_str(), static_cast<unsigned int>(encoded.length()), false);
   }
-  return static_cast<int>(usedLen);
+  return static_cast<int>(encoded.length());
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
+ * Convert from a range of characters to a range of bytes.
+ */
+NSRange ScintillaCocoa::PositionsFromCharacters(NSRange range) const
+{
+  long start = pdoc->GetRelativePositionUTF16(0, range.location);
+  if (start == INVALID_POSITION)
+    start = pdoc->Length();
+  long end = pdoc->GetRelativePositionUTF16(start, range.length);
+  if (end == INVALID_POSITION)
+    end = pdoc->Length();
+  return NSMakeRange(start, end - start);
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
+ * Convert from a range of characters from a range of bytes.
+ */
+NSRange ScintillaCocoa::CharactersFromPositions(NSRange range) const
+{
+  const long start = pdoc->CountUTF16(0, range.location);
+  const long len = pdoc->CountUTF16(range.location, NSMaxRange(range));
+  return NSMakeRange(start, len);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2030,14 +2145,69 @@ int ScintillaCocoa::InsertText(NSString* input)
 /**
  * Used to ensure that only one selection is active for input composition as composition
  * does not support multi-typing.
- * Also drop virtual space as that is not supported by composition.
  */
 void ScintillaCocoa::SelectOnlyMainSelection()
 {
-  SelectionRange mainSel = sel.RangeMain();
-  mainSel.ClearVirtualSpace();
-  sel.SetSelection(mainSel);
+  sel.SetSelection(sel.RangeMain());
   Redraw();
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
+ * Convert virtual space before selection into real space.
+ */
+void ScintillaCocoa::ConvertSelectionVirtualSpace()
+{
+  FillVirtualSpace();
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
+ * Erase all selected text and return whether the selection is now empty.
+ * The selection may not be empty if the selection contained protected text.
+ */
+bool ScintillaCocoa::ClearAllSelections()
+{
+  ClearSelection(true);
+  return sel.Empty();
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
+ * Start composing for IME.
+ */
+void ScintillaCocoa::CompositionStart()
+{
+  if (!sel.Empty())
+  {
+    NSLog(@"Selection not empty when starting composition");
+  }
+  pdoc->TentativeStart();
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
+ * Commit the IME text.
+ */
+void ScintillaCocoa::CompositionCommit()
+{
+  pdoc->TentativeCommit();
+  pdoc->decorations.SetCurrentIndicator(INDIC_IME);
+  pdoc->DecorationFillRange(0, 0, pdoc->Length());
+}
+
+//--------------------------------------------------------------------------------------------------
+
+/**
+ * Remove the IME text.
+ */
+void ScintillaCocoa::CompositionUndo()
+{
+  pdoc->TentativeUndo();
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2236,7 +2406,7 @@ void ScintillaCocoa::ShowFindIndicatorForRange(NSRange charRange, BOOL retaining
     CFStringEncoding encoding = EncodingFromCharacterSet(IsUnicodeMode(),
 							 vs.styles[STYLE_DEFAULT].characterSet);
     std::vector<char> buffer(charRange.length);
-    pdoc->GetCharRange(&buffer[0], charRange.location, charRange.length);
+    pdoc->GetCharRange(&buffer[0], static_cast<int>(charRange.location), static_cast<int>(charRange.length));
 
     CFStringRef cfsFind = CFStringCreateWithBytes(kCFAllocatorDefault,
 						  reinterpret_cast<const UInt8 *>(&buffer[0]),
@@ -2245,8 +2415,8 @@ void ScintillaCocoa::ShowFindIndicatorForRange(NSRange charRange, BOOL retaining
     if (cfsFind)
         CFRelease(cfsFind);
     layerFindIndicator.retaining = retaining;
-    layerFindIndicator.positionFind = charRange.location;
-    int style = WndProc(SCI_GETSTYLEAT, charRange.location, 0);
+    layerFindIndicator.positionFind = static_cast<int>(charRange.location);
+    long style = WndProc(SCI_GETSTYLEAT, charRange.location, 0);
     std::vector<char> bufferFontName(WndProc(SCI_STYLEGETFONT, style, 0) + 1);
     WndProc(SCI_STYLEGETFONT, style, (sptr_t)&bufferFontName[0]);
     layerFindIndicator.sFont = [NSString stringWithUTF8String: &bufferFontName[0]];

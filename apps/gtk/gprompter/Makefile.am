@@ -228,7 +228,9 @@ scintilla/lexers/LexDMAP.cxx \
 scintilla/lexers/LexDMIS.cxx \
 scintilla/lexers/LexKVIrc.cxx \
 scintilla/lexers/LexRegistry.cxx \
-scintilla/lexers/LexRust.cxx
+scintilla/lexers/LexRust.cxx \
+scintilla/lexers/LexBibTeX.cxx \
+scintilla/lexers/LexHex.cxx
 
 
 
