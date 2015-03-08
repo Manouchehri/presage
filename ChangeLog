@@ -1,3 +1,15 @@
+2015-03-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/csharp/presage_wcf_service/App.config,
+	bindings/csharp/presage_wcf_service/IPresageService.cs,
+	bindings/csharp/presage_wcf_service/PresageService.cs,
+	bindings/csharp/presage_wcf_service/presage_wcf_service.csproj,
+	bindings/csharp/presage_wcf_service_console_host/Program.cs,
+	bindings/csharp/presage_wcf_service_console_host/presage_wcf_service_console_host.csproj,
+	bindings/csharp/presage_wcf_service_system_tray/PresageWCFHostForm.cs:
+	Add service versioning to namespaces and endpoint addresses to
+	safeguard against future changes.
+
 2015-03-07  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* apps/gtk/gprompter/scintilla/*: Update to latest scintilla 3.54

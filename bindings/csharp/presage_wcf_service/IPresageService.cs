@@ -23,15 +23,11 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
 
 namespace presage_wcf_service
 {
-    [ServiceContract]
+    [ServiceContract(Name = Constants.ServiceName, Namespace = Constants.ServiceNamespace)]
     public interface IPresageService
     {
         [OperationContract]

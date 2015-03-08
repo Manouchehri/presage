@@ -23,10 +23,6 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using presage_wcf_service;
@@ -37,12 +33,19 @@ namespace presage_wcf_service_console_host
     {
         static void Main(string[] args)
         {
-            Uri baseAddress = new Uri("net.pipe://localhost/PresageService");
+            Uri baseAddress = new Uri(Constants.ServiceBaseAddress);
 
             // Create the ServiceHost.
             using (ServiceHost host = new ServiceHost(typeof(PresageService), baseAddress))
             {
-                host.AddServiceEndpoint(typeof(IPresageService), new NetNamedPipeBinding(), "presage");
+                NetNamedPipeBinding binding = new NetNamedPipeBinding();
+                binding.Namespace = presage_wcf_service.Constants.ServiceNamespace;
+
+                // Add presage endpoint.
+                host.AddServiceEndpoint(
+                    typeof(IPresageService),
+                    binding,
+                    Constants.ServicePresageEndpointRelativeAddress);
 
                 // Enable metadata publishing.
                 // Check to see if the service host already has a ServiceMetadataBehavior
@@ -54,7 +57,10 @@ namespace presage_wcf_service_console_host
                 host.Description.Behaviors.Add(smb);
 
                 // Add metadata endpoint.
-                host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexNamedPipeBinding(), "mex");
+                host.AddServiceEndpoint(
+                    typeof(IMetadataExchange),
+                    MetadataExchangeBindings.CreateMexNamedPipeBinding(),
+                    Constants.ServiceMexEndpointRelativeAddress);
 
                 // Open the ServiceHost to start listening for messages. Since
                 // no endpoints are explicitly configured, the runtime will create

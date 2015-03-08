@@ -46,15 +46,20 @@ namespace presage_wcf_service_system_tray
         {
             InitializeComponent();
             
-            Uri baseAddress = new Uri("net.pipe://localhost/PresageService");
+            Uri baseAddress = new Uri(Constants.ServiceBaseAddress);
 
             // Create the ServiceHost.
             host = new ServiceHost(typeof(PresageService), baseAddress);
 
-            // Add presage endpoint.
-            host.AddServiceEndpoint(typeof(IPresageService), new NetNamedPipeBinding(), "presage");
+            NetNamedPipeBinding binding = new NetNamedPipeBinding();
+            binding.Namespace = presage_wcf_service.Constants.ServiceNamespace;
 
-            // Enable metadata publishing.
+            // Add presage endpoint.
+            host.AddServiceEndpoint(
+                typeof(IPresageService),
+                binding, 
+                Constants.ServicePresageEndpointRelativeAddress);
+
             // Enable metadata publishing.
             // Check to see if the service host already has a ServiceMetadataBehavior
             ServiceMetadataBehavior smb = host.Description.Behaviors.Find<ServiceMetadataBehavior>();
@@ -65,7 +70,10 @@ namespace presage_wcf_service_system_tray
             host.Description.Behaviors.Add(smb);
 
             // Add metadata endpoint.
-            host.AddServiceEndpoint(typeof(IMetadataExchange), MetadataExchangeBindings.CreateMexNamedPipeBinding(), "mex");
+            host.AddServiceEndpoint(
+                typeof(IMetadataExchange), 
+                MetadataExchangeBindings.CreateMexNamedPipeBinding(),
+                Constants.ServiceMexEndpointRelativeAddress);
 
             // Open the ServiceHost to start listening for messages. Since
             // no endpoints are explicitly configured, the runtime will create

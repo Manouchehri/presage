@@ -23,15 +23,12 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.ServiceModel;
 using presage;
 
 namespace presage_wcf_service
 {
+    [ServiceBehavior(Namespace = Constants.ServiceNamespace)]
     public class PresageService : IPresageService
     {
         private Presage prsg;
