@@ -1,7 +1,8 @@
 2015-04-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/windows/presage_installer.nsi: add silent installation
-	mode to installer, terminate processes prior to uninstalling.
+	mode to installer, terminate processes prior to uninstalling, add
+	flag to skip notepad++ plugin installation.
 
 2015-03-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 

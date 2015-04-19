@@ -37,14 +37,24 @@
 
 
 ;--------------------------------
+;Include parameters/options functions
+
+  !include FileFunc.nsh
+  !insertmacro GetParameters
+  !insertmacro GetOptions
+
+
+;--------------------------------
 ;Global Variables
 
   Var StartMenuFolder
 
+  Var Parameters
+
 ;--------------------------------
 ;Defines
 
-!include defines.nsh
+  !include defines.nsh
 
 ;--------------------------------
 ;General
@@ -289,6 +299,12 @@ SectionEnd
 ;Notepad++ plugin section
 Section "Notepad++ plugin" SecNpp
 
+  ; Check parameters for /NoNpp flag
+  ${GetOptions} "$Parameters" "/NoNpp" $0
+  IfErrors 0 npp_done
+
+  ; Carry on if /NoNpp was not passed in
+
   ReadRegStr $0 HKLM "Software\Notepad++" ""
   StrCmp $0 "" npp_not_found npp_found
 
@@ -496,6 +512,14 @@ SectionEnd
 
 
 Function .onInit
+
+  ; Read command-line installer parameters
+  ${GetParameters} $Parameters
+  ClearErrors
+
+
+  ; Check for existing previous presage installation
+  ; and execute its uninstaller if found
 
   ReadRegStr $R0 HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "UninstallString"
   StrCmp $R0 "" onInitDone
