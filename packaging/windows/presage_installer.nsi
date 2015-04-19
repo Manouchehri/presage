@@ -293,14 +293,14 @@ Section "Notepad++ plugin" SecNpp
   StrCmp $0 "" npp_not_found npp_found
 
 npp_found:
-  ;MessageBox MB_OK 'Notepad++ installation directory is "$0"'
+  ;MessageBox MB_OK 'Notepad++ installation directory is "$0"' /SD IDOK
   IfFileExists "$0\plugins\*.*" 0 npp_not_found
   SetOutPath "$0\plugins"
   File "bin\NppPresage.dll"
   Goto npp_done
 
 npp_not_found:
-  MessageBox MB_OK 'Notepad++ installation not found.$\r$\nNotepad++ presage intelligent predictive text entry plugin will not be automatically installed in Notepad++ plugins directory.$\r$\nTo install manually, please copy $INSTDIR\bin\NppPresage.dll into <Notepad++ install directory>\plugins\'
+  MessageBox MB_OK 'Notepad++ installation not found.$\r$\nNotepad++ presage intelligent predictive text entry plugin will not be automatically installed in Notepad++ plugins directory.$\r$\nTo install manually, please copy $INSTDIR\bin\NppPresage.dll into <Notepad++ install directory>\plugins\' /SD IDOK
   SetOutPath "$INSTDIR\bin"
   File "bin\NppPresage.dll"
   Goto npp_done
@@ -334,6 +334,11 @@ SectionEnd
 ;Uninstaller Section
 
 Section "Uninstall"
+
+  ; Send termination request to services
+  ExecWait 'TaskKill /F /IM presage_wcf_service_console_host.exe'
+  ExecWait 'TaskKill /F /IM presage_wcf_service_system_tray.exe'
+
 
   ; bin/
   Delete "$INSTDIR\bin\text2ngram.exe"
@@ -496,13 +501,15 @@ Function .onInit
   StrCmp $R0 "" onInitDone
   ReadRegStr $R1 HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\presage" "InstallLocation"
  
-  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "presage is already installed. $\n$\nClick `OK` to uninstall the previous version or `Cancel` to cancel this upgrade." IDOK onInitUninstallPrevious
+  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION "presage is already installed. $\n$\nClick `OK` to uninstall the previous version or `Cancel` to cancel this upgrade." /SD IDOK IDOK onInitUninstallPrevious
   Abort
  
 onInitUninstallPrevious:
   ClearErrors
 
   ;Run the uninstaller
+  IfSilent 0 +2
+    StrCpy $R0 '$R0 /S'
   ExecWait '$R0 _?=$INSTDIR' ;Do not copy the uninstaller to a temp file
  
   IfErrors onInitDone 0
@@ -511,5 +518,16 @@ onInitUninstallPrevious:
       RMDir $R1
  
 onInitDone:
+
+FunctionEnd
+
+
+Function .onInstSuccess
+
+  ; MUI_FINISHPAGE_RUN is not executed in silent mode
+  ; need to use this .onInstSuccess callback to exec it when in silent mode
+
+  IfSilent 0 +2
+    Exec $INSTDIR/bin/presage_wcf_service_system_tray.exe
 
 FunctionEnd
