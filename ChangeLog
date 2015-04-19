@@ -2,7 +2,9 @@
 
 	* packaging/windows/presage_installer.nsi: add silent installation
 	mode to installer, terminate processes prior to uninstalling, add
-	flag to skip notepad++ plugin installation.
+	flag to skip notepad++ plugin installation when /NoNpp flag is
+	passed to installer, install Notepad++ presage plugin only in
+	32-bit installer.
 
 	* apps/gtk/gprompter/scintilla/*: Revert to scintilla 3.50
 	release.

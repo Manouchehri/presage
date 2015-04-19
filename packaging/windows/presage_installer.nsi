@@ -297,13 +297,13 @@ SectionEnd
 
 ;----
 ;Notepad++ plugin section
+!if "${BITNESS}" == "32"
 Section "Notepad++ plugin" SecNpp
 
-  ; Check parameters for /NoNpp flag
+  ; Skip section if /NoNpp flag was passed in
   ${GetOptions} "$Parameters" "/NoNpp" $0
   IfErrors 0 npp_done
 
-  ; Carry on if /NoNpp was not passed in
 
   ReadRegStr $0 HKLM "Software\Notepad++" ""
   StrCmp $0 "" npp_not_found npp_found
@@ -325,6 +325,8 @@ npp_done:
 
 SectionEnd
 
+!endif
+
 ;--------------------------------
 ;Descriptions
 
@@ -343,7 +345,9 @@ SectionEnd
     !insertmacro MUI_DESCRIPTION_TEXT ${SecPython} $(DESC_SecPython)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecNET} $(DESC_SecNET)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecWCF} $(DESC_SecWCF)
+!if "${BITNESS}" == "32"
     !insertmacro MUI_DESCRIPTION_TEXT ${SecNpp} $(DESC_SecNpp)
+!endif
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
  
 ;--------------------------------
