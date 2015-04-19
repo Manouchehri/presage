@@ -23,6 +23,7 @@
 
 EXTRA_DIST = \
 	App.config \
+	Constants.cs \
 	IPresageService.cs \
 	PresageService.cs \
 	Properties/AssemblyInfo.cs \
