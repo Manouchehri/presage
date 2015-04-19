@@ -4,6 +4,9 @@
 	mode to installer, terminate processes prior to uninstalling, add
 	flag to skip notepad++ plugin installation.
 
+	* apps/gtk/gprompter/scintilla/*: Update to latest scintilla 3.55
+	release.
+
 2015-03-08  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* bindings/csharp/presage_wcf_service/App.config,
