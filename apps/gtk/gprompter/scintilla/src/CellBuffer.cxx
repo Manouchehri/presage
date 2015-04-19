@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#include <stdexcept>
 #include <algorithm>
 
 #include "Platform.h"
@@ -379,7 +378,7 @@ char CellBuffer::CharAt(int position) const {
 }
 
 void CellBuffer::GetCharRange(char *buffer, int position, int lengthRetrieve) const {
-	if (lengthRetrieve <= 0)
+	if (lengthRetrieve < 0)
 		return;
 	if (position < 0)
 		return;
@@ -787,10 +786,6 @@ const Action &CellBuffer::GetUndoStep() const {
 void CellBuffer::PerformUndoStep() {
 	const Action &actionStep = uh.GetUndoStep();
 	if (actionStep.at == insertAction) {
-		if (substance.Length() < actionStep.lenData) {
-			throw std::runtime_error(
-				"CellBuffer::PerformUndoStep: deletion must be less than document length.");
-		}
 		BasicDeleteChars(actionStep.position, actionStep.lenData);
 	} else if (actionStep.at == removeAction) {
 		BasicInsertString(actionStep.position, actionStep.data, actionStep.lenData);

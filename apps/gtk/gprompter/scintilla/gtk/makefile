@@ -54,10 +54,6 @@ else
 THREADFLAGS=
 endif
 
-ifdef CXX11_REGEX
-REFLAGS=-DCXX11_REGEX
-endif
-
 ifdef DEBUG
 ifdef CLANG
 CTFLAGS=-DDEBUG -g -fsanitize=$(SANITIZE) $(CXXBASEFLAGS) $(THREADFLAGS)
@@ -69,7 +65,7 @@ CTFLAGS=-DNDEBUG -Os $(CXXBASEFLAGS) $(THREADFLAGS)
 endif
 
 CFLAGS:=$(CTFLAGS)
-CXXTFLAGS:=--std=c++0x $(CTFLAGS) $(REFLAGS)
+CXXTFLAGS:=--std=c++0x $(CTFLAGS)
 
 CONFIGFLAGS:=$(shell pkg-config --cflags $(GTKVERSION))
 MARSHALLER=scintilla-marshal.o

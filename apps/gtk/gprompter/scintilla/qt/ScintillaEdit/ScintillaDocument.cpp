@@ -2,7 +2,6 @@
 // Wrapper for Scintilla document object so it can be manipulated independently.
 // Copyright (c) 2011 Archaeopteryx Software, Inc. d/b/a Wingware
 
-#include <stdexcept>
 #include <vector>
 #include <map>
 
@@ -28,10 +27,6 @@
 #include "Decoration.h"
 #include "CaseFolder.h"
 #include "Document.h"
-
-#ifdef SCI_NAMESPACE
-using namespace Scintilla;
-#endif
 
 class WatcherHelper : public DocWatcher {
 	ScintillaDocument *owner;

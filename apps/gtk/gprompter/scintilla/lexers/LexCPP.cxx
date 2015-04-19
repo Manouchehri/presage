@@ -306,7 +306,6 @@ struct OptionsCPP {
 	bool identifiersAllowDollars;
 	bool trackPreprocessor;
 	bool updatePreprocessor;
-	bool verbatimStringsAllowEscapes;
 	bool triplequotedStrings;
 	bool hashquotedStrings;
 	bool backQuotedStrings;
@@ -327,7 +326,6 @@ struct OptionsCPP {
 		identifiersAllowDollars = true;
 		trackPreprocessor = true;
 		updatePreprocessor = true;
-		verbatimStringsAllowEscapes = false;
 		triplequotedStrings = false;
 		hashquotedStrings = false;
 		backQuotedStrings = false;
@@ -372,9 +370,6 @@ struct OptionSetCPP : public OptionSet<OptionsCPP> {
 		DefineProperty("lexer.cpp.update.preprocessor", &OptionsCPP::updatePreprocessor,
 			"Set to 1 to update preprocessor definitions when #define found.");
 
-		DefineProperty("lexer.cpp.verbatim.strings.allow.escapes", &OptionsCPP::verbatimStringsAllowEscapes,
-			"Set to 1 to allow verbatim strings to contain escape sequences.");
-		
 		DefineProperty("lexer.cpp.triplequoted.strings", &OptionsCPP::triplequotedStrings,
 			"Set to 1 to enable highlighting of triple-quoted strings.");
 
@@ -1041,9 +1036,7 @@ void SCI_METHOD LexerCPP::Lex(unsigned int startPos, int length, int initStyle, 
 				}
 				break;
 			case SCE_C_VERBATIM:
-				if (options.verbatimStringsAllowEscapes && (sc.ch == '\\')) {
-					sc.Forward(); // Skip all characters after the backslash
-				} else if (sc.ch == '\"') {
+				if (sc.ch == '\"') {
 					if (sc.chNext == '\"') {
 						sc.Forward();
 					} else {
@@ -1351,14 +1344,14 @@ void SCI_METHOD LexerCPP::Fold(unsigned int startPos, int length, int initStyle,
 			}
 		}
 		if (options.foldSyntaxBased && (style == SCE_C_OPERATOR)) {
-			if (ch == '{' || ch == '[') {
+			if (ch == '{') {
 				// Measure the minimum before a '{' to allow
 				// folding on "} else {"
 				if (levelMinCurrent > levelNext) {
 					levelMinCurrent = levelNext;
 				}
 				levelNext++;
-			} else if (ch == '}' || ch == ']') {
+			} else if (ch == '}') {
 				levelNext--;
 			}
 		}

@@ -67,6 +67,7 @@ typedef BOOL (WINAPI *GetMonitorInfoSig)(HMONITOR, LPMONITORINFO);
 
 static CRITICAL_SECTION crPlatformLock;
 static HINSTANCE hinstPlatformRes = 0;
+static bool onNT = false;
 
 static HMODULE hDLLImage = 0;
 static AlphaBlendSig AlphaBlendFn = 0;
@@ -81,6 +82,10 @@ static HCURSOR reverseArrowCursor = NULL;
 #ifdef SCI_NAMESPACE
 namespace Scintilla {
 #endif
+
+bool IsNT() {
+	return onNT;
+}
 
 Point Point::FromLong(long lpoint) {
 	return Point(static_cast<short>(LOWORD(lpoint)), static_cast<short>(HIWORD(lpoint)));
@@ -134,17 +139,16 @@ bool LoadD2D() {
 			HRESULT hr = pIDWriteFactory->CreateRenderingParams(&defaultRenderingParams);
 			if (SUCCEEDED(hr)) {
 				unsigned int clearTypeContrast;
-				if (::SystemParametersInfo(SPI_GETFONTSMOOTHINGCONTRAST, 0, &clearTypeContrast, 0)) {
+				::SystemParametersInfo(SPI_GETFONTSMOOTHINGCONTRAST, 0, &clearTypeContrast, 0);
 
-					FLOAT gamma;
-					if (clearTypeContrast >= 1000 && clearTypeContrast <= 2200)
-						gamma = static_cast<FLOAT>(clearTypeContrast) / 1000.0f;
-					else
-						gamma = defaultRenderingParams->GetGamma();
+				FLOAT gamma;
+				if (clearTypeContrast >= 1000 && clearTypeContrast <= 2200)
+					gamma = static_cast<FLOAT>(clearTypeContrast) / 1000.0f;
+				else
+					gamma = defaultRenderingParams->GetGamma();
 
-					pIDWriteFactory->CreateCustomRenderingParams(gamma, defaultRenderingParams->GetEnhancedContrast(), defaultRenderingParams->GetClearTypeLevel(),
-						defaultRenderingParams->GetPixelGeometry(), defaultRenderingParams->GetRenderingMode(), &customClearTypeRenderingParams);
-				}
+				pIDWriteFactory->CreateCustomRenderingParams(gamma, defaultRenderingParams->GetEnhancedContrast(), defaultRenderingParams->GetClearTypeLevel(),
+					defaultRenderingParams->GetPixelGeometry(), defaultRenderingParams->GetRenderingMode(), &customClearTypeRenderingParams);
 			}
 		}
 
@@ -270,15 +274,15 @@ static D2D1_TEXT_ANTIALIAS_MODE DWriteMapFontQuality(int extraFontFlag) {
 }
 #endif
 
-static void SetLogFont(LOGFONTW &lf, const char *faceName, int characterSet, float size, int weight, bool italic, int extraFontFlag) {
-	lf = LOGFONTW();
+static void SetLogFont(LOGFONTA &lf, const char *faceName, int characterSet, float size, int weight, bool italic, int extraFontFlag) {
+	lf = LOGFONTA();
 	// The negative is to allow for leading
 	lf.lfHeight = -(abs(static_cast<int>(size + 0.5)));
 	lf.lfWeight = weight;
 	lf.lfItalic = static_cast<BYTE>(italic ? 1 : 0);
 	lf.lfCharSet = static_cast<BYTE>(characterSet);
 	lf.lfQuality = Win32MapFontQuality(extraFontFlag);
-	UTF16FromUTF8(faceName, strlen(faceName)+1, lf.lfFaceName, LF_FACESIZE);
+	StringCopy(lf.lfFaceName, faceName);
 }
 
 /**
@@ -301,7 +305,7 @@ class FontCached : Font {
 	FontCached *next;
 	int usage;
 	float size;
-	LOGFONTW lf;
+	LOGFONTA lf;
 	int technology;
 	int hash;
 	explicit FontCached(const FontParameters &fp);
@@ -324,14 +328,14 @@ FontCached::FontCached(const FontParameters &fp) :
 	hash = HashFont(fp);
 	fid = 0;
 	if (technology == SCWIN_TECH_GDI) {
-		HFONT hfont = ::CreateFontIndirectW(&lf);
+		HFONT hfont = ::CreateFontIndirectA(&lf);
 		fid = reinterpret_cast<void *>(new FormatAndMetrics(hfont, fp.extraFontFlag, fp.characterSet));
 	} else {
 #if defined(USE_D2D)
 		IDWriteTextFormat *pTextFormat;
 		const int faceSize = 200;
 		WCHAR wszFace[faceSize];
-		UTF16FromUTF8(fp.faceName, strlen(fp.faceName)+1, wszFace, faceSize);
+		UTF16FromUTF8(fp.faceName, static_cast<unsigned int>(strlen(fp.faceName))+1, wszFace, faceSize);
 		FLOAT fHeight = fp.size;
 		DWRITE_FONT_STYLE style = fp.italic ? DWRITE_FONT_STYLE_ITALIC : DWRITE_FONT_STYLE_NORMAL;
 		HRESULT hr = pIDWriteFactory->CreateTextFormat(wszFace, NULL,
@@ -373,18 +377,14 @@ FontCached::FontCached(const FontParameters &fp) :
 }
 
 bool FontCached::SameAs(const FontParameters &fp) {
-	if (
+	return
 		(size == fp.size) &&
 		(lf.lfWeight == fp.weight) &&
 		(lf.lfItalic == static_cast<BYTE>(fp.italic ? 1 : 0)) &&
 		(lf.lfCharSet == fp.characterSet) &&
 		(lf.lfQuality == Win32MapFontQuality(fp.extraFontFlag)) &&
-		(technology == fp.technology)) {
-			wchar_t wszFace[LF_FACESIZE];
-			UTF16FromUTF8(fp.faceName, strlen(fp.faceName)+1, wszFace, LF_FACESIZE);
-			return 0 == wcscmp(lf.lfFaceName,wszFace);
-	}
-	return false;
+		(technology == fp.technology) &&
+		0 == strcmp(lf.lfFaceName,fp.faceName);
 }
 
 void FontCached::Release() {
@@ -479,14 +479,14 @@ public:
 	}
 };
 
-const int stackBufferLength = 1000;
+const int stackBufferLength = 10000;
 class TextWide : public VarBuffer<wchar_t, stackBufferLength> {
 public:
 	int tlen;
 	TextWide(const char *s, int len, bool unicodeMode, int codePage=0) :
 		VarBuffer<wchar_t, stackBufferLength>(len) {
 		if (unicodeMode) {
-			tlen = static_cast<int>(UTF16FromUTF8(s, len, buffer, len));
+			tlen = UTF16FromUTF8(s, len, buffer, len);
 		} else {
 			// Support Asian string display in 9x English
 			tlen = ::MultiByteToWideChar(codePage, 0, s, len, buffer, len);
@@ -511,6 +511,8 @@ class SurfaceGDI : public Surface {
 	int maxLenText;
 
 	int codePage;
+	// If 9x OS and current code page is same as ANSI code page.
+	bool win9xACPSame;
 
 	void BrushColor(ColourDesired back);
 	void SetFont(Font &font_);
@@ -572,11 +574,14 @@ SurfaceGDI::SurfaceGDI() :
 	brush(0), brushOld(0),
 	font(0), 	fontOld(0),
 	bitmap(0), bitmapOld(0) {
-	maxWidthMeasure = INT_MAX;
-	// There appears to be a 16 bit string length limit in GDI on NT.
-	maxLenText = 65535;
+	// Windows 9x has only a 16 bit coordinate system so break after 30000 pixels
+	maxWidthMeasure = IsNT() ? INT_MAX : 30000;
+	// There appears to be a 16 bit string length limit in GDI on NT and a limit of
+	// 8192 characters on Windows 95.
+	maxLenText = IsNT() ? 65535 : 8192;
 
 	codePage = 0;
+	win9xACPSame = false;
 }
 
 SurfaceGDI::~SurfaceGDI() {
@@ -900,7 +905,7 @@ void SurfaceGDI::DrawTextCommon(PRectangle rc, Font &font_, XYPOSITION ybase, co
 	// If it does fail, slice up into segments and draw each segment.
 	const int maxSegmentLength = 0x200;
 
-	if (!unicodeMode) {
+	if ((!unicodeMode) && (IsNT() || (codePage==0) || win9xACPSame)) {
 		// Use ANSI calls
 		int lenDraw = Platform::Minimum(len, maxLenText);
 		if (!::ExtTextOutA(hdc, x, yBaseInt, fuOptions, &rcw, s, lenDraw, NULL)) {
@@ -964,7 +969,7 @@ void SurfaceGDI::DrawTextTransparent(PRectangle rc, Font &font_, XYPOSITION ybas
 XYPOSITION SurfaceGDI::WidthText(Font &font_, const char *s, int len) {
 	SetFont(font_);
 	SIZE sz={0,0};
-	if (!unicodeMode) {
+	if ((!unicodeMode) && (IsNT() || (codePage==0) || win9xACPSame)) {
 		::GetTextExtentPoint32A(hdc, s, Platform::Minimum(len, maxLenText), &sz);
 	} else {
 		const TextWide tbuf(s, len, unicodeMode, codePage);
@@ -1016,7 +1021,7 @@ void SurfaceGDI::MeasureWidths(Font &font_, const char *s, int len, XYPOSITION *
 		while (i<len) {
 			positions[i++] = lastPos;
 		}
-	} else {
+	} else if (IsNT() || (codePage==0) || win9xACPSame) {
 		// Zero positions to avoid random behaviour on failure.
 		std::fill(positions, positions + len, 0.0f);
 		// len may be larger than platform supports so loop over segments small enough for platform
@@ -1041,6 +1046,28 @@ void SurfaceGDI::MeasureWidths(Font &font_, const char *s, int len, XYPOSITION *
 			len -= lenBlock;
 			positions += lenBlock;
 			s += lenBlock;
+		}
+	} else {
+		// Support Asian string display in 9x English
+		const TextWide tbuf(s, len, unicodeMode, codePage);
+		TextPositionsI poses(tbuf.tlen);
+		for (int widthSS=0; widthSS<tbuf.tlen; widthSS++) {
+			::GetTextExtentPoint32W(hdc, tbuf.buffer, widthSS+1, &sz);
+			poses.buffer[widthSS] = sz.cx;
+		}
+
+		int ui = 0;
+		for (int i=0; i<len;) {
+			if (Platform::IsDBCSLeadByte(codePage, s[i])) {
+				positions[i] = static_cast<XYPOSITION>(poses.buffer[ui]);
+				positions[i + 1] = static_cast<XYPOSITION>(poses.buffer[ui]);
+				i += 2;
+			} else {
+				positions[i] = static_cast<XYPOSITION>(poses.buffer[ui]);
+				i++;
+			}
+
+			ui++;
 		}
 	}
 }
@@ -1112,6 +1139,7 @@ void SurfaceGDI::SetUnicodeMode(bool unicodeMode_) {
 void SurfaceGDI::SetDBCSMode(int codePage_) {
 	// No action on window as automatically handled by system.
 	codePage = codePage_;
+	win9xACPSame = !IsNT() && ((unsigned int)codePage == ::GetACP());
 }
 
 #if defined(USE_D2D)
@@ -1571,10 +1599,7 @@ void SurfaceD2D::Copy(PRectangle rc, Point from, Surface &surfaceSource) {
 		D2D1_RECT_F rcSource = {from.x, from.y, from.x + rc.Width(), from.y + rc.Height()};
 		pRenderTarget->DrawBitmap(pBitmap, rcDestination, 1.0f,
 			D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR, rcSource);
-		hr = pRenderTarget->Flush();
-		if (FAILED(hr)) {
-			Platform::DebugPrintf("Failed Flush 0x%x\n", hr);
-		}
+		pRenderTarget->Flush();
 		pBitmap->Release();
 	}
 }
@@ -1793,13 +1818,12 @@ XYPOSITION SurfaceD2D::AverageCharWidth(Font &font_) {
 		// Create a layout
 		IDWriteTextLayout *pTextLayout = 0;
 		const WCHAR wszAllAlpha[] = L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		const size_t lenAllAlpha = wcslen(wszAllAlpha);
-		HRESULT hr = pIDWriteFactory->CreateTextLayout(wszAllAlpha, static_cast<UINT32>(lenAllAlpha),
+		HRESULT hr = pIDWriteFactory->CreateTextLayout(wszAllAlpha, static_cast<UINT32>(wcslen(wszAllAlpha)),
 			pTextFormat, 1000.0, 1000.0, &pTextLayout);
 		if (SUCCEEDED(hr)) {
 			DWRITE_TEXT_METRICS textMetrics;
 			if (SUCCEEDED(pTextLayout->GetMetrics(&textMetrics)))
-				width = textMetrics.width / lenAllAlpha;
+				width = textMetrics.width / wcslen(wszAllAlpha);
 			pTextLayout->Release();
 		}
 	}
@@ -2979,7 +3003,7 @@ void Menu::Destroy() {
 
 void Menu::Show(Point pt, Window &w) {
 	::TrackPopupMenu(reinterpret_cast<HMENU>(mid),
-		TPM_RIGHTBUTTON, static_cast<int>(pt.x - 4), static_cast<int>(pt.y), 0,
+		0, static_cast<int>(pt.x - 4), static_cast<int>(pt.y), 0,
 		reinterpret_cast<HWND>(w.GetID()), NULL);
 	Destroy();
 }
@@ -3227,6 +3251,9 @@ int Platform::Clamp(int val, int minVal, int maxVal) {
 #endif
 
 void Platform_Initialise(void *hInstance) {
+	OSVERSIONINFO osv = {sizeof(OSVERSIONINFO),0,0,0,0,TEXT("")};
+	::GetVersionEx(&osv);
+	onNT = osv.dwPlatformId == VER_PLATFORM_WIN32_NT;
 	::InitializeCriticalSection(&crPlatformLock);
 	hinstPlatformRes = reinterpret_cast<HINSTANCE>(hInstance);
 	// This may be called from DllMain, in which case the call to LoadLibrary

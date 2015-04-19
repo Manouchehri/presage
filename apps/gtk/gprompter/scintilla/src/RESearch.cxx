@@ -276,9 +276,10 @@ void RESearch::GrabMatches(CharacterIndexer &ci) {
 	for (unsigned int i = 0; i < MAXTAG; i++) {
 		if ((bopat[i] != NOTFOUND) && (eopat[i] != NOTFOUND)) {
 			unsigned int len = eopat[i] - bopat[i];
-			pat[i].resize(len);
+			pat[i] = std::string(len+1, '\0');
 			for (unsigned int j = 0; j < len; j++)
 				pat[i][j] = ci.CharAt(bopat[i] + j);
+			pat[i][len] = '\0';
 		}
 	}
 }
@@ -342,8 +343,8 @@ static int GetHexaChar(unsigned char hd1, unsigned char hd2) {
 /**
  * Called when the parser finds a backslash not followed
  * by a valid expression (like \( in non-Posix mode).
- * @param pattern : pointer on the char after the backslash.
- * @param incr : (out) number of chars to skip after expression evaluation.
+ * @param pattern: pointer on the char after the backslash.
+ * @param incr: (out) number of chars to skip after expression evaluation.
  * @return the char if it resolves to a simple char,
  * or -1 for a char class. In this case, bittab is changed.
  */

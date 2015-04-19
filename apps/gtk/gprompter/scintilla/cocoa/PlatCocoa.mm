@@ -54,7 +54,7 @@ NSRect PRectangleToNSRect(PRectangle& rc)
  */
 PRectangle NSRectToPRectangle(NSRect& rc)
 {
-  return PRectangle(static_cast<XYPOSITION>(rc.origin.x), static_cast<XYPOSITION>(rc.origin.y),
+  return PRectangle(rc.origin.x, rc.origin.y,
 					static_cast<XYPOSITION>(NSMaxX(rc)),
 					static_cast<XYPOSITION>(NSMaxY(rc)));
 }
@@ -541,7 +541,8 @@ void SurfaceImpl::RoundedRectangle(PRectangle rc, ColourDesired fore, ColourDesi
 
   // Create a rectangle with semicircles at the corners
   const int MAX_RADIUS = 4;
-  const int radius = std::min(MAX_RADIUS, static_cast<int>(std::min(rc.Height()/2, rc.Width()/2)));
+  int radius = Platform::Minimum( MAX_RADIUS, rc.Height()/2 );
+  radius = Platform::Minimum( radius, rc.Width()/2 );
 
   // Points go clockwise, starting from just below the top left
   // Corners are kept together, so we can easily create arcs to connect them
@@ -783,10 +784,10 @@ void SurfaceImpl::CopyImageRectangle(Surface &surfaceSource, PRectangle srcRect,
   CGRect drawRect = CGRectMake (0, 0, w, h);
   if (!CGRectEqualToRect (src, dst))
   {
-    CGFloat sx = CGRectGetWidth(dst) / CGRectGetWidth(src);
-    CGFloat sy = CGRectGetHeight(dst) / CGRectGetHeight(src);
-    CGFloat dx = CGRectGetMinX(dst) - (CGRectGetMinX(src) * sx);
-    CGFloat dy = CGRectGetMinY(dst) - (CGRectGetMinY(src) * sy);
+    float sx = CGRectGetWidth(dst) / CGRectGetWidth(src);
+    float sy = CGRectGetHeight(dst) / CGRectGetHeight(src);
+    float dx = CGRectGetMinX(dst) - (CGRectGetMinX(src) * sx);
+    float dy = CGRectGetMinY(dst) - (CGRectGetMinY(src) * sy);
     drawRect = CGRectMake (dx, dy, w*sx, h*sy);
   }
   CGContextSaveGState (gc);
@@ -958,11 +959,11 @@ void SurfaceImpl::MeasureWidths(Font &font_, const char *s, int len, XYPOSITION 
 			size_t codeUnits = (lenChar < 4) ? 1 : 2;
 			CGFloat xPosition = CTLineGetOffsetForStringIndex(mLine, ui+codeUnits, NULL);
 			for (unsigned int bytePos=0; (bytePos<lenChar) && (i<len); bytePos++) {
-				positions[i++] = static_cast<XYPOSITION>(xPosition);
+				positions[i++] = xPosition;
 			}
 			ui += codeUnits;
 		}
-		XYPOSITION lastPos = 0.0f;
+		int lastPos = 0;
 		if (i > 0)
 			lastPos = positions[i-1];
 		while (i<len) {
@@ -974,14 +975,14 @@ void SurfaceImpl::MeasureWidths(Font &font_, const char *s, int len, XYPOSITION 
 			size_t lenChar = Platform::IsDBCSLeadByte(codePage, s[i]) ? 2 : 1;
 			CGFloat xPosition = CTLineGetOffsetForStringIndex(mLine, ui+1, NULL);
 			for (unsigned int bytePos=0; (bytePos<lenChar) && (i<len); bytePos++) {
-				positions[i++] = static_cast<XYPOSITION>(xPosition);
+				positions[i++] = xPosition;
 			}
 			ui++;
 		}
 	} else {	// Single byte encoding
 		for (int i=0;i<len;i++) {
 			CGFloat xPosition = CTLineGetOffsetForStringIndex(mLine, i+1, NULL);
-			positions[i] = static_cast<XYPOSITION>(xPosition);
+			positions[i] = xPosition;
 		}
 	}
 
@@ -993,7 +994,7 @@ XYPOSITION SurfaceImpl::WidthText(Font &font_, const char *s, int len) {
     CFStringEncoding encoding = EncodingFromCharacterSet(unicodeMode, FontCharacterSet(font_));
     textLayout->setText (reinterpret_cast<const UInt8*>(s), len, encoding, *reinterpret_cast<QuartzTextStyle*>(font_.GetID()));
 
-	return static_cast<XYPOSITION>(textLayout->MeasureStringWidth());
+	return textLayout->MeasureStringWidth();
   }
   return 1;
 }
@@ -1020,7 +1021,7 @@ XYPOSITION SurfaceImpl::Ascent(Font &font_) {
     return 1;
 
 	float ascent = reinterpret_cast<QuartzTextStyle*>( font_.GetID() )->getAscent();
-	return ascent + 0.5f;
+	return ascent + 0.5;
 
 }
 
@@ -1029,7 +1030,7 @@ XYPOSITION SurfaceImpl::Descent(Font &font_) {
     return 1;
 
 	float descent = reinterpret_cast<QuartzTextStyle*>( font_.GetID() )->getDescent();
-	return descent + 0.5f;
+	return descent + 0.5;
 
 }
 
@@ -1042,13 +1043,14 @@ XYPOSITION SurfaceImpl::ExternalLeading(Font &font_) {
     return 1;
 
 	float leading = reinterpret_cast<QuartzTextStyle*>( font_.GetID() )->getLeading();
-	return leading + 0.5f;
+	return leading + 0.5;
 
 }
 
 XYPOSITION SurfaceImpl::Height(Font &font_) {
 
-	return Ascent(font_) + Descent(font_);
+	int ht = Ascent(font_) + Descent(font_);
+	return ht;
 }
 
 XYPOSITION SurfaceImpl::AverageCharWidth(Font &font_) {
@@ -1057,7 +1059,7 @@ XYPOSITION SurfaceImpl::AverageCharWidth(Font &font_) {
     return 1;
 
   const int sizeStringLength = ELEMENTS( sizeString );
-  XYPOSITION width = WidthText( font_, sizeString, sizeStringLength  );
+  int width = WidthText( font_, sizeString, sizeStringLength  );
 
   return (int) ((width / (float) sizeStringLength) + 0.5);
 }
@@ -1094,7 +1096,21 @@ Window::~Window()
 {
 }
 
-// Window::Destroy needs to see definition of ListBoxImpl so is located after ListBoxImpl
+//--------------------------------------------------------------------------------------------------
+
+void Window::Destroy()
+{
+  if (wid)
+  {
+    id idWin = reinterpret_cast<id>(wid);
+    if ([idWin isKindOfClass: [NSWindow class]])
+    {
+      NSWindow* win = reinterpret_cast<NSWindow*>(idWin);
+      [win release];
+    }
+  }
+  wid = 0;
+}
 
 //--------------------------------------------------------------------------------------------------
 
@@ -1106,12 +1122,14 @@ bool Window::HasFocus()
 
 //--------------------------------------------------------------------------------------------------
 
-static CGFloat ScreenMax(NSWindow* win)
+static int ScreenMax(NSWindow* win)
 {
-  return NSMaxY([[NSScreen mainScreen] frame]);
+  NSScreen* screen = [win screen];
+  if (!screen)
+    screen = [NSScreen mainScreen];
+  NSRect frame = [screen frame];
+  return frame.origin.y + frame.size.height;
 }
-
-//--------------------------------------------------------------------------------------------------
 
 PRectangle Window::GetPosition()
 {
@@ -1126,7 +1144,7 @@ PRectangle Window::GetPosition()
       NSView* view = reinterpret_cast<NSView*>(idWin);
       win = [view window];
       rect = [view convertRect: [view bounds] toView: nil];
-      rect = [win convertRectToScreen:rect];
+      rect.origin = [win convertBaseToScreen:rect.origin];
     }
     else
     {
@@ -1137,8 +1155,8 @@ PRectangle Window::GetPosition()
     CGFloat screenHeight = ScreenMax(win);
     // Invert screen positions to match Scintilla
     return PRectangle(
-        static_cast<XYPOSITION>(NSMinX(rect)), static_cast<XYPOSITION>(screenHeight - NSMaxY(rect)),
-        static_cast<XYPOSITION>(NSMaxX(rect)), static_cast<XYPOSITION>(screenHeight - NSMinY(rect)));
+        NSMinX(rect), static_cast<XYPOSITION>(screenHeight - NSMaxY(rect)),
+        NSMaxX(rect), static_cast<XYPOSITION>(screenHeight - NSMinY(rect)));
   }
   else
   {
@@ -1159,7 +1177,7 @@ void Window::SetPosition(PRectangle rc)
       // Moves this view inside the parent view
       NSRect nsrc = NSMakeRect(rc.left, rc.bottom, rc.Width(), rc.Height());
       NSView* view = reinterpret_cast<NSView*>(idWin);
-      nsrc = [[view window] convertRectFromScreen:nsrc];
+      nsrc.origin = [[view window] convertScreenToBase:nsrc.origin];
       [view setFrame: nsrc];
     }
     else
@@ -1167,7 +1185,7 @@ void Window::SetPosition(PRectangle rc)
       // NSWindow
       PLATFORM_ASSERT([idWin isKindOfClass: [NSWindow class]]);
       NSWindow* win = reinterpret_cast<NSWindow*>(idWin);
-      CGFloat screenHeight = ScreenMax(win);
+      int screenHeight = ScreenMax(win);
       NSRect nsrc = NSMakeRect(rc.left, screenHeight - rc.bottom,
           rc.Width(), rc.Height());
       [win setFrame: nsrc display:YES];
@@ -1325,8 +1343,8 @@ PRectangle Window::GetMonitorRect(Point)
       CGFloat screenHeight = rect.origin.y + rect.size.height;
       // Invert screen positions to match Scintilla
       return PRectangle(
-          static_cast<XYPOSITION>(NSMinX(rect)), static_cast<XYPOSITION>(screenHeight - NSMaxY(rect)),
-          static_cast<XYPOSITION>(NSMaxX(rect)), static_cast<XYPOSITION>(screenHeight - NSMinY(rect)));
+          NSMinX(rect), static_cast<XYPOSITION>(screenHeight - NSMaxY(rect)),
+          NSMaxX(rect), static_cast<XYPOSITION>(screenHeight - NSMinY(rect)));
     }
   }
   return PRectangle();
@@ -1364,8 +1382,6 @@ static NSImage* ImageFromXPM(XPM* pxpm)
 }
 
 //----------------- ListBox and related classes ----------------------------------------------------
-
-//----------------- IListBox -----------------------------------------------------------------------
 
 namespace {
 
@@ -1511,9 +1527,9 @@ private:
   int lineHeight;
   bool unicodeMode;
   int desiredVisibleRows;
-  XYPOSITION maxItemWidth;
+  unsigned int maxItemWidth;
   unsigned int aveCharWidth;
-  XYPOSITION maxIconWidth;
+  unsigned int maxIconWidth;
   Font font;
   int maxWidth;
 
@@ -1559,9 +1575,6 @@ public:
     doubleClickActionData = data;
   }
   void SetList(const char* list, char separator, char typesep);
-
-  // To clean up when closed
-  void ReleaseViews();
 
   // For access from AutoCompletionDataSource implement IListBox
   int Rows();
@@ -1610,7 +1623,6 @@ void ListBoxImpl::Create(Window& /*parent*/, int /*ctrlID*/, Scintilla::Point pt
 
   [table setTarget:ds];
   [table setDoubleAction:@selector(doubleClick:)];
-  table.selectionHighlightStyle = NSTableViewSelectionHighlightStyleSourceList;
   wid = winLB;
 }
 
@@ -1648,20 +1660,19 @@ PRectangle ListBoxImpl::GetDesiredRect()
   rcDesired = GetPosition();
 
   // There appears to be an extra pixel above and below the row contents
-  CGFloat itemHeight = [table rowHeight] + 2;
+  int itemHeight = [table rowHeight] + 2;
 
   int rows = Length();
   if ((rows == 0) || (rows > desiredVisibleRows))
     rows = desiredVisibleRows;
 
-  rcDesired.bottom = rcDesired.top + static_cast<XYPOSITION>(itemHeight * rows);
+  rcDesired.bottom = rcDesired.top + itemHeight * rows;
   rcDesired.right = rcDesired.left + maxItemWidth + aveCharWidth;
 
   if (Length() > rows)
   {
     [scroller setHasVerticalScroller:YES];
-    rcDesired.right += [NSScroller scrollerWidthForControlSize:NSRegularControlSize
-						 scrollerStyle:NSScrollerStyleLegacy];
+    rcDesired.right += [NSScroller scrollerWidth];
   }
   else
   {
@@ -1678,21 +1689,7 @@ int ListBoxImpl::CaretFromEdge()
   if ([colIcon isHidden])
     return 3;
   else
-    return 6 + static_cast<int>([colIcon width]);
-}
-
-void ListBoxImpl::ReleaseViews()
-{
-  [table release];
-  table = nil;
-  [scroller release];
-  scroller = nil;
-  [colIcon release];
-  colIcon = nil;
-  [colText release ];
-  colText = nil;
-  [ds release];
-  ds = nil;
+    return 6 + [colIcon width];
 }
 
 void ListBoxImpl::Clear()
@@ -1708,7 +1705,7 @@ void ListBoxImpl::Append(char* s, int type)
   ld.Add(count, type, s);
 
   Scintilla::SurfaceImpl surface;
-  XYPOSITION width = surface.WidthText(font, s, static_cast<int>(strlen(s)));
+  unsigned int width = surface.WidthText(font, s, static_cast<int>(strlen(s)));
   if (width > maxItemWidth)
   {
     maxItemWidth = width;
@@ -1720,7 +1717,7 @@ void ListBoxImpl::Append(char* s, int type)
     NSImage* img = it->second;
     if (img)
     {
-      XYPOSITION widthIcon = static_cast<XYPOSITION>(img.size.width);
+      unsigned int widthIcon = img.size.width;
       if (widthIcon > maxIconWidth)
       {
         [colIcon setHidden: NO];
@@ -1910,28 +1907,6 @@ ListBox* ListBox::Allocate()
 	return lb;
 }
 
-//--------------------------------------------------------------------------------------------------
-
-void Window::Destroy()
-{
-  ListBoxImpl *listbox = dynamic_cast<ListBoxImpl *>(this);
-  if (listbox)
-  {
-    listbox->ReleaseViews();
-  }
-  if (wid)
-  {
-    id idWin = reinterpret_cast<id>(wid);
-    if ([idWin isKindOfClass: [NSWindow class]])
-    {
-      NSWindow* win = reinterpret_cast<NSWindow*>(idWin);
-      [win release];
-    }
-  }
-  wid = 0;
-}
-
-
 //----------------- ScintillaContextMenu -----------------------------------------------------------
 
 @implementation ScintillaContextMenu : NSMenu
@@ -2055,7 +2030,7 @@ int Platform::DefaultFontSize()
  * Returns the time span in which two consecutive mouse clicks must occur to be considered as
  * double click.
  *
- * @return time span in milliseconds
+ * @return
  */
 unsigned int Platform::DoubleClickTime()
 {

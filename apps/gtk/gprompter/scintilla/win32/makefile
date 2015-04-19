@@ -5,13 +5,7 @@
 # be needed to use other compilers.
 
 .SUFFIXES: .cxx
-ifeq ($(OS),Windows_NT)
-DEL = del /q
-else
-DEL = rm -f
-endif
-RANLIB ?= ranlib
-WINDRES ?= windres
+DEL ?= del /q
 
 COMPONENT = ../bin/Scintilla.dll
 LEXCOMPONENT = ../bin/SciLexer.dll
@@ -21,7 +15,7 @@ vpath %.h ../src ../include ../lexlib
 vpath %.cxx ../src ../lexlib ../lexers
 
 LDFLAGS=-shared -static -Wl,--enable-runtime-pseudo-reloc-v2 -mwindows -Wl,--add-stdcall-alias
-LIBS=-lstdc++ -limm32 -lole32 -luuid -loleaut32
+LIBS=-lstdc++ -limm32 -lole32 -luuid
 # Add -MMD to get dependencies
 INCLUDEDIRS=-I ../include -I ../src -I../lexlib
 
@@ -33,10 +27,6 @@ endif
 
 CXXBASEFLAGS=--std=c++0x -Wall -pedantic $(INCLUDEDIRS) -fno-rtti $(D2DFLAGS)
 
-ifdef CXX11_REGEX
-REFLAGS=-DCXX11_REGEX
-endif
-
 ifdef DEBUG
 CXXFLAGS=-DDEBUG -g $(CXXBASEFLAGS)
 else
@@ -45,7 +35,7 @@ STRIPFLAG=-s
 endif
 
 .cxx.o:
-	$(CXX) $(CXXFLAGS) $(REFLAGS) -c $<
+	$(CXX) $(CXXFLAGS) -c $<
 
 ALL:	$(COMPONENT) $(LEXCOMPONENT) $(LEXLIB) ScintillaWinS.o
 
@@ -91,8 +81,7 @@ BASEOBJS = \
 	Style.o \
 	UniConversion.o \
 	ViewStyle.o \
-	XPM.o \
-	HanjaDic.o
+	XPM.o
 
 SOBJS = ScintillaWin.o ScintillaBase.o $(BASEOBJS)
 
@@ -117,7 +106,7 @@ $(LEXCOMPONENT): $(LOBJS) Scintilla.def
 
 $(LEXLIB): $(LEXOBJS)
 	$(AR) rc $@ $^
-	$(RANLIB) $@	
+	ranlib $@
 
 # Automatically generate dependencies for most files with "make deps"
 include deps.mak
@@ -167,5 +156,5 @@ ScintillaWinL.o:
 	$(CXX) $(CXXFLAGS) -D SCI_LEXER -c $< -o $@
 
 ScintRes.o:	ScintRes.rc
-	$(WINDRES) ScintRes.rc $@
+	windres ScintRes.rc $@
 
