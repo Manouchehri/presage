@@ -79,7 +79,23 @@ namespace presage_wcf_service_system_tray
             // no endpoints are explicitly configured, the runtime will create
             // one endpoint per base address for each service contract implemented
             // by the service.
-            host.Open();
+            try
+            {
+                host.Open();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(
+                    "Error occurred while attempting to start Presage WCF Service:\n\n" + e.Message,
+                    "Presage WCF Service",
+                    MessageBoxButtons.OK);
+                // Exit with 
+                // ERROR_PIPE_BUSY
+                // 231 (0xE7)
+                // All pipe instances are busy.
+                // 
+                System.Environment.Exit(231);
+            }
         }
 
         new public void Dispose()

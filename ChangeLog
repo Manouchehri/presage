@@ -1,3 +1,9 @@
+2015-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* bindings/csharp/presage_wcf_service_console_host/Program.cs,
+	bindings/csharp/presage_wcf_service_system_tray/PresageWCFHostForm.cs:
+	handle exception on service host open.
+
 2015-04-19  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* packaging/windows/presage_installer.nsi: add silent installation

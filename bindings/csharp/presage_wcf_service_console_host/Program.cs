@@ -66,7 +66,21 @@ namespace presage_wcf_service_console_host
                 // no endpoints are explicitly configured, the runtime will create
                 // one endpoint per base address for each service contract implemented
                 // by the service.
-                host.Open();
+                try
+                {
+                    host.Open();
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine(
+                        "Error occurred while attempting to start Presage WCF Service:\n\n" + e.Message);
+                    // Exit with 
+                    // ERROR_PIPE_BUSY
+                    // 231 (0xE7)
+                    // All pipe instances are busy.
+                    // 
+                    System.Environment.Exit(231);
+                }
 
                 Console.WriteLine("Presage service is ready at {0}", baseAddress);
                 Console.WriteLine("Press <Enter> to stop the service.");
