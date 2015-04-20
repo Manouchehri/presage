@@ -1,5 +1,8 @@
 2015-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
+	* configure.ac, NEWS, website/presage_database_dump.sql.gz:
+	preparing for 0.9.1 release.
+
 	* bindings/csharp/presage_wcf_service_console_host/Program.cs,
 	bindings/csharp/presage_wcf_service_system_tray/PresageWCFHostForm.cs:
 	handle exception on service host open.
