@@ -228,7 +228,9 @@ scintilla/lexers/LexDMAP.cxx \
 scintilla/lexers/LexDMIS.cxx \
 scintilla/lexers/LexKVIrc.cxx \
 scintilla/lexers/LexRegistry.cxx \
-scintilla/lexers/LexRust.cxx
+scintilla/lexers/LexRust.cxx \
+scintilla/lexers/LexBibTeX.cxx \
+scintilla/lexers/LexHex.cxx
 
 
 
@@ -253,10 +255,11 @@ gprompter_SOURCES = 	gprompter.c
 gprompter_CFLAGS =	$(GNOME_CFLAGS) $(GTHREAD_CFLAGS) $(GMODULE_CFLAGS) \
 			-I$(top_srcdir)/src/lib \
 			-I$(srcdir)/scintilla/include 
-gprompter_LDADD = 	$(GNOME_LIBS) $(GTHREAD_LIBS) $(GMODULE_LIBS) \
+gprompter_LDADD = 	../../../src/lib/libpresage.la \
+			libscintilla.la \
 			-lm \
-			../../../src/lib/libpresage.la \
-			libscintilla.la
+			$(GNOME_LIBS) $(GTHREAD_LIBS) $(GMODULE_LIBS)
+
 if USE_GCC
 gprompter_LDADD +=	-lstdc++
 endif

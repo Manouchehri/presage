@@ -1,3 +1,8 @@
+2015-04-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* apps/gtk/gprompter/scintilla/*: Update to latest scintilla 3.5.5
+	release, targetting MSYS2 resolves GTK/Scintilla issue.
+
 2015-04-20  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
 	* configure.ac, NEWS, website/presage_database_dump.sql.gz:
