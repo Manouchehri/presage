@@ -23,7 +23,10 @@
 
 EXTRA_DIST =	\
 	INSTALL_Cygwin_dev_env.txt \
-	INSTALL_MinGW_MSYS_dev_env.txt	
+	INSTALL_MinGW32_MSYS_dev_env.txt \
+	INSTALL_MinGW64_MSYS_dev_env.txt \
+	INSTALL_MinGW_MSYS_dev_env.txt \
+	INSTALL_android.txt
 
 dist_pkgdata_DATA = \
 	getting_started.txt \
@@ -59,6 +62,7 @@ DISTCLEANFILES =	doxygen.timestamp
 
 distclean-local:
 	rm -rf html latex
+	rm doxygen_sqlite3.db
 
 uninstall-local:
 	rm -rf $(DESTDIR)$(pkgdatadir)/html $(DESTDIR)$(pkgdatadir)/latex
