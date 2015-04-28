@@ -42,7 +42,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QtGlobal>
+#if QT_VERSION >= 0x050000
+    #include <QtWidgets/QApplication>
+    #include <QtWidgets/QMainWindow>
+#else
+    #include <QApplication>
+    #include <QtGui>
+#endif
 
 QT_BEGIN_NAMESPACE
 class QAction;

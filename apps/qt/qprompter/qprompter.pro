@@ -18,6 +18,7 @@ SOURCES       = main.cpp \
                 mainwindow.cpp
 RESOURCES     = qprompter.qrc
 
+QT           += widgets
 LIBS         += -lqscintilla2 -L$${PRESAGE_ROOT}/lib -lpresage
 INCLUDEPATH   = $${PRESAGE_ROOT}/include
 

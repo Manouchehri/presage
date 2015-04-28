@@ -40,11 +40,22 @@
  ****************************************************************************/
 
 //! [0]
+#include "mainwindow.h"
+
 #include <QtGui>
 
-#include <Qsci/qsciscintilla.h>
+#if QT_VERSION >= 0x050000
+    #include <QtWidgets/QFileDialog>
+    #include <QtWidgets/QMessageBox>
+    #include <QtWidgets/QAction>
+    #include <QtWidgets/QMenuBar>
+    #include <QtWidgets/QMenu>
+    #include <QtWidgets/QToolBar>
+    #include <QtWidgets/QStatusBar>
+    #include <QtWidgets/QApplication>
+#endif
 
-#include "mainwindow.h"
+#include <Qsci/qsciscintilla.h>
 //! [0]
 
 MainWindow::QsciScintillaPresageCallback::QsciScintillaPresageCallback(QsciScintilla* sci)
