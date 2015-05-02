@@ -1,3 +1,10 @@
+2015-05-02  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
+
+	* doc/INSTALL_MSYS2_dev_env.txt,
+	packaging/windows/presage_installer.nsi,
+	packaging/windows/win-buildpackage.sh: switch to MSYS2 for Windows
+	builds.
+
 2015-04-28  Matteo Vescovi  <matteo(dot)vescovi(at)yahoo(dot)co(dot)uk>
 
         * main.cpp, mainwindow.cpp, mainwindow.h, qprompter.pro: add

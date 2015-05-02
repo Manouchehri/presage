@@ -140,16 +140,21 @@ Section "-Runtime" SecRuntime
 !else
   File "bin\libgcc_s_dw2-1.dll"
 !endif
+  File "bin\libwinpthread-1.dll"
 
   ; SQLite deps
   File "bin\libsqlite3-0.dll"
 
   ; QT deps
   File "bin\qscintilla2.dll"
-  File "bin\QtCore4.dll"
-  File "bin\QtGui4.dll"
-  File "bin\libwinpthread-1.dll"
-  File "bin\libpng16-16.dll"
+  File "bin\Qt5Core.dll"
+  File "bin\Qt5Gui.dll"
+  File "bin\Qt5Widgets.dll"
+  File "bin\Qt5PrintSupport.dll"
+  File "bin\libicuin55.dll"
+  File "bin\libicuuc55.dll"
+  File "bin\libicudt55.dll"
+  File "bin\libpcre16-0.dll"
 
   ; GTK deps
   File "bin\libatk-1.0-0.dll"
@@ -168,7 +173,7 @@ Section "-Runtime" SecRuntime
   File "bin\libpangocairo-1.0-0.dll"
   File "bin\libpangoft2-1.0-0.dll"
   File "bin\libpangowin32-1.0-0.dll"
-  File "bin\libpng14-14.dll"
+  File "bin\libpng16-16.dll"
   File "bin\zlib1.dll"
 !if "${BITNESS}" == "64"
   File "bin\libfreetype-6.dll"
@@ -177,6 +182,12 @@ Section "-Runtime" SecRuntime
   File "bin\freetype6.dll"
   File "bin\intl.dll"
 !endif
+  File "bin\libbz2-1.dll"
+  File "bin\libffi-6.dll"
+  File "bin\libharfbuzz-0.dll"
+  File "bin\libiconv-2.dll"
+  File "bin\libpixman-1-0.dll"
+
 
   ; etc/
   SetOutPath "$INSTDIR\etc"
@@ -260,9 +271,9 @@ SectionEnd
 Section "Python binding" SecPython
 
   ; Scripts
-  SetOutPath "$INSTDIR\Scripts"
-  File "Scripts\presage_python_demo"
-  File "Scripts\pyprompter"
+  SetOutPath "$INSTDIR\bin"
+  File "bin\presage_python_demo"
+  File "bin\pyprompter"
 
   ; lib/site-packages
   SetOutPath "$INSTDIR\lib"
@@ -364,13 +375,19 @@ Section "Uninstall"
   Delete "$INSTDIR\bin\text2ngram.exe"
   Delete "$INSTDIR\bin\presage_demo_text.exe"
   Delete "$INSTDIR\bin\presage_simulator.exe"
-;  Delete "$INSTDIR\bin\presage_dbus_python_demo"
-;  Delete "$INSTDIR\bin\presage_dbus_service"
   Delete "$INSTDIR\bin\gprompter.exe"
   Delete "$INSTDIR\bin\qprompter.exe"
   Delete "$INSTDIR\bin\libpresage-1.dll"
 
-  ; MinGW deps
+  ; DBus deps
+;  Delete "$INSTDIR\bin\presage_dbus_python_demo"
+;  Delete "$INSTDIR\bin\presage_dbus_service"
+
+  ; Python binding deps and wxPython demo
+  Delete "$INSTDIR\bin\presage_python_demo"
+  Delete "$INSTDIR\bin\pyprompter"
+
+; MinGW deps
   Delete "$INSTDIR\bin\libstdc++-6.dll"
 !if "${BITNESS}" == "64"
   Delete "$INSTDIR\bin\libgcc_s_seh-1.dll"
@@ -383,10 +400,15 @@ Section "Uninstall"
 
   ; QT deps
   Delete "$INSTDIR\bin\qscintilla2.dll"
-  Delete "$INSTDIR\bin\QtCore4.dll"
-  Delete "$INSTDIR\bin\QtGui4.dll"
+  Delete "$INSTDIR\bin\Qt5Core.dll"
+  Delete "$INSTDIR\bin\Qt5Gui.dll"
+  Delete "$INSTDIR\bin\Qt5Widgets.dll"
+  Delete "$INSTDIR\bin\Qt5PrintSupport.dll"
+  Delete "$INSTDIR\bin\libicuin55.dll"
+  Delete "$INSTDIR\bin\libicuuc55.dll"
+  Delete "$INSTDIR\bin\libicudt55.dll"
+  Delete "$INSTDIR\bin\libpcre16-0.dll"
   Delete "$INSTDIR\bin\libwinpthread-1.dll"
-  Delete "$INSTDIR\bin\libpng16-16.dll"
 
   ; GTK deps
 !if "${BITNESS}" == "64"
@@ -414,6 +436,11 @@ Section "Uninstall"
   Delete "$INSTDIR\bin\libpangowin32-1.0-0.dll"
   Delete "$INSTDIR\bin\libpng14-14.dll"
   Delete "$INSTDIR\bin\zlib1.dll"
+  Delete "$INSTDIR\bin\libbz2-1.dll"
+  Delete "$INSTDIR\bin\libffi-6.dll"
+  Delete "$INSTDIR\bin\libharfbuzz-0.dll"
+  Delete "$INSTDIR\bin\libiconv-2.dll"
+  Delete "$INSTDIR\bin\libpixman-1-0.dll"
 
   ; .NET binding deps
   Delete "$INSTDIR\bin\presage.net.dll"
@@ -454,11 +481,6 @@ npp_not_found_uninstall:
   Delete "$INSTDIR\lib\libpresage.la"
   RMDir /r "$INSTDIR\lib\site-packages"
   RMDir "$INSTDIR\lib"
-
-  ; Scripts/
-  Delete "$INSTDIR\Scripts\presage_python_demo"
-  Delete "$INSTDIR\Scripts\pyprompter"
-  RMDir "$INSTDIR\Scripts"
 
   ; share/
 ;  Delete "$INSTDIR\share\dbus-1\services\org.gnome.presage.service"

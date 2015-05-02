@@ -1,0 +1,37 @@
+Grab MSYS2 from http://msys2.github.io/
+
+Run through MSYS2 64bit installer. Simply pick next at each step.
+
+Update the system packages with:
+  pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime
+
+Close MSYS2, run it again from Start menu and update the rest with:
+  pacman -Su
+
+Install required dependencies:
+  pacman -S \
+    mingw-w64-x86_64-gcc mingw-w64-x86_64-gdb \
+    mingw-w64-x86_64-sqlite3 libsqlite-devel \
+    mingw-w64-x86_64-pkg-config \
+    make 
+
+  mingw-w64-x86_64-cppunit
+
+  # curses did not work
+  mingw-w64-i686-ncurses ncurses-devel
+
+  mingw-w64-x86_64-gtk2
+
+  mingw-w64-x86_64-python2 mingw-w64-x86_64-swig
+  
+  mingw-w64-x86_64-wxPython
+
+  mingw-w64-x86_64-qt4 mingw-w64-x86_64-qscintilla
+
+  autoconf automake libtool
+  gnome-common
+
+  git
+
+  tar
+  
