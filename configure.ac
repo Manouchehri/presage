@@ -89,9 +89,6 @@ AM_CONDITIONAL([HAVE_LD_WITH_VERSION_SCRIPT],
                [test "x$have_ld_with_version_script" = "xyes"])
 
 
-dnl Cygwin windows specific flag
-LDFLAGS="-L/usr/local/lib $LDFLAGS"
-
 dnl ====================
 dnl Checks for libraries
 dnl ====================
