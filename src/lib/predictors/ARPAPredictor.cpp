@@ -83,7 +83,7 @@ void ARPAPredictor::loadVocabulary()
     if(!vocabFile)
 	logger << ERROR << "Error opening vocabulary file: " << vocabFilename << endl;
 
-    assert(vocabFile);
+    assert(vocabFile.is_open());
     std::string row;
     int code = 0;
     while(std::getline(vocabFile,row))
@@ -111,7 +111,7 @@ void ARPAPredictor::createARPATable()
     if(!arpaFile)
 	logger << ERROR << "Error opening ARPA model file: " << arpaFilename << endl;
 
-    assert(arpaFile);
+    assert(arpaFile.is_open());
     std::string row;
 
     int currOrder = 0;

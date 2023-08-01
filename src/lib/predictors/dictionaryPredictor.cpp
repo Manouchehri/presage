@@ -75,7 +75,7 @@ Prediction DictionaryPredictor::predict(const size_t max_partial_predictions_siz
     dictionary_file.open(dictionary_path.c_str());
     if(!dictionary_file)
         logger << ERROR << "Error opening dictionary: " << dictionary_path << endl;
-    assert(dictionary_file); // REVISIT: handle with exceptions
+    assert(dictionary_file.is_open()); // REVISIT: handle with exceptions
 
     // scan file entries until we get enough suggestions
     unsigned int count = 0;
